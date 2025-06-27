@@ -32,8 +32,9 @@ const footerSections = [
     ],
   },
   {
-    title: "Spot",
+    title: "More",
     links: [
+      { name: "Spot", href: "#" },
       { name: "Slippage", href: "#" },
       { name: "Changelly", href: "#" },
     ],
