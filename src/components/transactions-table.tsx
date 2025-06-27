@@ -41,7 +41,7 @@ const FormattedCurrency = ({ value, currency }: { value: number, currency: Selec
 
 const truncateAddress = (address: string) => {
   if (!address) return '';
-  return `${address.substring(0, 10)}...${address.substring(address.length - 10)}`;
+  return `${address.substring(0, 15)}...${address.substring(address.length - 15)}`;
 };
 
 const CopyButton = ({ textToCopy, itemLabel }: { textToCopy: string; itemLabel: string; }) => {
