@@ -1,6 +1,7 @@
 
 'use client'
 
+import * as React from "react"
 import { Area, AreaChart, CartesianGrid, XAxis, YAxis, Tooltip } from "recharts"
 import {
   Card,
@@ -8,7 +9,6 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-  CardFooter
 } from "@/components/ui/card"
 import {
   ChartContainer,
@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/chart"
 import { Button } from "@/components/ui/button"
 import type { TokenDetails } from "@/lib/types"
+import { Skeleton } from "@/components/ui/skeleton"
 
 const generateChartData = (currentPrice: number) => {
   const data = []
@@ -35,7 +36,13 @@ const generateChartData = (currentPrice: number) => {
 }
 
 export function PriceChart({ token }: { token: TokenDetails }) {
-  const chartData = generateChartData(token.price)
+  const [chartData, setChartData] = React.useState<any[]>([])
+
+  React.useEffect(() => {
+    // Generate data on the client to avoid hydration mismatch
+    setChartData(generateChartData(token.price))
+  }, [token.price])
+
 
   const chartConfig = {
     price: {
@@ -46,56 +53,62 @@ export function PriceChart({ token }: { token: TokenDetails }) {
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle>{token.name} Price Chart</CardTitle>
-        <CardDescription>
-          Last 30 days price movement for {token.symbol}.
-        </CardDescription>
+      <CardHeader className="flex flex-row items-start justify-between">
+        <div>
+          <CardTitle>{token.name} Price Chart</CardTitle>
+          <CardDescription>
+            Last 30 days price movement for {token.symbol}.
+          </CardDescription>
+        </div>
+        <Button>Trade {token.symbol}</Button>
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig} className="h-[300px] w-full">
-          <AreaChart data={chartData} margin={{ top: 5, right: 20, left: 10, bottom: 5 }}>
-            <defs>
-              <linearGradient id="fillPrice" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="var(--color-price)" stopOpacity={0.8} />
-                <stop offset="95%" stopColor="var(--color-price)" stopOpacity={0.1} />
-              </linearGradient>
-            </defs>
-            <CartesianGrid vertical={false} />
-            <XAxis
-              dataKey="date"
-              tickLine={false}
-              axisLine={false}
-              tickMargin={8}
-            />
-            <YAxis
-              tickLine={false}
-              axisLine={false}
-              tickMargin={8}
-              tickFormatter={(value) => `$${Number(value).toLocaleString()}`}
-              domain={['dataMin', 'dataMax']}
-            />
-            <Tooltip 
-                content={<ChartTooltipContent indicator="dot" />} 
-                cursor={{
-                    stroke: 'hsl(var(--border))',
-                    strokeWidth: 1,
-                    strokeDasharray: '3 3',
-                }}
-            />
-            <Area
-              dataKey="price"
-              type="natural"
-              fill="url(#fillPrice)"
-              stroke="var(--color-price)"
-              stackId="a"
-            />
-          </AreaChart>
+          {chartData.length > 0 ? (
+            <AreaChart data={chartData} margin={{ top: 5, right: 20, left: 10, bottom: 5 }}>
+              <defs>
+                <linearGradient id="fillPrice" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="var(--color-price)" stopOpacity={0.8} />
+                  <stop offset="95%" stopColor="var(--color-price)" stopOpacity={0.1} />
+                </linearGradient>
+              </defs>
+              <CartesianGrid vertical={false} />
+              <XAxis
+                dataKey="date"
+                tickLine={false}
+                axisLine={false}
+                tickMargin={8}
+              />
+              <YAxis
+                tickLine={false}
+                axisLine={false}
+                tickMargin={8}
+                tickFormatter={(value) => `$${Number(value).toLocaleString()}`}
+                domain={['dataMin', 'dataMax']}
+              />
+              <Tooltip 
+                  content={<ChartTooltipContent indicator="dot" />} 
+                  cursor={{
+                      stroke: 'hsl(var(--border))',
+                      strokeWidth: 1,
+                      strokeDasharray: '3 3',
+                  }}
+              />
+              <Area
+                dataKey="price"
+                type="natural"
+                fill="url(#fillPrice)"
+                stroke="var(--color-price)"
+                stackId="a"
+              />
+            </AreaChart>
+          ) : (
+            <div className="flex h-full items-center justify-center">
+                <Skeleton className="h-full w-full" />
+            </div>
+          )}
         </ChartContainer>
       </CardContent>
-      <CardFooter>
-          <Button className="w-full text-lg h-12">Trade {token.symbol}</Button>
-      </CardFooter>
     </Card>
   )
 }
