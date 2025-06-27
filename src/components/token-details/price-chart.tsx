@@ -2,7 +2,7 @@
 'use client'
 
 import * as React from "react"
-import { Area, AreaChart, CartesianGrid, XAxis, YAxis, Tooltip } from "recharts"
+import { Bar, BarChart, CartesianGrid, XAxis, YAxis, Tooltip, Brush } from "recharts"
 import {
   Card,
   CardContent,
@@ -12,35 +12,95 @@ import {
 } from "@/components/ui/card"
 import {
   ChartContainer,
-  ChartTooltipContent,
 } from "@/components/ui/chart"
 import { Button } from "@/components/ui/button"
 import type { TokenDetails } from "@/lib/types"
 import { Skeleton } from "@/components/ui/skeleton"
 
-const generateChartData = (currentPrice: number) => {
-  const data = []
-  for (let i = 30; i >= 0; i--) {
-    const date = new Date()
-    date.setDate(date.getDate() - i)
-    // Simulate some price volatility, trending towards the current price
-    const randomFactor = (Math.random() - 0.5) * 0.1; // -5% to +5%
-    const trendFactor = (i/30) * 0.1; // The further back in time, the lower the price
-    const price = currentPrice * (1 + randomFactor - trendFactor)
+// Generate OHLC data for the candlestick chart
+const generateCandlestickData = (currentPrice: number) => {
+  const data = [];
+  let lastClose = currentPrice * (1 - 0.1 - (Math.random() * 0.05)); // Start price ~15% lower 30 days ago
+
+  for (let i = 29; i >= 0; i--) {
+    const date = new Date();
+    date.setDate(date.getDate() - i);
+
+    const open = lastClose;
+    // Simulate a price change, trending up towards the current price over 30 days
+    const trend = (currentPrice - open) / (i + 1);
+    const change = trend * (0.5 + Math.random()) + (Math.random() - 0.5) * open * 0.05;
+    let close = open + change;
+
+    // Ensure last day's close is current price
+    if (i === 0) {
+      close = currentPrice;
+    }
+    
+    const high = Math.max(open, close) * (1 + Math.random() * 0.015);
+    const low = Math.min(open, close) * (1 - Math.random() * 0.015);
+
     data.push({
       date: date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
-      price: parseFloat(price.toFixed(5)),
-    })
+      open: parseFloat(open.toFixed(4)),
+      high: parseFloat(high.toFixed(4)),
+      low: parseFloat(low.toFixed(4)),
+      close: parseFloat(close.toFixed(4)),
+    });
+    
+    lastClose = close;
   }
-  return data
-}
+  return data;
+};
+
+// Custom shape for the candlestick
+const Candle = (props: any) => {
+  const { x, y, width, height, low, high, open, close, yAxis } = props;
+  if (!yAxis) return null;
+
+  const isGrowing = close > open;
+  
+  const fill = isGrowing ? 'transparent' : 'hsl(var(--destructive))';
+  const stroke = isGrowing ? 'hsl(var(--primary))' : 'hsl(var(--destructive))';
+
+  const yHigh = yAxis.scale(high);
+  const yLow = yAxis.scale(low);
+  
+  return (
+    <g>
+      {/* Wick */}
+      <line x1={x + width / 2} y1={yHigh} x2={x + width / 2} y2={yLow} stroke={stroke} strokeWidth={1} />
+      {/* Body */}
+      <rect x={x} y={y} width={width} height={height} fill={fill} stroke={stroke} strokeWidth={1} />
+    </g>
+  );
+};
+
+const CustomTooltip = ({ active, payload }: any) => {
+  if (active && payload && payload.length) {
+    const data = payload[0].payload;
+    return (
+      <div className="p-2 text-xs rounded-md border bg-popover text-popover-foreground shadow-md">
+        <p className="font-bold">{data.date}</p>
+        <div className="grid grid-cols-2 gap-x-2 gap-y-1 mt-1">
+            <span className="text-muted-foreground">Open:</span><span className="font-mono text-right">${data.open.toLocaleString()}</span>
+            <span className="text-muted-foreground">High:</span><span className="font-mono text-right">${data.high.toLocaleString()}</span>
+            <span className="text-muted-foreground">Low:</span><span className="font-mono text-right">${data.low.toLocaleString()}</span>
+            <span className="text-muted-foreground">Close:</span><span className="font-mono text-right">${data.close.toLocaleString()}</span>
+        </div>
+      </div>
+    );
+  }
+  return null;
+};
+
 
 export function PriceChart({ token }: { token: TokenDetails }) {
   const [chartData, setChartData] = React.useState<any[]>([])
 
   React.useEffect(() => {
     // Generate data on the client to avoid hydration mismatch
-    setChartData(generateChartData(token.price))
+    setChartData(generateCandlestickData(token.price))
   }, [token.price])
 
 
@@ -50,6 +110,17 @@ export function PriceChart({ token }: { token: TokenDetails }) {
       color: "hsl(var(--primary))",
     },
   }
+
+  // Find min and max for Y-axis domain to ensure candles are not clipped
+  const yDomain = React.useMemo(() => {
+    if (chartData.length === 0) return ['auto', 'auto'];
+    const lows = chartData.map(d => d.low);
+    const highs = chartData.map(d => d.high);
+    const min = Math.min(...lows);
+    const max = Math.max(...highs);
+    const padding = (max - min) * 0.1;
+    return [min - padding, max + padding];
+  }, [chartData]);
 
   return (
     <Card>
@@ -63,48 +134,53 @@ export function PriceChart({ token }: { token: TokenDetails }) {
         <Button>Trade {token.symbol}</Button>
       </CardHeader>
       <CardContent>
-        <ChartContainer config={chartConfig} className="h-[300px] w-full">
+        <ChartContainer config={chartConfig} className="h-[400px] w-full">
           {chartData.length > 0 ? (
-            <AreaChart data={chartData} margin={{ top: 5, right: 20, left: 10, bottom: 5 }}>
-              <defs>
-                <linearGradient id="fillPrice" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="var(--color-price)" stopOpacity={0.8} />
-                  <stop offset="95%" stopColor="var(--color-price)" stopOpacity={0.1} />
-                </linearGradient>
-              </defs>
+            <BarChart 
+              data={chartData} 
+              margin={{ top: 5, right: 20, left: 10, bottom: 5 }}
+            >
               <CartesianGrid vertical={false} />
               <XAxis
                 dataKey="date"
                 tickLine={false}
                 axisLine={false}
                 tickMargin={8}
+                // Hide ticks on main chart when Brush is active
+                tick={false}
               />
               <YAxis
                 tickLine={false}
                 axisLine={false}
                 tickMargin={8}
-                tickFormatter={(value) => `$${Number(value).toLocaleString()}`}
-                domain={['dataMin', 'dataMax']}
+                tickFormatter={(value) => `$${Number(value).toLocaleString('en-US', {maximumFractionDigits: 2, minimumFractionDigits: 2})}`}
+                domain={yDomain}
+                allowDataOverflow
+                orientation="right"
               />
               <Tooltip 
-                  content={<ChartTooltipContent indicator="dot" />} 
+                  content={<CustomTooltip />} 
                   cursor={{
                       stroke: 'hsl(var(--border))',
                       strokeWidth: 1,
                       strokeDasharray: '3 3',
                   }}
               />
-              <Area
-                dataKey="price"
-                type="natural"
-                fill="url(#fillPrice)"
-                stroke="var(--color-price)"
-                stackId="a"
+              <Bar
+                dataKey={['open', 'close']} // This is for the body of the candle
+                shape={<Candle />}
               />
-            </AreaChart>
+              <Brush 
+                dataKey="date" 
+                height={40} 
+                stroke="hsl(var(--primary))" 
+                travellerWidth={20}
+                y={350}
+              />
+            </BarChart>
           ) : (
             <div className="flex h-full items-center justify-center">
-                <Skeleton className="h-full w-full" />
+                <Skeleton className="h-[400px] w-full" />
             </div>
           )}
         </ChartContainer>
