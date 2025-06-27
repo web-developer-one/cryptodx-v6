@@ -11,6 +11,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { AlertCircle } from "lucide-react";
+import { TradeNav } from "@/components/trade-nav";
 
 export default async function Home() {
   const cryptoData = await getLatestListings();
@@ -42,6 +43,7 @@ export default async function Home() {
   return (
     <div className="flex-1 flex flex-col items-center">
       <div className="container flex flex-col items-center py-8 gap-8">
+        <TradeNav />
         <SwapInterface cryptocurrencies={cryptoData} />
       </div>
 
