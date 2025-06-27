@@ -48,7 +48,7 @@ export default async function TokenDetailPage({ params }: { params: { id: string
 
   return (
     <div className="container py-8 flex flex-col gap-8">
-      <Link href="/tokens" asChild>
+      <Link href="/tokens">
         <Button variant="outline" className="self-start">
           <ArrowLeft className="mr-2 h-4 w-4" />
           Back to Tokens
