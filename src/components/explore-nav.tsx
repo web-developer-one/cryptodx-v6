@@ -9,8 +9,9 @@ export function ExploreNav() {
 
   return (
     <div className="mb-6 flex justify-center">
-        <Tabs value={pathname} className="w-auto">
-            <TabsList>
+      <div className="w-full max-w-md">
+        <Tabs value={pathname} className="w-full">
+            <TabsList className="grid w-full grid-cols-3">
                 <Link href="/tokens" passHref>
                     <TabsTrigger value="/tokens">Tokens</TabsTrigger>
                 </Link>
@@ -22,6 +23,7 @@ export function ExploreNav() {
                 </Link>
             </TabsList>
         </Tabs>
+      </div>
     </div>
   );
 }
