@@ -29,7 +29,7 @@ export default async function PositionsPage() {
             <CardDescription>
               Could not load cryptocurrency data.
             </CardDescription>
-          </Header>
+          </CardHeader>
           <CardContent>
             <p className="text-sm text-muted-foreground">
               There was an issue fetching data from the CoinMarketCap API. Please
