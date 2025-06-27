@@ -17,7 +17,7 @@ export const config = createConfig({
     walletConnect({ projectId, metadata: {
         name: 'Crypto Swap',
         description: 'Swap your favorite cryptocurrencies with ease and confidence.',
-        icons: ['https://placehold.co/64x64.png']
+        icons: ['https://placehold.co/64x64.png'],
     }}),
     injected({ shimDisconnect: true }),
   ],
