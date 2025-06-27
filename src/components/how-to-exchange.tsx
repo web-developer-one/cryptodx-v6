@@ -4,17 +4,20 @@ import { ArrowRightLeft, CheckCircle, Wallet } from "lucide-react";
 const steps = [
   {
     icon: <Wallet className="h-10 w-10 text-primary" />,
-    title: "Step 1: Connect Your Wallet",
+    step: "Step 1",
+    title: "Connect Your Wallet",
     description: "Securely connect your decentralised wallet to our platform. We support a wide variety of wallets for your convenience.",
   },
   {
     icon: <ArrowRightLeft className="h-10 w-10 text-primary" />,
-    title: "Step 2: Select Tokens & Amount",
+    step: "Step 2",
+    title: "Select Tokens & Amount",
     description: "Choose the cryptocurrency you want to trade and the one you wish to receive. Enter the amount for the exchange.",
   },
   {
     icon: <CheckCircle className="h-10 w-10 text-primary" />,
-    title: "Step 3: Confirm & Swap",
+    step: "Step 3",
+    title: "Confirm & Swap",
     description: "Review the transaction details, including rates and fees. Confirm the swap and watch the new tokens appear in your wallet.",
   },
 ];
@@ -28,10 +31,13 @@ export function HowToExchange() {
         </h2>
         <div className="grid gap-6 md:grid-cols-3">
           {steps.map((step, index) => (
-            <Card key={index} className="flex flex-col items-center text-center">
-              <CardHeader className="items-center">
+            <Card key={index}>
+              <CardHeader className="flex flex-row items-start gap-4">
                 {step.icon}
-                <CardTitle className="mt-4">{step.title}</CardTitle>
+                <div>
+                  <p className="text-sm font-bold text-primary">{step.step}</p>
+                  <CardTitle className="mt-1">{step.title}</CardTitle>
+                </div>
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground">{step.description}</p>
