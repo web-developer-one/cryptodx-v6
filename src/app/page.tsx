@@ -1,3 +1,5 @@
+import { Faq } from "@/components/faq";
+import { HowToExchange } from "@/components/how-to-exchange";
 import { MarketHighlights } from "@/components/market-highlights";
 import { SwapInterface } from "@/components/swap-interface";
 import { getLatestListings } from "@/lib/coinmarketcap";
@@ -38,9 +40,13 @@ export default async function Home() {
   }
 
   return (
-    <div className="container flex-1 flex flex-col items-center justify-center py-8 gap-8">
-      <SwapInterface cryptocurrencies={cryptoData} />
-      <MarketHighlights cryptocurrencies={cryptoData} />
+    <div className="flex-1 flex flex-col items-center">
+      <div className="container flex flex-col items-center py-8 gap-8">
+        <SwapInterface cryptocurrencies={cryptoData} />
+        <MarketHighlights cryptocurrencies={cryptoData} />
+      </div>
+      <HowToExchange />
+      <Faq />
     </div>
   );
 }
