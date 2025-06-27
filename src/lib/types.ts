@@ -62,25 +62,3 @@ export interface Transaction {
   timestamp: Date;
   value: number; // in USD
 }
-
-// Changelly Types
-export interface ChangellyCurrency {
-  name: string;
-  ticker: string;
-  fullName: string;
-  enabled: boolean;
-  image: string;
-  fixedRateEnabled: boolean;
-}
-
-export interface ChangellyFiatCurrency {
-  name: string;
-  ticker: string;
-  enabled: boolean;
-  image: string;
-}
-
-export interface ChangellyRate {
-  rate: number;
-  amount: number;
-}
