@@ -29,6 +29,7 @@ export function SwapInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocu
   const [fromAmount, setFromAmount] = useState<string>("1");
   const [toAmount, setToAmount] = useState<string>("");
   const [isWalletConnected, setIsWalletConnected] = useState(false);
+  const [gasEstimate, setGasEstimate] = useState<string>("-");
 
   const exchangeRate = useMemo(() => {
     if (fromToken?.price > 0 && toToken?.price > 0) {
@@ -36,6 +37,15 @@ export function SwapInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocu
     }
     return 0;
   }, [fromToken, toToken]);
+
+  const priceImpact = useMemo(() => {
+    if (!fromAmount || parseFloat(fromAmount) <= 0) {
+      return null;
+    }
+    // Simulate a small price impact that increases with trade size
+    const impact = Math.min(0.01 + (parseFloat(fromAmount) / 10000), 10);
+    return impact;
+  }, [fromAmount]);
 
   useEffect(() => {
     if (fromAmount && exchangeRate > 0) {
@@ -45,6 +55,16 @@ export function SwapInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocu
       setToAmount("");
     }
   }, [fromAmount, exchangeRate]);
+
+  useEffect(() => {
+    // This effect runs only on the client to avoid hydration mismatch
+    if (fromAmount && parseFloat(fromAmount) > 0) {
+      const randomGas = (Math.random() * (45 - 5) + 5).toFixed(2);
+      setGasEstimate(`$${randomGas}`);
+    } else {
+      setGasEstimate("-");
+    }
+  }, [fromAmount, fromToken, toToken]);
   
   // Simulate wallet connection
   const handleWalletConnect = () => {
@@ -197,11 +217,11 @@ export function SwapInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocu
             </div>
             <div className="flex justify-between">
                 <span>Price Impact</span>
-                <span>-</span>
+                <span>{priceImpact ? `< ${priceImpact.toFixed(2)}%` : "-"}</span>
             </div>
             <div className="flex justify-between">
                 <span>Estimated Gas</span>
-                <span>-</span>
+                <span>{gasEstimate}</span>
             </div>
             <div className="flex justify-between">
                 <span>Slippage Tolerance (%)</span>
