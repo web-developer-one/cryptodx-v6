@@ -22,6 +22,7 @@ import { ArrowDownUp, Settings } from "lucide-react";
 import type { Cryptocurrency } from "@/lib/types";
 import { WalletConnect } from "./wallet-connect";
 import Image from "next/image";
+import { cn } from "@/lib/utils";
 
 export function SwapInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[] }) {
   const [fromToken, setFromToken] = useState<Cryptocurrency>(cryptocurrencies[0]);
@@ -217,7 +218,12 @@ export function SwapInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocu
             </div>
             <div className="flex justify-between">
                 <span>Price Impact</span>
-                <span>{priceImpact ? `< ${priceImpact.toFixed(2)}%` : "-"}</span>
+                <span className={cn({
+                    "text-primary": priceImpact !== null && priceImpact < 1,
+                    "text-destructive": priceImpact !== null && priceImpact >= 3,
+                })}>
+                    {priceImpact ? `< ${priceImpact.toFixed(2)}%` : "-"}
+                </span>
             </div>
             <div className="flex justify-between">
                 <span>Estimated Gas</span>
