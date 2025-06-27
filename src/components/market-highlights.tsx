@@ -16,9 +16,9 @@ function CryptoList({ coins }: { coins: Cryptocurrency[] }) {
   return (
     <div className="flex flex-col gap-1">
       {coins.map((coin, index) => (
-        <div key={coin.id} className="grid grid-cols-[20px_1fr_auto_auto] items-center gap-4 p-2 rounded-md hover:bg-secondary/50 transition-colors">
-          <div className="text-sm font-medium text-muted-foreground">{index + 1}</div>
-          <div className="flex items-center gap-3">
+        <div key={coin.id} className="grid grid-cols-[auto_minmax(0,1fr)_auto_auto] items-center gap-x-3 p-2 rounded-md hover:bg-secondary/50 transition-colors">
+          <div className="text-sm font-medium text-muted-foreground text-center w-[20px]">{index + 1}</div>
+          <div className="flex items-center gap-3 min-w-0">
             <Image
               src={coin.logo || `https://placehold.co/24x24.png`}
               alt={`${coin.name} logo`}
@@ -26,17 +26,17 @@ function CryptoList({ coins }: { coins: Cryptocurrency[] }) {
               height={24}
               className="rounded-full"
             />
-            <div className="flex items-baseline gap-1.5">
+            <div className="flex items-baseline gap-1.5 overflow-hidden">
               <span className="font-semibold text-sm truncate">{coin.name}</span>
-              <span className="text-xs text-muted-foreground">{coin.symbol}</span>
+              <span className="text-xs text-muted-foreground flex-shrink-0">{coin.symbol}</span>
             </div>
           </div>
-          <div className="font-mono text-sm text-right">
+          <div className="font-mono text-sm text-right whitespace-nowrap">
             ${coin.price < 0.01 ? coin.price.toPrecision(2) : coin.price.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}
           </div>
           <div
             className={cn(
-              "font-medium text-sm flex items-center justify-end gap-1 w-[75px]",
+              "font-medium text-sm flex items-center justify-end gap-1 w-[70px]",
               coin.change24h >= 0 ? "text-primary" : "text-destructive"
             )}
           >
