@@ -33,11 +33,11 @@ export function HowToExchange() {
           {steps.map((step, index) => (
             <Card key={index}>
               <CardHeader className="items-center text-center">
-                {step.icon}
-                <div className="mt-4 text-center">
-                  <p className="text-xl font-bold text-primary">{step.step}</p>
-                  <CardTitle className="mt-2">{step.title}</CardTitle>
+                <div className="flex items-center gap-3">
+                    {step.icon}
+                    <p className="text-2xl font-bold text-primary">{step.step}</p>
                 </div>
+                <CardTitle className="mt-4">{step.title}</CardTitle>
               </CardHeader>
               <CardContent className="text-center">
                 <p className="text-muted-foreground">{step.description}</p>
