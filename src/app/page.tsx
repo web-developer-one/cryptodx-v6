@@ -49,13 +49,14 @@ export default async function Home() {
 
       <HowToExchange />
 
+      <Faq />
+
       <div className="container flex flex-col items-center py-8 gap-8">
         <div className="w-full max-w-7xl">
           <MarketHighlights cryptocurrencies={cryptoData} />
         </div>
       </div>
       
-      <Faq />
     </div>
   );
 }
