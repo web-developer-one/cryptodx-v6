@@ -43,31 +43,31 @@ export default async function TokenDetailPage({ params }: { params: { id: string
   return (
     <div className="container py-8 flex flex-col gap-8">
       <Card>
-        <CardContent className="flex items-center justify-between p-4 flex-wrap gap-4">
+        <CardContent className="flex items-center justify-between p-6 flex-wrap gap-4">
           <div className="flex items-center gap-4">
             <Image
-              src={token.logo || `https://placehold.co/48x48.png`}
+              src={token.logo || `https://placehold.co/64x64.png`}
               alt={`${token.name} logo`}
-              width={48}
-              height={48}
+              width={64}
+              height={64}
               className="rounded-full"
             />
             <div>
-              <h1 className="text-2xl font-bold">{token.name}</h1>
-              <p className="text-muted-foreground">{token.symbol}</p>
+              <h1 className="text-3xl font-bold">{token.name}</h1>
+              <p className="text-lg text-muted-foreground">{token.symbol}</p>
             </div>
           </div>
           <div className="text-right">
-            <p className="text-2xl font-bold">
+            <p className="text-3xl font-bold">
               ${token.price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 4 })}
             </p>
             <div
               className={cn(
-                "flex items-center justify-end gap-1 text-sm font-medium",
+                "flex items-center justify-end gap-1 text-base font-medium",
                 token.change24h >= 0 ? "text-primary" : "text-destructive"
               )}
             >
-              {token.change24h >= 0 ? <ArrowUp className="h-4 w-4" /> : <ArrowDown className="h-4 w-4" />}
+              {token.change24h >= 0 ? <ArrowUp className="h-5 w-5" /> : <ArrowDown className="h-5 w-5" />}
               <span>{Math.abs(token.change24h).toFixed(2)}% (24h)</span>
             </div>
           </div>
