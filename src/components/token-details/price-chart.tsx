@@ -97,9 +97,12 @@ const CustomTooltip = ({ active, payload }: any) => {
 
 export function PriceChart({ token }: { token: TokenDetails }) {
   const [chartData, setChartData] = React.useState<any[]>([])
+  const [timeRange, setTimeRange] = React.useState("1M");
 
   React.useEffect(() => {
     // Generate data on the client to avoid hydration mismatch
+    // NOTE: This mock data generation is for "1M". In a real app,
+    // this effect would re-fetch data when `timeRange` changes.
     setChartData(generateCandlestickData(token.price))
   }, [token.price])
 
@@ -134,6 +137,18 @@ export function PriceChart({ token }: { token: TokenDetails }) {
         <Button>Trade {token.symbol}</Button>
       </CardHeader>
       <CardContent>
+        <div className="flex items-center gap-1 mb-4">
+          {(["24H", "7D", "1M", "3M", "6M", "1Y"] as const).map((range) => (
+            <Button
+              key={range}
+              variant={timeRange === range ? "secondary" : "ghost"}
+              size="sm"
+              onClick={() => setTimeRange(range)}
+            >
+              {range}
+            </Button>
+          ))}
+        </div>
         <ChartContainer config={chartConfig} className="h-[400px] w-full">
           {chartData.length > 0 ? (
             <BarChart 
