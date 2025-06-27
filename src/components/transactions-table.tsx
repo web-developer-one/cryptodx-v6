@@ -164,7 +164,7 @@ export function TransactionsTable({ transactions, currency }: { transactions: Tr
                     <TableHeader>
                         <TableRow>
                             <TableHead className="w-[80px] text-center">Activities</TableHead>
-                            <TableHead className="w-[300px]">Details</TableHead>
+                            <TableHead className="w-[400px]">Details</TableHead>
                             <TableHead className="text-right">Value</TableHead>
                             <TableHead>Time</TableHead>
                             <TableHead>Status</TableHead>
