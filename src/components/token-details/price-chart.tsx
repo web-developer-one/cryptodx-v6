@@ -60,7 +60,7 @@ const Candle = (props: any) => {
 
   const isGrowing = close > open;
   
-  const fill = isGrowing ? 'transparent' : 'hsl(var(--destructive))';
+  const fill = isGrowing ? 'hsl(var(--primary))' : 'hsl(var(--destructive))';
   const stroke = isGrowing ? 'hsl(var(--primary))' : 'hsl(var(--destructive))';
 
   const yHigh = yAxis.scale(high);
