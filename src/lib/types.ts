@@ -45,3 +45,17 @@ export interface LiquidityPool {
   tvl: number; // Total Value Locked in USD
   volume24h: number; // 24h trading volume in USD
 }
+
+export type TransactionType = 'Swap' | 'Add' | 'Remove';
+
+export interface Transaction {
+  id: string; // transaction hash
+  type: TransactionType;
+  token0: Cryptocurrency;
+  token1: Cryptocurrency;
+  amount0: number;
+  amount1: number;
+  account: string;
+  timestamp: Date;
+  value: number; // in USD
+}
