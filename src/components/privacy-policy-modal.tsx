@@ -8,8 +8,11 @@ import {
   DialogTitle,
   DialogTrigger,
   DialogDescription,
+  DialogFooter,
+  DialogClose,
 } from '@/components/ui/dialog';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { Button } from '@/components/ui/button';
 
 export function PrivacyPolicyModal() {
   const [currentDate, setCurrentDate] = useState('');
@@ -94,6 +97,11 @@ export function PrivacyPolicyModal() {
             <p>If you have any questions about this Privacy Policy, You can contact us by email.</p>
           </div>
         </ScrollArea>
+        <DialogFooter>
+          <DialogClose asChild>
+            <Button type="button">Dismiss and Close</Button>
+          </DialogClose>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   );
