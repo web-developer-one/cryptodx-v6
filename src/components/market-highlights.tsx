@@ -1,4 +1,3 @@
-
 "use client";
 
 import {
@@ -83,7 +82,7 @@ function CryptoTable({ coins }: { coins: Cryptocurrency[] }) {
 
 export function MarketHighlights() {
   return (
-    <Card className="hidden w-full max-w-md shadow-2xl shadow-primary/10 lg:block">
+    <Card className="w-full max-w-md shadow-2xl shadow-primary/10">
       <CardHeader>
         <CardTitle>Market Highlights</CardTitle>
       </CardHeader>
