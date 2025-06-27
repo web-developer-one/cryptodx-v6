@@ -47,27 +47,27 @@ const footerSections = [
 
 export function Footer() {
   return (
-    <footer className="w-full bg-secondary/50 border-t">
+    <footer className="w-full border-t border-primary-foreground/10 bg-primary text-primary-foreground">
       <div className="container py-12">
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-8">
+        <div className="grid grid-cols-2 gap-8 md:grid-cols-4 lg:grid-cols-6">
           {/* Column 1: Site Info */}
-          <div className="col-span-2 md:col-span-1 flex flex-col items-start gap-4">
+          <div className="col-span-2 flex flex-col items-start gap-4 md:col-span-1">
             <Link href="/" className="flex items-center space-x-2">
-              <Repeat className="h-8 w-8 text-primary" />
-              <span className="font-bold text-lg">Crypto Swap</span>
+              <Repeat className="h-8 w-8" />
+              <span className="text-lg font-bold">Crypto Swap</span>
             </Link>
           </div>
 
           {/* The other columns */}
           {footerSections.map((section) => (
             <div key={section.title} className="flex flex-col gap-3">
-              <h4 className="font-semibold text-base">{section.title}</h4>
+              <h4 className="text-base font-semibold">{section.title}</h4>
               <ul className="flex flex-col gap-2 text-sm">
                 {section.links.map((link) => (
                   <li key={link.name}>
                     <Link
                       href={link.href}
-                      className="text-muted-foreground hover:text-foreground transition-colors"
+                      className="text-primary-foreground/70 transition-colors hover:text-primary-foreground"
                     >
                       {link.name}
                     </Link>
@@ -77,8 +77,8 @@ export function Footer() {
             </div>
           ))}
         </div>
-        <Separator className="my-8" />
-        <div className="flex flex-col md:flex-row justify-between items-center text-sm text-muted-foreground">
+        <Separator className="my-8 bg-primary-foreground/10" />
+        <div className="flex flex-col items-center justify-between text-sm text-primary-foreground/70 md:flex-row">
           <p>&copy; {new Date().getFullYear()} Crypto Swap. All rights reserved.</p>
         </div>
       </div>

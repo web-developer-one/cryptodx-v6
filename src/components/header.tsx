@@ -63,11 +63,11 @@ export function Header() {
   ];
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="sticky top-0 z-50 w-full border-b border-primary-foreground/10 bg-primary text-primary-foreground">
       <div className="container flex h-14 max-w-screen-2xl items-center">
         <div className="mr-4 hidden md:flex">
           <Link href="/" className="mr-6 flex items-center space-x-2">
-            <Repeat className="h-6 w-6 text-primary" />
+            <Repeat className="h-6 w-6" />
             <span className="hidden font-bold sm:inline-block">
               Crypto Swap
             </span>
@@ -78,7 +78,7 @@ export function Header() {
                 <DropdownMenuTrigger asChild>
                   <Button
                     variant="ghost"
-                    className="flex items-center gap-1.5 transition-colors hover:text-foreground/80 text-foreground/60 font-medium px-3"
+                    className="flex items-center gap-1.5 px-3 font-medium text-primary-foreground/70 transition-colors hover:bg-primary-foreground/10 hover:text-primary-foreground"
                   >
                     <item.icon className="h-4 w-4" />
                     {item.name}
@@ -100,19 +100,19 @@ export function Header() {
         <div className="md:hidden">
           <Sheet>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon">
+              <Button variant="ghost" size="icon" className="hover:bg-primary-foreground/10">
                 <Menu className="h-6 w-6" />
                 <span className="sr-only">Toggle Menu</span>
               </Button>
             </SheetTrigger>
-            <SheetContent side="left" className="pr-0 pt-12">
+            <SheetContent side="left" className="border-r-primary-foreground/10 bg-primary pr-0 pt-12 text-primary-foreground">
               <nav className="flex flex-col gap-2 text-lg font-medium">
                 <SheetClose asChild>
                   <Link
                     href="/"
-                    className="flex items-center gap-2 text-lg font-semibold mb-4 pl-4"
+                    className="mb-4 flex items-center gap-2 pl-4 text-lg font-semibold"
                   >
-                    <Repeat className="h-6 w-6 text-primary" />
+                    <Repeat className="h-6 w-6" />
                     <span>Crypto Swap</span>
                   </Link>
                 </SheetClose>
@@ -123,20 +123,20 @@ export function Header() {
                       key={item.name}
                       className="border-b-0"
                     >
-                      <AccordionTrigger className="py-3 px-2 text-base font-medium hover:no-underline hover:bg-accent/50 rounded-md [&[data-state=open]]:bg-accent/50">
+                      <AccordionTrigger className="rounded-md px-2 py-3 text-base font-medium hover:bg-primary-foreground/10 hover:no-underline [&[data-state=open]]:bg-primary-foreground/10">
                         <div className="flex items-center gap-4">
-                          <item.icon className="h-5 w-5 text-foreground/60" />
-                          <span className="text-foreground/80">
+                          <item.icon className="h-5 w-5 text-primary-foreground/60" />
+                          <span className="text-primary-foreground/80">
                             {item.name}
                           </span>
                         </div>
                       </AccordionTrigger>
-                      <AccordionContent className="pl-10 pt-2 pb-2 flex flex-col gap-3">
+                      <AccordionContent className="flex flex-col gap-3 pb-2 pl-10 pt-2">
                         {item.children.map((child) => (
                           <SheetClose asChild key={child.name}>
                             <Link
                               href={child.href}
-                              className="text-base text-foreground/60 hover:text-foreground/80"
+                              className="text-base text-primary-foreground/60 hover:text-primary-foreground"
                             >
                               {child.name}
                             </Link>
@@ -152,8 +152,10 @@ export function Header() {
         </div>
 
         <div className="flex flex-1 items-center justify-end space-x-2">
-          <WalletConnect />
-          <ThemeToggle />
+          <WalletConnect>
+            <Button variant="secondary">Connect Wallet</Button>
+          </WalletConnect>
+          <ThemeToggle className="hover:bg-primary-foreground/10"/>
         </div>
       </div>
     </header>
