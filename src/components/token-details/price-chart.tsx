@@ -137,7 +137,7 @@ export function PriceChart({ token }: { token: TokenDetails }) {
         <Button>Trade {token.symbol}</Button>
       </CardHeader>
       <CardContent>
-        <div className="flex items-center gap-1 mb-4">
+        <div className="flex items-center justify-end gap-1 mb-4">
           {(["24H", "7D", "1M", "3M", "6M", "1Y"] as const).map((range) => (
             <Button
               key={range}
