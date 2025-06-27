@@ -41,7 +41,7 @@ export function GdprModal() {
     <Sheet open={isOpen} onOpenChange={handleOpenChange}>
       <SheetContent
         side="bottom"
-        className="rounded-t-lg sm:max-w-lg sm:bottom-8 sm:right-8 sm:left-auto sm:rounded-lg"
+        className="rounded-t-lg sm:max-w-5xl sm:bottom-8 sm:left-1/2 sm:-translate-x-1/2 sm:rounded-lg"
       >
         <SheetHeader className="text-left">
           <SheetTitle>Our Commitment to Your Privacy (GDPR)</SheetTitle>
