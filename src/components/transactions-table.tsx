@@ -165,9 +165,9 @@ export function TransactionsTable({ transactions, currency }: { transactions: Tr
                         <TableRow>
                             <TableHead className="w-[80px] text-center">Activities</TableHead>
                             <TableHead className="w-[300px]">Details</TableHead>
+                            <TableHead className="text-right">Value</TableHead>
                             <TableHead>Time</TableHead>
                             <TableHead>Status</TableHead>
-                            <TableHead className="text-right">Value</TableHead>
                             <TableHead className="w-[360px]">Account</TableHead>
                             <TableHead className="w-[100px] text-right">Actions</TableHead>
                         </TableRow>
@@ -185,14 +185,15 @@ export function TransactionsTable({ transactions, currency }: { transactions: Tr
                                 <TableCell>
                                     <TransactionDetails transaction={tx} />
                                 </TableCell>
+                                <TableCell className="text-right font-mono">
+                                    <FormattedCurrency value={tx.value} currency={currency} />
+                                </TableCell>
                                 <TableCell className="text-muted-foreground">
                                     <TimeAgo timestamp={tx.timestamp} />
                                 </TableCell>
+
                                 <TableCell>
                                     <StatusBadge status={tx.status} />
-                                </TableCell>
-                                <TableCell className="text-right font-mono">
-                                    <FormattedCurrency value={tx.value} currency={currency} />
                                 </TableCell>
                                 <TableCell>
                                      <div className="flex items-center">
