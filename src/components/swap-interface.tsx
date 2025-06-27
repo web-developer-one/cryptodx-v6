@@ -116,9 +116,9 @@ export function SwapInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocu
             <span className="text-sm text-muted-foreground">Balance: -</span>
           </div>
           <div className="flex items-center gap-2">
-            <Input id="from-input" type="text" placeholder="0" className="text-2xl h-12 bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0 p-0" value={fromAmount} onChange={handleFromAmountChange} />
+            <Input id="from-input" type="text" placeholder="0" className="text-3xl h-14 bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0 p-0" value={fromAmount} onChange={handleFromAmountChange} />
             <Select value={fromToken.symbol} onValueChange={handleFromTokenChange}>
-              <SelectTrigger className="w-[150px] h-10 text-lg font-bold">
+              <SelectTrigger className="w-[150px] h-14 text-lg font-bold">
                 <SelectValue placeholder="Select token" />
               </SelectTrigger>
               <SelectContent>
@@ -155,9 +155,9 @@ export function SwapInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocu
             <span className="text-sm text-muted-foreground">Balance: -</span>
           </div>
           <div className="flex items-center gap-2">
-            <Input id="to-input" type="text" placeholder="0" className="text-2xl h-12 bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0 p-0" value={toAmount} onChange={handleToAmountChange}/>
+            <Input id="to-input" type="text" placeholder="0" className="text-3xl h-14 bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0 p-0" value={toAmount} onChange={handleToAmountChange}/>
             <Select value={toToken.symbol} onValueChange={handleToTokenChange}>
-              <SelectTrigger className="w-[150px] h-10 text-lg font-bold">
+              <SelectTrigger className="w-[150px] h-14 text-lg font-bold">
                 <SelectValue placeholder="Select token" />
               </SelectTrigger>
               <SelectContent>
