@@ -32,8 +32,9 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import type { Cryptocurrency } from "@/lib/types";
 
-export function Header() {
+export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[] }) {
   const menuItems = [
     {
       name: "Trade",
@@ -64,14 +65,31 @@ export function Header() {
     },
   ];
 
-  const networks = [
-    { name: 'Ethereum', hint: 'ethereum logo' },
-    { name: 'Solana', hint: 'solana logo' },
-    { name: 'Polygon', hint: 'polygon logo' },
-    { name: 'BNB Chain', hint: 'binance logo' },
+  const networkOptions = [
+    { name: 'Ethereum', symbol: 'ETH' },
+    { name: 'Solana', symbol: 'SOL' },
+    { name: 'Polygon', symbol: 'MATIC' },
+    { name: 'BNB Chain', symbol: 'BNB' },
   ];
 
+  const networks = React.useMemo(() => {
+    return networkOptions.map(opt => {
+      const crypto = cryptocurrencies.find(c => c.symbol === opt.symbol);
+      return {
+        name: opt.name,
+        symbol: opt.symbol,
+        logo: crypto?.logo || 'https://placehold.co/20x20.png',
+      };
+    });
+  }, [cryptocurrencies]);
+
   const [selectedNetwork, setSelectedNetwork] = React.useState(networks[0]);
+  
+  React.useEffect(() => {
+    // If cryptocurrencies load after initial render, update selected network
+    setSelectedNetwork(networks[0]);
+  }, [networks]);
+
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-primary-foreground/10 bg-primary text-primary-foreground">
@@ -170,12 +188,11 @@ export function Header() {
                 className="flex items-center gap-1.5 px-3 font-medium text-primary-foreground/70 transition-colors hover:bg-primary-foreground/10 hover:text-primary-foreground"
               >
                 <Image
-                  src={`https://placehold.co/20x20.png`}
+                  src={selectedNetwork.logo}
                   alt={`${selectedNetwork.name} logo`}
                   width={20}
                   height={20}
                   className="rounded-full"
-                  data-ai-hint={selectedNetwork.hint}
                 />
                 <span className="hidden sm:inline">{selectedNetwork.name}</span>
                 <ChevronDown className="h-4 w-4 opacity-50" />
@@ -188,12 +205,11 @@ export function Header() {
                   onClick={() => setSelectedNetwork(network)}
                 >
                   <Image
-                    src={`https://placehold.co/20x20.png`}
+                    src={network.logo}
                     alt={`${network.name} logo`}
                     width={20}
                     height={20}
                     className="mr-2 rounded-full"
-                    data-ai-hint={network.hint}
                   />
                   {network.name}
                 </DropdownMenuItem>

@@ -7,6 +7,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Footer } from "@/components/footer";
 import { WalletProvider } from "@/hooks/use-wallet";
 import { GdprModal } from "@/components/gdpr-modal";
+import { getLatestListings } from "@/lib/coinmarketcap";
 
 const fontBody = Inter({
   subsets: ["latin"],
@@ -20,11 +21,13 @@ export const metadata: Metadata = {
   description: "Swap your favorite cryptocurrencies with ease and confidence.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const cryptoData = await getLatestListings();
+  
   return (
     <html lang="en" suppressHydrationWarning>
       <head />
@@ -35,7 +38,7 @@ export default function RootLayout({
         )}
       >
         <WalletProvider>
-          <Header />
+          <Header cryptocurrencies={cryptoData} />
           <main className="flex-1 flex flex-col">{children}</main>
           <Footer />
           <Toaster />
