@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { Header } from "@/components/header";
 import { Toaster } from "@/components/ui/toaster";
 import { Footer } from "@/components/footer";
+import { WalletProvider } from "@/hooks/use-wallet";
 
 const fontBody = Inter({
   subsets: ["latin"],
@@ -32,10 +33,12 @@ export default function RootLayout({
           fontBody.variable
         )}
       >
-        <Header />
-        <main className="flex-1 flex flex-col">{children}</main>
-        <Footer />
-        <Toaster />
+        <WalletProvider>
+          <Header />
+          <main className="flex-1 flex flex-col">{children}</main>
+          <Footer />
+          <Toaster />
+        </WalletProvider>
       </body>
     </html>
   );

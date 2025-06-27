@@ -23,13 +23,14 @@ import type { Cryptocurrency } from "@/lib/types";
 import { WalletConnect } from "./wallet-connect";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
+import { useWallet } from "@/hooks/use-wallet";
 
 export function SwapInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[] }) {
   const [fromToken, setFromToken] = useState<Cryptocurrency>(cryptocurrencies[0]);
   const [toToken, setToToken] = useState<Cryptocurrency>(cryptocurrencies[1]);
   const [fromAmount, setFromAmount] = useState<string>("1");
   const [toAmount, setToAmount] = useState<string>("");
-  const [isWalletConnected, setIsWalletConnected] = useState(false);
+  const { isActive: isWalletConnected } = useWallet();
   const [gasEstimate, setGasEstimate] = useState<string>("-");
 
   const exchangeRate = useMemo(() => {
@@ -132,9 +133,9 @@ export function SwapInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocu
             <span className="text-sm text-muted-foreground">Sell</span>
           </div>
           <div className="flex items-center gap-2">
-            <Input id="from-input" type="text" placeholder="0" className="text-4xl h-14 bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0 p-0" value={fromAmount} onChange={handleFromAmountChange} />
+            <Input id="from-input" type="text" placeholder="0" className="text-3xl h-12 bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0 p-0" value={fromAmount} onChange={handleFromAmountChange} />
             <Select value={fromToken.symbol} onValueChange={handleFromTokenChange}>
-              <SelectTrigger className="w-[150px] h-14 text-lg font-bold">
+              <SelectTrigger className="w-[150px] h-12 text-lg font-bold">
                 <SelectValue placeholder="Select token" />
               </SelectTrigger>
               <SelectContent>
@@ -171,9 +172,9 @@ export function SwapInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocu
             <span className="text-sm text-muted-foreground">Buy</span>
           </div>
           <div className="flex items-center gap-2">
-            <Input id="to-input" type="text" placeholder="0" className="text-4xl h-14 bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0 p-0" value={toAmount} onChange={handleToAmountChange}/>
+            <Input id="to-input" type="text" placeholder="0" className="text-3xl h-12 bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0 p-0" value={toAmount} onChange={handleToAmountChange}/>
             <Select value={toToken.symbol} onValueChange={handleToTokenChange}>
-              <SelectTrigger className="w-[150px] h-14 text-lg font-bold">
+              <SelectTrigger className="w-[150px] h-12 text-lg font-bold">
                 <SelectValue placeholder="Select token" />
               </SelectTrigger>
               <SelectContent>
