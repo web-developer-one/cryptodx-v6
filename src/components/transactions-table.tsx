@@ -9,14 +9,13 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { Card, CardContent } from '@/components/ui/card';
-import type { Transaction, TransactionStatus } from '@/lib/types';
+import type { Transaction, TransactionStatus, SelectedCurrency } from '@/lib/types';
 import { Button } from './ui/button';
 import { Badge } from './ui/badge';
 import { ArrowUpRight, Plus, Minus, ArrowRight, Copy } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
-import type { SelectedCurrency } from './transactions-client';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 

@@ -1,4 +1,5 @@
 
+
 import { getLatestListings } from "@/lib/coinmarketcap";
 import {
   Card,
@@ -9,8 +10,8 @@ import {
 } from "@/components/ui/card";
 import { AlertCircle } from "lucide-react";
 import { ExploreNav } from "@/components/explore-nav";
-import { PoolsTable } from "@/components/pools-table";
 import type { Cryptocurrency, LiquidityPool } from "@/lib/types";
+import { PoolsClient } from "@/components/pools-client";
 
 // Helper function to generate mock pool data
 const generateMockPools = (cryptocurrencies: Cryptocurrency[]): LiquidityPool[] => {
@@ -82,10 +83,7 @@ export default async function PoolsListPage() {
   return (
     <div className="container py-8">
       <ExploreNav />
-      <div className="flex justify-between items-center my-6">
-        <h1 className="text-3xl font-bold">Available Liquidity Pools</h1>
-      </div>
-      <PoolsTable pools={mockPools} />
+      <PoolsClient pools={mockPools} />
     </div>
   );
 }

@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import Image from 'next/image';
@@ -11,7 +12,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { Card, CardContent } from '@/components/ui/card';
-import type { LiquidityPool } from '@/lib/types';
+import type { LiquidityPool, SelectedCurrency } from '@/lib/types';
 import { Badge } from './ui/badge';
 import { Button } from './ui/button';
 import Link from 'next/link';
@@ -19,24 +20,25 @@ import { ArrowRight } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 // Client-side only component to prevent hydration mismatch
-const FormattedCurrency = ({ value }: { value: number }) => {
+const FormattedCurrency = ({ value, currency }: { value: number, currency: SelectedCurrency }) => {
     const [formatted, setFormatted] = useState<string | null>(null);
 
     useEffect(() => {
+        const convertedValue = value * currency.rate;
         setFormatted(
             new Intl.NumberFormat('en-US', {
                 style: 'currency',
-                currency: 'USD',
+                currency: currency.symbol,
                 notation: 'compact',
                 maximumFractionDigits: 2,
-            }).format(value)
+            }).format(convertedValue)
         );
-    }, [value]);
+    }, [value, currency]);
 
     return <>{formatted || null}</>;
 };
 
-export function PoolsTable({ pools }: { pools: LiquidityPool[] }) {
+export function PoolsTable({ pools, currency }: { pools: LiquidityPool[], currency: SelectedCurrency }) {
     
     return (
         <Card>
@@ -79,10 +81,10 @@ export function PoolsTable({ pools }: { pools: LiquidityPool[] }) {
                                     <Badge variant="outline">{pool.network}</Badge>
                                 </TableCell>
                                 <TableCell className="text-right font-mono">
-                                    <FormattedCurrency value={pool.tvl} />
+                                    <FormattedCurrency value={pool.tvl} currency={currency} />
                                 </TableCell>
                                 <TableCell className="text-right font-mono">
-                                    <FormattedCurrency value={pool.volume24h} />
+                                    <FormattedCurrency value={pool.volume24h} currency={currency} />
                                 </TableCell>
                                 <TableCell className="text-right">
                                      <Link href="/pools/add">

@@ -1,11 +1,10 @@
 'use client';
 
 import { useState } from 'react';
-import type { Cryptocurrency, Transaction, SelectedCurrency } from '@/lib/types';
+import type { LiquidityPool, SelectedCurrency } from '@/lib/types';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { TransactionsTable } from './transactions-table';
+import { PoolsTable } from './pools-table';
 
-// Mocked data for supported fiat currencies and their rates against USD
 // In a real app, this would come from a currency conversion API
 const supportedCurrencies: SelectedCurrency[] = [
     { symbol: 'USD', name: 'US Dollar', rate: 1 },
@@ -19,7 +18,8 @@ const supportedCurrencies: SelectedCurrency[] = [
     { symbol: 'INR', name: 'Indian Rupee', rate: 83.5 },
 ];
 
-export function TransactionsClient({ transactions, cryptocurrencies }: { transactions: Transaction[], cryptocurrencies: Cryptocurrency[] }) {
+
+export function PoolsClient({ pools }: { pools: LiquidityPool[] }) {
     const [selectedCurrency, setSelectedCurrency] = useState<SelectedCurrency>(supportedCurrencies[0]);
 
     const handleCurrencyChange = (symbol: string) => {
@@ -32,7 +32,7 @@ export function TransactionsClient({ transactions, cryptocurrencies }: { transac
     return (
         <>
             <div className="flex justify-between items-center my-6">
-                <h1 className="text-3xl font-bold">Recent Transactions</h1>
+                <h1 className="text-3xl font-bold">Available Liquidity Pools</h1>
                 <div className="w-full max-w-[220px]">
                     <Select onValueChange={handleCurrencyChange} defaultValue={selectedCurrency.symbol}>
                         <SelectTrigger>
@@ -50,7 +50,7 @@ export function TransactionsClient({ transactions, cryptocurrencies }: { transac
                     </Select>
                 </div>
             </div>
-            <TransactionsTable transactions={transactions} currency={selectedCurrency} />
+            <PoolsTable pools={pools} currency={selectedCurrency} />
         </>
     );
 }

@@ -62,3 +62,9 @@ export interface Transaction {
   timestamp: Date;
   value: number; // in USD
 }
+
+export interface SelectedCurrency {
+    symbol: string;
+    name: string;
+    rate: number;
+}

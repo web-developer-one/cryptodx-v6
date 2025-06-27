@@ -7,18 +7,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import type { Cryptocurrency } from "@/lib/types";
+import type { Cryptocurrency, SelectedCurrency } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { ArrowUp, ArrowDown } from "lucide-react";
 import Image from "next/image";
 import React, { useState, useEffect } from "react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-
-type SelectedCurrency = {
-  symbol: string;
-  name: string;
-  rate: number;
-};
 
 const supportedCurrencies: SelectedCurrency[] = [
     { symbol: 'USD', name: 'US Dollar', rate: 1 },
