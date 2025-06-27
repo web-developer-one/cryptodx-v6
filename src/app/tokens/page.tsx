@@ -38,7 +38,7 @@ export default async function TokensPage() {
 
   return (
     <div className="container py-8">
-      <h1 className="text-3xl font-bold mb-6">Explore Tokens</h1>
+      <h1 className="text-3xl font-bold mb-6 text-center">Explore Tokens</h1>
       <TokenExplorer cryptocurrencies={cryptoData} />
     </div>
   );

@@ -39,7 +39,7 @@ interface CmcInfoResponse {
 
 export async function getLatestListings(): Promise<Cryptocurrency[]> {
   try {
-    const listingsResponse = await fetch(`${BASE_URL}/v1/cryptocurrency/listings/latest?limit=20`, {
+    const listingsResponse = await fetch(`${BASE_URL}/v1/cryptocurrency/listings/latest?limit=100`, {
       headers: {
         'X-CMC_PRO_API_KEY': API_KEY,
       },

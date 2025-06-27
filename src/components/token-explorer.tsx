@@ -42,7 +42,7 @@ export function TokenExplorer({
   };
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-6 items-center">
       <Input
         placeholder="Search tokens..."
         value={searchQuery}
@@ -50,10 +50,10 @@ export function TokenExplorer({
           setSearchQuery(e.target.value);
           setCurrentPage(1); // Reset to first page on new search
         }}
-        className="max-w-sm"
+        className="max-w-sm w-full"
       />
 
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 w-full">
         {currentTokens.map((token) => (
           <Card
             key={token.id}
