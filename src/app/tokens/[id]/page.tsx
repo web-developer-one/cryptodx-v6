@@ -9,10 +9,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { AlertCircle, ArrowDown, ArrowUp } from "lucide-react";
+import { AlertCircle, ArrowDown, ArrowUp, ArrowLeft } from "lucide-react";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { MarketHighlights } from "@/components/market-highlights";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 export default async function TokenDetailPage({ params }: { params: { id: string } }) {
   const [token, cryptoData] = await Promise.all([
@@ -46,6 +48,13 @@ export default async function TokenDetailPage({ params }: { params: { id: string
 
   return (
     <div className="container py-8 flex flex-col gap-8">
+      <Link href="/tokens" asChild>
+        <Button variant="outline" className="self-start">
+          <ArrowLeft className="mr-2 h-4 w-4" />
+          Back to Tokens
+        </Button>
+      </Link>
+
       <Card>
         <CardContent className="flex items-center justify-between p-6 flex-wrap gap-4">
           <div className="flex items-center gap-4">
