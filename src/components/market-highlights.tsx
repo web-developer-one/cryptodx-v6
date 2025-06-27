@@ -6,12 +6,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@/components/ui/tabs";
 import type { Cryptocurrency } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { ArrowUp, ArrowDown } from "lucide-react";
@@ -63,37 +57,34 @@ export function MarketHighlights({ cryptocurrencies }: { cryptocurrencies: Crypt
     .sort((a, b) => a.change24h - b.change24h)
     .slice(0, 5);
 
-  const trending = cryptocurrencies.filter(c => ['BTC', 'ETH', 'SOL', 'DOGE', 'SHIB'].includes(c.symbol)).slice(0, 5);
+  const popular = cryptocurrencies.filter(c => ['BTC', 'ETH', 'SOL', 'DOGE', 'SHIB'].includes(c.symbol)).slice(0, 5);
 
   return (
-    <Card className="w-full max-w-md shadow-2xl shadow-primary/10">
-      <CardHeader>
-        <CardTitle>Market Trends</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <Tabs defaultValue="gainers">
-          <TabsList className="grid w-full grid-cols-3 mb-4">
-            <TabsTrigger value="gainers">
-              Top Gainers
-            </TabsTrigger>
-            <TabsTrigger value="losers">
-              Top Losers
-            </TabsTrigger>
-            <TabsTrigger value="trending">
-              Trending
-            </TabsTrigger>
-          </TabsList>
-          <TabsContent value="gainers" className="mt-0">
-            <CryptoList coins={topGainers} />
-          </TabsContent>
-          <TabsContent value="losers" className="mt-0">
-            <CryptoList coins={topLosers} />
-          </TabsContent>
-          <TabsContent value="trending" className="mt-0">
-            <CryptoList coins={trending} />
-          </TabsContent>
-        </Tabs>
-      </CardContent>
-    </Card>
+    <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <Card className="shadow-lg shadow-primary/5">
+            <CardHeader>
+                <CardTitle>Popular crypto (24h)</CardTitle>
+            </CardHeader>
+            <CardContent>
+                <CryptoList coins={popular} />
+            </CardContent>
+        </Card>
+         <Card className="shadow-lg shadow-primary/5">
+            <CardHeader>
+                <CardTitle>Top gainers (24h)</CardTitle>
+            </CardHeader>
+            <CardContent>
+                <CryptoList coins={topGainers} />
+            </CardContent>
+        </Card>
+         <Card className="shadow-lg shadow-primary/5">
+            <CardHeader>
+                <CardTitle>Top losers (24h)</CardTitle>
+            </CardHeader>
+            <CardContent>
+                <CryptoList coins={topLosers} />
+            </CardContent>
+        </Card>
+    </div>
   );
 }
