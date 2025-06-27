@@ -9,8 +9,8 @@ import {
 } from "@/components/ui/card";
 import { AlertCircle } from "lucide-react";
 import { ExploreNav } from "@/components/explore-nav";
-import { TransactionsTable } from "@/components/transactions-table";
 import type { Cryptocurrency, Transaction } from "@/lib/types";
+import { TransactionsClient } from "@/components/transactions-client";
 
 // Helper function to generate mock transaction data
 const generateMockTransactions = (cryptocurrencies: Cryptocurrency[]): Transaction[] => {
@@ -90,10 +90,7 @@ export default async function TransactionsPage() {
   return (
     <div className="container py-8">
       <ExploreNav />
-      <div className="flex justify-between items-center my-6">
-        <h1 className="text-3xl font-bold">Recent Transactions</h1>
-      </div>
-      <TransactionsTable transactions={mockTransactions} />
+      <TransactionsClient transactions={mockTransactions} cryptocurrencies={cryptoData} />
     </div>
   );
 }
