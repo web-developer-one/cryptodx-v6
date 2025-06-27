@@ -37,7 +37,7 @@ const footerSections = [
   {
     title: "Site",
     links: [
-      { name: "Our Blog", href: "#" },
+      { name: "Our Blog", href: "https://cryptomx.co/blog/" },
       { name: "Cookie Policy", href: "#" },
       { name: "Privacy Policy", href: "#" },
       { name: "Terms of Use", href: "#" },
