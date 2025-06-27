@@ -100,9 +100,9 @@ function MarketListCard({ title, coins }: { title: string, coins: Cryptocurrency
   return (
     <Card className="shadow-lg shadow-primary/5">
         <CardHeader>
-            <div className="flex justify-between items-start gap-4">
-                <CardTitle className="text-lg">{title}</CardTitle>
-                <div className="w-full max-w-[150px]">
+            <div className="flex justify-between items-start gap-2">
+                <CardTitle className="text-base font-semibold pt-1">{title}</CardTitle>
+                <div className="w-full max-w-[120px]">
                     <Select onValueChange={handleCurrencyChange} defaultValue={currency.symbol}>
                         <SelectTrigger className="h-9">
                             <SelectValue placeholder="Select currency..." />
@@ -110,9 +110,7 @@ function MarketListCard({ title, coins }: { title: string, coins: Cryptocurrency
                         <SelectContent>
                             {supportedCurrencies.map(c => (
                                 <SelectItem key={c.symbol} value={c.symbol}>
-                                    <div className="flex items-center gap-2 text-sm">
-                                        <span>{c.symbol} - {c.name}</span>
-                                    </div>
+                                    {c.symbol}
                                 </SelectItem>
                             ))}
                         </SelectContent>
