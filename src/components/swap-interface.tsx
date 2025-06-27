@@ -19,20 +19,19 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { ArrowDownUp, Settings } from "lucide-react";
-import { cryptocurrencies as cryptoData } from "@/lib/crypto-data";
 import type { Cryptocurrency } from "@/lib/types";
 import { WalletConnect } from "./wallet-connect";
 import Image from "next/image";
 
-export function SwapInterface() {
-  const [fromToken, setFromToken] = useState<Cryptocurrency>(cryptoData[0]);
-  const [toToken, setToToken] = useState<Cryptocurrency>(cryptoData[1]);
+export function SwapInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[] }) {
+  const [fromToken, setFromToken] = useState<Cryptocurrency>(cryptocurrencies[0]);
+  const [toToken, setToToken] = useState<Cryptocurrency>(cryptocurrencies[1]);
   const [fromAmount, setFromAmount] = useState<string>("1");
   const [toAmount, setToAmount] = useState<string>("");
   const [isWalletConnected, setIsWalletConnected] = useState(false);
 
   const exchangeRate = useMemo(() => {
-    if (fromToken.price > 0 && toToken.price > 0) {
+    if (fromToken?.price > 0 && toToken?.price > 0) {
       return fromToken.price / toToken.price;
     }
     return 0;
@@ -53,7 +52,7 @@ export function SwapInterface() {
   };
 
   const handleFromTokenChange = (symbol: string) => {
-    const token = cryptoData.find((t) => t.symbol === symbol);
+    const token = cryptocurrencies.find((t) => t.symbol === symbol);
     if (token) {
         if (token.symbol === toToken.symbol) {
             handleSwap();
@@ -64,7 +63,7 @@ export function SwapInterface() {
   };
 
   const handleToTokenChange = (symbol: string) => {
-    const token = cryptoData.find((t) => t.symbol === symbol);
+    const token = cryptocurrencies.find((t) => t.symbol === symbol);
     if (token) {
         if (token.symbol === fromToken.symbol) {
             handleSwap();
@@ -75,12 +74,8 @@ export function SwapInterface() {
   };
 
   const handleSwap = () => {
-    const tempToken = fromToken;
-    const tempAmount = fromAmount;
     setFromToken(toToken);
-    setToToken(tempToken);
-    setFromAmount(toAmount);
-    setToAmount(tempAmount);
+    setToToken(fromToken);
   };
   
   const handleFromAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -127,16 +122,15 @@ export function SwapInterface() {
                 <SelectValue placeholder="Select token" />
               </SelectTrigger>
               <SelectContent>
-                {cryptoData.map((token) => (
-                  <SelectItem key={token.symbol} value={token.symbol}>
+                {cryptocurrencies.map((token) => (
+                  <SelectItem key={token.id} value={token.symbol}>
                     <div className="flex items-center gap-2">
                       <Image
-                        src={`https://placehold.co/20x20.png`}
+                        src={token.logo || `https://placehold.co/20x20.png`}
                         alt={`${token.name} logo`}
                         width={20}
                         height={20}
                         className="rounded-full"
-                        data-ai-hint={`${token.symbol} logo`}
                       />
                       {token.symbol}
                     </div>
@@ -167,16 +161,15 @@ export function SwapInterface() {
                 <SelectValue placeholder="Select token" />
               </SelectTrigger>
               <SelectContent>
-                {cryptoData.map((token) => (
-                  <SelectItem key={token.symbol} value={token.symbol}>
+                {cryptocurrencies.map((token) => (
+                  <SelectItem key={token.id} value={token.symbol}>
                     <div className="flex items-center gap-2">
                        <Image
-                        src={`https://placehold.co/20x20.png`}
+                        src={token.logo || `https://placehold.co/20x20.png`}
                         alt={`${token.name} logo`}
                         width={20}
                         height={20}
                         className="rounded-full"
-                        data-ai-hint={`${token.symbol} logo`}
                       />
                       {token.symbol}
                     </div>

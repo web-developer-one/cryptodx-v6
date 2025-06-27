@@ -20,21 +20,10 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs";
-import { cryptocurrencies } from "@/lib/crypto-data";
 import type { Cryptocurrency } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { TrendingUp, TrendingDown, Star } from "lucide-react";
 import Image from "next/image";
-
-const topGainers = [...cryptocurrencies]
-  .sort((a, b) => b.change24h - a.change24h)
-  .slice(0, 5);
-
-const topLosers = [...cryptocurrencies]
-  .sort((a, b) => a.change24h - b.change24h)
-  .slice(0, 5);
-
-const trending = [...cryptocurrencies].filter(c => ['BTC', 'ETH', 'SOL', 'DOGE', 'SHIB'].includes(c.symbol));
 
 function CryptoTable({ coins }: { coins: Cryptocurrency[] }) {
   return (
@@ -52,12 +41,11 @@ function CryptoTable({ coins }: { coins: Cryptocurrency[] }) {
             <TableCell>
               <div className="flex items-center gap-2">
                 <Image
-                    src={`https://placehold.co/24x24.png`}
+                    src={coin.logo || `https://placehold.co/24x24.png`}
                     alt={`${coin.name} logo`}
                     width={24}
                     height={24}
                     className="rounded-full"
-                    data-ai-hint={`${coin.symbol} logo`}
                   />
                 <span className="font-medium">{coin.name}</span>
                 <span className="text-muted-foreground">{coin.symbol}</span>
@@ -80,7 +68,17 @@ function CryptoTable({ coins }: { coins: Cryptocurrency[] }) {
   );
 }
 
-export function MarketHighlights() {
+export function MarketHighlights({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[] }) {
+  const topGainers = [...cryptocurrencies]
+    .sort((a, b) => b.change24h - a.change24h)
+    .slice(0, 5);
+
+  const topLosers = [...cryptocurrencies]
+    .sort((a, b) => a.change24h - b.change24h)
+    .slice(0, 5);
+
+  const trending = cryptocurrencies.filter(c => ['BTC', 'ETH', 'SOL', 'DOGE', 'SHIB'].includes(c.symbol)).slice(0, 5);
+
   return (
     <Card className="w-full max-w-md shadow-2xl shadow-primary/10">
       <CardHeader>
