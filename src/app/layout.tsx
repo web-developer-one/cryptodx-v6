@@ -6,6 +6,7 @@ import { Header } from "@/components/header";
 import { Toaster } from "@/components/ui/toaster";
 import { Footer } from "@/components/footer";
 import { WalletProvider } from "@/hooks/use-wallet";
+import { GdprModal } from "@/components/gdpr-modal";
 
 const fontBody = Inter({
   subsets: ["latin"],
@@ -38,6 +39,7 @@ export default function RootLayout({
           <main className="flex-1 flex flex-col">{children}</main>
           <Footer />
           <Toaster />
+          <GdprModal />
         </WalletProvider>
       </body>
     </html>
