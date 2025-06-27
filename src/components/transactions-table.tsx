@@ -1,4 +1,3 @@
-
 'use client';
 
 import {
@@ -152,9 +151,9 @@ export function TransactionsTable({ transactions, currency }: { transactions: Tr
                     <TableHeader>
                         <TableRow>
                             <TableHead className="w-[80px] text-center">Activities</TableHead>
-                            <TableHead className="w-[240px]">Details</TableHead>
+                            <TableHead className="w-[300px]">Details</TableHead>
                             <TableHead className="text-right">Value</TableHead>
-                            <TableHead className="w-[280px]">Account</TableHead>
+                            <TableHead className="w-[360px]">Account</TableHead>
                             <TableHead>Time</TableHead>
                             <TableHead className="w-[100px] text-right">Actions</TableHead>
                         </TableRow>
@@ -180,7 +179,6 @@ export function TransactionsTable({ transactions, currency }: { transactions: Tr
                                         <a href={`https://etherscan.io/address/${tx.account}`} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
                                             {truncateAddress(tx.account)}
                                         </a>
-                                        <CopyButton textToCopy={tx.account} itemLabel="address" />
                                      </div>
                                 </TableCell>
                                 <TableCell className="text-muted-foreground">
