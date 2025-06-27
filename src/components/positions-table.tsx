@@ -15,17 +15,24 @@ import { Badge } from './ui/badge';
 import { MoreHorizontal } from 'lucide-react';
 import { Button } from './ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from './ui/dropdown-menu';
+import { useEffect, useState } from 'react';
+
+const FormattedCurrency = ({ value }: { value: number }) => {
+    const [formatted, setFormatted] = useState<string | null>(null);
+    useEffect(() => {
+        setFormatted(
+             new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD',
+            }).format(value)
+        );
+    }, [value]);
+    return <>{formatted || null}</>;
+};
 
 
 export function PositionsTable({ positions }: { positions: Position[] }) {
     
-    const formatCurrency = (value: number) => {
-        return new Intl.NumberFormat('en-US', {
-            style: 'currency',
-            currency: 'USD',
-        }).format(value);
-    };
-
     return (
         <Card>
             <CardContent className="p-0">
@@ -66,7 +73,9 @@ export function PositionsTable({ positions }: { positions: Position[] }) {
                                 <TableCell>
                                     <Badge variant="outline">{position.network}</Badge>
                                 </TableCell>
-                                <TableCell className="text-right font-mono">{formatCurrency(position.value)}</TableCell>
+                                <TableCell className="text-right font-mono">
+                                    <FormattedCurrency value={position.value} />
+                                </TableCell>
                                 <TableCell className="text-right font-medium text-primary">{position.apr.toFixed(2)}%</TableCell>
                                 <TableCell>
                                      <DropdownMenu>

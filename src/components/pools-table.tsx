@@ -16,18 +16,28 @@ import { Badge } from './ui/badge';
 import { Button } from './ui/button';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
+import { useEffect, useState } from 'react';
+
+// Client-side only component to prevent hydration mismatch
+const FormattedCurrency = ({ value }: { value: number }) => {
+    const [formatted, setFormatted] = useState<string | null>(null);
+
+    useEffect(() => {
+        setFormatted(
+            new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD',
+                notation: 'compact',
+                maximumFractionDigits: 2,
+            }).format(value)
+        );
+    }, [value]);
+
+    return <>{formatted || null}</>;
+};
 
 export function PoolsTable({ pools }: { pools: LiquidityPool[] }) {
     
-    const formatCurrency = (value: number) => {
-        return new Intl.NumberFormat('en-US', {
-            style: 'currency',
-            currency: 'USD',
-            notation: 'compact',
-            maximumFractionDigits: 2,
-        }).format(value);
-    };
-
     return (
         <Card>
             <CardContent className="p-0">
@@ -68,8 +78,12 @@ export function PoolsTable({ pools }: { pools: LiquidityPool[] }) {
                                 <TableCell>
                                     <Badge variant="outline">{pool.network}</Badge>
                                 </TableCell>
-                                <TableCell className="text-right font-mono">{formatCurrency(pool.tvl)}</TableCell>
-                                <TableCell className="text-right font-mono">{formatCurrency(pool.volume24h)}</TableCell>
+                                <TableCell className="text-right font-mono">
+                                    <FormattedCurrency value={pool.tvl} />
+                                </TableCell>
+                                <TableCell className="text-right font-mono">
+                                    <FormattedCurrency value={pool.volume24h} />
+                                </TableCell>
                                 <TableCell className="text-right">
                                      <Link href="/pools/add">
                                         <Button variant="outline" size="sm">

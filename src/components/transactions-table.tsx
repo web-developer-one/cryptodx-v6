@@ -1,4 +1,3 @@
-
 'use client';
 
 import {
@@ -17,13 +16,23 @@ import { formatDistanceToNow } from 'date-fns';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
-const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat('en-US', {
-        style: 'currency',
-        currency: 'USD',
-        notation: 'compact',
-        maximumFractionDigits: 2,
-    }).format(value);
+// Client-side only component to prevent hydration mismatch
+const FormattedCurrency = ({ value }: { value: number }) => {
+    const [formatted, setFormatted] = useState<string | null>(null);
+
+    useEffect(() => {
+        setFormatted(
+            new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD',
+                notation: 'compact',
+                maximumFractionDigits: 2,
+            }).format(value)
+        );
+    }, [value]);
+
+    // Render nothing on server and initial client render to avoid mismatch
+    return <>{formatted || null}</>;
 };
 
 const truncateAddress = (address: string) => {
@@ -130,7 +139,9 @@ export function TransactionsTable({ transactions }: { transactions: Transaction[
                                 <TableCell>
                                     <TransactionDetails transaction={tx} />
                                 </TableCell>
-                                <TableCell className="text-right font-mono">{formatCurrency(tx.value)}</TableCell>
+                                <TableCell className="text-right font-mono">
+                                    <FormattedCurrency value={tx.value} />
+                                </TableCell>
                                 <TableCell>
                                      <a href="#" className="text-primary hover:underline">
                                         {truncateAddress(tx.account)}
