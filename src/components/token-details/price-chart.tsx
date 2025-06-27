@@ -2,7 +2,7 @@
 'use client'
 
 import * as React from "react"
-import { Bar, BarChart, CartesianGrid, XAxis, YAxis, Tooltip, Brush } from "recharts"
+import { Bar, ComposedChart, CartesianGrid, XAxis, YAxis, Tooltip, Brush } from "recharts"
 import {
   Card,
   CardContent,
@@ -53,28 +53,19 @@ const generateCandlestickData = (currentPrice: number) => {
   return data;
 };
 
-// Custom shape for the candlestick
-const Candle = (props: any) => {
-  const { x, y, width, height, low, high, open, close, yAxis } = props;
-  if (!yAxis) return null;
+// Custom shape for the candlestick body
+const CandleBody = (props: any) => {
+  const { x, y, width, height, payload } = props;
+  if (!payload) return null;
 
+  const { open, close } = payload;
   const isGrowing = close > open;
   
   const fill = isGrowing ? 'hsl(var(--primary))' : 'hsl(var(--destructive))';
-  const stroke = isGrowing ? 'hsl(var(--primary))' : 'hsl(var(--destructive))';
-
-  const yHigh = yAxis.scale(high);
-  const yLow = yAxis.scale(low);
   
-  return (
-    <g>
-      {/* Wick */}
-      <line x1={x + width / 2} y1={yHigh} x2={x + width / 2} y2={yLow} stroke={stroke} strokeWidth={1} />
-      {/* Body */}
-      <rect x={x} y={y} width={width} height={height} fill={fill} stroke={stroke} strokeWidth={1} />
-    </g>
-  );
+  return <rect x={x} y={y} width={width} height={height} fill={fill} />;
 };
+
 
 const CustomTooltip = ({ active, payload }: any) => {
   if (active && payload && payload.length) {
@@ -151,7 +142,7 @@ export function PriceChart({ token }: { token: TokenDetails }) {
         </div>
         <ChartContainer config={chartConfig} className="h-[400px] w-full">
           {chartData.length > 0 ? (
-            <BarChart 
+            <ComposedChart 
               data={chartData} 
               margin={{ top: 5, right: 20, left: 10, bottom: 5 }}
             >
@@ -181,9 +172,23 @@ export function PriceChart({ token }: { token: TokenDetails }) {
                       strokeDasharray: '3 3',
                   }}
               />
+              {/* Wick */}
               <Bar
-                dataKey={['open', 'close']} // This is for the body of the candle
-                shape={<Candle />}
+                dataKey={['low', 'high']}
+                shape={(props) => {
+                  const { x, y, width, height, payload } = props;
+                  if (!payload) return null;
+                  const { open, close } = payload;
+                  const isGrowing = close > open;
+                  const stroke = isGrowing ? 'hsl(var(--primary))' : 'hsl(var(--destructive))';
+                  return <rect x={x + (width / 2) - 0.5} y={y} width={1} height={height} fill={stroke} />;
+                }}
+              />
+              {/* Body */}
+              <Bar
+                dataKey={['open', 'close']}
+                barSize={10}
+                shape={<CandleBody />}
               />
               <Brush 
                 dataKey="date" 
@@ -192,7 +197,7 @@ export function PriceChart({ token }: { token: TokenDetails }) {
                 travellerWidth={20}
                 y={350}
               />
-            </BarChart>
+            </ComposedChart>
           ) : (
             <div className="flex h-full items-center justify-center">
                 <Skeleton className="h-[400px] w-full" />
