@@ -48,10 +48,12 @@ export interface LiquidityPool {
 }
 
 export type TransactionType = 'Swap' | 'Add' | 'Remove';
+export type TransactionStatus = 'Completed' | 'Pending' | 'Failed';
 
 export interface Transaction {
   id: string; // transaction hash
   type: TransactionType;
+  status: TransactionStatus;
   token0: Cryptocurrency;
   token1: Cryptocurrency;
   amount0: number;

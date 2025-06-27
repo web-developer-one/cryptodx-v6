@@ -9,14 +9,16 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { Card, CardContent } from '@/components/ui/card';
-import type { Transaction } from '@/lib/types';
+import type { Transaction, TransactionStatus } from '@/lib/types';
 import { Button } from './ui/button';
+import { Badge } from './ui/badge';
 import { ArrowUpRight, Plus, Minus, ArrowRight, Copy } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import type { SelectedCurrency } from './transactions-client';
 import { useToast } from '@/hooks/use-toast';
+import { cn } from '@/lib/utils';
 
 // Client-side only component to prevent hydration mismatch
 const FormattedCurrency = ({ value, currency }: { value: number, currency: SelectedCurrency }) => {
@@ -40,7 +42,7 @@ const FormattedCurrency = ({ value, currency }: { value: number, currency: Selec
 
 const truncateAddress = (address: string) => {
   if (!address) return '';
-  return `${address.substring(0, 6)}...${address.substring(address.length - 4)}`;
+  return `${address.substring(0, 10)}...${address.substring(address.length - 10)}`;
 };
 
 const CopyButton = ({ textToCopy, itemLabel }: { textToCopy: string; itemLabel: string; }) => {
@@ -127,20 +129,31 @@ const TimeAgo = ({ timestamp }: { timestamp: Date }) => {
   const [timeAgo, setTimeAgo] = useState('');
 
   useEffect(() => {
-    // This ensures that the time is calculated on the client-side after hydration,
-    // avoiding the server-client mismatch.
     setTimeAgo(formatDistanceToNow(new Date(timestamp), { addSuffix: true }));
   }, [timestamp]);
 
   if (!timeAgo) {
-    // Render nothing during SSR and initial client render
-    // to prevent the mismatch.
     return null;
   }
 
   return <>{timeAgo}</>;
 };
 
+const StatusBadge = ({ status }: { status: TransactionStatus }) => {
+    return (
+        <Badge
+            variant={
+                status === 'Completed' ? 'default' :
+                status === 'Pending' ? 'secondary' : 'destructive'
+            }
+            className={cn('capitalize', {
+                'bg-primary/20 text-primary hover:bg-primary/30': status === 'Completed'
+            })}
+        >
+            {status}
+        </Badge>
+    );
+};
 
 export function TransactionsTable({ transactions, currency }: { transactions: Transaction[], currency: SelectedCurrency }) {
     
@@ -152,9 +165,10 @@ export function TransactionsTable({ transactions, currency }: { transactions: Tr
                         <TableRow>
                             <TableHead className="w-[80px] text-center">Activities</TableHead>
                             <TableHead className="w-[300px]">Details</TableHead>
+                            <TableHead>Time</TableHead>
+                            <TableHead>Status</TableHead>
                             <TableHead className="text-right">Value</TableHead>
                             <TableHead className="w-[360px]">Account</TableHead>
-                            <TableHead>Time</TableHead>
                             <TableHead className="w-[100px] text-right">Actions</TableHead>
                         </TableRow>
                     </TableHeader>
@@ -171,6 +185,12 @@ export function TransactionsTable({ transactions, currency }: { transactions: Tr
                                 <TableCell>
                                     <TransactionDetails transaction={tx} />
                                 </TableCell>
+                                <TableCell className="text-muted-foreground">
+                                    <TimeAgo timestamp={tx.timestamp} />
+                                </TableCell>
+                                <TableCell>
+                                    <StatusBadge status={tx.status} />
+                                </TableCell>
                                 <TableCell className="text-right font-mono">
                                     <FormattedCurrency value={tx.value} currency={currency} />
                                 </TableCell>
@@ -180,9 +200,6 @@ export function TransactionsTable({ transactions, currency }: { transactions: Tr
                                             {truncateAddress(tx.account)}
                                         </a>
                                      </div>
-                                </TableCell>
-                                <TableCell className="text-muted-foreground">
-                                    <TimeAgo timestamp={tx.timestamp} />
                                 </TableCell>
                                 <TableCell className="text-right">
                                      <div className="flex items-center justify-end">

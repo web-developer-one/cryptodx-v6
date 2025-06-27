@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/card";
 import { AlertCircle } from "lucide-react";
 import { ExploreNav } from "@/components/explore-nav";
-import type { Cryptocurrency, Transaction } from "@/lib/types";
+import type { Cryptocurrency, Transaction, TransactionStatus } from "@/lib/types";
 import { TransactionsClient } from "@/components/transactions-client";
 
 // Helper function to generate mock transaction data
@@ -19,9 +19,11 @@ const generateMockTransactions = (cryptocurrencies: Cryptocurrency[]): Transacti
 
     const txs: Omit<Transaction, 'id' | 'timestamp' | 'account'>[] = [];
     const types: Transaction['type'][] = ['Swap', 'Add', 'Remove'];
+    const statuses: TransactionStatus[] = ['Completed', 'Pending', 'Completed', 'Failed', 'Completed', 'Completed'];
 
     for (let i = 0; i < 20; i++) {
         const type = types[i % 3];
+        const status = statuses[i % statuses.length];
         const tokenA = cryptocurrencies[i % cryptocurrencies.length];
         const tokenB = cryptocurrencies[(i + 5) % cryptocurrencies.length];
 
@@ -44,7 +46,7 @@ const generateMockTransactions = (cryptocurrencies: Cryptocurrency[]): Transacti
         }
 
         if (token0 && token1) {
-            txs.push({ type, token0, token1, amount0, amount1, value });
+            txs.push({ type, status, token0, token1, amount0, amount1, value });
         }
     }
     
