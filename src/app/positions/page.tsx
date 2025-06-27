@@ -17,7 +17,7 @@ export default async function PositionsPage() {
   if (!cryptoData || cryptoData.length === 0) {
     return (
       <div className="container flex-1 flex flex-col items-center py-8 gap-6">
-        <div className={contentWidthClass}>
+        <div className="w-full max-w-md">
           <PositionsNav />
         </div>
         <Card className="w-full max-w-md">
@@ -43,7 +43,7 @@ export default async function PositionsPage() {
 
   return (
     <div className="container flex-1 flex flex-col items-center py-8 gap-6">
-      <div className={contentWidthClass}>
+      <div className="w-full max-w-md">
         <PositionsNav />
       </div>
       <div className={contentWidthClass}>
