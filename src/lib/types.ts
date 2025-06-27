@@ -6,6 +6,7 @@ export interface Cryptocurrency {
   price: number; // in USD
   change24h: number; // percentage change in the last 24 hours
   logo?: string;
+  cmcRank?: number;
 }
 
 export interface TokenDetails extends Cryptocurrency {

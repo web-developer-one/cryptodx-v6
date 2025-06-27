@@ -1,3 +1,4 @@
+
 "use client";
 
 import {
@@ -15,7 +16,7 @@ function CryptoList({ coins }: { coins: Cryptocurrency[] }) {
   return (
     <div className="flex flex-col gap-1">
       {coins.map((coin, index) => (
-        <div key={coin.id} className="grid grid-cols-[20px_1fr_auto_auto] items-center gap-4 p-2 rounded-md hover:bg-secondary/50 transition-colors">
+        <div key={coin.id} className="grid grid-cols-[20px_1fr_auto_auto_auto] items-center gap-4 p-2 rounded-md hover:bg-secondary/50 transition-colors">
           <div className="text-sm font-medium text-muted-foreground">{index + 1}</div>
           <div className="flex items-center gap-3">
             <Image
@@ -29,6 +30,13 @@ function CryptoList({ coins }: { coins: Cryptocurrency[] }) {
               <span className="font-semibold text-sm truncate">{coin.name}</span>
               <span className="text-xs text-muted-foreground">{coin.symbol}</span>
             </div>
+          </div>
+          <div>
+            {coin.cmcRank && (
+              <div className="text-xs font-medium bg-muted text-muted-foreground px-2 py-1 rounded-md inline-block">
+                Rank #{coin.cmcRank}
+              </div>
+            )}
           </div>
           <div className="font-mono text-sm text-right">
             ${coin.price < 0.01 ? coin.price.toPrecision(2) : coin.price.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}

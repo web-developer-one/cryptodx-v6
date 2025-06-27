@@ -12,6 +12,7 @@ interface CmcListingResponse {
     id: number;
     name: string;
     symbol: string;
+    cmc_rank: number;
     quote: {
       USD: {
         price: number;
@@ -115,7 +116,8 @@ export async function getLatestListings(): Promise<Cryptocurrency[]> {
             symbol: coin.symbol,
             price: coin.quote.USD.price,
             change24h: coin.quote.USD.percent_change_24h,
-            logo: `https://s2.coinmarketcap.com/static/img/coins/64x64/${coin.id}.png` // Fallback logo construction
+            logo: `https://s2.coinmarketcap.com/static/img/coins/64x64/${coin.id}.png`, // Fallback logo construction
+            cmcRank: coin.cmc_rank,
         }));
     }
 
@@ -130,6 +132,7 @@ export async function getLatestListings(): Promise<Cryptocurrency[]> {
         price: coin.quote.USD.price,
         change24h: coin.quote.USD.percent_change_24h,
         logo: info ? info.logo : `https://s2.coinmarketcap.com/static/img/coins/64x64/${coin.id}.png`,
+        cmcRank: coin.cmc_rank,
       };
     });
 
