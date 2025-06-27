@@ -47,7 +47,7 @@ export function Header() {
       name: "Explore",
       icon: Compass,
       children: [
-        { name: "Tokens", href: "#" },
+        { name: "Tokens", href: "/tokens" },
         { name: "Pools", href: "#" },
         { name: "Transactions", href: "#" },
       ],
