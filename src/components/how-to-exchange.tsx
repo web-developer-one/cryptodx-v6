@@ -35,8 +35,8 @@ export function HowToExchange() {
               <CardHeader className="flex flex-row items-start gap-4">
                 {step.icon}
                 <div>
-                  <p className="text-sm font-bold text-primary">{step.step}</p>
-                  <CardTitle className="mt-1">{step.title}</CardTitle>
+                  <p className="text-base font-bold text-primary">{step.step}</p>
+                  <CardTitle className="mt-2">{step.title}</CardTitle>
                 </div>
               </CardHeader>
               <CardContent>
