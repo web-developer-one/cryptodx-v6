@@ -1,3 +1,4 @@
+
 'use client';
 
 import Link from 'next/link';
@@ -13,8 +14,8 @@ export function PositionsNav() {
             <TabsTrigger value="/positions" asChild>
                 <Link href="/positions">Your Positions</Link>
             </TabsTrigger>
-            <TabsTrigger value="/pools" asChild>
-                <Link href="/pools">Add Liquidity</Link>
+            <TabsTrigger value="/pools/add" asChild>
+                <Link href="/pools/add">Add Liquidity</Link>
             </TabsTrigger>
         </TabsList>
     </Tabs>

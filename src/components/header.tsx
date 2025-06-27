@@ -61,7 +61,7 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
       icon: Briefcase,
       children: [
         { name: "View Positions", href: "/positions" },
-        { name: "Create Positions", href: "/pools" },
+        { name: "Create Positions", href: "/pools/add" },
       ],
     },
   ];

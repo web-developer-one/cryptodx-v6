@@ -1,3 +1,4 @@
+
 import Link from "next/link";
 import { Repeat } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
@@ -27,7 +28,7 @@ const footerSections = [
     title: "Positions",
     links: [
       { name: "View Positions", href: "/positions" },
-      { name: "Create Position", href: "/pools" },
+      { name: "Create Position", href: "/pools/add" },
     ],
   },
   {

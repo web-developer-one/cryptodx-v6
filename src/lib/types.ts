@@ -36,3 +36,12 @@ export interface Position {
   value: number; // in USD
   apr: number; // percentage
 }
+
+export interface LiquidityPool {
+  id: string;
+  token0: Cryptocurrency;
+  token1: Cryptocurrency;
+  network: string;
+  tvl: number; // Total Value Locked in USD
+  volume24h: number; // 24h trading volume in USD
+}

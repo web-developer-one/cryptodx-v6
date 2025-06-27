@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useWallet } from '@/hooks/use-wallet';
@@ -78,7 +79,7 @@ export function YourPositions({ cryptocurrencies }: { cryptocurrencies: Cryptocu
                         </p>
                     </CardContent>
                      <CardFooter className="flex justify-center">
-                        <Link href="/pools">
+                        <Link href="/pools/add">
                             <Button size="lg">Explore Pools</Button>
                         </Link>
                     </CardFooter>
@@ -91,7 +92,7 @@ export function YourPositions({ cryptocurrencies }: { cryptocurrencies: Cryptocu
          <div className="flex flex-col gap-8">
             <div className="flex justify-between items-center">
                 <h1 className="text-3xl font-bold">Your Positions</h1>
-                <Link href="/pools">
+                <Link href="/pools/add">
                     <Button>+ New Position</Button>
                 </Link>
             </div>
