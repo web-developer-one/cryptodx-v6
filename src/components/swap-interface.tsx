@@ -116,12 +116,10 @@ export function SwapInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocu
 
   return (
     <Card className="w-full max-w-md shadow-2xl shadow-primary/10">
-      <CardHeader className="flex flex-row items-center justify-between">
-        <div>
-          <CardTitle>Swap</CardTitle>
-          <CardDescription>Trade tokens in an instant</CardDescription>
-        </div>
-        <Button variant="ghost" size="icon">
+      <CardHeader className="relative text-center">
+        <CardTitle>Swap</CardTitle>
+        <CardDescription>Trade tokens in an instant</CardDescription>
+        <Button variant="ghost" size="icon" className="absolute top-4 right-4">
           <Settings className="h-5 w-5" />
         </Button>
       </CardHeader>

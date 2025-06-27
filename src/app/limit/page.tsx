@@ -1,5 +1,4 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Gauge } from "lucide-react";
 import { TradeNav } from "@/components/trade-nav";
 
 export default function LimitPage() {
@@ -8,9 +7,8 @@ export default function LimitPage() {
       <TradeNav />
       <Card className="w-full max-w-md">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Gauge />
-            <span>Limit Orders</span>
+          <CardTitle className="text-center">
+            Limit
           </CardTitle>
         </CardHeader>
         <CardContent>

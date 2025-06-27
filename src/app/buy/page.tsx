@@ -1,5 +1,4 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowDownToLine } from "lucide-react";
 import { TradeNav } from "@/components/trade-nav";
 
 export default function BuyPage() {
@@ -8,9 +7,8 @@ export default function BuyPage() {
       <TradeNav />
       <Card className="w-full max-w-md">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <ArrowDownToLine />
-            <span>Buy Crypto</span>
+          <CardTitle className="text-center">
+            Buy
           </CardTitle>
         </CardHeader>
         <CardContent>
