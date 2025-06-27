@@ -34,7 +34,7 @@ export function YourPositions({ cryptocurrencies }: { cryptocurrencies: Cryptocu
     if (!isActive) {
         return (
             <div className="flex flex-col items-center justify-center text-center">
-                <Card className="w-full max-w-lg mt-6">
+                <Card className="w-full mt-6">
                     <CardHeader>
                         <CardTitle className="flex items-center justify-center gap-2">
                             <Briefcase className="h-6 w-6" />
@@ -62,7 +62,7 @@ export function YourPositions({ cryptocurrencies }: { cryptocurrencies: Cryptocu
     if (mockPositions.length === 0) {
         return (
             <div className="flex flex-col items-center justify-center text-center">
-                <Card className="w-full max-w-lg mt-6">
+                <Card className="w-full mt-6">
                     <CardHeader>
                          <CardTitle className="flex items-center justify-center gap-2">
                             <Layers className="h-6 w-6" />

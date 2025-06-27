@@ -7,8 +7,8 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { AlertCircle } from "lucide-react";
-import { ExploreNav } from "@/components/explore-nav";
 import { CreatePositionInterface } from "@/components/create-position-interface";
+import { PositionsNav } from "@/components/positions-nav";
 
 export default async function PoolsPage() {
   const cryptoData = await getLatestListings();
@@ -16,7 +16,9 @@ export default async function PoolsPage() {
   if (!cryptoData || cryptoData.length === 0) {
     return (
       <div className="container flex-1 flex flex-col items-center py-8 gap-6">
-        <ExploreNav />
+        <div className="w-full max-w-md">
+          <PositionsNav />
+        </div>
         <Card className="w-full max-w-md mt-6">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
@@ -40,7 +42,9 @@ export default async function PoolsPage() {
 
   return (
     <div className="container flex-1 flex flex-col items-center py-8 gap-6">
-      <ExploreNav />
+      <div className="w-full max-w-md">
+        <PositionsNav />
+      </div>
       <CreatePositionInterface cryptocurrencies={cryptoData} />
     </div>
   );
