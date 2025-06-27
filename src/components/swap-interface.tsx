@@ -23,14 +23,13 @@ import type { Cryptocurrency } from "@/lib/types";
 import { WalletConnect } from "./wallet-connect";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
-import { useAccount } from "wagmi";
 
 export function SwapInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[] }) {
   const [fromToken, setFromToken] = useState<Cryptocurrency>(cryptocurrencies[0]);
   const [toToken, setToToken] = useState<Cryptocurrency>(cryptocurrencies[1]);
   const [fromAmount, setFromAmount] = useState<string>("1");
   const [toAmount, setToAmount] = useState<string>("");
-  const { isConnected: isWalletConnected } = useAccount();
+  const [isWalletConnected, setIsWalletConnected] = useState(false);
   const [gasEstimate, setGasEstimate] = useState<string>("-");
 
   const exchangeRate = useMemo(() => {
