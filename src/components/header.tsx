@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from "next/link";
@@ -74,7 +75,7 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
 
   const networks = React.useMemo(() => {
     return networkOptions.map(opt => {
-      const crypto = cryptocurrencies.find(c => c.symbol === opt.symbol);
+      const crypto = (cryptocurrencies || []).find(c => c.symbol === opt.symbol);
       return {
         name: opt.name,
         symbol: opt.symbol,
