@@ -164,10 +164,10 @@ export function TransactionsTable({ transactions, currency }: { transactions: Tr
                     <TableHeader>
                         <TableRow>
                             <TableHead className="w-[80px] text-center">Activities</TableHead>
-                            <TableHead className="w-[400px]">Details</TableHead>
+                            <TableHead className="w-[450px]">Details</TableHead>
                             <TableHead className="text-right">Value</TableHead>
-                            <TableHead>Time</TableHead>
-                            <TableHead>Status</TableHead>
+                            <TableHead className="w-[180px]">Time</TableHead>
+                            <TableHead className="w-[150px]">Status</TableHead>
                             <TableHead className="w-[360px]">Account</TableHead>
                             <TableHead className="w-[100px] text-right">Actions</TableHead>
                         </TableRow>
