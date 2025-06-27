@@ -179,20 +179,38 @@ export function SwapInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocu
             </Select>
           </div>
         </div>
-
-        <div className="text-sm text-muted-foreground text-center pt-4">
-            1 {fromToken.symbol} = {exchangeRate.toFixed(4)} {toToken.symbol}
-        </div>
-
       </CardContent>
-      <CardFooter>
-        {isWalletConnected ? (
-           <Button className="w-full h-12 text-lg">Swap</Button>
-        ) : (
-            <WalletConnect onConnect={handleWalletConnect}>
-                <Button className="w-full h-12 text-lg">Connect Wallet</Button>
-            </WalletConnect>
-        )}
+      <CardFooter className="flex-col gap-4">
+        <div className="w-full">
+            {isWalletConnected ? (
+               <Button className="w-full h-12 text-lg">Swap</Button>
+            ) : (
+                <WalletConnect onConnect={handleWalletConnect}>
+                    <Button className="w-full h-12 text-lg">Connect Wallet</Button>
+                </WalletConnect>
+            )}
+        </div>
+        <div className="w-full flex flex-col gap-1 text-sm text-muted-foreground">
+            <div className="flex justify-between">
+                <span>Price</span>
+                <span>{exchangeRate > 0 ? `1 ${fromToken.symbol} ≈ ${exchangeRate.toFixed(4)} ${toToken.symbol}` : "-"}</span>
+            </div>
+            <div className="flex justify-between">
+                <span>Price Impact</span>
+                <span>-</span>
+            </div>
+            <div className="flex justify-between">
+                <span>Estimated Gas</span>
+                <span>-</span>
+            </div>
+            <div className="flex justify-between">
+                <span>Slippage Tolerance (%)</span>
+                <span>0.5%</span>
+            </div>
+        </div>
+        <p className="text-xs text-muted-foreground/80 text-center">
+            Estimates are based on real-time API data but market conditions can change rapidly. Slippage may occur.
+        </p>
       </CardFooter>
     </Card>
   );
