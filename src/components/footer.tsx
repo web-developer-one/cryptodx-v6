@@ -3,6 +3,7 @@ import { Repeat } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { CookiePolicyModal } from "./cookie-policy-modal";
 import { PrivacyPolicyModal } from "./privacy-policy-modal";
+import { TermsOfUseModal } from "./terms-of-use-modal";
 
 const footerSections = [
   {
@@ -74,6 +75,8 @@ export function Footer() {
                       <CookiePolicyModal />
                     ) : link.name === "Privacy Policy" ? (
                       <PrivacyPolicyModal />
+                    ) : link.name === "Terms of Use" ? (
+                      <TermsOfUseModal />
                     ) : (
                       <Link
                         href={link.href}
