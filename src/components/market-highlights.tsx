@@ -11,8 +11,46 @@ import type { Cryptocurrency } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { ArrowUp, ArrowDown } from "lucide-react";
 import Image from "next/image";
+import React, { useState, useEffect } from "react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
-function CryptoList({ coins }: { coins: Cryptocurrency[] }) {
+type SelectedCurrency = {
+  symbol: string;
+  name: string;
+  rate: number;
+};
+
+const supportedCurrencies: SelectedCurrency[] = [
+    { symbol: 'USD', name: 'US Dollar', rate: 1 },
+    { symbol: 'EUR', name: 'Euro', rate: 0.93 },
+    { symbol: 'GBP', name: 'British Pound', rate: 0.79 },
+    { symbol: 'JPY', name: 'Japanese Yen', rate: 157.2 },
+    { symbol: 'AUD', name: 'Australian Dollar', rate: 1.51 },
+    { symbol: 'CAD', name: 'Canadian Dollar', rate: 1.37 },
+    { symbol: 'CHF', name: 'Swiss Franc', rate: 0.90 },
+    { symbol: 'CNY', name: 'Chinese Yuan', rate: 7.25 },
+    { symbol: 'INR', name: 'Indian Rupee', rate: 83.5 },
+];
+
+const FormattedPrice = ({ price, currency }: { price: number; currency: SelectedCurrency }) => {
+  const [formattedPrice, setFormattedPrice] = useState<string>("");
+
+  useEffect(() => {
+    const convertedPrice = price * currency.rate;
+    setFormattedPrice(
+      new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: currency.symbol,
+        minimumFractionDigits: 2,
+        maximumFractionDigits: convertedPrice < 1 ? 6 : 2,
+      }).format(convertedPrice)
+    );
+  }, [price, currency]);
+
+  return <>{formattedPrice}</>;
+};
+
+function CryptoList({ coins, currency }: { coins: Cryptocurrency[], currency: SelectedCurrency }) {
   return (
     <div className="flex flex-col gap-1">
       {coins.map((coin, index) => (
@@ -32,7 +70,7 @@ function CryptoList({ coins }: { coins: Cryptocurrency[] }) {
             </div>
           </div>
           <div className="font-mono text-sm text-right whitespace-nowrap">
-            ${coin.price < 0.01 ? coin.price.toPrecision(2) : coin.price.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}
+            <FormattedPrice price={coin.price} currency={currency} />
           </div>
           <div
             className={cn(
@@ -49,6 +87,46 @@ function CryptoList({ coins }: { coins: Cryptocurrency[] }) {
   );
 }
 
+function MarketListCard({ title, coins }: { title: string, coins: Cryptocurrency[] }) {
+  const [currency, setCurrency] = useState<SelectedCurrency>(supportedCurrencies[0]);
+
+  const handleCurrencyChange = (symbol: string) => {
+    const newCurrency = supportedCurrencies.find(c => c.symbol === symbol);
+    if (newCurrency) {
+        setCurrency(newCurrency);
+    }
+  };
+
+  return (
+    <Card className="shadow-lg shadow-primary/5">
+        <CardHeader>
+            <div className="flex justify-between items-start">
+                <CardTitle>{title}</CardTitle>
+                <div className="w-full max-w-[180px]">
+                    <Select onValueChange={handleCurrencyChange} defaultValue={currency.symbol}>
+                        <SelectTrigger className="h-9">
+                            <SelectValue placeholder="Select currency..." />
+                        </SelectTrigger>
+                        <SelectContent>
+                            {supportedCurrencies.map(c => (
+                                <SelectItem key={c.symbol} value={c.symbol}>
+                                    <div className="flex items-center gap-2 text-sm">
+                                        <span>{c.symbol} - {c.name}</span>
+                                    </div>
+                                </SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
+                </div>
+            </div>
+        </CardHeader>
+        <CardContent>
+            <CryptoList coins={coins} currency={currency} />
+        </CardContent>
+    </Card>
+  );
+}
+
 export function MarketHighlights({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[] }) {
   const topGainers = [...cryptocurrencies]
     .sort((a, b) => b.change24h - a.change24h)
@@ -62,30 +140,9 @@ export function MarketHighlights({ cryptocurrencies }: { cryptocurrencies: Crypt
 
   return (
     <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        <Card className="shadow-lg shadow-primary/5">
-            <CardHeader>
-                <CardTitle>Popular crypto (24h)</CardTitle>
-            </CardHeader>
-            <CardContent>
-                <CryptoList coins={popular} />
-            </CardContent>
-        </Card>
-         <Card className="shadow-lg shadow-primary/5">
-            <CardHeader>
-                <CardTitle>Top gainers (24h)</CardTitle>
-            </CardHeader>
-            <CardContent>
-                <CryptoList coins={topGainers} />
-            </CardContent>
-        </Card>
-         <Card className="shadow-lg shadow-primary/5">
-            <CardHeader>
-                <CardTitle>Top losers (24h)</CardTitle>
-            </CardHeader>
-            <CardContent>
-                <CryptoList coins={topLosers} />
-            </CardContent>
-        </Card>
+      <MarketListCard title="Popular crypto (24h)" coins={popular} />
+      <MarketListCard title="Top gainers (24h)" coins={topGainers} />
+      <MarketListCard title="Top losers (24h)" coins={topLosers} />
     </div>
   );
 }
