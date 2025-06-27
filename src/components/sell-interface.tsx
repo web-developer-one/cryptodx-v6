@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 import type { Cryptocurrency } from '@/lib/types';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -9,22 +9,36 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import Image from 'next/image';
 import { useWallet } from '@/hooks/use-wallet';
 import { WalletConnect } from './wallet-connect';
-import { DollarSign } from 'lucide-react';
+
+const supportedCurrencies = [
+    { symbol: 'USD', name: 'US Dollar', rate: 1 },
+    { symbol: 'EUR', name: 'Euro', rate: 0.93 },
+    { symbol: 'GBP', name: 'British Pound', rate: 0.79 },
+    { symbol: 'JPY', name: 'Japanese Yen', rate: 157.2 },
+    { symbol: 'AUD', name: 'Australian Dollar', rate: 1.51 },
+    { symbol: 'CAD', name: 'Canadian Dollar', rate: 1.37 },
+    { symbol: 'CHF', name: 'Swiss Franc', rate: 0.90 },
+    { symbol: 'CNY', name: 'Chinese Yuan', rate: 7.25 },
+    { symbol: 'INR', name: 'Indian Rupee', rate: 83.5 },
+];
+
 
 export function SellInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[] }) {
   const [fromToken, setFromToken] = useState<Cryptocurrency>(cryptocurrencies.find(c => c.symbol === 'ETH') || cryptocurrencies[0]);
   const [cryptoAmount, setCryptoAmount] = useState<string>('1');
-  const [usdAmount, setUsdAmount] = useState<string>('');
+  const [fiatAmount, setFiatAmount] = useState<string>('');
+  const [toFiat, setToFiat] = useState(supportedCurrencies[0]);
   const { isActive: isWalletConnected } = useWallet();
 
   useEffect(() => {
-    if (cryptoAmount && fromToken?.price > 0) {
-      const amount = parseFloat(cryptoAmount) * fromToken.price;
-      setUsdAmount(amount.toLocaleString('en-US', { maximumFractionDigits: 2 }));
+    if (cryptoAmount && fromToken?.price > 0 && toFiat) {
+      const amountInUsd = parseFloat(cryptoAmount) * fromToken.price;
+      const convertedAmount = amountInUsd * toFiat.rate;
+      setFiatAmount(convertedAmount.toLocaleString('en-US', { maximumFractionDigits: 2 }));
     } else {
-      setUsdAmount('');
+      setFiatAmount('');
     }
-  }, [cryptoAmount, fromToken]);
+  }, [cryptoAmount, fromToken, toFiat]);
   
   const handleCryptoAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -33,12 +47,13 @@ export function SellInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocu
     }
   }
 
-  const handleUsdAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFiatAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     if (/^\d*\.?\d*$/.test(value)) {
-        setUsdAmount(value);
-        if (fromToken?.price > 0) {
-            const amount = parseFloat(value) / fromToken.price;
+        setFiatAmount(value);
+        if (fromToken?.price > 0 && toFiat.rate > 0) {
+            const amountInUsd = parseFloat(value) / toFiat.rate;
+            const amount = amountInUsd / fromToken.price;
             setCryptoAmount(amount.toLocaleString('en-US', { maximumFractionDigits: 5 }));
         }
     }
@@ -50,6 +65,13 @@ export function SellInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocu
       setFromToken(token);
     }
   };
+  
+  const handleToFiatChange = (symbol: string) => {
+    const fiat = supportedCurrencies.find((f) => f.symbol === symbol);
+    if (fiat) {
+        setToFiat(fiat);
+    }
+  }
 
   return (
     <Card className="w-full max-w-md shadow-2xl shadow-primary/10">
@@ -88,18 +110,28 @@ export function SellInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocu
         
         {/* You receive */}
         <div className="p-4 rounded-lg bg-secondary/50 border">
-          <label className="text-sm text-muted-foreground" htmlFor="usd-input">You receive</label>
+          <label className="text-sm text-muted-foreground" htmlFor="fiat-input">You receive</label>
           <div className="flex items-center gap-2 mt-1">
-            <Input id="usd-input" type="text" placeholder="0" className="text-3xl h-12 bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0 p-0" value={usdAmount} onChange={handleUsdAmountChange} />
-            <div className="flex items-center gap-2 p-3 rounded-md bg-background border">
-                <DollarSign className="h-5 w-5 text-muted-foreground" />
-                <span className="text-lg font-bold">USD</span>
-            </div>
+            <Input id="fiat-input" type="text" placeholder="0" className="text-3xl h-12 bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0 p-0" value={fiatAmount} onChange={handleFiatAmountChange} />
+             <Select value={toFiat.symbol} onValueChange={handleToFiatChange}>
+              <SelectTrigger className="w-[180px] h-12 text-lg font-bold">
+                <SelectValue placeholder="Select" />
+              </SelectTrigger>
+              <SelectContent>
+                {supportedCurrencies.map((fiat) => (
+                  <SelectItem key={fiat.symbol} value={fiat.symbol}>
+                    <div className="flex items-center gap-2">
+                      {fiat.symbol}
+                    </div>
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
         </div>
 
         <div className="text-sm text-muted-foreground text-center mt-2">
-            1 {fromToken.symbol} ≈ ${fromToken.price.toFixed(2)}
+            1 {fromToken.symbol} ≈ {(fromToken.price * toFiat.rate).toFixed(2)} {toFiat.symbol}
         </div>
       </CardContent>
       <CardFooter>
