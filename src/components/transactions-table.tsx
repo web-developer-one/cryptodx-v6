@@ -12,11 +12,12 @@ import {
 import { Card, CardContent } from '@/components/ui/card';
 import type { Transaction } from '@/lib/types';
 import { Button } from './ui/button';
-import { ArrowUpRight, Plus, Minus, ArrowRight } from 'lucide-react';
+import { ArrowUpRight, Plus, Minus, ArrowRight, Copy } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import type { SelectedCurrency } from './transactions-client';
+import { useToast } from '@/hooks/use-toast';
 
 // Client-side only component to prevent hydration mismatch
 const FormattedCurrency = ({ value, currency }: { value: number, currency: SelectedCurrency }) => {
@@ -42,6 +43,35 @@ const truncateAddress = (address: string) => {
   if (!address) return '';
   return `${address.substring(0, 6)}...${address.substring(address.length - 4)}`;
 };
+
+const CopyButton = ({ textToCopy, itemLabel }: { textToCopy: string; itemLabel: string; }) => {
+    const { toast } = useToast();
+
+    const handleCopy = (e: React.MouseEvent) => {
+        e.preventDefault();
+        navigator.clipboard.writeText(textToCopy).then(() => {
+            toast({
+                title: "Copied!",
+                description: `The ${itemLabel} has been copied to your clipboard.`,
+            });
+        }).catch(err => {
+            console.error('Failed to copy text: ', err);
+            toast({
+                variant: 'destructive',
+                title: "Error",
+                description: "Failed to copy.",
+            });
+        });
+    };
+
+    return (
+        <Button variant="ghost" size="icon" className="h-6 w-6 ml-1" onClick={handleCopy}>
+            <Copy className="h-3 w-3" />
+            <span className="sr-only">Copy {itemLabel}</span>
+        </Button>
+    );
+};
+
 
 const TransactionDetails = ({ transaction }: { transaction: Transaction }) => {
     const { type, token0, token1, amount0, amount1 } = transaction;
@@ -126,7 +156,7 @@ export function TransactionsTable({ transactions, currency }: { transactions: Tr
                             <TableHead className="text-right">Value</TableHead>
                             <TableHead className="w-[200px]">Account</TableHead>
                             <TableHead>Time</TableHead>
-                            <TableHead className="w-[50px]"></TableHead>
+                            <TableHead className="w-[100px] text-right">Actions</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -146,19 +176,25 @@ export function TransactionsTable({ transactions, currency }: { transactions: Tr
                                     <FormattedCurrency value={tx.value} currency={currency} />
                                 </TableCell>
                                 <TableCell>
-                                     <a href={`https://etherscan.io/address/${tx.account}`} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
-                                        {truncateAddress(tx.account)}
-                                     </a>
+                                     <div className="flex items-center">
+                                        <a href={`https://etherscan.io/address/${tx.account}`} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+                                            {truncateAddress(tx.account)}
+                                        </a>
+                                        <CopyButton textToCopy={tx.account} itemLabel="address" />
+                                     </div>
                                 </TableCell>
                                 <TableCell className="text-muted-foreground">
                                     <TimeAgo timestamp={tx.timestamp} />
                                 </TableCell>
                                 <TableCell className="text-right">
-                                     <a href={`https://etherscan.io/tx/${tx.id}`} target="_blank" rel="noopener noreferrer">
-                                        <Button variant="ghost" size="icon">
-                                            <ArrowUpRight className="h-4 w-4" />
-                                        </Button>
-                                     </a>
+                                     <div className="flex items-center justify-end">
+                                        <a href={`https://etherscan.io/tx/${tx.id}`} target="_blank" rel="noopener noreferrer" className="text-primary">
+                                            <Button variant="ghost" size="icon" className="h-6 w-6">
+                                                <ArrowUpRight className="h-4 w-4" />
+                                            </Button>
+                                        </a>
+                                        <CopyButton textToCopy={tx.id} itemLabel="hash" />
+                                     </div>
                                 </TableCell>
                             </TableRow>
                         ))}
