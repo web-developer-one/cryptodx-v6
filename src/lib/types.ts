@@ -1,3 +1,4 @@
+
 export interface Cryptocurrency {
   id: number;
   name: string;
@@ -5,4 +6,23 @@ export interface Cryptocurrency {
   price: number; // in USD
   change24h: number; // percentage change in the last 24 hours
   logo?: string;
+}
+
+export interface TokenDetails extends Cryptocurrency {
+    cmcRank: number;
+    marketCap: number;
+    volume24h: number;
+    circulatingSupply: number;
+    totalSupply: number;
+    maxSupply: number | null;
+    dateAdded: string;
+    low24h: number | null;
+    high24h: number | null;
+    urls: {
+        website: string[];
+        technical_doc: string[];
+        explorer: string[];
+        twitter: string[];
+        reddit: string[];
+    };
 }

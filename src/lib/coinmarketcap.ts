@@ -1,6 +1,7 @@
+
 'use server';
 
-import type { Cryptocurrency } from './types';
+import type { Cryptocurrency, TokenDetails } from './types';
 
 // This is a server-only file, so the API key is safe.
 const API_KEY = 'b7f8dc6a-a214-4b68-8746-84dc87096d7c';
@@ -30,12 +31,48 @@ interface CmcInfoResponse {
       name: string;
       symbol: string;
       logo: string;
+      urls: {
+        website: string[];
+        technical_doc: string[];
+        explorer: string[];
+        twitter: string[];
+        reddit: string[];
+      };
     };
   };
    status: {
     error_message: string | null;
   };
 }
+
+interface CmcQuote {
+    price: number;
+    volume_24h: number;
+    percent_change_24h: number;
+    market_cap: number;
+}
+
+interface CmcQuoteResponse {
+    data: {
+        [key: string]: {
+            id: number;
+            name: string;
+            symbol: string;
+            circulating_supply: number;
+            total_supply: number;
+            max_supply: number | null;
+            date_added: string;
+            cmc_rank: number;
+            quote: {
+                USD: CmcQuote;
+            };
+        }
+    };
+    status: {
+        error_message: string | null;
+    };
+}
+
 
 export async function getLatestListings(): Promise<Cryptocurrency[]> {
   try {
@@ -102,4 +139,59 @@ export async function getLatestListings(): Promise<Cryptocurrency[]> {
     console.error('An unexpected error occurred while fetching from CoinMarketCap:', error);
     return []; // Return empty array on error
   }
+}
+
+export async function getTokenDetails(id: string): Promise<TokenDetails | null> {
+    try {
+        const [quoteResponse, infoResponse] = await Promise.all([
+            fetch(`${BASE_URL}/v1/cryptocurrency/quotes/latest?id=${id}`, {
+                headers: { 'X-CMC_PRO_API_KEY': API_KEY },
+                next: { revalidate: 300 } // Revalidate every 5 minutes
+            }),
+            fetch(`${BASE_URL}/v2/cryptocurrency/info?id=${id}`, {
+                headers: { 'X-CMC_PRO_API_KEY': API_KEY },
+                next: { revalidate: 3600 } // Revalidate every hour
+            })
+        ]);
+
+        if (!quoteResponse.ok || !infoResponse.ok) {
+            console.error("Failed to fetch token details from CoinMarketCap API");
+            if (!quoteResponse.ok) console.error("Quote response:", await quoteResponse.text());
+            if (!infoResponse.ok) console.error("Info response:", await infoResponse.text());
+            return null;
+        }
+
+        const quoteData = (await quoteResponse.json()) as CmcQuoteResponse;
+        const infoData = (await infoResponse.json()) as CmcInfoResponse;
+
+        const quote = quoteData.data[id];
+        const info = infoData.data[id];
+
+        if (!quote || !info) {
+            console.error(`No data found for token ID: ${id}`);
+            return null;
+        }
+
+        return {
+            id: quote.id,
+            name: quote.name,
+            symbol: quote.symbol,
+            logo: info.logo,
+            price: quote.quote.USD.price,
+            change24h: quote.quote.USD.percent_change_24h,
+            cmcRank: quote.cmc_rank,
+            marketCap: quote.quote.USD.market_cap,
+            volume24h: quote.quote.USD.volume_24h,
+            circulatingSupply: quote.circulating_supply,
+            totalSupply: quote.total_supply,
+            maxSupply: quote.max_supply,
+            dateAdded: quote.date_added,
+            low24h: null, // Not available in basic plan
+            high24h: null, // Not available in basic plan
+            urls: info.urls,
+        };
+    } catch (error) {
+        console.error(`An unexpected error occurred while fetching details for token ${id}:`, error);
+        return null;
+    }
 }
