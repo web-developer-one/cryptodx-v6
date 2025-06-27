@@ -15,6 +15,7 @@ import { Button } from './ui/button';
 import { ArrowUpRight, Plus, Minus, ArrowRight } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
 import Image from 'next/image';
+import { useEffect, useState } from 'react';
 
 const formatCurrency = (value: number) => {
     return new Intl.NumberFormat('en-US', {
@@ -81,6 +82,24 @@ const TypeIcon = ({ type }: { type: Transaction['type'] }) => {
     }
 }
 
+const TimeAgo = ({ timestamp }: { timestamp: Date }) => {
+  const [timeAgo, setTimeAgo] = useState('');
+
+  useEffect(() => {
+    // This ensures that the time is calculated on the client-side after hydration,
+    // avoiding the server-client mismatch.
+    setTimeAgo(formatDistanceToNow(new Date(timestamp), { addSuffix: true }));
+  }, [timestamp]);
+
+  if (!timeAgo) {
+    // Render nothing during SSR and initial client render
+    // to prevent the mismatch.
+    return null;
+  }
+
+  return <>{timeAgo}</>;
+};
+
 
 export function TransactionsTable({ transactions }: { transactions: Transaction[] }) {
     
@@ -118,7 +137,7 @@ export function TransactionsTable({ transactions }: { transactions: Transaction[
                                      </a>
                                 </TableCell>
                                 <TableCell className="text-muted-foreground">
-                                    {formatDistanceToNow(tx.timestamp, { addSuffix: true })}
+                                    <TimeAgo timestamp={tx.timestamp} />
                                 </TableCell>
                                 <TableCell className="text-right">
                                      <a href="#" target="_blank" rel="noopener noreferrer">
