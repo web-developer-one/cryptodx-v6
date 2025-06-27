@@ -37,7 +37,7 @@ export function Header() {
       name: "Trade",
       icon: ArrowRightLeft,
       children: [
-        { name: "Swap", href: "#" },
+        { name: "Swap", href: "/" },
         { name: "Limit", href: "#" },
         { name: "Buy", href: "#" },
         { name: "Sell", href: "#" },
@@ -48,8 +48,8 @@ export function Header() {
       icon: Compass,
       children: [
         { name: "Tokens", href: "/tokens" },
-        { name: "Pools", href: "#" },
-        { name: "Transactions", href: "#" },
+        { name: "Pools", href: "/pools" },
+        { name: "Transactions", href: "/transactions" },
       ],
     },
     {

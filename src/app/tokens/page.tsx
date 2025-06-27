@@ -8,6 +8,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { AlertCircle } from "lucide-react";
+import { ExploreNav } from "@/components/explore-nav";
 
 export default async function TokensPage() {
   const cryptoData = await getLatestListings();
@@ -38,6 +39,7 @@ export default async function TokensPage() {
 
   return (
     <div className="container py-8">
+      <ExploreNav />
       <h1 className="text-3xl font-bold mb-6 text-center">Explore Tokens</h1>
       <TokenExplorer cryptocurrencies={cryptoData} />
     </div>
