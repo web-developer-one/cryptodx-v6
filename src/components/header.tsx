@@ -38,9 +38,9 @@ export function Header() {
       icon: ArrowRightLeft,
       children: [
         { name: "Swap", href: "/" },
-        { name: "Limit", href: "#" },
-        { name: "Buy", href: "#" },
-        { name: "Sell", href: "#" },
+        { name: "Limit", href: "/limit" },
+        { name: "Buy", href: "/buy" },
+        { name: "Sell", href: "/sell" },
       ],
     },
     {
