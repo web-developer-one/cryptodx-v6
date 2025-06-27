@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Repeat, Menu } from "lucide-react";
+import { Repeat, Menu, ArrowRightLeft, Compass, Waves } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { WalletConnect } from "@/components/wallet-connect";
@@ -13,7 +13,11 @@ import {
 } from "@/components/ui/sheet";
 
 export function Header() {
-  const menuItems = ["Trade", "Explore", "Pool"];
+  const menuItems = [
+    { name: "Trade", href: "#", icon: ArrowRightLeft },
+    { name: "Explore", href: "#", icon: Compass },
+    { name: "Pool", href: "#", icon: Waves },
+  ];
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -28,11 +32,12 @@ export function Header() {
           <nav className="flex items-center gap-6 text-sm">
             {menuItems.map((item) => (
               <Link
-                key={item}
-                href="#"
-                className="transition-colors hover:text-foreground/80 text-foreground/60 font-medium"
+                key={item.name}
+                href={item.href}
+                className="flex items-center gap-2 transition-colors hover:text-foreground/80 text-foreground/60 font-medium"
               >
-                {item}
+                <item.icon className="h-4 w-4" />
+                {item.name}
               </Link>
             ))}
           </nav>
@@ -53,12 +58,13 @@ export function Header() {
                     <span>Crypto Swap</span>
                   </Link>
                   {menuItems.map((item) => (
-                    <SheetClose asChild key={item}>
+                    <SheetClose asChild key={item.name}>
                       <Link
-                        href="#"
-                        className="transition-colors hover:text-foreground/80 text-foreground/60"
+                        href={item.href}
+                        className="flex items-center gap-4 transition-colors hover:text-foreground/80 text-foreground/60"
                       >
-                        {item}
+                         <item.icon className="h-5 w-5" />
+                        {item.name}
                       </Link>
                     </SheetClose>
                   ))}
