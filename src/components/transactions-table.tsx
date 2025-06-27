@@ -1,3 +1,4 @@
+
 'use client';
 
 import {
@@ -15,21 +16,23 @@ import { ArrowUpRight, Plus, Minus, ArrowRight } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
+import type { SelectedCurrency } from './transactions-client';
 
 // Client-side only component to prevent hydration mismatch
-const FormattedCurrency = ({ value }: { value: number }) => {
+const FormattedCurrency = ({ value, currency }: { value: number, currency: SelectedCurrency }) => {
     const [formatted, setFormatted] = useState<string | null>(null);
 
     useEffect(() => {
+        const convertedValue = value * currency.rate;
         setFormatted(
             new Intl.NumberFormat('en-US', {
                 style: 'currency',
-                currency: 'USD',
+                currency: currency.symbol,
                 notation: 'compact',
                 maximumFractionDigits: 2,
-            }).format(value)
+            }).format(convertedValue)
         );
-    }, [value]);
+    }, [value, currency]);
 
     // Render nothing on server and initial client render to avoid mismatch
     return <>{formatted || null}</>;
@@ -110,7 +113,7 @@ const TimeAgo = ({ timestamp }: { timestamp: Date }) => {
 };
 
 
-export function TransactionsTable({ transactions }: { transactions: Transaction[] }) {
+export function TransactionsTable({ transactions, currency }: { transactions: Transaction[], currency: SelectedCurrency }) {
     
     return (
         <Card>
@@ -119,9 +122,9 @@ export function TransactionsTable({ transactions }: { transactions: Transaction[
                     <TableHeader>
                         <TableRow>
                             <TableHead className="w-[80px] text-center">Action</TableHead>
-                            <TableHead>Details</TableHead>
+                            <TableHead className="w-[320px]">Details</TableHead>
                             <TableHead className="text-right">Value</TableHead>
-                            <TableHead>Account</TableHead>
+                            <TableHead className="w-[200px]">Account</TableHead>
                             <TableHead>Time</TableHead>
                             <TableHead className="w-[50px]"></TableHead>
                         </TableRow>
@@ -140,10 +143,10 @@ export function TransactionsTable({ transactions }: { transactions: Transaction[
                                     <TransactionDetails transaction={tx} />
                                 </TableCell>
                                 <TableCell className="text-right font-mono">
-                                    <FormattedCurrency value={tx.value} />
+                                    <FormattedCurrency value={tx.value} currency={currency} />
                                 </TableCell>
                                 <TableCell>
-                                     <a href="#" className="text-primary hover:underline">
+                                     <a href={`https://etherscan.io/address/${tx.account}`} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
                                         {truncateAddress(tx.account)}
                                      </a>
                                 </TableCell>
@@ -151,7 +154,7 @@ export function TransactionsTable({ transactions }: { transactions: Transaction[
                                     <TimeAgo timestamp={tx.timestamp} />
                                 </TableCell>
                                 <TableCell className="text-right">
-                                     <a href="#" target="_blank" rel="noopener noreferrer">
+                                     <a href={`https://etherscan.io/tx/${tx.id}`} target="_blank" rel="noopener noreferrer">
                                         <Button variant="ghost" size="icon">
                                             <ArrowUpRight className="h-4 w-4" />
                                         </Button>

@@ -5,43 +5,46 @@ import { useState, useMemo } from 'react';
 import type { Cryptocurrency, Transaction } from '@/lib/types';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { TransactionsTable } from './transactions-table';
-import Image from 'next/image';
+
+// Mocked data for supported fiat currencies and their rates against USD
+// In a real app, this would come from a currency conversion API
+const supportedCurrencies = [
+    { symbol: 'USD', name: 'US Dollar', rate: 1 },
+    { symbol: 'EUR', name: 'Euro', rate: 0.93 },
+    { symbol: 'GBP', name: 'British Pound', rate: 0.79 },
+    { symbol: 'JPY', name: 'Japanese Yen', rate: 157.2 },
+];
+
+export interface SelectedCurrency {
+    symbol: string;
+    name: string;
+    rate: number;
+}
 
 export function TransactionsClient({ transactions, cryptocurrencies }: { transactions: Transaction[], cryptocurrencies: Cryptocurrency[] }) {
-    const [selectedToken, setSelectedToken] = useState<string>('all');
-    
-    const uniqueTokens = useMemo(() => {
-        const tokenSet = new Set<string>();
-        transactions.forEach(tx => {
-            tokenSet.add(tx.token0.symbol);
-            tokenSet.add(tx.token1.symbol);
-        });
-        return cryptocurrencies.filter(c => tokenSet.has(c.symbol));
-    }, [transactions, cryptocurrencies]);
+    const [selectedCurrency, setSelectedCurrency] = useState<SelectedCurrency>(supportedCurrencies[0]);
 
-    const filteredTransactions = useMemo(() => {
-        if (selectedToken === 'all') {
-            return transactions;
+    const handleCurrencyChange = (symbol: string) => {
+        const currency = supportedCurrencies.find(c => c.symbol === symbol);
+        if (currency) {
+            setSelectedCurrency(currency);
         }
-        return transactions.filter(tx => tx.token0.symbol === selectedToken || tx.token1.symbol === selectedToken);
-    }, [transactions, selectedToken]);
+    };
 
     return (
         <>
             <div className="flex justify-between items-center my-6">
                 <h1 className="text-3xl font-bold">Recent Transactions</h1>
                 <div className="w-full max-w-xs">
-                    <Select onValueChange={setSelectedToken} defaultValue="all">
+                    <Select onValueChange={handleCurrencyChange} defaultValue={selectedCurrency.symbol}>
                         <SelectTrigger>
-                            <SelectValue placeholder="Filter by token..." />
+                            <SelectValue placeholder="Select currency..." />
                         </SelectTrigger>
                         <SelectContent>
-                            <SelectItem value="all">All Tokens</SelectItem>
-                            {uniqueTokens.map(token => (
-                                <SelectItem key={token.id} value={token.symbol}>
+                            {supportedCurrencies.map(currency => (
+                                <SelectItem key={currency.symbol} value={currency.symbol}>
                                     <div className="flex items-center gap-2">
-                                        <Image src={token.logo || 'https://placehold.co/20x20.png'} alt={token.name} width={20} height={20} className="rounded-full" />
-                                        {token.symbol}
+                                        <span>{currency.symbol} - {currency.name}</span>
                                     </div>
                                 </SelectItem>
                             ))}
@@ -49,7 +52,7 @@ export function TransactionsClient({ transactions, cryptocurrencies }: { transac
                     </Select>
                 </div>
             </div>
-            <TransactionsTable transactions={filteredTransactions} />
+            <TransactionsTable transactions={transactions} currency={selectedCurrency} />
         </>
     );
 }
