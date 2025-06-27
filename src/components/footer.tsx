@@ -26,8 +26,8 @@ const footerSections = [
   {
     title: "Positions",
     links: [
-      { name: "View Positions", href: "#" },
-      { name: "Create Position", href: "#" },
+      { name: "View Positions", href: "/positions" },
+      { name: "Create Position", href: "/pools" },
     ],
   },
   {

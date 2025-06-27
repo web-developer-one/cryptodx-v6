@@ -27,3 +27,12 @@ export interface TokenDetails extends Cryptocurrency {
         reddit: string[];
     };
 }
+
+export interface Position {
+  id: string;
+  token0: Cryptocurrency;
+  token1: Cryptocurrency;
+  network: string;
+  value: number; // in USD
+  apr: number; // percentage
+}

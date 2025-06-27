@@ -60,8 +60,8 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
       name: "Positions",
       icon: Briefcase,
       children: [
-        { name: "View Positions", href: "#" },
-        { name: "Create Positions", href: "#" },
+        { name: "View Positions", href: "/positions" },
+        { name: "Create Positions", href: "/pools" },
       ],
     },
   ];
@@ -88,8 +88,10 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
   
   React.useEffect(() => {
     // If cryptocurrencies load after initial render, update selected network
-    setSelectedNetwork(networks[0]);
-  }, [networks]);
+    if (networks.length > 0 && selectedNetwork.logo.includes('placehold')) {
+        setSelectedNetwork(networks[0]);
+    }
+  }, [networks, selectedNetwork]);
 
 
   return (
