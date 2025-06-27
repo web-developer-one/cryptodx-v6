@@ -1,5 +1,5 @@
 
-import { getTokenDetails } from "@/lib/coinmarketcap";
+import { getTokenDetails, getLatestListings } from "@/lib/coinmarketcap";
 import { KeyStatistics } from "@/components/token-details/key-statistics";
 import { PriceChart } from "@/components/token-details/price-chart";
 import {
@@ -12,9 +12,13 @@ import {
 import { AlertCircle, ArrowDown, ArrowUp } from "lucide-react";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
+import { MarketHighlights } from "@/components/market-highlights";
 
 export default async function TokenDetailPage({ params }: { params: { id: string } }) {
-  const token = await getTokenDetails(params.id);
+  const [token, cryptoData] = await Promise.all([
+    getTokenDetails(params.id),
+    getLatestListings()
+  ]);
 
   if (!token) {
     return (
@@ -82,6 +86,12 @@ export default async function TokenDetailPage({ params }: { params: { id: string
           <PriceChart token={token} />
         </div>
       </div>
+
+      {cryptoData && cryptoData.length > 0 && (
+        <div className="w-full">
+          <MarketHighlights cryptocurrencies={cryptoData} />
+        </div>
+      )}
     </div>
   );
 }
