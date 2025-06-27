@@ -35,7 +35,7 @@ export function TransactionsClient({ transactions, cryptocurrencies }: { transac
         <>
             <div className="flex justify-between items-center my-6">
                 <h1 className="text-3xl font-bold">Recent Transactions</h1>
-                <div className="w-full max-w-xs">
+                <div className="w-full max-w-[220px]">
                     <Select onValueChange={handleCurrencyChange} defaultValue={selectedCurrency.symbol}>
                         <SelectTrigger>
                             <SelectValue placeholder="Select currency..." />
