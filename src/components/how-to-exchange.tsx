@@ -32,14 +32,14 @@ export function HowToExchange() {
         <div className="grid gap-6 md:grid-cols-3">
           {steps.map((step, index) => (
             <Card key={index}>
-              <CardHeader className="flex flex-row items-start gap-4">
+              <CardHeader className="items-center text-center">
                 {step.icon}
-                <div>
-                  <p className="text-base font-bold text-primary">{step.step}</p>
+                <div className="mt-4 text-center">
+                  <p className="text-xl font-bold text-primary">{step.step}</p>
                   <CardTitle className="mt-2">{step.title}</CardTitle>
                 </div>
               </CardHeader>
-              <CardContent>
+              <CardContent className="text-center">
                 <p className="text-muted-foreground">{step.description}</p>
               </CardContent>
             </Card>
