@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Repeat } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
+import { CookiePolicyModal } from "./cookie-policy-modal";
 
 const footerSections = [
   {
@@ -68,12 +69,16 @@ export function Footer() {
               <ul className="flex flex-col gap-2 text-sm">
                 {section.links.map((link) => (
                   <li key={link.name}>
-                    <Link
-                      href={link.href}
-                      className="text-primary-foreground/70 transition-colors hover:text-primary-foreground"
-                    >
-                      {link.name}
-                    </Link>
+                    {link.name === "Cookie Policy" ? (
+                      <CookiePolicyModal />
+                    ) : (
+                      <Link
+                        href={link.href}
+                        className="text-primary-foreground/70 transition-colors hover:text-primary-foreground"
+                      >
+                        {link.name}
+                      </Link>
+                    )}
                   </li>
                 ))}
               </ul>
