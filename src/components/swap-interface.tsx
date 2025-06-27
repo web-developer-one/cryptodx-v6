@@ -132,13 +132,13 @@ export function SwapInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocu
         {/* From Token */}
         <div className="p-4 rounded-lg bg-secondary/50 border">
           <div className="flex justify-between items-center mb-1">
-            <label className="text-lg text-muted-foreground" htmlFor="from-input">From</label>
+            <label className="text-base text-muted-foreground" htmlFor="from-input">From</label>
             <span className="text-sm text-muted-foreground">Balance: -</span>
           </div>
           <div className="flex items-center gap-2">
-            <Input id="from-input" type="text" placeholder="0" className="text-6xl h-20 bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0 p-0" value={fromAmount} onChange={handleFromAmountChange} />
+            <Input id="from-input" type="text" placeholder="0" className="text-5xl h-16 bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0 p-0" value={fromAmount} onChange={handleFromAmountChange} />
             <Select value={fromToken.symbol} onValueChange={handleFromTokenChange}>
-              <SelectTrigger className="w-[150px] h-20 text-lg font-bold">
+              <SelectTrigger className="w-[150px] h-16 text-lg font-bold">
                 <SelectValue placeholder="Select token" />
               </SelectTrigger>
               <SelectContent>
@@ -171,13 +171,13 @@ export function SwapInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocu
         {/* To Token */}
         <div className="p-4 rounded-lg bg-secondary/50 border">
           <div className="flex justify-between items-center mb-1">
-            <label className="text-lg text-muted-foreground" htmlFor="to-input">To</label>
+            <label className="text-base text-muted-foreground" htmlFor="to-input">To</label>
             <span className="text-sm text-muted-foreground">Balance: -</span>
           </div>
           <div className="flex items-center gap-2">
-            <Input id="to-input" type="text" placeholder="0" className="text-6xl h-20 bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0 p-0" value={toAmount} onChange={handleToAmountChange}/>
+            <Input id="to-input" type="text" placeholder="0" className="text-5xl h-16 bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0 p-0" value={toAmount} onChange={handleToAmountChange}/>
             <Select value={toToken.symbol} onValueChange={handleToTokenChange}>
-              <SelectTrigger className="w-[150px] h-20 text-lg font-bold">
+              <SelectTrigger className="w-[150px] h-16 text-lg font-bold">
                 <SelectValue placeholder="Select token" />
               </SelectTrigger>
               <SelectContent>
