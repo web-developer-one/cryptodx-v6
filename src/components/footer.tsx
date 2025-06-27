@@ -56,6 +56,9 @@ export function Footer() {
               <Repeat className="h-8 w-8" />
               <span className="text-lg font-bold">Crypto Swap</span>
             </Link>
+            <p className="text-sm text-primary-foreground/70">
+              Seamlessly swap your favorite tokens.
+            </p>
           </div>
 
           {/* The other columns */}
