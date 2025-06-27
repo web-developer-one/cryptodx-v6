@@ -18,10 +18,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ArrowDownUp, Settings, DollarSign } from "lucide-react";
+import { ArrowDownUp, Settings } from "lucide-react";
 import { cryptocurrencies as cryptoData } from "@/lib/crypto-data";
 import type { Cryptocurrency } from "@/lib/types";
 import { WalletConnect } from "./wallet-connect";
+import Image from "next/image";
 
 export function SwapInterface() {
   const [fromToken, setFromToken] = useState<Cryptocurrency>(cryptoData[0]);
@@ -129,7 +130,14 @@ export function SwapInterface() {
                 {cryptoData.map((token) => (
                   <SelectItem key={token.symbol} value={token.symbol}>
                     <div className="flex items-center gap-2">
-                      <DollarSign className="h-5 w-5" />
+                      <Image
+                        src={`https://placehold.co/20x20.png`}
+                        alt={`${token.name} logo`}
+                        width={20}
+                        height={20}
+                        className="rounded-full"
+                        data-ai-hint={`${token.symbol} logo`}
+                      />
                       {token.symbol}
                     </div>
                   </SelectItem>
@@ -162,7 +170,14 @@ export function SwapInterface() {
                 {cryptoData.map((token) => (
                   <SelectItem key={token.symbol} value={token.symbol}>
                     <div className="flex items-center gap-2">
-                      <DollarSign className="h-5 w-5" />
+                       <Image
+                        src={`https://placehold.co/20x20.png`}
+                        alt={`${token.name} logo`}
+                        width={20}
+                        height={20}
+                        className="rounded-full"
+                        data-ai-hint={`${token.symbol} logo`}
+                      />
                       {token.symbol}
                     </div>
                   </SelectItem>
