@@ -23,13 +23,14 @@ import type { Cryptocurrency } from "@/lib/types";
 import { WalletConnect } from "./wallet-connect";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
+import { useAccount } from "wagmi";
 
 export function SwapInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[] }) {
   const [fromToken, setFromToken] = useState<Cryptocurrency>(cryptocurrencies[0]);
   const [toToken, setToToken] = useState<Cryptocurrency>(cryptocurrencies[1]);
   const [fromAmount, setFromAmount] = useState<string>("1");
   const [toAmount, setToAmount] = useState<string>("");
-  const [isWalletConnected, setIsWalletConnected] = useState(false);
+  const { isConnected: isWalletConnected } = useAccount();
   const [gasEstimate, setGasEstimate] = useState<string>("-");
 
   const exchangeRate = useMemo(() => {
@@ -66,11 +67,6 @@ export function SwapInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocu
       setGasEstimate("-");
     }
   }, [fromAmount, fromToken, toToken]);
-  
-  // Simulate wallet connection
-  const handleWalletConnect = () => {
-    setTimeout(() => setIsWalletConnected(true), 500);
-  };
 
   const handleFromTokenChange = (symbol: string) => {
     const token = cryptocurrencies.find((t) => t.symbol === symbol);
@@ -206,7 +202,7 @@ export function SwapInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocu
             {isWalletConnected ? (
                <Button className="w-full h-12 text-lg">Swap</Button>
             ) : (
-                <WalletConnect onConnect={handleWalletConnect}>
+                <WalletConnect>
                     <Button className="w-full h-12 text-lg">Connect Wallet</Button>
                 </WalletConnect>
             )}

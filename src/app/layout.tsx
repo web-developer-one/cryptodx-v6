@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { Header } from "@/components/header";
 import { Toaster } from "@/components/ui/toaster";
 import { Footer } from "@/components/footer";
+import { Providers } from "@/components/providers";
 
 const fontBody = Inter({
   subsets: ["latin"],
@@ -32,10 +33,12 @@ export default function RootLayout({
           fontBody.variable
         )}
       >
-        <Header />
-        <main className="flex-1 flex flex-col">{children}</main>
-        <Footer />
-        <Toaster />
+        <Providers>
+          <Header />
+          <main className="flex-1 flex flex-col">{children}</main>
+          <Footer />
+          <Toaster />
+        </Providers>
       </body>
     </html>
   );
