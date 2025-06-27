@@ -129,7 +129,7 @@ export function SwapInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocu
         <div className="p-4 rounded-lg bg-secondary/50 border">
           <div className="flex justify-between items-center mb-1">
             <label className="text-base text-muted-foreground" htmlFor="from-input">From</label>
-            <span className="text-sm text-muted-foreground">Balance: -</span>
+            <span className="text-sm text-muted-foreground">Sell</span>
           </div>
           <div className="flex items-center gap-2">
             <Input id="from-input" type="text" placeholder="0" className="text-5xl h-16 bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0 p-0" value={fromAmount} onChange={handleFromAmountChange} />
@@ -168,7 +168,7 @@ export function SwapInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocu
         <div className="p-4 rounded-lg bg-secondary/50 border">
           <div className="flex justify-between items-center mb-1">
             <label className="text-base text-muted-foreground" htmlFor="to-input">To</label>
-            <span className="text-sm text-muted-foreground">Balance: -</span>
+            <span className="text-sm text-muted-foreground">Buy</span>
           </div>
           <div className="flex items-center gap-2">
             <Input id="to-input" type="text" placeholder="0" className="text-5xl h-16 bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0 p-0" value={toAmount} onChange={handleToAmountChange}/>
