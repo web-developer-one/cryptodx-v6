@@ -43,11 +43,16 @@ export default async function Home() {
     <div className="flex-1 flex flex-col items-center">
       <div className="container flex flex-col items-center py-8 gap-8">
         <SwapInterface cryptocurrencies={cryptoData} />
+      </div>
+
+      <HowToExchange />
+
+      <div className="container flex flex-col items-center py-8 gap-8">
         <div className="w-full max-w-7xl">
           <MarketHighlights cryptocurrencies={cryptoData} />
         </div>
       </div>
-      <HowToExchange />
+      
       <Faq />
     </div>
   );
