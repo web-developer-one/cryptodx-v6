@@ -1,26 +1,47 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Compass } from "lucide-react";
+import { getLatestListings } from "@/lib/coinmarketcap";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { AlertCircle } from "lucide-react";
 import { ExploreNav } from "@/components/explore-nav";
+import { CreatePositionInterface } from "@/components/create-position-interface";
 
-export default function PoolsPage() {
-  return (
-    <div className="container py-8">
-      <ExploreNav />
-      <div className="flex flex-col items-center justify-center">
+export default async function PoolsPage() {
+  const cryptoData = await getLatestListings();
+
+  if (!cryptoData || cryptoData.length === 0) {
+    return (
+      <div className="container flex-1 flex flex-col items-center py-8 gap-6">
+        <ExploreNav />
         <Card className="w-full max-w-md mt-6">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Compass />
-              <span>Explore Pools</span>
+              <AlertCircle className="text-destructive" />
+              <span>Error</span>
             </CardTitle>
+            <CardDescription>
+              Could not load cryptocurrency data.
+            </CardDescription>
           </CardHeader>
           <CardContent>
-            <p className="text-muted-foreground">
-              This page is under construction. Check back later to discover and manage liquidity pools.
+            <p className="text-sm text-muted-foreground">
+              There was an issue fetching data from the CoinMarketCap API. Please
+              check your API key or try again later.
             </p>
           </CardContent>
         </Card>
       </div>
+    );
+  }
+
+  return (
+    <div className="container flex-1 flex flex-col items-center py-8 gap-6">
+      <ExploreNav />
+      <CreatePositionInterface cryptocurrencies={cryptoData} />
     </div>
   );
 }
