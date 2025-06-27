@@ -4,9 +4,9 @@ import { TradeNav } from "@/components/trade-nav";
 
 export default function BuyPage() {
   return (
-    <div className="container flex-1 flex flex-col items-center py-8">
+    <div className="container flex-1 flex flex-col items-center py-8 gap-6">
       <TradeNav />
-      <Card className="w-full max-w-md mt-6">
+      <Card className="w-full max-w-md">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <ArrowDownToLine />

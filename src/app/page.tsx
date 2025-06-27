@@ -42,7 +42,7 @@ export default async function Home() {
 
   return (
     <div className="flex-1 flex flex-col items-center">
-      <div className="container flex flex-col items-center py-8 gap-8">
+      <div className="container flex flex-col items-center py-8 gap-6">
         <TradeNav />
         <SwapInterface cryptocurrencies={cryptoData} />
       </div>
