@@ -1,8 +1,7 @@
 
-import { getLatestListings, getTokenDetails } from "@/lib/coinmarketcap";
+import { getTokenDetails } from "@/lib/coinmarketcap";
 import { KeyStatistics } from "@/components/token-details/key-statistics";
 import { PriceChart } from "@/components/token-details/price-chart";
-import { MarketHighlights } from "@/components/market-highlights";
 import {
   Card,
   CardContent,
@@ -13,10 +12,7 @@ import {
 import { AlertCircle } from "lucide-react";
 
 export default async function TokenDetailPage({ params }: { params: { id: string } }) {
-  const [token, allCryptos] = await Promise.all([
-    getTokenDetails(params.id),
-    getLatestListings()
-  ]);
+  const token = await getTokenDetails(params.id);
 
   if (!token) {
     return (
@@ -42,8 +38,6 @@ export default async function TokenDetailPage({ params }: { params: { id: string
     );
   }
 
-  const filteredCryptos = allCryptos.filter(c => c.id !== token.id);
-
   return (
     <div className="container py-8 flex flex-col gap-8">
       <header>
@@ -58,12 +52,6 @@ export default async function TokenDetailPage({ params }: { params: { id: string
           <PriceChart token={token} />
         </div>
       </div>
-      
-      {filteredCryptos.length > 0 && (
-        <div>
-          <MarketHighlights cryptocurrencies={filteredCryptos} />
-        </div>
-      )}
     </div>
   );
 }
