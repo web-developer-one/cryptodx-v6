@@ -8,6 +8,8 @@ import { Toaster } from "@/components/ui/toaster";
 const fontBody = Inter({
   subsets: ["latin"],
   variable: "--font-body",
+  weight: ["400", "500", "700", "900"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -22,14 +24,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap"
-          rel="stylesheet"
-        />
-      </head>
+      <head />
       <body
         className={cn(
           "min-h-screen bg-background font-body antialiased flex flex-col",
