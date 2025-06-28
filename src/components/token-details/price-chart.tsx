@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useMemo, useState } from 'react';
@@ -116,28 +115,28 @@ export function PriceChart({ token }: { token: TokenDetails }) {
 
   return (
     <Card>
-      <CardHeader className="flex flex-row items-start justify-between">
-        <CardTitle>{token.name} Price Chart</CardTitle>
-        <div className="flex flex-col items-end gap-2">
+      <CardHeader>
+        <div className="flex items-center justify-between">
+          <CardTitle>{token.name} Price Chart</CardTitle>
           <Link href="/" passHref>
               <Button>Trade {token.symbol}</Button>
           </Link>
-          <div className="flex items-center gap-1">
-            {timeframes.map((tf) => (
-              <Button
-                key={tf}
-                variant="ghost"
-                size="sm"
-                className={cn(
-                  "h-7 px-2 text-xs",
-                  timeframe === tf && "bg-accent text-accent-foreground"
-                )}
-                onClick={() => setTimeframe(tf)}
-              >
-                {tf}
-              </Button>
-            ))}
-          </div>
+        </div>
+        <div className="flex items-center justify-end gap-1">
+          {timeframes.map((tf) => (
+            <Button
+              key={tf}
+              variant="ghost"
+              size="sm"
+              className={cn(
+                "h-7 px-2 text-xs",
+                timeframe === tf && "bg-accent text-accent-foreground"
+              )}
+              onClick={() => setTimeframe(tf)}
+            >
+              {tf}
+            </Button>
+          ))}
         </div>
       </CardHeader>
       <CardContent>
@@ -146,10 +145,9 @@ export function PriceChart({ token }: { token: TokenDetails }) {
             <CartesianGrid strokeDasharray="3 3" vertical={true} />
              <XAxis 
                 dataKey="date" 
-                tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 12 }} 
                 tickLine={false} 
                 axisLine={false}
-                hide={true} // Hide main axis, brush will control labels
+                tick={false}
             />
             <YAxis 
                 orientation="right" 
