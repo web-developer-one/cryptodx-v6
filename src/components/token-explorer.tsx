@@ -222,7 +222,7 @@ export function TokenExplorer({
             {isUpdating && <span className="h-2 w-2 animate-pulse rounded-full bg-primary" />}
           </CardTitle>
           <div className="flex flex-1 items-center justify-end gap-4">
-            <div className="w-full max-w-xl">
+            <div className="w-full max-w-md">
               <Input
                 placeholder="Search tokens..."
                 value={searchQuery}
