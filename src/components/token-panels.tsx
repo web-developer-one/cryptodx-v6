@@ -23,6 +23,7 @@ import {
 } from "@/components/ui/select";
 import { getLatestListings } from "@/lib/coinmarketcap";
 import { LineChart, Line, ResponsiveContainer } from "recharts";
+import Link from "next/link";
 
 const TOKENS_PER_PAGE = 20;
 
@@ -192,6 +193,9 @@ export function TokenPanels({
                 }}
               />
             </div>
+            <Link href="/tokens" passHref>
+              <Button variant="outline">List View</Button>
+            </Link>
             <div className="w-full max-w-[240px]">
               <Select
                 onValueChange={handleCurrencyChange}

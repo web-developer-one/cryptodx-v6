@@ -6,17 +6,16 @@ import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 export function ExploreNav() {
   const pathname = usePathname();
+  // Ensure "Tokens" tab is active for both list and panel views.
+  const activeTab = pathname.startsWith('/tokens') ? '/tokens' : pathname;
 
   return (
     <div className="mb-6 flex justify-center">
       <div className="w-full max-w-lg">
-        <Tabs value={pathname} className="w-full">
-            <TabsList className="grid w-full grid-cols-4">
+        <Tabs value={activeTab} className="w-full">
+            <TabsList className="grid w-full grid-cols-3">
                 <Link href="/tokens" passHref>
-                    <TabsTrigger value="/tokens">List View</TabsTrigger>
-                </Link>
-                <Link href="/tokens/panels" passHref>
-                    <TabsTrigger value="/tokens/panels">Panel View</TabsTrigger>
+                    <TabsTrigger value="/tokens">Tokens</TabsTrigger>
                 </Link>
                 <Link href="/pools" passHref>
                     <TabsTrigger value="/pools">Pools</TabsTrigger>
