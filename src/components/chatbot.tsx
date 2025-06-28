@@ -85,7 +85,6 @@ export function Chatbot() {
           <CardHeader className="flex flex-row items-center justify-between">
             <div className="flex items-center gap-3">
               <Avatar>
-                <AvatarImage src="https://placehold.co/40x40.png" data-ai-hint="robot illustration" />
                 <AvatarFallback>
                   <Bot />
                 </AvatarFallback>
@@ -109,7 +108,6 @@ export function Chatbot() {
                   >
                     {message.role === 'bot' && (
                       <Avatar className="h-8 w-8">
-                        <AvatarImage src="https://placehold.co/32x32.png" data-ai-hint="robot illustration" />
                         <AvatarFallback>
                           <Bot />
                         </AvatarFallback>
@@ -138,7 +136,6 @@ export function Chatbot() {
                  {isLoading && (
                     <div className="flex items-start gap-3 justify-start">
                        <Avatar className="h-8 w-8">
-                         <AvatarImage src="https://placehold.co/32x32.png" data-ai-hint="robot illustration"/>
                         <AvatarFallback>
                           <Bot />
                         </AvatarFallback>
