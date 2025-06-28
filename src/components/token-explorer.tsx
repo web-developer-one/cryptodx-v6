@@ -1,25 +1,72 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardFooter,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import type { Cryptocurrency } from "@/lib/types";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import type { Cryptocurrency, SelectedCurrency } from "@/lib/types";
 import { ArrowUp, ArrowDown } from "lucide-react";
 import { cn } from "@/lib/utils";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const TOKENS_PER_PAGE = 20;
 
-const formatPrice = (price: number) => {
-  return new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-    minimumFractionDigits: 2,
-    maximumFractionDigits: price < 1 ? 6 : 2,
-  }).format(price);
+const supportedCurrencies: SelectedCurrency[] = [
+  { symbol: "USD", name: "US Dollar", rate: 1 },
+  { symbol: "EUR", name: "Euro", rate: 0.93 },
+  { symbol: "GBP", name: "British Pound", rate: 0.79 },
+  { symbol: "JPY", name: "Japanese Yen", rate: 157.2 },
+  { symbol: "AUD", name: "Australian Dollar", rate: 1.51 },
+  { symbol: "CAD", name: "Canadian Dollar", rate: 1.37 },
+  { symbol: "CHF", name: "Swiss Franc", rate: 0.9 },
+  { symbol: "CNY", name: "Chinese Yuan", rate: 7.25 },
+  { symbol: "INR", name: "Indian Rupee", rate: 83.5 },
+];
+
+const FormattedPrice = ({
+  price,
+  currency,
+}: {
+  price: number;
+  currency: SelectedCurrency;
+}) => {
+  const [formattedPrice, setFormattedPrice] = useState<string>("");
+
+  useEffect(() => {
+    const convertedPrice = price * currency.rate;
+    setFormattedPrice(
+      new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: currency.symbol,
+        minimumFractionDigits: 2,
+        maximumFractionDigits: convertedPrice < 1 ? 6 : 2,
+      }).format(convertedPrice)
+    );
+  }, [price, currency]);
+
+  return <>{formattedPrice}</>;
 };
 
 export function TokenExplorer({
@@ -30,6 +77,9 @@ export function TokenExplorer({
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedCurrency, setSelectedCurrency] = useState<SelectedCurrency>(
+    supportedCurrencies[0]
+  );
 
   const filteredTokens = useMemo(() => {
     if (!searchQuery) {
@@ -68,21 +118,51 @@ export function TokenExplorer({
     router.push(`/tokens/${tokenId}`);
   };
 
+  const handleCurrencyChange = (symbol: string) => {
+    const currency = supportedCurrencies.find((c) => c.symbol === symbol);
+    if (currency) {
+      setSelectedCurrency(currency);
+    }
+  };
+
   return (
     <div className="flex flex-col gap-6">
       <Card>
         <CardHeader className="flex flex-row items-center justify-between gap-4">
           <CardTitle>Tokens</CardTitle>
-          <div className="max-w-sm w-full">
-            <Input
-              placeholder="Search tokens..."
-              value={searchQuery}
-              onChange={(e) => {
-                setSearchQuery(e.target.value);
-                setCurrentPage(1); // Reset to first page on new search
-              }}
-              className="md:text-base"
-            />
+          <div className="flex items-center gap-4">
+            <div className="max-w-sm w-full">
+              <Input
+                placeholder="Search tokens..."
+                value={searchQuery}
+                onChange={(e) => {
+                  setSearchQuery(e.target.value);
+                  setCurrentPage(1); // Reset to first page on new search
+                }}
+                className="md:text-base"
+              />
+            </div>
+            <div className="w-full max-w-[220px]">
+              <Select
+                onValueChange={handleCurrencyChange}
+                defaultValue={selectedCurrency.symbol}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Select currency..." />
+                </SelectTrigger>
+                <SelectContent>
+                  {supportedCurrencies.map((currency) => (
+                    <SelectItem key={currency.symbol} value={currency.symbol}>
+                      <div className="flex items-center gap-2">
+                        <span>
+                          {currency.symbol} - {currency.name}
+                        </span>
+                      </div>
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
           </div>
         </CardHeader>
         <CardContent className="p-0">
@@ -123,7 +203,10 @@ export function TokenExplorer({
                     </div>
                   </TableCell>
                   <TableCell className="text-right font-mono">
-                    {formatPrice(token.price)}
+                    <FormattedPrice
+                      price={token.price}
+                      currency={selectedCurrency}
+                    />
                   </TableCell>
                   <TableCell className="text-right">
                     <div
@@ -150,7 +233,12 @@ export function TokenExplorer({
         {totalPages > 1 && (
           <CardFooter className="flex items-center justify-between pt-6">
             <span className="text-sm text-muted-foreground">
-              Showing {((currentPage - 1) * TOKENS_PER_PAGE) + 1} - {Math.min(currentPage * TOKENS_PER_PAGE, sortedTokens.length)} of {sortedTokens.length} tokens
+              Showing {((currentPage - 1) * TOKENS_PER_PAGE) + 1} -{" "}
+              {Math.min(
+                currentPage * TOKENS_PER_PAGE,
+                sortedTokens.length
+              )}{" "}
+              of {sortedTokens.length} tokens
             </span>
             <div className="flex items-center justify-center gap-4">
               <Button
