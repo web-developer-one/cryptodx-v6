@@ -75,7 +75,6 @@ export function Chatbot() {
           style={{ visibility: hasMounted && !isOpen ? 'visible' : 'hidden' }}
           >
             <span className="whitespace-nowrap">Ask me about Crypto.</span>
-            <span className="whitespace-nowrap">Ask me about DeFi.</span>
         </div>
         <Button
           size="icon"
