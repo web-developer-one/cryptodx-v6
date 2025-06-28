@@ -42,6 +42,7 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
       icon: ArrowRightLeft,
       children: [
         { name: "Swap", href: "/" },
+        { name: "Spot", href: "/spot" },
         { name: "Limit", href: "/limit" },
         { name: "Buy", href: "/buy" },
         { name: "Sell", href: "/sell" },
