@@ -37,8 +37,10 @@ const generatePriceData = (currentPrice: number, days: number) => {
     
     const open = lastPrice;
     const close = newPrice;
-    const high = Math.max(open, close) + Math.abs(close - open) * Math.random();
-    const low = Math.min(open, close) - Math.abs(close - open) * Math.random();
+    // More realistic wick generation
+    const volatility = newPrice * 0.015; // 1.5% volatility for wicks
+    const high = Math.max(open, close) + Math.random() * volatility;
+    const low = Math.min(open, close) - Math.random() * volatility;
     
     const isRising = close >= open;
     const volume = baseVolume * (1 + (Math.random() - 0.4)) * (1 + Math.abs(close-open)/open * 5);
@@ -234,9 +236,13 @@ export function PriceChart({ token }: { token: TokenDetails }) {
                           <ErrorBar dataKey="wick" width={1.5} strokeWidth={1} stroke="hsl(var(--muted-foreground))" direction="y" />
                         </Line>
                         <Bar dataKey="bodyStart" stackId="candle" fill="transparent" isAnimationActive={false} />
-                        <Bar dataKey="bodyHeight" stackId="candle" isAnimationActive={false}>
+                        <Bar dataKey="bodyHeight" stackId="candle" isAnimationActive={false} strokeWidth={1}>
                           {chartData.map((entry, index) => (
-                            <Cell key={`cell-${index}`} fill={entry.isRising ? 'hsl(var(--chart-2))' : 'hsl(var(--destructive))'} />
+                            <Cell 
+                                key={`cell-${index}`} 
+                                fill={entry.isRising ? 'transparent' : 'hsl(var(--destructive))'} 
+                                stroke={entry.isRising ? 'hsl(var(--chart-2))' : 'hsl(var(--destructive))'}
+                            />
                           ))}
                         </Bar>
                     </>
