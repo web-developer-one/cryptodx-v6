@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useMemo, useEffect } from "react";
@@ -183,6 +184,9 @@ export function TokenPanels({
             {isUpdating && <span className="h-2 w-2 animate-pulse rounded-full bg-primary" />}
         </h1>
         <div className="flex flex-1 items-center justify-end gap-4">
+            <Link href="/tokens" passHref>
+              <Button variant="outline">List View</Button>
+            </Link>
             <div className="w-full max-w-sm">
               <Input
                 placeholder="Search tokens..."
@@ -193,9 +197,6 @@ export function TokenPanels({
                 }}
               />
             </div>
-            <Link href="/tokens" passHref>
-              <Button variant="outline">List View</Button>
-            </Link>
             <div className="w-full max-w-[240px]">
               <Select
                 onValueChange={handleCurrencyChange}
