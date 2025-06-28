@@ -236,7 +236,7 @@ export function PriceChart({ token }: { token: TokenDetails }) {
                 key={timeRange}
                 dataKey="date" 
                 height={40} 
-                stroke="hsl(145 63% 49%)" 
+                stroke="hsl(var(--primary))" 
                 travellerWidth={20}
                 y={350}
                 data={chartData}
