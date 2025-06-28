@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useMemo, useState } from 'react';
@@ -214,17 +215,15 @@ export function PriceChart({ token }: { token: TokenDetails }) {
             margin={{ top: 5, right: 0, bottom: 0, left: 0 }}
             syncId="priceChart"
           >
-            <CartesianGrid strokeDasharray="3 3" />
+            <CartesianGrid strokeDasharray="3 3" vertical />
             <XAxis 
                 dataKey="date" 
-                tickFormatter={(time) => new Date(time).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
-                tick={{fill: 'hsl(var(--muted-foreground))', fontSize: 12}} 
+                tickFormatter={() => ''}
                 tickLine={false}
                 axisLine={false}
                 scale="time"
                 type="number"
                 domain={[chartData[brushStartIndex]?.date, chartData[brushEndIndex]?.date]}
-                hide
             />
             <YAxis 
                 yAxisId="price"
