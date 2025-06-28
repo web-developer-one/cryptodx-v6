@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useMemo, useState } from 'react';
@@ -205,7 +206,7 @@ export function PriceChart({ token }: { token: TokenDetails }) {
             
             <Brush 
                 dataKey="date" 
-                height={20} 
+                height={15} 
                 stroke="hsl(var(--primary))"
                 startIndex={brushStartIndex}
                 key={brushStartIndex}
