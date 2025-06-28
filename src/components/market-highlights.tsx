@@ -69,7 +69,7 @@ function CryptoList({ coins, currency }: { coins: Cryptocurrency[], currency: Se
           <div
             className={cn(
               "font-medium text-sm flex items-center justify-end gap-1 w-[70px]",
-              coin.change24h >= 0 ? "text-primary" : "text-destructive"
+              coin.change24h >= 0 ? "text-green-500" : "text-destructive"
             )}
           >
             {coin.change24h >= 0 ? <ArrowUp className="h-3 w-3" /> : <ArrowDown className="h-3 w-3" />}
