@@ -14,6 +14,7 @@ const footerSections = [
       { name: "Limit", href: "/limit" },
       { name: "Buy", href: "/buy" },
       { name: "Sell", href: "/sell" },
+      { name: "Spot", href: "/spot" },
     ],
   },
   {
@@ -34,7 +35,6 @@ const footerSections = [
   {
     title: "More",
     links: [
-      { name: "Spot", href: "#" },
       { name: "Slippage", href: "#" },
     ],
   },

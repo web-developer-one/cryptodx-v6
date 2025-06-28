@@ -45,6 +45,7 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
         { name: "Limit", href: "/limit" },
         { name: "Buy", href: "/buy" },
         { name: "Sell", href: "/sell" },
+        { name: "Spot", href: "/spot" },
       ],
     },
     {
