@@ -193,7 +193,7 @@ export function SwapInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocu
                     type="text"
                     value={slippage}
                     onChange={handleSlippageChange}
-                    className="h-10 pr-7"
+                    className="h-10 pr-7 text-sm"
                   />
                   <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">%</span>
                 </div>
@@ -220,7 +220,7 @@ export function SwapInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocu
                     type="text"
                     value={deadline}
                     onChange={handleDeadlineChange}
-                    className="h-10 pr-20"
+                    className="h-10 pr-20 text-sm"
                   />
                   <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">minutes</span>
                 </div>
@@ -235,7 +235,7 @@ export function SwapInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocu
                   id="trade-options"
                   value="Default"
                   disabled
-                  className="h-10"
+                  className="h-10 text-sm"
                 />
               </div>
             </div>
