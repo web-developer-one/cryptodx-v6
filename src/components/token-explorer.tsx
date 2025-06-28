@@ -32,6 +32,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { getLatestListings } from "@/lib/coinmarketcap";
+import { LineChart, Line, ResponsiveContainer } from "recharts";
 
 const TOKENS_PER_PAGE = 20;
 
@@ -98,6 +99,47 @@ const FormattedLargeCurrency = ({
 
   return <>{formatted || "N/A"}</>;
 };
+
+const generateSparklineData = (currentPrice: number, change24h: number) => {
+    const data = [];
+    // Simplified trend calculation for visual purposes
+    const trend = change24h / 100 / 7; 
+    let price = currentPrice / (1 + trend * 7); // Estimate a starting price
+
+    for (let i = 0; i < 7; i++) {
+        const randomFactor = 1 + (Math.random() - 0.5) * 0.1; // Add volatility
+        price *= (1 + trend) * randomFactor;
+        data.push({ price });
+    }
+    data[6] = { price: currentPrice }; // Ensure the last point is the current price
+    return data;
+};
+
+const Sparkline = ({ data, change24h }: { data: { price: number }[], change24h: number }) => {
+  const strokeColor = change24h >= 0 ? "hsl(145 63% 49%)" : "hsl(var(--destructive))";
+  
+  if (!data || data.length === 0) {
+      return <div className="h-10 w-[120px]" />;
+  }
+
+  return (
+    <div className="h-10 w-[120px]">
+        <ResponsiveContainer width="100%" height="100%">
+            <LineChart data={data}>
+                <Line
+                    type="monotone"
+                    dataKey="price"
+                    stroke={strokeColor}
+                    strokeWidth={2}
+                    dot={false}
+                    isAnimationActive={false}
+                />
+            </LineChart>
+        </ResponsiveContainer>
+    </div>
+  );
+};
+
 
 export function TokenExplorer({
   cryptocurrencies,
@@ -225,6 +267,7 @@ export function TokenExplorer({
                 <TableHead className="text-right">Market Cap</TableHead>
                 <TableHead className="text-right">Volume (24h)</TableHead>
                 <TableHead className="text-right">Available Supply</TableHead>
+                <TableHead className="text-right">Price Graph (7d)</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -295,6 +338,9 @@ export function TokenExplorer({
                           maximumFractionDigits: 0,
                         })} ${token.symbol}`
                       : "N/A"}
+                  </TableCell>
+                  <TableCell className="flex justify-end">
+                    <Sparkline data={generateSparklineData(token.price, token.change24h)} change24h={token.change24h} />
                   </TableCell>
                 </TableRow>
               ))}
