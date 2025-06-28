@@ -10,28 +10,29 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { Card, CardContent } from '@/components/ui/card';
-import type { Position } from '@/lib/types';
+import type { Position, SelectedCurrency } from '@/lib/types';
 import { Badge } from './ui/badge';
 import { MoreHorizontal } from 'lucide-react';
 import { Button } from './ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from './ui/dropdown-menu';
 import { useEffect, useState } from 'react';
 
-const FormattedCurrency = ({ value }: { value: number }) => {
+const FormattedCurrency = ({ value, currency }: { value: number, currency: SelectedCurrency }) => {
     const [formatted, setFormatted] = useState<string | null>(null);
     useEffect(() => {
+        const convertedValue = value * currency.rate;
         setFormatted(
              new Intl.NumberFormat('en-US', {
                 style: 'currency',
-                currency: 'USD',
-            }).format(value)
+                currency: currency.symbol,
+            }).format(convertedValue)
         );
-    }, [value]);
+    }, [value, currency]);
     return <>{formatted || null}</>;
 };
 
 
-export function PositionsTable({ positions }: { positions: Position[] }) {
+export function PositionsTable({ positions, currency }: { positions: Position[], currency: SelectedCurrency }) {
     
     return (
         <Card>
@@ -74,7 +75,7 @@ export function PositionsTable({ positions }: { positions: Position[] }) {
                                     <Badge variant="outline">{position.network}</Badge>
                                 </TableCell>
                                 <TableCell className="text-right font-mono">
-                                    <FormattedCurrency value={position.value} />
+                                    <FormattedCurrency value={position.value} currency={currency} />
                                 </TableCell>
                                 <TableCell className="text-right font-medium text-primary">{position.apr.toFixed(2)}%</TableCell>
                                 <TableCell>

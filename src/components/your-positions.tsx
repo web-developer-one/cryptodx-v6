@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useWallet } from '@/hooks/use-wallet';
@@ -8,11 +7,33 @@ import { Button } from '@/components/ui/button';
 import { Briefcase, Layers } from 'lucide-react';
 import Link from 'next/link';
 import { PositionsTable } from '@/components/positions-table';
-import type { Cryptocurrency, Position } from '@/lib/types';
-import { useMemo } from 'react';
+import type { Cryptocurrency, Position, SelectedCurrency } from '@/lib/types';
+import { useMemo, useState } from 'react';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+
+// In a real app, this would come from a currency conversion API
+const supportedCurrencies: SelectedCurrency[] = [
+    { symbol: 'USD', name: 'US Dollar', rate: 1 },
+    { symbol: 'EUR', name: 'Euro', rate: 0.93 },
+    { symbol: 'GBP', name: 'British Pound', rate: 0.79 },
+    { symbol: 'JPY', name: 'Japanese Yen', rate: 157.2 },
+    { symbol: 'AUD', name: 'Australian Dollar', rate: 1.51 },
+    { symbol: 'CAD', name: 'Canadian Dollar', rate: 1.37 },
+    { symbol: 'CHF', name: 'Swiss Franc', rate: 0.90 },
+    { symbol: 'CNY', name: 'Chinese Yuan', rate: 7.25 },
+    { symbol: 'INR', name: 'Indian Rupee', rate: 83.5 },
+];
 
 export function YourPositions({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[] }) {
     const { isActive } = useWallet();
+    const [selectedCurrency, setSelectedCurrency] = useState<SelectedCurrency>(supportedCurrencies[0]);
+
+    const handleCurrencyChange = (symbol: string) => {
+        const currency = supportedCurrencies.find(c => c.symbol === symbol);
+        if (currency) {
+            setSelectedCurrency(currency);
+        }
+    };
     
     // Mock data for positions. In a real app, this would be fetched based on the user's account.
     const mockPositions: Position[] = useMemo(() => {
@@ -92,11 +113,29 @@ export function YourPositions({ cryptocurrencies }: { cryptocurrencies: Cryptocu
          <div className="flex flex-col gap-8">
             <div className="flex justify-between items-center">
                 <h1 className="text-3xl font-bold">Your Positions</h1>
-                <Link href="/pools/add">
-                    <Button>+ New Position</Button>
-                </Link>
+                <div className="flex items-center gap-4">
+                    <div className="w-full max-w-[220px]">
+                        <Select onValueChange={handleCurrencyChange} defaultValue={selectedCurrency.symbol}>
+                            <SelectTrigger>
+                                <SelectValue placeholder="Select currency..." />
+                            </SelectTrigger>
+                            <SelectContent>
+                                {supportedCurrencies.map(currency => (
+                                    <SelectItem key={currency.symbol} value={currency.symbol}>
+                                        <div className="flex items-center gap-2">
+                                            <span>{currency.symbol} - {currency.name}</span>
+                                        </div>
+                                    </SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+                    </div>
+                    <Link href="/pools/add">
+                        <Button>+ New Position</Button>
+                    </Link>
+                </div>
             </div>
-            <PositionsTable positions={mockPositions} />
+            <PositionsTable positions={mockPositions} currency={selectedCurrency} />
         </div>
     );
 }
