@@ -233,6 +233,7 @@ export function PriceChart({ token }: { token: TokenDetails }) {
                 animationDuration={300}
               />
               <Brush 
+                key={timeRange}
                 dataKey="date" 
                 height={40} 
                 stroke="hsl(var(--primary))" 
