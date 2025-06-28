@@ -173,12 +173,12 @@ export function PriceChart({ token }: { token: TokenDetails }) {
             
             <Brush 
                 dataKey="date" 
-                height={40} 
+                height={20} 
                 stroke="hsl(var(--primary))"
                 startIndex={chartData.length - 30}
                 tickFormatter={(index) => chartData[index]?.date}
                 travellerWidth={10}
-                padding={{ top: 10, bottom: 0}}
+                padding={{ top: 5, bottom: 0}}
             >
                 {/* Custom chart inside the brush */}
                 <ComposedChart>
