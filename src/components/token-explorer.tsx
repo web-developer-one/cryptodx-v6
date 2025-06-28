@@ -213,7 +213,7 @@ export function TokenExplorer({
                       className={cn(
                         "font-medium flex items-center justify-end gap-1",
                         token.change24h >= 0
-                          ? "text-primary"
+                          ? "text-green-500"
                           : "text-destructive"
                       )}
                     >

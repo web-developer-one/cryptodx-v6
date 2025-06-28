@@ -77,7 +77,7 @@ export default async function TokenDetailPage({ params }: { params: { id: string
             <div
               className={cn(
                 "flex items-center justify-end gap-1 text-base font-medium",
-                token.change24h >= 0 ? "text-primary" : "text-destructive"
+                token.change24h >= 0 ? "text-green-500" : "text-destructive"
               )}
             >
               {token.change24h >= 0 ? <ArrowUp className="h-5 w-5" /> : <ArrowDown className="h-5 w-5" />}
