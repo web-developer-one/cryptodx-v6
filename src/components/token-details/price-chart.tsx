@@ -5,6 +5,8 @@ import { useMemo } from 'react';
 import { Area, Bar, ComposedChart, ResponsiveContainer, Tooltip, XAxis, YAxis, CartesianGrid } from 'recharts';
 import type { TokenDetails } from '@/lib/types';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 
 // Generate some fake OHLC data for the chart
 const generateChartData = (token: TokenDetails) => {
@@ -72,8 +74,8 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 
 // Custom shape for the candlestick
 const CandlestickBar = (props: any) => {
-  const { x, width, ohlc, yAxis } = props;
-  if (!yAxis || !ohlc) return null;
+  const { x, yAxis, width, ohlc } = props;
+  if (!ohlc || !yAxis) return null;
   
   const [open, high, low, close] = ohlc;
   const isUp = close >= open;
@@ -101,8 +103,11 @@ export function PriceChart({ token }: { token: TokenDetails }) {
 
   return (
     <Card>
-      <CardHeader>
+      <CardHeader className="flex flex-row items-center justify-between">
         <CardTitle>{token.name} Price Chart</CardTitle>
+        <Link href="/" passHref>
+            <Button>Trade {token.symbol}</Button>
+        </Link>
       </CardHeader>
       <CardContent>
         <ResponsiveContainer width="100%" height={300}>
