@@ -99,43 +99,31 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 };
 
 
-const Candle = (props: any) => {
-    const { x, y, width, height, low, high, fill } = props;
-    const isUp = fill === 'transparent';
-    const bodyHeight = Math.max(height, 1);
-
-    return (
-        <g stroke={isUp ? 'hsl(145 63% 49%)' : 'hsl(var(--destructive))'} fill={isUp ? 'transparent' : 'hsl(var(--destructive))'} strokeWidth="1">
-            <path d={`M ${x + width / 2} ${high} L ${x + width / 2} ${low}`} />
-            <rect x={x} y={y} width={width} height={bodyHeight} strokeWidth={isUp ? 1 : 0} />
-        </g>
-    );
-};
-
 const CandlestickBar = (props: any) => {
-  const { ohlc, yAxis } = props;
+  const { x, width, ohlc, yAxis } = props;
   if (!yAxis || !ohlc) return null;
   
   const [open, high, low, close] = ohlc;
-  
   const isUp = close >= open;
+
   const y = isUp ? yAxis.scale(close) : yAxis.scale(open);
-  const height = Math.abs(yAxis.scale(open) - yAxis.scale(close));
-  
+  const height = Math.max(Math.abs(yAxis.scale(open) - yAxis.scale(close)), 1);
   const highCoord = yAxis.scale(high);
   const lowCoord = yAxis.scale(low);
+  
+  const strokeColor = isUp ? 'hsl(145 63% 49%)' : 'hsl(var(--destructive))';
+  const fillColor = isUp ? 'transparent' : strokeColor;
 
   return (
-      <Candle
-          {...props}
-          y={y}
-          height={height}
-          high={highCoord}
-          low={lowCoord}
-          fill={isUp ? 'transparent' : 'hsl(var(--destructive))'}
-      />
+    <g stroke={strokeColor} fill={fillColor} strokeWidth="1">
+      {/* Wick */}
+      <path d={`M ${x + width / 2} ${highCoord} L ${x + width / 2} ${lowCoord}`} />
+      {/* Body */}
+      <rect x={x} y={y} width={width} height={height} strokeWidth={isUp ? 1 : 0} />
+    </g>
   );
 };
+
 
 const timeRanges = ['24H', '7D', '1M', '3M', '6M', '1Y'];
 
@@ -200,13 +188,7 @@ export function PriceChart({ token }: { token: TokenDetails }) {
 
             <Tooltip content={<CustomTooltip />} cursor={{ strokeDasharray: '3 3' }} />
             
-            <Bar dataKey="ohlc" yAxisId="price" shape={<CandlestickBar />} isAnimationActive={false}>
-                 {chartData.map((entry, index) => {
-                    const [open, , , close] = entry.ohlc;
-                    const color = close >= open ? 'hsl(145 63% 49%)' : 'hsl(var(--destructive))';
-                    return <Cell key={`cell-${index}`} fill={color} />;
-                })}
-            </Bar>
+            <Bar dataKey="ohlc" yAxisId="price" shape={<CandlestickBar />} isAnimationActive={false} />
             
             <Brush 
                 dataKey="date"
