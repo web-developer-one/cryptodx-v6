@@ -126,12 +126,6 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
                 </DropdownMenuContent>
               </DropdownMenu>
             ))}
-            <Link href="/slippage" passHref>
-                <Button variant="ghost" className="flex items-center gap-1.5 px-3 font-medium text-primary-foreground/70 transition-colors hover:bg-primary-foreground/10 hover:text-primary-foreground">
-                    <SlidersHorizontal className="h-4 w-4" />
-                    Slippage
-                </Button>
-            </Link>
           </nav>
         </div>
 
@@ -184,21 +178,18 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
                     </AccordionItem>
                   ))}
                 </Accordion>
-                <SheetClose asChild>
-                  <Link
-                    href="/slippage"
-                    className="flex items-center gap-4 rounded-md px-4 py-3 text-base font-medium text-primary-foreground/80 hover:bg-primary-foreground/10 hover:text-primary-foreground"
-                  >
-                    <SlidersHorizontal className="h-5 w-5 text-primary-foreground/60" />
-                    <span>Slippage</span>
-                  </Link>
-                </SheetClose>
               </nav>
             </SheetContent>
           </Sheet>
         </div>
 
         <div className="flex flex-1 items-center justify-end space-x-2">
+          <Link href="/slippage" passHref>
+              <Button variant="ghost" className="flex items-center gap-1.5 px-3 font-medium text-primary-foreground/70 transition-colors hover:bg-primary-foreground/10 hover:text-primary-foreground">
+                  <SlidersHorizontal className="h-4 w-4" />
+                  <span className="hidden sm:inline">Slippage</span>
+              </Button>
+          </Link>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button
