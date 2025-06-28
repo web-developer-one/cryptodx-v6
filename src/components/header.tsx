@@ -147,15 +147,6 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
                     <span>Crypto Swap</span>
                   </Link>
                 </SheetClose>
-                 <SheetClose asChild>
-                    <Link
-                      href="/spot"
-                      className="flex items-center gap-4 rounded-md px-4 py-2 text-base font-medium text-primary-foreground/80 hover:bg-primary-foreground/10 hover:text-primary-foreground"
-                    >
-                      <ArrowRightLeft className="h-5 w-5 text-primary-foreground/60" />
-                      <span>Spot</span>
-                    </Link>
-                  </SheetClose>
                 <Accordion type="multiple" className="w-full px-2">
                   {menuItems.map((item) => (
                     <AccordionItem
@@ -192,14 +183,6 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
         </div>
 
         <div className="flex flex-1 items-center justify-end space-x-2">
-          <Link href="/spot" passHref>
-            <Button
-              variant="ghost"
-              className="hidden px-3 font-medium text-primary-foreground/70 transition-colors hover:bg-primary-foreground/10 hover:text-primary-foreground md:flex"
-            >
-              Spot
-            </Button>
-          </Link>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button
