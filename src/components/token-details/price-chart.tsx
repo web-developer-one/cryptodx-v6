@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useMemo, useState } from 'react';
@@ -36,10 +35,22 @@ const generateChartData = (token: TokenDetails, timeRange: string) => {
         // Simulate a random walk for the price
         const randomWalk = (Math.random() - 0.5) * 2 * (volatility / 2);
         const open = currentPrice / (1 + trend + randomWalk);
-        const close = currentPrice;
         
-        const high = Math.max(open, close) * (1 + Math.random() * (volatility / 4));
-        const low = Math.min(open, close) * (1 - Math.random() * (volatility / 4));
+        const highFluctuation = Math.random() * (volatility / 4);
+        const lowFluctuation = Math.random() * (volatility / 4);
+        
+        let high, low, close;
+
+        // Ensure open is not always the lowest or highest
+        if (Math.random() > 0.5) { // Price went up
+            close = open * (1 + Math.random() * (volatility / 3));
+            high = Math.max(open, close) * (1 + highFluctuation);
+            low = Math.min(open, close) * (1 - lowFluctuation);
+        } else { // Price went down
+            close = open * (1 - Math.random() * (volatility / 3));
+            high = Math.max(open, close) * (1 + highFluctuation);
+            low = Math.min(open, close) * (1 - lowFluctuation);
+        }
         
         const volume = baseVolume * (1 + (Math.random() - 0.5) * 0.8);
 
@@ -152,7 +163,7 @@ export function PriceChart({ token }: { token: TokenDetails }) {
         </Link>
       </CardHeader>
       <CardContent>
-        <div className="flex items-center gap-1 mb-4">
+        <div className="flex items-center justify-end gap-1 mb-4">
             {timeRanges.map(range => (
                 <Button key={range} variant={timeRange === range ? 'secondary' : 'ghost'} size="sm" onClick={() => setTimeRange(range)}>
                     {range}
