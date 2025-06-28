@@ -1,74 +1,96 @@
 
 'use client';
 
-import { useMemo } from 'react';
-import { Area, Bar, ComposedChart, ResponsiveContainer, Tooltip, XAxis, YAxis, CartesianGrid, Cell } from 'recharts';
+import { useMemo, useState } from 'react';
+import { Bar, ComposedChart, ResponsiveContainer, Tooltip, XAxis, YAxis, CartesianGrid, Cell, Brush } from 'recharts';
 import type { TokenDetails } from '@/lib/types';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '../ui/button';
+import { cn } from '@/lib/utils';
+import Link from 'next/link';
 
-// Generate more realistic OHLC data for the chart
-const generateChartData = (token: TokenDetails) => {
-  const data = [];
-  let currentPrice = token.price;
-  // Use a smaller volatility factor for a more stable look
-  const volatility = (token.change24h || 1) / 100 * 0.5;
+// Generate more realistic OHLCV data for the chart
+const generateChartData = (token: TokenDetails, timeRange: string) => {
+    const data = [];
+    let currentPrice = token.price;
+    const volatility = (token.change24h || 1) / 100 * 0.5;
+    const baseVolume = (token.volume24h || 1000000) / 30;
 
-  for (let i = 30; i > 0; i--) {
-    const date = new Date();
-    date.setDate(date.getDate() - i);
-    
-    // Simulate price walk
-    const open = currentPrice;
-    
-    // Bias the direction based on overall 24h change
-    const trend = volatility / 30;
-    const randomWalk = (Math.random() - 0.5) * 2 * (volatility / 2);
-    const close = open * (1 + trend + randomWalk);
-    
-    const high = Math.max(open, close) * (1 + Math.random() * (volatility / 4));
-    const low = Math.min(open, close) * (1 - Math.random() * (volatility / 4));
+    let days;
+    switch (timeRange) {
+        case '24H': days = 1; break;
+        case '7D': days = 7; break;
+        case '1M': days = 30; break;
+        case '3M': days = 90; break;
+        case '6M': days = 180; break;
+        case '1Y': days = 365; break;
+        default: days = 30;
+    }
 
+    // Generate historical data backwards from the current price
+    for (let i = days; i > 0; i--) {
+        const date = new Date();
+        date.setDate(date.getDate() - i);
+        
+        const trend = volatility / days;
+        // Simulate a random walk for the price
+        const randomWalk = (Math.random() - 0.5) * 2 * (volatility / 2);
+        const open = currentPrice / (1 + trend + randomWalk);
+        const close = currentPrice;
+        
+        const high = Math.max(open, close) * (1 + Math.random() * (volatility / 4));
+        const low = Math.min(open, close) * (1 - Math.random() * (volatility / 4));
+        
+        const volume = baseVolume * (1 + (Math.random() - 0.5) * 0.8);
+
+        data.push({
+            date: date.getTime(),
+            ohlc: [open, high, low, close],
+            volume: volume,
+        });
+        
+        // The previous day's close is this day's open
+        currentPrice = open;
+    }
+
+    // Add current day's data, ensuring it reflects the token's stats
+    const lastDataPoint = data[data.length-1];
     data.push({
-      date: date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
-      price: close,
-      ohlc: [open, high, low, close],
+        date: new Date().getTime(),
+        ohlc: [lastDataPoint?.ohlc[3] || token.price * 0.99, token.high24h || token.price * 1.02, token.low24h || token.price * 0.98, token.price],
+        volume: baseVolume * (1 + (Math.random() - 0.5)),
     });
-    
-    currentPrice = close;
-  }
-  
-  // Ensure the last data point is the current price and OHLC
-  const lastOpen = data[data.length - 2]?.price || token.price * (1 - volatility);
-  data[data.length - 1] = {
-      date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
-      price: token.price,
-      ohlc: [lastOpen, token.high24h || token.price * 1.02, token.low24h || token.price * 0.98, token.price],
-  };
 
-  return data;
+    return data;
 };
 
 
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
-    // The payload can contain info from both Area and Bar. We look for ohlc.
+    const date = new Date(label).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
     const ohlcPayload = payload.find(p => p.dataKey === 'ohlc');
+    const volumePayload = payload.find(p => p.name === 'Volume');
+
     if (!ohlcPayload) return null;
 
-    const [open, high, low, close] = ohlcPayload.payload.ohlc;
+    const [open, high, low, close] = ohlcPayload.value;
 
     return (
       <div className="rounded-lg border bg-background p-2 shadow-sm text-xs">
-        <p className="font-bold">{label}</p>
+        <p className="font-bold">{date}</p>
         <div className="grid grid-cols-2 gap-x-2 gap-y-1 mt-1">
             <span className="text-muted-foreground">Open:</span>
-            <span className={`font-mono text-right`}>{open.toFixed(4)}</span>
+            <span className="font-mono text-right">{open.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</span>
             <span className="text-muted-foreground">High:</span>
-            <span className={`font-mono text-right`}>{high.toFixed(4)}</span>
+            <span className="font-mono text-right">{high.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</span>
             <span className="text-muted-foreground">Low:</span>
-            <span className={`font-mono text-right`}>{low.toFixed(4)}</span>
+            <span className="font-mono text-right">{low.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</span>
             <span className="text-muted-foreground">Close:</span>
-            <span className={`font-mono text-right`}>{close.toFixed(4)}</span>
+            <span className="font-mono text-right">{close.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</span>
+            {volumePayload && <>
+                <span className="text-muted-foreground">Volume:</span>
+                <span className="font-mono text-right">{volumePayload.value.toLocaleString('en-US', { style: 'currency', currency: 'USD', notation: 'compact' })}</span>
+            </>}
         </div>
       </div>
     );
@@ -78,39 +100,30 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 
 
 const Candle = (props: any) => {
-    const { x, y, width, height, low, high, fill, stroke } = props;
-    const isUp = fill !== 'hsl(var(--destructive))';
-    const bodyHeight = Math.max(height, 1); // Ensure body is at least 1px
+    const { x, y, width, height, low, high, fill } = props;
+    const isUp = fill === 'transparent';
+    const bodyHeight = Math.max(height, 1);
 
     return (
-        <g stroke={stroke} fill={isUp ? 'transparent' : fill} strokeWidth="1">
-            {/* Wick */}
+        <g stroke={isUp ? 'hsl(145 63% 49%)' : 'hsl(var(--destructive))'} fill={isUp ? 'transparent' : 'hsl(var(--destructive))'} strokeWidth="1">
             <path d={`M ${x + width / 2} ${high} L ${x + width / 2} ${low}`} />
-            {/* Body */}
-            <rect x={x} y={y} width={width} height={bodyHeight} />
+            <rect x={x} y={y} width={width} height={bodyHeight} strokeWidth={isUp ? 1 : 0} />
         </g>
     );
 };
 
-// This is a custom Bar component for recharts to render candlesticks.
-// It maps the OHLC data to the necessary props for the Candle component.
 const CandlestickBar = (props: any) => {
-  const { x, ohlc } = props;
-  // If props required for drawing are not present, return null.
-  // This can happen if data is incomplete for a specific point.
-  if (!props.yAxis || !ohlc) {
-    return null;
-  }
+  const { ohlc, yAxis } = props;
+  if (!yAxis || !ohlc) return null;
+  
   const [open, high, low, close] = ohlc;
   
-  // yAxis is inverted, so `y` is the top of the bar.
-  // We need to calculate the correct y and height for the candle body.
   const isUp = close >= open;
-  const y = isUp ? props.yAxis.scale(close) : props.yAxis.scale(open);
-  const height = Math.abs(props.yAxis.scale(open) - props.yAxis.scale(close));
+  const y = isUp ? yAxis.scale(close) : yAxis.scale(open);
+  const height = Math.abs(yAxis.scale(open) - yAxis.scale(close));
   
-  const highCoord = props.yAxis.scale(high);
-  const lowCoord = props.yAxis.scale(low);
+  const highCoord = yAxis.scale(high);
+  const lowCoord = yAxis.scale(low);
 
   return (
       <Candle
@@ -119,62 +132,106 @@ const CandlestickBar = (props: any) => {
           height={height}
           high={highCoord}
           low={lowCoord}
+          fill={isUp ? 'transparent' : 'hsl(var(--destructive))'}
       />
   );
 };
 
+const timeRanges = ['24H', '7D', '1M', '3M', '6M', '1Y'];
 
 export function PriceChart({ token }: { token: TokenDetails }) {
-  const chartData = useMemo(() => generateChartData(token), [token]);
+  const [timeRange, setTimeRange] = useState('1M');
+  const chartData = useMemo(() => generateChartData(token, timeRange), [token, timeRange]);
+  
+  const [brushStartIndex, setBrushStartIndex] = useState(Math.max(0, chartData.length - 30));
+  const [brushEndIndex, setBrushEndIndex] = useState(chartData.length - 1);
+  
+  // Update brush on time range change
+  useState(() => {
+    setBrushStartIndex(Math.max(0, chartData.length - 30));
+    setBrushEndIndex(chartData.length - 1);
+  });
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle>{token.name} Price Chart</CardTitle>
+      <CardHeader className="flex flex-row items-center justify-between">
+        <div className="flex flex-col gap-1">
+          <CardTitle>{token.name} Price Chart</CardTitle>
+          <div className="text-muted-foreground text-sm">Last {timeRange === '1M' ? '30 days' : timeRange}</div>
+        </div>
+        <Link href="/">
+            <Button>Trade {token.symbol}</Button>
+        </Link>
       </CardHeader>
       <CardContent>
+        <div className="flex items-center gap-1 mb-4">
+            {timeRanges.map(range => (
+                <Button key={range} variant={timeRange === range ? 'secondary' : 'ghost'} size="sm" onClick={() => setTimeRange(range)}>
+                    {range}
+                </Button>
+            ))}
+        </div>
         <ResponsiveContainer width="100%" height={400}>
-          <ComposedChart data={chartData} margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
-            <defs>
-                <linearGradient id="colorPrice" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.8}/>
-                    <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0}/>
-                </linearGradient>
-            </defs>
+          <ComposedChart 
+            data={chartData} 
+            margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
+          >
             <CartesianGrid strokeDasharray="3 3" vertical={false} />
             <XAxis 
                 dataKey="date" 
+                tickFormatter={(time) => new Date(time).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
                 tick={{fill: 'hsl(var(--muted-foreground))', fontSize: 12}} 
                 tickLine={false}
                 axisLine={false}
+                scale="time"
+                type="number"
+                domain={['dataMin', 'dataMax']}
             />
             <YAxis 
+                yAxisId="price"
                 orientation="right" 
                 domain={['auto', 'auto']}
-                tickFormatter={(value) => `$${typeof value === 'number' ? value.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) : ''}`}
+                tickFormatter={(value) => `$${typeof value === 'number' ? value.toLocaleString() : ''}`}
                 tick={{fill: 'hsl(var(--muted-foreground))', fontSize: 12}}
                 tickLine={false}
                 axisLine={false}
             />
-            <Tooltip content={<CustomTooltip />} />
+            <YAxis yAxisId="volume" hide domain={['auto', 'dataMax * 4']} />
+
+            <Tooltip content={<CustomTooltip />} cursor={{ strokeDasharray: '3 3' }} />
             
-            <Area 
-                type="monotone" 
-                dataKey="price" 
-                stroke="hsl(var(--primary))" 
-                fillOpacity={1} 
-                fill="url(#colorPrice)" 
-                strokeWidth={2}
-                dot={false}
-            />
-            
-            <Bar dataKey="ohlc" shape={<CandlestickBar />} isAnimationActive={false}>
+            <Bar dataKey="ohlc" yAxisId="price" shape={<CandlestickBar />} isAnimationActive={false}>
                  {chartData.map((entry, index) => {
                     const [open, , , close] = entry.ohlc;
                     const color = close >= open ? 'hsl(145 63% 49%)' : 'hsl(var(--destructive))';
                     return <Cell key={`cell-${index}`} fill={color} />;
                 })}
             </Bar>
+            
+            <Brush 
+                dataKey="date"
+                height={40}
+                stroke="hsl(var(--primary))"
+                startIndex={brushStartIndex}
+                endIndex={brushEndIndex}
+                onChange={(e) => {
+                    if (e.startIndex !== null && e.endIndex !== null) {
+                        setBrushStartIndex(e.startIndex);
+                        setBrushEndIndex(e.endIndex);
+                    }
+                }}
+                tickFormatter={(time) => new Date(time).toLocaleDateString('en-US', { month: 'short' })}
+             >
+                <ComposedChart>
+                    <YAxis hide domain={['dataMin', 'dataMax']} />
+                    <Bar dataKey="volume" barSize={20}>
+                        {chartData.map((entry, index) => {
+                             const [open, , , close] = entry.ohlc;
+                             return <Cell key={`cell-${index}`} fill={close >= open ? 'hsl(145 63% 49% / 0.5)' : 'hsl(var(--destructive) / 0.5)'} />;
+                        })}
+                    </Bar>
+                </ComposedChart>
+            </Brush>
           </ComposedChart>
         </ResponsiveContainer>
       </CardContent>
