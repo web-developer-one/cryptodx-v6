@@ -8,6 +8,9 @@ export interface Cryptocurrency {
   change24h: number; // percentage change in the last 24 hours
   logo?: string;
   cmcRank?: number;
+  marketCap?: number;
+  volume24h?: number;
+  circulatingSupply?: number;
 }
 
 export interface TokenDetails extends Cryptocurrency {

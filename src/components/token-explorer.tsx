@@ -45,7 +45,7 @@ const supportedCurrencies: SelectedCurrency[] = [
   { symbol: "INR", name: "Indian Rupee", rate: 83.5 },
 ];
 
-const FormattedPrice = ({
+const FormattedTokenPrice = ({
   price,
   currency,
 }: {
@@ -67,6 +67,34 @@ const FormattedPrice = ({
   }, [price, currency]);
 
   return <>{formattedPrice}</>;
+};
+
+const FormattedLargeCurrency = ({
+  value,
+  currency,
+}: {
+  value: number;
+  currency: SelectedCurrency;
+}) => {
+  const [formatted, setFormatted] = useState<string>("");
+
+  useEffect(() => {
+    if (value === null || value === undefined) {
+      setFormatted("N/A");
+      return;
+    }
+    const convertedValue = value * currency.rate;
+    setFormatted(
+      new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: currency.symbol,
+        notation: "compact",
+        maximumFractionDigits: 2,
+      }).format(convertedValue)
+    );
+  }, [value, currency]);
+
+  return <>{formatted || "N/A"}</>;
 };
 
 export function TokenExplorer({
@@ -173,6 +201,9 @@ export function TokenExplorer({
                 <TableHead>Name</TableHead>
                 <TableHead className="text-right">Price</TableHead>
                 <TableHead className="text-right">24h %</TableHead>
+                <TableHead className="text-right">Market Cap</TableHead>
+                <TableHead className="text-right">Volume (24h)</TableHead>
+                <TableHead className="text-right">Available Supply</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -203,7 +234,7 @@ export function TokenExplorer({
                     </div>
                   </TableCell>
                   <TableCell className="text-right font-mono">
-                    <FormattedPrice
+                    <FormattedTokenPrice
                       price={token.price}
                       currency={selectedCurrency}
                     />
@@ -224,6 +255,25 @@ export function TokenExplorer({
                       )}
                       <span>{Math.abs(token.change24h).toFixed(2)}%</span>
                     </div>
+                  </TableCell>
+                  <TableCell className="text-right font-mono">
+                    <FormattedLargeCurrency
+                      value={token.marketCap ?? 0}
+                      currency={selectedCurrency}
+                    />
+                  </TableCell>
+                   <TableCell className="text-right font-mono">
+                    <FormattedLargeCurrency
+                      value={token.volume24h ?? 0}
+                      currency={selectedCurrency}
+                    />
+                  </TableCell>
+                   <TableCell className="text-right font-mono">
+                    {token.circulatingSupply
+                      ? `${token.circulatingSupply.toLocaleString("en-US", {
+                          maximumFractionDigits: 0,
+                        })} ${token.symbol}`
+                      : "N/A"}
                   </TableCell>
                 </TableRow>
               ))}

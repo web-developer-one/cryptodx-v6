@@ -13,10 +13,13 @@ interface CmcListingResponse {
     name: string;
     symbol: string;
     cmc_rank: number;
+    circulating_supply: number;
     quote: {
       USD: {
         price: number;
         percent_change_24h: number;
+        market_cap: number;
+        volume_24h: number;
       };
     };
   }[];
@@ -133,6 +136,9 @@ export async function getLatestListings(): Promise<Cryptocurrency[]> {
         change24h: coin.quote.USD.percent_change_24h,
         logo: info ? info.logo : `https://s2.coinmarketcap.com/static/img/coins/64x64/${coin.id}.png`,
         cmcRank: coin.cmc_rank,
+        marketCap: coin.quote.USD.market_cap,
+        volume24h: coin.quote.USD.volume_24h,
+        circulatingSupply: coin.circulating_supply,
       };
     });
 
