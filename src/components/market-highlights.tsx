@@ -95,8 +95,8 @@ function MarketListCard({ title, coins }: { title: string, coins: Cryptocurrency
     <Card className="shadow-lg shadow-primary/5">
         <CardHeader>
             <div className="flex justify-between items-start gap-2">
-                <CardTitle className="text-base font-semibold pt-1">{title}</CardTitle>
-                <div className="w-full max-w-[120px]">
+                <CardTitle className="text-lg font-semibold pt-1">{title}</CardTitle>
+                <div className="w-full max-w-[100px]">
                     <Select onValueChange={handleCurrencyChange} defaultValue={currency.symbol}>
                         <SelectTrigger className="h-9">
                             <SelectValue placeholder="Select currency..." />
