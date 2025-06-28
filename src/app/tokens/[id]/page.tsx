@@ -14,6 +14,7 @@ import { cn } from "@/lib/utils";
 import { MarketHighlights } from "@/components/market-highlights";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { PriceChart } from "@/components/token-details/price-chart";
 
 export default async function TokenDetailPage({ params }: { params: { id: string } }) {
   const [token, cryptoData] = await Promise.all([
@@ -86,8 +87,11 @@ export default async function TokenDetailPage({ params }: { params: { id: string
         </CardContent>
       </Card>
 
-      <div className="flex justify-center">
-        <div className="w-full max-w-lg">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="lg:col-span-2">
+            <PriceChart token={token} />
+        </div>
+        <div className="lg:col-span-1">
           <KeyStatistics token={token} />
         </div>
       </div>
