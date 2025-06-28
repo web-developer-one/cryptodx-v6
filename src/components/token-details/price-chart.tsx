@@ -141,13 +141,14 @@ export function PriceChart({ token }: { token: TokenDetails }) {
       </CardHeader>
       <CardContent>
         <ResponsiveContainer width="100%" height={400}>
-          <ComposedChart data={chartData} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
+          <ComposedChart data={chartData} margin={{ top: 5, right: 20, bottom: 20, left: 0 }}>
             <CartesianGrid strokeDasharray="3 3" vertical={true} />
              <XAxis 
                 dataKey="date" 
                 tickLine={false} 
                 axisLine={false}
-                tick={false}
+                tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 12 }}
+                dy={10}
             />
             <YAxis 
                 orientation="right" 
