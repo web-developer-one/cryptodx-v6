@@ -47,26 +47,37 @@ const generateChartData = (token: TokenDetails) => {
 
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
-    const priceData = payload.find(p => p.dataKey === 'ohlc');
+    const priceData = payload.find(p => p.dataKey === 'ohlc' || p.dataKey === 'price');
     if (!priceData) return null;
     
-    const [open, high, low, close] = priceData.value;
-    
-    return (
-      <div className="rounded-lg border bg-background p-2 shadow-sm text-xs">
-        <p className="font-bold">{label}</p>
-        <div className="grid grid-cols-2 gap-x-2 gap-y-1 mt-1">
-            <span className="text-muted-foreground">Open:</span>
-            <span className="font-mono text-right">${open.toFixed(2)}</span>
-            <span className="text-muted-foreground">High:</span>
-            <span className="font-mono text-right">${high.toFixed(2)}</span>
-            <span className="text-muted-foreground">Low:</span>
-            <span className="font-mono text-right">${low.toFixed(2)}</span>
-            <span className="text-muted-foreground">Close:</span>
-            <span className="font-mono text-right">${close.toFixed(2)}</span>
-        </div>
-      </div>
-    );
+    // Handle both candlestick and line chart tooltips
+    if (priceData.dataKey === 'ohlc') {
+        const [open, high, low, close] = priceData.value;
+        return (
+          <div className="rounded-lg border bg-background p-2 shadow-sm text-xs">
+            <p className="font-bold">{label}</p>
+            <div className="grid grid-cols-2 gap-x-2 gap-y-1 mt-1">
+                <span className="text-muted-foreground">Open:</span>
+                <span className="font-mono text-right">${open.toFixed(2)}</span>
+                <span className="text-muted-foreground">High:</span>
+                <span className="font-mono text-right">${high.toFixed(2)}</span>
+                <span className="text-muted-foreground">Low:</span>
+                <span className="font-mono text-right">${low.toFixed(2)}</span>
+                <span className="text-muted-foreground">Close:</span>
+                <span className="font-mono text-right">${close.toFixed(2)}</span>
+            </div>
+          </div>
+        );
+    } else { // It's a line chart
+        return (
+             <div className="rounded-lg border bg-background p-2 shadow-sm text-xs">
+                <div className="grid grid-cols-2 gap-x-2 gap-y-1">
+                    <span className="font-bold">{label}:</span>
+                    <span className="font-mono text-right">${(priceData.value as number).toLocaleString()}</span>
+                </div>
+            </div>
+        )
+    }
   }
   return null;
 };
@@ -98,7 +109,7 @@ const CandlestickBar = (props: any) => {
         y={y} 
         width={width} 
         height={height} 
-        fill={isUp ? 'transparent' : color} 
+        fill={color}
         stroke={color} 
         strokeWidth={1}
       />
@@ -111,6 +122,7 @@ export function PriceChart({ token }: { token: TokenDetails }) {
   const chartData = useMemo(() => generateChartData(token), [token]);
   const [timeframe, setTimeframe] = useState('1M');
   const [brushStartIndex, setBrushStartIndex] = useState(chartData.length > 30 ? chartData.length - 30 : 0);
+  const [chartView, setChartView] = useState<'line' | 'candlestick'>('line');
 
   const timeframes = ['24H', '7D', '1M', '3M', '6M', '1Y'];
 
@@ -149,8 +161,23 @@ export function PriceChart({ token }: { token: TokenDetails }) {
         <div className="flex items-start justify-between">
           <div>
             <CardTitle>{token.name} Price Chart</CardTitle>
-            <div className="mt-2">
-              <Button variant="secondary" size="sm" className="bg-accent text-accent-foreground">Candlestick</Button>
+            <div className="mt-2 flex items-center gap-1 rounded-md bg-muted p-1 w-fit">
+               <Button
+                variant={chartView === 'line' ? 'secondary' : 'ghost'}
+                size="sm"
+                className="h-7 px-3 text-xs"
+                onClick={() => setChartView('line')}
+              >
+                Line
+              </Button>
+              <Button
+                variant={chartView === 'candlestick' ? 'secondary' : 'ghost'}
+                size="sm"
+                className="h-7 px-3 text-xs"
+                onClick={() => setChartView('candlestick')}
+              >
+                Candlestick
+              </Button>
             </div>
           </div>
           <div className="flex flex-col items-end gap-2">
@@ -204,9 +231,11 @@ export function PriceChart({ token }: { token: TokenDetails }) {
                 </linearGradient>
             </defs>
 
-            <Area type="monotone" dataKey="price" stroke="hsl(var(--primary))" fillOpacity={1} fill="url(#colorPrice)" strokeWidth={2} />
-
-            <Bar dataKey="ohlc" shape={<CandlestickBar />} />
+            {chartView === 'line' ? (
+                <Area type="monotone" dataKey="price" stroke="hsl(var(--primary))" fillOpacity={1} fill="url(#colorPrice)" strokeWidth={2} />
+            ) : (
+                <Bar dataKey="ohlc" shape={<CandlestickBar />} />
+            )}
             
             <Brush 
                 dataKey="date" 
