@@ -46,9 +46,9 @@ export function Footer() {
   return (
     <footer className="w-full border-t border-primary-foreground/10 bg-primary text-primary-foreground">
       <div className="container py-12">
-        <div className="grid grid-cols-2 gap-8 md:grid-cols-4 lg:grid-cols-6">
+        <div className="grid grid-cols-2 gap-8 text-center md:grid-cols-5 md:text-left">
           {/* Column 1: Site Info */}
-          <div className="col-span-2 flex flex-col items-start gap-4 md:col-span-1">
+          <div className="col-span-2 flex flex-col items-center gap-4 md:col-span-1 md:items-start">
             <Link href="/" className="flex items-center space-x-2">
               <Repeat className="h-8 w-8" />
               <span className="text-lg font-bold">Crypto Swap</span>
@@ -60,9 +60,9 @@ export function Footer() {
 
           {/* The other columns */}
           {footerSections.map((section) => (
-            <div key={section.title} className="flex flex-col gap-3">
+            <div key={section.title} className="flex flex-col items-center gap-3 md:items-start">
               <h4 className="text-base font-semibold">{section.title}</h4>
-              <ul className="flex flex-col gap-2 text-sm">
+              <ul className="flex flex-col items-center gap-2 text-sm md:items-start">
                 {section.links.map((link) => (
                   <li key={link.name}>
                     {link.name === "Cookie Policy" ? (

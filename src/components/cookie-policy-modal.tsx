@@ -25,7 +25,7 @@ export function CookiePolicyModal() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <button className="text-primary-foreground/70 transition-colors hover:text-primary-foreground text-sm text-left">
+        <button className="text-primary-foreground/70 transition-colors hover:text-primary-foreground text-sm">
           Cookie Policy
         </button>
       </DialogTrigger>
