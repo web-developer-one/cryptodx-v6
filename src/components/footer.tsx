@@ -50,8 +50,8 @@ export function Footer() {
           {/* Column 1: Site Info */}
           <div className="col-span-2 flex flex-col items-center gap-4 md:col-span-1 md:items-start">
             <Link href="/" className="flex items-center space-x-2">
-              <Repeat className="h-8 w-8" />
-              <span className="text-lg font-bold">Crypto Swap</span>
+              <Repeat className="h-6 w-6" />
+              <span className="font-bold">Crypto Swap</span>
             </Link>
             <p className="text-sm text-primary-foreground/70">
               Seamlessly swap your favorite tokens.
