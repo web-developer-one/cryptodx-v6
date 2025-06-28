@@ -2,7 +2,7 @@
 'use client'
 
 import * as React from "react"
-import { Area, AreaChart, CartesianGrid, XAxis, YAxis, Tooltip, Brush } from "recharts"
+import { Area, ComposedChart, CartesianGrid, XAxis, YAxis, Tooltip, Brush, Bar, Cell, Line, ErrorBar } from "recharts"
 import {
   Card,
   CardContent,
@@ -34,9 +34,23 @@ const generatePriceData = (currentPrice: number, days: number) => {
       newPrice = currentPrice;
     }
     
+    const open = lastPrice;
+    const close = newPrice;
+    const high = Math.max(open, close) + Math.abs(close - open) * Math.random();
+    const low = Math.min(open, close) - Math.abs(close - open) * Math.random();
+    
+    const isRising = close >= open;
+
     data.push({
       date: date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
-      price: parseFloat(newPrice.toFixed(4)),
+      open: parseFloat(open.toFixed(4)),
+      high: parseFloat(high.toFixed(4)),
+      low: parseFloat(low.toFixed(4)),
+      close: parseFloat(close.toFixed(4)),
+      wick: [parseFloat(low.toFixed(4)), parseFloat(high.toFixed(4))],
+      bodyStart: parseFloat(Math.min(open, close).toFixed(4)),
+      bodyHeight: parseFloat(Math.abs(open - close).toFixed(4)),
+      isRising,
     });
     
     lastPrice = newPrice;
@@ -46,12 +60,20 @@ const generatePriceData = (currentPrice: number, days: number) => {
 
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
+    const data = payload[0].payload;
     return (
       <div className="p-2 text-xs rounded-md border bg-popover text-popover-foreground shadow-md">
         <p className="font-bold">{label}</p>
-        <p className="text-muted-foreground mt-1">
-          Price: <span className="font-mono text-foreground">${payload[0].value.toLocaleString()}</span>
-        </p>
+        <div className="grid grid-cols-2 gap-x-2 gap-y-1 mt-1">
+            <span className="text-muted-foreground">Open:</span>
+            <span className="font-mono text-right text-foreground">${data.open.toLocaleString()}</span>
+            <span className="text-muted-foreground">High:</span>
+            <span className="font-mono text-right text-foreground">${data.high.toLocaleString()}</span>
+            <span className="text-muted-foreground">Low:</span>
+            <span className="font-mono text-right text-foreground">${data.low.toLocaleString()}</span>
+            <span className="text-muted-foreground">Close:</span>
+            <span className="font-mono text-right text-foreground">${data.close.toLocaleString()}</span>
+        </div>
       </div>
     );
   }
@@ -85,7 +107,7 @@ export function PriceChart({ token }: { token: TokenDetails }) {
 
   const yDomain = React.useMemo(() => {
     if (chartData.length === 0) return ['auto', 'auto'];
-    const prices = chartData.map(d => d.price);
+    const prices = chartData.flatMap(d => [d.high, d.low]);
     const min = Math.min(...prices);
     const max = Math.max(...prices);
     const padding = (max - min) * 0.1;
@@ -117,14 +139,14 @@ export function PriceChart({ token }: { token: TokenDetails }) {
       <CardContent>
         <ChartContainer config={chartConfig} className="h-[400px] w-full">
           {chartData.length > 0 ? (
-            <AreaChart 
+            <ComposedChart 
               data={chartData} 
               margin={{ top: 5, right: 10, left: 10, bottom: 5 }}
             >
               <defs>
                 <linearGradient id="fillPrice" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="var(--color-price)" stopOpacity={0.8} />
-                  <stop offset="95%" stopColor="var(--color-price)" stopOpacity={0.1} />
+                  <stop offset="5%" stopColor="var(--color-price)" stopOpacity={0.4} />
+                  <stop offset="95%" stopColor="var(--color-price)" stopOpacity={0.05} />
                 </linearGradient>
               </defs>
               <CartesianGrid vertical={false} />
@@ -145,21 +167,31 @@ export function PriceChart({ token }: { token: TokenDetails }) {
               />
               <Tooltip content={<CustomTooltip />} />
               <Area
-                dataKey="price"
+                dataKey="close"
                 type="monotone"
                 fill="url(#fillPrice)"
                 stroke="var(--color-price)"
                 strokeWidth={2}
                 dot={false}
-                activeDot={{ r: 6, strokeWidth: 2 }}
+                activeDot={false}
+                isAnimationActive={false}
               />
-               <Brush 
+              <Line dataKey="close" stroke="transparent" activeDot={false} isAnimationActive={false}>
+                <ErrorBar dataKey="wick" width={1.5} strokeWidth={1} stroke="hsl(var(--muted-foreground))" direction="y" />
+              </Line>
+              <Bar dataKey="bodyStart" stackId="candle" fill="transparent" isAnimationActive={false} />
+              <Bar dataKey="bodyHeight" stackId="candle" isAnimationActive={false}>
+                {chartData.map((entry, index) => (
+                  <Cell key={`cell-${index}`} fill={entry.isRising ? 'hsl(var(--chart-2))' : 'hsl(var(--destructive))'} />
+                ))}
+              </Bar>
+              <Brush 
                 dataKey="date" 
                 height={30} 
                 stroke="hsl(var(--primary))" 
                 travellerWidth={20}
               />
-            </AreaChart>
+            </ComposedChart>
           ) : (
             <div className="flex h-full items-center justify-center">
                 <Skeleton className="h-full w-full" />
