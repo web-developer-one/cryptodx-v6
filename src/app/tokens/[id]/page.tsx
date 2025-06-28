@@ -1,7 +1,6 @@
 
 import { getTokenDetails, getLatestListings } from "@/lib/coinmarketcap";
 import { KeyStatistics } from "@/components/token-details/key-statistics";
-import { PriceChart } from "@/components/token-details/price-chart";
 import {
   Card,
   CardContent,
@@ -87,12 +86,9 @@ export default async function TokenDetailPage({ params }: { params: { id: string
         </CardContent>
       </Card>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
-        <div className="lg:col-span-1">
+      <div className="flex justify-center">
+        <div className="w-full max-w-lg">
           <KeyStatistics token={token} />
-        </div>
-        <div className="lg:col-span-2">
-          <PriceChart token={token} />
         </div>
       </div>
 
