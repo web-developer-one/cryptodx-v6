@@ -227,7 +227,7 @@ export function PriceChart({ token }: { token: TokenDetails }) {
               />
               {/* Body */}
               <Bar
-                dataKey={['open', 'close']}
+                dataKey={(item) => [Math.min(item.open, item.close), Math.max(item.open, item.close)]}
                 barSize={10}
                 shape={<CandleBody />}
                 animationDuration={300}
