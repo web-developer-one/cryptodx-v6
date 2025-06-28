@@ -2,7 +2,7 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import { Area, Bar, ComposedChart, ResponsiveContainer, Tooltip, XAxis, YAxis, CartesianGrid } from 'recharts';
+import { Area, Bar, ComposedChart, ResponsiveContainer, Tooltip, XAxis, YAxis, CartesianGrid, Brush } from 'recharts';
 import type { TokenDetails } from '@/lib/types';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -13,12 +13,12 @@ import { cn } from '@/lib/utils';
 const generateChartData = (token: TokenDetails) => {
     const data = [];
     let currentPrice = token.price;
-    const volatility = (token.change24h || 1) / 100 * 0.5;
+    const volatility = (token.change24h || 1) / 100 * 0.8;
 
-    // Generate 30 days of data
-    for (let i = 0; i < 30; i++) {
+    // Generate 365 days of data to make the scrollbar useful
+    for (let i = 0; i < 365; i++) {
         const date = new Date();
-        date.setDate(date.getDate() - (29 - i));
+        date.setDate(date.getDate() - (364 - i));
         
         const open = currentPrice;
         const close = currentPrice * (1 + (Math.random() - 0.5) * volatility);
@@ -34,13 +34,13 @@ const generateChartData = (token: TokenDetails) => {
         currentPrice = close;
     }
     // Ensure the last data point matches the token's current price
-    data[29].price = token.price;
-    data[29].ohlc[3] = token.price;
-    data[29].ohlc[1] = Math.max(data[29].ohlc[1], token.price);
+    data[364].price = token.price;
+    data[364].ohlc[3] = token.price;
+    data[364].ohlc[1] = Math.max(data[364].ohlc[1], token.price);
     
     // Ensure simulated high/low match token data
-    if (token.high24h) data[29].ohlc[1] = token.high24h;
-    if (token.low24h) data[29].ohlc[2] = token.low24h;
+    if (token.high24h) data[364].ohlc[1] = token.high24h;
+    if (token.low24h) data[364].ohlc[2] = token.low24h;
 
     return data;
 };
@@ -75,25 +75,34 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 
 // Custom shape for the candlestick
 const CandlestickBar = (props: any) => {
-  const { x, yAxis, width, ohlc } = props;
+  const { x, width, ohlc, yAxis } = props;
   if (!ohlc || !yAxis) return null;
   
   const [open, high, low, close] = ohlc;
   const isUp = close >= open;
 
-  // We need to calculate the correct y and height for the candle body.
-  const y = isUp ? yAxis.scale(close) : yAxis.scale(open);
-  const height = Math.abs(yAxis.scale(open) - yAxis.scale(close));
+  // Calculate the y and height for the candle body.
+  const y = yAxis.scale(isUp ? close : open);
+  const height = Math.max(1, Math.abs(yAxis.scale(open) - yAxis.scale(close)));
   
   const highCoord = yAxis.scale(high);
   const lowCoord = yAxis.scale(low);
+  const color = isUp ? 'hsl(145 63% 49%)' : 'hsl(var(--destructive))';
   
   return (
     <g>
       {/* Wick */}
-      <line x1={x + width / 2} y1={highCoord} x2={x + width / 2} y2={lowCoord} stroke={isUp ? "green" : "red"} strokeWidth={1}/>
+      <line x1={x + width / 2} y1={highCoord} x2={x + width / 2} y2={lowCoord} stroke={color} strokeWidth={1}/>
       {/* Body */}
-      <rect x={x} y={y} width={width} height={height} fill={isUp ? "green" : "red"} />
+      <rect 
+        x={x} 
+        y={y} 
+        width={width} 
+        height={height} 
+        fill={isUp ? 'transparent' : color} 
+        stroke={color} 
+        strokeWidth={1}
+      />
     </g>
   );
 };
@@ -132,11 +141,24 @@ export function PriceChart({ token }: { token: TokenDetails }) {
         </div>
       </CardHeader>
       <CardContent>
-        <ResponsiveContainer width="100%" height={300}>
+        <ResponsiveContainer width="100%" height={400}>
           <ComposedChart data={chartData} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="date" />
-            <YAxis orientation="right" domain={['auto', 'auto']} />
+            <CartesianGrid strokeDasharray="3 3" vertical={true} />
+             <XAxis 
+                dataKey="date" 
+                tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 12 }} 
+                tickLine={false} 
+                axisLine={false}
+                hide={true} // Hide main axis, brush will control labels
+            />
+            <YAxis 
+                orientation="right" 
+                domain={['auto', 'auto']} 
+                tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 12 }}
+                tickFormatter={(value) => `$${value.toLocaleString()}`}
+                axisLine={false}
+                tickLine={false}
+            />
             <Tooltip content={<CustomTooltip />} />
             
             <defs>
@@ -149,6 +171,21 @@ export function PriceChart({ token }: { token: TokenDetails }) {
             <Area type="monotone" dataKey="price" stroke="hsl(var(--primary))" fillOpacity={1} fill="url(#colorPrice)" strokeWidth={2} />
 
             <Bar dataKey="ohlc" shape={<CandlestickBar />} />
+            
+            <Brush 
+                dataKey="date" 
+                height={40} 
+                stroke="hsl(var(--primary))"
+                startIndex={chartData.length - 30}
+                tickFormatter={(index) => chartData[index]?.date}
+                travellerWidth={10}
+                padding={{ top: 10, bottom: 0}}
+            >
+                {/* Custom chart inside the brush */}
+                <ComposedChart>
+                    <Area dataKey="price" stroke="hsl(var(--primary))" fill="hsl(var(--primary))" fillOpacity={0.5} />
+                </ComposedChart>
+            </Brush>
           </ComposedChart>
         </ResponsiveContainer>
       </CardContent>
