@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useMemo, useEffect } from "react";
@@ -159,7 +160,7 @@ export function TokenExplorer({
         <CardHeader className="flex flex-row items-center justify-between gap-4">
           <CardTitle>Tokens</CardTitle>
           <div className="flex items-center gap-4">
-            <div className="max-w-sm w-full">
+            <div className="max-w-md w-full">
               <Input
                 placeholder="Search tokens..."
                 value={searchQuery}
