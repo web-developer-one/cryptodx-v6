@@ -288,16 +288,13 @@ export function TokenExplorer({
                     <div className="flex items-center gap-3">
                       <Image
                         src={token.logo || `https://placehold.co/32x32.png`}
-                        alt={`${token.name} logo`}
+                        alt={`${token.name} (${token.symbol}) logo`}
                         width={32}
                         height={32}
                         className="rounded-full"
                       />
                       <div>
-                        <p className="font-semibold">{token.name}</p>
-                        <p className="text-sm text-muted-foreground">
-                          {token.symbol}
-                        </p>
+                        <p className="font-semibold">{`${token.name} (${token.symbol})`}</p>
                       </div>
                     </div>
                   </TableCell>

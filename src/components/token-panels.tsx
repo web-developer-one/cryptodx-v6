@@ -227,14 +227,13 @@ export function TokenPanels({
                 <CardHeader className="flex-row items-center gap-3 space-y-0 p-4">
                     <Image
                         src={token.logo || `https://placehold.co/40x40.png`}
-                        alt={`${token.name} logo`}
+                        alt={`${token.name} (${token.symbol}) logo`}
                         width={40}
                         height={40}
                         className="rounded-full"
                     />
                     <div className="flex-1">
-                        <CardTitle className="text-base">{token.name}</CardTitle>
-                        <p className="text-sm text-muted-foreground">{token.symbol}</p>
+                        <CardTitle className="text-base">{`${token.name} (${token.symbol})`}</CardTitle>
                     </div>
                 </CardHeader>
                 <CardContent className="p-4 pt-0 flex-1 flex flex-col justify-end">
