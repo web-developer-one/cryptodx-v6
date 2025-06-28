@@ -114,7 +114,7 @@ export function YourPositions({ cryptocurrencies }: { cryptocurrencies: Cryptocu
             <div className="flex justify-between items-center">
                 <h1 className="text-3xl font-bold">Your Positions</h1>
                 <div className="flex items-center gap-4">
-                    <div className="w-full max-w-[220px]">
+                    <div className="w-full max-w-[240px]">
                         <Select onValueChange={handleCurrencyChange} defaultValue={selectedCurrency.symbol}>
                             <SelectTrigger>
                                 <SelectValue placeholder="Select currency..." />
