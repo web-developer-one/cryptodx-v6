@@ -237,7 +237,7 @@ export function TokenExplorer({
                 className="md:text-base"
               />
             </div>
-            <div className="w-full max-w-[240px]">
+            <div className="w-full max-w-[220px]">
               <Select
                 onValueChange={handleCurrencyChange}
                 defaultValue={selectedCurrency.symbol}
