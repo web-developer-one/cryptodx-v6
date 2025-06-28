@@ -70,10 +70,15 @@ export function Chatbot() {
   return (
     <>
       <div className="fixed bottom-6 right-6 z-50">
-        <div 
-          className="absolute bottom-[5.75rem] right-0 bg-primary text-primary-foreground text-sm font-medium py-1.5 px-4 rounded-lg shadow-lg animate-in fade-in-50 flex flex-col items-center"
-          style={{ visibility: hasMounted && !isOpen ? 'visible' : 'hidden' }}
-          >
+        <div
+          className={cn(
+            "absolute bottom-[5.75rem] right-0 bg-primary text-primary-foreground text-sm font-medium py-1.5 px-4 rounded-lg shadow-lg flex flex-col items-center transition-all",
+            {
+              "animate-in fade-in-50": hasMounted && !isOpen,
+              "invisible": !hasMounted || isOpen,
+            }
+          )}
+        >
             <span className="whitespace-nowrap">Ask me about Crypto.</span>
         </div>
         <Button
