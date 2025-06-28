@@ -70,12 +70,13 @@ export function Chatbot() {
   return (
     <>
       <div className="fixed bottom-6 right-6 z-50">
-        {hasMounted && !isOpen && (
-            <div className="absolute bottom-[5.75rem] right-0 bg-primary text-primary-foreground text-sm font-medium py-1.5 px-4 rounded-lg shadow-lg animate-in fade-in-50 flex flex-col items-center">
-                <span className="whitespace-nowrap">Ask me about Crypto.</span>
-                <span className="whitespace-nowrap">Ask me about DeFi.</span>
-            </div>
-        )}
+        <div 
+          className="absolute bottom-[5.75rem] right-0 bg-primary text-primary-foreground text-sm font-medium py-1.5 px-4 rounded-lg shadow-lg animate-in fade-in-50 flex flex-col items-center"
+          style={{ visibility: hasMounted && !isOpen ? 'visible' : 'hidden' }}
+          >
+            <span className="whitespace-nowrap">Ask me about Crypto.</span>
+            <span className="whitespace-nowrap">Ask me about DeFi.</span>
+        </div>
         <Button
           size="icon"
           className="rounded-full w-16 h-16 shadow-lg"
