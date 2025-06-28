@@ -9,11 +9,14 @@ export function ExploreNav() {
 
   return (
     <div className="mb-6 flex justify-center">
-      <div className="w-full max-w-md">
+      <div className="w-full max-w-lg">
         <Tabs value={pathname} className="w-full">
-            <TabsList className="grid w-full grid-cols-3">
+            <TabsList className="grid w-full grid-cols-4">
                 <Link href="/tokens" passHref>
-                    <TabsTrigger value="/tokens">Tokens</TabsTrigger>
+                    <TabsTrigger value="/tokens">List View</TabsTrigger>
+                </Link>
+                <Link href="/tokens/panels" passHref>
+                    <TabsTrigger value="/tokens/panels">Panel View</TabsTrigger>
                 </Link>
                 <Link href="/pools" passHref>
                     <TabsTrigger value="/pools">Pools</TabsTrigger>
