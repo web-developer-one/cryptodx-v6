@@ -71,6 +71,15 @@ export function Footer() {
                       <PrivacyPolicyModal />
                     ) : link.name === "Terms of Use" ? (
                       <TermsOfUseModal />
+                    ) : link.name === "Our Blog" ? (
+                      <Link
+                        href={link.href}
+                        className="text-primary-foreground/70 transition-colors hover:text-primary-foreground"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {link.name}
+                      </Link>
                     ) : (
                       <Link
                         href={link.href}
