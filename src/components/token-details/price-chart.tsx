@@ -1,12 +1,13 @@
 
 'use client';
 
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { Area, Bar, ComposedChart, ResponsiveContainer, Tooltip, XAxis, YAxis, CartesianGrid } from 'recharts';
 import type { TokenDetails } from '@/lib/types';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import { cn } from '@/lib/utils';
 
 // Generate some fake OHLC data for the chart
 const generateChartData = (token: TokenDetails) => {
@@ -100,14 +101,35 @@ const CandlestickBar = (props: any) => {
 
 export function PriceChart({ token }: { token: TokenDetails }) {
   const chartData = useMemo(() => generateChartData(token), [token]);
+  const [timeframe, setTimeframe] = useState('1M');
+
+  const timeframes = ['24H', '7D', '1M', '3M', '6M', '1Y'];
 
   return (
     <Card>
-      <CardHeader className="flex flex-row items-center justify-between">
+      <CardHeader className="flex flex-row items-start justify-between">
         <CardTitle>{token.name} Price Chart</CardTitle>
-        <Link href="/" passHref>
-            <Button>Trade {token.symbol}</Button>
-        </Link>
+        <div className="flex flex-col items-end gap-2">
+          <Link href="/" passHref>
+              <Button>Trade {token.symbol}</Button>
+          </Link>
+          <div className="flex items-center gap-1">
+            {timeframes.map((tf) => (
+              <Button
+                key={tf}
+                variant="ghost"
+                size="sm"
+                className={cn(
+                  "h-7 px-2 text-xs",
+                  timeframe === tf && "bg-accent text-accent-foreground"
+                )}
+                onClick={() => setTimeframe(tf)}
+              >
+                {tf}
+              </Button>
+            ))}
+          </div>
+        </div>
       </CardHeader>
       <CardContent>
         <ResponsiveContainer width="100%" height={300}>
