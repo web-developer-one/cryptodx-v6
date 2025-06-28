@@ -96,6 +96,11 @@ const Candle = (props: any) => {
 // It maps the OHLC data to the necessary props for the Candle component.
 const CandlestickBar = (props: any) => {
   const { x, ohlc } = props;
+  // If props required for drawing are not present, return null.
+  // This can happen if data is incomplete for a specific point.
+  if (!props.yAxis || !ohlc) {
+    return null;
+  }
   const [open, high, low, close] = ohlc;
   
   // yAxis is inverted, so `y` is the top of the bar.
