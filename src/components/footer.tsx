@@ -32,12 +32,6 @@ const footerSections = [
     ],
   },
   {
-    title: "More",
-    links: [
-      { name: "Slippage", href: "#" },
-    ],
-  },
-  {
     title: "Site",
     links: [
       { name: "Our Blog", href: "https://cryptomx.co/blog/" },
