@@ -110,39 +110,71 @@ const CandlestickBar = (props: any) => {
 export function PriceChart({ token }: { token: TokenDetails }) {
   const chartData = useMemo(() => generateChartData(token), [token]);
   const [timeframe, setTimeframe] = useState('1M');
+  const [brushStartIndex, setBrushStartIndex] = useState(chartData.length > 30 ? chartData.length - 30 : 0);
 
   const timeframes = ['24H', '7D', '1M', '3M', '6M', '1Y'];
+
+  const handleTimeframeChange = (tf: string) => {
+    setTimeframe(tf);
+    const dataLength = chartData.length;
+    let newIndex = 0;
+    switch (tf) {
+      case '24H':
+        newIndex = dataLength > 7 ? dataLength - 7 : 0;
+        break;
+      case '7D':
+        newIndex = dataLength > 7 ? dataLength - 7 : 0;
+        break;
+      case '1M':
+        newIndex = dataLength > 30 ? dataLength - 30 : 0;
+        break;
+      case '3M':
+        newIndex = dataLength > 90 ? dataLength - 90 : 0;
+        break;
+      case '6M':
+        newIndex = dataLength > 180 ? dataLength - 180 : 0;
+        break;
+      case '1Y':
+        newIndex = 0;
+        break;
+      default:
+        newIndex = dataLength > 30 ? dataLength - 30 : 0;
+    }
+    setBrushStartIndex(newIndex);
+  };
 
   return (
     <Card>
       <CardHeader>
-        <div className="flex items-center justify-between">
+        <div className="flex items-start justify-between">
           <CardTitle>{token.name} Price Chart</CardTitle>
-          <Link href="/" passHref>
-              <Button>Trade {token.symbol}</Button>
-          </Link>
-        </div>
-        <div className="flex items-center justify-end gap-1">
-          {timeframes.map((tf) => (
-            <Button
-              key={tf}
-              variant="ghost"
-              size="sm"
-              className={cn(
-                "h-7 px-2 text-xs",
-                timeframe === tf && "bg-accent text-accent-foreground"
-              )}
-              onClick={() => setTimeframe(tf)}
-            >
-              {tf}
-            </Button>
-          ))}
+          <div className="flex flex-col items-end gap-2">
+              <Link href="/" passHref>
+                  <Button>Trade {token.symbol}</Button>
+              </Link>
+              <div className="flex items-center justify-end gap-1">
+                {timeframes.map((tf) => (
+                  <Button
+                    key={tf}
+                    variant="ghost"
+                    size="sm"
+                    className={cn(
+                      "h-7 px-2 text-xs",
+                      timeframe === tf && "bg-accent text-accent-foreground"
+                    )}
+                    onClick={() => handleTimeframeChange(tf)}
+                  >
+                    {tf}
+                  </Button>
+                ))}
+              </div>
+          </div>
         </div>
       </CardHeader>
       <CardContent>
         <ResponsiveContainer width="100%" height={400}>
           <ComposedChart data={chartData} margin={{ top: 5, right: 20, bottom: 20, left: 0 }}>
-            <CartesianGrid strokeDasharray="3 3" vertical={true} />
+            <CartesianGrid strokeDasharray="3 3" />
              <XAxis 
                 dataKey="date" 
                 tickLine={false} 
@@ -175,7 +207,8 @@ export function PriceChart({ token }: { token: TokenDetails }) {
                 dataKey="date" 
                 height={20} 
                 stroke="hsl(var(--primary))"
-                startIndex={chartData.length - 30}
+                startIndex={brushStartIndex}
+                key={brushStartIndex}
                 tickFormatter={(index) => chartData[index]?.date}
                 travellerWidth={10}
                 padding={{ top: 5, bottom: 0}}
