@@ -1,7 +1,7 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import { Bar, ComposedChart, ResponsiveContainer, Tooltip, XAxis, YAxis, CartesianGrid, Cell, Brush } from 'recharts';
+import { Area, Bar, ComposedChart, ResponsiveContainer, Tooltip, XAxis, YAxis, CartesianGrid, Cell, Brush, Line } from 'recharts';
 import type { TokenDetails } from '@/lib/types';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '../ui/button';
@@ -76,33 +76,49 @@ const generateChartData = (token: TokenDetails, timeRange: string) => {
 };
 
 
-const CustomTooltip = ({ active, payload, label }: any) => {
+const CustomTooltip = ({ active, payload, label, chartType }: any) => {
   if (active && payload && payload.length) {
     const date = new Date(label).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
-    const ohlcPayload = payload.find(p => p.dataKey === 'ohlc');
+    const pricePayload = payload.find(p => p.name === 'Price' || p.dataKey === 'ohlc');
     const volumePayload = payload.find(p => p.name === 'Volume');
 
-    if (!ohlcPayload) return null;
+    if (!pricePayload) return null;
 
-    const [open, high, low, close] = ohlcPayload.value;
+    let priceContent;
+    if (chartType === 'line' && pricePayload.value) {
+        const close = pricePayload.payload.ohlc[3];
+        priceContent = (
+            <div className="grid grid-cols-2 gap-x-2 gap-y-1 mt-1">
+                 <span className="text-muted-foreground">Price:</span>
+                <span className="font-mono text-right">{close.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</span>
+            </div>
+        )
+    } else if (chartType === 'candlestick') {
+        const [open, high, low, close] = pricePayload.value;
+        priceContent = (
+            <div className="grid grid-cols-2 gap-x-2 gap-y-1 mt-1">
+                <span className="text-muted-foreground">Open:</span>
+                <span className="font-mono text-right">{open.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</span>
+                <span className="text-muted-foreground">High:</span>
+                <span className="font-mono text-right">{high.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</span>
+                <span className="text-muted-foreground">Low:</span>
+                <span className="font-mono text-right">{low.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</span>
+                <span className="text-muted-foreground">Close:</span>
+                <span className="font-mono text-right">{close.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</span>
+            </div>
+        )
+    }
 
     return (
       <div className="rounded-lg border bg-background p-2 shadow-sm text-xs">
         <p className="font-bold">{date}</p>
-        <div className="grid grid-cols-2 gap-x-2 gap-y-1 mt-1">
-            <span className="text-muted-foreground">Open:</span>
-            <span className="font-mono text-right">{open.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</span>
-            <span className="text-muted-foreground">High:</span>
-            <span className="font-mono text-right">{high.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</span>
-            <span className="text-muted-foreground">Low:</span>
-            <span className="font-mono text-right">{low.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</span>
-            <span className="text-muted-foreground">Close:</span>
-            <span className="font-mono text-right">{close.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</span>
-            {volumePayload && <>
+        {priceContent}
+        {volumePayload && <>
+            <div className="grid grid-cols-2 gap-x-2 gap-y-1 mt-1">
                 <span className="text-muted-foreground">Volume:</span>
                 <span className="font-mono text-right">{volumePayload.value.toLocaleString('en-US', { style: 'currency', currency: 'USD', notation: 'compact' })}</span>
-            </>}
-        </div>
+            </div>
+        </>}
       </div>
     );
   }
@@ -140,6 +156,7 @@ const timeRanges = ['24H', '7D', '1M', '3M', '6M', '1Y'];
 
 export function PriceChart({ token }: { token: TokenDetails }) {
   const [timeRange, setTimeRange] = useState('1M');
+  const [chartType, setChartType] = useState<'line' | 'candlestick'>('candlestick');
   const chartData = useMemo(() => generateChartData(token, timeRange), [token, timeRange]);
   
   const [brushStartIndex, setBrushStartIndex] = useState(Math.max(0, chartData.length - 30));
@@ -151,6 +168,21 @@ export function PriceChart({ token }: { token: TokenDetails }) {
     setBrushEndIndex(chartData.length - 1);
   });
 
+  const priceDomain = useMemo(() => {
+    const visibleData = chartData.slice(brushStartIndex, brushEndIndex + 1);
+    if (visibleData.length === 0) return ['auto', 'auto'];
+    let min = Infinity;
+    let max = -Infinity;
+    visibleData.forEach(d => {
+        const [, high, low] = d.ohlc;
+        if (high > max) max = high;
+        if (low < min) min = low;
+    });
+    if (min === Infinity || max === -Infinity) return ['auto', 'auto'];
+    const padding = (max - min) * 0.1;
+    return [min - padding, max + padding];
+  }, [chartData, brushStartIndex, brushEndIndex]);
+
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between">
@@ -158,24 +190,31 @@ export function PriceChart({ token }: { token: TokenDetails }) {
           <CardTitle>{token.name} Price Chart</CardTitle>
           <div className="text-muted-foreground text-sm">Last {timeRange === '1M' ? '30 days' : timeRange}</div>
         </div>
-        <Link href="/">
-            <Button>Trade {token.symbol}</Button>
-        </Link>
+        <div className="flex items-center gap-4">
+            <div className="flex items-center gap-1">
+                <Button variant={chartType === 'line' ? 'secondary' : 'ghost'} size="sm" onClick={() => setChartType('line')}>Line</Button>
+                <Button variant={chartType === 'candlestick' ? 'secondary' : 'ghost'} size="sm" onClick={() => setChartType('candlestick')}>Candles</Button>
+            </div>
+             <div className="flex items-center gap-1">
+                {timeRanges.map(range => (
+                    <Button key={range} variant={timeRange === range ? 'secondary' : 'ghost'} size="sm" onClick={() => setTimeRange(range)}>
+                        {range}
+                    </Button>
+                ))}
+            </div>
+            <Link href="/">
+                <Button>Trade {token.symbol}</Button>
+            </Link>
+        </div>
       </CardHeader>
       <CardContent>
-        <div className="flex items-center justify-end gap-1 mb-4">
-            {timeRanges.map(range => (
-                <Button key={range} variant={timeRange === range ? 'secondary' : 'ghost'} size="sm" onClick={() => setTimeRange(range)}>
-                    {range}
-                </Button>
-            ))}
-        </div>
-        <ResponsiveContainer width="100%" height={400}>
+        <ResponsiveContainer width="100%" height={300}>
           <ComposedChart 
             data={chartData} 
-            margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
+            margin={{ top: 5, right: 0, bottom: 0, left: 0 }}
+            syncId="priceChart"
           >
-            <CartesianGrid strokeDasharray="3 3" vertical={false} />
+            <CartesianGrid strokeDasharray="3 3" />
             <XAxis 
                 dataKey="date" 
                 tickFormatter={(time) => new Date(time).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
@@ -184,48 +223,77 @@ export function PriceChart({ token }: { token: TokenDetails }) {
                 axisLine={false}
                 scale="time"
                 type="number"
-                domain={['dataMin', 'dataMax']}
+                domain={[chartData[brushStartIndex]?.date, chartData[brushEndIndex]?.date]}
+                hide
             />
             <YAxis 
                 yAxisId="price"
                 orientation="right" 
-                domain={['auto', 'auto']}
-                tickFormatter={(value) => `$${typeof value === 'number' ? value.toLocaleString() : ''}`}
+                domain={priceDomain}
+                tickFormatter={(value) => `$${typeof value === 'number' ? value.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) : ''}`}
                 tick={{fill: 'hsl(var(--muted-foreground))', fontSize: 12}}
                 tickLine={false}
                 axisLine={false}
+                width={80}
             />
-            <YAxis yAxisId="volume" hide domain={['auto', 'dataMax * 4']} />
 
-            <Tooltip content={<CustomTooltip />} cursor={{ strokeDasharray: '3 3' }} />
+            <Tooltip content={<CustomTooltip chartType={chartType} />} cursor={{ strokeDasharray: '3 3' }} />
             
-            <Bar dataKey="ohlc" yAxisId="price" shape={<CandlestickBar />} isAnimationActive={false} />
-            
-            <Brush 
-                dataKey="date"
-                height={40}
-                stroke="hsl(var(--primary))"
-                startIndex={brushStartIndex}
-                endIndex={brushEndIndex}
-                onChange={(e) => {
-                    if (e.startIndex !== null && e.endIndex !== null) {
-                        setBrushStartIndex(e.startIndex);
-                        setBrushEndIndex(e.endIndex);
-                    }
-                }}
-                tickFormatter={(time) => new Date(time).toLocaleDateString('en-US', { month: 'short' })}
-             >
-                <ComposedChart>
-                    <YAxis hide domain={['dataMin', 'dataMax']} />
-                    <Bar dataKey="volume" barSize={20}>
-                        {chartData.map((entry, index) => {
-                             const [open, , , close] = entry.ohlc;
-                             return <Cell key={`cell-${index}`} fill={close >= open ? 'hsl(145 63% 49% / 0.5)' : 'hsl(var(--destructive) / 0.5)'} />;
-                        })}
-                    </Bar>
-                </ComposedChart>
-            </Brush>
+            <defs>
+                <linearGradient id="colorPrice" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.4}/>
+                <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0}/>
+                </linearGradient>
+            </defs>
+
+            {chartType === 'line' ? (
+                <>
+                    <Area type="monotone" dataKey="ohlc[3]" stroke="hsl(var(--primary))" fillOpacity={1} fill="url(#colorPrice)" strokeWidth={2} yAxisId="price" name="Price" isAnimationActive={false} />
+                </>
+            ) : (
+                <Bar dataKey="ohlc" yAxisId="price" shape={<CandlestickBar />} isAnimationActive={false} />
+            )}
           </ComposedChart>
+        </ResponsiveContainer>
+        <ResponsiveContainer width="100%" height={100}>
+             <ComposedChart 
+                data={chartData} 
+                margin={{ top: 10, right: 0, bottom: 20, left: 0 }}
+                syncId="priceChart"
+            >
+                <YAxis yAxisId="volume" hide domain={['auto', 'dataMax * 4']} />
+                <Bar dataKey="volume" yAxisId="volume" barSize={20} isAnimationActive={false}>
+                    {chartData.map((entry, index) => {
+                        const [open, , , close] = entry.ohlc;
+                        return <Cell key={`cell-${index}`} fill={close >= open ? 'hsl(145 63% 49% / 0.5)' : 'hsl(var(--destructive) / 0.5)'} />;
+                    })}
+                </Bar>
+                <XAxis 
+                    dataKey="date" 
+                    tickFormatter={(time) => new Date(time).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                    tick={{fill: 'hsl(var(--muted-foreground))', fontSize: 12}} 
+                    tickLine={false}
+                    axisLine={false}
+                    scale="time"
+                    type="number"
+                    domain={[chartData[brushStartIndex]?.date, chartData[brushEndIndex]?.date]}
+                />
+                 <Brush 
+                    dataKey="date"
+                    height={40}
+                    stroke="hsl(var(--primary))"
+                    startIndex={brushStartIndex}
+                    endIndex={brushEndIndex}
+                    onChange={(e) => {
+                        if (e.startIndex !== null && e.endIndex !== null) {
+                            setBrushStartIndex(e.startIndex);
+                            setBrushEndIndex(e.endIndex);
+                        }
+                    }}
+                    tickFormatter={(time) => new Date(time).toLocaleDateString('en-US', { month: 'short' })}
+                    y={50}
+                />
+            </ComposedChart>
         </ResponsiveContainer>
       </CardContent>
     </Card>
