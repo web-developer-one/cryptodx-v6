@@ -222,7 +222,7 @@ export function TokenExplorer({
             {isUpdating && <span className="h-2 w-2 animate-pulse rounded-full bg-primary" />}
           </CardTitle>
           <div className="flex flex-1 items-center justify-end gap-4">
-            <div className="w-full max-w-[450px]">
+            <div className="w-full max-w-[300px]">
               <Input
                 placeholder="Search tokens..."
                 value={searchQuery}
@@ -233,7 +233,7 @@ export function TokenExplorer({
                 className="md:text-base"
               />
             </div>
-            <div className="w-full max-w-[220px]">
+            <div className="w-full max-w-[240px]">
               <Select
                 onValueChange={handleCurrencyChange}
                 defaultValue={selectedCurrency.symbol}
