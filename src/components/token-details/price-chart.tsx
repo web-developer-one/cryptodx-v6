@@ -18,21 +18,49 @@ import type { TokenDetails } from "@/lib/types"
 import { Skeleton } from "@/components/ui/skeleton"
 
 // Generate OHLC data for the candlestick chart
-const generateCandlestickData = (currentPrice: number) => {
+const generateCandlestickData = (currentPrice: number, days: number) => {
   const data = [];
-  let lastClose = currentPrice * (1 - 0.1 - (Math.random() * 0.05)); // Start price ~15% lower 30 days ago
+  
+  // For 24H view (days=1), generate hourly data
+  if (days === 1) {
+    let lastClose = currentPrice * (1 - 0.02 - (Math.random() * 0.01)); // start 2-3% lower 24h ago
+    for (let i = 23; i >= 0; i--) {
+        const date = new Date();
+        date.setHours(date.getHours() - i);
+        
+        const open = lastClose;
+        const trend = (currentPrice - open) / (i + 1);
+        const change = trend * (0.5 + Math.random()) + (Math.random() - 0.5) * open * 0.005;
+        let close = open + change;
+        if (i === 0) close = currentPrice;
 
-  for (let i = 29; i >= 0; i--) {
+        const high = Math.max(open, close) * (1 + Math.random() * 0.002);
+        const low = Math.min(open, close) * (1 - Math.random() * 0.002);
+
+        data.push({
+            date: date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }),
+            open: parseFloat(open.toFixed(4)),
+            high: parseFloat(high.toFixed(4)),
+            low: parseFloat(low.toFixed(4)),
+            close: parseFloat(close.toFixed(4)),
+        });
+        lastClose = close;
+    }
+    return data;
+  }
+
+  // For other views, generate daily data
+  let lastClose = currentPrice * (1 - (days / 365) * 0.4 - (Math.random() * 0.1)); // Start price lower for longer ranges
+
+  for (let i = days - 1; i >= 0; i--) {
     const date = new Date();
     date.setDate(date.getDate() - i);
 
     const open = lastClose;
-    // Simulate a price change, trending up towards the current price over 30 days
     const trend = (currentPrice - open) / (i + 1);
     const change = trend * (0.5 + Math.random()) + (Math.random() - 0.5) * open * 0.05;
     let close = open + change;
 
-    // Ensure last day's close is current price
     if (i === 0) {
       close = currentPrice;
     }
@@ -52,6 +80,7 @@ const generateCandlestickData = (currentPrice: number) => {
   }
   return data;
 };
+
 
 // Custom shape for the candlestick body
 const CandleBody = (props: any) => {
@@ -85,17 +114,26 @@ const CustomTooltip = ({ active, payload }: any) => {
   return null;
 };
 
+const timeRangeOptions = {
+    "24H": { days: 1, description: "Last 24 hours" },
+    "7D": { days: 7, description: "Last 7 days" },
+    "1M": { days: 30, description: "Last 30 days" },
+    "3M": { days: 90, description: "Last 3 months" },
+    "6M": { days: 180, description: "Last 6 months" },
+    "1Y": { days: 365, description: "Last year" },
+};
+type TimeRangeKey = keyof typeof timeRangeOptions;
+
 
 export function PriceChart({ token }: { token: TokenDetails }) {
   const [chartData, setChartData] = React.useState<any[]>([])
-  const [timeRange, setTimeRange] = React.useState("1M");
+  const [timeRange, setTimeRange] = React.useState<TimeRangeKey>("1M");
 
   React.useEffect(() => {
     // Generate data on the client to avoid hydration mismatch
-    // NOTE: This mock data generation is for "1M". In a real app,
-    // this effect would re-fetch data when `timeRange` changes.
-    setChartData(generateCandlestickData(token.price))
-  }, [token.price])
+    const days = timeRangeOptions[timeRange].days;
+    setChartData(generateCandlestickData(token.price, days));
+  }, [token.price, timeRange])
 
 
   const chartConfig = {
@@ -115,6 +153,8 @@ export function PriceChart({ token }: { token: TokenDetails }) {
     const padding = (max - min) * 0.1;
     return [min - padding, max + padding];
   }, [chartData]);
+  
+  const description = `${timeRangeOptions[timeRange].description} price movement for ${token.symbol}.`;
 
   return (
     <Card>
@@ -122,14 +162,14 @@ export function PriceChart({ token }: { token: TokenDetails }) {
         <div>
           <CardTitle>{token.name} Price Chart</CardTitle>
           <CardDescription>
-            Last 30 days price movement for {token.symbol}.
+            {description}
           </CardDescription>
         </div>
         <Button>Trade {token.symbol}</Button>
       </CardHeader>
       <CardContent>
         <div className="flex items-center justify-end gap-1 mb-4">
-          {(["24H", "7D", "1M", "3M", "6M", "1Y"] as const).map((range) => (
+          {(Object.keys(timeRangeOptions) as TimeRangeKey[]).map((range) => (
             <Button
               key={range}
               variant={timeRange === range ? "secondary" : "ghost"}
@@ -183,12 +223,14 @@ export function PriceChart({ token }: { token: TokenDetails }) {
                   const stroke = isGrowing ? 'hsl(var(--primary))' : 'hsl(var(--destructive))';
                   return <rect x={x + (width / 2) - 0.5} y={y} width={1} height={height} fill={stroke} />;
                 }}
+                animationDuration={300}
               />
               {/* Body */}
               <Bar
                 dataKey={['open', 'close']}
                 barSize={10}
                 shape={<CandleBody />}
+                animationDuration={300}
               />
               <Brush 
                 dataKey="date" 
@@ -196,6 +238,8 @@ export function PriceChart({ token }: { token: TokenDetails }) {
                 stroke="hsl(var(--primary))" 
                 travellerWidth={20}
                 y={350}
+                data={chartData}
+                startIndex={Math.max(0, chartData.length - 30)}
               />
             </ComposedChart>
           ) : (
