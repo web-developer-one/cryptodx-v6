@@ -8,7 +8,6 @@ import { Footer } from "@/components/footer";
 import { WalletProvider } from "@/hooks/use-wallet";
 import { GdprModal } from "@/components/gdpr-modal";
 import { getLatestListings } from "@/lib/coinmarketcap";
-import { Chatbot } from "@/components/chatbot";
 
 const fontBody = Inter({
   subsets: ["latin"],
@@ -44,7 +43,6 @@ export default async function RootLayout({
           <Footer />
           <Toaster />
           <GdprModal />
-          <Chatbot />
         </WalletProvider>
       </body>
     </html>
