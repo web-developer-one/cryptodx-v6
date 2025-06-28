@@ -31,6 +31,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { getLatestListings } from "@/lib/coinmarketcap";
 
 const TOKENS_PER_PAGE = 20;
 
@@ -109,17 +110,33 @@ export function TokenExplorer({
   const [selectedCurrency, setSelectedCurrency] = useState<SelectedCurrency>(
     supportedCurrencies[0]
   );
+  const [liveTokens, setLiveTokens] =
+    useState<Cryptocurrency[]>(cryptocurrencies);
+  const [isUpdating, setIsUpdating] = useState(false);
+
+  useEffect(() => {
+    const intervalId = setInterval(async () => {
+      setIsUpdating(true);
+      const latestData = await getLatestListings();
+      if (latestData && latestData.length > 0) {
+        setLiveTokens(latestData);
+      }
+      setIsUpdating(false);
+    }, 30000); // Fetch every 30 seconds
+
+    return () => clearInterval(intervalId);
+  }, []);
 
   const filteredTokens = useMemo(() => {
     if (!searchQuery) {
-      return cryptocurrencies;
+      return liveTokens;
     }
-    return cryptocurrencies.filter(
+    return liveTokens.filter(
       (token) =>
         token.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         token.symbol.toLowerCase().includes(searchQuery.toLowerCase())
     );
-  }, [cryptocurrencies, searchQuery]);
+  }, [liveTokens, searchQuery]);
 
   const sortedTokens = useMemo(() => {
     return [...filteredTokens].sort(
@@ -158,9 +175,12 @@ export function TokenExplorer({
     <div className="flex flex-col gap-6">
       <Card>
         <CardHeader className="flex flex-row items-center justify-between gap-4">
-          <CardTitle>Tokens</CardTitle>
+          <CardTitle className="flex items-center gap-2">
+            Tokens
+            {isUpdating && <span className="h-2 w-2 animate-pulse rounded-full bg-primary" />}
+          </CardTitle>
           <div className="flex items-center gap-4">
-            <div className="max-w-md w-full">
+            <div className="w-full max-w-md">
               <Input
                 placeholder="Search tokens..."
                 value={searchQuery}
@@ -201,7 +221,7 @@ export function TokenExplorer({
                 <TableHead className="w-[50px] text-center">#</TableHead>
                 <TableHead>Name</TableHead>
                 <TableHead className="text-right">Price</TableHead>
-                <TableHead className="text-right">24h %</TableHead>
+                <TableHead className="text-right">Changes 24h</TableHead>
                 <TableHead className="text-right">Market Cap</TableHead>
                 <TableHead className="text-right">Volume (24h)</TableHead>
                 <TableHead className="text-right">Available Supply</TableHead>
