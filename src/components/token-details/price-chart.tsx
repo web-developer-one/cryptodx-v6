@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useMemo, useState } from 'react';
@@ -121,7 +120,7 @@ export function PriceChart({ token }: { token: TokenDetails }) {
     let newIndex = 0;
     switch (tf) {
       case '24H':
-        newIndex = dataLength > 7 ? dataLength - 7 : 0;
+        newIndex = dataLength > 7 ? dataLength - 7 : 0; // Using 7 days for 24h as we don't have hourly data
         break;
       case '7D':
         newIndex = dataLength > 7 ? dataLength - 7 : 0;
@@ -148,7 +147,12 @@ export function PriceChart({ token }: { token: TokenDetails }) {
     <Card>
       <CardHeader>
         <div className="flex items-start justify-between">
-          <CardTitle>{token.name} Price Chart</CardTitle>
+          <div>
+            <CardTitle>{token.name} Price Chart</CardTitle>
+            <div className="mt-2">
+              <Button variant="secondary" size="sm" className="bg-accent text-accent-foreground">Candlestick</Button>
+            </div>
+          </div>
           <div className="flex flex-col items-end gap-2">
               <Link href="/" passHref>
                   <Button>Trade {token.symbol}</Button>
@@ -181,7 +185,7 @@ export function PriceChart({ token }: { token: TokenDetails }) {
                 tickLine={false} 
                 axisLine={false}
                 tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 12 }}
-                dy={5}
+                dy={10}
             />
             <YAxis 
                 orientation="right" 
