@@ -27,6 +27,11 @@ export function Chatbot() {
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
+  const [hasMounted, setHasMounted] = useState(false);
+
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
 
   useEffect(() => {
     if (scrollAreaRef.current) {
@@ -65,7 +70,7 @@ export function Chatbot() {
   return (
     <>
       <div className="fixed bottom-6 right-6 z-50">
-        {!isOpen && (
+        {hasMounted && !isOpen && (
             <div className="absolute bottom-[5.75rem] right-0 bg-primary text-primary-foreground text-sm font-medium py-1.5 px-4 rounded-lg shadow-lg animate-in fade-in-50 flex flex-col items-center">
                 <span className="whitespace-nowrap">Ask me about Crypto.</span>
                 <span className="whitespace-nowrap">Ask me about DeFi.</span>
