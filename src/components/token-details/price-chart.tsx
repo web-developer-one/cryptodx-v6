@@ -90,7 +90,7 @@ const CandleBody = (props: any) => {
   const { open, close } = payload;
   const isGrowing = close > open;
   
-  const fill = isGrowing ? 'hsl(var(--primary))' : 'hsl(var(--destructive))';
+  const fill = isGrowing ? 'hsl(145 63% 49%)' : 'hsl(var(--destructive))';
   
   return <rect x={x} y={y} width={width} height={height} fill={fill} />;
 };
@@ -139,7 +139,7 @@ export function PriceChart({ token }: { token: TokenDetails }) {
   const chartConfig = {
     price: {
       label: "Price (USD)",
-      color: "hsl(var(--primary))",
+      color: "hsl(145 63% 49%)",
     },
   }
 
@@ -220,7 +220,7 @@ export function PriceChart({ token }: { token: TokenDetails }) {
                   if (!payload) return null;
                   const { open, close } = payload;
                   const isGrowing = close > open;
-                  const stroke = isGrowing ? 'hsl(var(--primary))' : 'hsl(var(--destructive))';
+                  const stroke = isGrowing ? 'hsl(145 63% 49%)' : 'hsl(var(--destructive))';
                   return <rect x={x + (width / 2) - 0.5} y={y} width={1} height={height} fill={stroke} />;
                 }}
                 animationDuration={300}
@@ -236,7 +236,7 @@ export function PriceChart({ token }: { token: TokenDetails }) {
                 key={timeRange}
                 dataKey="date" 
                 height={40} 
-                stroke="hsl(var(--primary))" 
+                stroke="hsl(145 63% 49%)" 
                 travellerWidth={20}
                 y={350}
                 data={chartData}
