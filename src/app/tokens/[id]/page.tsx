@@ -50,7 +50,7 @@ export default async function TokenDetailPage({ params }: { params: { id: string
 
   return (
     <div className="container py-8 flex flex-col gap-8">
-      <div className="flex items-center justify-between flex-wrap gap-4">
+      <div className="bg-card p-6 rounded-lg shadow-sm flex items-center justify-between flex-wrap gap-4">
         <div className="flex items-center gap-4">
           <Image
             src={token.logo || `https://placehold.co/64x64.png`}
