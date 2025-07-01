@@ -20,7 +20,7 @@ const StatItem = ({ label, value }: { label: string; value: React.ReactNode }) =
 const LinkButton = ({ label, href, icon }: { label: string, href?: string, icon: React.ReactNode }) => {
     if (!href) return null
     return (
-         <a href={href} target="_blank" rel="noopener noreferrer" className="text-sm font-medium text-primary hover:bg-accent transition-colors flex items-center gap-2 py-1.5 px-3 rounded-md bg-secondary justify-center">
+         <a href={href} target="_blank" rel="noopener noreferrer" className="text-sm font-medium text-primary hover:bg-accent transition-colors flex items-center gap-2 py-1.5 px-3 rounded-md bg-secondary justify-center border">
             {icon} {label}
         </a>
     )
