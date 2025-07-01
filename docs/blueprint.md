@@ -1,18 +1,19 @@
-# **App Name**: NextPlate
+# **App Name**: Crypto Swap
 
 ## Core Features:
 
-- Project Initialization: Scaffold a new Next.js project with a basic file structure and configuration, including a layout component.
-- Intelligent Configuration: The LLM 'tool' decides on an appropriate tech stack (e.g., Typescript, Tailwind) and includes best-practice configurations (ESLint, Prettier) based on user input.
-- AI-Powered Content Generation: Generate a basic landing page or sample component with placeholder content and a pre-designed UI using AI.
-- Automated Setup: Automated creation of necessary environment variable files (.env.local) and package.json setup with relevant dependencies and scripts.
+- Header Display: Displays a header with a 'Crypto Swap' icon, the title 'Crypto Swap', menu options for 'Trade', 'Explore', and 'Pool', a 'Connect' button, and a theme switch.
+- Theme Switching: Allows users to switch between light and dark themes.
+- Cryptocurrency Data Fetching: Fetches real-time cryptocurrency data using the CoinMarketCap API (API Key: b7f8dc6a-a214-4b68-8746-84dc87096d7c) for price updates.
+- Swap Interface: Displays cryptocurrency pair options and real time prices on a swap interface.
+- Wallet Connection: Allows the users to connect to available crypto wallets.
 
 ## Style Guidelines:
 
-- Primary color: A vibrant teal (#2BCDC1) to evoke a sense of innovation and freshness in web development. 
-- Background color: Light gray (#F0F0F0), nearly desaturated teal, to ensure content readability.
-- Accent color: Soft turquoise (#41E2D4) for secondary actions, subtly drawing the user's attention.
-- Font pairing: 'Space Grotesk' (sans-serif) for headings, lending a techy feel; 'Inter' (sans-serif) for body text, offering a neutral, modern aesthetic.
-- Code Font: 'Source Code Pro' for displaying configuration files, environment variables etc.
-- Use modern, minimalist icons to represent different aspects of the project scaffolding (e.g., settings, components, styles).
-- Implement a clean and structured layout, using grid and flexbox, to present generated project details clearly and accessibly.
+- Primary color: Teal (#008080) to reflect the app's theme and create a clean and modern look.
+- Background color: Off-white (#F0FFFF), providing a clean, neutral backdrop to ensure readability and focus on the teal elements.
+- Accent color: Soft Blue (#ADD8E6) for interactive elements and highlights, creating a harmonious contrast with the primary teal.
+- Font: 'Inter' (sans-serif) for a modern and readable interface. Use 'Inter' for both headlines and body text.
+- Use a simple, line-based icon to represent 'Crypto Swap' in the header.
+- Replicate the Uniswap interface layout, with the header at the top and the main swap interface in the center.
+- Use subtle transitions and animations for UI elements like the theme switch and when updating cryptocurrency data.
