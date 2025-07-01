@@ -79,7 +79,7 @@ export function CreatePositionInterface({ cryptocurrencies }: { cryptocurrencies
         <CardDescription>Create a new liquidity position.</CardDescription>
       </CardHeader>
       <CardContent className="flex flex-col gap-4">
-        <div className="p-4 rounded-lg bg-secondary/50 border">
+        <div className="p-4 rounded-lg bg-[#f8fafc] dark:bg-secondary/50 border">
           <label className="text-sm text-muted-foreground" htmlFor="token0-input">Token 1</label>
           <div className="flex items-center gap-2 mt-1">
             <Input id="token0-input" type="text" placeholder="0" className="text-3xl h-12 bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0 p-0" value={amount0} onChange={handleAmountChange(setAmount0, "token0")} />
@@ -111,7 +111,7 @@ export function CreatePositionInterface({ cryptocurrencies }: { cryptocurrencies
             <Plus className="h-6 w-6 text-muted-foreground" />
         </div>
 
-        <div className="p-4 rounded-lg bg-secondary/50 border">
+        <div className="p-4 rounded-lg bg-[#f8fafc] dark:bg-secondary/50 border">
           <label className="text-sm text-muted-foreground" htmlFor="token1-input">Token 2</label>
           <div className="flex items-center gap-2 mt-1">
             <Input id="token1-input" type="text" placeholder="0" className="text-3xl h-12 bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0 p-0" value={amount1} onChange={handleAmountChange(setAmount1, "token1")} />

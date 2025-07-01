@@ -244,7 +244,7 @@ export function SwapInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocu
       </CardHeader>
       <CardContent className="relative flex flex-col gap-2">
         {/* From Token */}
-        <div className="p-4 rounded-lg bg-secondary/50 border">
+        <div className="p-4 rounded-lg bg-[#f8fafc] dark:bg-secondary/50 border">
           <div className="flex justify-between items-center mb-1">
             <label className="text-sm text-muted-foreground" htmlFor="from-input">From</label>
             <span className="text-sm text-muted-foreground">Sell</span>
@@ -283,7 +283,7 @@ export function SwapInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocu
         </div>
 
         {/* To Token */}
-        <div className="p-4 rounded-lg bg-secondary/50 border">
+        <div className="p-4 rounded-lg bg-[#f8fafc] dark:bg-secondary/50 border">
           <div className="flex justify-between items-center mb-1">
             <label className="text-sm text-muted-foreground" htmlFor="to-input">To</label>
             <span className="text-sm text-muted-foreground">Buy</span>

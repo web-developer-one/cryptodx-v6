@@ -80,7 +80,7 @@ export function BuyInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocur
       </CardHeader>
       <CardContent className="flex flex-col gap-4">
         {/* You pay */}
-        <div className="p-4 rounded-lg bg-secondary/50 border">
+        <div className="p-4 rounded-lg bg-[#f8fafc] dark:bg-secondary/50 border">
           <label className="text-sm text-muted-foreground" htmlFor="fiat-input">You pay</label>
           <div className="flex items-center gap-2 mt-1">
             <Input id="fiat-input" type="text" placeholder="0" className="text-3xl h-12 bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0 p-0" value={fiatAmount} onChange={handleFiatAmountChange} />
@@ -102,7 +102,7 @@ export function BuyInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocur
         </div>
         
         {/* You get */}
-        <div className="p-4 rounded-lg bg-secondary/50 border">
+        <div className="p-4 rounded-lg bg-[#f8fafc] dark:bg-secondary/50 border">
           <label className="text-sm text-muted-foreground" htmlFor="crypto-input">You get</label>
           <div className="flex items-center gap-2 mt-1">
             <Input id="crypto-input" type="text" placeholder="0" className="text-3xl h-12 bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0 p-0" value={cryptoAmount} onChange={handleCryptoAmountChange}/>

@@ -135,7 +135,7 @@ export function LimitOrderInterface({ cryptocurrencies }: { cryptocurrencies: Cr
       </CardHeader>
       <CardContent className="flex flex-col gap-2">
         {/* From Token */}
-        <div className="p-4 rounded-lg bg-secondary/50 border">
+        <div className="p-4 rounded-lg bg-[#f8fafc] dark:bg-secondary/50 border">
           <label className="text-sm text-muted-foreground" htmlFor="from-input">You sell</label>
           <div className="flex items-center gap-2 mt-1">
             <Input id="from-input" type="text" placeholder="0" className="text-3xl h-12 bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0 p-0" value={fromAmount} onChange={handleAmountChange(setFromAmount, "from")} />
@@ -171,7 +171,7 @@ export function LimitOrderInterface({ cryptocurrencies }: { cryptocurrencies: Cr
         </div>
 
         {/* To Token */}
-        <div className="p-4 rounded-lg bg-secondary/50 border">
+        <div className="p-4 rounded-lg bg-[#f8fafc] dark:bg-secondary/50 border">
           <label className="text-sm text-muted-foreground" htmlFor="to-input">You buy</label>
           <div className="flex items-center gap-2 mt-1">
             <Input id="to-input" type="text" placeholder="0" className="text-3xl h-12 bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0 p-0" value={toAmount} onChange={handleAmountChange(setToAmount, "to")}/>
