@@ -30,7 +30,7 @@ const faqs = [
 
 export function Faq() {
   return (
-    <section className="w-full pt-12 flex justify-center bg-card border-t">
+    <section className="w-full pt-12 pb-0 flex justify-center bg-card border-t">
       <div className="container max-w-5xl px-4 md:px-6">
         <h2 className="text-3xl font-bold text-center mb-8">
           Frequently Asked Questions
