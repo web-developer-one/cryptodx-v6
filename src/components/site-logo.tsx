@@ -17,9 +17,6 @@ export const SiteLogo = ({ className, ...props }: React.SVGProps<SVGSVGElement>)
                 strokeWidth="3"
                 strokeLinecap="round"
             />
-            <rect x="17.5" y="0.5" width="5" height="5" fill="white" rx="1" />
-            <rect x="17.5" y="18.5" width="5" height="5" fill="white" rx="1" />
-            <text x="11.5" y="16.5" fontFamily="sans-serif" fontSize="7.5" fill="none" stroke="white" strokeWidth="0.5" textAnchor="middle" fontWeight="bold">Dx</text>
         </g>
     </svg>
 );
