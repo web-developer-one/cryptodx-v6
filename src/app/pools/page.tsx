@@ -42,9 +42,11 @@ export default async function PoolsListPage() {
   }
   
   return (
-    <div className="container py-8">
+    <div className="container flex flex-col items-center py-8">
       <ExploreNav />
-      <PoolsClient cryptocurrencies={cryptoData} />
+      <div className="w-full">
+        <PoolsClient cryptocurrencies={cryptoData} />
+      </div>
     </div>
   );
 }
