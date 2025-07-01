@@ -15,31 +15,8 @@ import { useWallet } from '@/hooks/use-wallet';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from './ui/dropdown-menu';
 import { ChevronDown } from 'lucide-react';
 
-const MetaMaskIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 1024 1024" {...props}>
-        <g transform="matrix(1, 0, 0, 1, 0, 0)">
-            <g transform="matrix(1, 0, 0, 1, 0, 0)">
-                <path fill="#e27625" d="M790.39,493.385l-58.2-111.954l-68.521,43.087l-60.6-35.787l-60.6,35.787l-68.521-43.087 L415.748,493.385l54.854,16.862L415.748,527.11l89.3,142.271l107.352-60.6l107.352,60.6l89.3-142.271l-54.854-16.862 L790.39,493.385z"/>
-                <path fill="#e27625" d="M836.567,273.749l-53.726,108.48L512,192.355L240.159,382.229L186.433,273.749L313.25,123.5L512,243.645 L710.75,123.5L836.567,273.749z"/>
-                <path fill="#d6c0b3" d="M619.352,669.381L512,608.781l-107.352,60.6l53.726-108.48L240.159,382.229l271.841,189.874 L619.352,669.381z"/>
-                <path fill="#d6c0b3" d="M404.648,669.381l107.352-60.6l107.352,60.6l-53.726-108.48L783.841,382.229L512,572.103 L404.648,669.381z"/>
-                <path fill="#f6851b" d="M619.352,669.381l-53.726-108.48L240.159,382.229l-53.726,108.48l173.355,96.656L512,526.797 L619.352,669.381z"/>
-                <path fill="#f6851b" d="M404.648,669.381l53.726-108.48l325.467-178.672l53.726,108.48l-173.355,96.656L512,526.797 L404.648,669.381z"/>
-                <path fill="#763e1a" d="M783.841,382.229L512,572.103V243.645L710.75,123.5l73.091,149.874L837.567,273.749L783.841,382.229z"/>
-                <path fill="#763e1a" d="M240.159,382.229L512,572.103V243.645L313.25,123.5l-73.091,149.874L186.433,273.749L240.159,382.229z"/>
-                <path fill="#161616" opacity="0.1" d="M512,608.781V788.5l153.188-96.656L512,608.781z"/>
-                <path fill="#161616" opacity="0.1" d="M512,608.781V788.5L358.812,691.844L512,608.781z"/>
-                <path fill="#233447" d="M512,608.781v180.469L358.812,691.844L512,608.781z"/>
-                <path fill="#233447" d="M512,608.781l-107.352,60.6l53.726-108.48L512,526.797V608.781z"/>
-                <path fill="#233447" d="M512,608.781l107.352,60.6l-53.726-108.48L512,526.797V608.781z"/>
-            </g>
-        </g>
-    </svg>
-);
-
-
 const wallets = [
-    { name: 'MetaMask', id: 'metamask', icon: <MetaMaskIcon /> },
+    { name: 'MetaMask', id: 'metamask' },
     { name: 'Coinbase Wallet', id: 'coinbase' },
     { name: 'WalletConnect', id: 'walletconnect' },
     { name: 'Ledger', id: 'ledger' },
@@ -101,17 +78,14 @@ export function WalletConnect({ children }: { children?: React.ReactNode }) {
                     className="h-20 justify-start p-4 text-lg"
                     onClick={() => handleWalletClick(wallet.id)}
                 >
-                    {wallet.icon ? (
-                        <div className="mr-4 flex h-14 w-14 items-center justify-center">{wallet.icon}</div>
-                    ) : (
-                        <Image
-                            src="https://placehold.co/56x56.png"
-                            alt={`${wallet.name} logo`}
-                            width={56}
-                            height={56}
-                            className="mr-4 rounded-md"
-                        />
-                    )}
+                    <Image
+                        src="https://placehold.co/56x56.png"
+                        alt={`${wallet.name} logo`}
+                        width={56}
+                        height={56}
+                        className="mr-4 rounded-md"
+                        data-ai-hint={`${wallet.name.toLowerCase().split(' ')[0]} logo`}
+                    />
                     {wallet.name}
                 </Button>
             ))}
