@@ -1,7 +1,7 @@
 'use client';
 
-import { useState } from 'react';
-import type { Cryptocurrency, Transaction, SelectedCurrency } from '@/lib/types';
+import { useState, useEffect } from 'react';
+import type { Cryptocurrency, Transaction, SelectedCurrency, TransactionStatus } from '@/lib/types';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { TransactionsTable } from './transactions-table';
 
@@ -19,8 +19,60 @@ const supportedCurrencies: SelectedCurrency[] = [
     { symbol: 'INR', name: 'Indian Rupee', rate: 83.5 },
 ];
 
-export function TransactionsClient({ transactions, cryptocurrencies }: { transactions: Transaction[], cryptocurrencies: Cryptocurrency[] }) {
+// Helper function to generate mock transaction data
+const generateMockTransactions = (cryptocurrencies: Cryptocurrency[]): Transaction[] => {
+    if (cryptocurrencies.length < 10) return [];
+    const find = (symbol: string) => cryptocurrencies.find(c => c.symbol === symbol);
+
+    const txs: Omit<Transaction, 'id' | 'timestamp' | 'account'>[] = [];
+    const types: Transaction['type'][] = ['Swap', 'Add', 'Remove'];
+    const statuses: TransactionStatus[] = ['Completed', 'Pending', 'Completed', 'Failed', 'Completed', 'Completed'];
+
+    for (let i = 0; i < 20; i++) {
+        const type = types[i % 3];
+        const status = statuses[i % statuses.length];
+        const tokenA = cryptocurrencies[i % cryptocurrencies.length];
+        const tokenB = cryptocurrencies[(i + 5) % cryptocurrencies.length];
+
+        if (tokenA.id === tokenB.id) continue;
+
+        let token0, token1, amount0, amount1, value;
+
+        if (type === 'Swap') {
+            token0 = tokenA;
+            token1 = tokenB;
+            amount0 = Math.random() * 10;
+            amount1 = (amount0 * token0.price) / token1.price;
+            value = amount0 * token0.price;
+        } else { // Add or Remove
+            token0 = find('ETH') || tokenA;
+            token1 = find('USDC') || tokenB;
+            amount0 = Math.random() * 5;
+            amount1 = (amount0 * token0.price) / token1.price;
+            value = (amount0 * token0.price) * 2;
+        }
+
+        if (token0 && token1) {
+            txs.push({ type, status, token0, token1, amount0, amount1, value });
+        }
+    }
+    
+    return txs.map((tx, index) => ({
+        ...tx,
+        id: `0x${[...Array(64)].map(() => Math.floor(Math.random() * 16).toString(16)).join('')}`,
+        account: `0x${[...Array(40)].map(() => Math.floor(Math.random() * 16).toString(16)).join('')}`,
+        timestamp: new Date(Date.now() - (index * 1000 * 60 * (Math.random() * 10 + 5))), // 5-15 mins apart
+    })).sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime());
+};
+
+export function TransactionsClient({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[] }) {
     const [selectedCurrency, setSelectedCurrency] = useState<SelectedCurrency>(supportedCurrencies[0]);
+    const [transactions, setTransactions] = useState<Transaction[]>([]);
+
+    useEffect(() => {
+        setTransactions(generateMockTransactions(cryptocurrencies));
+    }, [cryptocurrencies]);
+
 
     const handleCurrencyChange = (symbol: string) => {
         const currency = supportedCurrencies.find(c => c.symbol === symbol);
