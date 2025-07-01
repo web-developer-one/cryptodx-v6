@@ -43,12 +43,12 @@ export default async function RootLayout({
           <div className="flex flex-col min-h-screen">
             <Header cryptocurrencies={cryptoData || []} />
             <main className="flex-1 flex flex-col">{children}</main>
-            <Footer />
             <div className="w-full py-12 flex justify-center border-y bg-background">
               <div className="container">
                 <MarketHighlights cryptocurrencies={cryptoData || []} />
               </div>
             </div>
+            <Footer />
             <Toaster />
             <GdprModal />
           </div>
