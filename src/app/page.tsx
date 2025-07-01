@@ -42,7 +42,7 @@ export default async function Home() {
   return (
     <div className="flex-1 flex flex-col items-center gap-12 pt-8 md:pt-12">
       <div className="container flex flex-col items-center gap-4 text-center">
-        <h1 className="text-3xl md:text-4xl font-headline font-bold tracking-tighter">
+        <h1 className="text-3xl md:text-5xl font-headline font-bold tracking-tighter">
             Seamlessly Swap Your Crypto
         </h1>
         <p className="max-w-2xl text-muted-foreground md:text-xl">
