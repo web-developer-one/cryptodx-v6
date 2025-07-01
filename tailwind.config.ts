@@ -24,7 +24,7 @@ export default {
         code: ['monospace'],
       },
       fontSize: {
-        xl: ['1.00rem', { lineHeight: '1.75rem' }],
+        xl: ['1.5rem', { lineHeight: '1.75rem' }],
       },
       colors: {
         background: 'hsl(var(--background))',
