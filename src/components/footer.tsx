@@ -49,8 +49,8 @@ export function Footer() {
         <div className="grid grid-cols-2 gap-8 text-center md:grid-cols-5 md:text-left">
           {/* Column 1: Site Info */}
           <div className="col-span-2 flex flex-col items-center gap-4 md:col-span-1 md:items-start">
-            <Link href="/" className="flex items-center space-x-2">
-              <SiteLogo className="h-6 w-6" />
+            <Link href="/" className="flex items-center space-x-3">
+              <SiteLogo className="h-8 w-8" />
               <span className="font-bold">Crypto Swap</span>
             </Link>
             <p className="text-sm text-primary-foreground/70">
