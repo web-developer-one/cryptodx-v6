@@ -1,3 +1,4 @@
+
 "use client";
 
 import * as React from "react";
@@ -6,27 +7,38 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 export function ThemeToggle({ className }: { className?: string }) {
-  const [theme, setTheme] = React.useState("dark");
+  const [theme, setTheme] = React.useState<"light" | "dark" | null>(null);
 
   React.useEffect(() => {
     const storedTheme = localStorage.getItem("theme");
-    if (storedTheme) {
-        setTheme(storedTheme);
+    if (storedTheme === 'light' || storedTheme === 'dark') {
+      setTheme(storedTheme);
+    } else {
+      setTheme(window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
     }
   }, []);
 
   React.useEffect(() => {
-    if (theme === "dark") {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
+    if (theme) {
+      if (theme === "dark") {
+        document.documentElement.classList.add("dark");
+      } else {
+        document.documentElement.classList.remove("dark");
+      }
+      localStorage.setItem("theme", theme);
     }
-    localStorage.setItem("theme", theme);
   }, [theme]);
 
   const toggleTheme = () => {
     setTheme(theme === "light" ? "dark" : "light");
   };
+
+  // Render a placeholder on the server and initial client render to prevent hydration mismatch.
+  if (!theme) {
+    return (
+        <Button variant="ghost" size="icon" disabled className={cn("hover:bg-transparent", className)} />
+    );
+  }
 
   return (
     <Button variant="ghost" size="icon" onClick={toggleTheme} aria-label="Toggle theme" className={cn("hover:bg-transparent", className)}>
