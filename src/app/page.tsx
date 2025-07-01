@@ -8,7 +8,6 @@ import {
 } from "@/components/ui/card";
 import { AlertCircle } from "lucide-react";
 import { SwapInterface } from "@/components/swap-interface";
-import { MarketHighlights } from "@/components/market-highlights";
 import { HowToExchange } from "@/components/how-to-exchange";
 import { Faq } from "@/components/faq";
 import { TradeNav } from "@/components/trade-nav";
@@ -53,11 +52,6 @@ export default async function Home() {
       <div className="container flex flex-col items-center gap-6">
           <TradeNav />
           <SwapInterface cryptocurrencies={cryptoData} />
-      </div>
-      <div className="w-full py-12 flex justify-center border-y">
-        <div className="container">
-          <MarketHighlights cryptocurrencies={cryptoData} />
-        </div>
       </div>
       <HowToExchange />
       <Faq />

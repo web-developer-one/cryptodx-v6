@@ -6,6 +6,7 @@ import { Footer } from '@/components/footer';
 import { GdprModal } from '@/components/gdpr-modal';
 import { Toaster } from '@/components/ui/toaster';
 import { Providers } from '@/components/providers';
+import { MarketHighlights } from '@/components/market-highlights';
 
 export const metadata: Metadata = {
   title: 'CryptoDx | Seamless Token Exchange',
@@ -43,6 +44,11 @@ export default async function RootLayout({
             <Header cryptocurrencies={cryptoData || []} />
             <main className="flex-1 flex flex-col">{children}</main>
             <Footer />
+            <div className="w-full py-12 flex justify-center border-y bg-background">
+              <div className="container">
+                <MarketHighlights cryptocurrencies={cryptoData || []} />
+              </div>
+            </div>
             <Toaster />
             <GdprModal />
           </div>
