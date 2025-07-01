@@ -29,7 +29,7 @@ export default async function RootLayout({
   }
 
   return (
-    <html lang="en" className="dark" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
@@ -40,7 +40,7 @@ export default async function RootLayout({
         <Providers>
           <div className="flex flex-col min-h-screen">
             <Header cryptocurrencies={cryptoData || []} />
-            <main className="flex-1 flex flex-col bg-secondary/20">{children}</main>
+            <main className="flex-1 flex flex-col">{children}</main>
             <Footer />
             <Toaster />
             <GdprModal />
