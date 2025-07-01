@@ -8,7 +8,7 @@ export function ExploreNav() {
   const pathname = usePathname();
   // Ensure "Tokens" tab is active for both list and panel views.
   const activeTab = pathname.startsWith('/tokens') ? '/tokens' : pathname;
-  const activeClass = "data-[state=active]:bg-primary/10 data-[state=active]:text-primary";
+  const activeClass = "data-[state=active]:bg-primary/10 data-[state=active]:text-primary dark:data-[state=active]:bg-background dark:data-[state=active]:text-foreground";
 
   return (
     <div className="mb-6 flex justify-center">
