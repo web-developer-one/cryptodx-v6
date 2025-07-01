@@ -1,3 +1,4 @@
+
 "use client";
 
 import { Button } from "@/components/ui/button";
@@ -15,8 +16,29 @@ import { useWallet } from '@/hooks/use-wallet';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from './ui/dropdown-menu';
 import { ChevronDown } from 'lucide-react';
 
+const MetaMaskIcon = (props: React.SVGProps<SVGSVGElement>) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 540 540" {...props}>
+        <circle cx="270" cy="270" r="270" fill="#eae0da"/>
+        <g fill="#e27625">
+            <path d="m429.3 351.4-71-55.7-38.3 25-38.3-25-71 55.7 32.7-119-32.7-21.7 50.4-86.7 58 32 58-32 50.4 86.7-32.7 21.7z"/>
+            <path d="m429.3 209.6-50.4-86.7-58 32-58-32-50.4 86.7 32.7 21.7-32.7 19.8 51.7 91.4 58.6 18.8 58.6-18.8 51.7-91.4-32.7-19.8z"/>
+        </g>
+        <path d="m358.2 407.1-71-55.7-38.2 25v-226l58 32 50.4-86.7 32.7 21.7-32.7 119z" fill="#f6851b"/>
+        <g fill="#d6c0b3">
+            <path d="m358.2 229.4-146.5 47.4 58.6 18.8 51.7-91.4z"/>
+            <path d="m110.7 229.4 146.5 47.4-58.6 18.8-51.7-91.4z"/>
+        </g>
+        <path d="m270 338.5 58.6-18.8-146.5-47.4-32.7 19.8 51.7 91.4z" fill="#161616"/>
+        <path d="m382.7 209.6-112.7 47-79.9-47 17.5-32.2 62.4 38.4 62.4-38.4z" fill="#763e1a"/>
+        <g fill="#233447">
+            <path d="m270 382.1v-126l-58-32-50.4 86.7 32.7 21.7 40-21.7 38.2 25z"/>
+            <path d="M270 382.1v-126l58-32 50.4 86.7-32.7 21.7-40-21.7-38.2 25z"/>
+        </g>
+    </svg>
+);
+
 const wallets = [
-    { name: 'MetaMask', id: 'metamask', hint: 'metamask fox' },
+    { name: 'MetaMask', id: 'metamask', icon: <MetaMaskIcon /> },
     { name: 'Coinbase Wallet', id: 'coinbase', hint: 'coinbase logo' },
     { name: 'WalletConnect', id: 'walletconnect', hint: 'walletconnect logo' },
     { name: 'Ledger', id: 'ledger', hint: 'ledger logo' },
@@ -78,14 +100,18 @@ export function WalletConnect({ children }: { children?: React.ReactNode }) {
                     className="h-14 justify-start p-4 text-lg"
                     onClick={() => handleWalletClick(wallet.id)}
                 >
-                    <Image
-                        src="https://placehold.co/32x32.png"
-                        alt={`${wallet.name} logo`}
-                        width={32}
-                        height={32}
-                        className="mr-4 rounded-md"
-                        data-ai-hint={wallet.hint}
-                    />
+                    {wallet.icon ? (
+                        <div className="mr-4 flex h-8 w-8 items-center justify-center">{wallet.icon}</div>
+                    ) : (
+                        <Image
+                            src="https://placehold.co/32x32.png"
+                            alt={`${wallet.name} logo`}
+                            width={32}
+                            height={32}
+                            className="mr-4 rounded-md"
+                            data-ai-hint={wallet.hint}
+                        />
+                    )}
                     {wallet.name}
                 </Button>
             ))}
