@@ -16,7 +16,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { ChevronDown } from 'lucide-react';
 
 const MetaMaskIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="112" height="112" viewBox="0 0 1024 1024" {...props}>
+    <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 1024 1024" {...props}>
         <g transform="matrix(1, 0, 0, 1, 0, 0)">
             <g transform="matrix(1, 0, 0, 1, 0, 0)">
                 <path fill="#e27625" d="M790.39,493.385l-58.2-111.954l-68.521,43.087l-60.6-35.787l-60.6,35.787l-68.521-43.087 L415.748,493.385l54.854,16.862L415.748,527.11l89.3,142.271l107.352-60.6l107.352,60.6l89.3-142.271l-54.854-16.862 L790.39,493.385z"/>
@@ -37,44 +37,12 @@ const MetaMaskIcon = (props: React.SVGProps<SVGSVGElement>) => (
     </svg>
 );
 
-const CoinbaseIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg width="112" height="112" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
-        <rect width="56" height="56" rx="28" fill="#0052FF"/>
-        <rect x="16" y="16" width="24" height="24" rx="4" fill="white"/>
-    </svg>
-);
-
-const WalletConnectIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg width="112" height="112" viewBox="0 0 256 166" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
-        <path d="M68.528 165.321L0 82.6604L68.528 0L93.184 27.151L47.592 82.6604L93.184 138.17L68.528 165.321Z" fill="#3396FF"/>
-        <path d="M187.472 0L256 82.6604L187.472 165.321L162.816 138.17L208.408 82.6604L162.816 27.151L187.472 0Z" fill="#3396FF"/>
-        <path d="M91.808 12.9284L108.64 0L128 22.384L147.36 0L164.192 12.9284L128 53.5362L91.808 12.9284Z" fill="url(#paint0_linear_wc)"/>
-        <path d="M91.808 152.392L108.64 165.32L128 142.936L147.36 165.32L164.192 152.392L128 111.784L91.808 152.392Z" fill="url(#paint1_linear_wc)"/>
-        <defs>
-        <linearGradient id="paint0_linear_wc" x1="128" y1="0" x2="128" y2="53.5362" gradientUnits="userSpaceOnUse">
-        <stop stopColor="#59A5FF"/>
-        <stop offset="1" stopColor="#3396FF"/>
-        </linearGradient>
-        <linearGradient id="paint1_linear_wc" x1="128" y1="111.784" x2="128" y2="165.32" gradientUnits="userSpaceOnUse">
-        <stop stopColor="#59A5FF"/>
-        <stop offset="1" stopColor="#3396FF"/>
-        </linearGradient>
-        </defs>
-    </svg>
-);
-
-const LedgerIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg width="112" height="112" viewBox="0 0 26 30" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
-        <path d="M13 0L0 5.48564V16.4569C0 24.3141 13 30 13 30C13 30 26 24.3141 26 16.4569V5.48564L13 0Z" fill="black"/>
-    </svg>
-);
-
 
 const wallets = [
     { name: 'MetaMask', id: 'metamask', icon: <MetaMaskIcon /> },
-    { name: 'Coinbase Wallet', id: 'coinbase', icon: <CoinbaseIcon /> },
-    { name: 'WalletConnect', id: 'walletconnect', icon: <WalletConnectIcon /> },
-    { name: 'Ledger', id: 'ledger', icon: <LedgerIcon /> },
+    { name: 'Coinbase Wallet', id: 'coinbase' },
+    { name: 'WalletConnect', id: 'walletconnect' },
+    { name: 'Ledger', id: 'ledger' },
 ];
 
 const truncateAddress = (address: string) => {
@@ -130,17 +98,17 @@ export function WalletConnect({ children }: { children?: React.ReactNode }) {
                 <Button
                     key={wallet.name}
                     variant="outline"
-                    className="h-32 justify-start p-4 text-lg"
+                    className="h-20 justify-start p-4 text-lg"
                     onClick={() => handleWalletClick(wallet.id)}
                 >
                     {wallet.icon ? (
-                        <div className="mr-4 flex h-28 w-28 items-center justify-center">{wallet.icon}</div>
+                        <div className="mr-4 flex h-14 w-14 items-center justify-center">{wallet.icon}</div>
                     ) : (
                         <Image
-                            src="https://placehold.co/112x112.png"
+                            src="https://placehold.co/56x56.png"
                             alt={`${wallet.name} logo`}
-                            width={112}
-                            height={112}
+                            width={56}
+                            height={56}
                             className="mr-4 rounded-md"
                         />
                     )}
