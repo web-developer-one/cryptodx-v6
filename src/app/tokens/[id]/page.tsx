@@ -8,10 +8,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { AlertCircle, ArrowDown, ArrowUp } from "lucide-react";
+import { AlertCircle, ArrowDown, ArrowUp, ArrowLeft } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { PriceChart } from "@/components/token-details/price-chart";
+import { Button } from "@/components/ui/button";
 
 export default async function TokenDetailPage({ params }: { params: { id: string } }) {
   const token = await getTokenDetails(params.id);
@@ -49,7 +51,15 @@ export default async function TokenDetailPage({ params }: { params: { id: string
   }
 
   return (
-    <div className="container py-8 flex flex-col gap-8">
+    <div className="container py-8 flex flex-col gap-6">
+      <div>
+        <Link href="/tokens" passHref>
+          <Button variant="outline">
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            Back to Tokens
+          </Button>
+        </Link>
+      </div>
       <div className="border bg-card p-6 rounded-lg shadow-sm flex items-center justify-between flex-wrap gap-4">
         <div className="flex items-center gap-4">
           <Image
