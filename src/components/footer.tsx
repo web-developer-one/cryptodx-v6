@@ -43,7 +43,7 @@ const footerSections = [
 
 export function Footer() {
   return (
-    <footer className="w-full border-t border-border bg-card text-card-foreground">
+    <footer className="w-full border-t border-border bg-[#f1fafd] text-foreground">
       <div className="container max-w-screen-2xl py-12">
         <div className="grid grid-cols-2 gap-8 text-center md:grid-cols-5 md:text-left">
           {/* Column 1: Site Info */}
