@@ -40,9 +40,11 @@ export default async function TransactionsPage() {
   }
   
   return (
-    <div className="container py-8">
+    <div className="container flex flex-col items-center py-8">
       <ExploreNav />
-      <TransactionsClient cryptocurrencies={cryptoData} />
+      <div className="w-full">
+        <TransactionsClient cryptocurrencies={cryptoData} />
+      </div>
     </div>
   );
 }
