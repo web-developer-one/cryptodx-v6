@@ -50,7 +50,7 @@ export function PoolsTable({ pools, currency }: { pools: LiquidityPool[], curren
                             <TableHead>Network</TableHead>
                             <TableHead className="text-right">TVL</TableHead>
                             <TableHead className="text-right">Volume (24h)</TableHead>
-                            <TableHead className="w-[150px]"></TableHead>
+                            <TableHead className="w-[150px] text-right">Actions</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
