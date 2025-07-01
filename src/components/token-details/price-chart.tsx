@@ -90,19 +90,16 @@ const CustomTooltip = ({ active, payload, label, chartType }: any) => {
 
 // Custom shape for candlestick body and wick
 const Candlestick = (props: any) => {
-  const { x, y, width, height, low, high, payload, yAxis } = props;
+  const { x, y, width, height, low, high, open, close, yAxis } = props;
 
-  if (!yAxis || typeof yAxis.scale !== 'function') {
+  if (!yAxis || typeof yAxis.scale !== 'function' || y === undefined || height === undefined) {
     return null;
   }
   
-  const isUp = payload.close >= payload.open;
+  const isUp = close >= open;
   const fill = isUp ? 'hsl(var(--chart-2))' : 'hsl(var(--chart-1))'; // Green for up, Red for down
   const wickX = x + width / 2;
 
-  // recharts passes y and height for the bar body [open, close]
-  // We need to draw the wicks from high to low
-  // Note: recharts y-axis is inverted (0 is at the top)
   const highWickY = yAxis.scale(high);
   const lowWickY = yAxis.scale(low);
 
@@ -304,7 +301,7 @@ export function PriceChart({ token }: { token: TokenDetails }) {
               name="Price"
               dataKey={['open', 'close']}
               yAxisId="price"
-              shape={Candlestick}
+              shape={<Candlestick />}
             />
 
              <Brush 
