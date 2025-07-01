@@ -7,23 +7,21 @@ import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 export function TradeNav() {
   const pathname = usePathname();
-  const activeClass = "data-[state=active]:bg-primary/10 data-[state=active]:text-primary dark:data-[state=active]:bg-primary dark:data-[state=active]:text-primary-foreground";
-
 
   return (
     <div className="w-full max-w-md">
         <Tabs value={pathname} className="w-full">
             <TabsList className="grid w-full grid-cols-4">
-                <TabsTrigger value="/" asChild className={activeClass}>
+                <TabsTrigger value="/" asChild>
                     <Link href="/">Swap</Link>
                 </TabsTrigger>
-                <TabsTrigger value="/limit" asChild className={activeClass}>
+                <TabsTrigger value="/limit" asChild>
                     <Link href="/limit">Limit</Link>
                 </TabsTrigger>
-                <TabsTrigger value="/buy" asChild className={activeClass}>
+                <TabsTrigger value="/buy" asChild>
                     <Link href="/buy">Buy</Link>
                 </TabsTrigger>
-                <TabsTrigger value="/sell" asChild className={activeClass}>
+                <TabsTrigger value="/sell" asChild>
                     <Link href="/sell">Sell</Link>
                 </TabsTrigger>
             </TabsList>

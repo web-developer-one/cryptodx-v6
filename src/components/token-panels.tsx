@@ -195,7 +195,6 @@ export function TokenPanels({
                   setSearchQuery(e.target.value);
                   setCurrentPage(1);
                 }}
-                className="text-sm"
               />
             </div>
             <div className="w-full max-w-[220px]">

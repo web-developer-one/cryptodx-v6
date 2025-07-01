@@ -8,7 +8,6 @@ export function ExploreNav() {
   const pathname = usePathname();
   // Ensure "Tokens" tab is active for both list and panel views.
   const activeTab = pathname.startsWith('/tokens') ? '/tokens' : pathname;
-  const activeClass = "data-[state=active]:bg-primary/10 data-[state=active]:text-primary dark:data-[state=active]:bg-primary dark:data-[state=active]:text-primary-foreground";
 
   return (
     <div className="mb-6 flex justify-center">
@@ -16,13 +15,13 @@ export function ExploreNav() {
         <Tabs value={activeTab} className="w-full">
             <TabsList className="grid w-full grid-cols-3">
                 <Link href="/tokens" passHref>
-                    <TabsTrigger value="/tokens" className={activeClass}>Tokens</TabsTrigger>
+                    <TabsTrigger value="/tokens">Tokens</TabsTrigger>
                 </Link>
                 <Link href="/pools" passHref>
-                    <TabsTrigger value="/pools" className={activeClass}>Pools</TabsTrigger>
+                    <TabsTrigger value="/pools">Pools</TabsTrigger>
                 </Link>
                 <Link href="/transactions" passHref>
-                    <TabsTrigger value="/transactions" className={activeClass}>Transactions</TabsTrigger>
+                    <TabsTrigger value="/transactions">Transactions</TabsTrigger>
                 </Link>
             </TabsList>
         </Tabs>

@@ -234,7 +234,6 @@ export function TokenExplorer({
                   setSearchQuery(e.target.value);
                   setCurrentPage(1); // Reset to first page on new search
                 }}
-                className="text-sm"
               />
             </div>
             <div className="w-full max-w-[220px]">
