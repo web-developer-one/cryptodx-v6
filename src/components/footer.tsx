@@ -22,7 +22,6 @@ const footerSections = [
       { name: "Tokens", href: "/tokens" },
       { name: "Pools", href: "/pools" },
       { name: "Transactions", href: "/transactions" },
-      { name: "Changelly", href: "/changelly" },
     ],
   },
   {

@@ -71,18 +71,3 @@ export interface SelectedCurrency {
     name: string;
     rate: number;
 }
-
-
-export interface ChangellyCurrency {
-  name: string;
-  ticker: string;
-  fullName: string;
-  enabled: boolean;
-  image: string;
-  is_fiat: boolean;
-}
-
-export interface ChangellyRate {
-  rate: number;
-  amount: number;
-}
