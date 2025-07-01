@@ -1,4 +1,3 @@
-
 "use client";
 
 import * as React from "react";
@@ -7,7 +6,8 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 export function ThemeToggle({ className }: { className?: string }) {
-  const [theme, setTheme] = React.useState<"light" | "dark" | null>(null);
+  const [mounted, setMounted] = React.useState(false);
+  const [theme, setTheme] = React.useState<"light" | "dark">("light");
 
   React.useEffect(() => {
     const storedTheme = localStorage.getItem("theme");
@@ -16,10 +16,11 @@ export function ThemeToggle({ className }: { className?: string }) {
     } else {
       setTheme(window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
     }
+    setMounted(true);
   }, []);
 
   React.useEffect(() => {
-    if (theme) {
+    if (mounted) {
       if (theme === "dark") {
         document.documentElement.classList.add("dark");
       } else {
@@ -27,14 +28,14 @@ export function ThemeToggle({ className }: { className?: string }) {
       }
       localStorage.setItem("theme", theme);
     }
-  }, [theme]);
+  }, [theme, mounted]);
 
   const toggleTheme = () => {
     setTheme(theme === "light" ? "dark" : "light");
   };
 
   // Render a placeholder on the server and initial client render to prevent hydration mismatch.
-  if (!theme) {
+  if (!mounted) {
     return (
         <Button variant="ghost" size="icon" disabled className={cn("hover:bg-transparent", className)} />
     );
