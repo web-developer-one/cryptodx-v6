@@ -7,7 +7,7 @@ import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 export function TradeNav() {
   const pathname = usePathname();
-  const activeClass = "data-[state=active]:bg-primary/10 data-[state=active]:text-primary dark:data-[state=active]:bg-background dark:data-[state=active]:text-foreground";
+  const activeClass = "data-[state=active]:bg-primary/10 data-[state=active]:text-primary dark:data-[state=active]:bg-primary dark:data-[state=active]:text-primary-foreground";
 
 
   return (

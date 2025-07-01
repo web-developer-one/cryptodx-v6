@@ -24,7 +24,7 @@ const steps = [
 
 export function HowToExchange() {
   return (
-    <section className="w-full py-12 bg-secondary/50 flex justify-center">
+    <section className="w-full py-12 bg-card flex justify-center">
       <div className="container max-w-7xl px-4 md:px-6">
         <h2 className="text-3xl font-bold text-center mb-8">
           How to Exchange Cryptocurrency

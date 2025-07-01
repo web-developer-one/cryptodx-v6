@@ -54,7 +54,7 @@ export default async function Home() {
           <TradeNav />
           <SwapInterface cryptocurrencies={cryptoData} />
       </div>
-      <div className="w-full py-12 flex justify-center bg-background border-y">
+      <div className="w-full py-12 flex justify-center bg-card border-y">
         <div className="container">
           <MarketHighlights cryptocurrencies={cryptoData} />
         </div>

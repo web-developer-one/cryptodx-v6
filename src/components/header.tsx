@@ -95,7 +95,7 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
 
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-primary-foreground/10 bg-primary text-primary-foreground">
+    <header className="sticky top-0 z-50 w-full border-b bg-card text-card-foreground border-border">
       <div className="container flex h-16 max-w-screen-2xl items-center">
         <div className="mr-4 hidden md:flex">
           <Link href="/" className="mr-6 flex items-center space-x-3">
@@ -110,7 +110,7 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
                 <DropdownMenuTrigger asChild>
                   <Button
                     variant="ghost"
-                    className="flex items-center gap-1.5 px-3 font-medium text-primary-foreground/70 transition-colors hover:bg-primary-foreground/10 hover:text-primary-foreground"
+                    className="flex items-center gap-1.5 px-3 font-medium text-muted-foreground transition-colors hover:text-foreground"
                   >
                     <item.icon className="h-4 w-4" />
                     {item.name}
@@ -132,12 +132,12 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
         <div className="md:hidden">
           <Sheet>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="hover:bg-primary-foreground/10">
+              <Button variant="ghost" size="icon" className="hover:bg-accent">
                 <Menu className="h-6 w-6" />
                 <span className="sr-only">Toggle Menu</span>
               </Button>
             </SheetTrigger>
-            <SheetContent side="left" className="border-r-primary-foreground/10 bg-primary pr-0 pt-12 text-primary-foreground">
+            <SheetContent side="left" className="border-r-border bg-card pr-0 pt-12 text-card-foreground">
               <nav className="flex flex-col gap-2 text-lg font-medium">
                 <SheetClose asChild>
                   <Link
@@ -155,10 +155,10 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
                       key={item.name}
                       className="border-b-0"
                     >
-                      <AccordionTrigger className="rounded-md px-2 py-3 text-base font-medium hover:bg-primary-foreground/10 hover:no-underline [&[data-state=open]]:bg-primary-foreground/10">
+                      <AccordionTrigger className="rounded-md px-2 py-3 text-base font-medium hover:bg-accent hover:no-underline [&[data-state=open]]:bg-accent">
                         <div className="flex items-center gap-4">
-                          <item.icon className="h-5 w-5 text-primary-foreground/60" />
-                          <span className="text-primary-foreground/80">
+                          <item.icon className="h-5 w-5 text-muted-foreground" />
+                          <span className="text-foreground/80">
                             {item.name}
                           </span>
                         </div>
@@ -168,7 +168,7 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
                           <SheetClose asChild key={child.name}>
                             <Link
                               href={child.href}
-                              className="text-base text-primary-foreground/60 hover:text-primary-foreground"
+                              className="text-base text-muted-foreground hover:text-foreground"
                             >
                               {child.name}
                             </Link>
@@ -185,7 +185,7 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
 
         <div className="flex flex-1 items-center justify-end space-x-2">
           <Link href="/slippage" passHref>
-              <Button variant="ghost" className="flex items-center gap-1.5 px-3 font-medium text-primary-foreground/70 transition-colors hover:bg-primary-foreground/10 hover:text-primary-foreground">
+              <Button variant="ghost" className="flex items-center gap-1.5 px-3 font-medium text-muted-foreground transition-colors hover:text-foreground">
                   <SlidersHorizontal className="h-4 w-4" />
                   <span className="hidden sm:inline">Slippage</span>
               </Button>
@@ -194,7 +194,7 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
             <DropdownMenuTrigger asChild>
               <Button
                 variant="ghost"
-                className="flex items-center gap-1.5 px-3 font-medium text-primary-foreground/70 transition-colors hover:bg-primary-foreground/10 hover:text-primary-foreground"
+                className="flex items-center gap-1.5 px-3 font-medium text-muted-foreground transition-colors hover:text-foreground"
               >
                 <Image
                   src={selectedNetwork.logo}
@@ -227,9 +227,9 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
           </DropdownMenu>
 
           <WalletConnect>
-            <Button variant="secondary">Connect Wallet</Button>
+            <Button>Connect Wallet</Button>
           </WalletConnect>
-          <ThemeToggle className="hover:bg-primary-foreground/10"/>
+          <ThemeToggle/>
         </div>
       </div>
     </header>

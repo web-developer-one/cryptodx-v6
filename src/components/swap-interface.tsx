@@ -332,7 +332,7 @@ export function SwapInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocu
             <div className="flex justify-between">
                 <span>Price Impact</span>
                 <span className={cn({
-                    "text-primary": priceImpact !== null && priceImpact < 1,
+                    "text-green-500": priceImpact !== null && priceImpact < 1,
                     "text-destructive": priceImpact !== null && priceImpact >= 3,
                 })}>
                     {priceImpact ? `< ${priceImpact.toFixed(2)}%` : "-"}
