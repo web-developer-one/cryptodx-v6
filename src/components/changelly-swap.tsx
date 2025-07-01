@@ -173,4 +173,3 @@ export function ChangellySwap({ currencies }: { currencies: ChangellyCurrency[] 
     </Card>
   );
 }
-

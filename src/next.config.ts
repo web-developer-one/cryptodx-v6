@@ -23,6 +23,12 @@ const nextConfig: NextConfig = {
         port: '',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'content.changelly.com',
+        port: '',
+        pathname: '/**',
+      },
     ],
   },
 };

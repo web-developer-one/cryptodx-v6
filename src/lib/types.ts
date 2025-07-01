@@ -71,3 +71,26 @@ export interface SelectedCurrency {
     name: string;
     rate: number;
 }
+
+
+export interface ChangellyCurrency {
+  name: string;
+  ticker: string;
+  fullName: string;
+  enabled: boolean;
+  image: string;
+  addressPatterns: string[];
+  blockchains: string[];
+}
+
+export interface ChangellyFiatCurrency {
+    name: string;
+    ticker: string;
+    image: string;
+    countries: string[];
+}
+
+export interface ChangellyRate {
+  rate: number;
+  amount: number;
+}
