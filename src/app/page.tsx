@@ -11,6 +11,7 @@ import { SwapInterface } from "@/components/swap-interface";
 import { MarketHighlights } from "@/components/market-highlights";
 import { HowToExchange } from "@/components/how-to-exchange";
 import { Faq } from "@/components/faq";
+import { TradeNav } from "@/components/trade-nav";
 
 export default async function Home() {
   const cryptoData = await getLatestListings();
@@ -49,7 +50,8 @@ export default async function Home() {
             The easiest and most secure way to trade tokens. Connect your wallet and start swapping in seconds.
         </p>
       </div>
-      <div className="container">
+      <div className="container flex flex-col items-center gap-6">
+          <TradeNav />
           <SwapInterface cryptocurrencies={cryptoData} />
       </div>
       <div className="w-full py-12 flex justify-center bg-background border-y">
