@@ -39,9 +39,9 @@ export default async function TokensPanelPage() {
   }
 
   return (
-    <div className="container py-8">
+    <div className="container flex flex-col items-center py-8">
       <ExploreNav />
-      <div className="mt-6">
+      <div className="mt-6 w-full">
         <TokenPanels cryptocurrencies={cryptoData} />
       </div>
     </div>
