@@ -13,7 +13,7 @@ import { Plus } from 'lucide-react';
 
 export function CreatePositionInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[] }) {
   const [token0, setToken0] = useState<Cryptocurrency>(cryptocurrencies.find(c => c.symbol === 'ETH') || cryptocurrencies[0]);
-  const [token1, setToken1] = useState<Cryptocurrency>(cryptocurrencies.find(c => c.symbol === 'USDC') || cryptocurrencies[1]);
+  const [token1, setToken1] = useState<Cryptocurrency>(cryptocurrencies.find(c => c.symbol === 'USDC') || (cryptocurrencies.length > 1 ? cryptocurrencies[1] : cryptocurrencies[0]));
   const [amount0, setAmount0] = useState<string>('1');
   const [amount1, setAmount1] = useState<string>('');
   const { isActive: isWalletConnected } = useWallet();

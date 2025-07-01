@@ -17,7 +17,7 @@ const SIMULATED_POOL_BASE_LIQUIDITY = 500000; // $500k base liquidity for simula
 
 export function SlippageInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[] }) {
   const [fromToken, setFromToken] = useState<Cryptocurrency>(cryptocurrencies[0]);
-  const [toToken, setToToken] = useState<Cryptocurrency>(cryptocurrencies[1]);
+  const [toToken, setToToken] = useState<Cryptocurrency>(cryptocurrencies.length > 1 ? cryptocurrencies[1] : cryptocurrencies[0]);
   const [tradeAmount, setTradeAmount] = useState<string>('1000');
   const [liquidityMultiplier, setLiquidityMultiplier] = useState<number[]>([1]); // 1x = $500k, 10x = $5M etc.
   
