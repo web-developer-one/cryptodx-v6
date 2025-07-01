@@ -30,6 +30,11 @@ const truncateAddress = (address: string) => {
 export function WalletConnect({ children }: { children?: React.ReactNode }) {
   const { account, isActive, connectMetaMask, disconnect, isLoading } = useWallet();
   const [open, setOpen] = React.useState(false);
+  const [mounted, setMounted] = React.useState(false);
+
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const handleWalletClick = async (walletId: string) => {
     if (walletId === 'metamask') {
@@ -40,10 +45,10 @@ export function WalletConnect({ children }: { children?: React.ReactNode }) {
     }
   };
   
-  if (isLoading) {
+  if (!mounted || isLoading) {
       return (
           <Button variant="secondary" disabled>Connect Wallet</Button>
-      )
+      );
   }
 
   if (isActive && account) {
