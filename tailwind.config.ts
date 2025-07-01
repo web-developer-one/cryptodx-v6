@@ -17,6 +17,8 @@ export default {
     extend: {
       spacing: {
         '16': '4rem',
+        '20': '5rem',
+        '24': '6rem',
       },
       fontFamily: {
         body: ['var(--font-body)', 'sans-serif'],
@@ -24,7 +26,7 @@ export default {
         code: ['monospace'],
       },
       fontSize: {
-        xl: ['1.5rem', { lineHeight: '1.75rem' }],
+        xl: ['1.3rem', { lineHeight: '1.75rem' }],
       },
       colors: {
         background: 'hsl(var(--background))',
