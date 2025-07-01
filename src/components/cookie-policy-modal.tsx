@@ -39,7 +39,7 @@ export function CookiePolicyModal() {
         <ScrollArea className="h-[60vh] pr-6">
           <div className="space-y-4 text-sm text-muted-foreground">
             <p>
-              This Cookie Policy explains how Crypto Swap ("we", "us", and "our")
+              This Cookie Policy explains how CryptoDx ("we", "us", and "our")
               uses cookies and similar technologies to recognize you when you
               visit our website. It explains what these technologies are and
               why we use them, as well as your rights to control our use of them.
@@ -53,7 +53,7 @@ export function CookiePolicyModal() {
               to provide reporting information.
             </p>
             <p>
-              Cookies set by the website owner (in this case, Crypto Swap) are
+              Cookies set by the website owner (in this case, CryptoDx) are
               called "first-party cookies". Cookies set by parties other than the
               website owner are called "third-party cookies". Third-party cookies
               enable third-party features or functionality to be provided on or

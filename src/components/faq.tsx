@@ -7,8 +7,8 @@ import {
 
 const faqs = [
   {
-    question: "What is Crypto Swap?",
-    answer: "Crypto Swap is a decentralized exchange (DEX) platform that allows users to trade cryptocurrencies directly from their wallets without the need for a central intermediary. It provides a secure and transparent way to swap tokens.",
+    question: "What is CryptoDx?",
+    answer: "CryptoDx is a decentralized exchange (DEX) platform that allows users to trade cryptocurrencies directly from their wallets without the need for a central intermediary. It provides a secure and transparent way to swap tokens.",
   },
   {
     question: "Which wallets are supported?",

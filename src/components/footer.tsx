@@ -51,7 +51,7 @@ export function Footer() {
           <div className="col-span-2 flex flex-col items-center gap-4 md:col-span-1 md:items-start">
             <Link href="/" className="flex items-center space-x-3">
               <SiteLogo className="h-8 w-8" />
-              <span className="font-bold">Crypto Swap</span>
+              <span className="font-bold">CryptoDx</span>
             </Link>
             <p className="text-sm text-primary-foreground/70">
               Seamlessly swap your favorite tokens.
@@ -96,7 +96,7 @@ export function Footer() {
         </div>
         <Separator className="my-8 bg-primary-foreground/10" />
         <div className="flex flex-col items-center justify-between text-sm text-primary-foreground/70 md:flex-row">
-          <p>&copy; {new Date().getFullYear()} Crypto Swap. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} CryptoDx. All rights reserved.</p>
         </div>
       </div>
     </footer>

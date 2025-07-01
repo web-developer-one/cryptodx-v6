@@ -101,7 +101,7 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
           <Link href="/" className="mr-6 flex items-center space-x-3">
             <SiteLogo className="h-8 w-8" />
             <span className="hidden font-bold sm:inline-block">
-              Crypto Swap
+              CryptoDx
             </span>
           </Link>
           <nav className="flex items-center gap-2 text-sm">
@@ -145,7 +145,7 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
                     className="mb-4 flex items-center gap-3 pl-4 text-lg font-semibold"
                   >
                     <SiteLogo className="h-8 w-8" />
-                    <span>Crypto Swap</span>
+                    <span>CryptoDx</span>
                   </Link>
                 </SheetClose>
                 <Accordion type="multiple" className="w-full px-2">

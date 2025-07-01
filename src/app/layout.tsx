@@ -8,7 +8,7 @@ import { Toaster } from '@/components/ui/toaster';
 import { WalletProvider } from '@/hooks/use-wallet';
 
 export const metadata: Metadata = {
-  title: 'Crypto Swap | Seamless Token Exchange',
+  title: 'CryptoDx | Seamless Token Exchange',
   description: 'Swap, trade, and manage your cryptocurrency assets with ease on our decentralized exchange platform.',
 };
 
