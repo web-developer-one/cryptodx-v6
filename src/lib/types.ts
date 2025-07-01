@@ -79,15 +79,7 @@ export interface ChangellyCurrency {
   fullName: string;
   enabled: boolean;
   image: string;
-  addressPatterns: string[];
-  blockchains: string[];
-}
-
-export interface ChangellyFiatCurrency {
-    name: string;
-    ticker: string;
-    image: string;
-    countries: string[];
+  is_fiat: boolean;
 }
 
 export interface ChangellyRate {

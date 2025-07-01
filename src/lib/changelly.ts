@@ -1,66 +1,109 @@
-
 'use server';
 
-import type { ChangellyCurrency, ChangellyRate, ChangellyFiatCurrency } from './types';
+import type { ChangellyCurrency, ChangellyRate } from './types';
+import crypto from 'crypto';
 
-const API_KEY = 'f35acfbd-1e83-4ca3-9848-ceb3d71ae0c1';
-const BASE_URL = 'https://dex-api.changelly.com';
+const API_KEY = process.env.CHANGELLY_API_KEY;
+const PRIVATE_KEY = process.env.CHANGELLY_PRIVATE_KEY;
+const API_URL = 'https://api.changelly.com/v2';
 
-const headers = {
-  'X-API-Key': API_KEY,
-};
+async function changellyRequest(method: string, params: any) {
+    if (!API_KEY || !PRIVATE_KEY) {
+        console.error("Changelly API Key or Private Key is not set in environment variables.");
+        // Return a structure that indicates an error to the frontend
+        return { error: { message: "Server is not configured for Changelly API." } };
+    }
+
+    const message = {
+        jsonrpc: "2.0",
+        id: crypto.randomUUID(),
+        method: method,
+        params: params
+    };
+
+    try {
+        // The private key should be in PEM format.
+        const privateKey = crypto.createPrivateKey(PRIVATE_KEY);
+        const sign = crypto.createSign('SHA256');
+        sign.update(JSON.stringify(message));
+        sign.end();
+        const signature = sign.sign(privateKey, 'hex');
+        
+        const response = await fetch(API_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Api-Key': API_KEY,
+                'X-Api-Signature': signature
+            },
+            body: JSON.stringify(message),
+            // Revalidate fetched data based on method
+            next: { revalidate: method.includes('getCurrencies') ? 3600 : 0 }
+        });
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            console.error(`Changelly API request for method ${method} failed:`, errorText);
+            return { error: { message: `API request failed: ${response.statusText}` } };
+        }
+
+        const data = await response.json();
+        
+        if (data.error) {
+            console.error(`Changelly API error for method ${method}:`, data.error.message);
+        }
+
+        return data;
+
+    } catch (error) {
+        console.error(`Error during Changelly request for method ${method}:`, error);
+        return { error: { message: "An unexpected error occurred." } };
+    }
+}
+
+// In-memory cache for currencies to avoid re-fetching on every request within a short period.
+let allCurrenciesCache: ChangellyCurrency[] | null = null;
+let cacheTimestamp: number | null = null;
+const CACHE_DURATION = 3600 * 1000; // 1 hour
+
+async function getAllChangellyCurrencies(): Promise<ChangellyCurrency[]> {
+    const now = Date.now();
+    if (allCurrenciesCache && cacheTimestamp && (now - cacheTimestamp < CACHE_DURATION)) {
+        return allCurrenciesCache;
+    }
+
+    const result = await changellyRequest('getCurrenciesFull', {});
+
+    if (result && result.result) {
+        allCurrenciesCache = result.result;
+        cacheTimestamp = now;
+        return result.result;
+    }
+    return [];
+}
 
 export async function getDexCurrencies(): Promise<ChangellyCurrency[]> {
-    try {
-        const response = await fetch(`${BASE_URL}/v1/currencies`, {
-            headers,
-            next: { revalidate: 3600 } // Revalidate every hour
-        });
-        if (!response.ok) {
-            console.error("Failed to fetch DEX currencies from Changelly:", await response.text());
-            return [];
-        }
-        return response.json();
-    } catch (error) {
-        console.error("Error fetching Changelly DEX currencies:", error);
-        return [];
-    }
+    const allCurrencies = await getAllChangellyCurrencies();
+    return allCurrencies.filter(c => !c.is_fiat && c.enabled);
 }
 
-export async function getFiatCurrencies(): Promise<ChangellyFiatCurrency[]> {
-     try {
-        const response = await fetch(`${BASE_URL}/v1/fiat-currencies`, {
-            headers,
-            next: { revalidate: 3600 } // Revalidate every hour
-        });
-        if (!response.ok) {
-            console.error("Failed to fetch fiat currencies from Changelly:", await response.text());
-            return [];
-        }
-        // The API returns an object of objects, so we convert it to an array
-        const data = await response.json();
-        return Object.values(data);
-    } catch (error) {
-        console.error("Error fetching Changelly fiat currencies:", error);
-        return [];
-    }
+export async function getFiatCurrencies(): Promise<ChangellyCurrency[]> {
+    const allCurrencies = await getAllChangellyCurrencies();
+    return allCurrencies.filter(c => c.is_fiat && c.enabled);
 }
-
 
 export async function getDexRate(from: string, to: string, amount: string): Promise<ChangellyRate | null> {
     if (!from || !to || !amount || parseFloat(amount) <= 0) return null;
+    const params = [{ from, to, amount }];
     try {
-        const response = await fetch(`${BASE_URL}/v1/rate/${from}/${to}?amount=${amount}`, {
-            headers,
-            // Use no-cache for rates as they are dynamic
-            cache: 'no-store'
-        });
+        const data = await changellyRequest('getExchangeAmount', params);
 
-        if (!response.ok) {
-            console.error(`Failed to fetch Changelly rate for ${from}->${to}:`, await response.text());
-            return null;
+        if (data && data.result && data.result.length > 0 && data.result[0].amount) {
+            const resultAmount = parseFloat(data.result[0].amount);
+            // The components expect `rate` and `amount` to be the same total value.
+            return { amount: resultAmount, rate: resultAmount };
         }
-        return response.json();
+        return null;
     } catch (error) {
         console.error(`Error fetching Changelly rate for ${from}->${to}:`, error);
         return null;

@@ -2,7 +2,7 @@
 'use client';
 
 import { useState, useEffect, useMemo, useCallback } from 'react';
-import type { ChangellyFiatCurrency, ChangellyCurrency, ChangellyRate } from '@/lib/types';
+import type { ChangellyCurrency, ChangellyRate } from '@/lib/types';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -25,8 +25,8 @@ const debounce = <F extends (...args: any[]) => any>(func: F, delay: number) => 
 };
 
 
-export function ChangellyBuy({ cryptoCurrencies, fiatCurrencies }: { cryptoCurrencies: ChangellyCurrency[], fiatCurrencies: ChangellyFiatCurrency[] }) {
-  const [fromCurrency, setFromCurrency] = useState<ChangellyFiatCurrency>(fiatCurrencies.find(f => f.ticker === 'usd') || fiatCurrencies[0]);
+export function ChangellyBuy({ cryptoCurrencies, fiatCurrencies }: { cryptoCurrencies: ChangellyCurrency[], fiatCurrencies: ChangellyCurrency[] }) {
+  const [fromCurrency, setFromCurrency] = useState<ChangellyCurrency>(fiatCurrencies.find(f => f.ticker === 'usd') || fiatCurrencies[0]);
   const [toCurrency, setToCurrency] = useState<ChangellyCurrency>(cryptoCurrencies.find(c => c.ticker === 'btc') || cryptoCurrencies[0]);
   const [fromAmount, setFromAmount] = useState<string>('300');
   const [toAmount, setToAmount] = useState<string>('');
@@ -51,23 +51,23 @@ export function ChangellyBuy({ cryptoCurrencies, fiatCurrencies }: { cryptoCurre
           amount = fromAmount;
           fromTicker = fromCurrency.ticker;
           toTicker = toCurrency.ticker;
-      } else { // lastEdited === 'to' - this is a reverse calculation, not directly supported by API, so we estimate.
+      } else { 
           if (parseFloat(toAmount) <= 0) {
               setFromAmount('');
               setRateInfo(null);
               return;
           }
-          // We can't get a reverse rate, so we'll just show the amount and not update the other side
-          // In a real app, you might need a different endpoint or logic.
-          // For now, we only update 'to' when 'from' is edited.
+          // We can't get a reverse rate with this API version, so we only update 'to' when 'from' is edited.
           return;
       }
 
       setIsLoading(true);
       const result = await debouncedGetRate(fromTicker, toTicker, amount);
       setRateInfo(result);
-      if (result) {
+      if (result && result.amount) {
         setToAmount(result.amount.toString());
+      } else {
+        setToAmount('');
       }
       setIsLoading(false);
     };
@@ -87,9 +87,12 @@ export function ChangellyBuy({ cryptoCurrencies, fiatCurrencies }: { cryptoCurre
   const handleToAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     if (/^\d*\.?\d*$/.test(value)) {
-        // Since we can't get a reverse rate, just update the input
         setLastEdited('to');
         setToAmount(value);
+        if (rateInfo && rateInfo.rate) {
+          const fromPerUnit = parseFloat(fromAmount) / rateInfo.rate;
+          setFromAmount((parseFloat(value) * fromPerUnit).toString());
+        }
     }
   }
 
@@ -152,7 +155,7 @@ export function ChangellyBuy({ cryptoCurrencies, fiatCurrencies }: { cryptoCurre
             </div>
              <div className="flex justify-between items-center">
                 <span>Rate</span>
-                {isLoading ? <Skeleton className="h-4 w-32" /> : <span>1 {fromCurrency.ticker.toUpperCase()} ≈ {rateInfo ? (rateInfo.rate / parseFloat(fromAmount)).toFixed(6) : '-'} {toCurrency.ticker.toUpperCase()}</span>}
+                {isLoading ? <Skeleton className="h-4 w-32" /> : <span>1 {fromCurrency.ticker.toUpperCase()} ≈ {rateInfo && fromAmount && parseFloat(fromAmount) > 0 ? (rateInfo.rate / parseFloat(fromAmount)).toFixed(6) : '-'} {toCurrency.ticker.toUpperCase()}</span>}
             </div>
         </div>
         

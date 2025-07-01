@@ -3,9 +3,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { getDexCurrencies, getFiatCurrencies } from '@/lib/changelly';
 import { ChangellySwap } from '@/components/changelly-swap';
 import { ChangellyBuy } from '@/components/changelly-buy';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { AlertCircle } from 'lucide-react';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
+import { AlertCircle } from 'lucide-react';
 
 export default async function ChangellyPage() {
   const [dexCurrencies, fiatCurrencies] = await Promise.all([
@@ -29,7 +28,7 @@ export default async function ChangellyPage() {
                 <CardContent>
                     <p className="text-sm text-muted-foreground">
                         There was an issue fetching data from the Changelly API. Please
-                        try again later.
+                        check your API keys in the .env file or try again later.
                     </p>
                 </CardContent>
             </Card>
