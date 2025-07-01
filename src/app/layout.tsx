@@ -10,6 +10,7 @@ import { Providers } from '@/components/providers';
 export const metadata: Metadata = {
   title: 'CryptoDx | Seamless Token Exchange',
   description: 'Swap, trade, and manage your cryptocurrency assets with ease on our decentralized exchange platform.',
+  icons: null,
 };
 
 export default async function RootLayout({
