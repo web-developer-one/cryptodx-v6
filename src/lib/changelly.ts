@@ -4,14 +4,13 @@ import type { ChangellyCurrency, ChangellyRate } from './types';
 import crypto from 'crypto';
 
 const API_KEY = process.env.CHANGELLY_API_KEY;
-const PRIVATE_KEY = process.env.CHANGELLY_PRIVATE_KEY;
+const API_SECRET = process.env.CHANGELLY_API_SECRET;
 const API_URL = 'https://api.changelly.com/v2';
 
 async function changellyRequest(method: string, params: any) {
-    if (!API_KEY || !PRIVATE_KEY) {
-        console.error("Changelly API Key or Private Key is not set in environment variables.");
-        // Return a structure that indicates an error to the frontend
-        return { error: { message: "Server is not configured for Changelly API." } };
+    if (!API_KEY || !API_SECRET) {
+        console.error("Changelly API Key or API Secret is not set in environment variables.");
+        return { error: { message: "Server is not configured for Changelly API. Please check your .env file." } };
     }
 
     const message = {
@@ -22,19 +21,16 @@ async function changellyRequest(method: string, params: any) {
     };
 
     try {
-        // The private key should be in PEM format.
-        const privateKey = crypto.createPrivateKey(PRIVATE_KEY);
-        const sign = crypto.createSign('SHA256');
-        sign.update(JSON.stringify(message));
-        sign.end();
-        const signature = sign.sign(privateKey, 'hex');
+        const hmac = crypto.createHmac('sha512', API_SECRET);
+        hmac.update(JSON.stringify(message));
+        const signature = hmac.digest('hex');
         
         const response = await fetch(API_URL, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'X-Api-Key': API_KEY,
-                'X-Api-Signature': signature
+                'api-key': API_KEY,
+                'sign': signature
             },
             body: JSON.stringify(message),
             // Revalidate fetched data based on method
@@ -43,7 +39,7 @@ async function changellyRequest(method: string, params: any) {
 
         if (!response.ok) {
             const errorText = await response.text();
-            console.error(`Changelly API request for method ${method} failed:`, errorText);
+            console.error(`Changelly API request for method ${method} failed: ${response.status}`, errorText);
             return { error: { message: `API request failed: ${response.statusText}` } };
         }
 
@@ -57,7 +53,7 @@ async function changellyRequest(method: string, params: any) {
 
     } catch (error) {
         console.error(`Error during Changelly request for method ${method}:`, error);
-        return { error: { message: "An unexpected error occurred." } };
+        return { error: { message: "An unexpected error occurred during the request." } };
     }
 }
 
