@@ -47,7 +47,7 @@ export default async function Home() {
             Seamlessly Swap Your Crypto
         </h1>
         <p className="max-w-2xl text-muted-foreground md:text-xl">
-            The easiest and most secure way to trade tokens. Connect your wallet and start swapping in seconds.
+            The easiest and most secure way to swap tokens in seconds.
         </p>
       </div>
       <div className="container flex flex-col items-center gap-6">
