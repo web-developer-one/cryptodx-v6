@@ -229,7 +229,9 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
           <WalletConnect>
             <Button variant="secondary">Connect Wallet</Button>
           </WalletConnect>
-          <ThemeToggle/>
+          <div className="w-10 h-10 flex items-center justify-center">
+            <ThemeToggle />
+          </div>
         </div>
       </div>
     </header>

@@ -34,10 +34,8 @@ export function ThemeToggle({ className }: { className?: string }) {
     setTheme(theme === "light" ? "dark" : "light");
   };
 
-  // Render a placeholder on the server and initial client render to prevent hydration mismatch.
   if (!mounted) {
-    // Return a simple div placeholder to prevent layout shift and hydration errors.
-    return <div className={cn("h-10 w-10", className)} />;
+    return null;
   }
 
   return (
