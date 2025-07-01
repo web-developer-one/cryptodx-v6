@@ -20,6 +20,9 @@ export default {
         headline: ['var(--font-headline)', 'sans-serif'],
         code: ['monospace'],
       },
+      fontSize: {
+        xl: ['1.00rem', { lineHeight: '1.75rem' }],
+      },
       colors: {
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
