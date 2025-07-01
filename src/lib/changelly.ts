@@ -29,7 +29,7 @@ export async function getDexCurrencies(): Promise<ChangellyCurrency[]> {
 
 export async function getFiatCurrencies(): Promise<ChangellyFiatCurrency[]> {
      try {
-        const response = await fetch(`${BASE_URL}/v1/currencies/fiat`, {
+        const response = await fetch(`${BASE_URL}/v1/fiat-currencies`, {
             headers,
             next: { revalidate: 3600 } // Revalidate every hour
         });
