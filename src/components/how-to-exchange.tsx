@@ -31,7 +31,7 @@ export function HowToExchange() {
         </h2>
         <div className="grid gap-6 md:grid-cols-3">
           {steps.map((step, index) => (
-            <Card key={index}>
+            <Card key={index} className="border border-primary/20 shadow-lg">
               <CardHeader className="items-center text-center">
                 <div className="flex items-center gap-3">
                     {step.icon}

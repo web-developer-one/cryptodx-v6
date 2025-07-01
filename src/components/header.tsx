@@ -95,7 +95,7 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
 
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-card text-card-foreground border-border">
+    <header className="sticky top-0 z-50 w-full border-b border-primary/50 bg-primary text-primary-foreground">
       <div className="container flex h-16 max-w-screen-2xl items-center">
         <div className="mr-4 hidden md:flex">
           <Link href="/" className="mr-6 flex items-center space-x-3">
@@ -110,7 +110,7 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
                 <DropdownMenuTrigger asChild>
                   <Button
                     variant="ghost"
-                    className="flex items-center gap-1.5 px-3 font-medium text-muted-foreground transition-colors hover:text-foreground"
+                    className="flex items-center gap-1.5 px-3 font-medium text-primary-foreground/90 transition-colors hover:bg-white/10 hover:text-primary-foreground"
                   >
                     <item.icon className="h-4 w-4" />
                     {item.name}
@@ -185,7 +185,7 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
 
         <div className="flex flex-1 items-center justify-end space-x-2">
           <Link href="/slippage" passHref>
-              <Button variant="ghost" className="flex items-center gap-1.5 px-3 font-medium text-muted-foreground transition-colors hover:text-foreground">
+              <Button variant="ghost" className="flex items-center gap-1.5 px-3 font-medium text-primary-foreground/90 transition-colors hover:bg-white/10 hover:text-primary-foreground">
                   <SlidersHorizontal className="h-4 w-4" />
                   <span className="hidden sm:inline">Slippage</span>
               </Button>
@@ -194,7 +194,7 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
             <DropdownMenuTrigger asChild>
               <Button
                 variant="ghost"
-                className="flex items-center gap-1.5 px-3 font-medium text-muted-foreground transition-colors hover:text-foreground"
+                className="flex items-center gap-1.5 px-3 font-medium text-primary-foreground/90 transition-colors hover:bg-white/10 hover:text-primary-foreground"
               >
                 <Image
                   src={selectedNetwork.logo}
@@ -227,7 +227,7 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
           </DropdownMenu>
 
           <WalletConnect>
-            <Button>Connect Wallet</Button>
+            <Button variant="secondary">Connect Wallet</Button>
           </WalletConnect>
           <ThemeToggle/>
         </div>
