@@ -5,7 +5,7 @@ import React from 'react';
 export const SiteLogo = ({ className }: { className?: string }) => (
     <Image
         src="/Cdx-box-icon-none.png"
-        alt="Crypto Swap Logo"
+        alt="CryptoDx Logo"
         width={64}
         height={64}
         className={cn("h-6 w-6", className)}

@@ -39,7 +39,7 @@ export function TermsOfUseModal() {
         <ScrollArea className="h-[60vh] pr-6">
           <div className="space-y-4 text-sm text-muted-foreground">
             <p>
-              Welcome to Crypto Swap. These Terms of Use ("Terms") govern your access to and use of our website, services, and applications (collectively, the "Service"). Please read these Terms carefully before using the Service.
+              Welcome to CryptoDx. These Terms of Use ("Terms") govern your access to and use of our website, services, and applications (collectively, the "Service"). Please read these Terms carefully before using the Service.
             </p>
 
             <h3 className="font-semibold text-foreground">1. Agreement to Terms</h3>
@@ -54,7 +54,7 @@ export function TermsOfUseModal() {
 
             <h3 className="font-semibold text-foreground">3. The Service</h3>
             <p>
-              Crypto Swap is a decentralized exchange interface. We do not operate as a financial institution, nor do we provide any financial services. We are a software provider that allows users to interact with decentralized protocols. You are responsible for your own actions and for the security of your wallet.
+              CryptoDx is a decentralized exchange interface. We do not operate as a financial institution, nor do we provide any financial services. We are a software provider that allows users to interact with decentralized protocols. You are responsible for your own actions and for the security of your wallet.
             </p>
             
             <h3 className="font-semibold text-foreground">4. Prohibited Activities</h3>
@@ -68,12 +68,12 @@ export function TermsOfUseModal() {
 
             <h3 className="font-semibold text-foreground">5. Disclaimers</h3>
             <p>
-              THE SERVICE IS PROVIDED "AS IS" AND "AS AVAILABLE" WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED. YOU ACKNOWLEDGE AND AGREE THAT YOU HAVE HAD WHATEVER OPPORTUNITY YOU DEEM NECESSARY TO INVESTIGATE THE SERVICE, LAWS, RULES, OR REGULATIONS THAT MAY BE APPLICABLE TO YOUR USE OF THE SERVICE AND THAT YOU ARE NOT RELYING UPON ANY STATEMENT OF LAW OR FACT MADE BY CRYPTO SWAP RELATING TO THE SERVICE.
+              THE SERVICE IS PROVIDED "AS IS" AND "AS AVAILABLE" WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED. YOU ACKNOWLEDGE AND AGREE THAT YOU HAVE HAD WHATEVER OPPORTUNITY YOU DEEM NECESSARY TO INVESTIGATE THE SERVICE, LAWS, RULES, OR REGULATIONS THAT MAY BE APPLICABLE TO YOUR USE OF THE SERVICE AND THAT YOU ARE NOT RELYING UPON ANY STATEMENT OF LAW OR FACT MADE BY CRYPTODX RELATING TO THE SERVICE.
             </p>
             
             <h3 className="font-semibold text-foreground">6. Limitation of Liability</h3>
              <p>
-              TO THE FULLEST EXTENT PERMITTED BY APPLICABLE LAW, IN NO EVENT WILL CRYPTO SWAP OR ITS AFFILIATES BE LIABLE FOR ANY INDIRECT, SPECIAL, INCIDENTAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES OF ANY KIND.
+              TO THE FULLEST EXTENT PERMITTED BY APPLICABLE LAW, IN NO EVENT WILL CRYPTODX OR ITS AFFILIATES BE LIABLE FOR ANY INDIRECT, SPECIAL, INCIDENTAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES OF ANY KIND.
             </p>
 
             <h3 className="font-semibold text-foreground">7. Governing Law</h3>

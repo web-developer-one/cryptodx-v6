@@ -5,7 +5,7 @@ import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
 import { GdprModal } from '@/components/gdpr-modal';
 import { Toaster } from '@/components/ui/toaster';
-import { WalletProvider } from '@/hooks/use-wallet';
+import { Providers } from '@/components/providers';
 
 export const metadata: Metadata = {
   title: 'CryptoDx | Seamless Token Exchange',
@@ -37,7 +37,7 @@ export default async function RootLayout({
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
       </head>
       <body className="font-body antialiased">
-        <WalletProvider>
+        <Providers>
           <div className="flex flex-col min-h-screen">
             <Header cryptocurrencies={cryptoData || []} />
             <main className="flex-1 flex flex-col bg-secondary/20">{children}</main>
@@ -45,7 +45,7 @@ export default async function RootLayout({
             <Toaster />
             <GdprModal />
           </div>
-        </WalletProvider>
+        </Providers>
       </body>
     </html>
   );
