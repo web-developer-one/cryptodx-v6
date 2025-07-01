@@ -178,7 +178,7 @@ export function PriceChart({ token }: { token: TokenDetails }) {
       <CardHeader>
         <div className="flex items-start justify-between">
             <div className='flex flex-col gap-2'>
-                <CardTitle>Price Chart</CardTitle>
+                <CardTitle>{token.name} Price Chart</CardTitle>
                 <div className="flex items-center gap-1">
                     {chartViews.map((view) => (
                       <Button
