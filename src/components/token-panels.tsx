@@ -194,6 +194,7 @@ export function TokenPanels({
                   setSearchQuery(e.target.value);
                   setCurrentPage(1);
                 }}
+                className="h-9 text-sm"
               />
             </div>
             <div className="w-full max-w-[220px]">
@@ -201,7 +202,7 @@ export function TokenPanels({
                 onValueChange={handleCurrencyChange}
                 defaultValue={selectedCurrency.symbol}
               >
-                <SelectTrigger>
+                <SelectTrigger className="h-9">
                   <SelectValue placeholder="Select currency..." />
                 </SelectTrigger>
                 <SelectContent>

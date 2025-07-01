@@ -233,6 +233,7 @@ export function TokenExplorer({
                   setSearchQuery(e.target.value);
                   setCurrentPage(1); // Reset to first page on new search
                 }}
+                className="h-9 text-sm"
               />
             </div>
             <div className="w-full max-w-[220px]">
@@ -240,7 +241,7 @@ export function TokenExplorer({
                 onValueChange={handleCurrencyChange}
                 defaultValue={selectedCurrency.symbol}
               >
-                <SelectTrigger>
+                <SelectTrigger className="h-9">
                   <SelectValue placeholder="Select currency..." />
                 </SelectTrigger>
                 <SelectContent>
