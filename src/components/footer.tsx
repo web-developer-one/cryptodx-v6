@@ -43,7 +43,7 @@ const footerSections = [
 
 export function Footer() {
   return (
-    <footer className="w-full border-t border-border bg-[#f1fafd] text-foreground">
+    <footer className="w-full border-t border-primary/50 bg-primary text-primary-foreground">
       <div className="container max-w-screen-2xl py-12">
         <div className="grid grid-cols-2 gap-8 text-center md:grid-cols-5 md:text-left">
           {/* Column 1: Site Info */}
@@ -52,7 +52,7 @@ export function Footer() {
               <SiteLogo className="h-8 w-8" />
               <span className="font-bold">CryptoDx</span>
             </Link>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-sm text-primary-foreground/80">
               Seamlessly swap your favorite tokens.
             </p>
           </div>
@@ -73,7 +73,7 @@ export function Footer() {
                     ) : link.name === "Our Blog" ? (
                       <Link
                         href={link.href}
-                        className="text-muted-foreground transition-colors hover:text-foreground"
+                        className="text-primary-foreground/80 transition-colors hover:text-primary-foreground"
                         target="_blank"
                         rel="noopener noreferrer"
                       >
@@ -82,7 +82,7 @@ export function Footer() {
                     ) : (
                       <Link
                         href={link.href}
-                        className="text-muted-foreground transition-colors hover:text-foreground"
+                        className="text-primary-foreground/80 transition-colors hover:text-primary-foreground"
                       >
                         {link.name}
                       </Link>
@@ -93,8 +93,8 @@ export function Footer() {
             </div>
           ))}
         </div>
-        <Separator className="my-8 bg-border" />
-        <div className="flex flex-col items-center justify-between text-sm text-muted-foreground md:flex-row">
+        <Separator className="my-8 bg-primary-foreground/20" />
+        <div className="flex flex-col items-center justify-between text-sm text-primary-foreground/80 md:flex-row">
           <p>&copy; {new Date().getFullYear()} CryptoDx. All rights reserved.</p>
         </div>
       </div>

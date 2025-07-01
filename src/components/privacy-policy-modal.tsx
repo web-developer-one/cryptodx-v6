@@ -25,7 +25,7 @@ export function PrivacyPolicyModal() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <button className="text-muted-foreground transition-colors hover:text-foreground text-sm">
+        <button className="text-primary-foreground/80 transition-colors hover:text-primary-foreground text-sm">
           Privacy Policy
         </button>
       </DialogTrigger>
