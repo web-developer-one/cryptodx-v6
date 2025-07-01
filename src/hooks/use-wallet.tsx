@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useState, useEffect, useCallback, ReactNode } from 'react';
+import React, { ReactNode } from 'react';
 import { ethers } from 'ethers';
 
 declare global {
@@ -18,19 +18,19 @@ interface WalletContextType {
 }
 
 // Create the context with a default null value
-const WalletContext = createContext<WalletContextType | null>(null);
+const WalletContext = React.createContext<WalletContextType | null>(null);
 
 // Create the provider component
 export function WalletProvider({ children }: { children: ReactNode }) {
-  const [account, setAccount] = useState<string | null>(null);
+  const [account, setAccount] = React.useState<string | null>(null);
 
   // Memoize the disconnect function
-  const disconnect = useCallback(() => {
+  const disconnect = React.useCallback(() => {
     setAccount(null);
   }, []);
   
   // Memoize the connect function
-  const connectMetaMask = useCallback(async () => {
+  const connectMetaMask = React.useCallback(async () => {
     if (typeof window.ethereum !== 'undefined') {
       try {
         const provider = new ethers.BrowserProvider(window.ethereum);
@@ -49,7 +49,7 @@ export function WalletProvider({ children }: { children: ReactNode }) {
   }, []);
 
   // Effect to handle account and network changes
-  useEffect(() => {
+  React.useEffect(() => {
     if (typeof window.ethereum === 'undefined') return;
 
     const handleAccountsChanged = (accounts: string[]) => {
@@ -102,7 +102,7 @@ export function WalletProvider({ children }: { children: ReactNode }) {
 
 // Create a custom hook for easy access to the context
 export const useWallet = () => {
-  const context = useContext(WalletContext);
+  const context = React.useContext(WalletContext);
   if (context === null) {
     throw new Error('useWallet must be used within a WalletProvider');
   }

@@ -11,7 +11,6 @@ import { MarketHighlights } from '@/components/market-highlights';
 export const metadata: Metadata = {
   title: 'CryptoDx | Seamless Token Exchange',
   description: 'Swap, trade, and manage your cryptocurrency assets with ease on our decentralized exchange platform.',
-  icons: null,
 };
 
 export default async function RootLayout({
@@ -31,7 +30,7 @@ export default async function RootLayout({
   }
 
   return (
-    <html lang="en" className="dark" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
