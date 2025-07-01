@@ -28,7 +28,7 @@ const truncateAddress = (address: string) => {
 };
 
 export function WalletConnect({ children }: { children?: React.ReactNode }) {
-  const { account, isActive, connectMetaMask, disconnect } = useWallet();
+  const { account, isActive, connectMetaMask, disconnect, isLoading } = useWallet();
   const [open, setOpen] = React.useState(false);
 
   const handleWalletClick = async (walletId: string) => {
@@ -39,6 +39,12 @@ export function WalletConnect({ children }: { children?: React.ReactNode }) {
       alert(`${walletId} connection is not implemented yet.`);
     }
   };
+  
+  if (isLoading) {
+      return (
+          <Button variant="secondary" disabled>Connect Wallet</Button>
+      )
+  }
 
   if (isActive && account) {
     return (

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { ReactNode } from 'react';
+import React from 'react';
 import { ethers } from 'ethers';
 
 declare global {
@@ -15,14 +15,16 @@ interface WalletContextType {
   isActive: boolean;
   connectMetaMask: () => Promise<void>;
   disconnect: () => void;
+  isLoading: boolean;
 }
 
 // Create the context with a default null value
 const WalletContext = React.createContext<WalletContextType | null>(null);
 
 // Create the provider component
-export function WalletProvider({ children }: { children: ReactNode }) {
+export function WalletProvider({ children }: { children: React.ReactNode }) {
   const [account, setAccount] = React.useState<string | null>(null);
+  const [isLoading, setIsLoading] = React.useState(true);
 
   // Memoize the disconnect function
   const disconnect = React.useCallback(() => {
@@ -50,7 +52,10 @@ export function WalletProvider({ children }: { children: ReactNode }) {
 
   // Effect to handle account and network changes
   React.useEffect(() => {
-    if (typeof window.ethereum === 'undefined') return;
+    if (typeof window.ethereum === 'undefined') {
+        setIsLoading(false);
+        return;
+    };
 
     const handleAccountsChanged = (accounts: string[]) => {
       if (accounts.length === 0) {
@@ -66,11 +71,13 @@ export function WalletProvider({ children }: { children: ReactNode }) {
         try {
             const provider = new ethers.BrowserProvider(window.ethereum);
             const accounts = await provider.listAccounts();
-            if (accounts.length > 0) {
+            if (accounts.length > 0 && accounts[0]) {
                 setAccount(accounts[0].address);
             }
         } catch (error) {
             console.log("Could not check for existing connection", error);
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -91,6 +98,7 @@ export function WalletProvider({ children }: { children: ReactNode }) {
     isActive: !!account,
     connectMetaMask,
     disconnect,
+    isLoading,
   };
 
   return (
