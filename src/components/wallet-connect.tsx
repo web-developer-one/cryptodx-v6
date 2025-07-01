@@ -1,4 +1,3 @@
-
 "use client";
 
 import { Button } from "@/components/ui/button";
@@ -17,7 +16,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { ChevronDown } from 'lucide-react';
 
 const MetaMaskIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 1024 1024" {...props}>
+    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 1024 1024" {...props}>
         <g transform="matrix(1, 0, 0, 1, 0, 0)">
             <g transform="matrix(1, 0, 0, 1, 0, 0)">
                 <path fill="#e27625" d="M790.39,493.385l-58.2-111.954l-68.521,43.087l-60.6-35.787l-60.6,35.787l-68.521-43.087 L415.748,493.385l54.854,16.862L415.748,527.11l89.3,142.271l107.352-60.6l107.352,60.6l89.3-142.271l-54.854-16.862 L790.39,493.385z"/>
@@ -102,13 +101,13 @@ export function WalletConnect({ children }: { children?: React.ReactNode }) {
                     onClick={() => handleWalletClick(wallet.id)}
                 >
                     {wallet.icon ? (
-                        <div className="mr-4 flex h-8 w-8 items-center justify-center">{wallet.icon}</div>
+                        <div className="mr-4 flex h-10 w-10 items-center justify-center">{wallet.icon}</div>
                     ) : (
                         <Image
-                            src="https://placehold.co/32x32.png"
+                            src="https://placehold.co/40x40.png"
                             alt={`${wallet.name} logo`}
-                            width={32}
-                            height={32}
+                            width={40}
+                            height={40}
                             className="mr-4 rounded-md"
                             data-ai-hint={wallet.hint}
                         />
