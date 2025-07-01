@@ -1,4 +1,3 @@
-
 import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
 import { CookiePolicyModal } from "./cookie-policy-modal";
