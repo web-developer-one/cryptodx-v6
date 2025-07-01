@@ -45,9 +45,9 @@ export function Footer() {
   return (
     <footer className="w-full border-t border-primary/50 bg-primary text-primary-foreground">
       <div className="container max-w-screen-2xl py-12">
-        <div className="grid grid-cols-2 gap-8 text-center md:grid-cols-5 md:text-left">
+        <div className="flex flex-row flex-wrap items-start justify-center gap-x-16 gap-y-8 text-center">
           {/* Column 1: Site Info */}
-          <div className="col-span-2 flex flex-col items-center gap-4 md:col-span-1 md:items-start">
+          <div className="flex flex-col items-center gap-4">
             <Link href="/" className="flex items-center space-x-3">
               <SiteLogo className="h-8 w-8" />
               <span className="font-bold">CryptoDx</span>
@@ -59,9 +59,9 @@ export function Footer() {
 
           {/* The other columns */}
           {footerSections.map((section) => (
-            <div key={section.title} className="flex flex-col items-center gap-3 md:items-start">
+            <div key={section.title} className="flex flex-col items-center gap-3">
               <h4 className="text-base font-semibold">{section.title}</h4>
-              <ul className="flex flex-col items-center gap-2 text-sm md:items-start">
+              <ul className="flex flex-col items-center gap-2 text-sm">
                 {section.links.map((link) => (
                   <li key={link.name}>
                     {link.name === "Cookie Policy" ? (
@@ -94,7 +94,7 @@ export function Footer() {
           ))}
         </div>
         <Separator className="my-8 bg-primary-foreground/20" />
-        <div className="flex flex-col items-center justify-between text-sm text-primary-foreground/80 md:flex-row">
+        <div className="flex flex-col items-center justify-center text-sm text-primary-foreground/80">
           <p>&copy; {new Date().getFullYear()} CryptoDx. All rights reserved.</p>
         </div>
       </div>
