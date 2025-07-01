@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   title: "Crypto Swap",
   description: "Swap your favorite cryptocurrencies with ease and confidence.",
   icons: {
-    icon: "/Cdx-box-icon-none.png",
+    icon: "/favicon.ico",
   },
 };
 
