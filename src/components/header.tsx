@@ -4,7 +4,6 @@ import Link from "next/link";
 import Image from "next/image";
 import * as React from "react";
 import {
-  Repeat,
   Menu,
   ArrowRightLeft,
   Compass,
@@ -34,6 +33,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import type { Cryptocurrency } from "@/lib/types";
+import { SiteLogo } from "./site-logo";
 
 export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[] }) {
   const menuItems = [
@@ -99,7 +99,7 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
       <div className="container flex h-14 max-w-screen-2xl items-center">
         <div className="mr-4 hidden md:flex">
           <Link href="/" className="mr-6 flex items-center space-x-2">
-            <Repeat className="h-6 w-6" />
+            <SiteLogo className="h-6 w-6" />
             <span className="hidden font-bold sm:inline-block">
               Crypto Swap
             </span>
@@ -144,7 +144,7 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
                     href="/"
                     className="mb-4 flex items-center gap-2 pl-4 text-lg font-semibold"
                   >
-                    <Repeat className="h-6 w-6" />
+                    <SiteLogo className="h-6 w-6" />
                     <span>Crypto Swap</span>
                   </Link>
                 </SheetClose>

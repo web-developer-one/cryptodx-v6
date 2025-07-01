@@ -1,10 +1,10 @@
 
 import Link from "next/link";
-import { Repeat } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { CookiePolicyModal } from "./cookie-policy-modal";
 import { PrivacyPolicyModal } from "./privacy-policy-modal";
 import { TermsOfUseModal } from "./terms-of-use-modal";
+import { SiteLogo } from "./site-logo";
 
 const footerSections = [
   {
@@ -50,7 +50,7 @@ export function Footer() {
           {/* Column 1: Site Info */}
           <div className="col-span-2 flex flex-col items-center gap-4 md:col-span-1 md:items-start">
             <Link href="/" className="flex items-center space-x-2">
-              <Repeat className="h-6 w-6" />
+              <SiteLogo className="h-6 w-6" />
               <span className="font-bold">Crypto Swap</span>
             </Link>
             <p className="text-sm text-primary-foreground/70">
