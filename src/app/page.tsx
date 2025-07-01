@@ -41,7 +41,7 @@ export default async function Home() {
   }
 
   return (
-    <div className="flex-1 flex flex-col items-center gap-12 pt-8 md:pt-12 pb-0">
+    <div className="flex-1 flex flex-col items-center gap-12 pt-8 md:pt-12 pb-12">
       <div className="container flex flex-col items-center gap-4 text-center">
         <h1 className="text-3xl md:text-5xl font-headline font-bold tracking-tighter">
             Seamlessly Swap Your Crypto
@@ -54,7 +54,7 @@ export default async function Home() {
           <TradeNav />
           <SwapInterface cryptocurrencies={cryptoData} />
       </div>
-      <div className="w-full py-12 flex justify-center bg-background border-y">
+      <div className="w-full py-12 flex justify-center bg-card border-y">
         <div className="container">
           <MarketHighlights cryptocurrencies={cryptoData} />
         </div>
