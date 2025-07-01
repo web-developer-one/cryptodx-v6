@@ -1,4 +1,5 @@
 import type {Metadata} from 'next';
+import { Inter, Space_Grotesk } from 'next/font/google';
 import './globals.css';
 import { getLatestListings } from '@/lib/coinmarketcap';
 import { Header } from '@/components/header';
@@ -7,6 +8,19 @@ import { GdprModal } from '@/components/gdpr-modal';
 import { Toaster } from '@/components/ui/toaster';
 import { Providers } from '@/components/providers';
 import { MarketHighlights } from '@/components/market-highlights';
+
+const inter = Inter({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-body',
+});
+
+const spaceGrotesk = Space_Grotesk({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-headline',
+});
+
 
 export const metadata: Metadata = {
   title: 'CryptoDx | Seamless Token Exchange',
@@ -33,13 +47,7 @@ export default async function RootLayout({
   }
 
   return (
-    <html lang="en" suppressHydrationWarning>
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet" />
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-      </head>
+    <html lang="en" suppressHydrationWarning className={`${inter.variable} ${spaceGrotesk.variable}`}>
       <body className="font-body antialiased">
         <Providers>
           <div className="flex flex-col min-h-screen">
