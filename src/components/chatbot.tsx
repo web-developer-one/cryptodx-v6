@@ -21,7 +21,7 @@ type Message = {
 export function Chatbot() {
     const [isOpen, setIsOpen] = useState(false);
     const [messages, setMessages] = useState<Message[]>([
-        { role: 'model', content: "Hello! I'm the CryptoDx Chatbot. How can I help you today with questions about crypto, DeFi, NFTs, or AI?" }
+        { role: 'model', content: "Hello! I'm the 'CryptoDx' Chatbot. How can I help you today on all things Blockchain, DeFi, Crypto, NFTs, or AI?" }
     ]);
     const [inputValue, setInputValue] = useState('');
     const [isLoading, setIsLoading] = useState(false);
