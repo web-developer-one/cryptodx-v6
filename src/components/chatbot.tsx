@@ -64,9 +64,14 @@ export function Chatbot() {
     return (
         <Popover open={isOpen} onOpenChange={setIsOpen}>
             {!isOpen && (
-                <div className="fixed bottom-24 right-6 z-40 max-w-[220px] rounded-lg bg-secondary p-3 text-sm text-secondary-foreground shadow-lg animate-in fade-in-50 slide-in-from-bottom-2">
-                    Blockchain, DeFi, Crypto, NFTs, or AI!
-                    <div className="absolute right-6 -bottom-2 h-0 w-0 border-x-8 border-x-transparent border-t-8 border-t-secondary" />
+                <div className="fixed bottom-24 right-6 z-40 flex flex-col items-center gap-2 animate-in fade-in-50 slide-in-from-bottom-2">
+                    <div className="w-full max-w-[220px] rounded-lg bg-secondary p-3 text-sm text-secondary-foreground shadow-lg text-center">
+                        Ask me about...
+                    </div>
+                    <div className="relative w-full max-w-[220px] rounded-lg bg-secondary p-3 text-sm text-secondary-foreground shadow-lg text-center">
+                        Blockchain, DeFi, Crypto, NFT, or AI!
+                        <div className="absolute right-1/2 translate-x-1/2 -bottom-2 h-0 w-0 border-x-8 border-x-transparent border-t-8 border-t-secondary" />
+                    </div>
                 </div>
             )}
             <PopoverTrigger asChild>
