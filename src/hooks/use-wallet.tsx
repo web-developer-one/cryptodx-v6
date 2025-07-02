@@ -1,7 +1,9 @@
+
 "use client";
 
 import React from 'react';
 import { ethers } from 'ethers';
+import { toast } from '@/hooks/use-toast';
 
 declare global {
     interface Window {
@@ -28,7 +30,17 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
 
   // Memoize the disconnect function
   const disconnect = React.useCallback(() => {
-    setAccount(null);
+    // By using the function form of setState, we can check the previous state
+    // and only show the toast if an account was actually connected.
+    setAccount(prevAccount => {
+      if (prevAccount) {
+        toast({
+            title: "Wallet Disconnected",
+            description: "You have successfully disconnected your wallet.",
+        });
+      }
+      return null;
+    });
   }, []);
   
   // Memoize the connect function
@@ -40,13 +52,25 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
         const accounts = await provider.send('eth_requestAccounts', []);
         if (accounts.length > 0) {
             setAccount(accounts[0]);
+            toast({
+                title: "Wallet Connected",
+                description: `Successfully connected to account: ${accounts[0].substring(0, 6)}...${accounts[0].substring(accounts[0].length - 4)}`,
+            });
         }
       } catch (error) {
         console.error("User rejected request or an error occurred", error);
+        toast({
+            variant: "destructive",
+            title: "Connection Failed",
+            description: "Could not connect to the wallet. The request may have been rejected.",
+        });
       }
     } else {
-        // MetaMask is not installed
-        alert('MetaMask is not installed. Please install it to use this feature.');
+        toast({
+            variant: "destructive",
+            title: "MetaMask Not Found",
+            description: "Please install the MetaMask extension to connect your wallet.",
+        });
     }
   }, []);
 
@@ -63,6 +87,10 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
         disconnect();
       } else if (accounts[0] !== account) {
         setAccount(accounts[0]);
+        toast({
+            title: "Account Switched",
+            description: `Switched to account: ${accounts[0].substring(0, 6)}...${accounts[0].substring(accounts[0].length - 4)}`,
+        });
       }
     };
 
@@ -70,9 +98,9 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
     const checkExistingConnection = async () => {
         try {
             const provider = new ethers.BrowserProvider(window.ethereum);
-            const accounts = await provider.listAccounts();
-            if (accounts.length > 0 && accounts[0]) {
-                setAccount(accounts[0].address);
+            const accounts = await provider.send('eth_accounts', []);
+            if (accounts.length > 0) {
+                setAccount(accounts[0]);
             }
         } catch (error) {
             console.log("Could not check for existing connection", error);
