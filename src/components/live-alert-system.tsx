@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { checkForAlerts } from '@/ai/flows/live-alert';
 import { Megaphone } from 'lucide-react';
@@ -9,7 +9,7 @@ import { ToastAction } from '@/components/ui/toast';
 // This component is a background service and does not render any UI itself.
 export function LiveAlertSystem() {
   const { toast } = useToast();
-  const [lastAlertMessage, setLastAlertMessage] = useState('');
+  const lastAlertMessage = useRef('');
   const isChecking = useRef(false);
 
   useEffect(() => {
@@ -24,8 +24,8 @@ export function LiveAlertSystem() {
         const result = await checkForAlerts();
         
         // Only show a toast if there is a new, different alert
-        if (result.hasAlert && result.message && result.message !== lastAlertMessage) {
-          setLastAlertMessage(result.message);
+        if (result.hasAlert && result.message && result.message !== lastAlertMessage.current) {
+          lastAlertMessage.current = result.message;
           toast({
             title: (
               <div className="flex items-center gap-2">
@@ -52,13 +52,12 @@ export function LiveAlertSystem() {
       }
     };
 
-    // Check for alerts immediately on mount, then set an interval
-    check();
-    const intervalId = setInterval(check, 900000); // Check every 15 minutes
+    // Check for alerts every 15 minutes.
+    const intervalId = setInterval(check, 900000); 
 
     // Cleanup interval on component unmount
     return () => clearInterval(intervalId);
-  }, [toast, lastAlertMessage]);
+  }, [toast]);
 
   return null; // This component does not render anything
 }
