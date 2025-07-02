@@ -15,6 +15,7 @@ const LiveAlertOutputSchema = z.object({
   message: z
     .string()
     .describe('A short, important, time-sensitive alert message.'),
+  sourceUrl: z.string().url().optional().describe('A URL to a credible news source or official announcement about the event. If no source is available, this field can be omitted.'),
 });
 export type LiveAlertOutput = z.infer<typeof LiveAlertOutputSchema>;
 
@@ -30,9 +31,10 @@ Your task is to generate a single, important, time-sensitive alert about a signi
 The event must be related to one of these topics: "Blockchain", "DeFi", "Crypto", "NFT", or "AI".
 The alert should be concise and impactful.
 
-If you find a new, significant event, set hasAlert to true and provide a title and message.
+If you find a new, significant event, set hasAlert to true and provide a title, message, and a sourceUrl pointing to a credible news article or official announcement.
 The title should categorize the alert (e.g., "DeFi Security Alert", "Major Crypto Rally", "AI Breakthrough").
 The message should be a single sentence summarizing the event.
+The sourceUrl must be a valid, live URL. If no credible source can be found, omit the sourceUrl field.
 
 If there are no new, major, breaking events right now, set hasAlert to false and return empty strings for the title and message.
 Do not invent events. Base your response on real, very recent information.

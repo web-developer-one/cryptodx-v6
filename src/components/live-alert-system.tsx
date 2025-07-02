@@ -4,6 +4,7 @@ import { useEffect, useState, useRef } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { checkForAlerts } from '@/ai/flows/live-alert';
 import { Megaphone } from 'lucide-react';
+import { ToastAction } from '@/components/ui/toast';
 
 // This component is a background service and does not render any UI itself.
 export function LiveAlertSystem() {
@@ -34,6 +35,14 @@ export function LiveAlertSystem() {
             ),
             description: result.message,
             duration: 10000, // Show for 10 seconds
+            action: result.sourceUrl ? (
+                <ToastAction
+                  altText="View Source"
+                  onClick={() => window.open(result.sourceUrl, '_blank', 'noopener,noreferrer')}
+                >
+                  View Source
+                </ToastAction>
+            ) : undefined,
           });
         }
       } catch (error) {
