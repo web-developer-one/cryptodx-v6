@@ -28,6 +28,17 @@ const wallets = [
             className="rounded-md"
         />
     },
+    {
+        name: 'Trust Wallet',
+        id: 'trustwallet',
+        logo: <Image
+            src="https://walletguide.walletconnect.network/_next/image?url=https%3A%2F%2Fapi.web3modal.com%2Fv2%2Fwallet-image%2F200x200%2F7677b54f-3486-46e2-4e37-bf8747814f00%3FprojectId%3Dad53ae497ee922ad9beb2ef78b1a7a6e%26st%3Dwallet-guide%26sv%3D1.0.0&w=256&q=75"
+            alt="Trust Wallet logo"
+            width={56}
+            height={56}
+            className="rounded-md"
+        />
+    },
     { 
         name: 'Coinbase Wallet', 
         id: 'coinbase',
