@@ -10,6 +10,7 @@ import {
   Briefcase,
   ChevronDown,
   SlidersHorizontal,
+  Cog,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/theme-toggle";
@@ -24,6 +25,11 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
@@ -34,6 +40,9 @@ import {
 } from "@/components/ui/accordion";
 import type { Cryptocurrency } from "@/lib/types";
 import { SiteLogo } from "./site-logo";
+import { Switch } from "./ui/switch";
+import { Label } from "./ui/label";
+import { ScrollArea } from "./ui/scroll-area";
 
 export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[] }) {
   const menuItems = [
@@ -72,6 +81,22 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
     { name: 'Polygon', symbol: 'MATIC' },
     { name: 'BNB Chain', symbol: 'BNB' },
   ];
+  
+  const languages = [
+    { name: 'English', code: 'en' }, { name: 'Español', code: 'es' },
+    { name: 'Français', code: 'fr' }, { name: 'Deutsch', code: 'de' },
+    { name: 'Italiano', code: 'it' }, { name: 'Português', code: 'pt' },
+    { name: 'Русский', code: 'ru' }, { name: '日本語', code: 'ja' },
+    { name: '中文 (简体)', code: 'zh-CN' }, { name: '한국어', code: 'ko' },
+    { name: 'العربية', code: 'ar' }, { name: 'हिन्दी', code: 'hi' },
+    { name: 'Bengali', code: 'bn' }, { name: 'Indonesian', code: 'id' },
+    { name: 'Dutch', code: 'nl' }, { name: 'Turkish', code: 'tr' },
+    { name: 'Polish', code: 'pl' }, { name: 'Swedish', code: 'sv' },
+    { name: 'Vietnamese', code: 'vi' }, { name: 'Thai', code: 'th' },
+    { name: 'Greek', code: 'el' }, { name: 'Hebrew', code: 'he' },
+    { name: 'Czech', code: 'cs' }, { name: 'Romanian', code: 'ro' },
+    { name: 'Ukrainian', code: 'uk' },
+  ];
 
   const networks = React.useMemo(() => {
     return networkOptions.map(opt => {
@@ -85,6 +110,9 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
   }, [cryptocurrencies]);
 
   const [selectedNetwork, setSelectedNetwork] = React.useState(networks[0]);
+  const [hideSmallBalances, setHideSmallBalances] = React.useState(false);
+  const [hideUnknownTokens, setHideUnknownTokens] = React.useState(true);
+  const [selectedLanguage, setSelectedLanguage] = React.useState(languages[0]);
   
   React.useEffect(() => {
     // If cryptocurrencies load after initial render, update selected network
@@ -229,6 +257,56 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
           <WalletConnect>
             <Button variant="secondary">Connect Wallet</Button>
           </WalletConnect>
+          
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="icon" className="text-primary-foreground/90 transition-colors hover:bg-white/10 hover:text-primary-foreground">
+                <Cog className="h-5 w-5" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-64">
+              <DropdownMenuLabel>Display Settings</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onSelect={(e) => e.preventDefault()} className="flex items-center justify-between">
+                <Label htmlFor="hide-small-balances" className="font-normal cursor-pointer">Hide small balances</Label>
+                <Switch
+                  id="hide-small-balances"
+                  checked={hideSmallBalances}
+                  onCheckedChange={setHideSmallBalances}
+                />
+              </DropdownMenuItem>
+              <DropdownMenuItem onSelect={(e) => e.preventDefault()} className="flex items-center justify-between">
+                <Label htmlFor="hide-unknown-tokens" className="font-normal cursor-pointer">Hide unknown tokens</Label>
+                <Switch
+                  id="hide-unknown-tokens"
+                  checked={hideUnknownTokens}
+                  onCheckedChange={setHideUnknownTokens}
+                />
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuSub>
+                <DropdownMenuSubTrigger>
+                  <span>Language</span>
+                </DropdownMenuSubTrigger>
+                <DropdownMenuSubContent>
+                  <ScrollArea className="h-72">
+                    {languages.map((lang) => (
+                      <DropdownMenuItem key={lang.code} onSelect={() => setSelectedLanguage(lang)}>
+                        {lang.name}
+                      </DropdownMenuItem>
+                    ))}
+                  </ScrollArea>
+                </DropdownMenuSubContent>
+              </DropdownMenuSub>
+               <DropdownMenuItem disabled>
+                <div className="flex justify-between w-full text-xs">
+                    <span>Selected:</span>
+                    <span>{selectedLanguage.name}</span>
+                </div>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+
           <div className="w-10 h-10 flex items-center justify-center">
             <ThemeToggle />
           </div>
