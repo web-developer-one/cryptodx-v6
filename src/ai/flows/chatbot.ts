@@ -47,11 +47,7 @@ If a question is outside of these topics, you must respond with: "I'm afraid tha
 
 Engage in a helpful and friendly conversation, using the provided history to maintain context.
 `,
-  prompt: `{{#each history}}
-{{role}}: {{{content}}}
-{{/each}}
-user: {{{userMessage}}}
-model: `,
+  prompt: '{{#each history}}{{role}}: {{{content}}}\n{{/each}}user: {{{userMessage}}}\nmodel: ',
   config: {
     // Lower temperature for more consistent, factual answers.
     temperature: 0.3,
