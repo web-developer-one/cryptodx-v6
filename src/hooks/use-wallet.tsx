@@ -1,5 +1,5 @@
 
-"use client";
+'use client';
 
 import React from 'react';
 import { ethers } from 'ethers';
@@ -30,18 +30,16 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
 
   // Memoize the disconnect function
   const disconnect = React.useCallback(() => {
-    // By using the function form of setState, we can check the previous state
-    // and only show the toast if an account was actually connected.
-    setAccount(prevAccount => {
-      if (prevAccount) {
+    // We check the account state *before* updating it and calling the toast.
+    // This avoids calling a state update (toast) inside another state update (setAccount).
+    if (account) {
         toast({
             title: "Wallet Disconnected",
             description: "You have successfully disconnected your wallet.",
         });
-      }
-      return null;
-    });
-  }, []);
+    }
+    setAccount(null);
+  }, [account]); // Add 'account' as a dependency
   
   // Memoize the connect function
   const connectMetaMask = React.useCallback(async () => {
