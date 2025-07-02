@@ -92,12 +92,19 @@ const CustomTooltip = ({ active, payload, label, chartType }: any) => {
 const Candlestick = (props: any) => {
   const { x, y, width, height, low, high, open, close, yAxis } = props;
 
-  if (!yAxis || typeof yAxis.scale !== 'function' || y === undefined || height === undefined) {
+  if (
+    !yAxis ||
+    typeof yAxis.scale !== "function" ||
+    [x, y, width, height, low, high, open, close].some(
+      (v) => v === undefined || v === null
+    )
+  ) {
     return null;
   }
-  
+
   const isUp = close >= open;
-  const fill = isUp ? 'hsl(var(--chart-2))' : 'hsl(var(--chart-1))'; // Green for up, Red for down
+  const candleColor = isUp ? "hsl(var(--chart-2))" : "hsl(var(--chart-1))";
+
   const wickX = x + width / 2;
 
   const highWickY = yAxis.scale(high);
@@ -106,12 +113,20 @@ const Candlestick = (props: any) => {
   return (
     <g>
       {/* Wick */}
-      <line x1={wickX} y1={highWickY} x2={wickX} y2={lowWickY} stroke={fill} strokeWidth={1} />
+      <line
+        x1={wickX}
+        y1={highWickY}
+        x2={wickX}
+        y2={lowWickY}
+        stroke={candleColor}
+        strokeWidth={1}
+      />
       {/* Body */}
-      <rect x={x} y={y} width={width} height={height} fill={fill} />
+      <rect x={x} y={y} width={width} height={height} fill={candleColor} />
     </g>
   );
 };
+
 
 export function PriceChart({ token }: { token: TokenDetails }) {
   const [chartType, setChartType] = useState('line');
