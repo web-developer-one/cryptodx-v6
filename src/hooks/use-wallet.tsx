@@ -14,7 +14,7 @@ declare global {
 interface WalletContextType {
   account: string | null;
   isActive: boolean;
-  connectMetaMask: () => Promise<void>;
+  connectWallet: () => Promise<void>;
   disconnect: () => void;
   isLoading: boolean;
 }
@@ -29,18 +29,16 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
 
   // Memoize the disconnect function
   const disconnect = React.useCallback(() => {
-    if (account) {
-        localStorage.setItem('explicitly_disconnected', 'true');
-        toast({
-            title: "Wallet Disconnected",
-            description: "You have successfully disconnected your wallet.",
-        });
-    }
     setAccount(null);
-  }, [account]);
+    localStorage.setItem('explicitly_disconnected', 'true');
+    toast({
+        title: "Wallet Disconnected",
+        description: "You have successfully disconnected your wallet.",
+    });
+  }, []);
   
   // Memoize the connect function
-  const connectMetaMask = React.useCallback(async () => {
+  const connectWallet = React.useCallback(async () => {
     if (typeof window.ethereum !== 'undefined') {
       try {
         const provider = new ethers.BrowserProvider(window.ethereum);
@@ -65,8 +63,8 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
     } else {
         toast({
             variant: "destructive",
-            title: "MetaMask Not Found",
-            description: "Please install the MetaMask extension to connect your wallet.",
+            title: "Wallet Not Found",
+            description: "Please install a compatible browser wallet extension like MetaMask, Trust Wallet, or Coinbase Wallet.",
         });
     }
   }, []);
@@ -128,7 +126,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
   const value = {
     account,
     isActive: !!account,
-    connectMetaMask,
+    connectWallet,
     disconnect,
     isLoading,
   };

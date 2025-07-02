@@ -80,7 +80,7 @@ const truncateAddress = (address: string) => {
 };
 
 export function WalletConnect({ children }: { children?: React.ReactNode }) {
-  const { account, isActive, connectMetaMask, disconnect, isLoading } = useWallet();
+  const { account, isActive, connectWallet, disconnect, isLoading } = useWallet();
   const { toast } = useToast();
   const [open, setOpen] = React.useState(false);
   const [mounted, setMounted] = React.useState(false);
@@ -90,14 +90,16 @@ export function WalletConnect({ children }: { children?: React.ReactNode }) {
   }, []);
 
   const handleWalletClick = async (walletId: string, walletName: string) => {
-    if (walletId === 'metamask') {
-      await connectMetaMask();
+    // These wallets typically inject into window.ethereum and follow EIP-1193 standard.
+    if (['metamask', 'trustwallet', 'coinbase'].includes(walletId)) {
+      await connectWallet();
       setOpen(false); // Close dialog after attempting connection
     } else {
+      // Bitcoin and Ledger wallets require different connection methods not supported by this app's current architecture.
       toast({
         variant: "destructive",
         title: "Not Implemented",
-        description: `Connection to ${walletName} is not available yet.`,
+        description: `Connection to ${walletName} is not supported in this app. Please use MetaMask, Trust Wallet, or Coinbase Wallet.`,
       });
     }
   };
