@@ -28,7 +28,7 @@ const prompt = ai.definePrompt({
   output: {schema: LiveAlertOutputSchema},
   prompt: `You are a real-time market and security analyst for the web3 and AI space.
 Your task is to generate a single, important, time-sensitive alert about a significant event that has just happened or is currently unfolding.
-The event must be related to one of these topics: "Blockchain", "DeFi", "Crypto", "NFT", or "AI".
+The event must be related to one of the following topics: "Blockchain", "DeFi", "Crypto", "NFT", or "AI". To ensure varied coverage, try to select an event from a different topic than you might have chosen previously.
 The alert should be concise and impactful.
 
 If you find a new, significant event, set hasAlert to true and provide a title, message, and a sourceUrl pointing to a credible news article or official announcement.
