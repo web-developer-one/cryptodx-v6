@@ -90,12 +90,13 @@ const CustomTooltip = ({ active, payload, label, chartType }: any) => {
 
 // Custom shape for candlestick body and wick
 const Candlestick = (props: any) => {
-  const { x, y, width, height, low, high, open, close, yAxis } = props;
+  const { x, width, low, high, open, close, yAxis } = props;
 
+  // Guard clause for essential props
   if (
     !yAxis ||
     typeof yAxis.scale !== "function" ||
-    [x, y, width, height, low, high, open, close].some(
+    [x, width, low, high, open, close].some(
       (v) => v === undefined || v === null
     )
   ) {
@@ -110,19 +111,28 @@ const Candlestick = (props: any) => {
   const highWickY = yAxis.scale(high);
   const lowWickY = yAxis.scale(low);
 
+  const bodyY = yAxis.scale(Math.max(open, close));
+  const bodyHeight = Math.abs(yAxis.scale(open) - yAxis.scale(close));
+  
+  // To avoid invisible candles when open and close are the same
+  const finalBodyHeight = bodyHeight === 0 ? 1 : bodyHeight;
+
   return (
-    <g>
+    <g stroke={candleColor} fill={candleColor} strokeWidth={1}>
       {/* Wick */}
       <line
         x1={wickX}
         y1={highWickY}
         x2={wickX}
         y2={lowWickY}
-        stroke={candleColor}
-        strokeWidth={1}
       />
       {/* Body */}
-      <rect x={x} y={y} width={width} height={height} fill={candleColor} />
+      <rect 
+        x={x} 
+        y={bodyY} 
+        width={width} 
+        height={finalBodyHeight}
+      />
     </g>
   );
 };
