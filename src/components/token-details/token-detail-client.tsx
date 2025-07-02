@@ -16,6 +16,7 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { PriceChart } from "@/components/token-details/price-chart";
 import { Button } from "@/components/ui/button";
+import { ReputationAlert } from './reputation-alert';
 
 export function TokenDetailClient({ initialToken }: { initialToken: TokenDetails }) {
     const [token, setToken] = useState(initialToken);
@@ -73,6 +74,8 @@ export function TokenDetailClient({ initialToken }: { initialToken: TokenDetails
           </div>
         </div>
       </div>
+
+      <ReputationAlert token={token} />
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-1">
