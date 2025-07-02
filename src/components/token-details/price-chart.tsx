@@ -108,30 +108,42 @@ const Candlestick = (props: any) => {
 
   const wickX = x + width / 2;
 
+  // Correctly define the top and bottom of the body
+  const bodyTopY = yAxis.scale(Math.max(open, close));
+  const bodyBottomY = yAxis.scale(Math.min(open, close));
+
   const highWickY = yAxis.scale(high);
   const lowWickY = yAxis.scale(low);
 
-  const bodyY = yAxis.scale(Math.max(open, close));
-  const bodyHeight = Math.abs(yAxis.scale(open) - yAxis.scale(close));
+  const bodyHeight = Math.abs(bodyTopY - bodyBottomY);
   
   // To avoid invisible candles when open and close are the same
   const finalBodyHeight = bodyHeight === 0 ? 1 : bodyHeight;
 
   return (
-    <g stroke={candleColor} fill={candleColor} strokeWidth={1}>
+    <g stroke={candleColor} strokeWidth={1}>
       {/* Wick */}
       <line
         x1={wickX}
         y1={highWickY}
         x2={wickX}
+        // The wick should extend from the high to the top of the body
+        y2={bodyTopY}
+      />
+      <line
+        x1={wickX}
+        // The lower wick extends from the bottom of the body to the low
+        y1={bodyBottomY}
+        x2={wickX}
         y2={lowWickY}
       />
       {/* Body */}
-      <rect 
-        x={x} 
-        y={bodyY} 
-        width={width} 
+      <rect
+        x={x}
+        y={bodyTopY}
+        width={width}
         height={finalBodyHeight}
+        fill={candleColor}
       />
     </g>
   );
