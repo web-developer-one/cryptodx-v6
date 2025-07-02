@@ -5,7 +5,7 @@ import type { Cryptocurrency } from '@/lib/types';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Select, SelectContent, SelectItem, SelectTrigger } from '@/components/ui/select';
 import Image from 'next/image';
 import { useWallet } from '@/hooks/use-wallet';
 import { WalletConnect } from './wallet-connect';
@@ -14,16 +14,23 @@ import { useToast } from '@/hooks/use-toast';
 import { checkTokenReputation } from '@/ai/flows/check-token-reputation';
 import { AlertTriangle, Loader2 } from 'lucide-react';
 
-const supportedCurrencies = [
-    { symbol: 'USD', name: 'US Dollar', rate: 1 },
-    { symbol: 'EUR', name: 'Euro', rate: 0.93 },
-    { symbol: 'GBP', name: 'British Pound', rate: 0.79 },
-    { symbol: 'JPY', name: 'Japanese Yen', rate: 157.2 },
-    { symbol: 'AUD', name: 'Australian Dollar', rate: 1.51 },
-    { symbol: 'CAD', name: 'Canadian Dollar', rate: 1.37 },
-    { symbol: 'CHF', name: 'Swiss Franc', rate: 0.90 },
-    { symbol: 'CNY', name: 'Chinese Yuan', rate: 7.25 },
-    { symbol: 'INR', name: 'Indian Rupee', rate: 83.5 },
+type SupportedCurrency = {
+    symbol: string;
+    name: string;
+    currencySymbol: string;
+    rate: number;
+}
+
+const supportedCurrencies: SupportedCurrency[] = [
+    { symbol: 'USD', name: 'US Dollar', currencySymbol: '$', rate: 1 },
+    { symbol: 'EUR', name: 'Euro', currencySymbol: '€', rate: 0.93 },
+    { symbol: 'GBP', name: 'British Pound', currencySymbol: '£', rate: 0.79 },
+    { symbol: 'JPY', name: 'Japanese Yen', currencySymbol: '¥', rate: 157.2 },
+    { symbol: 'AUD', name: 'Australian Dollar', currencySymbol: 'A$', rate: 1.51 },
+    { symbol: 'CAD', name: 'Canadian Dollar', currencySymbol: 'C$', rate: 1.37 },
+    { symbol: 'CHF', name: 'Swiss Franc', currencySymbol: 'Fr', rate: 0.90 },
+    { symbol: 'CNY', name: 'Chinese Yuan', currencySymbol: '¥', rate: 7.25 },
+    { symbol: 'INR', name: 'Indian Rupee', currencySymbol: '₹', rate: 83.5 },
 ];
 
 
@@ -31,7 +38,7 @@ export function SellInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocu
   const [fromToken, setFromToken] = useState<Cryptocurrency>(cryptocurrencies.find(c => c.symbol === 'ETH') || cryptocurrencies[0]);
   const [cryptoAmount, setCryptoAmount] = useState<string>('1');
   const [fiatAmount, setFiatAmount] = useState<string>('');
-  const [toFiat, setToFiat] = useState(supportedCurrencies[0]);
+  const [toFiat, setToFiat] = useState<SupportedCurrency>(supportedCurrencies[0]);
   const { isActive: isWalletConnected } = useWallet();
   const { toast } = useToast();
   const [isChecking, setIsChecking] = useState(false);
@@ -138,7 +145,16 @@ export function SellInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocu
             <Input id="crypto-input" type="text" placeholder="0" className="text-3xl h-12 bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0 p-0" value={cryptoAmount} onChange={handleCryptoAmountChange}/>
             <Select value={fromToken.symbol} onValueChange={handleFromTokenChange}>
               <SelectTrigger className="w-[180px] h-12 text-lg font-bold">
-                <SelectValue placeholder="Select" />
+                 <div className="flex items-center gap-2">
+                    <Image
+                    src={fromToken.logo || `https://placehold.co/20x20.png`}
+                    alt={`${fromToken.name} logo`}
+                    width={20}
+                    height={20}
+                    className="rounded-full"
+                    />
+                    {fromToken.symbol}
+                </div>
               </SelectTrigger>
               <SelectContent>
                 {cryptocurrencies.map((token) => (
@@ -167,13 +183,17 @@ export function SellInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocu
             <Input id="fiat-input" type="text" placeholder="0" className="text-3xl h-12 bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0 p-0" value={fiatAmount} onChange={handleFiatAmountChange} />
              <Select value={toFiat.symbol} onValueChange={handleToFiatChange}>
               <SelectTrigger className="w-[180px] h-12 text-lg font-bold">
-                <SelectValue placeholder="Select" />
+                <div className="flex items-center gap-2">
+                    <span>{toFiat.currencySymbol}</span>
+                    <span>{toFiat.symbol}</span>
+                </div>
               </SelectTrigger>
               <SelectContent>
                 {supportedCurrencies.map((fiat) => (
                   <SelectItem key={fiat.symbol} value={fiat.symbol}>
                     <div className="flex items-center gap-2">
-                      {fiat.symbol}
+                      <span>{fiat.currencySymbol}</span>
+                      <span>{fiat.symbol}</span>
                     </div>
                   </SelectItem>
                 ))}

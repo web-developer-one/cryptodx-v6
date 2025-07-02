@@ -313,7 +313,16 @@ export function SwapInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocu
             <Input id="from-input" type="text" placeholder="0" className="text-3xl h-12 bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0 p-0" value={fromAmount} onChange={handleFromAmountChange} />
             <Select value={fromToken.symbol} onValueChange={handleFromTokenChange}>
               <SelectTrigger className="w-[180px] h-12 text-lg font-bold">
-                <SelectValue placeholder="Select token" />
+                 <div className="flex items-center gap-2">
+                    <Image
+                        src={fromToken.logo || `https://placehold.co/20x20.png`}
+                        alt={`${fromToken.name} logo`}
+                        width={20}
+                        height={20}
+                        className="rounded-full"
+                    />
+                    {fromToken.symbol}
+                </div>
               </SelectTrigger>
               <SelectContent>
                 {cryptocurrencies.map((token) => (
@@ -352,7 +361,16 @@ export function SwapInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocu
             <Input id="to-input" type="text" placeholder="0" className="text-3xl h-12 bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0 p-0" value={toAmount} onChange={handleToAmountChange}/>
             <Select value={toToken.symbol} onValueChange={handleToTokenChange}>
               <SelectTrigger className="w-[180px] h-12 text-lg font-bold">
-                <SelectValue placeholder="Select token" />
+                <div className="flex items-center gap-2">
+                    <Image
+                        src={toToken.logo || `https://placehold.co/20x20.png`}
+                        alt={`${toToken.name} logo`}
+                        width={20}
+                        height={20}
+                        className="rounded-full"
+                    />
+                    {toToken.symbol}
+                </div>
               </SelectTrigger>
               <SelectContent>
                 {cryptocurrencies.map((token) => (
