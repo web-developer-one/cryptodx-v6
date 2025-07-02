@@ -45,7 +45,7 @@ export function LiveAlertSystem() {
 
     // Check for alerts immediately on mount, then set an interval
     check();
-    const intervalId = setInterval(check, 60000); // Check every 60 seconds
+    const intervalId = setInterval(check, 900000); // Check every 15 minutes
 
     // Cleanup interval on component unmount
     return () => clearInterval(intervalId);
