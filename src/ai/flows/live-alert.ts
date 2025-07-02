@@ -15,7 +15,7 @@ const LiveAlertOutputSchema = z.object({
   message: z
     .string()
     .describe('A short, important, time-sensitive alert message.'),
-  sourceUrl: z.string().url().optional().describe('A URL to a credible news source or official announcement about the event. If no source is available, this field can be omitted.'),
+  sourceUrl: z.string().optional().describe('A URL to a credible news source or official announcement about the event. If no source is available, this field can be omitted.'),
 });
 export type LiveAlertOutput = z.infer<typeof LiveAlertOutputSchema>;
 
