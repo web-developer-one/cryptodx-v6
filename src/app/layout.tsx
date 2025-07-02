@@ -1,15 +1,6 @@
 import type {Metadata} from 'next';
 import { Inter, Space_Grotesk } from 'next/font/google';
 import './globals.css';
-import { getLatestListings } from '@/lib/coinmarketcap';
-import { Header } from '@/components/header';
-import { Footer } from '@/components/footer';
-import { GdprModal } from '@/components/gdpr-modal';
-import { Toaster } from '@/components/ui/toaster';
-import { Providers } from '@/components/providers';
-import { MarketHighlights } from '@/components/market-highlights';
-import { Chatbot } from '@/components/chatbot';
-import { LiveAlertSystem } from '@/components/live-alert-system';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -32,32 +23,16 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const cryptoData = await getLatestListings();
-
   return (
-    <html lang="en" suppressHydrationWarning className={`${inter.variable} ${spaceGrotesk.variable}`}>
+    // The lang prop will be set in the i18n layout
+    <html suppressHydrationWarning className={`${inter.variable} ${spaceGrotesk.variable}`}>
       <body className="font-body antialiased">
-        <Providers>
-          <div className="flex flex-col min-h-screen">
-            <Header cryptocurrencies={cryptoData} />
-            <main className="flex-1 flex flex-col">{children}</main>
-            <div className="w-full py-12 flex justify-center border-y bg-background">
-              <div className="container">
-                <MarketHighlights cryptocurrencies={cryptoData} />
-              </div>
-            </div>
-            <Footer />
-            <Toaster />
-            <GdprModal />
-            <Chatbot />
-            <LiveAlertSystem />
-          </div>
-        </Providers>
+        {children}
       </body>
     </html>
   );

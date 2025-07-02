@@ -1,0 +1,19 @@
+{
+  "Header": {
+    "siteName": "CryptoDx",
+    "trade": "Trade",
+    "explore": "Explore",
+    "positions": "Positions",
+    "slippage": "Slippage",
+    "connectWallet": "Connect Wallet",
+    "settings": "Settings",
+    "hideSmallBalances": "Hide small balances",
+    "hideUnknownTokens": "Hide unknown tokens",
+    "language": "Language",
+    "selected": "Selected"
+  },
+  "HomePage": {
+    "title": "Seamlessly Swap Your Crypto",
+    "subtitle": "The easiest and most secure way to swap tokens in seconds."
+  }
+}
