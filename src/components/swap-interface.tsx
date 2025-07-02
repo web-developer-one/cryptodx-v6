@@ -18,7 +18,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ArrowDownUp, Settings, Info } from "lucide-react";
+import { ArrowDownUp, Settings, Info, AlertTriangle, Loader2 } from "lucide-react";
 import type { Cryptocurrency } from "@/lib/types";
 import { WalletConnect } from "./wallet-connect";
 import Image from "next/image";
@@ -36,6 +36,9 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "./ui/alert-dialog";
+import { useToast } from "@/hooks/use-toast";
+import { checkTokenReputation } from "@/ai/flows/check-token-reputation";
 
 export function SwapInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[] }) {
   const [fromToken, setFromToken] = useState<Cryptocurrency>(cryptocurrencies[0]);
@@ -48,6 +51,9 @@ export function SwapInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocu
   const [slippage, setSlippage] = useState("0.5");
   const [isSlippageAuto, setIsSlippageAuto] = useState(true);
   const [deadline, setDeadline] = useState("30");
+  const { toast } = useToast();
+  const [isChecking, setIsChecking] = useState(false);
+  const [reputationAlert, setReputationAlert] = useState<{ title: string; description: React.ReactNode } | null>(null);
 
   const exchangeRate = useMemo(() => {
     if (fromToken?.price > 0 && toToken?.price > 0) {
@@ -149,9 +155,63 @@ export function SwapInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocu
     }
   }
 
+  const handleSwapClick = async () => {
+    if (!isWalletConnected || isChecking) return;
+    setIsChecking(true);
+    setReputationAlert(null);
+
+    try {
+        const tokensToCheck = [fromToken, toToken].filter((v, i, a) => a.findIndex(t => (t.id === v.id)) === i); // de-duplicate
+        
+        const reputationPromises = tokensToCheck.map(token => 
+            checkTokenReputation({
+                tokenName: token.name,
+                tokenSymbol: token.symbol,
+            }).then(result => ({ ...result, token }))
+        );
+
+        const results = await Promise.all(reputationPromises);
+        const badTokens = results.filter(r => r.isScamOrScandal);
+
+        if (badTokens.length > 0) {
+            const description = (
+                <div className="space-y-2">
+                    {badTokens.map(({ token, reasoning }) => (
+                        <p key={token.id}>
+                            <strong>{token.name} ({token.symbol}):</strong> {reasoning}
+                        </p>
+                    ))}
+                    <p className="mt-4 text-xs text-muted-foreground">
+                        This is for informational purposes only and does not constitute financial advice. Please do your own research before proceeding.
+                    </p>
+                </div>
+            );
+            setReputationAlert({
+                title: 'Reputation Alert',
+                description: description,
+            });
+        } else {
+            toast({
+                title: "Swap Initiated (Simulated)",
+                description: "Reputation checks passed. Your transaction is being processed.",
+            });
+        }
+    } catch (error) {
+        console.error("Reputation check failed:", error);
+        toast({
+            variant: "destructive",
+            title: "Error",
+            description: "Could not perform reputation check. Please try again.",
+        });
+    } finally {
+        setIsChecking(false);
+    }
+  };
+
   const slippageValueDisplay = parseFloat(slippage) || 0;
 
   return (
+    <>
     <Card className="w-full max-w-md shadow-2xl shadow-primary/10">
       <CardHeader className="relative text-center">
         <CardTitle>Swap</CardTitle>
@@ -317,7 +377,9 @@ export function SwapInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocu
       <CardFooter className="flex-col gap-4">
         <div className="w-full">
             {isWalletConnected ? (
-               <Button className="w-full h-12 text-lg">Swap</Button>
+               <Button className="w-full h-12 text-lg" onClick={handleSwapClick} disabled={isChecking}>
+                  {isChecking ? <Loader2 className="h-6 w-6 animate-spin" /> : "Swap"}
+               </Button>
             ) : (
                 <WalletConnect>
                     <Button className="w-full h-12 text-lg">Connect Wallet</Button>
@@ -352,5 +414,34 @@ export function SwapInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocu
         </p>
       </CardFooter>
     </Card>
+
+    <AlertDialog open={!!reputationAlert} onOpenChange={(open) => !open && setReputationAlert(null)}>
+        <AlertDialogContent>
+            <AlertDialogHeader>
+                <AlertDialogTitle className="flex items-center gap-2">
+                    <AlertTriangle className="h-6 w-6 text-destructive" />
+                    <span>{reputationAlert?.title}</span>
+                </AlertDialogTitle>
+                <AlertDialogDescription asChild>
+                    <div className="pt-4 text-base">
+                        {reputationAlert?.description}
+                    </div>
+                </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+                <AlertDialogCancel onClick={() => setReputationAlert(null)}>Cancel Swap</AlertDialogCancel>
+                <AlertDialogAction onClick={() => {
+                    toast({
+                        title: "Swap Initiated (Simulated)",
+                        description: "You have acknowledged the risk. Your transaction is being processed.",
+                    });
+                    setReputationAlert(null);
+                }}>
+                    Acknowledge and Continue
+                </AlertDialogAction>
+            </AlertDialogFooter>
+        </AlertDialogContent>
+    </AlertDialog>
+    </>
   );
 }

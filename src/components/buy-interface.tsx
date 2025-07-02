@@ -9,6 +9,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import Image from 'next/image';
 import { useWallet } from '@/hooks/use-wallet';
 import { WalletConnect } from './wallet-connect';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from './ui/alert-dialog';
+import { useToast } from '@/hooks/use-toast';
+import { checkTokenReputation } from '@/ai/flows/check-token-reputation';
+import { AlertTriangle, Loader2 } from 'lucide-react';
 
 const supportedCurrencies = [
     { symbol: 'USD', name: 'US Dollar', rate: 1 },
@@ -29,6 +33,9 @@ export function BuyInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocur
   const [fiatAmount, setFiatAmount] = useState<string>('100');
   const [cryptoAmount, setCryptoAmount] = useState<string>('');
   const { isActive: isWalletConnected } = useWallet();
+  const { toast } = useToast();
+  const [isChecking, setIsChecking] = useState(false);
+  const [reputationAlert, setReputationAlert] = useState<{ title: string; description: React.ReactNode } | null>(null);
 
   useEffect(() => {
     if (fiatAmount && toToken?.price > 0 && fromFiat) {
@@ -73,7 +80,52 @@ export function BuyInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocur
     }
   }
 
+  const handleBuyClick = async () => {
+    if (!isWalletConnected || isChecking) return;
+    setIsChecking(true);
+    setReputationAlert(null);
+
+    try {
+        const result = await checkTokenReputation({
+            tokenName: toToken.name,
+            tokenSymbol: toToken.symbol,
+        });
+
+        if (result.isScamOrScandal) {
+            const description = (
+                <div className="space-y-2">
+                    <p>
+                        <strong>{toToken.name} ({toToken.symbol}):</strong> {result.reasoning}
+                    </p>
+                    <p className="mt-4 text-xs text-muted-foreground">
+                        This is for informational purposes only and does not constitute financial advice. Please do your own research before proceeding.
+                    </p>
+                </div>
+            );
+            setReputationAlert({
+                title: 'Reputation Alert',
+                description: description,
+            });
+        } else {
+            toast({
+                title: "Buy Initiated (Simulated)",
+                description: "Reputation check passed. Continuing to payment provider.",
+            });
+        }
+    } catch (error) {
+        console.error("Reputation check failed:", error);
+        toast({
+            variant: "destructive",
+            title: "Error",
+            description: "Could not perform reputation check. Please try again.",
+        });
+    } finally {
+        setIsChecking(false);
+    }
+  };
+
   return (
+    <>
     <Card className="w-full max-w-md shadow-2xl shadow-primary/10">
       <CardHeader className="text-center">
         <CardTitle>Buy Crypto</CardTitle>
@@ -136,7 +188,9 @@ export function BuyInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocur
       </CardContent>
       <CardFooter>
         {isWalletConnected ? (
-          <Button className="w-full h-12 text-lg">Continue</Button>
+          <Button className="w-full h-12 text-lg" onClick={handleBuyClick} disabled={isChecking}>
+            {isChecking ? <Loader2 className="h-6 w-6 animate-spin" /> : "Continue"}
+          </Button>
         ) : (
           <WalletConnect>
             <Button className="w-full h-12 text-lg">Connect Wallet</Button>
@@ -144,5 +198,34 @@ export function BuyInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocur
         )}
       </CardFooter>
     </Card>
+
+    <AlertDialog open={!!reputationAlert} onOpenChange={(open) => !open && setReputationAlert(null)}>
+        <AlertDialogContent>
+            <AlertDialogHeader>
+                <AlertDialogTitle className="flex items-center gap-2">
+                    <AlertTriangle className="h-6 w-6 text-destructive" />
+                    <span>{reputationAlert?.title}</span>
+                </AlertDialogTitle>
+                <AlertDialogDescription asChild>
+                    <div className="pt-4 text-base">
+                        {reputationAlert?.description}
+                    </div>
+                </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+                <AlertDialogCancel onClick={() => setReputationAlert(null)}>Cancel</AlertDialogCancel>
+                <AlertDialogAction onClick={() => {
+                    toast({
+                        title: "Buy Initiated (Simulated)",
+                        description: "You have acknowledged the risk. Continuing to payment provider.",
+                    });
+                    setReputationAlert(null);
+                }}>
+                    Acknowledge and Continue
+                </AlertDialogAction>
+            </AlertDialogFooter>
+        </AlertDialogContent>
+    </AlertDialog>
+    </>
   );
 }
