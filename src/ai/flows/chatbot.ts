@@ -52,6 +52,10 @@ Engage in a helpful and friendly conversation, using the provided history to mai
 {{/each}}
 user: {{{userMessage}}}
 model: `,
+  config: {
+    // Lower temperature for more consistent, factual answers.
+    temperature: 0.3,
+  },
 });
 
 
@@ -62,19 +66,14 @@ const cryptoChatFlow = ai.defineFlow(
     outputSchema: CryptoChatOutputSchema,
   },
   async (input) => {
-    const llmResponse = await ai.generate({
-      prompt: {
-        ...prompt.config.prompt!,
-        context: input
-      },
-      history: input.history.map(m => ({role: m.role, content: [{text: m.content}]})),
-      config: {
-        ...prompt.config.config,
-        // Lower temperature for more consistent, factual answers.
-        temperature: 0.3
-      }
-    });
+    const llmResponse = await prompt(input);
+    const output = llmResponse.output;
 
-    return { response: llmResponse.text };
+    if (!output) {
+      // Fallback to raw text if structured output fails
+      return { response: llmResponse.text };
+    }
+    
+    return output;
   }
 );
