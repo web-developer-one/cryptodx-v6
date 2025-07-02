@@ -336,7 +336,7 @@ export function PriceChart({ token }: { token: TokenDetails }) {
             
             <Bar
               name="Price"
-              dataKey={['open', 'close']}
+              dataKey="close"
               yAxisId="price"
               shape={<Candlestick />}
             />
