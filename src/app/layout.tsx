@@ -8,6 +8,7 @@ import { GdprModal } from '@/components/gdpr-modal';
 import { Toaster } from '@/components/ui/toaster';
 import { Providers } from '@/components/providers';
 import { MarketHighlights } from '@/components/market-highlights';
+import { Chatbot } from '@/components/chatbot';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -35,8 +36,6 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // Fetch data for shared components like the Header and MarketHighlights.
-  // The getLatestListings function includes its own error handling.
   const cryptoData = await getLatestListings();
 
   return (
@@ -54,6 +53,7 @@ export default async function RootLayout({
             <Footer />
             <Toaster />
             <GdprModal />
+            <Chatbot />
           </div>
         </Providers>
       </body>
