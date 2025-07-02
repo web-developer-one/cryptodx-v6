@@ -50,7 +50,17 @@ const wallets = [
             className="rounded-md"
         />
     },
-    { name: 'Ledger', id: 'ledger' },
+    { 
+        name: 'Ledger Live', 
+        id: 'ledger',
+        logo: <Image
+            src="https://walletguide.walletconnect.network/_next/image?url=https%3A%2F%2Fapi.web3modal.com%2Fv2%2Fwallet-image%2F200x200%2Fa7f416de-aa03-4c5e-3280-ab49269aef00%3FprojectId%3Dad53ae497ee922ad9beb2ef78b1a7a6e%26st%3Dwallet-guide%26sv%3D1.0.0&w=256&q=75"
+            alt="Ledger Live logo"
+            width={56}
+            height={56}
+            className="rounded-md"
+        />
+    },
 ];
 
 const truncateAddress = (address: string) => {
