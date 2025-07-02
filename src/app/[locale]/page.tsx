@@ -11,22 +11,6 @@ import { SwapInterface } from "@/components/swap-interface";
 import { HowToExchange } from "@/components/how-to-exchange";
 import { Faq } from "@/components/faq";
 import { TradeNav } from "@/components/trade-nav";
-import { useTranslations } from "next-intl";
-
-function HomePageContent() {
-  const t = useTranslations('HomePage');
-  return (
-    <div className="container flex flex-col items-center gap-4 text-center">
-        <h1 className="text-3xl md:text-5xl font-headline font-bold tracking-tighter">
-            {t('title')}
-        </h1>
-        <p className="max-w-2xl text-muted-foreground md:text-xl">
-            {t('subtitle')}
-        </p>
-      </div>
-  )
-}
-
 
 export default async function Home() {
   const cryptoData = await getLatestListings();
@@ -57,7 +41,14 @@ export default async function Home() {
 
   return (
     <div className="flex-1 flex flex-col items-center gap-8 pt-8 md:pt-12">
-      <HomePageContent />
+      <div className="container flex flex-col items-center gap-4 text-center">
+        <h1 className="text-3xl md:text-5xl font-headline font-bold tracking-tighter">
+            Seamlessly Swap Your Crypto
+        </h1>
+        <p className="max-w-2xl text-muted-foreground md:text-xl">
+            The easiest and most secure way to swap tokens in seconds.
+        </p>
+      </div>
       <div className="container flex flex-col items-center gap-6">
           <TradeNav />
           <SwapInterface cryptocurrencies={cryptoData} />

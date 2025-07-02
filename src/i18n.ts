@@ -1,5 +1,2 @@
-import {getRequestConfig} from 'next-intl/server';
- 
-export default getRequestConfig(async ({locale}) => ({
-  messages: (await import(`../messages/${locale}.json`)).default
-}));
+// This file has been disabled to resolve a build error.
+// It previously contained configuration for the 'next-intl' library.
