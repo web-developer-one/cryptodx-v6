@@ -65,7 +65,7 @@ export function Chatbot() {
         <Popover open={isOpen} onOpenChange={setIsOpen}>
             {!isOpen && (
                 <div className="fixed bottom-24 right-6 z-40 max-w-[220px] rounded-lg bg-secondary p-3 text-sm text-secondary-foreground shadow-lg animate-in fade-in-50 slide-in-from-bottom-2">
-                    Ask me about &gt; Blockchain, DeFi, Crypto, NFTs, or AI
+                    Ask me about > Blockchain, DeFi, Crypto, NFTs, or AI
                     <div className="absolute right-6 -bottom-2 h-0 w-0 border-x-8 border-x-transparent border-t-8 border-t-secondary" />
                 </div>
             )}
@@ -138,7 +138,7 @@ export function Chatbot() {
                             <Input
                                 id="message"
                                 placeholder="Type your message..."
-                                className="flex-1"
+                                className="flex-1 text-sm"
                                 autoComplete="off"
                                 value={inputValue}
                                 onChange={(e) => setInputValue(e.target.value)}
