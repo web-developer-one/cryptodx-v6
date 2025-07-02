@@ -83,9 +83,6 @@ export function ReputationAlert({ token }: { token: TokenDetails }) {
             {reputation.reasoning}
           </AlertDialogDescription>
         </AlertDialogHeader>
-         <div className="text-sm text-muted-foreground">
-            Please be aware of this information before interacting with this asset. Always do your own research (DYOR). This is not financial advice.
-        </div>
         <AlertDialogFooter>
           <AlertDialogAction>Acknowledge and Close</AlertDialogAction>
         </AlertDialogFooter>
