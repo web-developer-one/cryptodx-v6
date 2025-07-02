@@ -35,27 +35,20 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // Fetch data for shared components like the Header.
-  // Individual pages will still fetch their own data as needed.
-  let cryptoData = [];
-  try {
-    cryptoData = await getLatestListings();
-  } catch (error) {
-    console.error("Failed to fetch cryptocurrency data in root layout:", error);
-    // Gracefully handle error by passing empty array.
-    // Pages should have their own checks for this data.
-  }
+  // Fetch data for shared components like the Header and MarketHighlights.
+  // The getLatestListings function includes its own error handling.
+  const cryptoData = await getLatestListings();
 
   return (
     <html lang="en" suppressHydrationWarning className={`${inter.variable} ${spaceGrotesk.variable}`}>
       <body className="font-body antialiased">
         <Providers>
           <div className="flex flex-col min-h-screen">
-            <Header cryptocurrencies={cryptoData || []} />
+            <Header cryptocurrencies={cryptoData} />
             <main className="flex-1 flex flex-col">{children}</main>
             <div className="w-full py-12 flex justify-center border-y bg-background">
               <div className="container">
-                <MarketHighlights cryptocurrencies={cryptoData || []} />
+                <MarketHighlights cryptocurrencies={cryptoData} />
               </div>
             </div>
             <Footer />
