@@ -40,7 +40,17 @@ const wallets = [
             className="rounded-md"
         />
     },
-    { name: 'WalletConnect', id: 'walletconnect' },
+    { 
+        name: 'Bitcoin Wallet', 
+        id: 'bitcoin',
+        logo: <Image
+            src="https://walletguide.walletconnect.network/_next/image?url=https%3A%2F%2Fapi.web3modal.com%2Fv2%2Fwallet-image%2F200x200%2Fa7f416de-aa03-4c5e-3280-ab49269aef00%3FprojectId%3Dad53ae497ee922ad9beb2ef78b1a7a6e%26st%3Dwallet-guide%26sv%3D1.0.0&w=256&q=75"
+            alt="Bitcoin Wallet logo"
+            width={56}
+            height={56}
+            className="rounded-md"
+        />
+    },
     { name: 'Ledger', id: 'ledger' },
 ];
 
@@ -59,7 +69,7 @@ export function WalletConnect({ children }: { children?: React.ReactNode }) {
     setMounted(true);
   }, []);
 
-  const handleWalletClick = async (walletId: string) => {
+  const handleWalletClick = async (walletId: string, walletName: string) => {
     if (walletId === 'metamask') {
       await connectMetaMask();
       setOpen(false); // Close dialog after attempting connection
@@ -67,7 +77,7 @@ export function WalletConnect({ children }: { children?: React.ReactNode }) {
       toast({
         variant: "destructive",
         title: "Not Implemented",
-        description: `Connection to this wallet is not available yet.`,
+        description: `Connection to ${walletName} is not available yet.`,
       });
     }
   };
@@ -114,7 +124,7 @@ export function WalletConnect({ children }: { children?: React.ReactNode }) {
                     key={wallet.name}
                     variant="outline"
                     className="h-20 justify-start p-4 text-lg"
-                    onClick={() => handleWalletClick(wallet.id)}
+                    onClick={() => handleWalletClick(wallet.id, wallet.name)}
                 >
                     {wallet.logo ? (
                         <div className="mr-4 flex h-14 w-14 items-center justify-center">
