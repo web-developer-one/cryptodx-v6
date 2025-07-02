@@ -265,7 +265,7 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-64">
-              <DropdownMenuLabel>Display Settings</DropdownMenuLabel>
+              <DropdownMenuLabel>Settings</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem onSelect={(e) => e.preventDefault()} className="flex items-center justify-between">
                 <Label htmlFor="hide-small-balances" className="font-normal cursor-pointer">Hide small balances</Label>
