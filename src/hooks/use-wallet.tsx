@@ -1,4 +1,3 @@
-
 'use client';
 
 import React from 'react';
@@ -30,16 +29,15 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
 
   // Memoize the disconnect function
   const disconnect = React.useCallback(() => {
-    // We check the account state *before* updating it and calling the toast.
-    // This avoids calling a state update (toast) inside another state update (setAccount).
     if (account) {
+        localStorage.setItem('explicitly_disconnected', 'true');
         toast({
             title: "Wallet Disconnected",
             description: "You have successfully disconnected your wallet.",
         });
     }
     setAccount(null);
-  }, [account]); // Add 'account' as a dependency
+  }, [account]);
   
   // Memoize the connect function
   const connectMetaMask = React.useCallback(async () => {
@@ -50,6 +48,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
         const accounts = await provider.send('eth_requestAccounts', []);
         if (accounts.length > 0) {
             setAccount(accounts[0]);
+            localStorage.removeItem('explicitly_disconnected');
             toast({
                 title: "Wallet Connected",
                 description: `Successfully connected to account: ${accounts[0].substring(0, 6)}...${accounts[0].substring(accounts[0].length - 4)}`,
@@ -85,6 +84,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
         disconnect();
       } else if (accounts[0] !== account) {
         setAccount(accounts[0]);
+        localStorage.removeItem('explicitly_disconnected');
         toast({
             title: "Account Switched",
             description: `Switched to account: ${accounts[0].substring(0, 6)}...${accounts[0].substring(accounts[0].length - 4)}`,
@@ -94,6 +94,12 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
 
     // Check for already connected account on component mount
     const checkExistingConnection = async () => {
+        const explicitlyDisconnected = localStorage.getItem('explicitly_disconnected') === 'true';
+        if (explicitlyDisconnected) {
+            setIsLoading(false);
+            return;
+        }
+
         try {
             const provider = new ethers.BrowserProvider(window.ethereum);
             const accounts = await provider.send('eth_accounts', []);
