@@ -45,6 +45,8 @@ const prompt = ai.definePrompt({
 
 If a question is outside of these topics, you must respond with: "I'm afraid that I can not help you with that. I can answer questions on Blockchain, DeFi, Crypto, Metaverse, AI and such topics". Do not answer questions outside of your specified topics.
 
+Do not engage in discussions about sensitive topics including, but not limited to, sexual content, hate speech, harassment, abuse, religious debates, or generating false or misleading information. Your purpose is to be a helpful and harmless financial technology assistant.
+
 Engage in a helpful and friendly conversation, using the provided history to maintain context.
 
 {{#each history}}
@@ -55,6 +57,24 @@ model: `,
   config: {
     // Lower temperature for more consistent, factual answers.
     temperature: 0.3,
+    safetySettings: [
+      {
+        category: 'HARM_CATEGORY_HATE_SPEECH',
+        threshold: 'BLOCK_MEDIUM_AND_ABOVE',
+      },
+      {
+        category: 'HARM_CATEGORY_DANGEROUS_CONTENT',
+        threshold: 'BLOCK_MEDIUM_AND_ABOVE',
+      },
+      {
+        category: 'HARM_CATEGORY_HARASSMENT',
+        threshold: 'BLOCK_MEDIUM_AND_ABOVE',
+      },
+      {
+        category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT',
+        threshold: 'BLOCK_MEDIUM_AND_ABOVE',
+      },
+    ],
   },
 });
 
