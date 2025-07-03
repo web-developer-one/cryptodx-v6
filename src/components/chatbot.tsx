@@ -86,7 +86,7 @@ export function Chatbot() {
             <PopoverContent
                 side="top"
                 align="end"
-                className="w-80 md:w-96 rounded-lg p-0 border-0 shadow-2xl"
+                className="w-[90vw] max-w-sm rounded-lg p-0 border-0 shadow-2xl"
                 sideOffset={10}
             >
                 <Card className="flex flex-col h-[60vh] overflow-hidden">
