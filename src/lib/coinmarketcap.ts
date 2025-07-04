@@ -2,10 +2,12 @@
 'use server';
 
 import type { Cryptocurrency, TokenDetails } from './types';
+import { mockCryptoData, getMockTokenDetails } from './mock-data';
 
 // This is a server-only file, so the API key is safe.
 const API_KEY = process.env.COINMARKETCAP_API_KEY;
 const BASE_URL = 'https://pro-api.coinmarketcap.com';
+const USE_MOCK_DATA = !API_KEY || API_KEY === 'YOUR_API_KEY_HERE';
 
 interface CmcListingResponse {
   data: {
@@ -79,11 +81,11 @@ interface CmcQuoteResponse {
 
 
 export async function getLatestListings(): Promise<{ data: Cryptocurrency[]; error: string | null }> {
-  if (!API_KEY || API_KEY === 'YOUR_API_KEY_HERE') {
-    const errorMessage = "CoinMarketCap API key is not set. Please add COINMARKETCAP_API_KEY to your environment variables.";
-    console.error(errorMessage);
-    return { data: [], error: 'API_KEY_MISSING' };
+  if (USE_MOCK_DATA) {
+    console.log("Using mock data for cryptocurrency listings. To use live data, set COINMARKETCAP_API_KEY in your environment.");
+    return { data: mockCryptoData, error: null };
   }
+  
   try {
     const listingsResponse = await fetch(`${BASE_URL}/v1/cryptocurrency/listings/latest?limit=100`, {
       headers: {
@@ -147,19 +149,24 @@ export async function getLatestListings(): Promise<{ data: Cryptocurrency[]; err
 }
 
 export async function getTokenDetails(id: string): Promise<{ token: TokenDetails | null; error: string | null }> {
-    if (!API_KEY || API_KEY === 'YOUR_API_KEY_HERE') {
-      const errorMessage = "CoinMarketCap API key is not set. Please add COINMARKETCAP_API_KEY to your environment variables.";
-      console.error(errorMessage);
-      return { token: null, error: 'API_KEY_MISSING' };
+    if (USE_MOCK_DATA) {
+        console.log(`Using mock data for token details (ID: ${id}). To use live data, set COINMARKETCAP_API_KEY in your environment.`);
+        const mockToken = getMockTokenDetails(id);
+        if (mockToken) {
+            return { token: mockToken, error: null };
+        } else {
+            return { token: null, error: 'API_NO_DATA' };
+        }
     }
+
     try {
         const [quoteResponse, infoResponse] = await Promise.all([
             fetch(`${BASE_URL}/v1/cryptocurrency/quotes/latest?id=${id}`, {
-                headers: { 'X-CMC_PRO_API_KEY': API_KEY },
+                headers: { 'X-CMC_PRO_API_KEY': API_KEY as string },
                 next: { revalidate: 300 } // Revalidate every 5 minutes
             }),
             fetch(`${BASE_URL}/v2/cryptocurrency/info?id=${id}`, {
-                headers: { 'X-CMC_PRO_API_KEY': API_KEY },
+                headers: { 'X-CMC_PRO_API_KEY': API_KEY as string },
                 next: { revalidate: 3600 } // Revalidate every hour
             })
         ]);
