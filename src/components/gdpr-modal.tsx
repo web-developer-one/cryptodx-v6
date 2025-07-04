@@ -9,9 +9,11 @@ import {
   SheetFooter,
 } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
+import { useLanguage } from '@/hooks/use-language';
 
 export function GdprModal() {
   const [isOpen, setIsOpen] = useState(false);
+  const { t } = useLanguage();
 
   useEffect(() => {
     // This effect runs only on the client-side to avoid hydration mismatch
@@ -44,20 +46,14 @@ export function GdprModal() {
         className="rounded-t-lg sm:max-w-5xl sm:bottom-8 sm:left-1/2 sm:-translate-x-1/2 sm:rounded-lg"
       >
         <SheetHeader className="text-left">
-          <SheetTitle>Our Commitment to Your Privacy (GDPR)</SheetTitle>
+          <SheetTitle>{t('GdprModal.title')}</SheetTitle>
         </SheetHeader>
         <div className="py-4 text-sm text-muted-foreground space-y-4">
           <p>
-            We value your privacy and are committed to protecting your personal
-            data in compliance with GDPR.
+            {t('GdprModal.body1')}
           </p>
           <p>
-            Under GDPR, you have rights regarding your personal data, including
-            the right to access, correct, delete, or restrict its processing.
-            You also have the right to data portability and to object to
-            processing under certain conditions. By continuing to use our site,
-            you acknowledge that you have read and understood our practices.
-            For detailed information, please review our full Privacy Policy.
+            {t('GdprModal.body2')}
           </p>
         </div>
         <SheetFooter className="pt-4 border-t">
@@ -66,7 +62,7 @@ export function GdprModal() {
               onClick={handleDismiss}
               className="w-full sm:w-auto"
             >
-              Dismiss and Close
+              {t('GdprModal.dismiss')}
             </Button>
         </SheetFooter>
       </SheetContent>

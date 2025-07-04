@@ -26,8 +26,10 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "./ui/tooltip";
+import { useLanguage } from "@/hooks/use-language";
 
 export function LimitOrderInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[] }) {
+  const { t } = useLanguage();
   const [fromToken, setFromToken] = useState<Cryptocurrency>(cryptocurrencies[0]);
   const [toToken, setToToken] = useState<Cryptocurrency>(cryptocurrencies.length > 1 ? cryptocurrencies[1] : cryptocurrencies[0]);
   const [fromAmount, setFromAmount] = useState<string>("1");
@@ -131,12 +133,12 @@ export function LimitOrderInterface({ cryptocurrencies }: { cryptocurrencies: Cr
   return (
     <Card className="w-full max-w-md shadow-2xl shadow-primary/10">
       <CardHeader className="relative text-center">
-        <CardTitle>Limit</CardTitle>
+        <CardTitle>{t('LimitOrderInterface.title')}</CardTitle>
       </CardHeader>
       <CardContent className="flex flex-col gap-2">
         {/* From Token */}
         <div className="p-4 rounded-lg bg-[#f8fafc] dark:bg-secondary/50 border">
-          <label className="text-sm text-muted-foreground" htmlFor="from-input">You sell</label>
+          <label className="text-sm text-muted-foreground" htmlFor="from-input">{t('LimitOrderInterface.youSell')}</label>
           <div className="flex items-center gap-2 mt-1">
             <Input id="from-input" type="text" placeholder="0" className="text-3xl h-12 bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0 p-0" value={fromAmount} onChange={handleAmountChange(setFromAmount, "from")} />
             <Select value={fromToken.symbol} onValueChange={handleFromTokenChange}>
@@ -181,7 +183,7 @@ export function LimitOrderInterface({ cryptocurrencies }: { cryptocurrencies: Cr
 
         {/* To Token */}
         <div className="p-4 rounded-lg bg-[#f8fafc] dark:bg-secondary/50 border">
-          <label className="text-sm text-muted-foreground" htmlFor="to-input">You buy</label>
+          <label className="text-sm text-muted-foreground" htmlFor="to-input">{t('LimitOrderInterface.youBuy')}</label>
           <div className="flex items-center gap-2 mt-1">
             <Input id="to-input" type="text" placeholder="0" className="text-3xl h-12 bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0 p-0" value={toAmount} onChange={handleAmountChange(setToAmount, "to")}/>
             <Select value={toToken.symbol} onValueChange={handleToTokenChange}>
@@ -220,8 +222,8 @@ export function LimitOrderInterface({ cryptocurrencies }: { cryptocurrencies: Cr
         {/* Limit Price */}
         <div className="p-4 rounded-lg bg-secondary/50 border mt-2">
             <div className="flex justify-between items-center mb-2">
-                <label className="text-sm text-muted-foreground" htmlFor="limit-price-input">Limit Price</label>
-                <span className="text-xs text-muted-foreground">Market: {marketPrice.toFixed(5)}</span>
+                <label className="text-sm text-muted-foreground" htmlFor="limit-price-input">{t('LimitOrderInterface.limitPrice')}</label>
+                <span className="text-xs text-muted-foreground">{t('LimitOrderInterface.market')}: {marketPrice.toFixed(5)}</span>
             </div>
             <div className="relative">
                 <Input id="limit-price-input" type="text" placeholder="0" className="text-lg h-12 bg-transparent pr-28" value={limitPrice} onChange={handleLimitPriceChange} />
@@ -235,21 +237,21 @@ export function LimitOrderInterface({ cryptocurrencies }: { cryptocurrencies: Cr
                 )}>
                     {limitPricePercentageDiff.toFixed(2)}%
                 </span>
-                <span> {limitPricePercentageDiff >= 0 ? 'above' : 'below'} market</span>
+                <span> {limitPricePercentageDiff >= 0 ? t('LimitOrderInterface.aboveMarket') : t('LimitOrderInterface.belowMarket')}</span>
             </div>
         </div>
         
         {/* Expiry */}
         <div className="p-4 rounded-lg border mt-2">
              <div className="flex items-center justify-between">
-                <label className="text-sm font-medium">Expires In</label>
+                <label className="text-sm font-medium">{t('LimitOrderInterface.expiresIn')}</label>
                 <TooltipProvider>
                     <Tooltip>
                         <TooltipTrigger asChild>
                             <Info className="h-4 w-4 text-muted-foreground cursor-help" />
                         </TooltipTrigger>
                         <TooltipContent>
-                            <p>Your order will be cancelled after this period.</p>
+                            <p>{t('LimitOrderInterface.expiresInTooltip')}</p>
                         </TooltipContent>
                     </Tooltip>
                 </TooltipProvider>
@@ -265,7 +267,7 @@ export function LimitOrderInterface({ cryptocurrencies }: { cryptocurrencies: Cr
                                 expiry === period.toLowerCase() && "border-primary"
                             )}
                         >
-                            {period}
+                            {period === 'Never' ? t('LimitOrderInterface.never') : period}
                         </Label>
                     </div>
                 ))}
@@ -275,10 +277,10 @@ export function LimitOrderInterface({ cryptocurrencies }: { cryptocurrencies: Cr
       <CardFooter className="flex-col gap-4">
         <div className="w-full">
             {isWalletConnected ? (
-               <Button className="w-full h-12 text-lg">Place Order</Button>
+               <Button className="w-full h-12 text-lg">{t('LimitOrderInterface.placeOrder')}</Button>
             ) : (
                 <WalletConnect>
-                    <Button className="w-full h-12 text-lg">Connect Wallet</Button>
+                    <Button className="w-full h-12 text-lg">{t('Header.connectWallet')}</Button>
                 </WalletConnect>
             )}
         </div>

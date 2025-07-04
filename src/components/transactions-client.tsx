@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import type { Cryptocurrency, Transaction, SelectedCurrency, TransactionStatus } from '@/lib/types';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { TransactionsTable } from './transactions-table';
+import { useLanguage } from '@/hooks/use-language';
 
 // Mocked data for supported fiat currencies and their rates against USD
 // In a real app, this would come from a currency conversion API
@@ -66,6 +67,7 @@ const generateMockTransactions = (cryptocurrencies: Cryptocurrency[]): Transacti
 };
 
 export function TransactionsClient({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[] }) {
+    const { t } = useLanguage();
     const [selectedCurrency, setSelectedCurrency] = useState<SelectedCurrency>(supportedCurrencies[0]);
     const [transactions, setTransactions] = useState<Transaction[]>([]);
 
@@ -84,11 +86,11 @@ export function TransactionsClient({ cryptocurrencies }: { cryptocurrencies: Cry
     return (
         <>
             <div className="flex justify-between items-center my-6">
-                <h1 className="text-3xl font-bold">Recent Transactions</h1>
+                <h1 className="text-3xl font-bold">{t('TransactionsClient.title')}</h1>
                 <div className="w-full max-w-[220px]">
                     <Select onValueChange={handleCurrencyChange} defaultValue={selectedCurrency.symbol}>
                         <SelectTrigger>
-                            <SelectValue placeholder="Select currency..." />
+                            <SelectValue placeholder={t('PoolsClient.selectCurrency')} />
                         </SelectTrigger>
                         <SelectContent>
                             {supportedCurrencies.map(currency => (

@@ -14,6 +14,7 @@ import { useToast } from '@/hooks/use-toast';
 import { checkTokenReputation } from '@/ai/flows/check-token-reputation';
 import { AlertTriangle, Loader2 } from 'lucide-react';
 import { useReputation } from '@/hooks/use-reputation';
+import { useLanguage } from '@/hooks/use-language';
 
 type SupportedCurrency = {
     symbol: string;
@@ -36,6 +37,7 @@ const supportedCurrencies: SupportedCurrency[] = [
 
 
 export function SellInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[] }) {
+  const { t } = useLanguage();
   const [fromToken, setFromToken] = useState<Cryptocurrency>(cryptocurrencies.find(c => c.symbol === 'ETH') || cryptocurrencies[0]);
   const [cryptoAmount, setCryptoAmount] = useState<string>('1');
   const [fiatAmount, setFiatAmount] = useState<string>('');
@@ -94,8 +96,8 @@ export function SellInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocu
     
     if (!isReputationCheckEnabled) {
       toast({
-        title: "Sell Initiated (Simulated)",
-        description: "Reputation check was skipped. Continuing to payment provider.",
+        title: t('SellInterface.sellInitiated'),
+        description: t('BuyInterface.reputationSkipped'),
       });
       return;
     }
@@ -117,30 +119,30 @@ export function SellInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocu
                     </p>
                     {result.sourceUrl && (
                         <p className="text-sm mt-2">
-                            Source: <a href={result.sourceUrl} target="_blank" rel="noopener noreferrer" className="text-primary underline hover:text-primary/80 break-all">{result.sourceUrl}</a>
+                             {t('ReputationAlert.source')}: <a href={result.sourceUrl} target="_blank" rel="noopener noreferrer" className="text-primary underline hover:text-primary/80 break-all">{result.sourceUrl}</a>
                         </p>
                     )}
                     <p className="mt-4 text-xs text-muted-foreground">
-                        This is for informational purposes only and does not constitute financial advice. Please do your own research before proceeding.
+                        {t('BuyInterface.infoDisclaimer')}
                     </p>
                 </div>
             );
             setReputationAlert({
-                title: 'Reputation Alert',
+                title: t('BuyInterface.reputationAlert'),
                 description: description,
             });
         } else {
             toast({
-                title: "Sell Initiated (Simulated)",
-                description: "Reputation check passed. Continuing to payment provider.",
+                title: t('SellInterface.sellInitiated'),
+                description: t('BuyInterface.reputationPassed'),
             });
         }
     } catch (error) {
         console.error("Reputation check failed:", error);
         toast({
             variant: "destructive",
-            title: "Error",
-            description: "Could not perform reputation check. Please try again.",
+            title: t('Header.settings'),
+            description: t('BuyInterface.reputationCheckFailed'),
         });
     } finally {
         setIsChecking(false);
@@ -151,12 +153,12 @@ export function SellInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocu
     <>
     <Card className="w-full max-w-md shadow-2xl shadow-primary/10">
       <CardHeader className="text-center">
-        <CardTitle>Sell Crypto</CardTitle>
+        <CardTitle>{t('SellInterface.title')}</CardTitle>
       </CardHeader>
       <CardContent className="flex flex-col gap-4">
         {/* You sell */}
         <div className="p-4 rounded-lg bg-[#f8fafc] dark:bg-secondary/50 border">
-          <label className="text-sm text-muted-foreground" htmlFor="crypto-input">You sell</label>
+          <label className="text-sm text-muted-foreground" htmlFor="crypto-input">{t('SellInterface.youSell')}</label>
           <div className="flex items-center gap-2 mt-1">
             <Input id="crypto-input" type="text" placeholder="0" className="text-3xl h-12 bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0 p-0" value={cryptoAmount} onChange={handleCryptoAmountChange}/>
             <Select value={fromToken.symbol} onValueChange={handleFromTokenChange}>
@@ -194,7 +196,7 @@ export function SellInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocu
         
         {/* You receive */}
         <div className="p-4 rounded-lg bg-[#f8fafc] dark:bg-secondary/50 border">
-          <label className="text-sm text-muted-foreground" htmlFor="fiat-input">You receive</label>
+          <label className="text-sm text-muted-foreground" htmlFor="fiat-input">{t('SellInterface.youReceive')}</label>
           <div className="flex items-center gap-2 mt-1">
             <Input id="fiat-input" type="text" placeholder="0" className="text-3xl h-12 bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0 p-0" value={fiatAmount} onChange={handleFiatAmountChange} />
              <Select value={toFiat.symbol} onValueChange={handleToFiatChange}>
@@ -225,11 +227,11 @@ export function SellInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocu
       <CardFooter>
         {isWalletConnected ? (
           <Button className="w-full h-12 text-lg" onClick={handleSellClick} disabled={isChecking}>
-            {isChecking ? <Loader2 className="h-6 w-6 animate-spin" /> : "Continue"}
+            {isChecking ? <Loader2 className="h-6 w-6 animate-spin" /> : t('BuyInterface.continue')}
           </Button>
         ) : (
           <WalletConnect>
-            <Button className="w-full h-12 text-lg">Connect Wallet</Button>
+            <Button className="w-full h-12 text-lg">{t('Header.connectWallet')}</Button>
           </WalletConnect>
         )}
       </CardFooter>
@@ -249,15 +251,15 @@ export function SellInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocu
                 </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
-                <AlertDialogCancel onClick={() => setReputationAlert(null)}>Cancel</AlertDialogCancel>
+                <AlertDialogCancel onClick={() => setReputationAlert(null)}>{t('SwapInterface.cancel')}</AlertDialogCancel>
                 <AlertDialogAction onClick={() => {
                     toast({
-                        title: "Sell Initiated (Simulated)",
-                        description: "You have acknowledged the risk. Continuing to payment provider.",
+                        title: t('SellInterface.sellInitiated'),
+                        description: t('BuyInterface.acknowledgedRisk'),
                     });
                     setReputationAlert(null);
                 }}>
-                    Acknowledge and Continue
+                    {t('BuyInterface.acknowledgeAndContinue')}
                 </AlertDialogAction>
             </AlertDialogFooter>
         </AlertDialogContent>

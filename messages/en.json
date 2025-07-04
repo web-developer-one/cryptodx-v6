@@ -58,5 +58,273 @@
     "privacyPolicy": "Privacy Policy",
     "termsOfUse": "Terms of Use",
     "copyright": "© {year} CryptoDx. All rights reserved."
+  },
+  "BuyInterface": {
+    "title": "Buy Crypto",
+    "youPay": "You pay",
+    "youGet": "You get",
+    "continue": "Continue",
+    "buyInitiated": "Buy Initiated (Simulated)",
+    "reputationSkipped": "Reputation check was skipped. Continuing to payment provider.",
+    "reputationPassed": "Reputation check passed. Continuing to payment provider.",
+    "reputationCheckFailed": "Could not perform reputation check. Please try again.",
+    "acknowledgeAndContinue": "Acknowledge and Continue",
+    "reputationAlert": "Reputation Alert",
+    "infoDisclaimer": "This is for informational purposes only and does not constitute financial advice. Please do your own research before proceeding.",
+    "acknowledgedRisk": "You have acknowledged the risk. Continuing to payment provider."
+  },
+  "SellInterface": {
+    "title": "Sell Crypto",
+    "youSell": "You sell",
+    "youReceive": "You receive",
+    "sellInitiated": "Sell Initiated (Simulated)"
+  },
+  "SwapInterface": {
+    "title": "Swap",
+    "description": "Trade tokens in an instant",
+    "settingsTitle": "Settings",
+    "settingsDescription": "Customize your transaction settings.",
+    "maxSlippage": "Max Slippage",
+    "maxSlippageTooltip": "Your transaction will revert if the price changes unfavorably by more than this percentage.",
+    "auto": "Auto",
+    "swapDeadline": "Swap Deadline",
+    "swapDeadlineTooltip": "Your transaction will revert if it is pending for longer than this time.",
+    "minutes": "minutes",
+    "tradeOptions": "Trade Options",
+    "from": "From",
+    "to": "To",
+    "sell": "Sell",
+    "buy": "Buy",
+    "price": "Price",
+    "priceImpact": "Price Impact",
+    "estimatedGas": "Estimated Gas",
+    "slippageTolerance": "Slippage Tolerance (%)",
+    "swapInitiated": "Swap Initiated (Simulated)",
+    "reputationPassedSwap": "Reputation checks passed. Your transaction is being processed.",
+    "acknowledgedRiskSwap": "You have acknowledged the risk. Your transaction is being processed.",
+    "estimatesDisclaimer": "Estimates are based on real-time API data but market conditions can change rapidly. Slippage may occur.",
+    "cancel": "Cancel"
+  },
+  "LimitOrderInterface": {
+    "title": "Limit",
+    "youSell": "You sell",
+    "youBuy": "You buy",
+    "limitPrice": "Limit Price",
+    "market": "Market",
+    "aboveMarket": "above market",
+    "belowMarket": "below market",
+    "expiresIn": "Expires In",
+    "expiresInTooltip": "Your order will be cancelled after this period.",
+    "never": "Never",
+    "placeOrder": "Place Order"
+  },
+  "CreatePositionInterface": {
+    "title": "Add Liquidity",
+    "description": "Create a new liquidity position.",
+    "token1": "Token 1",
+    "token2": "Token 2",
+    "poolShareEstimate": "Your position will represent an estimated {percentage}% of the pool."
+  },
+  "YourPositions": {
+    "title": "Your Positions",
+    "connectPrompt": "Connect your wallet to view your liquidity positions.",
+    "connectPromptDescription": "Your active liquidity positions will be displayed here once you connect your wallet.",
+    "noPositionsTitle": "No Positions Found",
+    "noPositionsDescription": "You do not have any active liquidity positions.",
+    "createPositionPrompt": "Create a new position by providing liquidity to a pool.",
+    "explorePools": "Explore Pools",
+    "newPosition": "+ New Position",
+    "addLiquidity": "Add Liquidity",
+    "removeLiquidity": "Remove Liquidity"
+  },
+  "PositionsNav": {
+    "yourPositions": "Your Positions",
+    "addLiquidity": "Add Liquidity"
+  },
+  "ExploreNav": {
+    "tokens": "Tokens",
+    "pools": "Pools",
+    "transactions": "Transactions"
+  },
+  "TradeNav": {
+    "swap": "Swap",
+    "limit": "Limit",
+    "buy": "Buy",
+    "sell": "Sell"
+  },
+  "PoolsClient": {
+    "title": "Available Liquidity Pools",
+    "selectCurrency": "Select currency..."
+  },
+  "PoolsTable": {
+    "pool": "Pool",
+    "network": "Network",
+    "tvl": "TVL",
+    "volume24h": "Volume (24h)",
+    "actions": "Actions",
+    "addLiquidity": "Add Liquidity"
+  },
+  "TransactionsClient": {
+    "title": "Recent Transactions"
+  },
+  "TransactionsTable": {
+    "activities": "Activities",
+    "details": "Details",
+    "value": "Value",
+    "time": "Time",
+    "status": "Status",
+    "account": "Account",
+    "actions": "Actions",
+    "swapFor": "Swap {token0} for {token1}",
+    "addTokens": "Add {token0} and {token1}",
+    "removeTokens": "Remove {token0} and {token1}",
+    "unknownAction": "Unknown Action",
+    "completed": "Completed",
+    "pending": "Pending",
+    "failed": "Failed",
+    "copied": "Copied!",
+    "copyHash": "The hash has been copied to your clipboard."
+  },
+  "TokenExplorer": {
+    "title": "Explore Tokens",
+    "panelView": "Panel View",
+    "listView": "List View",
+    "search": "Search tokens...",
+    "headerRank": "#",
+    "headerName": "Name",
+    "headerPrice": "Price",
+    "headerChange24h": "Changes 24h",
+    "headerMarketCap": "Market Cap",
+    "headerVolume24h": "Volume (24h)",
+    "headerAvailableSupply": "Available Supply",
+    "headerPriceGraph7d": "Price Graph (7d)",
+    "showing": "Showing {start} - {end} of {total} tokens",
+    "previous": "Previous",
+    "next": "Next",
+    "page": "Page {current} of {total}"
+  },
+  "TokenPanels": {
+    "title": "Token Panels"
+  },
+  "TokenDetail": {
+    "backToTokens": "Back to Tokens",
+    "keyStatistics": "Key Statistics",
+    "low24h": "Low (24h)",
+    "high24h": "High (24h)",
+    "marketCap": "Market Cap",
+    "volume24h": "Volume (24h)",
+    "circulatingSupply": "Circulating Supply",
+    "totalSupply": "Total Supply",
+    "maxSupply": "Max Supply",
+    "rating": "Rating",
+    "ratingValue": "Community Assessed",
+    "addedToCmc": "Added to CMC",
+    "cmcRank": "CMC Rank",
+    "website": "Website",
+    "whitepaper": "Whitepaper",
+    "explorer": "Explorer",
+    "reddit": "Reddit",
+    "priceChartTitle": "{tokenName} Price Chart",
+    "trade": "Trade {symbol}",
+    "line": "Line",
+    "candlestick": "Candlestick"
+  },
+  "ReputationAlert": {
+    "checking": "Checking Reputation...",
+    "checkingDescription": "Analyzing token history for known issues.",
+    "clear": "Reputation Clear",
+    "clearDescription": "No significant negative events found in our scan.",
+    "alertTitle": "Reputation Alert for {tokenName} ({tokenSymbol})",
+    "source": "Source"
+  },
+  "ApiErrorCard": {
+    "errorLoading": "Error Loading {context}",
+    "configErrorTitle": "API Key Configuration Error",
+    "configErrorDescription": "The CoinMarketCap API key is not configured for your production environment. Your local <1>.env</1> file is used for development and is not deployed to production.",
+    "requiredEnvVar": "Required Environment Variable:",
+    "fixDescription": "To fix this, add the variable above to your Netlify site settings:",
+    "setEnvVarButton": "Set Environment Variables on Netlify",
+    "netlifyHelpText": "Find your site, then navigate to: <1/> Site configuration > Build & deploy > Environment.",
+    "fetchErrorTitle": "Error Fetching {context}",
+    "fetchErrorDescription": "Could not fetch data from the CoinMarketCap API. This may be a temporary network issue. Please try again later.",
+    "noDataTitle": "No {context} Found",
+    "noDataDescription": "The API returned no data for your request."
+  },
+  "GdprModal": {
+    "title": "Our Commitment to Your Privacy (GDPR)",
+    "body1": "We value your privacy and are committed to protecting your personal data in compliance with GDPR.",
+    "body2": "Under GDPR, you have rights regarding your personal data, including the right to access, correct, delete, or restrict its processing. You also have the right to data portability and to object to processing under certain conditions. By continuing to use our site, you acknowledge that you have read and understood our practices. For detailed information, please review our full Privacy Policy.",
+    "dismiss": "Dismiss and Close"
+  },
+  "CookiePolicyModal": {
+    "title": "Cookie Policy",
+    "lastUpdated": "Last updated: {date}",
+    "p1": "This Cookie Policy explains how CryptoDx (\"we\", \"us\", and \"our\") uses cookies and similar technologies to recognize you when you visit our website. It explains what these technologies are and why we use them, as well as your rights to control our use of them.",
+    "h_whatAre": "What are cookies?",
+    "p_whatAre1": "A cookie is a small data file that is placed on your device when you visit a website. Cookies are widely used by website owners in order to make their websites work, or to work more efficiently, as well as to provide reporting information.",
+    "p_whatAre2": "Cookies set by the website owner (in this case, CryptoDx) are called \"first-party cookies\". Cookies set by parties other than the website owner are called \"third-party cookies\". Third-party cookies enable third-party features or functionality to be provided on or through the website (e.g., advertising, interactive content, and analytics). The parties that set these third-party cookies can recognize your computer both when it visits the website in question and also when it visits certain other websites.",
+    "h_whyUse": "Why do we use cookies?",
+    "p_whyUse": "We use first-party and third-party cookies for several reasons. Some cookies are required for technical reasons in order for our Website to operate, and we refer to these as \"essential\" or \"strictly necessary\" cookies. Other cookies also enable us to track and target the interests of our users to enhance the experience on our Online Properties. Third parties serve cookies through our Website for advertising, analytics, and other purposes. This is described in more detail below.",
+    "h_types": "Types of Cookies We Use",
+    "li_necessary": "<strong>Strictly Necessary Cookies:</strong> These cookies are essential to provide you with services available through our Website and to enable you to use some of its features. Because these cookies are strictly necessary to deliver the Website to you, you cannot refuse them without impacting how our Website functions.",
+    "li_performance": "<strong>Performance and Functionality Cookies:</strong> These cookies are used to enhance the performance and functionality of our Website but are non-essential to their use. However, without these cookies, certain functionality (like remembering your theme preference) may become unavailable.",
+    "li_analytics": "<strong>Analytics and Customization Cookies:</strong> These cookies collect information that is used either in aggregate form to help us understand how our Website is being used or how effective our marketing campaigns are, or to help us customize our Website for you.",
+    "h_choices": "Your choices regarding cookies",
+    "p_choices": "You have the right to decide whether to accept or reject cookies. You can exercise your cookie preferences by setting or amending your web browser controls to accept or refuse cookies. If you choose to reject cookies, you may still use our website though your access to some functionality and areas of our website may be restricted. As the means by which you can refuse cookies through your web browser controls vary from browser-to-browser, you should visit your browser's help menu for more information.",
+    "h_changes": "Changes to this Cookie Policy",
+    "p_changes": "We may update this Cookie Policy from time to time in order to reflect, for example, changes to the cookies we use or for other operational, legal, or regulatory reasons. Please therefore re-visit this Cookie Policy regularly to stay informed about our use of cookies and related technologies.",
+    "dismiss": "Dismiss and Close"
+  },
+  "Chatbot": {
+    "initialMessage": "Hello! I'm the 'CryptoDx' Chatbot. How can I help you today on all things Blockchain, DeFi, Crypto, NFTs, or AI?",
+    "title": "CryptoDx Chatbot",
+    "placeholder": "Type your message...",
+    "send": "Send",
+    "askMeAbout": "Ask me about...",
+    "topics": "Blockchain, DeFi, Crypto, NFT, or AI!",
+    "errorResponse": "I'm having trouble generating a response right now. Please try a different question.",
+    "connectionError": "Sorry, I'm having trouble connecting right now. Please try again later."
+  },
+  "WalletConnect": {
+    "title": "Connect a wallet",
+    "description": "Choose your wallet from the list below to get started.",
+    "disconnect": "Disconnect",
+    "notImplemented": "Connection to {walletName} is not supported in this app. Please use MetaMask, Trust Wallet, or Coinbase Wallet.",
+    "walletConnected": "Wallet Connected",
+    "walletConnectedDescription": "Successfully connected to account: {account}",
+    "connectionFailed": "Connection Failed",
+    "connectionFailedDescription": "Could not connect to the wallet. The request may have been rejected.",
+    "walletNotFound": "Wallet Not Found",
+    "walletNotFoundDescription": "Please install a compatible browser wallet extension like MetaMask, Trust Wallet, or Coinbase Wallet.",
+    "walletDisconnected": "Wallet Disconnected",
+    "walletDisconnectedDescription": "You have successfully disconnected your wallet.",
+    "accountSwitched": "Account Switched",
+    "accountSwitchedDescription": "Switched to account: {account}"
+  },
+  "SlippagePage": {
+    "title": "Slippage Analysis & Simulation",
+    "description": "Understand and simulate the potential slippage for your trades."
+  },
+  "SlippageInterface": {
+    "settingsTitle": "Simulation Settings",
+    "settingsDescription": "Adjust parameters to see how they affect slippage.",
+    "fromToken": "From Token",
+    "toToken": "To Token",
+    "tradeAmount": "Trade Amount (in {symbol})",
+    "poolLiquidity": "Simulated Pool Liquidity",
+    "poolLiquidityTooltip": "Simulates the total value locked (TVL) in the liquidity pool.<1/> Higher liquidity generally results in lower slippage.",
+    "shallow": "Shallow",
+    "deep": "Deep",
+    "resultsTitle": "Slippage Simulation Results",
+    "resultsDescription": "Based on your settings, here is the estimated slippage.",
+    "priceImpact": "Price Impact",
+    "expectedOutput": "Expected Output",
+    "minReceived": "Min. Received",
+    "outputComparison": "Output Comparison"
+  },
+  "SpotPage": {
+    "title": "Spot Trading",
+    "description": "Buy and sell crypto at the current market rate.",
+    "comingSoon": "The spot trading interface is coming soon."
   }
 }

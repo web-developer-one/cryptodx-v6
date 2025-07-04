@@ -4,6 +4,7 @@ import { Separator } from "@/components/ui/separator"
 import type { TokenDetails } from "@/lib/types"
 import { format } from "date-fns"
 import { Globe, Book, Search, MessageSquare } from "lucide-react"
+import { useLanguage } from "@/hooks/use-language"
 
 const formatNumber = (num: number | null | undefined, options: Intl.NumberFormatOptions = {}) => {
   if (num === null || num === undefined) return "N/A"
@@ -27,35 +28,36 @@ const LinkButton = ({ label, href, icon }: { label: string, href?: string, icon:
 }
 
 export function KeyStatistics({ token }: { token: TokenDetails }) {
+  const { t } = useLanguage();
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Key Statistics</CardTitle>
+        <CardTitle>{t('TokenDetail.keyStatistics')}</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="grid grid-cols-2 gap-x-4">
-            <StatItem label="Low (24h)" value={formatNumber(token.low24h, { style: "currency", currency: "USD" })} />
-            <StatItem label="High (24h)" value={formatNumber(token.high24h, { style: "currency", currency: "USD" })} />
+            <StatItem label={t('TokenDetail.low24h')} value={formatNumber(token.low24h, { style: "currency", currency: "USD" })} />
+            <StatItem label={t('TokenDetail.high24h')} value={formatNumber(token.high24h, { style: "currency", currency: "USD" })} />
         </div>
         <Separator className="my-1" />
-        <StatItem label="Market Cap" value={formatNumber(token.marketCap, { style: "currency", currency: "USD", notation: "compact" })} />
-        <StatItem label="Volume (24h)" value={formatNumber(token.volume24h, { style: "currency", currency: "USD", notation: "compact" })} />
+        <StatItem label={t('TokenDetail.marketCap')} value={formatNumber(token.marketCap, { style: "currency", currency: "USD", notation: "compact" })} />
+        <StatItem label={t('TokenDetail.volume24h')} value={formatNumber(token.volume24h, { style: "currency", currency: "USD", notation: "compact" })} />
         <Separator className="my-1" />
-        <StatItem label="Circulating Supply" value={`${formatNumber(token.circulatingSupply, { notation: 'compact'})} ${token.symbol}`} />
-        <StatItem label="Total Supply" value={`${formatNumber(token.totalSupply, { notation: 'compact' })} ${token.symbol}`} />
-        <StatItem label="Max Supply" value={token.maxSupply ? `${formatNumber(token.maxSupply, { notation: 'compact' })} ${token.symbol}`: '∞'} />
+        <StatItem label={t('TokenDetail.circulatingSupply')} value={`${formatNumber(token.circulatingSupply, { notation: 'compact'})} ${token.symbol}`} />
+        <StatItem label={t('TokenDetail.totalSupply')} value={`${formatNumber(token.totalSupply, { notation: 'compact' })} ${token.symbol}`} />
+        <StatItem label={t('TokenDetail.maxSupply')} value={token.maxSupply ? `${formatNumber(token.maxSupply, { notation: 'compact' })} ${token.symbol}`: '∞'} />
         <Separator className="my-1" />
-        <StatItem label="Rating" value="Community Assessed" />
-        <StatItem label="Added to CMC" value={format(new Date(token.dateAdded), "MMM d, yyyy")} />
-        <StatItem label="CMC Rank" value={`#${token.cmcRank}`} />
+        <StatItem label={t('TokenDetail.rating')} value={t('TokenDetail.ratingValue')} />
+        <StatItem label={t('TokenDetail.addedToCmc')} value={format(new Date(token.dateAdded), "MMM d, yyyy")} />
+        <StatItem label={t('TokenDetail.cmcRank')} value={`#${token.cmcRank}`} />
         
         <Separator className="my-4" />
         
         <div className="grid grid-cols-2 gap-2">
-            <LinkButton label="Website" href={token.urls.website?.[0]} icon={<Globe className="h-4 w-4" />} />
-            <LinkButton label="Whitepaper" href={token.urls.technical_doc?.[0]} icon={<Book className="h-4 w-4" />} />
-            <LinkButton label="Explorer" href={token.urls.explorer?.[0]} icon={<Search className="h-4 w-4" />} />
-            <LinkButton label="Reddit" href={token.urls.reddit?.[0]} icon={<MessageSquare className="h-4 w-4" />} />
+            <LinkButton label={t('TokenDetail.website')} href={token.urls.website?.[0]} icon={<Globe className="h-4 w-4" />} />
+            <LinkButton label={t('TokenDetail.whitepaper')} href={token.urls.technical_doc?.[0]} icon={<Book className="h-4 w-4" />} />
+            <LinkButton label={t('TokenDetail.explorer')} href={token.urls.explorer?.[0]} icon={<Search className="h-4 w-4" />} />
+            <LinkButton label={t('TokenDetail.reddit')} href={token.urls.reddit?.[0]} icon={<MessageSquare className="h-4 w-4" />} />
         </div>
       </CardContent>
     </Card>

@@ -15,6 +15,7 @@ import { useWallet } from '@/hooks/use-wallet';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from './ui/dropdown-menu';
 import { ChevronDown } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast";
+import { useLanguage } from "@/hooks/use-language";
 
 const wallets = [
     {
@@ -82,6 +83,7 @@ const truncateAddress = (address: string) => {
 export function WalletConnect({ children }: { children?: React.ReactNode }) {
   const { account, isActive, connectWallet, disconnect, isLoading } = useWallet();
   const { toast } = useToast();
+  const { t } = useLanguage();
   const [open, setOpen] = React.useState(false);
   const [mounted, setMounted] = React.useState(false);
 
@@ -98,15 +100,15 @@ export function WalletConnect({ children }: { children?: React.ReactNode }) {
       // Bitcoin and Ledger wallets require different connection methods not supported by this app's current architecture.
       toast({
         variant: "destructive",
-        title: "Not Implemented",
-        description: `Connection to ${walletName} is not supported in this app. Please use MetaMask, Trust Wallet, or Coinbase Wallet.`,
+        title: t('WalletConnect.notImplemented').split('.')[0], // A bit hacky but works for now
+        description: t('WalletConnect.notImplemented').replace('{walletName}', walletName),
       });
     }
   };
   
   if (!mounted) {
       return (
-          <Button variant="secondary" disabled>Connect Wallet</Button>
+          <Button variant="secondary" disabled>{t('Header.connectWallet')}</Button>
       );
   }
 
@@ -121,7 +123,7 @@ export function WalletConnect({ children }: { children?: React.ReactNode }) {
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuItem onClick={disconnect}>
-            Disconnect
+            {t('WalletConnect.disconnect')}
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
@@ -131,13 +133,13 @@ export function WalletConnect({ children }: { children?: React.ReactNode }) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        {children || <Button variant="secondary">Connect Wallet</Button>}
+        {children || <Button variant="secondary">{t('Header.connectWallet')}</Button>}
       </DialogTrigger>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>Connect a wallet</DialogTitle>
+          <DialogTitle>{t('WalletConnect.title')}</DialogTitle>
           <DialogDescription>
-            Choose your wallet from the list below to get started.
+            {t('WalletConnect.description')}
           </DialogDescription>
         </DialogHeader>
         <div className="flex flex-col space-y-2">

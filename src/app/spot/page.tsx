@@ -1,20 +1,26 @@
+
+'use client';
+
 import { TradeNav } from "@/components/trade-nav";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { useLanguage } from "@/hooks/use-language";
 
-export default async function SpotPage() {
+export default function SpotPage() {
+  const { t } = useLanguage();
+
   return (
     <div className="container flex-1 flex flex-col items-center py-8 gap-6">
       <TradeNav />
       <Card className="w-full max-w-md mt-6">
         <CardHeader>
-          <CardTitle>Spot Trading</CardTitle>
+          <CardTitle>{t('SpotPage.title')}</CardTitle>
           <CardDescription>
-            Buy and sell crypto at the current market rate.
+            {t('SpotPage.description')}
           </CardDescription>
         </CardHeader>
         <CardContent>
           <p className="text-sm text-muted-foreground text-center pt-6">
-            The spot trading interface is coming soon.
+            {t('SpotPage.comingSoon')}
           </p>
         </CardContent>
       </Card>

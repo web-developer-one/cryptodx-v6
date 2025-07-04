@@ -10,8 +10,10 @@ import Image from 'next/image';
 import { useWallet } from '@/hooks/use-wallet';
 import { WalletConnect } from './wallet-connect';
 import { Plus } from 'lucide-react';
+import { useLanguage } from '@/hooks/use-language';
 
 export function CreatePositionInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[] }) {
+  const { t } = useLanguage();
   const [token0, setToken0] = useState<Cryptocurrency>(cryptocurrencies.find(c => c.symbol === 'ETH') || cryptocurrencies[0]);
   const [token1, setToken1] = useState<Cryptocurrency>(cryptocurrencies.find(c => c.symbol === 'USDC') || (cryptocurrencies.length > 1 ? cryptocurrencies[1] : cryptocurrencies[0]));
   const [amount0, setAmount0] = useState<string>('1');
@@ -75,12 +77,12 @@ export function CreatePositionInterface({ cryptocurrencies }: { cryptocurrencies
   return (
     <Card className="w-full max-w-md shadow-2xl shadow-primary/10">
       <CardHeader className="text-center">
-        <CardTitle>Add Liquidity</CardTitle>
-        <CardDescription>Create a new liquidity position.</CardDescription>
+        <CardTitle>{t('CreatePositionInterface.title')}</CardTitle>
+        <CardDescription>{t('CreatePositionInterface.description')}</CardDescription>
       </CardHeader>
       <CardContent className="flex flex-col gap-4">
         <div className="p-4 rounded-lg bg-[#f8fafc] dark:bg-secondary/50 border">
-          <label className="text-sm text-muted-foreground" htmlFor="token0-input">Token 1</label>
+          <label className="text-sm text-muted-foreground" htmlFor="token0-input">{t('CreatePositionInterface.token1')}</label>
           <div className="flex items-center gap-2 mt-1">
             <Input id="token0-input" type="text" placeholder="0" className="text-3xl h-12 bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0 p-0" value={amount0} onChange={handleAmountChange(setAmount0, "token0")} />
             <Select value={token0.symbol} onValueChange={handleTokenChange(setToken0, token1)}>
@@ -112,7 +114,7 @@ export function CreatePositionInterface({ cryptocurrencies }: { cryptocurrencies
         </div>
 
         <div className="p-4 rounded-lg bg-[#f8fafc] dark:bg-secondary/50 border">
-          <label className="text-sm text-muted-foreground" htmlFor="token1-input">Token 2</label>
+          <label className="text-sm text-muted-foreground" htmlFor="token1-input">{t('CreatePositionInterface.token2')}</label>
           <div className="flex items-center gap-2 mt-1">
             <Input id="token1-input" type="text" placeholder="0" className="text-3xl h-12 bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0 p-0" value={amount1} onChange={handleAmountChange(setAmount1, "token1")} />
             <Select value={token1.symbol} onValueChange={handleTokenChange(setToken1, token0)}>
@@ -144,16 +146,16 @@ export function CreatePositionInterface({ cryptocurrencies }: { cryptocurrencies
                 <span>1 {token0.symbol} = {priceRatio > 0 ? priceRatio.toFixed(4) : '-'} {token1.symbol}</span>
                 <span>1 {token1.symbol} = {priceRatio > 0 ? (1 / priceRatio).toFixed(4) : '-'} {token0.symbol}</span>
             </div>
-            <p>Your position will represent an estimated 0.01% of the pool.</p>
+            <p>{t('CreatePositionInterface.poolShareEstimate').replace('{percentage}', '0.01')}</p>
         </div>
 
       </CardContent>
       <CardFooter>
         {isWalletConnected ? (
-          <Button className="w-full h-12 text-lg">Add Liquidity</Button>
+          <Button className="w-full h-12 text-lg">{t('YourPositions.addLiquidity')}</Button>
         ) : (
           <WalletConnect>
-            <Button className="w-full h-12 text-lg">Connect Wallet</Button>
+            <Button className="w-full h-12 text-lg">{t('Header.connectWallet')}</Button>
           </WalletConnect>
         )}
       </CardFooter>

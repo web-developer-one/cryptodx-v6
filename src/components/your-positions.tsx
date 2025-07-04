@@ -10,6 +10,7 @@ import { PositionsTable } from '@/components/positions-table';
 import type { Cryptocurrency, Position, SelectedCurrency } from '@/lib/types';
 import { useMemo, useState } from 'react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { useLanguage } from '@/hooks/use-language';
 
 // In a real app, this would come from a currency conversion API
 const supportedCurrencies: SelectedCurrency[] = [
@@ -26,6 +27,7 @@ const supportedCurrencies: SelectedCurrency[] = [
 
 export function YourPositions({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[] }) {
     const { isActive } = useWallet();
+    const { t } = useLanguage();
     const [selectedCurrency, setSelectedCurrency] = useState<SelectedCurrency>(supportedCurrencies[0]);
 
     const handleCurrencyChange = (symbol: string) => {
@@ -60,20 +62,20 @@ export function YourPositions({ cryptocurrencies }: { cryptocurrencies: Cryptocu
                     <CardHeader>
                         <CardTitle className="flex items-center justify-center gap-2">
                             <Briefcase className="h-6 w-6" />
-                            <span>Your Positions</span>
+                            <span>{t('YourPositions.title')}</span>
                         </CardTitle>
                         <CardDescription>
-                            Connect your wallet to view your liquidity positions.
+                            {t('YourPositions.connectPrompt')}
                         </CardDescription>
                     </CardHeader>
                     <CardContent>
                         <p className="text-muted-foreground mb-4">
-                            Your active liquidity positions will be displayed here once you connect your wallet.
+                            {t('YourPositions.connectPromptDescription')}
                         </p>
                     </CardContent>
                     <CardFooter className="flex justify-center">
                         <WalletConnect>
-                           <Button size="lg">Connect Wallet</Button>
+                           <Button size="lg">{t('Header.connectWallet')}</Button>
                         </WalletConnect>
                     </CardFooter>
                 </Card>
@@ -88,20 +90,20 @@ export function YourPositions({ cryptocurrencies }: { cryptocurrencies: Cryptocu
                     <CardHeader>
                          <CardTitle className="flex items-center justify-center gap-2">
                             <Layers className="h-6 w-6" />
-                            <span>No Positions Found</span>
+                            <span>{t('YourPositions.noPositionsTitle')}</span>
                         </CardTitle>
                         <CardDescription>
-                           You do not have any active liquidity positions.
+                           {t('YourPositions.noPositionsDescription')}
                         </CardDescription>
                     </CardHeader>
                     <CardContent>
                         <p className="text-muted-foreground mb-4">
-                            Create a new position by providing liquidity to a pool.
+                            {t('YourPositions.createPositionPrompt')}
                         </p>
                     </CardContent>
                      <CardFooter className="flex justify-center">
                         <Link href="/pools/add">
-                            <Button size="lg">Explore Pools</Button>
+                            <Button size="lg">{t('YourPositions.explorePools')}</Button>
                         </Link>
                     </CardFooter>
                 </Card>
@@ -112,12 +114,12 @@ export function YourPositions({ cryptocurrencies }: { cryptocurrencies: Cryptocu
     return (
          <div className="flex flex-col gap-8">
             <div className="flex justify-between items-center">
-                <h1 className="text-3xl font-bold">Your Positions</h1>
+                <h1 className="text-3xl font-bold">{t('YourPositions.title')}</h1>
                 <div className="flex items-center gap-4">
                     <div className="w-full max-w-[240px]">
                         <Select onValueChange={handleCurrencyChange} defaultValue={selectedCurrency.symbol}>
                             <SelectTrigger>
-                                <SelectValue placeholder="Select currency..." />
+                                <SelectValue placeholder={t('PoolsClient.selectCurrency')} />
                             </SelectTrigger>
                             <SelectContent>
                                 {supportedCurrencies.map(currency => (
@@ -131,7 +133,7 @@ export function YourPositions({ cryptocurrencies }: { cryptocurrencies: Cryptocu
                         </Select>
                     </div>
                     <Link href="/pools/add">
-                        <Button>+ New Position</Button>
+                        <Button>{t('YourPositions.newPosition')}</Button>
                     </Link>
                 </div>
             </div>

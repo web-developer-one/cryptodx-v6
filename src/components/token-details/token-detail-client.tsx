@@ -17,8 +17,10 @@ import { cn } from "@/lib/utils";
 import { PriceChart } from "@/components/token-details/price-chart";
 import { Button } from "@/components/ui/button";
 import { ReputationAlert } from './reputation-alert';
+import { useLanguage } from '@/hooks/use-language';
 
 export function TokenDetailClient({ initialToken }: { initialToken: TokenDetails }) {
+    const { t } = useLanguage();
     const [token, setToken] = useState(initialToken);
 
     useEffect(() => {
@@ -41,7 +43,7 @@ export function TokenDetailClient({ initialToken }: { initialToken: TokenDetails
         <Link href="/tokens" passHref>
           <Button variant="outline">
             <ArrowLeft className="mr-2 h-4 w-4" />
-            Back to Tokens
+            {t('TokenDetail.backToTokens')}
           </Button>
         </Link>
       </div>

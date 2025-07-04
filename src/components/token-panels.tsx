@@ -24,6 +24,7 @@ import {
 import { getLatestListings } from "@/lib/coinmarketcap";
 import { LineChart, Line, ResponsiveContainer } from "recharts";
 import Link from "next/link";
+import { useLanguage } from "@/hooks/use-language";
 
 const TOKENS_PER_PAGE = 20;
 
@@ -109,6 +110,7 @@ export function TokenPanels({
   cryptocurrencies: Cryptocurrency[];
 }) {
   const router = useRouter();
+  const { t } = useLanguage();
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedCurrency, setSelectedCurrency] = useState<SelectedCurrency>(
@@ -121,7 +123,7 @@ export function TokenPanels({
   useEffect(() => {
     const intervalId = setInterval(async () => {
       setIsUpdating(true);
-      const latestData = await getLatestListings();
+      const { data: latestData } = await getLatestListings();
       if (latestData && latestData.length > 0) {
         setLiveTokens(latestData);
       }
@@ -179,16 +181,16 @@ export function TokenPanels({
     <div className="flex flex-col gap-6">
       <div className="flex items-center justify-between gap-4">
         <h1 className="text-3xl font-bold flex items-center gap-2">
-            Token Panels
+            {t('TokenPanels.title')}
             {isUpdating && <span className="h-2 w-2 animate-pulse rounded-full bg-primary" />}
         </h1>
         <div className="flex flex-1 items-center justify-end gap-4">
             <Link href="/tokens" passHref>
-              <Button variant="outline">List View</Button>
+              <Button variant="outline">{t('TokenExplorer.listView')}</Button>
             </Link>
             <div className="w-full max-w-sm">
               <Input
-                placeholder="Search tokens..."
+                placeholder={t('TokenExplorer.search')}
                 value={searchQuery}
                 onChange={(e) => {
                   setSearchQuery(e.target.value);
@@ -203,7 +205,7 @@ export function TokenPanels({
                 defaultValue={selectedCurrency.symbol}
               >
                 <SelectTrigger className="h-9">
-                  <SelectValue placeholder="Select currency..." />
+                  <SelectValue placeholder={t('PoolsClient.selectCurrency')} />
                 </SelectTrigger>
                 <SelectContent>
                   {supportedCurrencies.map((currency) => (
@@ -268,12 +270,11 @@ export function TokenPanels({
        {totalPages > 1 && (
           <div className="flex items-center justify-between pt-6">
             <span className="text-sm text-muted-foreground">
-              Showing {((currentPage - 1) * TOKENS_PER_PAGE) + 1} -{" "}
-              {Math.min(
-                currentPage * TOKENS_PER_PAGE,
-                sortedTokens.length
-              )}{" "}
-              of {sortedTokens.length} tokens
+               {t('TokenExplorer.showing')
+                .replace('{start}', (((currentPage - 1) * TOKENS_PER_PAGE) + 1).toString())
+                .replace('{end}', Math.min(currentPage * TOKENS_PER_PAGE, sortedTokens.length).toString())
+                .replace('{total}', sortedTokens.length.toString())
+              }
             </span>
             <div className="flex items-center justify-center gap-4">
               <Button
@@ -281,17 +282,20 @@ export function TokenPanels({
                 onClick={handlePreviousPage}
                 disabled={currentPage === 1}
               >
-                Previous
+                {t('TokenExplorer.previous')}
               </Button>
               <span className="text-sm font-medium">
-                Page {currentPage} of {totalPages}
+                {t('TokenExplorer.page')
+                  .replace('{current}', currentPage.toString())
+                  .replace('{total}', totalPages.toString())
+                }
               </span>
               <Button
                 variant="outline"
                 onClick={handleNextPage}
                 disabled={currentPage === totalPages}
               >
-                Next
+                {t('TokenExplorer.next')}
               </Button>
             </div>
           </div>

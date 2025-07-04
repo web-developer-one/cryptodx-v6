@@ -18,6 +18,7 @@ import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
+import { useLanguage } from '@/hooks/use-language';
 
 const symbolMap: { [key: string]: string } = {
   USD: '$',
@@ -58,13 +59,14 @@ const truncateAddress = (address: string) => {
 
 const CopyButton = ({ textToCopy, itemLabel }: { textToCopy: string; itemLabel: string; }) => {
     const { toast } = useToast();
+    const { t } = useLanguage();
 
     const handleCopy = (e: React.MouseEvent) => {
         e.preventDefault();
         navigator.clipboard.writeText(textToCopy).then(() => {
             toast({
-                title: "Copied!",
-                description: `The ${itemLabel} has been copied to your clipboard.`,
+                title: t('TransactionsTable.copied'),
+                description: t('TransactionsTable.copyHash'),
             });
         }).catch(err => {
             console.error('Failed to copy text: ', err);
@@ -86,16 +88,17 @@ const CopyButton = ({ textToCopy, itemLabel }: { textToCopy: string; itemLabel: 
 
 
 const TransactionDetails = ({ transaction }: { transaction: Transaction }) => {
+    const { t } = useLanguage();
     const { type, token0, token1, amount0, amount1 } = transaction;
 
     const formatAmount = (amount: number) => amount.toLocaleString('en-US', { maximumFractionDigits: 4 });
 
     const simplifiedDescription = () => {
         switch (type) {
-            case 'Swap': return `Swap ${token0.symbol} for ${token1.symbol}`;
-            case 'Add': return `Add ${token0.symbol} and ${token1.symbol}`;
-            case 'Remove': return `Remove ${token0.symbol} and ${token1.symbol}`;
-            default: return 'Unknown Action';
+            case 'Swap': return t('TransactionsTable.swapFor').replace('{token0}', token0.symbol).replace('{token1}', token1.symbol);
+            case 'Add': return t('TransactionsTable.addTokens').replace('{token0}', token0.symbol).replace('{token1}', token1.symbol);
+            case 'Remove': return t('TransactionsTable.removeTokens').replace('{token0}', token0.symbol).replace('{token1}', token1.symbol);
+            default: return t('TransactionsTable.unknownAction');
         }
     };
 
@@ -151,6 +154,15 @@ const TimeAgo = ({ timestamp }: { timestamp: Date }) => {
 };
 
 const StatusBadge = ({ status }: { status: TransactionStatus }) => {
+    const { t } = useLanguage();
+    const statusText = () => {
+      switch(status) {
+        case 'Completed': return t('TransactionsTable.completed');
+        case 'Pending': return t('TransactionsTable.pending');
+        case 'Failed': return t('TransactionsTable.failed');
+        default: return status;
+      }
+    }
     return (
         <Badge
             variant={'outline'}
@@ -160,12 +172,13 @@ const StatusBadge = ({ status }: { status: TransactionStatus }) => {
                 'bg-destructive text-destructive-foreground': status === 'Failed',
             })}
         >
-            {status}
+            {statusText()}
         </Badge>
     );
 };
 
 export function TransactionsTable({ transactions, currency }: { transactions: Transaction[], currency: SelectedCurrency }) {
+    const { t } = useLanguage();
     
     return (
         <Card>
@@ -173,13 +186,13 @@ export function TransactionsTable({ transactions, currency }: { transactions: Tr
                 <Table>
                     <TableHeader>
                         <TableRow>
-                            <TableHead className="w-[80px] text-center">Activities</TableHead>
-                            <TableHead className="w-[450px]">Details</TableHead>
-                            <TableHead className="text-right">Value</TableHead>
-                            <TableHead className="w-[180px]">Time</TableHead>
-                            <TableHead className="w-[150px]">Status</TableHead>
-                            <TableHead className="w-[360px]">Account</TableHead>
-                            <TableHead className="w-[100px] text-right">Actions</TableHead>
+                            <TableHead className="w-[80px] text-center">{t('TransactionsTable.activities')}</TableHead>
+                            <TableHead className="w-[450px]">{t('TransactionsTable.details')}</TableHead>
+                            <TableHead className="text-right">{t('TransactionsTable.value')}</TableHead>
+                            <TableHead className="w-[180px]">{t('TransactionsTable.time')}</TableHead>
+                            <TableHead className="w-[150px]">{t('TransactionsTable.status')}</TableHead>
+                            <TableHead className="w-[360px]">{t('TransactionsTable.account')}</TableHead>
+                            <TableHead className="w-[100px] text-right">{t('TransactionsTable.actions')}</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>

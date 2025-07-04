@@ -12,6 +12,7 @@ import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { SiteLogo } from './site-logo';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
+import { useLanguage } from '@/hooks/use-language';
 
 
 type Message = {
@@ -65,9 +66,10 @@ const renderMessageContent = (content: string, setIsOpen: (open: boolean) => voi
 };
 
 export function Chatbot() {
+    const { t } = useLanguage();
     const [isOpen, setIsOpen] = useState(false);
     const [messages, setMessages] = useState<Message[]>([
-        { role: 'model', content: "Hello! I'm the 'CryptoDx' Chatbot. How can I help you today on all things Blockchain, DeFi, Crypto, NFTs, or AI?" }
+        { role: 'model', content: t('Chatbot.initialMessage') }
     ]);
     const [inputValue, setInputValue] = useState('');
     const [isLoading, setIsLoading] = useState(false);
@@ -101,12 +103,12 @@ export function Chatbot() {
                 const modelMessage: Message = { role: 'model', content: responseText };
                 setMessages(prev => [...prev, modelMessage]);
             } else {
-                 const errorMessage: Message = { role: 'model', content: "I'm having trouble generating a response right now. Please try a different question." };
+                 const errorMessage: Message = { role: 'model', content: t('Chatbot.errorResponse') };
                 setMessages(prev => [...prev, errorMessage]);
             }
         } catch (error) {
             console.error("Error calling chatbot flow:", error);
-            const errorMessage: Message = { role: 'model', content: "Sorry, I'm having trouble connecting right now. Please try again later." };
+            const errorMessage: Message = { role: 'model', content: t('Chatbot.connectionError') };
             setMessages(prev => [...prev, errorMessage]);
         } finally {
             setIsLoading(false);
@@ -119,10 +121,10 @@ export function Chatbot() {
             {!isOpen && (
                 <div className="fixed bottom-24 right-6 z-40 flex flex-col items-end gap-2 animate-in fade-in-50 slide-in-from-bottom-2">
                     <div className="w-full max-w-[220px] rounded-lg bg-secondary p-3 text-sm text-secondary-foreground shadow-lg text-right">
-                        Ask me about...
+                        {t('Chatbot.askMeAbout')}
                     </div>
                     <div className="relative w-full max-w-[220px] rounded-lg bg-secondary p-3 text-sm text-secondary-foreground shadow-lg text-right">
-                        Blockchain, DeFi, Crypto, NFT, or AI!
+                        {t('Chatbot.topics')}
                         <div className="absolute right-6 -bottom-2 h-0 w-0 border-x-8 border-x-transparent border-t-8 border-t-secondary" />
                     </div>
                 </div>
@@ -144,7 +146,7 @@ export function Chatbot() {
             >
                 <Card className="flex flex-col h-[60vh] overflow-hidden">
                     <CardHeader className="flex flex-row items-center justify-between p-4 border-b">
-                        <CardTitle className="text-lg">CryptoDx Chatbot</CardTitle>
+                        <CardTitle className="text-lg">{t('Chatbot.title')}</CardTitle>
                         <Button variant="ghost" size="icon" onClick={() => setIsOpen(false)} className="h-6 w-6">
                             <X className="h-4 w-4" />
                         </Button>
@@ -195,7 +197,7 @@ export function Chatbot() {
                         <form onSubmit={handleSubmit} className="flex w-full items-center space-x-2">
                             <Input
                                 id="message"
-                                placeholder="Type your message..."
+                                placeholder={t('Chatbot.placeholder')}
                                 className="flex-1 text-sm"
                                 autoComplete="off"
                                 value={inputValue}
@@ -204,7 +206,7 @@ export function Chatbot() {
                             />
                             <Button type="submit" size="icon" disabled={isLoading}>
                                 <Send className="h-4 w-4" />
-                                <span className="sr-only">Send</span>
+                                <span className="sr-only">{t('Chatbot.send')}</span>
                             </Button>
                         </form>
                     </CardFooter>

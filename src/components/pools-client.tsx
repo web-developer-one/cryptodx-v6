@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import type { LiquidityPool, SelectedCurrency, Cryptocurrency } from '@/lib/types';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { PoolsTable } from './pools-table';
+import { useLanguage } from '@/hooks/use-language';
 
 // In a real app, this would come from a currency conversion API
 const supportedCurrencies: SelectedCurrency[] = [
@@ -56,6 +57,7 @@ const generateMockPools = (cryptocurrencies: Cryptocurrency[]): LiquidityPool[] 
 
 
 export function PoolsClient({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[] }) {
+    const { t } = useLanguage();
     const [selectedCurrency, setSelectedCurrency] = useState<SelectedCurrency>(supportedCurrencies[0]);
     const [pools, setPools] = useState<LiquidityPool[]>([]);
 
@@ -73,11 +75,11 @@ export function PoolsClient({ cryptocurrencies }: { cryptocurrencies: Cryptocurr
     return (
         <>
             <div className="flex justify-between items-center my-6">
-                <h1 className="text-3xl font-bold">Available Liquidity Pools</h1>
+                <h1 className="text-3xl font-bold">{t('PoolsClient.title')}</h1>
                 <div className="w-full max-w-[220px]">
                     <Select onValueChange={handleCurrencyChange} defaultValue={selectedCurrency.symbol}>
                         <SelectTrigger>
-                            <SelectValue placeholder="Select currency..." />
+                            <SelectValue placeholder={t('PoolsClient.selectCurrency')} />
                         </SelectTrigger>
                         <SelectContent>
                             {supportedCurrencies.map(currency => (

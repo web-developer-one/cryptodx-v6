@@ -12,10 +12,12 @@ import { Label } from '@/components/ui/label';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer, Legend } from 'recharts';
 import { Slider } from '@/components/ui/slider';
+import { useLanguage } from '@/hooks/use-language';
 
 const SIMULATED_POOL_BASE_LIQUIDITY = 500000; // $500k base liquidity for simulation
 
 export function SlippageInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[] }) {
+  const { t } = useLanguage();
   const [fromToken, setFromToken] = useState<Cryptocurrency>(cryptocurrencies[0]);
   const [toToken, setToToken] = useState<Cryptocurrency>(cryptocurrencies.length > 1 ? cryptocurrencies[1] : cryptocurrencies[0]);
   const [tradeAmount, setTradeAmount] = useState<string>('1000');
@@ -89,12 +91,12 @@ export function SlippageInterface({ cryptocurrencies }: { cryptocurrencies: Cryp
         {/* Settings Card */}
         <Card className="lg:col-span-1 shadow-lg">
             <CardHeader>
-                <CardTitle>Simulation Settings</CardTitle>
-                <CardDescription>Adjust parameters to see how they affect slippage.</CardDescription>
+                <CardTitle>{t('SlippageInterface.settingsTitle')}</CardTitle>
+                <CardDescription>{t('SlippageInterface.settingsDescription')}</CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
                 <div>
-                    <Label htmlFor="from-token" className="text-sm">From Token</Label>
+                    <Label htmlFor="from-token" className="text-sm">{t('SlippageInterface.fromToken')}</Label>
                     <Select value={fromToken.symbol} onValueChange={handleTokenChange(setFromToken, toToken)}>
                         <SelectTrigger id="from-token" className="mt-1">
                             <SelectValue placeholder="Select token" />
@@ -110,7 +112,7 @@ export function SlippageInterface({ cryptocurrencies }: { cryptocurrencies: Cryp
                     </Select>
                 </div>
                  <div>
-                    <Label htmlFor="to-token" className="text-sm">To Token</Label>
+                    <Label htmlFor="to-token" className="text-sm">{t('SlippageInterface.toToken')}</Label>
                     <Select value={toToken.symbol} onValueChange={handleTokenChange(setToToken, fromToken)}>
                         <SelectTrigger id="to-token" className="mt-1">
                             <SelectValue placeholder="Select token" />
@@ -127,21 +129,21 @@ export function SlippageInterface({ cryptocurrencies }: { cryptocurrencies: Cryp
                 </div>
 
                 <div>
-                    <Label htmlFor="trade-amount" className="text-sm">Trade Amount (in {fromToken.symbol})</Label>
+                    <Label htmlFor="trade-amount" className="text-sm">{t('SlippageInterface.tradeAmount').replace('{symbol}', fromToken.symbol)}</Label>
                     <Input id="trade-amount" value={tradeAmount} onChange={handleAmountChange} className="mt-1" />
                 </div>
                 
                 <div>
                     <div className="flex justify-between items-center">
                         <Label htmlFor="liquidity" className="text-sm flex items-center gap-1">
-                            Simulated Pool Liquidity
+                            {t('SlippageInterface.poolLiquidity')}
                             <TooltipProvider>
                                 <Tooltip>
                                     <TooltipTrigger asChild>
                                         <HelpCircle className="h-4 w-4 text-muted-foreground cursor-help" />
                                     </TooltipTrigger>
                                     <TooltipContent>
-                                        <p>Simulates the total value locked (TVL) in the liquidity pool.<br/> Higher liquidity generally results in lower slippage.</p>
+                                        <p dangerouslySetInnerHTML={{ __html: t('SlippageInterface.poolLiquidityTooltip').replace('<1/>', '<br/>') }} />
                                     </TooltipContent>
                                 </Tooltip>
                             </TooltipProvider>
@@ -158,8 +160,8 @@ export function SlippageInterface({ cryptocurrencies }: { cryptocurrencies: Cryp
                         className="mt-2"
                     />
                      <div className="flex justify-between text-xs text-muted-foreground mt-1">
-                        <span>Shallow</span>
-                        <span>Deep</span>
+                        <span>{t('SlippageInterface.shallow')}</span>
+                        <span>{t('SlippageInterface.deep')}</span>
                     </div>
                 </div>
             </CardContent>
@@ -168,27 +170,27 @@ export function SlippageInterface({ cryptocurrencies }: { cryptocurrencies: Cryp
         {/* Results Card */}
         <Card className="lg:col-span-2 shadow-lg">
             <CardHeader>
-                <CardTitle>Slippage Simulation Results</CardTitle>
-                <CardDescription>Based on your settings, here is the estimated slippage.</CardDescription>
+                <CardTitle>{t('SlippageInterface.resultsTitle')}</CardTitle>
+                <CardDescription>{t('SlippageInterface.resultsDescription')}</CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
                     <div className="p-4 bg-secondary/50 rounded-lg">
-                        <p className="text-sm text-muted-foreground">Price Impact</p>
+                        <p className="text-sm text-muted-foreground">{t('SlippageInterface.priceImpact')}</p>
                         <p className="text-2xl font-bold text-destructive">{simulationResults.priceImpact.toFixed(4)}%</p>
                     </div>
                     <div className="p-4 bg-secondary/50 rounded-lg">
-                        <p className="text-sm text-muted-foreground">Expected Output</p>
+                        <p className="text-sm text-muted-foreground">{t('SlippageInterface.expectedOutput')}</p>
                         <p className="text-2xl font-bold">{simulationResults.expectedOutput.toLocaleString('en-US', {maximumFractionDigits: 4})} {toToken.symbol}</p>
                     </div>
                      <div className="p-4 bg-secondary/50 rounded-lg">
-                        <p className="text-sm text-muted-foreground">Min. Received</p>
+                        <p className="text-sm text-muted-foreground">{t('SlippageInterface.minReceived')}</p>
                         <p className="text-2xl font-bold">{simulationResults.minReceived.toLocaleString('en-US', {maximumFractionDigits: 4})} {toToken.symbol}</p>
                     </div>
                 </div>
 
                 <div>
-                    <h4 className="font-semibold mb-4 text-center">Output Comparison</h4>
+                    <h4 className="font-semibold mb-4 text-center">{t('SlippageInterface.outputComparison')}</h4>
                     <ResponsiveContainer width="100%" height={300}>
                         <BarChart data={chartData} margin={{ top: 5, right: 20, left: 20, bottom: 5 }}>
                             <CartesianGrid strokeDasharray="3 3" />

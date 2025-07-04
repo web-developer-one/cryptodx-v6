@@ -34,7 +34,11 @@ const prompt = ai.definePrompt({
   name: 'translateTextsPrompt',
   input: {schema: TranslateTextsInputSchema},
   prompt: `You are a professional translator. Translate the values of the following JSON object into {{targetLanguage}}.
-It is crucial that you preserve the exact JSON structure, including all keys and nesting. Only translate the string values. Do not add any commentary or introductory text.
+It is crucial that you preserve the exact JSON structure, including all keys and nesting.
+Only translate the string values.
+Do NOT translate any text that is inside curly braces, like {this}. These are placeholders for variables and must remain in English.
+Do NOT translate cryptocurrency names (e.g., Bitcoin, Ethereum), their symbols (e.g., BTC, ETH), or technical terms like "API Key", "Market Cap", "TVL", "APR".
+Do not add any commentary or introductory text.
 
 Input JSON:
 \`\`\`json

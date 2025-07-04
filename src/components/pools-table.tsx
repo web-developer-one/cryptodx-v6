@@ -17,6 +17,7 @@ import { Button } from './ui/button';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { useLanguage } from '@/hooks/use-language';
 
 // Client-side only component to prevent hydration mismatch
 const FormattedCurrency = ({ value, currency }: { value: number, currency: SelectedCurrency }) => {
@@ -38,6 +39,7 @@ const FormattedCurrency = ({ value, currency }: { value: number, currency: Selec
 };
 
 export function PoolsTable({ pools, currency }: { pools: LiquidityPool[], currency: SelectedCurrency }) {
+    const { t } = useLanguage();
     
     return (
         <Card>
@@ -45,11 +47,11 @@ export function PoolsTable({ pools, currency }: { pools: LiquidityPool[], curren
                 <Table>
                     <TableHeader>
                         <TableRow>
-                            <TableHead>Pool</TableHead>
-                            <TableHead>Network</TableHead>
-                            <TableHead className="text-right">TVL</TableHead>
-                            <TableHead className="text-right">Volume (24h)</TableHead>
-                            <TableHead className="text-right">Actions</TableHead>
+                            <TableHead>{t('PoolsTable.pool')}</TableHead>
+                            <TableHead>{t('PoolsTable.network')}</TableHead>
+                            <TableHead className="text-right">{t('PoolsTable.tvl')}</TableHead>
+                            <TableHead className="text-right">{t('PoolsTable.volume24h')}</TableHead>
+                            <TableHead className="text-right">{t('PoolsTable.actions')}</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -88,7 +90,7 @@ export function PoolsTable({ pools, currency }: { pools: LiquidityPool[], curren
                                 <TableCell className="text-right">
                                      <Link href="/pools/add">
                                         <Button variant="outline" size="sm">
-                                            Add Liquidity
+                                            {t('PoolsTable.addLiquidity')}
                                             <ArrowRight className="ml-2 h-4 w-4" />
                                         </Button>
                                      </Link>

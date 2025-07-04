@@ -14,8 +14,10 @@ import { AlertTriangle, ShieldCheck, Loader2 } from 'lucide-react';
 import { checkTokenReputation, CheckTokenReputationOutput } from '@/ai/flows/check-token-reputation';
 import type { TokenDetails } from '@/lib/types';
 import { Card, CardContent } from '../ui/card';
+import { useLanguage } from '@/hooks/use-language';
 
 export function ReputationAlert({ token }: { token: TokenDetails }) {
+  const { t } = useLanguage();
   const [isLoading, setIsLoading] = useState(true);
   const [reputation, setReputation] = useState<CheckTokenReputationOutput | null>(null);
 
@@ -46,8 +48,8 @@ export function ReputationAlert({ token }: { token: TokenDetails }) {
         <CardContent className="p-4 flex items-center gap-4">
            <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
            <div>
-              <p className="font-semibold">Checking Reputation...</p>
-              <p className="text-sm text-muted-foreground">Analyzing token history for known issues.</p>
+              <p className="font-semibold">{t('ReputationAlert.checking')}</p>
+              <p className="text-sm text-muted-foreground">{t('ReputationAlert.checkingDescription')}</p>
            </div>
         </CardContent>
       </Card>
@@ -63,8 +65,8 @@ export function ReputationAlert({ token }: { token: TokenDetails }) {
           <CardContent className="p-4 flex items-center gap-4">
             <ShieldCheck className="h-6 w-6 text-green-500" />
             <div>
-              <p className="font-semibold text-green-700 dark:text-green-400">Reputation Clear</p>
-              <p className="text-sm text-muted-foreground">No significant negative events found in our scan.</p>
+              <p className="font-semibold text-green-700 dark:text-green-400">{t('ReputationAlert.clear')}</p>
+              <p className="text-sm text-muted-foreground">{t('ReputationAlert.clearDescription')}</p>
             </div>
           </CardContent>
         </Card>
@@ -77,21 +79,21 @@ export function ReputationAlert({ token }: { token: TokenDetails }) {
         <AlertDialogHeader>
           <AlertDialogTitle className="flex items-center gap-2">
             <AlertTriangle className="h-6 w-6 text-destructive" />
-            <span>Reputation Alert for {token.name} ({token.symbol})</span>
+            <span>{t('ReputationAlert.alertTitle').replace('{tokenName}', token.name).replace('{tokenSymbol}', token.symbol)}</span>
           </AlertDialogTitle>
           <AlertDialogDescription asChild>
             <div className="pt-4 text-base space-y-4">
                 <p>{reputation.reasoning}</p>
                 {reputation.sourceUrl && (
                     <p className="text-sm">
-                        Source: <a href={reputation.sourceUrl} target="_blank" rel="noopener noreferrer" className="text-primary underline hover:text-primary/80 break-all">{reputation.sourceUrl}</a>
+                        {t('ReputationAlert.source')}: <a href={reputation.sourceUrl} target="_blank" rel="noopener noreferrer" className="text-primary underline hover:text-primary/80 break-all">{reputation.sourceUrl}</a>
                     </p>
                 )}
             </div>
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogAction>Acknowledge and Close</AlertDialogAction>
+          <AlertDialogAction>{t('BuyInterface.acknowledgeAndContinue')}</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

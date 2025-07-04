@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { ComposedChart } from 'recharts';
+import { useLanguage } from '@/hooks/use-language';
 
 // Generate some fake price data for the chart
 const generateChartData = (token: TokenDetails) => {
@@ -151,13 +152,17 @@ const Candlestick = (props: any) => {
 
 
 export function PriceChart({ token }: { token: TokenDetails }) {
+  const { t } = useLanguage();
   const [chartType, setChartType] = useState('line');
   const chartData = useMemo(() => generateChartData(token), [token]);
   const [timeframe, setTimeframe] = useState('1M');
   const [brushStartIndex, setBrushStartIndex] = useState(chartData.length > 30 ? chartData.length - 30 : 0);
 
   const timeframes = ['24H', '7D', '1M', '3M', '6M', '1Y'];
-  const chartViews = ['Line', 'Candlestick'];
+  const chartViews = [
+    { key: 'line', name: t('TokenDetail.line')}, 
+    { key: 'candlestick', name: t('TokenDetail.candlestick')}
+  ];
 
   const handleTimeframeChange = (tf: string) => {
     setTimeframe(tf);
@@ -215,27 +220,27 @@ export function PriceChart({ token }: { token: TokenDetails }) {
       <CardHeader>
         <div className="flex items-start justify-between">
             <div className='flex flex-col gap-2'>
-                <CardTitle>{token.name} Price Chart</CardTitle>
+                <CardTitle>{t('TokenDetail.priceChartTitle').replace('{tokenName}', token.name)}</CardTitle>
                 <div className="flex items-center gap-1">
                     {chartViews.map((view) => (
                       <Button
-                        key={view}
+                        key={view.key}
                         variant="ghost"
                         size="sm"
                         className={cn(
                           "h-7 px-2 text-xs",
-                          chartType === view.toLowerCase() && "bg-accent text-accent-foreground"
+                          chartType === view.key && "bg-accent text-accent-foreground"
                         )}
-                        onClick={() => setChartType(view.toLowerCase())}
+                        onClick={() => setChartType(view.key)}
                       >
-                        {view}
+                        {view.name}
                       </Button>
                     ))}
                 </div>
             </div>
           <div className="flex flex-col items-end gap-2">
               <Link href="/" passHref>
-                  <Button>Trade {token.symbol}</Button>
+                  <Button>{t('TokenDetail.trade').replace('{symbol}', token.symbol)}</Button>
               </Link>
               <div className="flex items-center justify-end gap-1">
                 {timeframes.map((tf) => (

@@ -32,6 +32,7 @@ import {
 import { getLatestListings } from "@/lib/coinmarketcap";
 import { LineChart, Line, ResponsiveContainer } from "recharts";
 import Link from "next/link";
+import { useLanguage } from "@/hooks/use-language";
 
 const TOKENS_PER_PAGE = 20;
 
@@ -146,6 +147,7 @@ export function TokenExplorer({
   cryptocurrencies: Cryptocurrency[];
 }) {
   const router = useRouter();
+  const { t } = useLanguage();
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedCurrency, setSelectedCurrency] = useState<SelectedCurrency>(
@@ -218,18 +220,18 @@ export function TokenExplorer({
     <div className="flex flex-col gap-6">
       <div className="flex justify-between items-center">
         <h1 className="text-3xl font-bold flex items-center gap-2">
-          Explore Tokens
+          {t('TokenExplorer.title')}
           {isUpdating && (
             <span className="h-2 w-2 animate-pulse rounded-full bg-primary" />
           )}
         </h1>
         <div className="flex flex-1 items-center justify-end gap-4">
           <Link href="/tokens/panels" passHref>
-            <Button variant="outline">Panel View</Button>
+            <Button variant="outline">{t('TokenExplorer.panelView')}</Button>
           </Link>
           <div className="w-full max-w-[300px]">
             <Input
-              placeholder="Search tokens..."
+              placeholder={t('TokenExplorer.search')}
               value={searchQuery}
               onChange={(e) => {
                 setSearchQuery(e.target.value);
@@ -244,7 +246,7 @@ export function TokenExplorer({
               defaultValue={selectedCurrency.symbol}
             >
               <SelectTrigger className="h-9">
-                <SelectValue placeholder="Select currency..." />
+                <SelectValue placeholder={t('PoolsClient.selectCurrency')} />
               </SelectTrigger>
               <SelectContent>
                 {supportedCurrencies.map((currency) => (
@@ -266,14 +268,14 @@ export function TokenExplorer({
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead className="w-[50px] text-center">#</TableHead>
-                <TableHead>Name</TableHead>
-                <TableHead className="text-right">Price</TableHead>
-                <TableHead className="text-right">Changes 24h</TableHead>
-                <TableHead className="text-right">Market Cap</TableHead>
-                <TableHead className="text-right">Volume (24h)</TableHead>
-                <TableHead className="text-right">Available Supply</TableHead>
-                <TableHead className="text-right">Price Graph (7d)</TableHead>
+                <TableHead className="w-[50px] text-center">{t('TokenExplorer.headerRank')}</TableHead>
+                <TableHead>{t('TokenExplorer.headerName')}</TableHead>
+                <TableHead className="text-right">{t('TokenExplorer.headerPrice')}</TableHead>
+                <TableHead className="text-right">{t('TokenExplorer.headerChange24h')}</TableHead>
+                <TableHead className="text-right">{t('TokenExplorer.headerMarketCap')}</TableHead>
+                <TableHead className="text-right">{t('TokenExplorer.headerVolume24h')}</TableHead>
+                <TableHead className="text-right">{t('TokenExplorer.headerAvailableSupply')}</TableHead>
+                <TableHead className="text-right">{t('TokenExplorer.headerPriceGraph7d')}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -353,12 +355,11 @@ export function TokenExplorer({
         {totalPages > 1 && (
           <CardFooter className="flex items-center justify-between pt-6">
             <span className="text-sm text-muted-foreground">
-              Showing {((currentPage - 1) * TOKENS_PER_PAGE) + 1} -{" "}
-              {Math.min(
-                currentPage * TOKENS_PER_PAGE,
-                sortedTokens.length
-              )}{" "}
-              of {sortedTokens.length} tokens
+              {t('TokenExplorer.showing')
+                .replace('{start}', (((currentPage - 1) * TOKENS_PER_PAGE) + 1).toString())
+                .replace('{end}', Math.min(currentPage * TOKENS_PER_PAGE, sortedTokens.length).toString())
+                .replace('{total}', sortedTokens.length.toString())
+              }
             </span>
             <div className="flex items-center justify-center gap-4">
               <Button
@@ -366,17 +367,20 @@ export function TokenExplorer({
                 onClick={handlePreviousPage}
                 disabled={currentPage === 1}
               >
-                Previous
+                {t('TokenExplorer.previous')}
               </Button>
               <span className="text-sm font-medium">
-                Page {currentPage} of {totalPages}
+                {t('TokenExplorer.page')
+                  .replace('{current}', currentPage.toString())
+                  .replace('{total}', totalPages.toString())
+                }
               </span>
               <Button
                 variant="outline"
                 onClick={handleNextPage}
                 disabled={currentPage === totalPages}
               >
-                Next
+                {t('TokenExplorer.next')}
               </Button>
             </div>
           </CardFooter>
