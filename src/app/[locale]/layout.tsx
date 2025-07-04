@@ -1,1 +1,9 @@
-// This file is intentionally blank to resolve a routing conflict.
+import React from 'react';
+
+export default function LocaleLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return <>{children}</>;
+}

@@ -3,7 +3,7 @@
 
 import React, { createContext, useContext, useState, useEffect, useCallback, useMemo } from 'react';
 import { translateTexts } from '@/ai/flows/translate-text';
-import englishMessages from '@/messages/en.json';
+import englishMessages from '../../messages/en.json';
 import { useToast } from './use-toast';
 import { get, set } from 'idb-keyval';
 
