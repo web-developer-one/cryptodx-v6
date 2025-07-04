@@ -79,8 +79,8 @@ interface CmcQuoteResponse {
 
 
 export async function getLatestListings(): Promise<Cryptocurrency[]> {
-  if (!API_KEY) {
-    console.error("CoinMarketCap API key is not set. Please add COINMARKETCAP_API_KEY to your environment variables.");
+  if (!API_KEY || API_KEY === 'YOUR_API_KEY_HERE') {
+    console.error("CoinMarketCap API key is not set or is a placeholder. Please add COINMARKETCAP_API_KEY to your .env file.");
     return [];
   }
   try {
@@ -155,8 +155,8 @@ export async function getLatestListings(): Promise<Cryptocurrency[]> {
 }
 
 export async function getTokenDetails(id: string): Promise<TokenDetails | null> {
-    if (!API_KEY) {
-      console.error("CoinMarketCap API key is not set. Please add COINMARKETCAP_API_KEY to your environment variables.");
+    if (!API_KEY || API_KEY === 'YOUR_API_KEY_HERE') {
+      console.error("CoinMarketCap API key is not set or is a placeholder. Please add COINMARKETCAP_API_KEY to your .env file.");
       return null;
     }
     try {

@@ -1,4 +1,3 @@
-// This page is disabled to prevent routing conflicts.
-export default function DisabledPage() {
-  return null;
-}
+// This file is intentionally left without a default export to prevent Next.js
+// from treating it as a page, which resolves a routing conflict causing
+// an "Internal Server Error".
