@@ -1,3 +1,4 @@
+
 'use client';
 
 import {
@@ -202,9 +203,13 @@ export function TransactionsTable({ transactions, currency }: { transactions: Tr
                                 </TableCell>
                                 <TableCell className="text-right">
                                      <div className="flex items-center justify-end">
-                                        <a href={`https://etherscan.io/tx/${tx.id}`} target="_blank" rel="noopener noreferrer" className="text-primary">
+                                        <a href={`https://etherscan.io/tx/${tx.id}`} target="_blank" rel="noopener noreferrer">
                                             <Button variant="ghost" size="icon" className="h-6 w-6">
-                                                <ArrowUpRight className="h-4 w-4" />
+                                                <ArrowUpRight className={cn("h-4 w-4", {
+                                                    'text-success': tx.status === 'Completed',
+                                                    'text-warning': tx.status === 'Pending',
+                                                    'text-destructive': tx.status === 'Failed',
+                                                })} />
                                             </Button>
                                         </a>
                                         <CopyButton textToCopy={tx.id} itemLabel="hash" />
