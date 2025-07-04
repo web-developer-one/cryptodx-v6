@@ -2,12 +2,10 @@
 'use server';
 
 import type { Cryptocurrency, TokenDetails } from './types';
-import { mockCryptoData, getMockTokenDetails } from './mock-data';
 
 // This is a server-only file, so the API key is safe.
 const API_KEY = process.env.COINMARKETCAP_API_KEY;
 const BASE_URL = 'https://pro-api.coinmarketcap.com';
-const USE_MOCK_DATA = !API_KEY || API_KEY === 'YOUR_API_KEY_HERE';
 
 interface CmcListingResponse {
   data: {
@@ -81,9 +79,9 @@ interface CmcQuoteResponse {
 
 
 export async function getLatestListings(): Promise<{ data: Cryptocurrency[]; error: string | null }> {
-  if (USE_MOCK_DATA) {
-    console.log("Using mock data for cryptocurrency listings. To use live data, set COINMARKETCAP_API_KEY in your environment.");
-    return { data: mockCryptoData, error: null };
+  if (!API_KEY || API_KEY === 'YOUR_API_KEY_HERE') {
+    console.error("CoinMarketCap API key is not configured. Please set COINMARKETCAP_API_KEY in your environment.");
+    return { data: [], error: 'API_KEY_MISSING' };
   }
   
   try {
@@ -149,14 +147,9 @@ export async function getLatestListings(): Promise<{ data: Cryptocurrency[]; err
 }
 
 export async function getTokenDetails(id: string): Promise<{ token: TokenDetails | null; error: string | null }> {
-    if (USE_MOCK_DATA) {
-        console.log(`Using mock data for token details (ID: ${id}). To use live data, set COINMARKETCAP_API_KEY in your environment.`);
-        const mockToken = getMockTokenDetails(id);
-        if (mockToken) {
-            return { token: mockToken, error: null };
-        } else {
-            return { token: null, error: 'API_NO_DATA' };
-        }
+    if (!API_KEY || API_KEY === 'YOUR_API_KEY_HERE') {
+        console.error("CoinMarketCap API key is not configured. Please set COINMARKETCAP_API_KEY in your environment.");
+        return { token: null, error: 'API_KEY_MISSING' };
     }
 
     try {
