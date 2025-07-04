@@ -11,11 +11,57 @@ import { cryptoChat } from '@/ai/flows/chatbot';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { SiteLogo } from './site-logo';
 import { cn } from '@/lib/utils';
+import Link from 'next/link';
 
 
 type Message = {
     role: 'user' | 'model';
     content: string;
+};
+
+const renderMessageContent = (content: string, setIsOpen: (open: boolean) => void) => {
+  const linkRegex = /\[([^\]]+)\]\(([^)]+)\)/g;
+  let lastIndex = 0;
+  const result: (string | JSX.Element)[] = [];
+  let match;
+
+  while ((match = linkRegex.exec(content)) !== null) {
+    // Push the text before the link
+    if (match.index > lastIndex) {
+      result.push(content.substring(lastIndex, match.index));
+    }
+
+    const [fullMatch, text, href] = match;
+
+    // Push the link component
+    if (href.startsWith('/')) {
+      result.push(
+        <Link
+          key={lastIndex}
+          href={href}
+          className="text-primary underline hover:text-primary/80"
+          onClick={() => setIsOpen(false)}
+        >
+          {text}
+        </Link>
+      );
+    } else {
+      result.push(
+        <a key={lastIndex} href={href} target="_blank" rel="noopener noreferrer" className="text-primary underline hover:text-primary/80">
+          {text}
+        </a>
+      );
+    }
+
+    lastIndex = match.index + fullMatch.length;
+  }
+
+  // Push the remaining text after the last link
+  if (lastIndex < content.length) {
+    result.push(content.substring(lastIndex));
+  }
+
+  return result.length > 0 ? <>{result}</> : <>{content}</>;
 };
 
 export function Chatbot() {
@@ -121,7 +167,7 @@ export function Chatbot() {
                                             ? 'bg-primary text-primary-foreground' 
                                             : 'bg-muted'
                                     )}>
-                                        {message.content}
+                                        {message.role === 'model' ? renderMessageContent(message.content, setIsOpen) : message.content}
                                     </div>
                                      {message.role === 'user' && (
                                         <Avatar className="h-8 w-8 border">

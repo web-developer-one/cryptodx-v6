@@ -9,6 +9,7 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
+import { getLatestListings } from '@/lib/coinmarketcap';
 
 const MessageSchema = z.object({
   role: z.enum(['user', 'model']),
@@ -31,12 +32,55 @@ export async function cryptoChat(input: CryptoChatInput): Promise<CryptoChatOutp
   return cryptoChatFlow(input);
 }
 
+const getTokenInfo = ai.defineTool(
+    {
+        name: 'getTokenInfo',
+        description: 'Looks up a cryptocurrency on the CryptoDx platform by its name or symbol. Returns the token ID if found, which can be used to build a link to the token detail page.',
+        inputSchema: z.object({
+            tokenQuery: z.string().describe('The name or symbol of the cryptocurrency to search for, e.g., "Bitcoin" or "BTC".'),
+        }),
+        outputSchema: z.object({
+            found: z.boolean(),
+            id: z.number().optional(),
+            name: z.string().optional(),
+            symbol: z.string().optional(),
+        }),
+    },
+    async ({ tokenQuery }) => {
+        const tokens = await getLatestListings();
+        if (!tokens || tokens.length === 0) {
+            return { found: false };
+        }
+
+        const query = tokenQuery.toLowerCase();
+        const token = tokens.find(
+            (t) => t.name.toLowerCase() === query || t.symbol.toLowerCase() === query
+        );
+
+        if (token) {
+            return {
+                found: true,
+                id: token.id,
+                name: token.name,
+                symbol: token.symbol,
+            };
+        }
+        return { found: false };
+    }
+);
+
 const prompt = ai.definePrompt({
   name: 'cryptoChatPrompt',
   input: {schema: CryptoChatInputSchema},
   output: {schema: CryptoChatOutputSchema},
-  prompt: `You are a helpful AI assistant.
+  tools: [getTokenInfo],
+  prompt: `You are a helpful AI assistant for the CryptoDx platform.
 Engage in a friendly conversation, using the provided history to maintain context.
+
+If the user asks about a specific cryptocurrency, use the \`getTokenInfo\` tool to check if it's available on the platform.
+- If the token is found, answer the user's question and include a Markdown link to the token's detail page in your response.
+- The link format MUST be: \`[View {Token Name} details](/tokens/{id})\`. For example: \`[View Bitcoin details](/tokens/1)\`.
+- If the token is not found, inform the user that you couldn't find information about that token on the platform.
 
 {{#each history}}
 {{role}}: {{{content}}}
