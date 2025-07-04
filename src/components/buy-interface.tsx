@@ -50,10 +50,6 @@ export function BuyInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocur
   const { isReputationCheckEnabled } = useReputation();
 
   useEffect(() => {
-    document.title = t('PageTitles.buy');
-  }, [t]);
-
-  useEffect(() => {
     if (fiatAmount && toToken?.price > 0 && fromFiat) {
       const amountInUsd = parseFloat(fiatAmount) / fromFiat.rate;
       const amount = amountInUsd / toToken.price;

@@ -50,10 +50,6 @@ export function SellInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocu
   const { isReputationCheckEnabled } = useReputation();
 
   useEffect(() => {
-    document.title = t('PageTitles.sell');
-  }, [t]);
-
-  useEffect(() => {
     if (cryptoAmount && fromToken?.price > 0 && toFiat) {
       const amountInUsd = parseFloat(cryptoAmount) * fromToken.price;
       const convertedAmount = amountInUsd * toFiat.rate;

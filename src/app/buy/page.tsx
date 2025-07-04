@@ -1,27 +1,56 @@
+'use client';
 
 import { getLatestListings } from "@/lib/coinmarketcap";
 import { ApiErrorCard } from "@/components/api-error-card";
 import { TradeNav } from "@/components/trade-nav";
 import { BuyInterface } from "@/components/buy-interface";
+import type { Cryptocurrency } from "@/lib/types";
+import { useEffect, useState } from "react";
+import { useLanguage } from "@/hooks/use-language";
+import { Skeleton } from "@/components/ui/skeleton";
 
-export default async function BuyPage() {
-  const { data: cryptoData, error } = await getLatestListings();
+function useCryptoData() {
+  const [data, setData] = useState<{ cryptoData: Cryptocurrency[]; error: string | null }>({ cryptoData: [], error: null });
 
-  if (error) {
-    return (
-      <div className="container flex-1 flex flex-col items-center py-8 gap-6">
-        <TradeNav />
+  useEffect(() => {
+    async function fetchData() {
+      const { data: cryptoData, error } = await getLatestListings();
+      setData({ cryptoData: error ? [] : cryptoData, error });
+    }
+    fetchData();
+  }, []);
+
+  return data;
+}
+
+export default function BuyPage() {
+  const { cryptoData, error } = useCryptoData();
+  const { t } = useLanguage();
+
+  useEffect(() => {
+    document.title = t('PageTitles.buy');
+  }, [t]);
+
+  const renderContent = () => {
+    if (error) {
+      return (
         <div className="w-full max-w-md mt-6">
-            <ApiErrorCard error={error} context="Cryptocurrency Data" />
+          <ApiErrorCard error={error} context="Cryptocurrency Data" />
         </div>
-      </div>
-    );
-  }
+      );
+    }
+    
+    if (cryptoData.length === 0) {
+      return <Skeleton className="h-[480px] w-full max-w-md mt-6" />;
+    }
+
+    return <BuyInterface cryptocurrencies={cryptoData} />;
+  };
 
   return (
     <div className="container flex-1 flex flex-col items-center py-8 gap-6">
       <TradeNav />
-      <BuyInterface cryptocurrencies={cryptoData} />
+      {renderContent()}
     </div>
   );
 }
