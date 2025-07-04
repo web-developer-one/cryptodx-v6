@@ -1,1 +1,4 @@
-// This file is intentionally left empty to resolve a routing conflict.
+// This layout is disabled to prevent routing conflicts.
+export default function DisabledLayout() {
+  return null;
+}
