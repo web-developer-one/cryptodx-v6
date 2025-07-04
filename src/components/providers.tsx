@@ -2,11 +2,14 @@
 
 import React from 'react';
 import { WalletProvider } from '@/hooks/use-wallet';
+import { ReputationProvider } from '@/hooks/use-reputation';
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <WalletProvider>
-      {children}
+      <ReputationProvider>
+        {children}
+      </ReputationProvider>
     </WalletProvider>
   );
 }

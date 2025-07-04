@@ -39,6 +39,7 @@ import {
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "./ui/alert-dialog";
 import { useToast } from "@/hooks/use-toast";
 import { checkTokenReputation } from "@/ai/flows/check-token-reputation";
+import { useReputation } from "@/hooks/use-reputation";
 
 export function SwapInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[] }) {
   const [fromToken, setFromToken] = useState<Cryptocurrency>(cryptocurrencies[0]);
@@ -54,6 +55,7 @@ export function SwapInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocu
   const { toast } = useToast();
   const [isChecking, setIsChecking] = useState(false);
   const [reputationAlert, setReputationAlert] = useState<{ title: string; description: React.ReactNode } | null>(null);
+  const { isReputationCheckEnabled } = useReputation();
 
   const exchangeRate = useMemo(() => {
     if (fromToken?.price > 0 && toToken?.price > 0) {
@@ -157,6 +159,15 @@ export function SwapInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocu
 
   const handleSwapClick = async () => {
     if (!isWalletConnected || isChecking) return;
+
+    if (!isReputationCheckEnabled) {
+      toast({
+          title: "Swap Initiated (Simulated)",
+          description: "Reputation check was skipped. Your transaction is being processed.",
+      });
+      return;
+    }
+    
     setIsChecking(true);
     setReputationAlert(null);
 

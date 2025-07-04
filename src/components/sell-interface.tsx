@@ -13,6 +13,7 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import { useToast } from '@/hooks/use-toast';
 import { checkTokenReputation } from '@/ai/flows/check-token-reputation';
 import { AlertTriangle, Loader2 } from 'lucide-react';
+import { useReputation } from '@/hooks/use-reputation';
 
 type SupportedCurrency = {
     symbol: string;
@@ -43,6 +44,7 @@ export function SellInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocu
   const { toast } = useToast();
   const [isChecking, setIsChecking] = useState(false);
   const [reputationAlert, setReputationAlert] = useState<{ title: string; description: React.ReactNode } | null>(null);
+  const { isReputationCheckEnabled } = useReputation();
 
   useEffect(() => {
     if (cryptoAmount && fromToken?.price > 0 && toFiat) {
@@ -89,6 +91,15 @@ export function SellInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocu
 
   const handleSellClick = async () => {
     if (!isWalletConnected || isChecking) return;
+    
+    if (!isReputationCheckEnabled) {
+      toast({
+        title: "Sell Initiated (Simulated)",
+        description: "Reputation check was skipped. Continuing to payment provider.",
+      });
+      return;
+    }
+    
     setIsChecking(true);
     setReputationAlert(null);
 

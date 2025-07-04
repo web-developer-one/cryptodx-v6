@@ -43,6 +43,7 @@ import { SiteLogo } from "./site-logo";
 import { Switch } from "./ui/switch";
 import { Label } from "./ui/label";
 import { ScrollArea } from "./ui/scroll-area";
+import { useReputation } from "@/hooks/use-reputation";
 
 export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[] }) {
   const menuItems = [
@@ -113,6 +114,7 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
   const [hideSmallBalances, setHideSmallBalances] = React.useState(false);
   const [hideUnknownTokens, setHideUnknownTokens] = React.useState(true);
   const [selectedLanguage, setSelectedLanguage] = React.useState(languages[0]);
+  const { isReputationCheckEnabled, toggleReputationCheck } = useReputation();
   
   React.useEffect(() => {
     // If cryptocurrencies load after initial render, update selected network
@@ -267,6 +269,14 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
             <DropdownMenuContent align="end" className="w-64">
               <DropdownMenuLabel>Settings</DropdownMenuLabel>
               <DropdownMenuSeparator />
+               <DropdownMenuItem onSelect={(e) => e.preventDefault()} className="flex items-center justify-between">
+                <Label htmlFor="reputation-alert" className="font-normal cursor-pointer">Reputation Alert</Label>
+                <Switch
+                  id="reputation-alert"
+                  checked={isReputationCheckEnabled}
+                  onCheckedChange={toggleReputationCheck}
+                />
+              </DropdownMenuItem>
               <DropdownMenuItem onSelect={(e) => e.preventDefault()} className="flex items-center justify-between">
                 <Label htmlFor="hide-small-balances" className="font-normal cursor-pointer">Hide small balances</Label>
                 <Switch
