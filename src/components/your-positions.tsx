@@ -31,10 +31,6 @@ export function YourPositions({ cryptocurrencies }: { cryptocurrencies: Cryptocu
     const { t } = useLanguage();
     const [selectedCurrency, setSelectedCurrency] = useState<SelectedCurrency>(supportedCurrencies[0]);
 
-    useEffect(() => {
-        document.title = t('PageTitles.positions');
-    }, [t]);
-
     const handleCurrencyChange = (symbol: string) => {
         const currency = supportedCurrencies.find(c => c.symbol === symbol);
         if (currency) {
