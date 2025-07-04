@@ -8,8 +8,6 @@ import { Input } from "@/components/ui/input";
 import {
   Card,
   CardContent,
-  CardHeader,
-  CardTitle,
   CardFooter,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -218,50 +216,52 @@ export function TokenExplorer({
 
   return (
     <div className="flex flex-col gap-6">
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between gap-4">
-          <CardTitle className="flex items-center gap-2">
-            Tokens
-            {isUpdating && <span className="h-2 w-2 animate-pulse rounded-full bg-primary" />}
-          </CardTitle>
-          <div className="flex flex-1 items-center justify-end gap-4">
-            <Link href="/tokens/panels" passHref>
-              <Button variant="outline">Panel View</Button>
-            </Link>
-            <div className="w-full max-w-[300px]">
-              <Input
-                placeholder="Search tokens..."
-                value={searchQuery}
-                onChange={(e) => {
-                  setSearchQuery(e.target.value);
-                  setCurrentPage(1); // Reset to first page on new search
-                }}
-                className="h-9 text-sm"
-              />
-            </div>
-            <div className="w-full max-w-[220px]">
-              <Select
-                onValueChange={handleCurrencyChange}
-                defaultValue={selectedCurrency.symbol}
-              >
-                <SelectTrigger className="h-9">
-                  <SelectValue placeholder="Select currency..." />
-                </SelectTrigger>
-                <SelectContent>
-                  {supportedCurrencies.map((currency) => (
-                    <SelectItem key={currency.symbol} value={currency.symbol}>
-                      <div className="flex items-center gap-2">
-                        <span>
-                          {currency.symbol} - {currency.name}
-                        </span>
-                      </div>
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
+      <div className="flex justify-between items-center">
+        <h1 className="text-3xl font-bold flex items-center gap-2">
+          Explore Tokens
+          {isUpdating && (
+            <span className="h-2 w-2 animate-pulse rounded-full bg-primary" />
+          )}
+        </h1>
+        <div className="flex flex-1 items-center justify-end gap-4">
+          <Link href="/tokens/panels" passHref>
+            <Button variant="outline">Panel View</Button>
+          </Link>
+          <div className="w-full max-w-[300px]">
+            <Input
+              placeholder="Search tokens..."
+              value={searchQuery}
+              onChange={(e) => {
+                setSearchQuery(e.target.value);
+                setCurrentPage(1); // Reset to first page on new search
+              }}
+              className="h-9 text-sm"
+            />
           </div>
-        </CardHeader>
+          <div className="w-full max-w-[220px]">
+            <Select
+              onValueChange={handleCurrencyChange}
+              defaultValue={selectedCurrency.symbol}
+            >
+              <SelectTrigger className="h-9">
+                <SelectValue placeholder="Select currency..." />
+              </SelectTrigger>
+              <SelectContent>
+                {supportedCurrencies.map((currency) => (
+                  <SelectItem key={currency.symbol} value={currency.symbol}>
+                    <div className="flex items-center gap-2">
+                      <span>
+                        {currency.symbol} - {currency.name}
+                      </span>
+                    </div>
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
+      </div>
+      <Card>
         <CardContent className="p-0">
           <Table>
             <TableHeader>
