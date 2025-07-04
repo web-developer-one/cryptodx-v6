@@ -47,8 +47,11 @@ const getTokenInfo = ai.defineTool(
         }),
     },
     async ({ tokenQuery }) => {
-        const tokens = await getLatestListings();
-        if (!tokens || tokens.length === 0) {
+        const { data: tokens, error } = await getLatestListings();
+        if (error || !tokens || tokens.length === 0) {
+            if (error) {
+                console.error(`Chatbot tool 'getTokenInfo' failed to fetch tokens:`, error);
+            }
             return { found: false };
         }
 
