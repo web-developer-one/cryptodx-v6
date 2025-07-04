@@ -4,7 +4,7 @@
 import type { Cryptocurrency, TokenDetails } from './types';
 
 // This is a server-only file, so the API key is safe.
-const API_KEY = 'b7f8dc6a-a214-4b68-8746-84dc87096d7c';
+const API_KEY = process.env.COINMARKETCAP_API_KEY;
 const BASE_URL = 'https://pro-api.coinmarketcap.com';
 
 interface CmcListingResponse {
@@ -79,6 +79,10 @@ interface CmcQuoteResponse {
 
 
 export async function getLatestListings(): Promise<Cryptocurrency[]> {
+  if (!API_KEY) {
+    console.error("CoinMarketCap API key is not set. Please add COINMARKETCAP_API_KEY to your environment variables.");
+    return [];
+  }
   try {
     const listingsResponse = await fetch(`${BASE_URL}/v1/cryptocurrency/listings/latest?limit=100`, {
       headers: {
@@ -151,6 +155,10 @@ export async function getLatestListings(): Promise<Cryptocurrency[]> {
 }
 
 export async function getTokenDetails(id: string): Promise<TokenDetails | null> {
+    if (!API_KEY) {
+      console.error("CoinMarketCap API key is not set. Please add COINMARKETCAP_API_KEY to your environment variables.");
+      return null;
+    }
     try {
         const [quoteResponse, infoResponse] = await Promise.all([
             fetch(`${BASE_URL}/v1/cryptocurrency/quotes/latest?id=${id}`, {
