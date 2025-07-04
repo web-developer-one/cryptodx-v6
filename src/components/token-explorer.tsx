@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useMemo, useEffect } from "react";
@@ -159,7 +160,9 @@ export function TokenExplorer({
   useEffect(() => {
     const intervalId = setInterval(async () => {
       setIsUpdating(true);
-      const latestData = await getLatestListings();
+      // We only care about the data, not the error, for live updates.
+      // If fetching fails, we just keep the old data.
+      const { data: latestData } = await getLatestListings();
       if (latestData && latestData.length > 0) {
         setLiveTokens(latestData);
       }

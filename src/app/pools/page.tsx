@@ -1,5 +1,4 @@
 
-
 import { getLatestListings } from "@/lib/coinmarketcap";
 import { ApiErrorCard } from "@/components/api-error-card";
 import { ExploreNav } from "@/components/explore-nav";
