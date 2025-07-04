@@ -75,7 +75,6 @@ const getTokenInfo = ai.defineTool(
 const prompt = ai.definePrompt({
   name: 'cryptoChatPrompt',
   input: {schema: CryptoChatInputSchema},
-  output: {schema: CryptoChatOutputSchema},
   tools: [getTokenInfo],
   prompt: `You are a helpful and knowledgeable AI assistant for the CryptoDx platform, an expert in Blockchain, DeFi, Crypto, NFTs, and AI.
 Your goal is to provide accurate and helpful information to users on these topics.
@@ -105,18 +104,15 @@ const cryptoChatFlow = ai.defineFlow(
   async (input) => {
     try {
         const llmResponse = await prompt(input);
-        const output = llmResponse.output;
-
-        if (output?.response) {
-            return output;
-        }
-
+        
+        // Since we are not enforcing an output schema on the prompt, we rely on the raw text response.
         const rawText = llmResponse.text?.trim();
+
         if (rawText) {
             return { response: rawText };
         }
         
-        // This case handles when the model returns nothing, not an error.
+        // This case handles when the model returns nothing.
         return { response: "I'm sorry, I couldn't generate a response right now. Please try a different question." };
 
     } catch (e) {
