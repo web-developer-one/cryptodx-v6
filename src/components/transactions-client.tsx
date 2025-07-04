@@ -6,6 +6,9 @@ import type { Cryptocurrency, Transaction, SelectedCurrency, TransactionStatus }
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { TransactionsTable } from './transactions-table';
 import { useLanguage } from '@/hooks/use-language';
+import { getLatestListings } from '@/lib/coinmarketcap';
+import { ApiErrorCard } from './api-error-card';
+import { Skeleton } from './ui/skeleton';
 
 // Mocked data for supported fiat currencies and their rates against USD
 // In a real app, this would come from a currency conversion API
@@ -67,18 +70,30 @@ const generateMockTransactions = (cryptocurrencies: Cryptocurrency[]): Transacti
     })).sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime());
 };
 
-export function TransactionsClient({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[] }) {
+export function TransactionsClient() {
     const { t } = useLanguage();
     const [selectedCurrency, setSelectedCurrency] = useState<SelectedCurrency>(supportedCurrencies[0]);
     const [transactions, setTransactions] = useState<Transaction[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
         document.title = t('PageTitles.transactions');
     }, [t]);
 
     useEffect(() => {
-        setTransactions(generateMockTransactions(cryptocurrencies));
-    }, [cryptocurrencies]);
+        const fetchData = async () => {
+            setIsLoading(true);
+            const { data: cryptoData, error: fetchError } = await getLatestListings();
+            if (fetchError) {
+                setError(fetchError);
+            } else {
+                setTransactions(generateMockTransactions(cryptoData));
+            }
+            setIsLoading(false);
+        };
+        fetchData();
+    }, []);
 
 
     const handleCurrencyChange = (symbol: string) => {
@@ -87,6 +102,26 @@ export function TransactionsClient({ cryptocurrencies }: { cryptocurrencies: Cry
             setSelectedCurrency(currency);
         }
     };
+    
+    if (isLoading) {
+        return (
+            <div className="my-6">
+                <div className="flex justify-between items-center mb-6">
+                    <Skeleton className="h-10 w-72" />
+                    <Skeleton className="h-10 w-56" />
+                </div>
+                <Skeleton className="h-[600px] w-full" />
+            </div>
+        );
+    }
+    
+    if (error) {
+        return (
+            <div className="w-full max-w-lg mt-6 mx-auto">
+                <ApiErrorCard error={error} context="Cryptocurrency Data" />
+            </div>
+        );
+    }
 
     return (
         <>

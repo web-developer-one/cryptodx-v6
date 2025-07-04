@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useMemo, useEffect } from "react";
@@ -25,6 +26,8 @@ import { getLatestListings } from "@/lib/coinmarketcap";
 import { LineChart, Line, ResponsiveContainer } from "recharts";
 import Link from "next/link";
 import { useLanguage } from "@/hooks/use-language";
+import { ApiErrorCard } from "./api-error-card";
+import { Skeleton } from "./ui/skeleton";
 
 const TOKENS_PER_PAGE = 20;
 
@@ -104,11 +107,7 @@ const Sparkline = ({ data, change24h }: { data: { price: number }[], change24h: 
 };
 
 
-export function TokenPanels({
-  cryptocurrencies,
-}: {
-  cryptocurrencies: Cryptocurrency[];
-}) {
+export function TokenPanels() {
   const router = useRouter();
   const { t } = useLanguage();
   const [searchQuery, setSearchQuery] = useState("");
@@ -117,10 +116,28 @@ export function TokenPanels({
     supportedCurrencies[0]
   );
   const [liveTokens, setLiveTokens] =
-    useState<Cryptocurrency[]>(cryptocurrencies);
+    useState<Cryptocurrency[]>([]);
   const [isUpdating, setIsUpdating] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    document.title = t('PageTitles.tokens');
+  }, [t]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+        setIsLoading(true);
+        const { data, error } = await getLatestListings();
+        if (error) {
+            setError(error);
+        } else {
+            setLiveTokens(data);
+        }
+        setIsLoading(false);
+    }
+    fetchData();
+
     const intervalId = setInterval(async () => {
       setIsUpdating(true);
       const { data: latestData } = await getLatestListings();
@@ -176,6 +193,32 @@ export function TokenPanels({
       setSelectedCurrency(currency);
     }
   };
+
+  if (isLoading) {
+    return (
+        <div className="flex flex-col gap-6">
+            <div className="flex items-center justify-between gap-4">
+                <Skeleton className="h-10 w-48" />
+                <div className="flex flex-1 items-center justify-end gap-4">
+                    <Skeleton className="h-9 w-24" />
+                    <Skeleton className="h-9 w-48" />
+                    <Skeleton className="h-9 w-48" />
+                </div>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+                {Array.from({ length: 15 }).map((_, i) => <Skeleton key={i} className="h-48 w-full" />)}
+            </div>
+        </div>
+    );
+  }
+
+  if (error) {
+    return (
+        <div className="w-full max-w-lg mt-6 mx-auto">
+            <ApiErrorCard error={error} context="Cryptocurrency Data" />
+        </div>
+    );
+  }
 
   return (
     <div className="flex flex-col gap-6">
