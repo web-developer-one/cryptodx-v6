@@ -1,2 +1,1 @@
-// This file has been disabled to resolve a build error.
-// It previously contained configuration for the 'next-intl' library.
+// This file is intentionally blank as internationalization is not in use.
