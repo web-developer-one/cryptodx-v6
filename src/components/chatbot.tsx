@@ -13,6 +13,7 @@ import { SiteLogo } from './site-logo';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
 import { useLanguage } from '@/hooks/use-language';
+import { languages } from '@/lib/i18n';
 
 
 type Message = {
@@ -66,7 +67,7 @@ const renderMessageContent = (content: string, setIsOpen: (open: boolean) => voi
 };
 
 export function Chatbot() {
-    const { t } = useLanguage();
+    const { t, language } = useLanguage();
     const [isOpen, setIsOpen] = useState(false);
     const [messages, setMessages] = useState<Message[]>([
         { role: 'model', content: t('Chatbot.initialMessage') }
@@ -96,7 +97,12 @@ export function Chatbot() {
 
         try {
             const chatHistory = messages.map(m => ({ role: m.role, content: m.content }));
-            const result = await cryptoChat({ history: chatHistory, userMessage: userMessage.content });
+            const langName = languages.find(l => l.code === language)?.englishName || 'English';
+            const result = await cryptoChat({ 
+                history: chatHistory, 
+                userMessage: userMessage.content,
+                language: langName
+            });
             
             const responseText = result.response?.trim();
             if (responseText) {
