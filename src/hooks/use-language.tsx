@@ -56,13 +56,25 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
       console.warn("Could not read from IndexedDB, proceeding with network request.", e)
     }
 
-    const languageName = languages.find(l => l.code === langCode)?.name || langCode;
+    const languageToTranslateTo = languages.find(l => l.code === langCode);
+    if (!languageToTranslateTo) {
+        console.error(`Language with code ${langCode} not found.`);
+        toast({
+            variant: "destructive",
+            title: "Language Not Supported",
+            description: `The selected language code "${langCode}" is not configured.`,
+        });
+        return;
+    }
+
+    const languageNameForAI = languageToTranslateTo.englishName;
+    const languageDisplayName = languageToTranslateTo.displayName;
 
     setIsLoading(true);
     try {
       const result = await translateTexts({
         texts: englishMessages,
-        targetLanguage: languageName,
+        targetLanguage: languageNameForAI,
       });
       
       if (result && result.translations) {
@@ -74,11 +86,10 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
 
     } catch (error) {
       console.error("Translation failed:", error);
-      const langDisplayName = languages.find(l => l.code === langCode)?.name || langCode;
       toast({
         variant: "destructive",
         title: "Translation Error",
-        description: `Could not translate to ${langDisplayName}. Please try again later.`,
+        description: `Could not translate to ${languageDisplayName}. Please try again later.`,
       });
       setLanguageState('en'); // Revert to English on failure
       setTranslations(englishMessages);

@@ -1,9 +1,15 @@
 
 export const languages = [
-  { name: 'English', code: 'en' }, { name: 'Español', code: 'es' },
-  { name: 'Français', code: 'fr' }, { name: 'Deutsch', code: 'de' },
-  { name: 'Italiano', code: 'it' }, { name: 'Português', code: 'pt' },
-  { name: 'Русский', code: 'ru' }, { name: '日本語', code: 'ja' },
-  { name: '中文 (简体)', code: 'zh-CN' }, { name: '한국어', code: 'ko' },
-  { name: 'العربية', code: 'ar' }, { name: 'हिन्दी', code: 'hi' },
+  { displayName: 'English', englishName: 'English', code: 'en' },
+  { displayName: 'Español', englishName: 'Spanish', code: 'es' },
+  { displayName: 'Français', englishName: 'French', code: 'fr' },
+  { displayName: 'Deutsch', englishName: 'German', code: 'de' },
+  { displayName: 'Italiano', englishName: 'Italian', code: 'it' },
+  { displayName: 'Português', englishName: 'Portuguese', code: 'pt' },
+  { displayName: 'Русский', englishName: 'Russian', code: 'ru' },
+  { displayName: '日本語', englishName: 'Japanese', code: 'ja' },
+  { displayName: '中文 (简体)', englishName: 'Simplified Chinese', code: 'zh-CN' },
+  { displayName: '한국어', englishName: 'Korean', code: 'ko' },
+  { displayName: 'العربية', englishName: 'Arabic', code: 'ar' },
+  { displayName: 'हिन्दी', englishName: 'Hindi', code: 'hi' },
 ];

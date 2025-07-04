@@ -294,7 +294,7 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
                     {languages.map((lang) => (
                       <DropdownMenuItem key={lang.code} onSelect={() => setLanguage(lang.code)}>
                         <Check className={`mr-2 h-4 w-4 ${language === lang.code ? "opacity-100" : "opacity-0"}`} />
-                        {lang.name}
+                        {lang.displayName}
                       </DropdownMenuItem>
                     ))}
                   </ScrollArea>
