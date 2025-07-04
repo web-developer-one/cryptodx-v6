@@ -1,40 +1,17 @@
 import { getLatestListings } from "@/lib/coinmarketcap";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { AlertCircle } from "lucide-react";
+import { ApiErrorCard } from "@/components/api-error-card";
 import { SwapInterface } from "@/components/swap-interface";
 import { HowToExchange } from "@/components/how-to-exchange";
 import { Faq } from "@/components/faq";
 import { TradeNav } from "@/components/trade-nav";
 
 export default async function Home() {
-  const cryptoData = await getLatestListings();
+  const { data: cryptoData, error } = await getLatestListings();
 
-  if (!cryptoData || cryptoData.length === 0) {
+  if (error) {
     return (
       <div className="container flex-1 flex flex-col items-center justify-center py-8 gap-6">
-        <Card className="w-full max-w-lg mt-6">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <AlertCircle className="text-destructive" />
-              <span>Error</span>
-            </CardTitle>
-            <CardDescription>
-              Could not load cryptocurrency data.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <p className="text-sm text-muted-foreground">
-              There was an issue fetching data from the CoinMarketCap API. Please
-              check your API key or try again later.
-            </p>
-          </CardContent>
-        </Card>
+        <ApiErrorCard error={error} context="Cryptocurrency Data" />
       </div>
     );
   }

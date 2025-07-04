@@ -36,17 +36,21 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const cryptoData = await getLatestListings();
+  const { data: cryptoData, error } = await getLatestListings();
+  // In the root layout, we don't render an error page.
+  // We pass an empty array if data fetching fails, and child pages will show specific errors.
+  const finalCryptoData = error ? [] : cryptoData;
+  
   return (
     <html lang="en" suppressHydrationWarning className={`${inter.variable} ${spaceGrotesk.variable}`}>
       <body className="font-body antialiased">
         <Providers>
           <div className="flex flex-col min-h-screen">
-            <Header cryptocurrencies={cryptoData} />
+            <Header cryptocurrencies={finalCryptoData} />
             <main className="flex-1 flex flex-col">{children}</main>
             <div className="w-full py-12 flex justify-center border-y bg-background">
               <div className="container">
-                <MarketHighlights cryptocurrencies={cryptoData} />
+                <MarketHighlights cryptocurrencies={finalCryptoData} />
               </div>
             </div>
             <Footer />
