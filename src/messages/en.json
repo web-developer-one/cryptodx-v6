@@ -321,7 +321,10 @@
     "priceImpact": "Price Impact",
     "expectedOutput": "Expected Output",
     "minReceived": "Min. Received",
-    "outputComparison": "Output Comparison"
+    "outputComparison": "Output Comparison",
+    "chartLabelOutput": "Output",
+    "chartLegendExpected": "Expected",
+    "chartLegendMinReceived": "Guaranteed Minimum"
   },
   "SpotPage": {
     "title": "Spot Trading",

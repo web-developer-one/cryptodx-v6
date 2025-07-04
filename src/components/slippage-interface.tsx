@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useMemo, useEffect } from 'react';
@@ -77,13 +78,15 @@ export function SlippageInterface({ cryptocurrencies }: { cryptocurrencies: Cryp
 
   }, [tradeAmount, fromToken, toToken, liquidityMultiplier]);
 
-  const chartData = useMemo(() => ([
-    { 
-        name: 'Output', 
-        'Expected': simulationResults.expectedOutput, 
-        'Guaranteed Minimum': simulationResults.minReceived 
-    }
-  ]), [simulationResults]);
+  const chartData = useMemo(() => {
+    const expectedKey = t('SlippageInterface.chartLegendExpected');
+    const minReceivedKey = t('SlippageInterface.chartLegendMinReceived');
+    return [{
+      name: t('SlippageInterface.chartLabelOutput'),
+      [expectedKey]: simulationResults.expectedOutput,
+      [minReceivedKey]: simulationResults.minReceived,
+    }];
+  }, [simulationResults, t]);
 
 
   return (
@@ -208,8 +211,8 @@ export function SlippageInterface({ cryptocurrencies }: { cryptocurrencies: Cryp
                                  formatter={(value: number) => [`${value.toLocaleString('en-US', {maximumFractionDigits: 4})} ${toToken.symbol}`]}
                             />
                             <Legend wrapperStyle={{fontSize: "12px"}}/>
-                            <Bar dataKey="Expected" fill="hsl(var(--primary))" radius={[4, 4, 0, 0]} />
-                            <Bar dataKey="Guaranteed Minimum" fill="hsl(var(--destructive))" radius={[4, 4, 0, 0]} />
+                            <Bar name={t('SlippageInterface.chartLegendExpected')} dataKey={t('SlippageInterface.chartLegendExpected')} fill="hsl(var(--primary))" radius={[4, 4, 0, 0]} />
+                            <Bar name={t('SlippageInterface.chartLegendMinReceived')} dataKey={t('SlippageInterface.chartLegendMinReceived')} fill="hsl(var(--destructive))" radius={[4, 4, 0, 0]} />
                         </BarChart>
                     </ResponsiveContainer>
                 </div>
