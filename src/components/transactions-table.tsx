@@ -141,12 +141,11 @@ const TimeAgo = ({ timestamp }: { timestamp: Date }) => {
 const StatusBadge = ({ status }: { status: TransactionStatus }) => {
     return (
         <Badge
-            variant={
-                status === 'Completed' ? 'default' :
-                status === 'Pending' ? 'secondary' : 'destructive'
-            }
-            className={cn('capitalize', {
-                'bg-primary/20 text-primary hover:bg-primary/30': status === 'Completed'
+            variant={'outline'}
+            className={cn('capitalize border-transparent font-semibold', {
+                'bg-success text-success-foreground': status === 'Completed',
+                'bg-warning text-warning-foreground': status === 'Pending',
+                'bg-destructive text-destructive-foreground': status === 'Failed',
             })}
         >
             {status}
