@@ -48,6 +48,7 @@ import { Label } from "./ui/label";
 import { ScrollArea } from "./ui/scroll-area";
 import { useReputation } from "@/hooks/use-reputation";
 import { useLanguage } from "@/hooks/use-language";
+import { languages } from "@/lib/i18n";
 
 export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[] }) {
   const { t, language, setLanguage, isLoading: isTranslating } = useLanguage();
@@ -89,14 +90,6 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
     { name: 'BNB Chain', symbol: 'BNB' },
   ];
   
-  const languages = [
-    { name: 'English', code: 'en' }, { name: 'Español', code: 'es' },
-    { name: 'Français', code: 'fr' }, { name: 'Deutsch', code: 'de' },
-    { name: 'Italiano', code: 'it' }, { name: 'Português', code: 'pt' },
-    { name: 'Русский', code: 'ru' }, { name: '日本語', code: 'ja' },
-    { name: '中文 (简体)', code: 'zh-CN' }, { name: '한국어', code: 'ko' },
-    { name: 'العربية', code: 'ar' }, { name: 'हिन्दी', code: 'hi' },
-  ];
 
   const networks = React.useMemo(() => {
     return networkOptions.map(opt => {

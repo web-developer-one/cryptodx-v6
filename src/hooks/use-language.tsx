@@ -6,6 +6,7 @@ import { translateTexts } from '@/ai/flows/translate-text';
 import englishMessages from '../../messages/en.json';
 import { useToast } from './use-toast';
 import { get, set } from 'idb-keyval';
+import { languages } from '@/lib/i18n';
 
 type Translations = Record<string, any>;
 
@@ -35,18 +36,18 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
     setLanguage(savedLang);
   }, []);
 
-  const setLanguage = useCallback(async (lang: string) => {
-    setLanguageState(lang);
-    localStorage.setItem('language', lang);
+  const setLanguage = useCallback(async (langCode: string) => {
+    setLanguageState(langCode);
+    localStorage.setItem('language', langCode);
 
-    if (lang === 'en') {
+    if (langCode === 'en') {
       setTranslations(englishMessages);
       return;
     }
     
     // Check cache first
     try {
-      const cachedTranslations = await get(`translations_${lang}`);
+      const cachedTranslations = await get(`translations_${langCode}`);
       if (cachedTranslations) {
         setTranslations(cachedTranslations);
         return;
@@ -55,27 +56,29 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
       console.warn("Could not read from IndexedDB, proceeding with network request.", e)
     }
 
+    const languageName = languages.find(l => l.code === langCode)?.name || langCode;
 
     setIsLoading(true);
     try {
       const result = await translateTexts({
         texts: englishMessages,
-        targetLanguage: lang,
+        targetLanguage: languageName,
       });
       
       if (result && result.translations) {
         setTranslations(result.translations);
-        await set(`translations_${lang}`, result.translations); // Cache the result
+        await set(`translations_${langCode}`, result.translations); // Cache the result
       } else {
         throw new Error("AI did not return translations.");
       }
 
     } catch (error) {
       console.error("Translation failed:", error);
+      const langDisplayName = languages.find(l => l.code === langCode)?.name || langCode;
       toast({
         variant: "destructive",
         title: "Translation Error",
-        description: `Could not translate to ${lang}. Please try again later.`,
+        description: `Could not translate to ${langDisplayName}. Please try again later.`,
       });
       setLanguageState('en'); // Revert to English on failure
       setTranslations(englishMessages);
