@@ -39,7 +39,7 @@ export function Chatbot() {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (!inputValue.trim()) return;
+        if (!inputValue.trim() || isLoading) return;
 
         const userMessage: Message = { role: 'user', content: inputValue };
         setMessages(prev => [...prev, userMessage]);
@@ -49,8 +49,15 @@ export function Chatbot() {
         try {
             const chatHistory = messages.map(m => ({ role: m.role, content: m.content }));
             const result = await cryptoChat({ history: chatHistory, userMessage: userMessage.content });
-            const modelMessage: Message = { role: 'model', content: result.response };
-            setMessages(prev => [...prev, modelMessage]);
+            
+            const responseText = result.response?.trim();
+            if (responseText) {
+                const modelMessage: Message = { role: 'model', content: responseText };
+                setMessages(prev => [...prev, modelMessage]);
+            } else {
+                 const errorMessage: Message = { role: 'model', content: "I'm having trouble generating a response right now. Please try a different question." };
+                setMessages(prev => [...prev, errorMessage]);
+            }
         } catch (error) {
             console.error("Error calling chatbot flow:", error);
             const errorMessage: Message = { role: 'model', content: "Sorry, I'm having trouble connecting right now. Please try again later." };
