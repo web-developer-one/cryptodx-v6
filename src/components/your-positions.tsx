@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useWallet } from '@/hooks/use-wallet';
@@ -8,7 +9,7 @@ import { Briefcase, Layers } from 'lucide-react';
 import Link from 'next/link';
 import { PositionsTable } from '@/components/positions-table';
 import type { Cryptocurrency, Position, SelectedCurrency } from '@/lib/types';
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useLanguage } from '@/hooks/use-language';
 
@@ -29,6 +30,10 @@ export function YourPositions({ cryptocurrencies }: { cryptocurrencies: Cryptocu
     const { isActive } = useWallet();
     const { t } = useLanguage();
     const [selectedCurrency, setSelectedCurrency] = useState<SelectedCurrency>(supportedCurrencies[0]);
+
+    useEffect(() => {
+        document.title = t('PageTitles.positions');
+    }, [t]);
 
     const handleCurrencyChange = (symbol: string) => {
         const currency = supportedCurrencies.find(c => c.symbol === symbol);

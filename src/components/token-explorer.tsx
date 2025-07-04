@@ -158,6 +158,10 @@ export function TokenExplorer({
   const [isUpdating, setIsUpdating] = useState(false);
 
   useEffect(() => {
+    document.title = t('PageTitles.tokens');
+  }, [t]);
+
+  useEffect(() => {
     const intervalId = setInterval(async () => {
       setIsUpdating(true);
       // We only care about the data, not the error, for live updates.

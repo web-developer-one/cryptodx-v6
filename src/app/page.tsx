@@ -32,6 +32,10 @@ export default function Home() {
   const { cryptoData, error } = useCryptoData();
   const { t } = useLanguage();
 
+  useEffect(() => {
+    document.title = t('PageTitles.home');
+  }, [t]);
+
   if (error && cryptoData.length === 0) {
     return (
       <div className="container flex-1 flex flex-col items-center justify-center py-8 gap-6">

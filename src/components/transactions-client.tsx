@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -70,6 +71,10 @@ export function TransactionsClient({ cryptocurrencies }: { cryptocurrencies: Cry
     const { t } = useLanguage();
     const [selectedCurrency, setSelectedCurrency] = useState<SelectedCurrency>(supportedCurrencies[0]);
     const [transactions, setTransactions] = useState<Transaction[]>([]);
+
+    useEffect(() => {
+        document.title = t('PageTitles.transactions');
+    }, [t]);
 
     useEffect(() => {
         setTransactions(generateMockTransactions(cryptocurrencies));

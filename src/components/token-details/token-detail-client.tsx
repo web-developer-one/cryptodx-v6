@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -22,6 +23,10 @@ import { useLanguage } from '@/hooks/use-language';
 export function TokenDetailClient({ initialToken }: { initialToken: TokenDetails }) {
     const { t } = useLanguage();
     const [token, setToken] = useState(initialToken);
+
+    useEffect(() => {
+        document.title = t('PageTitles.tokenDetail').replace('{tokenName}', token.name);
+    }, [t, token.name]);
 
     useEffect(() => {
         if (token.low24h === null || token.high24h === null) {

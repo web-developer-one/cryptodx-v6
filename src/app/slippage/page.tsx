@@ -28,6 +28,10 @@ export default function SlippagePage() {
   const { cryptoData, error } = useCryptoData();
   const { t } = useLanguage();
 
+  useEffect(() => {
+    document.title = t('PageTitles.slippage');
+  }, [t]);
+
   if (error) {
     return (
       <div className="container flex-1 flex flex-col items-center justify-center py-8">

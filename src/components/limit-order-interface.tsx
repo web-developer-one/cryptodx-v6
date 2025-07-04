@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect, useMemo } from "react";
@@ -38,6 +39,10 @@ export function LimitOrderInterface({ cryptocurrencies }: { cryptocurrencies: Cr
   const [expiry, setExpiry] = useState<string>("7d");
   const { isActive: isWalletConnected } = useWallet();
   const [lastEdited, setLastEdited] = useState<"from" | "to">("from");
+
+  useEffect(() => {
+    document.title = t('PageTitles.limit');
+  }, [t]);
 
   const marketPrice = useMemo(() => {
     if (fromToken?.price > 0 && toToken?.price > 0) {

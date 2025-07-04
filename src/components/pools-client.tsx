@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -60,6 +61,10 @@ export function PoolsClient({ cryptocurrencies }: { cryptocurrencies: Cryptocurr
     const { t } = useLanguage();
     const [selectedCurrency, setSelectedCurrency] = useState<SelectedCurrency>(supportedCurrencies[0]);
     const [pools, setPools] = useState<LiquidityPool[]>([]);
+
+    useEffect(() => {
+        document.title = t('PageTitles.pools');
+    }, [t]);
 
     useEffect(() => {
         setPools(generateMockPools(cryptocurrencies));

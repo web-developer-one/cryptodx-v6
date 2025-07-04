@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect, useMemo } from 'react';
@@ -20,6 +21,10 @@ export function CreatePositionInterface({ cryptocurrencies }: { cryptocurrencies
   const [amount1, setAmount1] = useState<string>('');
   const { isActive: isWalletConnected } = useWallet();
   const [lastEdited, setLastEdited] = useState<'token0' | 'token1'>('token0');
+
+  useEffect(() => {
+    document.title = t('PageTitles.addLiquidity');
+  }, [t]);
 
   const priceRatio = useMemo(() => {
     if (token0?.price > 0 && token1?.price > 0) {

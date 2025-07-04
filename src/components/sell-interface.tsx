@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -47,6 +48,10 @@ export function SellInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocu
   const [isChecking, setIsChecking] = useState(false);
   const [reputationAlert, setReputationAlert] = useState<{ title: string; description: React.ReactNode } | null>(null);
   const { isReputationCheckEnabled } = useReputation();
+
+  useEffect(() => {
+    document.title = t('PageTitles.sell');
+  }, [t]);
 
   useEffect(() => {
     if (cryptoAmount && fromToken?.price > 0 && toFiat) {
