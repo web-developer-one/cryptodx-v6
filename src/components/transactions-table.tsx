@@ -1,4 +1,3 @@
-
 'use client';
 
 import {
@@ -20,20 +19,32 @@ import { useEffect, useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 
+const symbolMap: { [key: string]: string } = {
+  USD: '$',
+  EUR: '€',
+  GBP: '£',
+  JPY: '¥',
+  AUD: 'A$',
+  CAD: 'C$',
+  CHF: 'Fr',
+  CNY: '¥',
+  INR: '₹',
+};
+
 // Client-side only component to prevent hydration mismatch
 const FormattedCurrency = ({ value, currency }: { value: number, currency: SelectedCurrency }) => {
     const [formatted, setFormatted] = useState<string | null>(null);
 
     useEffect(() => {
         const convertedValue = value * currency.rate;
-        setFormatted(
-            new Intl.NumberFormat('en-US', {
-                style: 'currency',
-                currency: currency.symbol,
-                notation: 'compact',
-                maximumFractionDigits: 2,
-            }).format(convertedValue)
-        );
+        const numberPart = new Intl.NumberFormat('en-US', {
+            notation: 'compact',
+            maximumFractionDigits: 2,
+        }).format(convertedValue);
+        
+        const symbol = symbolMap[currency.symbol] || currency.symbol;
+
+        setFormatted(`${symbol}${numberPart}`);
     }, [value, currency]);
 
     // Render nothing on server and initial client render to avoid mismatch
