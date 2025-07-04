@@ -25,25 +25,29 @@ const getNestedValue = (obj: Record<string, any>, path: string): string | undefi
   return path.split('.').reduce((acc, part) => acc && acc[part], obj);
 };
 
-// Reads the initial language from localStorage. Safe for client components.
-const getInitialLanguage = () => {
-    if (typeof window !== 'undefined') {
-        return localStorage.getItem('language') || 'en';
-    }
-    return 'en';
-}
-
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
-  const [language, setLanguageState] = useState(getInitialLanguage);
+  // Always default to English initially to prevent hydration mismatch.
+  const [language, setLanguageState] = useState('en');
   const [translations, setTranslations] = useState<Translations>(englishMessages);
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
+
+  // On initial client-side mount, check for a saved language in localStorage.
+  useEffect(() => {
+    const savedLanguage = localStorage.getItem('language');
+    if (savedLanguage && savedLanguage !== 'en') {
+        // This will trigger the translation loading effect below.
+        setLanguageState(savedLanguage);
+    }
+  }, []); // Empty dependency array ensures this runs only once on mount.
+
 
   // This effect runs whenever the `language` state changes to load the correct translations.
   useEffect(() => {
     const loadTranslations = async () => {
       if (language === 'en') {
         setTranslations(englishMessages);
+        setIsLoading(false); // Ensure loading is false for English
         return;
       }
 
@@ -89,6 +93,7 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
         });
         setLanguageState('en'); // Revert to English on failure
         localStorage.setItem('language', 'en');
+        setTranslations(englishMessages);
       } finally {
         setIsLoading(false);
       }
@@ -101,8 +106,8 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
   // This is the function exposed to components (like the Header) to trigger a language change.
   const setLanguage = useCallback((langCode: string) => {
     if (langCode !== language && !isLoading) { // Only update if language is different and not already loading
-        setLanguageState(langCode);
         localStorage.setItem('language', langCode);
+        setLanguageState(langCode);
     }
   }, [language, isLoading]);
 
