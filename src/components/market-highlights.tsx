@@ -121,7 +121,6 @@ function MarketListCard({ title, coins }: { title: string, coins: Cryptocurrency
 }
 
 export function MarketHighlights({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[] }) {
-  const { t } = useLanguage();
   const topGainers = [...cryptocurrencies]
     .sort((a, b) => b.change24h - a.change24h)
     .slice(0, 5);
@@ -134,9 +133,9 @@ export function MarketHighlights({ cryptocurrencies }: { cryptocurrencies: Crypt
 
   return (
     <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-      <MarketListCard title={t('MarketHighlights.popular')} coins={popular} />
-      <MarketListCard title={t('MarketHighlights.gainers')} coins={topGainers} />
-      <MarketListCard title={t('MarketHighlights.losers')} coins={topLosers} />
+      <MarketListCard title="Popular crypto (24h)" coins={popular} />
+      <MarketListCard title="Top gainers (24h)" coins={topGainers} />
+      <MarketListCard title="Top losers (24h)" coins={topLosers} />
     </div>
   );
 }
