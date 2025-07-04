@@ -79,8 +79,15 @@ export function ReputationAlert({ token }: { token: TokenDetails }) {
             <AlertTriangle className="h-6 w-6 text-destructive" />
             <span>Reputation Alert for {token.name} ({token.symbol})</span>
           </AlertDialogTitle>
-          <AlertDialogDescription className="pt-4 text-base">
-            {reputation.reasoning}
+          <AlertDialogDescription asChild>
+            <div className="pt-4 text-base space-y-4">
+                <p>{reputation.reasoning}</p>
+                {reputation.sourceUrl && (
+                    <p className="text-sm">
+                        Source: <a href={reputation.sourceUrl} target="_blank" rel="noopener noreferrer" className="text-primary underline hover:text-primary/80 break-all">{reputation.sourceUrl}</a>
+                    </p>
+                )}
+            </div>
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>

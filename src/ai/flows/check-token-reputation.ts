@@ -23,6 +23,7 @@ const CheckTokenReputationOutputSchema = z.object({
   reasoning: z
     .string()
     .describe('A brief, one-sentence summary of the negative event if one is found. Empty if no issues are found.'),
+  sourceUrl: z.string().optional().describe('A URL to a credible news source or official report about the negative event. Empty if no source is found.'),
 });
 export type CheckTokenReputationOutput = z.infer<typeof CheckTokenReputationOutputSchema>;
 
@@ -44,10 +45,10 @@ Token Symbol: {{{tokenSymbol}}}
 
 Based on your knowledge of public information, news reports, and blockchain analysis, determine if this token has a history of major security issues or fraudulent activity.
 
-If you find credible evidence of a major scandal or scam, set isScamOrScandal to true and provide a concise, one-sentence summary of the issue in the reasoning field.
+If you find credible evidence of a major scandal or scam, set isScamOrScandal to true, provide a concise, one-sentence summary of the issue in the reasoning field, and include a URL to a credible source (like a news article or official report) in the sourceUrl field.
 Example: "The token was part of a major rug pull event in [Year]." or "The project's founders were accused of embezzling funds."
 
-If there is no significant evidence of scams or scandals, set isScamOrScandal to false and leave the reasoning field empty. Only flag tokens with significant, publicly known issues. Do not flag tokens for normal market volatility or minor community disputes.`,
+If there is no significant evidence of scams or scandals, set isScamOrScandal to false and leave the reasoning and sourceUrl fields empty. Only flag tokens with significant, publicly known issues. Do not flag tokens for normal market volatility or minor community disputes.`,
   config: {
     temperature: 0.2, // Be factual and less creative
   }

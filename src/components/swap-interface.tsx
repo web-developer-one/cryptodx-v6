@@ -186,11 +186,18 @@ export function SwapInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocu
 
         if (badTokens.length > 0) {
             const description = (
-                <div className="space-y-2">
-                    {badTokens.map(({ token, reasoning }) => (
-                        <p key={token.id}>
-                            <strong>{token.name} ({token.symbol}):</strong> {reasoning}
-                        </p>
+                <div className="space-y-4">
+                    {badTokens.map(({ token, reasoning, sourceUrl }) => (
+                        <div key={token.id}>
+                            <p>
+                                <strong>{token.name} ({token.symbol}):</strong> {reasoning}
+                            </p>
+                            {sourceUrl && (
+                                <p className="text-sm mt-1">
+                                    Source: <a href={sourceUrl} target="_blank" rel="noopener noreferrer" className="text-primary underline hover:text-primary/80 break-all">{sourceUrl}</a>
+                                </p>
+                            )}
+                        </div>
                     ))}
                     <p className="mt-4 text-xs text-muted-foreground">
                         This is for informational purposes only and does not constitute financial advice. Please do your own research before proceeding.

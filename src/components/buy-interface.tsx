@@ -115,6 +115,11 @@ export function BuyInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocur
                     <p>
                         <strong>{toToken.name} ({toToken.symbol}):</strong> {result.reasoning}
                     </p>
+                    {result.sourceUrl && (
+                        <p className="text-sm mt-2">
+                            Source: <a href={result.sourceUrl} target="_blank" rel="noopener noreferrer" className="text-primary underline hover:text-primary/80 break-all">{result.sourceUrl}</a>
+                        </p>
+                    )}
                     <p className="mt-4 text-xs text-muted-foreground">
                         This is for informational purposes only and does not constitute financial advice. Please do your own research before proceeding.
                     </p>
