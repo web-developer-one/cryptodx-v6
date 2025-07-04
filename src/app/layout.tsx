@@ -27,9 +27,6 @@ const spaceGrotesk = Space_Grotesk({
 export const metadata: Metadata = {
   title: 'CryptoDx | Seamless Token Exchange',
   description: 'Swap, trade, and manage your cryptocurrency assets with ease on our decentralized exchange platform.',
-  icons: {
-    icon: '/Cdx-box-icon-none.png',
-  },
 };
 
 export default async function RootLayout({
