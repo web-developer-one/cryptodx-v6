@@ -32,12 +32,41 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
 
-  // On initial client-side mount, check for a saved language in localStorage.
+  // On initial client-side mount, detect and set the language.
   useEffect(() => {
+    // This logic runs only once on the client.
     const savedLanguage = localStorage.getItem('language');
-    if (savedLanguage && savedLanguage !== 'en') {
-        // This will trigger the translation loading effect below.
-        setLanguageState(savedLanguage);
+    let targetLanguage = 'en'; // Default language
+
+    if (savedLanguage) {
+      // A language was explicitly set by the user on a previous visit.
+      targetLanguage = savedLanguage;
+    } else {
+      // For a first-time user, try to auto-detect from browser settings.
+      const browserLangs = navigator.languages || [navigator.language];
+      for (const lang of browserLangs) {
+        // Check for an exact match first (e.g., 'zh-CN')
+        const exactMatch = languages.find(l => l.code.toLowerCase() === lang.toLowerCase());
+        if (exactMatch) {
+          targetLanguage = exactMatch.code;
+          break; // Found the best possible match
+        }
+        // If no exact match, check for a generic match (e.g., 'en' from 'en-US')
+        const genericLang = lang.split('-')[0];
+        const genericMatch = languages.find(l => l.code === genericLang);
+        if (genericMatch) {
+          targetLanguage = genericMatch.code;
+          break; // Found a good enough match
+        }
+      }
+    }
+    
+    // Set the determined language. This will trigger the translation loading effect if not 'en'.
+    setLanguageState(targetLanguage);
+    
+    // If we auto-detected a language, save it so we don't have to detect it again.
+    if (!savedLanguage) {
+      localStorage.setItem('language', targetLanguage);
     }
   }, []); // Empty dependency array ensures this runs only once on mount.
 
@@ -65,6 +94,7 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
       const languageToTranslateTo = languages.find(l => l.code === language);
       if (!languageToTranslateTo) {
         console.error(`Language with code ${language} not found.`);
+        setIsLoading(false); // Stop loading if language is invalid
         return;
       }
       
@@ -99,7 +129,9 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
       }
     };
 
-    loadTranslations();
+    if (language) { // Only run if language is set
+        loadTranslations();
+    }
   }, [language, toast]);
 
 
