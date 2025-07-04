@@ -1,47 +1,54 @@
+
+'use client';
+
 import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
 import { CookiePolicyModal } from "./cookie-policy-modal";
 import { PrivacyPolicyModal } from "./privacy-policy-modal";
 import { TermsOfUseModal } from "./terms-of-use-modal";
 import { SiteLogo } from "./site-logo";
-
-const footerSections = [
-  {
-    title: "Trade",
-    links: [
-      { name: "Swap", href: "/" },
-      { name: "Limit", href: "/limit" },
-      { name: "Buy", href: "/buy" },
-      { name: "Sell", href: "/sell" },
-    ],
-  },
-  {
-    title: "Explore",
-    links: [
-      { name: "Tokens", href: "/tokens" },
-      { name: "Pools", href: "/pools" },
-      { name: "Transactions", href: "/transactions" },
-    ],
-  },
-  {
-    title: "Positions",
-    links: [
-      { name: "View Positions", href: "/positions" },
-      { name: "Create Position", href: "/pools/add" },
-    ],
-  },
-  {
-    title: "Site",
-    links: [
-      { name: "Our Blog", href: "https://cryptomx.co/blog/" },
-      { name: "Cookie Policy", href: "#" },
-      { name: "Privacy Policy", href: "#" },
-      { name: "Terms of Use", href: "#" },
-    ],
-  },
-];
+import { useLanguage } from "@/hooks/use-language";
 
 export function Footer() {
+  const { t } = useLanguage();
+  const year = new Date().getFullYear();
+
+  const footerSections = [
+    {
+      title: t('Footer.trade'),
+      links: [
+        { name: t('Footer.swap'), href: "/" },
+        { name: t('Footer.limit'), href: "/limit" },
+        { name: t('Footer.buy'), href: "/buy" },
+        { name: t('Footer.sell'), href: "/sell" },
+      ],
+    },
+    {
+      title: t('Footer.explore'),
+      links: [
+        { name: t('Footer.tokens'), href: "/tokens" },
+        { name: t('Footer.pools'), href: "/pools" },
+        { name: t('Footer.transactions'), href: "/transactions" },
+      ],
+    },
+    {
+      title: t('Footer.positions'),
+      links: [
+        { name: t('Footer.viewPositions'), href: "/positions" },
+        { name: t('Footer.createPosition'), href: "/pools/add" },
+      ],
+    },
+    {
+      title: t('Footer.site'),
+      links: [
+        { name: t('Footer.blog'), href: "https://cryptomx.co/blog/" },
+        { name: t('Footer.cookiePolicy'), href: "#" },
+        { name: t('Footer.privacyPolicy'), href: "#" },
+        { name: t('Footer.termsOfUse'), href: "#" },
+      ],
+    },
+  ];
+
   return (
     <footer className="w-full border-t border-primary/50 bg-primary text-primary-foreground">
       <div className="container max-w-screen-2xl py-12">
@@ -50,10 +57,10 @@ export function Footer() {
           <div className="flex flex-col items-center gap-4">
             <Link href="/" className="flex items-center space-x-3">
               <SiteLogo className="h-8 w-8" />
-              <span className="font-bold">CryptoDx</span>
+              <span className="font-bold">{t('Header.siteName')}</span>
             </Link>
             <p className="text-sm text-primary-foreground/80">
-              Seamlessly swap your favorite tokens.
+              {t('Footer.subtitle')}
             </p>
           </div>
 
@@ -64,13 +71,13 @@ export function Footer() {
               <ul className="flex flex-col items-center gap-2 text-sm">
                 {section.links.map((link) => (
                   <li key={link.name}>
-                    {link.name === "Cookie Policy" ? (
+                    {link.name === t('Footer.cookiePolicy') ? (
                       <CookiePolicyModal />
-                    ) : link.name === "Privacy Policy" ? (
+                    ) : link.name === t('Footer.privacyPolicy') ? (
                       <PrivacyPolicyModal />
-                    ) : link.name === "Terms of Use" ? (
+                    ) : link.name === t('Footer.termsOfUse') ? (
                       <TermsOfUseModal />
-                    ) : link.name === "Our Blog" ? (
+                    ) : link.name === t('Footer.blog') ? (
                       <Link
                         href={link.href}
                         className="text-primary-foreground/80 transition-colors hover:text-primary-foreground"
@@ -95,7 +102,7 @@ export function Footer() {
         </div>
         <Separator className="my-8 bg-primary-foreground/20" />
         <div className="flex flex-col items-center justify-center text-sm text-primary-foreground/80">
-          <p>&copy; {new Date().getFullYear()} CryptoDx. All rights reserved.</p>
+          <p>{t('Footer.copyright').replace('{year}', year.toString())}</p>
         </div>
       </div>
     </footer>

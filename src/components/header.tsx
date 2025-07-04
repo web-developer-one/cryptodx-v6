@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from "next/link";
@@ -11,6 +12,8 @@ import {
   ChevronDown,
   SlidersHorizontal,
   Cog,
+  Loader2,
+  Check
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/theme-toggle";
@@ -30,7 +33,6 @@ import {
   DropdownMenuSub,
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
-  DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
   Accordion,
@@ -44,34 +46,37 @@ import { Switch } from "./ui/switch";
 import { Label } from "./ui/label";
 import { ScrollArea } from "./ui/scroll-area";
 import { useReputation } from "@/hooks/use-reputation";
+import { useLanguage } from "@/hooks/use-language";
 
 export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[] }) {
+  const { t, language, setLanguage, isLoading: isTranslating } = useLanguage();
+
   const menuItems = [
     {
-      name: "Trade",
+      name: t('Header.trade'),
       icon: ArrowRightLeft,
       children: [
-        { name: "Swap", href: "/" },
-        { name: "Limit", href: "/limit" },
-        { name: "Buy", href: "/buy" },
-        { name: "Sell", href: "/sell" },
+        { name: t('Footer.swap'), href: "/" },
+        { name: t('Footer.limit'), href: "/limit" },
+        { name: t('Footer.buy'), href: "/buy" },
+        { name: t('Footer.sell'), href: "/sell" },
       ],
     },
     {
-      name: "Explore",
+      name: t('Header.explore'),
       icon: Compass,
       children: [
-        { name: "Tokens", href: "/tokens" },
-        { name: "Pools", href: "/pools" },
-        { name: "Transactions", href: "/transactions" },
+        { name: t('Footer.tokens'), href: "/tokens" },
+        { name: t('Footer.pools'), href: "/pools" },
+        { name: t('Footer.transactions'), href: "/transactions" },
       ],
     },
     {
-      name: "Positions",
+      name: t('Header.positions'),
       icon: Briefcase,
       children: [
-        { name: "View Positions", href: "/positions" },
-        { name: "Create Positions", href: "/pools/add" },
+        { name: t('Footer.viewPositions'), href: "/positions" },
+        { name: t('Footer.createPosition'), href: "/pools/add" },
       ],
     },
   ];
@@ -90,13 +95,6 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
     { name: 'Русский', code: 'ru' }, { name: '日本語', code: 'ja' },
     { name: '中文 (简体)', code: 'zh-CN' }, { name: '한국어', code: 'ko' },
     { name: 'العربية', code: 'ar' }, { name: 'हिन्दी', code: 'hi' },
-    { name: 'Bengali', code: 'bn' }, { name: 'Indonesian', code: 'id' },
-    { name: 'Dutch', code: 'nl' }, { name: 'Turkish', code: 'tr' },
-    { name: 'Polish', code: 'pl' }, { name: 'Swedish', code: 'sv' },
-    { name: 'Vietnamese', code: 'vi' }, { name: 'Thai', code: 'th' },
-    { name: 'Greek', code: 'el' }, { name: 'Hebrew', code: 'he' },
-    { name: 'Czech', code: 'cs' }, { name: 'Romanian', code: 'ro' },
-    { name: 'Ukrainian', code: 'uk' },
   ];
 
   const networks = React.useMemo(() => {
@@ -113,7 +111,6 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
   const [selectedNetwork, setSelectedNetwork] = React.useState(networks[0]);
   const [hideSmallBalances, setHideSmallBalances] = React.useState(false);
   const [hideUnknownTokens, setHideUnknownTokens] = React.useState(true);
-  const [selectedLanguage, setSelectedLanguage] = React.useState(languages[0]);
   const { isReputationCheckEnabled, toggleReputationCheck } = useReputation();
   
   React.useEffect(() => {
@@ -131,7 +128,7 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
           <Link href="/" className="mr-6 flex items-center space-x-3">
             <SiteLogo className="h-8 w-8" />
             <span className="hidden font-bold sm:inline-block">
-              CryptoDx
+              {t('Header.siteName')}
             </span>
           </Link>
           <nav className="flex items-center gap-2 text-sm">
@@ -175,7 +172,7 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
                     className="mb-4 flex items-center gap-3 pl-4 text-lg font-semibold"
                   >
                     <SiteLogo className="h-8 w-8" />
-                    <span>CryptoDx</span>
+                    <span>{t('Header.siteName')}</span>
                   </Link>
                 </SheetClose>
                 <Accordion type="multiple" className="w-full px-2">
@@ -217,7 +214,7 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
           <Link href="/slippage" passHref>
               <Button variant="ghost" className="flex items-center gap-1.5 px-3 font-medium text-primary-foreground/90 transition-colors hover:bg-white/10 hover:text-primary-foreground">
                   <SlidersHorizontal className="h-4 w-4" />
-                  <span className="hidden sm:inline">Slippage</span>
+                  <span className="hidden sm:inline">{t('Header.slippage')}</span>
               </Button>
           </Link>
           <DropdownMenu>
@@ -257,20 +254,20 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
           </DropdownMenu>
 
           <WalletConnect>
-            <Button variant="secondary">Connect Wallet</Button>
+            <Button variant="secondary">{t('Header.connectWallet')}</Button>
           </WalletConnect>
           
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="icon" className="text-primary-foreground/90 transition-colors hover:bg-white/10 hover:text-primary-foreground">
-                <Cog className="h-5 w-5" />
+                {isTranslating ? <Loader2 className="h-5 w-5 animate-spin" /> : <Cog className="h-5 w-5" />}
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-64">
-              <DropdownMenuLabel>Settings</DropdownMenuLabel>
+              <DropdownMenuLabel>{t('Header.settings')}</DropdownMenuLabel>
               <DropdownMenuSeparator />
                <DropdownMenuItem onSelect={(e) => e.preventDefault()} className="flex items-center justify-between">
-                <Label htmlFor="reputation-alert" className="font-normal cursor-pointer">Reputation Alert</Label>
+                <Label htmlFor="reputation-alert" className="font-normal cursor-pointer">{t('Header.reputationAlert')}</Label>
                 <Switch
                   id="reputation-alert"
                   checked={isReputationCheckEnabled}
@@ -278,7 +275,7 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
                 />
               </DropdownMenuItem>
               <DropdownMenuItem onSelect={(e) => e.preventDefault()} className="flex items-center justify-between">
-                <Label htmlFor="hide-small-balances" className="font-normal cursor-pointer">Hide small balances</Label>
+                <Label htmlFor="hide-small-balances" className="font-normal cursor-pointer">{t('Header.hideSmallBalances')}</Label>
                 <Switch
                   id="hide-small-balances"
                   checked={hideSmallBalances}
@@ -286,7 +283,7 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
                 />
               </DropdownMenuItem>
               <DropdownMenuItem onSelect={(e) => e.preventDefault()} className="flex items-center justify-between">
-                <Label htmlFor="hide-unknown-tokens" className="font-normal cursor-pointer">Hide unknown tokens</Label>
+                <Label htmlFor="hide-unknown-tokens" className="font-normal cursor-pointer">{t('Header.hideUnknownTokens')}</Label>
                 <Switch
                   id="hide-unknown-tokens"
                   checked={hideUnknownTokens}
@@ -296,24 +293,19 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
               <DropdownMenuSeparator />
               <DropdownMenuSub>
                 <DropdownMenuSubTrigger>
-                  <span>Language</span>
+                  <span>{t('Header.language')}</span>
                 </DropdownMenuSubTrigger>
                 <DropdownMenuSubContent>
                   <ScrollArea className="h-72">
                     {languages.map((lang) => (
-                      <DropdownMenuItem key={lang.code} onSelect={() => setSelectedLanguage(lang)}>
+                      <DropdownMenuItem key={lang.code} onSelect={() => setLanguage(lang.code)}>
+                        <Check className={`mr-2 h-4 w-4 ${language === lang.code ? "opacity-100" : "opacity-0"}`} />
                         {lang.name}
                       </DropdownMenuItem>
                     ))}
                   </ScrollArea>
                 </DropdownMenuSubContent>
               </DropdownMenuSub>
-               <DropdownMenuItem disabled>
-                <div className="flex justify-between w-full text-xs">
-                    <span>Selected:</span>
-                    <span>{selectedLanguage.name}</span>
-                </div>
-              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
 

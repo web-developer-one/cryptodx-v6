@@ -7,13 +7,56 @@
     "slippage": "Slippage",
     "connectWallet": "Connect Wallet",
     "settings": "Settings",
+    "reputationAlert": "Reputation Alert",
     "hideSmallBalances": "Hide small balances",
     "hideUnknownTokens": "Hide unknown tokens",
-    "language": "Language",
-    "selected": "Selected"
+    "language": "Language"
   },
   "HomePage": {
     "title": "Seamlessly Swap Your Crypto",
     "subtitle": "The easiest and most secure way to swap tokens in seconds."
+  },
+  "HowToExchange": {
+    "title": "How to Exchange Cryptocurrency",
+    "step1Title": "Connect Your Wallet",
+    "step1Desc": "Securely connect your decentralised wallet to our platform. We support a wide variety of wallets for your convenience.",
+    "step2Title": "Select Tokens & Amount",
+    "step2Desc": "Choose the cryptocurrency you want to trade and the one you wish to receive. Enter the amount for the exchange.",
+    "step3Title": "Confirm & Swap",
+    "step3Desc": "Review the transaction details, including rates and fees. Confirm the swap and watch the new tokens appear in your wallet."
+  },
+  "Faq": {
+    "title": "Frequently Asked Questions",
+    "q1": "What is CryptoDx?",
+    "a1": "CryptoDx is a decentralized exchange (DEX) platform that allows users to trade cryptocurrencies directly from their wallets without the need for a central intermediary. It provides a secure and transparent way to swap tokens.",
+    "q2": "Which wallets are supported?",
+    "a2": "We support a variety of popular Web3 wallets, including MetaMask, Coinbase Wallet, and any wallet that supports the WalletConnect protocol. This ensures you can use your preferred wallet to interact with our platform.",
+    "q3": "Are my funds safe?",
+    "a3": "Yes, your funds are secure. As a decentralized platform, you are always in control of your private keys and your assets. We never take custody of your funds. All transactions are executed via smart contracts on the blockchain.",
+    "q4": "How are the exchange rates determined?",
+    "a4": "Exchange rates are determined by automated market makers (AMMs) based on the liquidity pools for the token pair you are swapping. Prices can fluctuate based on supply and demand dynamics within the pools.",
+    "q5": "Are there any fees?",
+    "a5": "There are two types of fees: a small platform fee for each swap, and a network fee (gas fee) required by the blockchain to process the transaction. All fees are clearly displayed before you confirm a transaction."
+  },
+  "Footer": {
+    "subtitle": "Seamlessly swap your favorite tokens.",
+    "trade": "Trade",
+    "swap": "Swap",
+    "limit": "Limit",
+    "buy": "Buy",
+    "sell": "Sell",
+    "explore": "Explore",
+    "tokens": "Tokens",
+    "pools": "Pools",
+    "transactions": "Transactions",
+    "positions": "Positions",
+    "viewPositions": "View Positions",
+    "createPosition": "Create Position",
+    "site": "Site",
+    "blog": "Our Blog",
+    "cookiePolicy": "Cookie Policy",
+    "privacyPolicy": "Privacy Policy",
+    "termsOfUse": "Terms of Use",
+    "copyright": "© {year} CryptoDx. All rights reserved."
   }
 }
