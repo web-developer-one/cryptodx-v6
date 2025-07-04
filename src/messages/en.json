@@ -286,6 +286,11 @@
     "errorResponse": "I'm having trouble generating a response right now. Please try a different question.",
     "connectionError": "Sorry, I'm having trouble connecting right now. Please try again later."
   },
+  "MarketHighlights": {
+    "popular": "Popular crypto (24h)",
+    "gainers": "Top gainers (24h)",
+    "losers": "Top losers (24h)"
+  },
   "WalletConnect": {
     "title": "Connect a wallet",
     "description": "Choose your wallet from the list below to get started.",
