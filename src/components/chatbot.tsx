@@ -183,9 +183,30 @@ export function Chatbot() {
                 return;
             }
 
+            // Check for a supported MIME type to improve cross-browser compatibility.
+            const mimeTypes = [
+                'audio/webm;codecs=opus',
+                'audio/webm',
+                'audio/ogg;codecs=opus',
+                'audio/ogg',
+                'audio/mp4',
+            ];
+            const supportedMimeType = mimeTypes.find(type => {
+                try {
+                    return MediaRecorder.isTypeSupported(type);
+                } catch (e) {
+                    return false;
+                }
+            });
+
+            if (!supportedMimeType) {
+                toast({ variant: "destructive", title: "Error", description: t('Chatbot.micNotSupported') });
+                return;
+            }
+
             try {
                 const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-                const recorder = new MediaRecorder(stream, { mimeType: 'audio/webm' });
+                const recorder = new MediaRecorder(stream, { mimeType: supportedMimeType });
                 mediaRecorderRef.current = recorder;
                 audioChunksRef.current = [];
 
@@ -194,7 +215,7 @@ export function Chatbot() {
                 };
 
                 recorder.onstop = () => {
-                    const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
+                    const audioBlob = new Blob(audioChunksRef.current, { type: supportedMimeType });
                     const reader = new FileReader();
                     reader.readAsDataURL(audioBlob);
                     
