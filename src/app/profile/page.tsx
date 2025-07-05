@@ -41,7 +41,7 @@ export default function ProfilePage() {
   });
   
   useEffect(() => {
-    document.title = 'My Profile | Crypto Swap';
+    document.title = 'My Profile | Crypto Mx';
   }, []);
 
   useEffect(() => {
@@ -92,7 +92,7 @@ export default function ProfilePage() {
                 {user.pricingPlan && (
                     <Badge variant={user.isAdmin ? 'destructive' : 'secondary'} className='text-base'>
                         {user.isAdmin && <Crown className="mr-2 h-4 w-4" />}
-                        {user.isAdmin ? 'Admin' : `${user.pricingPlan} Plan`}
+                        {user.isAdmin ? 'Administrator' : `${user.pricingPlan} Plan`}
                     </Badge>
                 )}
             </div>
