@@ -234,12 +234,6 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
         </div>
 
         <div className="flex flex-1 items-center justify-end space-x-2">
-          <Link href="/slippage" passHref>
-              <Button variant="ghost" className="flex items-center gap-1.5 px-3 font-medium text-primary-foreground/90 transition-colors hover:bg-white/10 hover:text-primary-foreground">
-                  <SlidersHorizontal className="h-4 w-4" />
-                  <span className="hidden sm:inline">{t('Header.slippage')}</span>
-              </Button>
-          </Link>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button
@@ -304,6 +298,12 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
                   onCheckedChange={toggleTheme}
                   disabled={!mounted}
                 />
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href="/slippage" className="cursor-pointer">
+                  <SlidersHorizontal className="mr-2" />
+                  <span>{t('Header.slippage')}</span>
+                </Link>
               </DropdownMenuItem>
                <DropdownMenuItem onSelect={(e) => e.preventDefault()} className="flex items-center justify-between">
                 <Label htmlFor="reputation-alert" className="font-normal cursor-pointer">{t('Header.reputationAlert')}</Label>
