@@ -81,7 +81,7 @@ export default function ProfilePage() {
   }
 
   return (
-    <div className="container flex-1 flex flex-col items-center py-8">
+    <div className="container flex-1 flex flex-col items-center justify-center py-8">
       <Card className="w-full max-w-4xl">
         <CardHeader>
             <div className='flex justify-between items-start'>
@@ -163,7 +163,7 @@ export default function ProfilePage() {
                     />
                     <div className="space-y-2">
                       <Label htmlFor="pricing-plan">Pricing Plan</Label>
-                      <Input id="pricing-plan" value={user.isAdmin ? 'Admin' : (user.pricingPlan || 'Free')} disabled />
+                      <Input id="pricing-plan" value={user.isAdmin ? 'Administrator' : (user.pricingPlan || 'Free')} disabled />
                     </div>
                 </div>
                  <Alert variant="default" className="border-primary/20 bg-primary/5">
