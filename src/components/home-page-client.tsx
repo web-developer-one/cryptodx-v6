@@ -62,9 +62,9 @@ export function HomePageClient({ cryptoData, error }: HomePageClientProps) {
             <SwapInterface cryptocurrencies={cryptoData} />
         </div>
         <HowToExchange />
-        <Faq />
       </div>
       <UkDisclaimer />
+      <Faq />
     </div>
   );
 }
