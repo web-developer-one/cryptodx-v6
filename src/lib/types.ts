@@ -71,3 +71,13 @@ export interface SelectedCurrency {
     name: string;
     rate: number;
 }
+
+export interface User {
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  age?: number;
+  avatar: string; // Will be an ID for the avatar, e.g., 'avatar1'
+  isAdmin?: boolean;
+}

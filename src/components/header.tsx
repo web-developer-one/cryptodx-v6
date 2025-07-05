@@ -16,6 +16,8 @@ import {
   Check,
   Sun,
   Moon,
+  User as UserIcon,
+  LogOut,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { WalletConnect } from "@/components/wallet-connect";
@@ -50,9 +52,14 @@ import { ScrollArea } from "./ui/scroll-area";
 import { useReputation } from "@/hooks/use-reputation";
 import { useLanguage } from "@/hooks/use-language";
 import { languages } from "@/lib/i18n";
+import { useAuth } from "@/hooks/use-auth";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { getAvatarById } from "./user-avatar-selector";
+
 
 export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[] }) {
   const { t, language, setLanguage, isLoading: isTranslating } = useLanguage();
+  const { user, logout } = useAuth();
 
   const [mounted, setMounted] = React.useState(false);
   const [theme, setTheme] = React.useState<"light" | "dark">("light");
@@ -300,8 +307,8 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
                 />
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
-                <Link href="/slippage" className="cursor-pointer">
-                  <SlidersHorizontal className="mr-2" />
+                <Link href="/slippage" className="cursor-pointer flex items-center">
+                  <SlidersHorizontal className="mr-2 h-4 w-4" />
                   <span>{t('Header.slippage')}</span>
                 </Link>
               </DropdownMenuItem>
@@ -347,6 +354,47 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
               </DropdownMenuSub>
             </DropdownMenuContent>
           </DropdownMenu>
+
+          {user ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                 <Button variant="ghost" className="relative h-9 w-9 rounded-full">
+                    <Avatar className="h-9 w-9">
+                      <AvatarImage asChild src={getAvatarById(user.avatar).src}>
+                        {getAvatarById(user.avatar).component}
+                      </AvatarImage>
+                      <AvatarFallback>{user.firstName.charAt(0)}</AvatarFallback>
+                    </Avatar>
+                  </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-56">
+                <DropdownMenuLabel>
+                  <p>{t('Header.myAccount')}</p>
+                  <p className="font-normal text-sm text-muted-foreground">{user.email}</p>
+                </DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem asChild>
+                  <Link href="/profile">
+                    <UserIcon className="mr-2 h-4 w-4" />
+                    <span>{t('Header.profile')}</span>
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                 <DropdownMenuItem onClick={logout}>
+                    <LogOut className="mr-2 h-4 w-4" />
+                    <span>{t('Header.logout')}</span>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+             <Link href="/login">
+                <Button variant="ghost" className="relative h-9 w-9 rounded-full">
+                    <Avatar className="h-9 w-9">
+                      <AvatarFallback><UserIcon /></AvatarFallback>
+                    </Avatar>
+                  </Button>
+              </Link>
+          )}
 
         </div>
       </div>
