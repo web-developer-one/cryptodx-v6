@@ -1,4 +1,1 @@
-'use server';
-
-// This file is not currently in use.
-// It previously contained functionality for the Changelly API.
+// This file is unused and can be safely deleted.
