@@ -288,9 +288,7 @@
     "placeholder": "Type your message...",
     "send": "Send",
     "askMeAbout": "Ask me about...",
-    "topics": "Blockchain, DeFi, Crypto, NFT, or AI!",
-    "errorResponse": "I'm having trouble generating a response right now. Please try a different question.",
-    "connectionError": "Sorry, I'm having trouble connecting right now. Please try again later."
+    "topics": "Blockchain, DeFi, Crypto, NFT, or AI!"
   },
   "WalletConnect": {
     "title": "Connect a wallet",
@@ -359,7 +357,9 @@
     "password": "Password",
     "submit": "Log In",
     "noAccount": "Don't have an account?",
-    "register": "Sign up"
+    "register": "Sign up",
+    "orContinueWith": "Or continue with",
+    "continueWithGoogle": "Continue with Google"
   },
   "Register": {
     "title": "Create an Account",
