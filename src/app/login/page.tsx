@@ -66,7 +66,7 @@ export default function LoginPage() {
   return (
     <div className="container flex-1 flex flex-col items-center justify-center py-8">
       <Card className="w-full max-w-md">
-        <CardHeader>
+        <CardHeader className="text-center">
           <CardTitle>Login</CardTitle>
         </CardHeader>
         <Form {...form}>
