@@ -295,20 +295,20 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-56">
                 <DropdownMenuLabel>
-                  <p>{t('Header.myAccount')}</p>
+                  My Account
                   <p className="font-normal text-sm text-muted-foreground">{user.email}</p>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem asChild>
                   <Link href="/profile">
                     <UserIcon className="mr-2 h-4 w-4" />
-                    <span>{t('Header.profile')}</span>
+                    <span>Profile</span>
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                  <DropdownMenuItem onClick={logout}>
                     <LogOut className="mr-2 h-4 w-4" />
-                    <span>{t('Header.logout')}</span>
+                    <span>Log Out</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
@@ -331,12 +331,6 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
             <DropdownMenuContent align="end" className="w-64">
               <DropdownMenuLabel>{t('Header.settings')}</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem asChild>
-                <Link href="/slippage" className="cursor-pointer flex items-center">
-                  <SlidersHorizontal className="mr-2 h-4 w-4" />
-                  <span>{t('Header.slippage')}</span>
-                </Link>
-              </DropdownMenuItem>
               <DropdownMenuItem onSelect={(e) => e.preventDefault()} className="flex items-center justify-between">
                 <Label htmlFor="theme-toggle" className="font-normal cursor-pointer flex items-center gap-2">
                     {theme === 'light' ? (
@@ -376,6 +370,12 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
                   checked={hideUnknownTokens}
                   onCheckedChange={setHideUnknownTokens}
                 />
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href="/slippage" className="cursor-pointer flex items-center">
+                  <SlidersHorizontal className="mr-2 h-4 w-4" />
+                  <span>{t('Header.slippage')}</span>
+                </Link>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuSub>
