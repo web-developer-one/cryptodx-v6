@@ -1,6 +1,7 @@
+
 'use client';
 
-import React from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { ethers } from 'ethers';
 import { toast } from '@/hooks/use-toast';
 
@@ -28,7 +29,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
   const [isLoading, setIsLoading] = React.useState(true);
 
   // Memoize the disconnect function
-  const disconnect = React.useCallback(() => {
+  const disconnect = useCallback(() => {
     setAccount(null);
     localStorage.setItem('explicitly_disconnected', 'true');
     toast({
@@ -38,7 +39,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
   }, []);
   
   // Memoize the connect function
-  const connectWallet = React.useCallback(async () => {
+  const connectWallet = useCallback(async () => {
     if (typeof window.ethereum !== 'undefined') {
       try {
         const provider = new ethers.BrowserProvider(window.ethereum);
@@ -70,7 +71,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   // Effect to handle account and network changes
-  React.useEffect(() => {
+  useEffect(() => {
     if (typeof window.ethereum === 'undefined') {
         setIsLoading(false);
         return;

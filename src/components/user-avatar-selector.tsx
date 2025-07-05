@@ -37,7 +37,7 @@ export const avatars = [
     id: 'avatar4',
     name: 'Robot',
     src: 'https://placehold.co/64x64.png',
-    hint: 'robot face',
+    hint: 'robot head',
   },
   {
     id: 'avatar5',
