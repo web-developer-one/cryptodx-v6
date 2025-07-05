@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect, useMemo, useRef } from "react";
@@ -218,7 +219,7 @@ export function SwapInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocu
                 description: description,
             });
 
-            if (user?.isAdmin) {
+            if (user?.isAdmin || user?.pricingPlan === 'Advanced') {
                 const reasoningText = badTokens.map(t => `${t.token.name}: ${t.reasoning}`).join('. ');
                 
                 let textToSpeak = reasoningText;

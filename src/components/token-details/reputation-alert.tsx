@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
@@ -37,7 +38,7 @@ export function ReputationAlert({ token }: { token: TokenDetails }) {
         });
         setReputation(result);
 
-        if (result.isScamOrScandal && user?.isAdmin) {
+        if (result.isScamOrScandal && (user?.isAdmin || user?.pricingPlan === 'Advanced')) {
           let textToSpeak = result.reasoning;
           const targetLangInfo = languages.find(l => l.code === language);
           if (language !== 'en' && targetLangInfo) {
@@ -71,7 +72,7 @@ export function ReputationAlert({ token }: { token: TokenDetails }) {
     };
 
     getReputation();
-  }, [token.name, token.symbol, user?.isAdmin, language]);
+  }, [token.name, token.symbol, user?.isAdmin, user?.pricingPlan, language]);
 
 
   if (isLoading) {

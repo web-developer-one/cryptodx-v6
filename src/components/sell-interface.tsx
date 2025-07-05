@@ -140,7 +140,7 @@ export function SellInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocu
                 description: description,
             });
 
-             if (user?.isAdmin) {
+             if (user?.isAdmin || user?.pricingPlan === 'Advanced') {
                 let textToSpeak = result.reasoning;
                 const targetLangInfo = languages.find(l => l.code === language);
                 if (language !== 'en' && targetLangInfo) {

@@ -89,11 +89,11 @@ export function Chatbot() {
     const audioRef = useRef<HTMLAudioElement>(null);
 
     useEffect(() => {
-        // Keep bot language in sync with site language unless user is admin
-        if (!user?.isAdmin) {
+        // Keep bot language in sync with site language unless user is admin or advanced
+        if (!user?.isAdmin && user?.pricingPlan !== 'Advanced') {
             setBotLanguage(language);
         }
-    }, [language, user?.isAdmin]);
+    }, [language, user?.isAdmin, user?.pricingPlan]);
 
     useEffect(() => {
         const savedPreference = localStorage.getItem('chatbot_audio_enabled');
@@ -137,7 +137,7 @@ export function Chatbot() {
             const result = await cryptoChat({ 
                 history: chatHistory, 
                 userMessage: userMessage.content,
-                targetLanguage: user?.isAdmin ? languages.find(l => l.code === botLanguage)?.englishName : undefined
+                targetLanguage: (user?.isAdmin || user?.pricingPlan === 'Advanced') ? languages.find(l => l.code === botLanguage)?.englishName : undefined
             });
             
             const responseText = result.response?.trim();
@@ -257,7 +257,7 @@ export function Chatbot() {
                         <CardHeader className="flex flex-row items-center justify-between p-4 border-b">
                             <CardTitle className="text-lg">{t('Chatbot.title')}</CardTitle>
                             <div className='flex items-center gap-1'>
-                                {user?.isAdmin && (
+                                {(user?.isAdmin || user?.pricingPlan === 'Advanced') && (
                                     <DropdownMenu>
                                         <DropdownMenuTrigger asChild>
                                             <Button variant="ghost" size="icon" className="h-6 w-6">
