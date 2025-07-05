@@ -223,6 +223,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const updateProfile = useCallback(async (updatedData: Partial<User>): Promise<boolean> => {
     if (!user) return false;
     
+    // Security check: Prevent non-admin users from assigning themselves the Administrator plan.
+    if (updatedData.pricingPlan === 'Administrator' && !user.isAdmin) {
+      console.warn("Security Alert: A non-admin user attempted to gain Administrator privileges. Operation blocked.");
+      toast({
+        variant: 'destructive',
+        title: 'Permission Denied',
+        description: 'You cannot assign this plan.',
+      });
+      return false;
+    }
+
     // If the user is the mock admin, update the mock data in localStorage
     if (user.isAdmin) {
       const updatedAdmin = { ...user, ...updatedData };
