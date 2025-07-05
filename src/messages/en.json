@@ -1,4 +1,5 @@
 
+      
 {
   "Header": {
     "siteName": "Crypto Swap",
@@ -337,7 +338,7 @@
     "description": "Buy and sell crypto at the current market rate.",
     "comingSoon": "The spot trading interface is coming soon."
   },
-  "pageTitles": {
+  "PageTitles": {
     "home": "Crypto Swap | Seamless Token Exchange",
     "buy": "Buy Crypto | Crypto Swap",
     "sell": "Sell Crypto | Crypto Swap",
@@ -383,3 +384,5 @@
     "securityDescription": "This site is a decentralized application interface. We will never ask for, nor store, your private keys or any other sensitive blockchain information. You are always in control."
   }
 }
+
+    
