@@ -1,4 +1,3 @@
-
 "use client";
 
 import Link from "next/link";
@@ -281,6 +280,47 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
             <Button variant="secondary">{t('Header.connectWallet')}</Button>
           </WalletConnect>
           
+          {user ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                 <Button variant="ghost" className="relative h-9 w-9 rounded-full">
+                    <Avatar className="h-9 w-9">
+                      <AvatarImage asChild src={getAvatarById(user.avatar).src}>
+                        {getAvatarById(user.avatar).component}
+                      </AvatarImage>
+                      <AvatarFallback>{user.firstName.charAt(0)}</AvatarFallback>
+                    </Avatar>
+                  </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-56">
+                <DropdownMenuLabel>
+                  <p>{t('Header.myAccount')}</p>
+                  <p className="font-normal text-sm text-muted-foreground">{user.email}</p>
+                </DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem asChild>
+                  <Link href="/profile">
+                    <UserIcon className="mr-2 h-4 w-4" />
+                    <span>{t('Header.profile')}</span>
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                 <DropdownMenuItem onClick={logout}>
+                    <LogOut className="mr-2 h-4 w-4" />
+                    <span>{t('Header.logout')}</span>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+             <Link href="/login">
+                <Button variant="ghost" className="relative h-9 w-9 rounded-full">
+                    <Avatar className="h-9 w-9">
+                      <AvatarFallback><UserIcon /></AvatarFallback>
+                    </Avatar>
+                  </Button>
+              </Link>
+          )}
+
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="icon" className="text-primary-foreground/90 transition-colors hover:bg-white/10 hover:text-primary-foreground">
@@ -354,47 +394,6 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
               </DropdownMenuSub>
             </DropdownMenuContent>
           </DropdownMenu>
-
-          {user ? (
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                 <Button variant="ghost" className="relative h-9 w-9 rounded-full">
-                    <Avatar className="h-9 w-9">
-                      <AvatarImage asChild src={getAvatarById(user.avatar).src}>
-                        {getAvatarById(user.avatar).component}
-                      </AvatarImage>
-                      <AvatarFallback>{user.firstName.charAt(0)}</AvatarFallback>
-                    </Avatar>
-                  </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-56">
-                <DropdownMenuLabel>
-                  <p>{t('Header.myAccount')}</p>
-                  <p className="font-normal text-sm text-muted-foreground">{user.email}</p>
-                </DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem asChild>
-                  <Link href="/profile">
-                    <UserIcon className="mr-2 h-4 w-4" />
-                    <span>{t('Header.profile')}</span>
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                 <DropdownMenuItem onClick={logout}>
-                    <LogOut className="mr-2 h-4 w-4" />
-                    <span>{t('Header.logout')}</span>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          ) : (
-             <Link href="/login">
-                <Button variant="ghost" className="relative h-9 w-9 rounded-full">
-                    <Avatar className="h-9 w-9">
-                      <AvatarFallback><UserIcon /></AvatarFallback>
-                    </Avatar>
-                  </Button>
-              </Link>
-          )}
 
         </div>
       </div>
