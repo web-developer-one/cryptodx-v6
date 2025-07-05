@@ -57,7 +57,7 @@ import { useReputation } from "@/hooks/use-reputation";
 import { useLanguage } from "@/hooks/use-language";
 import { languages } from "@/lib/i18n";
 import { useAuth } from "@/hooks/use-auth";
-import { Avatar, AvatarFallback } from "./ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { getAvatarById } from "./user-avatar-selector";
 
 
@@ -291,8 +291,11 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="relative h-12 w-12 rounded-full p-0">
                   <Avatar className="h-full w-full">
-                    {/* The component from getAvatarById is an SVG element. We clone it to add classes for sizing. */}
-                    {React.cloneElement(getAvatarById(user.avatar).component, { className: 'h-full w-full' })}
+                    <AvatarImage src={getAvatarById(user.avatar).src} alt={user.firstName} />
+                    <AvatarFallback>
+                      {user.firstName?.charAt(0)}
+                      {user.lastName?.charAt(0)}
+                    </AvatarFallback>
                   </Avatar>
                 </Button>
               </DropdownMenuTrigger>
