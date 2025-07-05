@@ -2,7 +2,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { Bot, Send, Loader2, X, User, Volume2, VolumeX } from 'lucide-react';
+import { Bot, Send, Loader2, X, User, Volume2, VolumeX, Mic, MicOff } from 'lucide-react';
 import { Button } from './ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from './ui/card';
@@ -10,11 +10,13 @@ import { Input } from './ui/input';
 import { ScrollArea } from './ui/scroll-area';
 import { cryptoChat } from '@/ai/flows/chatbot';
 import { textToSpeech } from '@/ai/flows/text-to-speech';
+import { speechToText } from '@/ai/flows/speech-to-text';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { SiteLogo } from './site-logo';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
 import { useLanguage } from '@/hooks/use-language';
+import { useToast } from '@/hooks/use-toast';
 
 
 type Message = {
@@ -66,6 +68,7 @@ const renderMessageContent = (content: string, setIsOpen: (open: boolean) => voi
 
 export function Chatbot() {
     const { t } = useLanguage();
+    const { toast } = useToast();
     const [isOpen, setIsOpen] = useState(false);
     const [messages, setMessages] = useState<Message[]>([
         { role: 'model', content: t('Chatbot.initialMessage') }
@@ -73,6 +76,10 @@ export function Chatbot() {
     const [inputValue, setInputValue] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [isAudioEnabled, setIsAudioEnabled] = useState(true);
+    const [isRecording, setIsRecording] = useState(false);
+    const [isTranscribing, setIsTranscribing] = useState(false);
+    const mediaRecorderRef = useRef<MediaRecorder | null>(null);
+    const audioChunksRef = useRef<Blob[]>([]);
     const scrollAreaRef = useRef<HTMLDivElement>(null);
     const audioRef = useRef<HTMLAudioElement>(null);
 
@@ -150,6 +157,59 @@ export function Chatbot() {
             setIsLoading(false);
         }
     };
+    
+    const handleMicClick = async () => {
+        if (isRecording) {
+            mediaRecorderRef.current?.stop();
+            setIsRecording(false);
+        } else {
+            if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                toast({ variant: "destructive", title: "Error", description: t('Chatbot.micNotSupported') });
+                return;
+            }
+
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                const recorder = new MediaRecorder(stream, { mimeType: 'audio/webm' });
+                mediaRecorderRef.current = recorder;
+                audioChunksRef.current = [];
+
+                recorder.ondataavailable = (event) => {
+                    audioChunksRef.current.push(event.data);
+                };
+
+                recorder.onstop = () => {
+                    const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
+                    const reader = new FileReader();
+                    reader.readAsDataURL(audioBlob);
+                    
+                    reader.onloadend = async () => {
+                        const base64data = reader.result as string;
+                        if (!base64data || base64data === 'data:') return;
+
+                        setIsTranscribing(true);
+                        try {
+                            const result = await speechToText({ audioDataUri: base64data });
+                            setInputValue(result.transcript);
+                        } catch (error) {
+                            console.error('Transcription failed:', error);
+                            toast({ variant: "destructive", title: "Error", description: t('Chatbot.transcriptionFailed') });
+                        } finally {
+                            setIsTranscribing(false);
+                        }
+                    };
+
+                    stream.getTracks().forEach(track => track.stop());
+                };
+
+                recorder.start();
+                setIsRecording(true);
+            } catch (error) {
+                console.error('Microphone access denied:', error);
+                toast({ variant: "destructive", title: "Permission Denied", description: t('Chatbot.micPermissionDenied') });
+            }
+        }
+    };
 
 
     return (
@@ -212,7 +272,9 @@ export function Chatbot() {
                                                 ? 'bg-primary text-primary-foreground' 
                                                 : 'bg-muted'
                                         )}>
-                                            {message.role === 'model' ? renderMessageContent(message.content, setIsOpen) : message.content}
+                                            <p className="whitespace-pre-wrap break-all">
+                                              {message.role === 'model' ? renderMessageContent(message.content, setIsOpen) : message.content}
+                                            </p>
                                         </div>
                                         {message.role === 'user' && (
                                             <Avatar className="h-8 w-8 border">
@@ -245,9 +307,19 @@ export function Chatbot() {
                                     autoComplete="off"
                                     value={inputValue}
                                     onChange={(e) => setInputValue(e.target.value)}
-                                    disabled={isLoading}
+                                    disabled={isLoading || isRecording || isTranscribing}
                                 />
-                                <Button type="submit" size="icon" disabled={isLoading}>
+                                <Button type="button" size="icon" onClick={handleMicClick} disabled={isLoading}>
+                                    {isTranscribing ? (
+                                        <Loader2 className="h-4 w-4 animate-spin" />
+                                    ) : isRecording ? (
+                                        <MicOff className="h-4 w-4 text-destructive" />
+                                    ) : (
+                                        <Mic className="h-4 w-4" />
+                                    )}
+                                    <span className="sr-only">{isRecording ? t('Chatbot.stopRecording') : t('Chatbot.recordMessage')}</span>
+                                </Button>
+                                <Button type="submit" size="icon" disabled={isLoading || isRecording || isTranscribing}>
                                     <Send className="h-4 w-4" />
                                     <span className="sr-only">{t('Chatbot.send')}</span>
                                 </Button>
