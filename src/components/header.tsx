@@ -13,10 +13,11 @@ import {
   SlidersHorizontal,
   Cog,
   Loader2,
-  Check
+  Check,
+  Sun,
+  Moon,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { ThemeToggle } from "@/components/theme-toggle";
 import { WalletConnect } from "@/components/wallet-connect";
 import {
   Sheet,
@@ -52,6 +53,34 @@ import { languages } from "@/lib/i18n";
 
 export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[] }) {
   const { t, language, setLanguage, isLoading: isTranslating } = useLanguage();
+
+  const [mounted, setMounted] = React.useState(false);
+  const [theme, setTheme] = React.useState<"light" | "dark">("light");
+
+  React.useEffect(() => {
+    const storedTheme = localStorage.getItem("theme");
+    if (storedTheme === 'light' || storedTheme === 'dark') {
+      setTheme(storedTheme);
+    } else {
+      setTheme(window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+    }
+    setMounted(true);
+  }, []);
+
+  React.useEffect(() => {
+    if (mounted) {
+      if (theme === "dark") {
+        document.documentElement.classList.add("dark");
+      } else {
+        document.documentElement.classList.remove("dark");
+      }
+      localStorage.setItem("theme", theme);
+    }
+  }, [theme, mounted]);
+
+  const toggleTheme = () => {
+    setTheme(theme === "light" ? "dark" : "light");
+  };
 
   const menuItems = [
     {
@@ -260,6 +289,22 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
             <DropdownMenuContent align="end" className="w-64">
               <DropdownMenuLabel>{t('Header.settings')}</DropdownMenuLabel>
               <DropdownMenuSeparator />
+              <DropdownMenuItem onSelect={(e) => e.preventDefault()} className="flex items-center justify-between">
+                <Label htmlFor="theme-toggle" className="font-normal cursor-pointer flex items-center gap-2">
+                    {theme === 'light' ? (
+                        <Sun className="h-4 w-4" />
+                    ) : (
+                        <Moon className="h-4 w-4" />
+                    )}
+                    <span>{theme === 'light' ? t('Header.lightMode') : t('Header.darkMode')}</span>
+                </Label>
+                <Switch
+                  id="theme-toggle"
+                  checked={theme === 'dark'}
+                  onCheckedChange={toggleTheme}
+                  disabled={!mounted}
+                />
+              </DropdownMenuItem>
                <DropdownMenuItem onSelect={(e) => e.preventDefault()} className="flex items-center justify-between">
                 <Label htmlFor="reputation-alert" className="font-normal cursor-pointer">{t('Header.reputationAlert')}</Label>
                 <Switch
@@ -303,9 +348,6 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
             </DropdownMenuContent>
           </DropdownMenu>
 
-          <div className="w-10 h-10 flex items-center justify-center">
-            <ThemeToggle />
-          </div>
         </div>
       </div>
     </header>

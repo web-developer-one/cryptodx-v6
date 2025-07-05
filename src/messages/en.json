@@ -11,7 +11,9 @@
     "reputationAlert": "Reputation Alert",
     "hideSmallBalances": "Hide small balances",
     "hideUnknownTokens": "Hide unknown tokens",
-    "language": "Language"
+    "language": "Language",
+    "lightMode": "Light Mode",
+    "darkMode": "Dark Mode"
   },
   "HomePage": {
     "title": "Seamlessly Swap Your Crypto",
