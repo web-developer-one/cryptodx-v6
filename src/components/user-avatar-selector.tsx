@@ -10,14 +10,15 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from './ui/tooltip';
+import { useAuth } from '@/hooks/use-auth';
 
 // --- Avatar Data ---
 
 export const avatars = [
   {
-    id: 'avatar1',
+    id: 'Admin',
     name: 'Block',
-    src: 'https://placehold.co/64x64.png',
+    src: 'https://avataaars.io/?avatarStyle=Circle&topType=WinterHat1&accessoriesType=Prescription01&hatColor=Red&facialHairType=Blank&clotheType=ShirtVNeck&clotheColor=Blue03&eyeType=Squint&eyebrowType=AngryNatural&mouthType=Smile&skinColor=Black',
     hint: 'block letter',
   },
   {
@@ -62,10 +63,17 @@ export function UserAvatarSelector({
   currentAvatar,
   onSelectAvatar,
 }: UserAvatarSelectorProps) {
+  const { user } = useAuth();
+
+  // Filter avatars based on user's admin status
+  const selectableAvatars = user?.isAdmin
+    ? avatars
+    : avatars.filter((avatar) => avatar.id !== 'avatar4');
+
   return (
     <TooltipProvider>
       <div className="flex items-center gap-4">
-        {avatars.map((avatar) => (
+        {selectableAvatars.map((avatar) => (
           <Tooltip key={avatar.id}>
             <TooltipTrigger asChild>
               <button
