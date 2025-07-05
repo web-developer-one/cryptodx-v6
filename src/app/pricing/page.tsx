@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Check } from 'lucide-react';
@@ -5,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 import { useEffect } from 'react';
+import { useLanguage } from '@/hooks/use-language';
 
 const tiers = [
   {
@@ -39,7 +41,7 @@ const tiers = [
     description: 'For power users and professionals.',
     features: [
       'AI Chatbot advanced',
-      'Reputation alert advanced',
+      'Reputation alert advance',
       'Hide small balances',
       'Hide unknown tokens',
     ],
@@ -49,10 +51,11 @@ const tiers = [
 ];
 
 export default function PricingPage() {
+  const { t } = useLanguage();
 
-    useEffect(() => {
-        document.title = 'Pricing | Crypto Swap';
-    }, []);
+  useEffect(() => {
+    document.title = t('PageTitles.pricing');
+  }, [t]);
 
   return (
     <div className="container flex-1 flex flex-col items-center py-12">

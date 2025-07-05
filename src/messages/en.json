@@ -350,6 +350,7 @@
     "spot": "Spot Trading | Crypto Swap",
     "tokens": "Explore Tokens | Crypto Swap",
     "tokenDetail": "{tokenName} Details | Crypto Swap",
-    "transactions": "Transactions | Crypto Swap"
+    "transactions": "Transactions | Crypto Swap",
+    "pricing": "Pricing Plans | Crypto Swap"
   }
 }
