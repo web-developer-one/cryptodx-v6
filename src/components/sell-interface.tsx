@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import type { Cryptocurrency } from '@/lib/types';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -16,6 +16,10 @@ import { checkTokenReputation } from '@/ai/flows/check-token-reputation';
 import { AlertTriangle, Loader2 } from 'lucide-react';
 import { useReputation } from '@/hooks/use-reputation';
 import { useLanguage } from '@/hooks/use-language';
+import { useAuth } from '@/hooks/use-auth';
+import { textToSpeech } from '@/ai/flows/text-to-speech';
+import { translateTexts } from '@/ai/flows/translate-text';
+import { languages } from '@/lib/i18n';
 
 type SupportedCurrency = {
     symbol: string;
@@ -38,7 +42,7 @@ const supportedCurrencies: SupportedCurrency[] = [
 
 
 export function SellInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[] }) {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const [fromToken, setFromToken] = useState<Cryptocurrency>(cryptocurrencies.find(c => c.symbol === 'ETH') || cryptocurrencies[0]);
   const [cryptoAmount, setCryptoAmount] = useState<string>('1');
   const [fiatAmount, setFiatAmount] = useState<string>('');
@@ -48,6 +52,9 @@ export function SellInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocu
   const [isChecking, setIsChecking] = useState(false);
   const [reputationAlert, setReputationAlert] = useState<{ title: string; description: React.ReactNode } | null>(null);
   const { isReputationCheckEnabled } = useReputation();
+  const { user } = useAuth();
+  const audioRef = useRef<HTMLAudioElement>(null);
+
 
   useEffect(() => {
     if (cryptoAmount && fromToken?.price > 0 && toFiat) {
@@ -132,6 +139,30 @@ export function SellInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocu
                 title: t('BuyInterface.reputationAlert'),
                 description: description,
             });
+
+             if (user?.isAdmin) {
+                let textToSpeak = result.reasoning;
+                const targetLangInfo = languages.find(l => l.code === language);
+                if (language !== 'en' && targetLangInfo) {
+                    try {
+                        const translationResult = await translateTexts({
+                            texts: { alert: result.reasoning },
+                            targetLanguage: targetLangInfo.englishName,
+                        });
+                        if (translationResult.translations?.alert) {
+                            textToSpeak = translationResult.translations.alert;
+                        }
+                    } catch (e) { console.error("Could not translate alert audio", e); }
+                }
+
+                try {
+                    const audioResult = await textToSpeech(textToSpeak);
+                    if (audioRef.current && audioResult.media) {
+                        audioRef.current.src = audioResult.media;
+                        audioRef.current.play().catch(e => console.error("Audio playback failed:", e));
+                    }
+                } catch (e) { console.error("Could not generate alert audio", e); }
+            }
         } else {
             toast({
                 title: t('SellInterface.sellInitiated'),
@@ -265,6 +296,7 @@ export function SellInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocu
             </AlertDialogFooter>
         </AlertDialogContent>
     </AlertDialog>
+    <audio ref={audioRef} className="hidden" />
     </>
   );
 }

@@ -2,9 +2,10 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { Bot, Send, Loader2, X, User, Volume2, VolumeX, Mic, MicOff } from 'lucide-react';
+import { Bot, Send, Loader2, X, User, Volume2, VolumeX, Mic, MicOff, Languages, Check } from 'lucide-react';
 import { Button } from './ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from './ui/dropdown-menu';
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from './ui/card';
 import { Input } from './ui/input';
 import { ScrollArea } from './ui/scroll-area';
@@ -17,6 +18,8 @@ import { cn } from '@/lib/utils';
 import Link from 'next/link';
 import { useLanguage } from '@/hooks/use-language';
 import { useToast } from '@/hooks/use-toast';
+import { useAuth } from '@/hooks/use-auth';
+import { languages } from '@/lib/i18n';
 
 
 type Message = {
@@ -67,8 +70,9 @@ const renderMessageContent = (content: string, setIsOpen: (open: boolean) => voi
 };
 
 export function Chatbot() {
-    const { t } = useLanguage();
+    const { t, language } = useLanguage();
     const { toast } = useToast();
+    const { user } = useAuth();
     const [isOpen, setIsOpen] = useState(false);
     const [messages, setMessages] = useState<Message[]>([
         { role: 'model', content: t('Chatbot.initialMessage') }
@@ -78,11 +82,18 @@ export function Chatbot() {
     const [isAudioEnabled, setIsAudioEnabled] = useState(true);
     const [isRecording, setIsRecording] = useState(false);
     const [isTranscribing, setIsTranscribing] = useState(false);
+    const [botLanguage, setBotLanguage] = useState(language);
     const mediaRecorderRef = useRef<MediaRecorder | null>(null);
     const audioChunksRef = useRef<Blob[]>([]);
     const scrollAreaRef = useRef<HTMLDivElement>(null);
     const audioRef = useRef<HTMLAudioElement>(null);
 
+    useEffect(() => {
+        // Keep bot language in sync with site language unless user is admin
+        if (!user?.isAdmin) {
+            setBotLanguage(language);
+        }
+    }, [language, user?.isAdmin]);
 
     useEffect(() => {
         const savedPreference = localStorage.getItem('chatbot_audio_enabled');
@@ -125,7 +136,8 @@ export function Chatbot() {
             const chatHistory = messages.map(m => ({ role: m.role, content: m.content }));
             const result = await cryptoChat({ 
                 history: chatHistory, 
-                userMessage: userMessage.content
+                userMessage: userMessage.content,
+                targetLanguage: user?.isAdmin ? languages.find(l => l.code === botLanguage)?.englishName : undefined
             });
             
             const responseText = result.response?.trim();
@@ -245,6 +257,25 @@ export function Chatbot() {
                         <CardHeader className="flex flex-row items-center justify-between p-4 border-b">
                             <CardTitle className="text-lg">{t('Chatbot.title')}</CardTitle>
                             <div className='flex items-center gap-1'>
+                                {user?.isAdmin && (
+                                    <DropdownMenu>
+                                        <DropdownMenuTrigger asChild>
+                                            <Button variant="ghost" size="icon" className="h-6 w-6">
+                                                <Languages className="h-4 w-4" />
+                                            </Button>
+                                        </DropdownMenuTrigger>
+                                        <DropdownMenuContent align="end">
+                                            <ScrollArea className="h-72">
+                                                {languages.map((lang) => (
+                                                    <DropdownMenuItem key={lang.code} onSelect={() => setBotLanguage(lang.code)}>
+                                                        <Check className={`mr-2 h-4 w-4 ${botLanguage === lang.code ? "opacity-100" : "opacity-0"}`} />
+                                                        {lang.displayName}
+                                                    </DropdownMenuItem>
+                                                ))}
+                                            </ScrollArea>
+                                        </DropdownMenuContent>
+                                    </DropdownMenu>
+                                )}
                                 <Button variant="ghost" size="icon" onClick={toggleAudio} className="h-6 w-6">
                                     {isAudioEnabled ? <Volume2 className="h-4 w-4" /> : <VolumeX className="h-4 w-4 text-muted-foreground" />}
                                     <span className="sr-only">{isAudioEnabled ? "Disable Audio" : "Enable Audio"}</span>

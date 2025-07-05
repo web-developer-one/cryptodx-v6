@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -15,11 +15,17 @@ import { checkTokenReputation, CheckTokenReputationOutput } from '@/ai/flows/che
 import type { TokenDetails } from '@/lib/types';
 import { Card, CardContent } from '../ui/card';
 import { useLanguage } from '@/hooks/use-language';
+import { useAuth } from '@/hooks/use-auth';
+import { textToSpeech } from '@/ai/flows/text-to-speech';
+import { translateTexts } from '@/ai/flows/translate-text';
+import { languages } from '@/lib/i18n';
 
 export function ReputationAlert({ token }: { token: TokenDetails }) {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
+  const { user } = useAuth();
   const [isLoading, setIsLoading] = useState(true);
   const [reputation, setReputation] = useState<CheckTokenReputationOutput | null>(null);
+  const audioRef = useRef<HTMLAudioElement>(null);
 
   useEffect(() => {
     const getReputation = async () => {
@@ -30,6 +36,31 @@ export function ReputationAlert({ token }: { token: TokenDetails }) {
           tokenSymbol: token.symbol,
         });
         setReputation(result);
+
+        if (result.isScamOrScandal && user?.isAdmin) {
+          let textToSpeak = result.reasoning;
+          const targetLangInfo = languages.find(l => l.code === language);
+          if (language !== 'en' && targetLangInfo) {
+              try {
+                  const translationResult = await translateTexts({
+                      texts: { alert: result.reasoning },
+                      targetLanguage: targetLangInfo.englishName,
+                  });
+                  if (translationResult.translations?.alert) {
+                      textToSpeak = translationResult.translations.alert;
+                  }
+              } catch (e) { console.error("Could not translate alert audio", e); }
+          }
+
+          try {
+              const audioResult = await textToSpeech(textToSpeak);
+              if (audioRef.current && audioResult.media) {
+                  audioRef.current.src = audioResult.media;
+                  audioRef.current.play().catch(e => console.error("Audio playback failed:", e));
+              }
+          } catch (e) { console.error("Could not generate alert audio", e); }
+        }
+
       } catch (error) {
         console.error("Failed to check token reputation:", error);
         // Don't show an error to the user, just fail silently.
@@ -40,7 +71,8 @@ export function ReputationAlert({ token }: { token: TokenDetails }) {
     };
 
     getReputation();
-  }, [token.name, token.symbol]);
+  }, [token.name, token.symbol, user?.isAdmin, language]);
+
 
   if (isLoading) {
     return (
@@ -74,28 +106,31 @@ export function ReputationAlert({ token }: { token: TokenDetails }) {
   }
 
   return (
-    <AlertDialog defaultOpen={true}>
-      <AlertDialogContent>
-        <AlertDialogHeader>
-          <AlertDialogTitle className="flex items-center gap-2">
-            <AlertTriangle className="h-6 w-6 text-destructive" />
-            <span>{t('ReputationAlert.alertTitle').replace('{tokenName}', token.name).replace('{tokenSymbol}', token.symbol)}</span>
-          </AlertDialogTitle>
-          <AlertDialogDescription asChild>
-            <div className="pt-4 text-base space-y-4">
-                <p>{reputation.reasoning}</p>
-                {reputation.sourceUrl && (
-                    <p className="text-sm">
-                        {t('ReputationAlert.source')}: <a href={reputation.sourceUrl} target="_blank" rel="noopener noreferrer" className="text-primary underline hover:text-primary/80 break-all">{reputation.sourceUrl}</a>
-                    </p>
-                )}
-            </div>
-          </AlertDialogDescription>
-        </AlertDialogHeader>
-        <AlertDialogFooter>
-          <AlertDialogAction>{t('BuyInterface.acknowledgeAndContinue')}</AlertDialogAction>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
+    <>
+      <AlertDialog defaultOpen={true}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle className="flex items-center gap-2">
+              <AlertTriangle className="h-6 w-6 text-destructive" />
+              <span>{t('ReputationAlert.alertTitle').replace('{tokenName}', token.name).replace('{tokenSymbol}', token.symbol)}</span>
+            </AlertDialogTitle>
+            <AlertDialogDescription asChild>
+              <div className="pt-4 text-base space-y-4">
+                  <p>{reputation.reasoning}</p>
+                  {reputation.sourceUrl && (
+                      <p className="text-sm">
+                          {t('ReputationAlert.source')}: <a href={reputation.sourceUrl} target="_blank" rel="noopener noreferrer" className="text-primary underline hover:text-primary/80 break-all">{reputation.sourceUrl}</a>
+                      </p>
+                  )}
+              </div>
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogAction>{t('BuyInterface.acknowledgeAndContinue')}</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+      <audio ref={audioRef} className="hidden" />
+    </>
   );
 }

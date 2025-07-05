@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import {
   Card,
   CardContent,
@@ -40,6 +40,11 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import { useToast } from "@/hooks/use-toast";
 import { checkTokenReputation } from "@/ai/flows/check-token-reputation";
 import { useReputation } from "@/hooks/use-reputation";
+import { useAuth } from "@/hooks/use-auth";
+import { useLanguage } from "@/hooks/use-language";
+import { languages } from "@/lib/i18n";
+import { textToSpeech } from "@/ai/flows/text-to-speech";
+import { translateTexts } from "@/ai/flows/translate-text";
 
 export function SwapInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[] }) {
   const [fromToken, setFromToken] = useState<Cryptocurrency>(cryptocurrencies[0]);
@@ -56,6 +61,10 @@ export function SwapInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocu
   const [isChecking, setIsChecking] = useState(false);
   const [reputationAlert, setReputationAlert] = useState<{ title: string; description: React.ReactNode } | null>(null);
   const { isReputationCheckEnabled } = useReputation();
+  const { user } = useAuth();
+  const { language } = useLanguage();
+  const audioRef = useRef<HTMLAudioElement>(null);
+
 
   const exchangeRate = useMemo(() => {
     if (fromToken?.price > 0 && toToken?.price > 0) {
@@ -208,6 +217,34 @@ export function SwapInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocu
                 title: 'Reputation Alert',
                 description: description,
             });
+
+            if (user?.isAdmin) {
+                const reasoningText = badTokens.map(t => `${t.token.name}: ${t.reasoning}`).join('. ');
+                
+                let textToSpeak = reasoningText;
+                const targetLangInfo = languages.find(l => l.code === language);
+            
+                if (language !== 'en' && targetLangInfo) {
+                    try {
+                        const translationResult = await translateTexts({
+                            texts: { alert: reasoningText },
+                            targetLanguage: targetLangInfo.englishName,
+                        });
+                        if (translationResult.translations?.alert) {
+                            textToSpeak = translationResult.translations.alert;
+                        }
+                    } catch (e) { console.error("Could not translate alert audio", e); }
+                }
+                
+                try {
+                    const audioResult = await textToSpeech(textToSpeak);
+                    if (audioRef.current && audioResult.media) {
+                        audioRef.current.src = audioResult.media;
+                        audioRef.current.play().catch(e => console.error("Audio playback failed:", e));
+                    }
+                } catch (e) { console.error("Could not generate alert audio", e); }
+            }
+
         } else {
             toast({
                 title: "Swap Initiated (Simulated)",
@@ -478,6 +515,7 @@ export function SwapInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocu
             </AlertDialogFooter>
         </AlertDialogContent>
     </AlertDialog>
+    <audio ref={audioRef} className="hidden" />
     </>
   );
 }
