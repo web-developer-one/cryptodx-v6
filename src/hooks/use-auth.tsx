@@ -36,7 +36,8 @@ const authNotConfiguredToast = (toast: any) => {
     toast({
       variant: 'destructive',
       title: 'Authentication Not Configured',
-      description: 'Please add your Firebase credentials to a .env.local file and restart the server to use this feature.'
+      description: 'Please add your Firebase credentials to a .env.local file and restart the development server to use this feature.',
+      duration: 10000,
     });
 };
 
@@ -47,6 +48,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
   const { toast } = useToast();
   const router = useRouter();
+
+  // This useEffect will run once on the client and show a persistent toast if Firebase isn't configured.
+  useEffect(() => {
+      if (!auth) {
+          authNotConfiguredToast(toast);
+      }
+  }, [toast]);
 
   const handleAuthError = useCallback((error: any, context: 'Login' | 'Google Login' | 'Registration') => {
     console.error(`${context} failed:`, error);
