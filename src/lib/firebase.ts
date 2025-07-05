@@ -36,7 +36,10 @@ if (isFirebaseConfigured) {
 } else {
     // This warning will appear in the browser console if keys are missing
     if (typeof window !== 'undefined') {
-        console.warn("Firebase is not configured. Create a .env.local file with your Firebase credentials and restart the development server.");
+        console.warn("Firebase is not configured. Please ensure all required variables are set in a .env.local file and that you have restarted the development server.");
+        if (!firebaseConfig.apiKey) console.warn("❌ Missing: NEXT_PUBLIC_FIREBASE_API_KEY");
+        if (!firebaseConfig.authDomain) console.warn("❌ Missing: NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN");
+        if (!firebaseConfig.projectId) console.warn("❌ Missing: NEXT_PUBLIC_FIREBASE_PROJECT_ID");
     }
 }
 
