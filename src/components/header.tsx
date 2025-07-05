@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from "next/link";
@@ -330,6 +331,12 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
             <DropdownMenuContent align="end" className="w-64">
               <DropdownMenuLabel>{t('Header.settings')}</DropdownMenuLabel>
               <DropdownMenuSeparator />
+              <DropdownMenuItem asChild>
+                <Link href="/slippage" className="cursor-pointer flex items-center">
+                  <SlidersHorizontal className="mr-2 h-4 w-4" />
+                  <span>{t('Header.slippage')}</span>
+                </Link>
+              </DropdownMenuItem>
               <DropdownMenuItem onSelect={(e) => e.preventDefault()} className="flex items-center justify-between">
                 <Label htmlFor="theme-toggle" className="font-normal cursor-pointer flex items-center gap-2">
                     {theme === 'light' ? (
@@ -345,12 +352,6 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
                   onCheckedChange={toggleTheme}
                   disabled={!mounted}
                 />
-              </DropdownMenuItem>
-              <DropdownMenuItem asChild>
-                <Link href="/slippage" className="cursor-pointer flex items-center">
-                  <SlidersHorizontal className="mr-2 h-4 w-4" />
-                  <span>{t('Header.slippage')}</span>
-                </Link>
               </DropdownMenuItem>
                <DropdownMenuItem onSelect={(e) => e.preventDefault()} className="flex items-center justify-between">
                 <Label htmlFor="reputation-alert" className="font-normal cursor-pointer">{t('Header.reputationAlert')}</Label>
