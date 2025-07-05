@@ -336,7 +336,7 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
                     ) : (
                         <Moon className="h-4 w-4" />
                     )}
-                    <span>{theme === 'light' ? t('Header.lightMode') : t('Header.darkMode')}</span>
+                    <span>{theme === 'light' ? t('Header.LightMode') : t('Header.DarkMode')}</span>
                 </Label>
                 <Switch
                   id="theme-toggle"
