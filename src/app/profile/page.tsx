@@ -90,9 +90,9 @@ export default function ProfilePage() {
                     <CardDescription>Manage your account information and preferences.</CardDescription>
                 </div>
                 {user.pricingPlan && (
-                    <Badge variant={user.pricingPlan === 'Administrator' ? 'destructive' : 'secondary'} className='text-base'>
-                        {user.pricingPlan === 'Administrator' && <Crown className="mr-2 h-4 w-4" />}
-                        {user.pricingPlan} Plan
+                    <Badge variant={user.isAdmin ? 'destructive' : 'secondary'} className='text-base'>
+                        {user.isAdmin && <Crown className="mr-2 h-4 w-4" />}
+                        {user.isAdmin ? 'Admin' : `${user.pricingPlan} Plan`}
                     </Badge>
                 )}
             </div>
@@ -163,7 +163,7 @@ export default function ProfilePage() {
                     />
                     <div className="space-y-2">
                       <Label htmlFor="pricing-plan">Pricing Plan</Label>
-                      <Input id="pricing-plan" value={user.pricingPlan || 'Free'} disabled />
+                      <Input id="pricing-plan" value={user.isAdmin ? 'Admin' : (user.pricingPlan || 'Free')} disabled />
                     </div>
                 </div>
                  <Alert variant="default" className="border-primary/20 bg-primary/5">
