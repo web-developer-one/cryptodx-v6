@@ -11,6 +11,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { Skeleton } from '@/components/ui/skeleton';
 import { UserAvatarSelector } from '@/components/user-avatar-selector';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
@@ -160,12 +161,10 @@ export default function ProfilePage() {
                         </FormItem>
                       )}
                     />
-                    <FormItem>
-                      <FormLabel>Pricing Plan</FormLabel>
-                      <FormControl>
-                        <Input value={user.pricingPlan || 'Free'} disabled />
-                      </FormControl>
-                    </FormItem>
+                    <div className="space-y-2">
+                      <Label htmlFor="pricing-plan">Pricing Plan</Label>
+                      <Input id="pricing-plan" value={user.pricingPlan || 'Free'} disabled />
+                    </div>
                 </div>
                  <Alert variant="default" className="border-primary/20 bg-primary/5">
                   <ShieldCheck className="h-4 w-4 text-primary" />
