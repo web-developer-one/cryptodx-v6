@@ -63,6 +63,13 @@ export function Footer() {
             <p className="text-sm text-primary-foreground/80">
               {t('Footer.subtitle')}
             </p>
+            <a
+              href="/Crypto_Swap_Whitepaper.md"
+              download="Crypto_Swap_Whitepaper.pdf"
+              className="text-sm text-primary-foreground/80 underline hover:text-primary-foreground mt-2"
+            >
+              Download our Whitepaper
+            </a>
           </div>
 
           {/* The other columns */}
