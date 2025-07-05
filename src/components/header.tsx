@@ -18,6 +18,10 @@ import {
   Moon,
   User as UserIcon,
   LogOut,
+  ShieldAlert,
+  EyeOff,
+  ShieldX,
+  Languages,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { WalletConnect } from "@/components/wallet-connect";
@@ -336,7 +340,7 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
                     ) : (
                         <Moon className="h-4 w-4" />
                     )}
-                    <span>{theme === 'light' ? t('Header.LightMode') : t('Header.DarkMode')}</span>
+                    <span>{theme === 'light' ? 'Light Mode' : 'Dark Mode'}</span>
                 </Label>
                 <Switch
                   id="theme-toggle"
@@ -346,7 +350,10 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
                 />
               </DropdownMenuItem>
                <DropdownMenuItem onSelect={(e) => e.preventDefault()} className="flex items-center justify-between">
-                <Label htmlFor="reputation-alert" className="font-normal cursor-pointer">{t('Header.reputationAlert')}</Label>
+                <Label htmlFor="reputation-alert" className="font-normal cursor-pointer flex items-center gap-2">
+                  <ShieldAlert className="h-4 w-4" />
+                  <span>{t('Header.reputationAlert')}</span>
+                </Label>
                 <Switch
                   id="reputation-alert"
                   checked={isReputationCheckEnabled}
@@ -354,7 +361,10 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
                 />
               </DropdownMenuItem>
               <DropdownMenuItem onSelect={(e) => e.preventDefault()} className="flex items-center justify-between">
-                <Label htmlFor="hide-small-balances" className="font-normal cursor-pointer">{t('Header.hideSmallBalances')}</Label>
+                <Label htmlFor="hide-small-balances" className="font-normal cursor-pointer flex items-center gap-2">
+                  <EyeOff className="h-4 w-4" />
+                  <span>{t('Header.hideSmallBalances')}</span>
+                </Label>
                 <Switch
                   id="hide-small-balances"
                   checked={hideSmallBalances}
@@ -362,7 +372,10 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
                 />
               </DropdownMenuItem>
               <DropdownMenuItem onSelect={(e) => e.preventDefault()} className="flex items-center justify-between">
-                <Label htmlFor="hide-unknown-tokens" className="font-normal cursor-pointer">{t('Header.hideUnknownTokens')}</Label>
+                <Label htmlFor="hide-unknown-tokens" className="font-normal cursor-pointer flex items-center gap-2">
+                  <ShieldX className="h-4 w-4" />
+                  <span>{t('Header.hideUnknownTokens')}</span>
+                </Label>
                 <Switch
                   id="hide-unknown-tokens"
                   checked={hideUnknownTokens}
@@ -378,6 +391,7 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
               <DropdownMenuSeparator />
               <DropdownMenuSub>
                 <DropdownMenuSubTrigger>
+                  <Languages className="mr-2 h-4 w-4" />
                   <span>{t('Header.language')}</span>
                 </DropdownMenuSubTrigger>
                 <DropdownMenuSubContent>
