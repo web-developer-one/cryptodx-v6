@@ -343,13 +343,6 @@
     "description": "Buy and sell crypto at the current market rate.",
     "comingSoon": "The spot trading interface is coming soon."
   },
-  "UkDisclaimer": {
-    "panelText": "UK disclaimer: This web application is made available as a tool for users to engage with CryptoMx at their own discretion. It does not constitute an endorsement or recommendation of cryptocurrency trading activities. ",
-    "readMore": "Read more...",
-    "modalTitle": "Disclaimer for UK residents",
-    "modalBody": "This web application is made available as a tool for users to engage with CryptoMx at their own discretion. It does not constitute an endorsement or recommendation of cryptocurrency trading activities. CryptoMx does not advise or encourage users or prospective users to participate in cryptoasset trading, and the content of this website should not be interpreted as a recommendation, solicitation, or inducement to engage in such activities.",
-    "modalButton": "Dismiss and Close"
-  },
   "PageTitles": {
     "home": "Crypto Swap | Seamless Token Exchange",
     "buy": "Buy Crypto | Crypto Swap",
