@@ -134,10 +134,13 @@ export function Chatbot() {
 
         try {
             const chatHistory = messages.map(m => ({ role: m.role, content: m.content }));
+            const isPremium = user?.isAdmin || user?.pricingPlan === 'Advanced';
+
             const result = await cryptoChat({ 
                 history: chatHistory, 
                 userMessage: userMessage.content,
-                targetLanguage: (user?.isAdmin || user?.pricingPlan === 'Advanced') ? languages.find(l => l.code === botLanguage)?.englishName : undefined
+                targetLanguage: isPremium ? languages.find(l => l.code === botLanguage)?.englishName : undefined,
+                isFreePlan: !user || user.pricingPlan === 'Free'
             });
             
             const responseText = result.response?.trim();
@@ -145,7 +148,7 @@ export function Chatbot() {
                 const modelMessage: Message = { role: 'model', content: responseText };
                 setMessages(prev => [...prev, modelMessage]);
 
-                if (isAudioEnabled && (user?.isAdmin || user?.pricingPlan === 'Advanced')) {
+                if (isAudioEnabled && isPremium) {
                     try {
                         const audioResult = await textToSpeech(responseText);
                         if (audioRef.current && audioResult.media) {

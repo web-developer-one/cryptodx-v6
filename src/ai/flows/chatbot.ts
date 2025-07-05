@@ -20,6 +20,7 @@ const CryptoChatInputSchema = z.object({
   history: z.array(MessageSchema).describe('The history of the conversation.'),
   userMessage: z.string().describe('The message from the user.'),
   targetLanguage: z.string().describe('The target language for the response, e.g., "Spanish".').optional(),
+  isFreePlan: z.boolean().optional().describe('Whether the user is on the Free plan, which restricts the bot to English only.'),
 });
 export type CryptoChatInput = z.infer<typeof CryptoChatInputSchema>;
 
@@ -84,7 +85,11 @@ Engage in a friendly conversation, using the provided history to maintain contex
 {{#if targetLanguage}}
 **IMPORTANT**: You MUST respond in the following language: {{{targetLanguage}}}. Disregard any other language detections or instructions.
 {{else}}
+    {{#if isFreePlan}}
+**Language Handling**: You MUST respond in English, regardless of the user's language.
+    {{else}}
 **Language Handling**: You MUST detect the user's language from their message and the conversation history, and you MUST respond in that same language. If the user asks you to switch to a different language, you must do so.
+    {{/if}}
 {{/if}}
 
 - Politely decline to answer any questions that are not related to your core topics of Blockchain, DeFi, Crypto, NFTs, and AI.
