@@ -40,7 +40,7 @@ const renderMessageContent = (content: string, setIsOpen: (open: boolean) => voi
         <Link
           key={lastIndex}
           href={href}
-          className="text-primary underline hover:text-primary/80"
+          className="text-primary underline hover:text-primary/80 break-all"
           onClick={() => setIsOpen(false)}
         >
           {text}
@@ -48,7 +48,7 @@ const renderMessageContent = (content: string, setIsOpen: (open: boolean) => voi
       );
     } else {
       result.push(
-        <a key={lastIndex} href={href} target="_blank" rel="noopener noreferrer" className="text-primary underline hover:text-primary/80">
+        <a key={lastIndex} href={href} target="_blank" rel="noopener noreferrer" className="text-primary underline hover:text-primary/80 break-all">
           {text}
         </a>
       );
@@ -207,7 +207,7 @@ export function Chatbot() {
                                             </Avatar>
                                         )}
                                         <div className={cn(
-                                            "max-w-[80%] rounded-lg px-3 py-2 text-sm",
+                                            "max-w-[80%] rounded-lg px-3 py-2 text-sm break-words",
                                             message.role === 'user' 
                                                 ? 'bg-primary text-primary-foreground' 
                                                 : 'bg-muted'
