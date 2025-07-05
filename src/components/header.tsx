@@ -289,8 +289,8 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
           {user ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                 <Button variant="ghost" className="relative h-9 w-9 rounded-full">
-                    <Avatar className="h-9 w-9">
+                 <Button variant="ghost" className="relative h-9 w-9 rounded-full p-0">
+                    <Avatar className="h-full w-full">
                       {React.cloneElement(getAvatarById(user.avatar).component, {
                           className: "aspect-square h-full w-full"
                       })}
@@ -316,8 +316,8 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
             </DropdownMenu>
           ) : (
              <Link href="/login">
-                <Button variant="ghost" className="relative h-9 w-9 rounded-full">
-                    <Avatar className="h-9 w-9">
+                <Button variant="ghost" className="relative h-9 w-9 rounded-full p-0">
+                    <Avatar className="h-full w-full">
                       <AvatarFallback><UserIcon /></AvatarFallback>
                     </Avatar>
                   </Button>
