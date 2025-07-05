@@ -289,7 +289,7 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
           {user ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="relative h-10 w-10 rounded-full p-0 hover:bg-white/10">
+                <Button variant="ghost" className="relative h-12 w-12 rounded-full p-0 hover:bg-white/10">
                   <Avatar className="h-full w-full">
                     {/* The component from getAvatarById is an SVG element. We clone it to add classes for sizing. */}
                     {React.cloneElement(getAvatarById(user.avatar).component, { className: 'h-full w-full' })}
@@ -314,7 +314,7 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
             </DropdownMenu>
           ) : (
              <Link href="/login">
-                <Button variant="ghost" className="relative h-10 w-10 rounded-full p-0">
+                <Button variant="ghost" className="relative h-12 w-12 rounded-full p-0">
                     <Avatar className="h-full w-full">
                       <AvatarFallback><UserIcon /></AvatarFallback>
                     </Avatar>
