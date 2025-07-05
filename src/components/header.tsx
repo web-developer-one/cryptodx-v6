@@ -291,11 +291,15 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="relative h-12 w-12 rounded-full p-0">
                   <Avatar className="h-full w-full">
-                    <AvatarImage
-                      src={getAvatarById(user.avatar).src}
-                      alt={user.firstName || ''}
-                      unoptimized={(getAvatarById(user.avatar) as any).unoptimized}
-                    />
+                    <AvatarImage asChild>
+                        <Image
+                            src={getAvatarById(user.avatar).src}
+                            alt={user.firstName || ''}
+                            width={48}
+                            height={48}
+                            unoptimized={!!(getAvatarById(user.avatar) as any).unoptimized}
+                        />
+                    </AvatarImage>
                     <AvatarFallback>
                       {user.firstName?.charAt(0)}
                       {user.lastName?.charAt(0)}
