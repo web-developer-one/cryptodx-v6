@@ -1,3 +1,4 @@
+
 'use client';
 
 import { ApiErrorCard } from "@/components/api-error-card";
@@ -61,9 +62,9 @@ export function HomePageClient({ cryptoData, error }: HomePageClientProps) {
             <TradeNav />
             <SwapInterface cryptocurrencies={cryptoData} />
         </div>
-        <HowToExchange />
       </div>
       <UkDisclaimer />
+      <HowToExchange />
       <Faq />
     </div>
   );
