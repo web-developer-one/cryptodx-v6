@@ -36,7 +36,8 @@ export const avatars = [
     id: 'avatar4',
     name: 'Admin',
     src: 'https://avataaars.io/?avatarStyle=Circle&topType=WinterHat1&accessoriesType=Prescription01&hatColor=Red&facialHairType=Blank&clotheType=ShirtVNeck&clotheColor=Blue03&eyeType=Squint&eyebrowType=AngryNatural&mouthType=Smile&skinColor=Black',
-    hint: 'admin avatar',
+    hint: 'robot head',
+    unoptimized: true,
   },
   {
     id: 'avatar5',
@@ -84,6 +85,7 @@ export function UserAvatarSelector({
                   height={64}
                   className="h-full w-full object-cover"
                   data-ai-hint={avatar.hint}
+                  unoptimized={(avatar as any).unoptimized}
                 />
                 {currentAvatar === avatar.id && (
                   <div className="absolute -bottom-1 -right-1 flex h-6 w-6 items-center justify-center rounded-full bg-primary text-primary-foreground">
