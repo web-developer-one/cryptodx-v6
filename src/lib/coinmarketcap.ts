@@ -80,7 +80,7 @@ interface CmcQuoteResponse {
 
 export async function getLatestListings(): Promise<{ data: Cryptocurrency[]; error: string | null }> {
   if (!API_KEY || API_KEY === 'YOUR_API_KEY_HERE') {
-    console.error("CoinMarketCap API key is not configured. Please set COINMARKETCAP_API_KEY in your environment.");
+    // console.error("CoinMarketCap API key is not configured. Please set COINMARKETCAP_API_KEY in your environment.");
     return { data: [], error: 'API_KEY_MISSING' };
   }
   
@@ -148,7 +148,7 @@ export async function getLatestListings(): Promise<{ data: Cryptocurrency[]; err
 
 export async function getTokenDetails(id: string): Promise<{ token: TokenDetails | null; error: string | null }> {
     if (!API_KEY || API_KEY === 'YOUR_API_KEY_HERE') {
-        console.error("CoinMarketCap API key is not configured. Please set COINMARKETCAP_API_KEY in your environment.");
+        // console.error("CoinMarketCap API key is not configured. Please set COINMARKETCAP_API_KEY in your environment.");
         return { token: null, error: 'API_KEY_MISSING' };
     }
 
