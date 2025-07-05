@@ -33,19 +33,20 @@ export async function translateTexts(
 const prompt = ai.definePrompt({
   name: 'translateTextsPrompt',
   input: {schema: TranslateTextsInputSchema},
+  output: {schema: TranslateTextsOutputSchema},
   prompt: `You are a professional translator. Translate the values of the following JSON object into {{targetLanguage}}.
-It is crucial that you preserve the exact JSON structure, including all keys and nesting.
+Your output MUST be a JSON object with a single key "translations" which contains the translated version of the input JSON.
+It is crucial that you preserve the exact JSON structure of the input, including all keys and nesting, within the "translations" object.
+
 Only translate the string values.
 Do NOT translate any text that is inside curly braces, like {this}. These are placeholders for variables and must remain in English.
 Do NOT translate cryptocurrency names (e.g., Bitcoin, Ethereum), their symbols (e.g., BTC, ETH), or technical terms like "API Key", "Market Cap", "TVL", "APR".
-Do not add any commentary or introductory text.
 
-Input JSON:
+Input JSON to translate:
 \`\`\`json
 {{{json texts}}}
 \`\`\`
-
-Respond with only the translated JSON object, enclosed in \`\`\`json ... \`\`\` markdown code fences.`,
+`,
   config: {
       temperature: 0.1, // Be precise
   }
@@ -59,24 +60,7 @@ const translateTextsFlow = ai.defineFlow(
     outputSchema: TranslateTextsOutputSchema,
   },
   async (input) => {
-    const llmResponse = await prompt(input);
-    const rawText = llmResponse.text?.trim();
-
-    if (!rawText) {
-      throw new Error("Translation flow did not produce any text output.");
-    }
-
-    try {
-        // The AI might wrap the JSON in markdown code fences, so we need to extract it.
-        const jsonMatch = rawText.match(/```json\n([\s\S]*?)\n```/);
-        const jsonString = jsonMatch ? jsonMatch[1] : rawText;
-        const parsedTranslations = JSON.parse(jsonString);
-
-        return { translations: parsedTranslations };
-
-    } catch(e) {
-        console.error("Failed to parse translated JSON:", e, "Raw text:", rawText);
-        throw new Error("AI returned an invalid JSON format for translation.");
-    }
+    const {output} = await prompt(input);
+    return output!;
   }
 );
