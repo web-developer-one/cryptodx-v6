@@ -111,7 +111,6 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
         { name: t('Footer.tokens'), href: "/tokens" },
         { name: t('Footer.pools'), href: "/pools" },
         { name: t('Footer.transactions'), href: "/transactions" },
-        { name: "Pricing", href: "/pricing" },
       ],
     },
     {
@@ -245,7 +244,7 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
           </Sheet>
         </div>
 
-        <div className="flex flex-1 items-center justify-end space-x-2">
+        <div className="flex flex-1 items-center justify-end space-x-1">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button
@@ -289,7 +288,7 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
           {user ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="relative h-10 w-10 rounded-full p-0">
+                <Button variant="ghost" className="relative h-9 w-9 rounded-full p-0">
                   <Avatar className="h-full w-full">
                     <Image
                         src={getAvatarById(user.avatar).src}
@@ -323,7 +322,7 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
             </DropdownMenu>
           ) : (
              <Link href="/login">
-                <Button variant="ghost" className="relative h-10 w-10 rounded-full p-0">
+                <Button variant="ghost" className="relative h-9 w-9 rounded-full p-0">
                     <Avatar className="h-full w-full">
                       <AvatarFallback><UserIcon /></AvatarFallback>
                     </Avatar>
