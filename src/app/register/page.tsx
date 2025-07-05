@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
@@ -48,6 +48,10 @@ export default function RegisterPage() {
       password: '',
     },
   });
+
+  useEffect(() => {
+    document.title = t('PageTitles.register');
+  }, [t]);
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsLoading(true);

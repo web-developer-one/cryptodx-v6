@@ -288,7 +288,9 @@
     "placeholder": "Type your message...",
     "send": "Send",
     "askMeAbout": "Ask me about...",
-    "topics": "Blockchain, DeFi, Crypto, NFT, or AI!"
+    "topics": "Blockchain, DeFi, Crypto, NFT, or AI!",
+    "errorResponse": "I'm having trouble generating a response right now. Please try a different question.",
+    "connectionError": "Sorry, I'm having trouble connecting right now. Please try again later."
   },
   "WalletConnect": {
     "title": "Connect a wallet",
@@ -348,7 +350,9 @@
     "tokens": "Explore Tokens | Crypto Swap",
     "tokenDetail": "{tokenName} Details | Crypto Swap",
     "transactions": "Transactions | Crypto Swap",
-    "profile": "My Profile | Crypto Swap"
+    "profile": "My Profile | Crypto Swap",
+    "login": "Login | Crypto Swap",
+    "register": "Create Account | Crypto Swap"
   },
   "Login": {
     "title": "Log In to Your Account",
