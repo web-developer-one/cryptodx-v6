@@ -350,22 +350,6 @@
     "spot": "Spot Trading | Crypto Swap",
     "tokens": "Explore Tokens | Crypto Swap",
     "tokenDetail": "{tokenName} Details | Crypto Swap",
-    "transactions": "Transactions | Crypto Swap",
-    "profile": "My Profile | Crypto Swap"
-  },
-  "Register": {
-    "firstName": "First Name",
-    "lastName": "Last Name",
-    "email": "Email",
-    "password": "Password"
-  },
-  "UserProfile": {
-    "title": "User Profile",
-    "description": "Manage your account information and preferences.",
-    "avatar": "Select Your Avatar",
-    "age": "Age",
-    "save": "Save Changes",
-    "securityTitle": "Your Security is Our Priority",
-    "securityDescription": "This site is a decentralized application interface. We will never ask for, nor store, your private keys or any other sensitive blockchain information. You are always in control."
+    "transactions": "Transactions | Crypto Swap"
   }
 }

@@ -7,7 +7,6 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useAuth } from '@/hooks/use-auth';
-import { useLanguage } from '@/hooks/use-language';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
@@ -25,7 +24,6 @@ const profileFormSchema = z.object({
 });
 
 export default function ProfilePage() {
-  const { t } = useLanguage();
   const router = useRouter();
   const { user, isLoading: isAuthLoading, updateProfile } = useAuth();
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -41,8 +39,8 @@ export default function ProfilePage() {
   });
   
   useEffect(() => {
-    document.title = t('PageTitles.profile');
-  }, [t]);
+    document.title = 'My Profile | Crypto Swap';
+  }, []);
 
   useEffect(() => {
     if (!isAuthLoading && !user) {
@@ -84,14 +82,14 @@ export default function ProfilePage() {
     <div className="container flex-1 flex flex-col items-center py-8">
       <Card className="w-full max-w-4xl">
         <CardHeader>
-          <CardTitle>{t('UserProfile.title')}</CardTitle>
-          <CardDescription>{t('UserProfile.description')}</CardDescription>
+          <CardTitle>User Profile</CardTitle>
+          <CardDescription>Manage your account information and preferences.</CardDescription>
         </CardHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <CardContent className="space-y-8">
                 <div className="space-y-4">
-                  <FormLabel>{t('UserProfile.avatar')}</FormLabel>
+                  <FormLabel>Select Your Avatar</FormLabel>
                   <UserAvatarSelector
                     currentAvatar={user.avatar}
                     onSelectAvatar={handleAvatarSelect}
@@ -104,7 +102,7 @@ export default function ProfilePage() {
                       name="firstName"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>{t('Register.firstName')}</FormLabel>
+                          <FormLabel>First Name</FormLabel>
                           <FormControl>
                             <Input {...field} />
                           </FormControl>
@@ -117,7 +115,7 @@ export default function ProfilePage() {
                       name="lastName"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>{t('Register.lastName')}</FormLabel>
+                          <FormLabel>Last Name</FormLabel>
                           <FormControl>
                             <Input {...field} />
                           </FormControl>
@@ -130,7 +128,7 @@ export default function ProfilePage() {
                       name="email"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>{t('Register.email')}</FormLabel>
+                          <FormLabel>Email</FormLabel>
                           <FormControl>
                             <Input {...field} disabled />
                           </FormControl>
@@ -143,7 +141,7 @@ export default function ProfilePage() {
                       name="age"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>{t('UserProfile.age')}</FormLabel>
+                          <FormLabel>Age</FormLabel>
                           <FormControl>
                             <Input type="number" {...field} />
                           </FormControl>
@@ -154,16 +152,16 @@ export default function ProfilePage() {
                 </div>
                  <Alert variant="default" className="border-primary/20 bg-primary/5">
                   <ShieldCheck className="h-4 w-4 text-primary" />
-                  <AlertTitle className="text-primary">{t('UserProfile.securityTitle')}</AlertTitle>
+                  <AlertTitle className="text-primary">Your Security is Our Priority</AlertTitle>
                   <AlertDescription>
-                    {t('UserProfile.securityDescription')}
+                    This site is a decentralized application interface. We will never ask for, nor store, your private keys or any other sensitive blockchain information. You are always in control.
                   </AlertDescription>
                 </Alert>
             </CardContent>
             <CardFooter>
                <Button type="submit" disabled={isSubmitting}>
                 {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                {t('UserProfile.save')}
+                Save Changes
               </Button>
             </CardFooter>
           </form>
