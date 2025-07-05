@@ -138,7 +138,10 @@ export default function PricingPage() {
                                 ))}
                             </ul>
                             </CardContent>
-                            <CardFooter className="flex flex-col min-h-[68px]">
+                            <CardFooter className={cn(
+                                "flex flex-col min-h-[68px]",
+                                !isCurrentPlan && tier.name !== 'Free' && user && "px-0"
+                            )}>
                                 { isCurrentPlan ? (
                                     <Button 
                                         className="w-full" 
