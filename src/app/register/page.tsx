@@ -14,7 +14,6 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Input } from '@/components/ui/input';
 import { useLanguage } from '@/hooks/use-language';
 import { Loader2 } from 'lucide-react';
-import { useToast } from '@/hooks/use-toast';
 
 // Google Icon SVG
 const GoogleIcon = () => (
@@ -34,10 +33,10 @@ const formSchema = z.object({
 
 export default function RegisterPage() {
   const { t } = useLanguage();
-  const { register } = useAuth();
+  const { register, loginWithGoogle } = useAuth();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
-  const { toast } = useToast();
+  const [isSocialLoading, setIsSocialLoading] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -62,11 +61,13 @@ export default function RegisterPage() {
     setIsLoading(false);
   }
 
-  const handleSocialLogin = (provider: string) => {
-    toast({
-      title: 'Feature Coming Soon',
-      description: `Sign up with ${provider} will be implemented in a future update.`,
-    });
+  const handleSocialLogin = async () => {
+    setIsSocialLoading(true);
+    const success = await loginWithGoogle();
+    if (success) {
+      router.push('/profile');
+    }
+    setIsSocialLoading(false);
   };
 
   return (
@@ -135,7 +136,7 @@ export default function RegisterPage() {
               />
             </CardContent>
             <CardFooter>
-              <Button type="submit" className="w-full" disabled={isLoading}>
+              <Button type="submit" className="w-full" disabled={isLoading || isSocialLoading}>
                 {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                 {t('Register.submit')}
               </Button>
@@ -155,9 +156,9 @@ export default function RegisterPage() {
         </div>
 
         <CardContent className="pt-6 flex flex-col gap-2">
-            <Button variant="outline" className="w-full" onClick={() => handleSocialLogin('Google')}>
-                <GoogleIcon />
-                <span>{t('Login.continueWithGoogle')}</span>
+            <Button variant="outline" className="w-full" onClick={handleSocialLogin} disabled={isLoading || isSocialLoading}>
+                 {isSocialLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <GoogleIcon />}
+                <span>{t('Register.continueWithGoogle')}</span>
             </Button>
         </CardContent>
 

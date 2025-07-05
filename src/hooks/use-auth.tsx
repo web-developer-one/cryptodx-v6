@@ -17,6 +17,7 @@ interface AuthContextType {
   isAdmin: boolean;
   isLoading: boolean;
   login: (email: string, password: string) => Promise<boolean>;
+  loginWithGoogle: () => Promise<boolean>;
   logout: () => void;
   register: (userData: Omit<User, 'id' | 'avatar'> & { password: string }) => Promise<boolean>;
   updateProfile: (updatedData: Partial<User>) => Promise<boolean>;
@@ -78,6 +79,25 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     toast({ variant: 'destructive', title: 'Login Failed', description: 'Invalid email or password.' });
     return false;
   }, [toast]);
+  
+  const loginWithGoogle = useCallback(async (): Promise<boolean> => {
+    // This is a simulation of a Google SSO flow.
+    // In a real app, this would involve a popup, redirect, and token handling.
+    const googleUser: User = {
+        id: 'google_user_simulated',
+        firstName: 'Google',
+        lastName: 'User',
+        email: 'user@google.com',
+        avatar: 'avatar4', // Robot avatar for fun
+        isAdmin: false,
+    };
+
+    setUser(googleUser);
+    localStorage.setItem(CURRENT_USER_STORAGE_KEY, JSON.stringify(googleUser));
+    toast({ title: 'Login Successful', description: 'Welcome! You have signed in with Google.' });
+    return true;
+  }, [toast]);
+
 
   const register = useCallback(async (userData: Omit<User, 'id' | 'avatar'> & { password: string }): Promise<boolean> => {
     const storedUsers = JSON.parse(localStorage.getItem(USERS_STORAGE_KEY) || '[]');
@@ -141,10 +161,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     isAdmin: user?.isAdmin || false,
     isLoading,
     login,
+    loginWithGoogle,
     logout,
     register,
     updateProfile,
-  }), [user, isLoading, login, logout, register, updateProfile]);
+  }), [user, isLoading, login, loginWithGoogle, logout, register, updateProfile]);
 
   return (
     <AuthContext.Provider value={value}>

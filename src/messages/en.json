@@ -359,10 +359,10 @@
     "email": "Email",
     "password": "Password",
     "submit": "Submit",
-    "noAccount": "No Account?",
+    "noAccount": "No Account - Register",
     "register": "Register",
-    "orContinueWith": "Continue with Google",
-    "continueWithGoogle": "Continue with Google"
+    "orContinueWith": "Or continue with",
+    "continueWithGoogle": "Sign in with Google"
   },
   "Register": {
     "title": "Create an Account",
@@ -373,7 +373,8 @@
     "password": "Password",
     "submit": "Create Account",
     "hasAccount": "Already have an account?",
-    "login": "Log in"
+    "login": "Log in",
+    "continueWithGoogle": "Sign up with Google"
   },
   "UserProfile": {
     "title": "User Profile",
