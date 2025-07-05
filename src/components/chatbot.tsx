@@ -145,7 +145,7 @@ export function Chatbot() {
                 const modelMessage: Message = { role: 'model', content: responseText };
                 setMessages(prev => [...prev, modelMessage]);
 
-                if (isAudioEnabled) {
+                if (isAudioEnabled && (user?.isAdmin || user?.pricingPlan === 'Advanced')) {
                     try {
                         const audioResult = await textToSpeech(responseText);
                         if (audioRef.current && audioResult.media) {
