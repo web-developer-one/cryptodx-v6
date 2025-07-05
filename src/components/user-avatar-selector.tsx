@@ -20,6 +20,7 @@ export const avatars = [
     name: 'Block',
     src: 'https://avataaars.io/?avatarStyle=Circle&topType=WinterHat1&accessoriesType=Prescription01&hatColor=Red&facialHairType=Blank&clotheType=ShirtVNeck&clotheColor=Blue03&eyeType=Squint&eyebrowType=AngryNatural&mouthType=Smile&skinColor=Black',
     hint: 'block letter',
+    unoptimized: true,
   },
   {
     id: 'avatar2',
@@ -45,6 +46,7 @@ export const avatars = [
     name: 'Ethereum',
     src: 'https://cryptologos.cc/logos/ethereum-eth-logo.png?v=040',
     hint: 'bitcoin logo',
+    unoptimized: true,
   },
 ];
 
@@ -68,7 +70,7 @@ export function UserAvatarSelector({
   // Filter avatars based on user's admin status
   const selectableAvatars = user?.isAdmin
     ? avatars
-    : avatars.filter((avatar) => avatar.id !== 'avatar4');
+    : avatars.filter((avatar) => avatar.id !== 'Admin');
 
   return (
     <TooltipProvider>
