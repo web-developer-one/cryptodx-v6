@@ -10,7 +10,7 @@ export async function POST(request: Request) {
         const order = await createOrder(tier);
         return NextResponse.json(order);
     } catch (error: any) {
-        console.error("Failed to create order:", error);
+        console.error("Failed to create order:", error.message || error);
         return NextResponse.json({ error: error.message || "Failed to create order." }, { status: 500 });
     }
 }

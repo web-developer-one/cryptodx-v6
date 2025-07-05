@@ -171,11 +171,14 @@ export default function PricingPage() {
                                     
                                                 const orderData = await response.json();
                                     
+                                                if (!response.ok) {
+                                                    throw new Error(orderData.error || `Server responded with ${response.status}`);
+                                                }
+
                                                 if (orderData.id) {
                                                     return orderData.id;
                                                 } else {
-                                                    const error = orderData.error || "Could not create order.";
-                                                    throw new Error(error);
+                                                    throw new Error("Could not create order.");
                                                 }
                                             } catch (error: any) {
                                                 console.error(error);
@@ -188,8 +191,8 @@ export default function PricingPage() {
                                                 const response = await fetch(`/api/orders/${data.orderID}/capture`, { method: "POST" });
                                                 const orderData = await response.json();
                                                 
-                                                if (orderData.error) {
-                                                    throw new Error(orderData.error);
+                                                if (!response.ok) {
+                                                    throw new Error(orderData.error || `Server responded with ${response.status}`);
                                                 }
 
                                                 const transaction = orderData?.purchase_units?.[0]?.payments?.captures?.[0];

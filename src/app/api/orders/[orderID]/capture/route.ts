@@ -13,7 +13,7 @@ export async function POST(
         const capturedOrder = await captureOrder(orderID);
         return NextResponse.json(capturedOrder);
     } catch (error: any) {
-        console.error("Failed to capture order:", error);
+        console.error("Failed to capture order:", error.message || error);
         return NextResponse.json({ error: error.message || "Failed to capture order." }, { status: 500 });
     }
 }
