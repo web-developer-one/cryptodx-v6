@@ -70,7 +70,7 @@ export default function LoginPage() {
     <div className="container flex-1 flex flex-col items-center justify-center py-8">
       <Card className="w-full max-w-md">
         <CardHeader>
-          <CardTitle>{t('loginCardTitle')}</CardTitle>
+          <CardTitle>Login</CardTitle>
         </CardHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
