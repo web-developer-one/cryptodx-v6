@@ -1,29 +1,43 @@
-
 'use client';
 
 import React, { createContext, useContext, useState, useEffect, useCallback, useMemo } from 'react';
+import { useRouter } from 'next/navigation';
+import {
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  signInWithPopup,
+  GoogleAuthProvider,
+  signOut,
+  User as FirebaseUser
+} from 'firebase/auth';
 import type { User } from '@/lib/types';
 import { useToast } from './use-toast';
-import { useRouter } from 'next/navigation';
+import { auth } from '@/lib/firebase';
 
-// For this simulation, we'll store users in localStorage.
-// This is NOT secure for a real production app, but sufficient for this prototype.
-const USERS_STORAGE_KEY = 'crypto_swap_users';
-const CURRENT_USER_STORAGE_KEY = 'crypto_swap_current_user';
+// We'll still use localStorage for profile data to avoid needing a full database setup for this prototype.
+const USER_PROFILE_STORAGE_PREFIX = 'crypto_swap_user_profile_';
 
 // --- Auth Context Definition ---
 interface AuthContextType {
   user: User | null;
-  isAdmin: boolean;
   isLoading: boolean;
   login: (email: string, password: string) => Promise<boolean>;
   loginWithGoogle: () => Promise<boolean>;
   logout: () => void;
-  register: (userData: Omit<User, 'id' | 'avatar'> & { password: string }) => Promise<boolean>;
+  register: (userData: Omit<User, 'id' | 'avatar' | 'email'> & { email: string, password: string }) => Promise<boolean>;
   updateProfile: (updatedData: Partial<User>) => Promise<boolean>;
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
+
+const authNotConfiguredToast = (toast: any) => {
+    toast({
+      variant: 'destructive',
+      title: 'Authentication Not Configured',
+      description: 'Please add your Firebase credentials to the .env file to use this feature.'
+    });
+};
 
 
 // --- Auth Provider Component ---
@@ -33,104 +47,114 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const { toast } = useToast();
   const router = useRouter();
 
-  // On initial load, check localStorage for a logged-in user.
-  useEffect(() => {
-    try {
-      const storedUser = localStorage.getItem(CURRENT_USER_STORAGE_KEY);
-      if (storedUser) {
-        setUser(JSON.parse(storedUser));
-      }
-    } catch (error) {
-      console.error("Failed to parse user from localStorage", error);
-      localStorage.removeItem(CURRENT_USER_STORAGE_KEY);
+  const fetchUserProfile = useCallback(async (firebaseUser: FirebaseUser): Promise<User> => {
+    const storedProfile = localStorage.getItem(`${USER_PROFILE_STORAGE_PREFIX}${firebaseUser.uid}`);
+    if (storedProfile) {
+      return JSON.parse(storedProfile);
     }
-    setIsLoading(false);
+    
+    // If no profile exists (e.g., first-time Google sign-in), create one.
+    const [firstName, lastName] = firebaseUser.displayName?.split(' ') || [firebaseUser.email?.split('@')[0] || 'New', 'User'];
+    const newProfile: User = {
+      id: firebaseUser.uid,
+      email: firebaseUser.email!,
+      firstName,
+      lastName,
+      avatar: 'avatar1',
+    };
+    localStorage.setItem(`${USER_PROFILE_STORAGE_PREFIX}${firebaseUser.uid}`, JSON.stringify(newProfile));
+    return newProfile;
   }, []);
 
+  // Listen for Firebase auth state changes
+  useEffect(() => {
+    // If firebase is not configured, we are not loading a user.
+    if (!auth) {
+      setIsLoading(false);
+      return;
+    }
+    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+      if (firebaseUser) {
+        const userProfile = await fetchUserProfile(firebaseUser);
+        setUser(userProfile);
+      } else {
+        setUser(null);
+      }
+      setIsLoading(false);
+    });
+    return () => unsubscribe();
+  }, [fetchUserProfile]);
+
   const login = useCallback(async (email: string, password: string): Promise<boolean> => {
-    // Hardcoded admin check
-    if (email.toLowerCase() === 'saytee.software@gmail.com' && password === 'admin') {
-      const adminUser: User = {
-        id: 'admin_user',
-        firstName: 'Admin',
-        lastName: 'User',
-        email: 'saytee.software@gmail.com',
-        avatar: 'avatar1',
-        isAdmin: true,
-      };
-      setUser(adminUser);
-      localStorage.setItem(CURRENT_USER_STORAGE_KEY, JSON.stringify(adminUser));
-      toast({ title: 'Welcome, Administrator!' });
-      return true;
+    if (!auth) {
+      authNotConfiguredToast(toast);
+      return false;
     }
-
-    // Regular user check
-    const storedUsers = JSON.parse(localStorage.getItem(USERS_STORAGE_KEY) || '[]');
-    const foundUser = storedUsers.find((u: any) => u.email.toLowerCase() === email.toLowerCase() && u.password === password);
-
-    if (foundUser) {
-      const { password: _, ...userToStore } = foundUser;
-      setUser(userToStore);
-      localStorage.setItem(CURRENT_USER_STORAGE_KEY, JSON.stringify(userToStore));
-      toast({ title: 'Login Successful', description: `Welcome back, ${userToStore.firstName}!` });
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      toast({ title: 'Login Successful', description: `Welcome back!` });
       return true;
+    } catch (error: any) {
+      console.error("Login failed:", error);
+      toast({ variant: 'destructive', title: 'Login Failed', description: error.message || 'Invalid email or password.' });
+      return false;
     }
-
-    toast({ variant: 'destructive', title: 'Login Failed', description: 'Invalid email or password.' });
-    return false;
   }, [toast]);
   
   const loginWithGoogle = useCallback(async (): Promise<boolean> => {
-    // This is a simulation of a Google SSO flow.
-    // In a real app, this would involve a popup, redirect, and token handling.
-    const googleUser: User = {
-        id: 'google_user_simulated',
-        firstName: 'Google',
-        lastName: 'User',
-        email: 'user@google.com',
-        avatar: 'avatar4', // Robot avatar for fun
-        isAdmin: false,
-    };
-
-    setUser(googleUser);
-    localStorage.setItem(CURRENT_USER_STORAGE_KEY, JSON.stringify(googleUser));
-    toast({ title: 'Login Successful', description: 'Welcome! You have signed in with Google.' });
-    return true;
-  }, [toast]);
-
-
-  const register = useCallback(async (userData: Omit<User, 'id' | 'avatar'> & { password: string }): Promise<boolean> => {
-    const storedUsers = JSON.parse(localStorage.getItem(USERS_STORAGE_KEY) || '[]');
-    const existingUser = storedUsers.find((u: any) => u.email.toLowerCase() === userData.email.toLowerCase());
-
-    if (existingUser) {
-      toast({ variant: 'destructive', title: 'Registration Failed', description: 'An account with this email already exists.' });
+    if (!auth) {
+      authNotConfiguredToast(toast);
       return false;
     }
-
-    const newUser = {
-      ...userData,
-      id: `user_${Date.now()}`,
-      avatar: 'avatar1', // Default avatar
-    };
-
-    storedUsers.push(newUser);
-    localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(storedUsers));
-    
-    // Automatically log in the new user
-    const { password: _, ...userToStore } = newUser;
-    setUser(userToStore);
-    localStorage.setItem(CURRENT_USER_STORAGE_KEY, JSON.stringify(userToStore));
-    
-    toast({ title: 'Registration Successful', description: `Welcome, ${newUser.firstName}!` });
-    return true;
+    const provider = new GoogleAuthProvider();
+    try {
+      await signInWithPopup(auth, provider);
+      toast({ title: 'Login Successful', description: 'Welcome! You have signed in with Google.' });
+      return true;
+    } catch (error: any) {
+      console.error("Google login failed:", error);
+      toast({ variant: 'destructive', title: 'Google Login Failed', description: error.message || 'Could not sign in with Google.' });
+      return false;
+    }
   }, [toast]);
 
-  const logout = useCallback(() => {
-    setUser(null);
-    localStorage.removeItem(CURRENT_USER_STORAGE_KEY);
-    toast({ title: 'Logged Out', description: 'You have been successfully logged out.' });
+  const register = useCallback(async (userData: Omit<User, 'id' | 'avatar' | 'email'> & { email: string, password: string }): Promise<boolean> => {
+    if (!auth) {
+      authNotConfiguredToast(toast);
+      return false;
+    }
+    try {
+        const userCredential = await createUserWithEmailAndPassword(auth, userData.email, userData.password);
+        const firebaseUser = userCredential.user;
+
+        // Create and store the user profile immediately after registration
+        const newProfile: User = {
+            id: firebaseUser.uid,
+            email: firebaseUser.email!,
+            firstName: userData.firstName,
+            lastName: userData.lastName,
+            avatar: 'avatar1',
+        };
+        localStorage.setItem(`${USER_PROFILE_STORAGE_PREFIX}${firebaseUser.uid}`, JSON.stringify(newProfile));
+        setUser(newProfile); // Set user in state right away
+
+        toast({ title: 'Registration Successful', description: `Welcome, ${newProfile.firstName}!` });
+        return true;
+    } catch (error: any) {
+        console.error("Registration failed:", error);
+        toast({ variant: 'destructive', title: 'Registration Failed', description: error.message || 'An error occurred during registration.' });
+        return false;
+    }
+  }, [toast]);
+
+  const logout = useCallback(async () => {
+    if (!auth) {
+      authNotConfiguredToast(toast);
+      return;
+    }
+    await signOut(auth);
     router.push('/');
+    toast({ title: 'Logged Out', description: 'You have been successfully logged out.' });
   }, [toast, router]);
 
   const updateProfile = useCallback(async (updatedData: Partial<User>): Promise<boolean> => {
@@ -138,27 +162,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     const updatedUser = { ...user, ...updatedData };
     setUser(updatedUser);
-    localStorage.setItem(CURRENT_USER_STORAGE_KEY, JSON.stringify(updatedUser));
-
-    // Also update the user in the main user list (if not admin)
-    if (!user.isAdmin) {
-        const storedUsers = JSON.parse(localStorage.getItem(USERS_STORAGE_KEY) || '[]');
-        const userIndex = storedUsers.findIndex((u: any) => u.id === user.id);
-        if (userIndex !== -1) {
-            // We need to keep the password, so we merge
-            const oldUser = storedUsers[userIndex];
-            storedUsers[userIndex] = { ...oldUser, ...updatedData };
-            localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(storedUsers));
-        }
-    }
-
+    localStorage.setItem(`${USER_PROFILE_STORAGE_PREFIX}${user.id}`, JSON.stringify(updatedUser));
+    
     toast({ title: 'Profile Updated', description: 'Your changes have been saved.' });
     return true;
   }, [user, toast]);
 
   const value = useMemo(() => ({
     user,
-    isAdmin: user?.isAdmin || false,
     isLoading,
     login,
     loginWithGoogle,

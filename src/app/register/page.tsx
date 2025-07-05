@@ -31,10 +31,9 @@ const formSchema = z.object({
 });
 
 export default function RegisterPage() {
-  const { register, loginWithGoogle } = useAuth();
+  const { register, loginWithGoogle, isLoading: isAuthLoading } = useAuth();
   const router = useRouter();
-  const [isLoading, setIsLoading] = useState(false);
-  const [isSocialLoading, setIsSocialLoading] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -51,21 +50,21 @@ export default function RegisterPage() {
   }, []);
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    setIsLoading(true);
+    setIsSubmitting(true);
     const success = await register(values);
     if (success) {
       router.push('/profile');
     }
-    setIsLoading(false);
+    setIsSubmitting(false);
   }
 
   const handleSocialLogin = async () => {
-    setIsSocialLoading(true);
+    setIsSubmitting(true);
     const success = await loginWithGoogle();
     if (success) {
       router.push('/profile');
     }
-    setIsSocialLoading(false);
+    setIsSubmitting(false);
   };
 
   return (
@@ -134,8 +133,8 @@ export default function RegisterPage() {
               />
             </CardContent>
             <CardFooter>
-              <Button type="submit" className="w-full" disabled={isLoading || isSocialLoading}>
-                {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+              <Button type="submit" className="w-full" disabled={isAuthLoading || isSubmitting}>
+                {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                 Create Account
               </Button>
             </CardFooter>
@@ -154,8 +153,8 @@ export default function RegisterPage() {
         </div>
 
         <CardContent className="pt-6 flex flex-col gap-2">
-            <Button variant="outline" className="w-full" onClick={handleSocialLogin} disabled={isLoading || isSocialLoading}>
-                 {isSocialLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <GoogleIcon />}
+            <Button variant="outline" className="w-full" onClick={handleSocialLogin} disabled={isAuthLoading || isSubmitting}>
+                 {isSubmitting ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <GoogleIcon />}
                 <span>Sign up with Google</span>
             </Button>
         </CardContent>
