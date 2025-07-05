@@ -13,8 +13,8 @@ import { Button } from '@/components/ui/button';
 import { Info } from 'lucide-react';
 
 export function UkDisclaimer() {
-  const disclaimerText = "This web application is provided as a tool for users to interact with CryptoMx on their own initiative, with no endorsement or recommendation of cryptocurrency trading activities. In doing so, Uniswap is not recommending that users or potential users engage in cryptoasset trading activity, and users or potential users of the web application should not regard this webpage or its contents as involving any form of recommendation, invitation or inducement to deal in cryptoassets.";
-  const [panelText, readMoreText] = disclaimerText.split("Uniswap");
+  const disclaimerText = "The CryptoMx web application is made available as a tool for users to engage with it at their own discretion. It does not constitute an endorsement or recommendation of cryptocurrency trading activities. CryptoMx does not advise or encourage users or prospective users to participate in cryptoasset trading, and the content of this website should not be interpreted as a recommendation, solicitation, or inducement to engage in such activities.";
+  const panelText = disclaimerText.split('.')[0] + '. ';
 
   return (
     <section className="w-full py-8 bg-muted/50 border-t">
