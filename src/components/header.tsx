@@ -22,7 +22,6 @@ import {
   EyeOff,
   ShieldX,
   Languages,
-  Crown,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { WalletConnect } from "@/components/wallet-connect";
@@ -60,7 +59,6 @@ import { languages } from "@/lib/i18n";
 import { useAuth } from "@/hooks/use-auth";
 import { Avatar, AvatarFallback } from "./ui/avatar";
 import { getAvatarById } from "./user-avatar-selector";
-import { Badge } from "@/components/ui/badge";
 
 
 export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[] }) {
@@ -291,11 +289,11 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
           {user ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="rounded-full p-0 h-auto hover:bg-white/10">
-                    <Badge variant={user.pricingPlan === 'Administrator' ? 'destructive' : 'secondary'} className="text-sm cursor-pointer flex items-center gap-1">
-                        {user.pricingPlan === 'Administrator' && <Crown className="h-4 w-4" />}
-                        <span>{user.pricingPlan} Plan</span>
-                    </Badge>
+                <Button variant="ghost" className="relative h-9 w-9 rounded-full p-0 hover:bg-white/10">
+                  <Avatar className="h-full w-full">
+                    {/* The component from getAvatarById is an SVG element. We clone it to add classes for sizing. */}
+                    {React.cloneElement(getAvatarById(user.avatar).component, { className: 'h-full w-full' })}
+                  </Avatar>
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-56">
