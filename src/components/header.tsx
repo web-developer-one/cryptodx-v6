@@ -22,6 +22,7 @@ import {
   EyeOff,
   ShieldX,
   Languages,
+  Crown,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { WalletConnect } from "@/components/wallet-connect";
@@ -59,6 +60,7 @@ import { languages } from "@/lib/i18n";
 import { useAuth } from "@/hooks/use-auth";
 import { Avatar, AvatarFallback } from "./ui/avatar";
 import { getAvatarById } from "./user-avatar-selector";
+import { Badge } from "@/components/ui/badge";
 
 
 export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[] }) {
@@ -289,28 +291,26 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
           {user ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                 <Button variant="ghost" className="relative h-9 w-9 rounded-full p-0">
-                    <Avatar className="h-full w-full">
-                      {React.cloneElement(getAvatarById(user.avatar).component, {
-                          className: "aspect-square h-full w-full"
-                      })}
-                      <AvatarFallback>{user.firstName.charAt(0)}</AvatarFallback>
-                    </Avatar>
-                  </Button>
+                <Button variant="ghost" className="rounded-full p-0 h-auto hover:bg-white/10">
+                    <Badge variant={user.pricingPlan === 'Administrator' ? 'destructive' : 'secondary'} className="text-sm cursor-pointer flex items-center gap-1">
+                        {user.pricingPlan === 'Administrator' && <Crown className="h-4 w-4" />}
+                        <span>{user.pricingPlan} Plan</span>
+                    </Badge>
+                </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-56">
-                <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                <DropdownMenuLabel>{t('Header.myAccount')}</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem asChild>
                   <Link href="/profile">
                     <UserIcon className="mr-2 h-4 w-4" />
-                    <span>Profile</span>
+                    <span>{t('Header.profile')}</span>
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                  <DropdownMenuItem onClick={logout}>
                     <LogOut className="mr-2 h-4 w-4" />
-                    <span>Log Out</span>
+                    <span>{t('Header.logout')}</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
