@@ -57,7 +57,7 @@ import { useReputation } from "@/hooks/use-reputation";
 import { useLanguage } from "@/hooks/use-language";
 import { languages } from "@/lib/i18n";
 import { useAuth } from "@/hooks/use-auth";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { Avatar, AvatarFallback } from "./ui/avatar";
 import { getAvatarById } from "./user-avatar-selector";
 
 
@@ -291,9 +291,9 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
               <DropdownMenuTrigger asChild>
                  <Button variant="ghost" className="relative h-9 w-9 rounded-full">
                     <Avatar className="h-9 w-9">
-                      <AvatarImage asChild src={getAvatarById(user.avatar).src}>
-                        {getAvatarById(user.avatar).component}
-                      </AvatarImage>
+                      {React.cloneElement(getAvatarById(user.avatar).component, {
+                          className: "aspect-square h-full w-full"
+                      })}
                       <AvatarFallback>{user.firstName.charAt(0)}</AvatarFallback>
                     </Avatar>
                   </Button>
