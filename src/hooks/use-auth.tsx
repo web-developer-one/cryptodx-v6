@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { createContext, useContext, useState, useEffect, useCallback, useMemo } from 'react';
@@ -35,7 +36,7 @@ const authNotConfiguredToast = (toast: any) => {
     toast({
       variant: 'destructive',
       title: 'Authentication Not Configured',
-      description: 'Please add your Firebase credentials to the .env file to use this feature.'
+      description: 'Please add your Firebase credentials to a .env.local file and restart the server to use this feature.'
     });
 };
 
@@ -46,6 +47,24 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
   const { toast } = useToast();
   const router = useRouter();
+
+  const handleAuthError = useCallback((error: any, context: 'Login' | 'Google Login' | 'Registration') => {
+    console.error(`${context} failed:`, error);
+
+    if (error.code === 'auth/operation-not-allowed') {
+        toast({
+            variant: 'destructive',
+            title: 'Sign-in Method Disabled',
+            description: `The ${context === 'Google Login' ? 'Google' : 'Email/Password'} provider is disabled. Please enable it in your Firebase project console under Authentication > Sign-in method.`,
+            duration: 10000,
+        });
+    } else if (error.code === 'auth/invalid-credential' || error.code === 'auth/wrong-password' || error.code === 'auth/user-not-found') {
+        toast({ variant: 'destructive', title: `${context} Failed`, description: 'Invalid email or password.' });
+    }
+    else {
+        toast({ variant: 'destructive', title: `${context} Failed`, description: error.message || `An unexpected error occurred.` });
+    }
+  }, [toast]);
 
   const fetchUserProfile = useCallback(async (firebaseUser: FirebaseUser): Promise<User> => {
     const storedProfile = localStorage.getItem(`${USER_PROFILE_STORAGE_PREFIX}${firebaseUser.uid}`);
@@ -95,11 +114,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       toast({ title: 'Login Successful', description: `Welcome back!` });
       return true;
     } catch (error: any) {
-      console.error("Login failed:", error);
-      toast({ variant: 'destructive', title: 'Login Failed', description: error.message || 'Invalid email or password.' });
+      handleAuthError(error, 'Login');
       return false;
     }
-  }, [toast]);
+  }, [toast, handleAuthError]);
   
   const loginWithGoogle = useCallback(async (): Promise<boolean> => {
     if (!auth) {
@@ -112,11 +130,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       toast({ title: 'Login Successful', description: 'Welcome! You have signed in with Google.' });
       return true;
     } catch (error: any) {
-      console.error("Google login failed:", error);
-      toast({ variant: 'destructive', title: 'Google Login Failed', description: error.message || 'Could not sign in with Google.' });
+      handleAuthError(error, 'Google Login');
       return false;
     }
-  }, [toast]);
+  }, [toast, handleAuthError]);
 
   const register = useCallback(async (userData: Omit<User, 'id' | 'avatar' | 'email'> & { email: string, password: string }): Promise<boolean> => {
     if (!auth) {
@@ -141,11 +158,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         toast({ title: 'Registration Successful', description: `Welcome, ${newProfile.firstName}!` });
         return true;
     } catch (error: any) {
-        console.error("Registration failed:", error);
-        toast({ variant: 'destructive', title: 'Registration Failed', description: error.message || 'An error occurred during registration.' });
+        handleAuthError(error, 'Registration');
         return false;
     }
-  }, [toast]);
+  }, [toast, handleAuthError]);
 
   const logout = useCallback(async () => {
     if (!auth) {

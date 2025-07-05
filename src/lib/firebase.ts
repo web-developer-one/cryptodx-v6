@@ -1,3 +1,4 @@
+
 'use client';
 
 import { initializeApp, getApps, getApp, type FirebaseApp } from 'firebase/app';
@@ -35,7 +36,7 @@ if (isFirebaseConfigured) {
 } else {
     // This warning will appear in the browser console if keys are missing
     if (typeof window !== 'undefined') {
-        console.warn("Firebase is not configured. Please add your Firebase credentials to the .env file to enable authentication features.");
+        console.warn("Firebase is not configured. Create a .env.local file with your Firebase credentials and restart the development server.");
     }
 }
 
