@@ -2,13 +2,14 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { Bot, Send, Loader2, X, User } from 'lucide-react';
+import { Bot, Send, Loader2, X, User, Volume2, VolumeX } from 'lucide-react';
 import { Button } from './ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from './ui/card';
 import { Input } from './ui/input';
 import { ScrollArea } from './ui/scroll-area';
 import { cryptoChat } from '@/ai/flows/chatbot';
+import { textToSpeech } from '@/ai/flows/text-to-speech';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { SiteLogo } from './site-logo';
 import { cn } from '@/lib/utils';
@@ -29,14 +30,12 @@ const renderMessageContent = (content: string, setIsOpen: (open: boolean) => voi
   let match;
 
   while ((match = linkRegex.exec(content)) !== null) {
-    // Push the text before the link
     if (match.index > lastIndex) {
       result.push(content.substring(lastIndex, match.index));
     }
 
     const [fullMatch, text, href] = match;
 
-    // Push the link component
     if (href.startsWith('/')) {
       result.push(
         <Link
@@ -59,7 +58,6 @@ const renderMessageContent = (content: string, setIsOpen: (open: boolean) => voi
     lastIndex = match.index + fullMatch.length;
   }
 
-  // Push the remaining text after the last link
   if (lastIndex < content.length) {
     result.push(content.substring(lastIndex));
   }
@@ -75,7 +73,28 @@ export function Chatbot() {
     ]);
     const [inputValue, setInputValue] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    const [isAudioEnabled, setIsAudioEnabled] = useState(true);
     const scrollAreaRef = useRef<HTMLDivElement>(null);
+    const audioRef = useRef<HTMLAudioElement>(null);
+
+
+    useEffect(() => {
+        const savedPreference = localStorage.getItem('chatbot_audio_enabled');
+        if (savedPreference !== null) {
+            setIsAudioEnabled(JSON.parse(savedPreference));
+        }
+    }, []);
+
+    const toggleAudio = () => {
+        const newPreference = !isAudioEnabled;
+        setIsAudioEnabled(newPreference);
+        localStorage.setItem('chatbot_audio_enabled', JSON.stringify(newPreference));
+        if (!newPreference && audioRef.current) {
+            audioRef.current.pause();
+            audioRef.current.src = "";
+        }
+    };
+
 
     useEffect(() => {
         if (scrollAreaRef.current) {
@@ -109,6 +128,19 @@ export function Chatbot() {
             if (responseText) {
                 const modelMessage: Message = { role: 'model', content: responseText };
                 setMessages(prev => [...prev, modelMessage]);
+
+                if (isAudioEnabled) {
+                    try {
+                        const audioResult = await textToSpeech(responseText);
+                        if (audioRef.current && audioResult.media) {
+                            audioRef.current.src = audioResult.media;
+                            audioRef.current.play().catch(e => console.error("Audio playback failed:", e));
+                        }
+                    } catch (audioError) {
+                        console.error("Error generating audio:", audioError);
+                    }
+                }
+
             } else {
                  const errorMessage: Message = { role: 'model', content: t('Chatbot.errorResponse') };
                 setMessages(prev => [...prev, errorMessage]);
@@ -124,101 +156,110 @@ export function Chatbot() {
 
 
     return (
-        <Popover open={isOpen} onOpenChange={setIsOpen}>
-            {!isOpen && (
-                <div className="fixed bottom-24 right-6 z-40 flex flex-col items-end gap-2 animate-in fade-in-50 slide-in-from-bottom-2">
-                    <div className="w-full max-w-[220px] rounded-lg bg-secondary p-3 text-sm text-secondary-foreground shadow-lg text-right">
-                        {t('Chatbot.askMeAbout')}
+        <>
+            <Popover open={isOpen} onOpenChange={setIsOpen}>
+                {!isOpen && (
+                    <div className="fixed bottom-24 right-6 z-40 flex flex-col items-end gap-2 animate-in fade-in-50 slide-in-from-bottom-2">
+                        <div className="w-full max-w-[220px] rounded-lg bg-secondary p-3 text-sm text-secondary-foreground shadow-lg text-right">
+                            {t('Chatbot.askMeAbout')}
+                        </div>
+                        <div className="relative w-full max-w-[220px] rounded-lg bg-secondary p-3 text-sm text-secondary-foreground shadow-lg text-right">
+                            {t('Chatbot.topics')}
+                            <div className="absolute right-6 -bottom-2 h-0 w-0 border-x-8 border-x-transparent border-t-8 border-t-secondary" />
+                        </div>
                     </div>
-                    <div className="relative w-full max-w-[220px] rounded-lg bg-secondary p-3 text-sm text-secondary-foreground shadow-lg text-right">
-                        {t('Chatbot.topics')}
-                        <div className="absolute right-6 -bottom-2 h-0 w-0 border-x-8 border-x-transparent border-t-8 border-t-secondary" />
-                    </div>
-                </div>
-            )}
-            <PopoverTrigger asChild>
-                <Button
-                    variant="primary"
-                    size="icon"
-                    className="fixed bottom-6 right-6 h-14 w-14 rounded-full shadow-lg z-50 bg-primary hover:bg-primary/90 text-primary-foreground"
+                )}
+                <PopoverTrigger asChild>
+                    <Button
+                        variant="primary"
+                        size="icon"
+                        className="fixed bottom-6 right-6 h-14 w-14 rounded-full shadow-lg z-50 bg-primary hover:bg-primary/90 text-primary-foreground"
+                    >
+                        <Bot className="h-7 w-7" />
+                    </Button>
+                </PopoverTrigger>
+                <PopoverContent
+                    side="top"
+                    align="end"
+                    className="w-[90vw] max-w-sm rounded-lg p-0 border-0 shadow-2xl"
+                    sideOffset={10}
                 >
-                    <Bot className="h-7 w-7" />
-                </Button>
-            </PopoverTrigger>
-            <PopoverContent
-                side="top"
-                align="end"
-                className="w-[90vw] max-w-sm rounded-lg p-0 border-0 shadow-2xl"
-                sideOffset={10}
-            >
-                <Card className="flex flex-col h-[60vh] overflow-hidden">
-                    <CardHeader className="flex flex-row items-center justify-between p-4 border-b">
-                        <CardTitle className="text-lg">{t('Chatbot.title')}</CardTitle>
-                        <Button variant="ghost" size="icon" onClick={() => setIsOpen(false)} className="h-6 w-6">
-                            <X className="h-4 w-4" />
-                        </Button>
-                    </CardHeader>
-                    <CardContent className="flex-1 p-0 overflow-hidden">
-                        <ScrollArea className="h-full" ref={scrollAreaRef as any}>
-                            <div className="p-4 space-y-4">
-                            {messages.map((message, index) => (
-                                <div key={index} className={cn("flex items-start gap-3", message.role === 'user' ? 'justify-end' : '')}>
-                                    {message.role === 'model' && (
+                    <Card className="flex flex-col h-[60vh] overflow-hidden">
+                        <CardHeader className="flex flex-row items-center justify-between p-4 border-b">
+                            <CardTitle className="text-lg">{t('Chatbot.title')}</CardTitle>
+                            <div className='flex items-center gap-1'>
+                                <Button variant="ghost" size="icon" onClick={toggleAudio} className="h-6 w-6">
+                                    {isAudioEnabled ? <Volume2 className="h-4 w-4" /> : <VolumeX className="h-4 w-4 text-muted-foreground" />}
+                                    <span className="sr-only">{isAudioEnabled ? "Disable Audio" : "Enable Audio"}</span>
+                                </Button>
+                                <Button variant="ghost" size="icon" onClick={() => setIsOpen(false)} className="h-6 w-6">
+                                    <X className="h-4 w-4" />
+                                </Button>
+                            </div>
+                        </CardHeader>
+                        <CardContent className="flex-1 p-0 overflow-hidden">
+                            <ScrollArea className="h-full" ref={scrollAreaRef as any}>
+                                <div className="p-4 space-y-4">
+                                {messages.map((message, index) => (
+                                    <div key={index} className={cn("flex items-start gap-3", message.role === 'user' ? 'justify-end' : '')}>
+                                        {message.role === 'model' && (
+                                            <Avatar className="h-8 w-8 border">
+                                                <div className="bg-primary h-full w-full flex items-center justify-center p-1">
+                                                    <SiteLogo className="h-full w-full" />
+                                                </div>
+                                            </Avatar>
+                                        )}
+                                        <div className={cn(
+                                            "max-w-[80%] rounded-lg px-3 py-2 text-sm",
+                                            message.role === 'user' 
+                                                ? 'bg-primary text-primary-foreground' 
+                                                : 'bg-muted'
+                                        )}>
+                                            {message.role === 'model' ? renderMessageContent(message.content, setIsOpen) : message.content}
+                                        </div>
+                                        {message.role === 'user' && (
+                                            <Avatar className="h-8 w-8 border">
+                                            <AvatarFallback><User className="h-5 w-5"/></AvatarFallback>
+                                            </Avatar>
+                                        )}
+                                    </div>
+                                ))}
+                                {isLoading && (
+                                    <div className="flex items-start gap-3">
                                         <Avatar className="h-8 w-8 border">
                                             <div className="bg-primary h-full w-full flex items-center justify-center p-1">
                                                 <SiteLogo className="h-full w-full" />
                                             </div>
                                         </Avatar>
-                                    )}
-                                    <div className={cn(
-                                        "max-w-[80%] rounded-lg px-3 py-2 text-sm",
-                                        message.role === 'user' 
-                                            ? 'bg-primary text-primary-foreground' 
-                                            : 'bg-muted'
-                                    )}>
-                                        {message.role === 'model' ? renderMessageContent(message.content, setIsOpen) : message.content}
-                                    </div>
-                                     {message.role === 'user' && (
-                                        <Avatar className="h-8 w-8 border">
-                                           <AvatarFallback><User className="h-5 w-5"/></AvatarFallback>
-                                        </Avatar>
-                                    )}
-                                </div>
-                            ))}
-                             {isLoading && (
-                                <div className="flex items-start gap-3">
-                                    <Avatar className="h-8 w-8 border">
-                                         <div className="bg-primary h-full w-full flex items-center justify-center p-1">
-                                            <SiteLogo className="h-full w-full" />
+                                        <div className="bg-muted rounded-lg px-3 py-2 flex items-center">
+                                            <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
                                         </div>
-                                    </Avatar>
-                                    <div className="bg-muted rounded-lg px-3 py-2 flex items-center">
-                                        <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
                                     </div>
+                                )}
                                 </div>
-                            )}
-                            </div>
-                        </ScrollArea>
-                    </CardContent>
-                    <CardFooter className="p-4 border-t">
-                        <form onSubmit={handleSubmit} className="flex w-full items-center space-x-2">
-                            <Input
-                                id="message"
-                                placeholder={t('Chatbot.placeholder')}
-                                className="flex-1 text-sm"
-                                autoComplete="off"
-                                value={inputValue}
-                                onChange={(e) => setInputValue(e.target.value)}
-                                disabled={isLoading}
-                            />
-                            <Button type="submit" size="icon" disabled={isLoading}>
-                                <Send className="h-4 w-4" />
-                                <span className="sr-only">{t('Chatbot.send')}</span>
-                            </Button>
-                        </form>
-                    </CardFooter>
-                </Card>
-            </PopoverContent>
-        </Popover>
+                            </ScrollArea>
+                        </CardContent>
+                        <CardFooter className="p-4 border-t">
+                            <form onSubmit={handleSubmit} className="flex w-full items-center space-x-2">
+                                <Input
+                                    id="message"
+                                    placeholder={t('Chatbot.placeholder')}
+                                    className="flex-1 text-sm"
+                                    autoComplete="off"
+                                    value={inputValue}
+                                    onChange={(e) => setInputValue(e.target.value)}
+                                    disabled={isLoading}
+                                />
+                                <Button type="submit" size="icon" disabled={isLoading}>
+                                    <Send className="h-4 w-4" />
+                                    <span className="sr-only">{t('Chatbot.send')}</span>
+                                </Button>
+                            </form>
+                        </CardFooter>
+                    </Card>
+                </PopoverContent>
+            </Popover>
+            <audio ref={audioRef} className="hidden" />
+        </>
     );
 }
