@@ -355,14 +355,13 @@
     "register": "Create Account | Crypto Swap"
   },
   "Login": {
-    "title": "Log In to Your Account",
-    "description": "Access your profile and settings.",
+    "title": "Login",
     "email": "Email",
     "password": "Password",
-    "submit": "Log In",
-    "noAccount": "Don't have an account?",
-    "register": "Sign up",
-    "orContinueWith": "Or continue with",
+    "submit": "Submit",
+    "noAccount": "No Account?",
+    "register": "Register",
+    "orContinueWith": "Continue with Google",
     "continueWithGoogle": "Continue with Google"
   },
   "Register": {
