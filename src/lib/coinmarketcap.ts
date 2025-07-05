@@ -6,6 +6,20 @@ import type { Cryptocurrency, TokenDetails } from './types';
 // This is a server-only file, so the API key is safe.
 const API_KEY = process.env.COINMARKETCAP_API_KEY;
 const BASE_URL = 'https://pro-api.coinmarketcap.com';
+const FETCH_TIMEOUT = 8000; // 8 seconds
+
+async function fetchWithTimeout(resource: RequestInfo, options: RequestInit = {}, timeout = FETCH_TIMEOUT) {
+    const controller = new AbortController();
+    const id = setTimeout(() => controller.abort(), timeout);
+
+    const response = await fetch(resource, {
+        ...options,
+        signal: controller.signal  
+    });
+    clearTimeout(id);
+
+    return response;
+}
 
 interface CmcListingResponse {
   data: {
@@ -85,7 +99,7 @@ export async function getLatestListings(): Promise<{ data: Cryptocurrency[]; err
   }
   
   try {
-    const listingsResponse = await fetch(`${BASE_URL}/v1/cryptocurrency/listings/latest?limit=100`, {
+    const listingsResponse = await fetchWithTimeout(`${BASE_URL}/v1/cryptocurrency/listings/latest?limit=100`, {
       headers: {
         'X-CMC_PRO_API_KEY': API_KEY,
       },
@@ -108,7 +122,7 @@ export async function getLatestListings(): Promise<{ data: Cryptocurrency[]; err
 
     const ids = listings.data.map(coin => coin.id).join(',');
 
-    const infoResponse = await fetch(`${BASE_URL}/v2/cryptocurrency/info?id=${ids}`, {
+    const infoResponse = await fetchWithTimeout(`${BASE_URL}/v2/cryptocurrency/info?id=${ids}`, {
         headers: {
             'X-CMC_PRO_API_KEY': API_KEY,
         },
@@ -140,7 +154,11 @@ export async function getLatestListings(): Promise<{ data: Cryptocurrency[]; err
 
     return { data: combinedData, error: null };
 
-  } catch (error) {
+  } catch (error: any) {
+    if (error.name === 'AbortError') {
+        console.error('CoinMarketCap API request timed out.');
+        return { data: [], error: 'API_FETCH_FAILED' };
+    }
     console.error('An unexpected error occurred while fetching from CoinMarketCap:', error);
     return { data: [], error: 'API_FETCH_FAILED' };
   }
@@ -154,11 +172,11 @@ export async function getTokenDetails(id: string): Promise<{ token: TokenDetails
 
     try {
         const [quoteResponse, infoResponse] = await Promise.all([
-            fetch(`${BASE_URL}/v1/cryptocurrency/quotes/latest?id=${id}`, {
+            fetchWithTimeout(`${BASE_URL}/v1/cryptocurrency/quotes/latest?id=${id}`, {
                 headers: { 'X-CMC_PRO_API_KEY': API_KEY as string },
                 next: { revalidate: 300 } // Revalidate every 5 minutes
             }),
-            fetch(`${BASE_URL}/v2/cryptocurrency/info?id=${id}`, {
+            fetchWithTimeout(`${BASE_URL}/v2/cryptocurrency/info?id=${id}`, {
                 headers: { 'X-CMC_PRO_API_KEY': API_KEY as string },
                 next: { revalidate: 3600 } // Revalidate every hour
             })
@@ -203,7 +221,11 @@ export async function getTokenDetails(id: string): Promise<{ token: TokenDetails
             },
             error: null
         };
-    } catch (error) {
+    } catch (error: any) {
+        if (error.name === 'AbortError') {
+            console.error(`API request for token ${id} timed out.`);
+            return { token: null, error: 'API_FETCH_FAILED' };
+        }
         console.error(`An unexpected error occurred while fetching details for token ${id}:`, error);
         return { token: null, error: 'API_FETCH_FAILED' };
     }
