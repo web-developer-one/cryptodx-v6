@@ -9,11 +9,9 @@ if (!clientId || !clientSecret) {
     console.error('PayPal client ID or secret is not configured in .env.local');
 }
 
-// This is a weird workaround for a Next.js issue with the PayPal SDK.
-// It ensures that we don't try to use a non-existent `performance` object in the server environment.
-const environment = process.env.NODE_ENV === 'production' 
-    ? new paypal.core.LiveEnvironment(clientId!, clientSecret!) 
-    : new paypal.core.SandboxEnvironment(clientId!, clientSecret!);
+// Explicitly use the Sandbox environment. This is safer for development and avoids issues with process.env.NODE_ENV.
+// The LiveEnvironment should be used for production.
+const environment = new paypal.core.SandboxEnvironment(clientId!, clientSecret!);
 
 const client = new paypal.core.PayPalHttpClient(environment);
 
@@ -55,9 +53,24 @@ export async function createOrder(tier: { name: string, price: string, sku: stri
         return {
             id: order.result.id,
         };
-    } catch (err) {
-        console.error("Error creating PayPal order:", err);
-        throw new Error("Failed to create PayPal order.");
+    } catch (err: any) {
+        // Create a more descriptive error message to send back to the client
+        let errorMessage = "Failed to create PayPal order.";
+        if (err.statusCode && err.message) {
+             try {
+                const errorDetails = JSON.parse(err.message);
+                if (errorDetails.details && errorDetails.details.length > 0) {
+                    errorMessage = `${errorDetails.details[0].issue}: ${errorDetails.details[0].description}`;
+                } else if (errorDetails.message) {
+                    errorMessage = errorDetails.message;
+                }
+             } catch (e) {
+                 // Fallback for non-JSON messages
+                 errorMessage = err.message;
+             }
+        }
+        console.error("Error creating PayPal order:", errorMessage);
+        throw new Error(errorMessage);
     }
 }
 
@@ -72,8 +85,21 @@ export async function captureOrder(orderId: string) {
     try {
         const capture = await client.execute(request);
         return capture.result;
-    } catch (err) {
-        console.error("Error capturing PayPal order:", err);
-        throw new Error("Failed to capture PayPal order.");
+    } catch (err: any) {
+        let errorMessage = "Failed to capture PayPal order.";
+         if (err.statusCode && err.message) {
+             try {
+                const errorDetails = JSON.parse(err.message);
+                if (errorDetails.details && errorDetails.details.length > 0) {
+                    errorMessage = `${errorDetails.details[0].issue}: ${errorDetails.details[0].description}`;
+                } else if (errorDetails.message) {
+                    errorMessage = errorDetails.message;
+                }
+             } catch (e) {
+                 errorMessage = err.message;
+             }
+        }
+        console.error("Error capturing PayPal order:", errorMessage);
+        throw new Error(errorMessage);
     }
 }
