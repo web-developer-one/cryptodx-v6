@@ -1,5 +1,7 @@
 
 
+export type PricingPlan = 'Free' | 'Basic' | 'Advanced' | 'Administrator';
+
 export interface Cryptocurrency {
   id: number;
   name: string;
@@ -80,4 +82,5 @@ export interface User {
   age?: number;
   avatar: string; // Will be an ID for the avatar, e.g., 'avatar1'
   isAdmin?: boolean;
+  pricingPlan?: PricingPlan;
 }

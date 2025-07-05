@@ -14,7 +14,8 @@ import { Input } from '@/components/ui/input';
 import { Skeleton } from '@/components/ui/skeleton';
 import { UserAvatarSelector } from '@/components/user-avatar-selector';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { ShieldCheck, Loader2 } from 'lucide-react';
+import { ShieldCheck, Loader2, Crown } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
 
 const profileFormSchema = z.object({
   firstName: z.string().min(1, { message: 'First name is required.' }),
@@ -82,8 +83,18 @@ export default function ProfilePage() {
     <div className="container flex-1 flex flex-col items-center py-8">
       <Card className="w-full max-w-4xl">
         <CardHeader>
-          <CardTitle>User Profile</CardTitle>
-          <CardDescription>Manage your account information and preferences.</CardDescription>
+            <div className='flex justify-between items-start'>
+                <div>
+                    <CardTitle>User Profile</CardTitle>
+                    <CardDescription>Manage your account information and preferences.</CardDescription>
+                </div>
+                {user.pricingPlan && (
+                    <Badge variant={user.pricingPlan === 'Administrator' ? 'destructive' : 'secondary'} className='text-base'>
+                        {user.pricingPlan === 'Administrator' && <Crown className="mr-2 h-4 w-4" />}
+                        {user.pricingPlan} Plan
+                    </Badge>
+                )}
+            </div>
         </CardHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>

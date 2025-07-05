@@ -26,7 +26,7 @@ interface AuthContextType {
   login: (email: string, password: string) => Promise<boolean>;
   loginWithGoogle: () => Promise<boolean>;
   logout: () => void;
-  register: (userData: Omit<User, 'id' | 'avatar' | 'email'> & { email: string, password: string }) => Promise<boolean>;
+  register: (userData: Omit<User, 'id' | 'avatar' | 'email' | 'pricingPlan'> & { email: string, password: string }) => Promise<boolean>;
   updateProfile: (updatedData: Partial<User>) => Promise<boolean>;
 }
 
@@ -88,6 +88,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       firstName,
       lastName,
       avatar: 'avatar1',
+      pricingPlan: 'Free',
     };
     localStorage.setItem(`${USER_PROFILE_STORAGE_PREFIX}${firebaseUser.uid}`, JSON.stringify(newProfile));
     return newProfile;
@@ -130,6 +131,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         lastName: 'User',
         avatar: 'avatar4', // Robot avatar
         isAdmin: true,
+        pricingPlan: 'Administrator',
       };
       // Manually set user state and store in local storage to simulate a session
       setUser(adminUser);
@@ -172,7 +174,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }, [toast, handleAuthError]);
 
-  const register = useCallback(async (userData: Omit<User, 'id' | 'avatar' | 'email'> & { email: string, password: string }): Promise<boolean> => {
+  const register = useCallback(async (userData: Omit<User, 'id' | 'avatar' | 'email' | 'pricingPlan'> & { email: string, password: string }): Promise<boolean> => {
     if (!auth) {
       authNotConfiguredToast(toast);
       return false;
@@ -188,6 +190,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             firstName: userData.firstName,
             lastName: userData.lastName,
             avatar: 'avatar1',
+            pricingPlan: 'Free',
         };
         localStorage.setItem(`${USER_PROFILE_STORAGE_PREFIX}${firebaseUser.uid}`, JSON.stringify(newProfile));
         setUser(newProfile); // Set user in state right away
