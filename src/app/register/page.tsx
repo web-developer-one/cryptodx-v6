@@ -49,7 +49,7 @@ export default function RegisterPage() {
   });
 
   useEffect(() => {
-    document.title = t('PageTitles.register');
+    document.title = t('pageTitles.register');
   }, [t]);
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
@@ -74,8 +74,8 @@ export default function RegisterPage() {
     <div className="container flex-1 flex flex-col items-center justify-center py-8">
       <Card className="w-full max-w-md">
         <CardHeader>
-          <CardTitle>{t('register_title')}</CardTitle>
-          <CardDescription>{t('register_description')}</CardDescription>
+          <CardTitle>{t('registerTitle')}</CardTitle>
+          <CardDescription>{t('registerDescription')}</CardDescription>
         </CardHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -86,7 +86,7 @@ export default function RegisterPage() {
                   name="firstName"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>{t('register_firstName')}</FormLabel>
+                      <FormLabel>{t('firstNameLabel')}</FormLabel>
                       <FormControl>
                         <Input {...field} />
                       </FormControl>
@@ -99,7 +99,7 @@ export default function RegisterPage() {
                   name="lastName"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>{t('register_lastName')}</FormLabel>
+                      <FormLabel>{t('lastNameLabel')}</FormLabel>
                       <FormControl>
                         <Input {...field} />
                       </FormControl>
@@ -113,7 +113,7 @@ export default function RegisterPage() {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>{t('register_email')}</FormLabel>
+                    <FormLabel>{t('emailLabel')}</FormLabel>
                     <FormControl>
                       <Input placeholder="name@example.com" {...field} />
                     </FormControl>
@@ -126,7 +126,7 @@ export default function RegisterPage() {
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>{t('register_password')}</FormLabel>
+                    <FormLabel>{t('passwordLabel')}</FormLabel>
                     <FormControl>
                       <Input type="password" {...field} />
                     </FormControl>
@@ -138,7 +138,7 @@ export default function RegisterPage() {
             <CardFooter>
               <Button type="submit" className="w-full" disabled={isLoading || isSocialLoading}>
                 {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                {t('register_submit')}
+                {t('createAccountButton')}
               </Button>
             </CardFooter>
           </form>
@@ -150,7 +150,7 @@ export default function RegisterPage() {
             </div>
             <div className="relative flex justify-center text-xs uppercase">
                 <span className="bg-background px-2 text-muted-foreground">
-                    {t('login_orContinueWith')}
+                    {t('orContinueWith')}
                 </span>
             </div>
         </div>
@@ -158,15 +158,15 @@ export default function RegisterPage() {
         <CardContent className="pt-6 flex flex-col gap-2">
             <Button variant="outline" className="w-full" onClick={handleSocialLogin} disabled={isLoading || isSocialLoading}>
                  {isSocialLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <GoogleIcon />}
-                <span>{t('register_continueWithGoogle')}</span>
+                <span>{t('signUpWithGoogle')}</span>
             </Button>
         </CardContent>
 
         <CardFooter className="flex justify-center !pt-0">
               <p className="text-sm text-muted-foreground">
-                {t('register_hasAccount')}{' '}
+                {t('hasAccountPrompt')}{' '}
                 <Link href="/login" className="text-primary hover:underline">
-                  {t('register_loginLink')}
+                  {t('loginLink')}
                 </Link>
               </p>
         </CardFooter>

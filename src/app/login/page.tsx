@@ -45,7 +45,7 @@ export default function LoginPage() {
   });
 
   useEffect(() => {
-    document.title = t('PageTitles.login');
+    document.title = t('pageTitles.login');
   }, [t]);
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
@@ -70,7 +70,7 @@ export default function LoginPage() {
     <div className="container flex-1 flex flex-col items-center justify-center py-8">
       <Card className="w-full max-w-md">
         <CardHeader>
-          <CardTitle>{t('login_title')}</CardTitle>
+          <CardTitle>{t('loginTitle')}</CardTitle>
         </CardHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -80,7 +80,7 @@ export default function LoginPage() {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>{t('login_email')}</FormLabel>
+                    <FormLabel>{t('emailLabel')}</FormLabel>
                     <FormControl>
                       <Input placeholder="name@example.com" {...field} />
                     </FormControl>
@@ -93,7 +93,7 @@ export default function LoginPage() {
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>{t('login_password')}</FormLabel>
+                    <FormLabel>{t('passwordLabel')}</FormLabel>
                     <FormControl>
                       <Input type="password" {...field} />
                     </FormControl>
@@ -105,7 +105,7 @@ export default function LoginPage() {
             <CardFooter>
               <Button type="submit" className="w-full" disabled={isLoading || isSocialLoading}>
                 {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                {t('login_submit')}
+                {t('submitButton')}
               </Button>
             </CardFooter>
           </form>
@@ -116,21 +116,21 @@ export default function LoginPage() {
             </div>
             <div className="relative flex justify-center text-xs uppercase">
                 <span className="bg-background px-2 text-muted-foreground">
-                    {t('login_orContinueWith')}
+                    {t('orContinueWith')}
                 </span>
             </div>
         </div>
         <CardContent className="pt-6 flex flex-col gap-2">
             <Button variant="outline" className="w-full" onClick={handleSocialLogin} disabled={isLoading || isSocialLoading}>
                 {isSocialLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <GoogleIcon />}
-                <span>{t('login_continueWithGoogle')}</span>
+                <span>{t('signInWithGoogle')}</span>
             </Button>
         </CardContent>
         <CardFooter className="flex justify-center !pt-0">
               <p className="text-sm text-muted-foreground">
-                {t('login_noAccount')}{' '}
+                {t('noAccountPrompt')}{' '}
                 <Link href="/register" className="text-primary hover:underline">
-                  {t('login_registerLink')}
+                  {t('registerLink')}
                 </Link>
               </p>
         </CardFooter>
