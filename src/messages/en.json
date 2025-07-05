@@ -353,26 +353,12 @@
     "transactions": "Transactions | Crypto Swap",
     "profile": "My Profile | Crypto Swap"
   },
-  "loginPageTitle": "Login | Crypto Swap",
-  "loginEmailLabel": "Email",
-  "loginPasswordLabel": "Password",
-  "loginSubmitButton": "Login",
-  "loginOrContinueWith": "Or continue with",
-  "loginWithGoogle": "Sign in with Google",
-  "loginNoAccountPrompt": "Don't have an account?",
-  "loginRegisterLink": "Register",
-  "registerPageTitle": "Create Account | Crypto Swap",
-  "registerCardTitle": "Create an Account",
-  "registerCardDescription": "Join our community to get started.",
-  "registerFirstNameLabel": "First Name",
-  "registerLastNameLabel": "Last Name",
-  "registerEmailLabel": "Email",
-  "registerPasswordLabel": "Password",
-  "registerSubmitButton": "Create Account",
-  "registerOrContinueWith": "Or continue with",
-  "registerWithGoogle": "Sign up with Google",
-  "registerHasAccountPrompt": "Already have an account?",
-  "registerLoginLink": "Log in",
+  "Register": {
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "email": "Email",
+    "password": "Password"
+  },
   "UserProfile": {
     "title": "User Profile",
     "description": "Manage your account information and preferences.",
@@ -383,5 +369,3 @@
     "securityDescription": "This site is a decentralized application interface. We will never ask for, nor store, your private keys or any other sensitive blockchain information. You are always in control."
   }
 }
-
-    

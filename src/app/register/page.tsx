@@ -12,7 +12,6 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { useLanguage } from '@/hooks/use-language';
 import { Loader2 } from 'lucide-react';
 
 // Google Icon SVG
@@ -32,7 +31,6 @@ const formSchema = z.object({
 });
 
 export default function RegisterPage() {
-  const { t } = useLanguage();
   const { register, loginWithGoogle } = useAuth();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
@@ -49,8 +47,8 @@ export default function RegisterPage() {
   });
 
   useEffect(() => {
-    document.title = t('registerPageTitle');
-  }, [t]);
+    document.title = 'Create Account | Crypto Swap';
+  }, []);
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsLoading(true);
@@ -74,8 +72,8 @@ export default function RegisterPage() {
     <div className="container flex-1 flex flex-col items-center justify-center py-8">
       <Card className="w-full max-w-md">
         <CardHeader>
-          <CardTitle>{t('registerCardTitle')}</CardTitle>
-          <CardDescription>{t('registerCardDescription')}</CardDescription>
+          <CardTitle>Create an Account</CardTitle>
+          <CardDescription>Join our community to get started.</CardDescription>
         </CardHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -86,7 +84,7 @@ export default function RegisterPage() {
                   name="firstName"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>{t('registerFirstNameLabel')}</FormLabel>
+                      <FormLabel>First Name</FormLabel>
                       <FormControl>
                         <Input {...field} />
                       </FormControl>
@@ -99,7 +97,7 @@ export default function RegisterPage() {
                   name="lastName"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>{t('registerLastNameLabel')}</FormLabel>
+                      <FormLabel>Last Name</FormLabel>
                       <FormControl>
                         <Input {...field} />
                       </FormControl>
@@ -113,7 +111,7 @@ export default function RegisterPage() {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>{t('registerEmailLabel')}</FormLabel>
+                    <FormLabel>Email</FormLabel>
                     <FormControl>
                       <Input placeholder="name@example.com" {...field} />
                     </FormControl>
@@ -126,7 +124,7 @@ export default function RegisterPage() {
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>{t('registerPasswordLabel')}</FormLabel>
+                    <FormLabel>Password</FormLabel>
                     <FormControl>
                       <Input type="password" {...field} />
                     </FormControl>
@@ -138,7 +136,7 @@ export default function RegisterPage() {
             <CardFooter>
               <Button type="submit" className="w-full" disabled={isLoading || isSocialLoading}>
                 {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                {t('registerSubmitButton')}
+                Create Account
               </Button>
             </CardFooter>
           </form>
@@ -150,7 +148,7 @@ export default function RegisterPage() {
             </div>
             <div className="relative flex justify-center text-xs uppercase">
                 <span className="bg-card px-2 text-muted-foreground">
-                    {t('registerOrContinueWith')}
+                    Or continue with
                 </span>
             </div>
         </div>
@@ -158,15 +156,15 @@ export default function RegisterPage() {
         <CardContent className="pt-6 flex flex-col gap-2">
             <Button variant="outline" className="w-full" onClick={handleSocialLogin} disabled={isLoading || isSocialLoading}>
                  {isSocialLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <GoogleIcon />}
-                <span>{t('registerWithGoogle')}</span>
+                <span>Sign up with Google</span>
             </Button>
         </CardContent>
 
         <CardFooter className="flex justify-center !pt-0">
               <p className="text-sm text-muted-foreground">
-                {t('registerHasAccountPrompt')}{' '}
+                Already have an account?{' '}
                 <Link href="/login" className="text-primary hover:underline">
-                  {t('registerLoginLink')}
+                  Log in
                 </Link>
               </p>
         </CardFooter>

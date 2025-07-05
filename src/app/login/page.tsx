@@ -12,7 +12,6 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { useLanguage } from '@/hooks/use-language';
 import { Loader2 } from 'lucide-react';
 
 // Google Icon SVG
@@ -30,7 +29,6 @@ const formSchema = z.object({
 });
 
 export default function LoginPage() {
-  const { t } = useLanguage();
   const { login, loginWithGoogle } = useAuth();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
@@ -45,8 +43,8 @@ export default function LoginPage() {
   });
 
   useEffect(() => {
-    document.title = t('loginPageTitle');
-  }, [t]);
+    document.title = 'Login | Crypto Swap';
+  }, []);
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsLoading(true);
@@ -80,7 +78,7 @@ export default function LoginPage() {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>{t('loginEmailLabel')}</FormLabel>
+                    <FormLabel>Email</FormLabel>
                     <FormControl>
                       <Input placeholder="name@example.com" {...field} />
                     </FormControl>
@@ -93,7 +91,7 @@ export default function LoginPage() {
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>{t('loginPasswordLabel')}</FormLabel>
+                    <FormLabel>Password</FormLabel>
                     <FormControl>
                       <Input type="password" {...field} />
                     </FormControl>
@@ -105,7 +103,7 @@ export default function LoginPage() {
             <CardFooter>
               <Button type="submit" className="w-full" disabled={isLoading || isSocialLoading}>
                 {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                {t('loginSubmitButton')}
+                Login
               </Button>
             </CardFooter>
           </form>
@@ -116,21 +114,21 @@ export default function LoginPage() {
             </div>
             <div className="relative flex justify-center text-xs uppercase">
                 <span className="bg-card px-2 text-muted-foreground">
-                    {t('loginOrContinueWith')}
+                    Or continue with
                 </span>
             </div>
         </div>
         <CardContent className="pt-6 flex flex-col gap-2">
             <Button variant="outline" className="w-full" onClick={handleSocialLogin} disabled={isLoading || isSocialLoading}>
                 {isSocialLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <GoogleIcon />}
-                <span>{t('loginWithGoogle')}</span>
+                <span>Sign in with Google</span>
             </Button>
         </CardContent>
         <CardFooter className="flex justify-center !pt-0">
               <p className="text-sm text-muted-foreground">
-                {t('loginNoAccountPrompt')}{' '}
+                Don't have an account?{' '}
                 <Link href="/register" className="text-primary hover:underline">
-                  {t('loginRegisterLink')}
+                  Register
                 </Link>
               </p>
         </CardFooter>
