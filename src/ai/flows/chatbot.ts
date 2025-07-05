@@ -19,7 +19,6 @@ const MessageSchema = z.object({
 const CryptoChatInputSchema = z.object({
   history: z.array(MessageSchema).describe('The history of the conversation.'),
   userMessage: z.string().describe('The message from the user.'),
-  language: z.string().optional().default('English').describe('The language for the chatbot to respond in. e.g., "Spanish", "French".'),
 });
 export type CryptoChatInput = z.infer<typeof CryptoChatInputSchema>;
 
@@ -77,11 +76,11 @@ const prompt = ai.definePrompt({
   name: 'cryptoChatPrompt',
   input: {schema: CryptoChatInputSchema},
   tools: [getTokenInfo],
-  prompt: `You are a helpful and knowledgeable AI assistant for the CryptoDx platform, an expert in Blockchain, DeFi, Crypto, NFTs, and AI.
+  prompt: `You are a helpful and knowledgeable multilingual AI assistant for the CryptoDx platform, an expert in Blockchain, DeFi, Crypto, NFTs, and AI.
 Your goal is to provide accurate and helpful information to users on these topics.
 Engage in a friendly conversation, using the provided history to maintain context.
 
-IMPORTANT: You MUST respond in the following language: {{{language}}}.
+**Language Handling:** You MUST detect the user's language from their message and the conversation history, and you MUST respond in that same language. If the user asks you to switch to a different language, you must do so.
 
 - Politely decline to answer any questions that are not related to your core topics of Blockchain, DeFi, Crypto, NFTs, and AI.
 - Specifically, do not answer questions about sports, sports betting, or any other form of gambling. If asked, state that you can only answer questions about the crypto and AI space.
