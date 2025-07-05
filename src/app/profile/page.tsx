@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -8,7 +9,7 @@ import { z } from 'zod';
 import { useAuth } from '@/hooks/use-auth';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { Form, FormControl, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Skeleton } from '@/components/ui/skeleton';
 import { UserAvatarSelector } from '@/components/user-avatar-selector';
@@ -159,6 +160,12 @@ export default function ProfilePage() {
                         </FormItem>
                       )}
                     />
+                    <FormItem>
+                      <FormLabel>Pricing Plan</FormLabel>
+                      <FormControl>
+                        <Input value={user.pricingPlan || 'Free'} disabled />
+                      </FormControl>
+                    </FormItem>
                 </div>
                  <Alert variant="default" className="border-primary/20 bg-primary/5">
                   <ShieldCheck className="h-4 w-4 text-primary" />
