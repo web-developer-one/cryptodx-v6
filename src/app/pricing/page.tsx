@@ -102,7 +102,7 @@ export default function PricingPage() {
                 </p>
             </div>
             <div className="w-full max-w-5xl grid grid-cols-1 md:grid-cols-3 gap-8">
-                {tiers.map((tier) => {
+                {tiers.filter(tier => tier.name !== 'Administrator').map((tier) => {
                     const isCurrentPlan = user?.pricingPlan === tier.name || (!user && tier.name === 'Free');
 
                     return (
