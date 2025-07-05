@@ -17,35 +17,35 @@ import { useAuth } from '@/hooks/use-auth';
 export const avatars = [
   {
     id: 'Admin',
-    name: 'Block',
-    src: 'https://avataaars.io/?avatarStyle=Circle&topType=WinterHat1&accessoriesType=Prescription01&hatColor=Red&facialHairType=Blank&clotheType=ShirtVNeck&clotheColor=Blue03&eyeType=Squint&eyebrowType=AngryNatural&mouthType=Smile&skinColor=Black',
+    name: 'Admin',
+    src: 'https://placehold.co/64x64.png',
     hint: 'block letter',
     unoptimized: true,
   },
   {
     id: 'avatar2',
     name: 'HimOne',
-    src: 'https://avataaars.io/?avatarStyle=Circle&topType=WinterHat1&accessoriesType=Prescription01&hatColor=Red&facialHairType=Blank&clotheType=ShirtVNeck&clotheColor=Blue03&eyeType=Squint&eyebrowType=AngryNatural&mouthType=Smile&skinColor=Black',
+    src: 'https://placehold.co/64x64.png',
     hint: 'Male',
   },
   {
     id: 'avatar3',
     name: 'HerTwo',
-    src: 'https://avataaars.io/?avatarStyle=Circle&topType=LongHairStraightStrand&accessoriesType=Kurt&hairColor=Auburn&facialHairType=Blank&facialHairColor=BlondeGolden&clotheType=Overall&clotheColor=Blue01&eyeType=Surprised&eyebrowType=Default&mouthType=Default&skinColor=Yellow',
+    src: 'https://placehold.co/64x64.png',
     hint: 'Female',
   },
   {
     id: 'avatar4',
     name: 'BitCoin',
     src: 'https://cryptologos.cc/logos/bitcoin-btc-logo.png?v=040',
-    hint: 'robot head',
+    hint: 'bitcoin logo',
     unoptimized: true,
   },
   {
     id: 'avatar5',
     name: 'Ethereum',
     src: 'https://cryptologos.cc/logos/ethereum-eth-logo.png?v=040',
-    hint: 'bitcoin logo',
+    hint: 'ethereum logo',
     unoptimized: true,
   },
 ];
