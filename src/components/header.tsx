@@ -107,6 +107,7 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
         { name: t('Footer.tokens'), href: "/tokens" },
         { name: t('Footer.pools'), href: "/pools" },
         { name: t('Footer.transactions'), href: "/transactions" },
+        { name: "Pricing", href: "/pricing" },
       ],
     },
     {
@@ -294,10 +295,7 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
                   </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-56">
-                <DropdownMenuLabel>
-                  My Account
-                  <p className="font-normal text-sm text-muted-foreground">{user.email}</p>
-                </DropdownMenuLabel>
+                <DropdownMenuLabel>My Account</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem asChild>
                   <Link href="/profile">
