@@ -1,4 +1,3 @@
-
 'use client';
 
 import React from 'react';
@@ -35,9 +34,9 @@ export const avatars = [
   },
   {
     id: 'avatar4',
-    name: 'Robot',
-    src: 'https://placehold.co/64x64.png',
-    hint: 'robot head',
+    name: 'Admin',
+    src: 'https://avataaars.io/?avatarStyle=Circle&topType=WinterHat1&accessoriesType=Prescription01&hatColor=Red&facialHairType=Blank&clotheType=ShirtVNeck&clotheColor=Blue03&eyeType=Squint&eyebrowType=AngryNatural&mouthType=Smile&skinColor=Black',
+    hint: 'admin avatar',
   },
   {
     id: 'avatar5',
