@@ -75,17 +75,13 @@ export async function getReputationReport(
 // Define the prompt for the reputation analysis.
 const reputationPrompt = ai.definePrompt({
   name: 'reputationPrompt',
-  system: `You are a cryptocurrency risk assessment AI. Your goal is to analyze a token and provide a structured JSON report.
+  prompt: `You are a cryptocurrency risk assessment AI.
 Analyze the token based on the provided name and symbol for any known risks like scams, hacks, or major negative events.
-Your response MUST be in the language requested: {{{language}}}.
 Your response MUST be a JSON object that conforms to the provided output schema.
+Your response MUST be in the language requested: {{{language}}}.
 
-- \`status\`: Set to 'clear', 'warning', or 'critical'.
-- \`summary\`: A one-sentence summary of your findings.
-- \`findings\`: An array of issues. If the status is 'clear', this MUST be an empty array.
-  - Each finding should have a \`title\`, \`description\`, \`source\`, and \`severity\` ('low', 'medium', or 'high').
-
-Do not include any text outside of the JSON response.`,
+Token Name: {{{tokenName}}}
+Token Symbol: {{{tokenSymbol}}}`,
   input: {
     schema: z.object({
       tokenName: z.string(),
@@ -96,7 +92,6 @@ Do not include any text outside of the JSON response.`,
   output: {
     schema: ReputationOutputSchema.pick({report: true}), // We only want the model to generate the report part.
   },
-  prompt: `Please analyze the following token:\nToken Name: {{{tokenName}}}\nToken Symbol: {{{tokenSymbol}}}`,
 });
 
 // Define the main Genkit flow for reputation checking.
