@@ -82,7 +82,7 @@ export function Chatbot() {
     try {
       const result = await askChatbot({
         message: input,
-        language: languages.find(l => l.code === targetLanguage)?.englishName || 'English',
+        language: targetLanguage,
         enableAudio: canUseAdvancedFeatures,
       });
 

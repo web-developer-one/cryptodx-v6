@@ -42,12 +42,18 @@ function pcmToWav(pcmData: Buffer): string {
   return 'data:audio/wav;base64,' + wavBuffer.toString('base64');
 }
 
+const errorMessages = {
+  en: 'AI reputation check is currently unavailable due to a configuration issue.',
+  es: 'La verificación de reputación por IA no está disponible actualmente debido a un problema de configuración.',
+  fr: "La vérification de la réputation par l'IA est actuellement indisponible en raison d'un problème de configuration."
+};
+
 const ReputationInputSchema = z.object({
   tokenName: z.string().describe('The name of the cryptocurrency token.'),
   tokenSymbol: z.string().describe('The symbol of the cryptocurrency token.'),
   language: z
     .string()
-    .describe('The language for the report (e.g., "English", "Spanish").'),
+    .describe('The language code for the report (e.g., "en", "es").'),
   enableAudio: z
     .boolean()
     .describe('Whether to generate an audio version of the report summary.'),
@@ -92,7 +98,11 @@ export async function getReputationReport(
   input: ReputationInput
 ): Promise<ReputationOutput> {
   console.warn("Reputation report call was made, but the feature is disabled due to a package installation issue.");
+  
+  const lang = (input.language in errorMessages ? input.language : 'en') as keyof typeof errorMessages;
+  const message = errorMessages[lang];
+
   // The UI component that calls this function has a try/catch block.
   // Throwing an error will trigger its error state, which is the desired behavior.
-  throw new Error('AI reputation check is currently unavailable due to a configuration issue.');
+  throw new Error(message);
 }
