@@ -263,6 +263,16 @@
     "p_changes": "Wir können diese Cookie-Richtlinie von Zeit zu Zeit aktualisieren, um beispielsweise Änderungen an den von uns verwendeten Cookies oder aus anderen betrieblichen, rechtlichen oder regulatorischen Gründen widerzuspiegeln. Bitte besuchen Sie diese Cookie-Richtlinie daher regelmäßig, um über unsere Verwendung von Cookies und verwandten Technologien informiert zu bleiben.",
     "dismiss": "Schließen"
   },
+  "Chatbot": {
+    "initialMessage": "Hallo! Ich bin der 'CryptoDx' Chatbot. Wie kann ich Ihnen heute bei allen Fragen zu Blockchain, DeFi, Krypto, NFTs oder KI helfen?",
+    "title": "CryptoDx Chatbot",
+    "placeholder": "Geben Sie Ihre Nachricht ein...",
+    "send": "Senden",
+    "askMeAbout": "Fragen Sie mich nach...",
+    "topics": "Blockchain, DeFi, Krypto, NFT oder KI!",
+    "errorResponse": "Ich habe im Moment Probleme, eine Antwort zu generieren. Bitte versuchen Sie eine andere Frage.",
+    "connectionError": "Entschuldigung, ich habe im Moment Verbindungsprobleme. Bitte versuchen Sie es später erneut."
+  },
   "WalletConnect": {
     "title": "Ein Wallet verbinden",
     "description": "Wählen Sie Ihr Wallet aus der Liste unten, um zu beginnen.",

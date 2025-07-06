@@ -1,0 +1,197 @@
+
+'use client';
+
+import { useState, useRef, useEffect } from 'react';
+import { Button } from '@/components/ui/button';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+} from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { MessageSquare, Send, Bot, User, Loader2, X } from 'lucide-react';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { useLanguage } from '@/hooks/use-language';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { cn } from '@/lib/utils';
+import { SiteLogo } from './site-logo';
+
+interface Message {
+  role: 'user' | 'model';
+  parts: { text: string }[];
+}
+
+export function Chatbot() {
+  const { t } = useLanguage();
+  const [isOpen, setIsOpen] = useState(false);
+  const [input, setInput] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [messages, setMessages] = useState<Message[]>([]);
+  const scrollAreaRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (isOpen && messages.length === 0) {
+      setMessages([
+        {
+          role: 'model',
+          parts: [{ text: t('Chatbot.initialMessage') }],
+        },
+      ]);
+    }
+  }, [isOpen, t, messages.length]);
+
+  useEffect(() => {
+    if (scrollAreaRef.current) {
+      scrollAreaRef.current.scrollTop = scrollAreaRef.current.scrollHeight;
+    }
+  }, [messages]);
+
+  const handleSend = async () => {
+    if (!input.trim()) return;
+
+    const userMessage: Message = { role: 'user', parts: [{ text: input }] };
+    setMessages((prev) => [...prev, userMessage]);
+    setInput('');
+    setIsLoading(true);
+
+    try {
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ history: messages, message: input }),
+      });
+
+      if (!response.ok) {
+        throw new Error(t('Chatbot.errorResponse'));
+      }
+
+      const data = await response.json();
+      const modelMessage: Message = {
+        role: 'model',
+        parts: [{ text: data.response }],
+      };
+      setMessages((prev) => [...prev, modelMessage]);
+
+    } catch (error) {
+      const errorMessage: Message = {
+        role: 'model',
+        parts: [{ text: t('Chatbot.connectionError') }],
+      };
+      setMessages((prev) => [...prev, errorMessage]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && !isLoading) {
+      handleSend();
+    }
+  };
+
+  return (
+    <>
+      <div className="fixed bottom-6 right-6 z-50">
+        <Button
+          size="icon"
+          className="rounded-full w-16 h-16 shadow-lg"
+          onClick={() => setIsOpen(true)}
+        >
+          <MessageSquare className="h-8 w-8" />
+        </Button>
+      </div>
+
+      <Dialog open={isOpen} onOpenChange={setIsOpen}>
+        <DialogContent className="sm:max-w-lg h-[80vh] flex flex-col p-0 gap-0">
+          <DialogHeader className="p-4 border-b">
+            <DialogTitle className="flex items-center gap-2">
+                <SiteLogo className="h-6 w-6" />
+                <span>{t('Chatbot.title')}</span>
+            </DialogTitle>
+            <DialogDescription>
+                {t('Chatbot.askMeAbout')}{' '}
+                <span className="font-semibold text-primary">{t('Chatbot.topics')}</span>
+            </DialogDescription>
+          </DialogHeader>
+
+          <ScrollArea className="flex-1" ref={scrollAreaRef}>
+            <div className="p-4 space-y-6">
+                {messages.map((message, index) => (
+                    <div
+                        key={index}
+                        className={cn(
+                        'flex items-start gap-3',
+                        message.role === 'user' ? 'justify-end' : 'justify-start'
+                        )}
+                    >
+                        {message.role === 'model' && (
+                        <Avatar className="h-8 w-8 border">
+                            <AvatarFallback>
+                                <Bot className="h-5 w-5" />
+                            </AvatarFallback>
+                        </Avatar>
+                        )}
+                        <div
+                        className={cn(
+                            'p-3 rounded-lg max-w-sm whitespace-pre-wrap',
+                            message.role === 'user'
+                            ? 'bg-primary text-primary-foreground'
+                            : 'bg-muted'
+                        )}
+                        >
+                        {message.parts[0].text}
+                        </div>
+                        {message.role === 'user' && (
+                            <Avatar className="h-8 w-8 border">
+                                <AvatarFallback>
+                                    <User className="h-5 w-5" />
+                                </AvatarFallback>
+                            </Avatar>
+                        )}
+                    </div>
+                ))}
+                {isLoading && (
+                    <div className="flex items-center gap-3">
+                        <Avatar className="h-8 w-8 border">
+                            <AvatarFallback>
+                                <Bot className="h-5 w-5" />
+                            </AvatarFallback>
+                        </Avatar>
+                         <div className="p-3 rounded-lg bg-muted">
+                            <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
+                         </div>
+                    </div>
+                )}
+            </div>
+          </ScrollArea>
+          
+          <DialogFooter className="p-4 border-t bg-background">
+            <div className="relative w-full">
+              <Input
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyPress={handleKeyPress}
+                placeholder={t('Chatbot.placeholder')}
+                className="pr-12"
+                disabled={isLoading}
+              />
+              <Button
+                size="icon"
+                className="absolute right-1 top-1/2 -translate-y-1/2 h-8 w-8"
+                onClick={handleSend}
+                disabled={isLoading || !input.trim()}
+              >
+                <Send className="h-4 w-4" />
+              </Button>
+            </div>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </>
+  );
+}

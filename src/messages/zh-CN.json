@@ -263,6 +263,16 @@
     "p_changes": "我们可能会不时更新本Cookie政策，以反映例如我们使用的Cookie的变化或出于其他运营、法律或监管原因。因此，请定期重新访问本Cookie政策，以随时了解我们对Cookie和相关技术的使用情况。",
     "dismiss": "关闭"
   },
+  "Chatbot": {
+    "initialMessage": "您好！我是“CryptoDx”聊天机器人。今天我能在区块链、DeFi、加密货币、NFT或人工智能方面为您提供什么帮助？",
+    "title": "CryptoDx聊天机器人",
+    "placeholder": "输入您的消息...",
+    "send": "发送",
+    "askMeAbout": "问我关于...",
+    "topics": "区块链、DeFi、加密货币、NFT或人工智能！",
+    "errorResponse": "我现在无法生成回复。请尝试其他问题。",
+    "connectionError": "抱歉，我现在连接时遇到问题。请稍后重试。"
+  },
   "WalletConnect": {
     "title": "连接钱包",
     "description": "从下面的列表中选择您的钱包以开始。",
