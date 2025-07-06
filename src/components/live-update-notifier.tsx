@@ -4,7 +4,8 @@
 import { useEffect } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { Badge } from '@/components/ui/badge';
-import { Bell } from 'lucide-react';
+import { Bell, ExternalLink } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 export function LiveUpdateNotifier() {
   const { toast } = useToast();
@@ -12,18 +13,26 @@ export function LiveUpdateNotifier() {
   useEffect(() => {
     const showUpdateToast = () => {
       toast({
-        title: "Live Update",
+        title: (
+          <div className="flex items-center gap-2">
+            <span>Live Update</span>
+            <Badge variant="warning">Important</Badge>
+          </div>
+        ),
         description: (
-          <div className="w-full pt-2">
-            <div className="flex items-start justify-between">
-                <div className="flex items-start gap-3">
-                     <Bell className="h-5 w-5 flex-shrink-0 text-warning" />
-                    <p className="text-sm text-muted-foreground leading-tight">
-                        Market data has been automatically refreshed.
-                    </p>
-                </div>
-              <Badge variant="warning">Important</Badge>
+          <div className="w-full pt-2 flex flex-col gap-4">
+            <div className="flex items-start gap-3">
+                <Bell className="h-5 w-5 flex-shrink-0 text-warning" />
+                <p className="text-sm text-muted-foreground leading-tight">
+                    Market data has been automatically refreshed.
+                </p>
             </div>
+            <a href="https://coinmarketcap.com" target="_blank" rel="noopener noreferrer" className="w-full">
+              <Button variant="outline" className="w-full">
+                  View Data Source
+                  <ExternalLink className="ml-2 h-4 w-4" />
+              </Button>
+            </a>
           </div>
         ),
       });
