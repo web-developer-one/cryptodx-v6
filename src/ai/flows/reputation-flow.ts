@@ -90,7 +90,7 @@ Token Symbol: {{{tokenSymbol}}}`,
     }),
   },
   output: {
-    schema: ReputationOutputSchema.pick({report: true}), // We only want the model to generate the report part.
+    schema: ReputationOutputSchema.shape.report, // Changed to directly get the report object.
   },
 });
 
@@ -115,7 +115,7 @@ const reputationFlow = ai.defineFlow(
       }
     );
 
-    const report = llmResponse.output?.report;
+    const report = llmResponse.output; // The output is the report object directly.
 
     // If the report generation fails, throw an error.
     if (!report) {
@@ -124,7 +124,7 @@ const reputationFlow = ai.defineFlow(
 
     // If audio is not enabled, or the report is clear, return the text report.
     if (!input.enableAudio || report.status === 'clear') {
-      return {report};
+      return {report}; // The flow output schema expects the report to be nested.
     }
 
     // Generate the audio summary.
@@ -142,7 +142,7 @@ const reputationFlow = ai.defineFlow(
     const audioMedia = ttsResponse.media;
     if (!audioMedia) {
       console.warn('TTS generation failed for reputation report, returning text-only.');
-      return {report};
+      return {report}; // The flow output schema expects the report to be nested.
     }
 
     // Convert PCM to WAV.
@@ -155,7 +155,7 @@ const reputationFlow = ai.defineFlow(
 
     // Return the full report with audio.
     return {
-      report,
+      report, // The flow output schema expects the report to be nested.
       audio: wavDataUri,
     };
   }
