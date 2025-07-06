@@ -25,10 +25,10 @@ const avatarOptions = [
     'https://avataaars.io/?avatarStyle=Circle&topType=LongHairStraightStrand&accessoriesType=Round&hairColor=Blonde&facialHairType=Blank&clotheType=ShirtScoopNeck&clotheColor=Red&eyeType=Default&eyebrowType=UnibrowNatural&mouthType=Smile&skinColor=DarkBrown',
     'https://avataaars.io/?avatarStyle=Circle&topType=WinterHat1&accessoriesType=Wayfarers&hatColor=Blue03&hairColor=BlondeGolden&facialHairType=Blank&facialHairColor=Black&clotheType=ShirtCrewNeck&clotheColor=Blue01&eyeType=Dizzy&eyebrowType=UnibrowNatural&mouthType=Disbelief&skinColor=Tanned',
     'https://avataaars.io/?avatarStyle=Circle&topType=LongHairNotTooLong&accessoriesType=Kurt&hairColor=Brown&facialHairType=Blank&facialHairColor=Black&clotheType=Hoodie&clotheColor=Red&eyeType=Default&eyebrowType=SadConcerned&mouthType=Disbelief&skinColor=DarkBrown',
-    'https://placehold.co/128x128.png',
-    'https://placehold.co/128x128.png',
-    'https://placehold.co/128x128.png',
-    'https://placehold.co/128x128.png',
+    'https://placehold.co/128x128.jpg',
+    'https://placehold.co/128x128.jpg',
+    'https://placehold.co/128x128.jpg',
+    'https://placehold.co/128x128.jpg',
 ];
 
 export default function ProfilePage() {
@@ -56,8 +56,10 @@ export default function ProfilePage() {
   useEffect(() => {
     document.title = t('PageTitles.profile');
     if (user) {
-      // Only reset the form when the user ID changes (i.e., a different user logs in)
-      // This prevents the form from resetting on every state change, like avatar selection
+      // This effect populates the form when the user data is first loaded,
+      // or when a different user logs in. The dependency on `user.id` is crucial
+      // to prevent this from re-running and overwriting form edits when the
+      // user object is updated for the live avatar preview.
       form.reset({
         username: user.username,
         firstName: user.firstName,
@@ -66,10 +68,12 @@ export default function ProfilePage() {
         avatar: user.avatar,
       });
     }
-  }, [t, user?.id, form]);
+  }, [t, user?.id, form.reset]);
 
   const onSubmit = (data: ProfileFormData) => {
     if (user) {
+      // Merge the latest session data (which has the previewed avatar)
+      // with the form data before saving.
       updateProfile({
         ...user,
         ...data,
@@ -179,9 +183,9 @@ export default function ProfilePage() {
                     <FormControl>
                         <RadioGroup
                         onValueChange={(value) => {
-                            // Update the form state for submission
+                            // This updates the form's internal state so it will be submitted on save.
                             field.onChange(value);
-                            // Update the live user state for immediate header update
+                            // This updates the live session state so the header immediately reflects the change.
                             if (user) {
                                 setSessionUser({ ...user, avatar: value });
                             }

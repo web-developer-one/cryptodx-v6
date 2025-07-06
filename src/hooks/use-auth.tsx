@@ -73,7 +73,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             lastName: 'Software',
             email: MOCK_ADMIN_EMAIL,
             age: null,
-            avatar: 'https://placehold.co/128x128.png',
+            avatar: 'https://placehold.co/128x128.jpg',
             pricingPlan: 'Administrator',
             isAdmin: true,
         };
@@ -116,7 +116,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       firstName: '',
       lastName: '',
       age: null,
-      avatar: 'https://placehold.co/128x128.png',
+      avatar: 'https://placehold.co/128x128.jpg',
       pricingPlan: 'Free',
       isAdmin: false,
     };
