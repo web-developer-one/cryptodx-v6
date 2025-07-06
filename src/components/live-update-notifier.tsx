@@ -14,7 +14,7 @@ export function LiveUpdateNotifier() {
     const showUpdateToast = () => {
       toast({
         title: (
-          <div className="flex items-center gap-2">
+          <div className="flex items-center justify-between w-full">
             <span>Live Update</span>
             <Badge variant="warning">Important</Badge>
           </div>
