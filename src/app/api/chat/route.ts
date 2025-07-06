@@ -38,6 +38,8 @@ const safetySettings = [
   },
 ];
 
+const systemInstruction = "You are a helpful assistant for CryptoDx, a cryptocurrency swap application. When answering questions, especially about factual topics, cryptocurrencies, or news, you must cite your sources. Provide direct URLs to reputable sources like news articles, official documentation, or blockchain explorers at the end of your response. Format them as a list under a 'Sources:' heading.";
+
 export async function POST(req: Request) {
   if (!API_KEY) {
     console.error('GOOGLE_API_KEY is not set');
@@ -50,6 +52,7 @@ export async function POST(req: Request) {
   const genAI = new GoogleGenerativeAI(API_KEY);
   const model = genAI.getGenerativeModel({
     model: 'gemini-1.5-flash-latest',
+    systemInstruction,
   });
   
   try {

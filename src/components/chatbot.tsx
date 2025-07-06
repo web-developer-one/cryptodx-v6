@@ -1,6 +1,7 @@
+
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { MessageSquare, Send, Bot, User, Loader2, X } from 'lucide-react';
@@ -15,6 +16,38 @@ interface Message {
   role: 'user' | 'model';
   parts: { text: string }[];
 }
+
+const LinkifiedText = ({ text }: { text: string }) => {
+  const urlRegex = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
+  if (!text) return null;
+
+  const parts = text.split(urlRegex);
+
+  return (
+    <>
+      {parts
+        .filter(part => part) // Filter out empty strings from split
+        .map((part, i) => {
+        if (part.match(urlRegex)) {
+          return (
+            <a
+              href={part}
+              key={i}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-primary underline hover:text-primary/80"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {part}
+            </a>
+          );
+        }
+        return <React.Fragment key={i}>{part}</React.Fragment>;
+      })}
+    </>
+  );
+};
+
 
 export function Chatbot() {
   const { t } = useLanguage();
@@ -139,7 +172,7 @@ export function Chatbot() {
                             : 'bg-muted'
                         )}
                         >
-                        {message.parts[0].text}
+                          <LinkifiedText text={message.parts[0].text} />
                         </div>
                         {message.role === 'user' && (
                             <Avatar className="h-8 w-8 border">
