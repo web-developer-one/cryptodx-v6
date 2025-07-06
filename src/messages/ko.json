@@ -70,7 +70,13 @@
     "youGet": "받는 금액",
     "continue": "계속",
     "buyInitiated": "구매 시작됨(시뮬레이션)",
-    "infoDisclaimer": "이 정보는 정보 제공 목적으로만 제공되며 재정적 조언을 구성하지 않습니다. 진행하기 전에 직접 조사하십시오."
+    "reputationSkipped": "평판 확인을 건너뛰었습니다. 결제 제공업체로 계속 진행합니다.",
+    "reputationPassed": "평판 확인에 통과했습니다. 결제 제공업체로 계속 진행합니다.",
+    "reputationCheckFailed": "평판 확인을 수행할 수 없습니다. 다시 시도해 주세요.",
+    "acknowledgeAndContinue": "확인하고 계속하기",
+    "reputationAlert": "평판 경고",
+    "infoDisclaimer": "이 정보는 정보 제공 목적으로만 제공되며 재정적 조언을 구성하지 않습니다. 진행하기 전에 직접 조사하십시오.",
+    "acknowledgedRisk": "위험을 확인했습니다. 결제 제공업체로 계속 진행합니다."
   },
   "SellInterface": {
     "title": "암호화폐 판매",
@@ -99,6 +105,8 @@
     "estimatedGas": "예상 가스비",
     "slippageTolerance": "슬리피지 허용치(%)",
     "swapInitiated": "스왑 시작됨(시뮬레이션)",
+    "reputationPassedSwap": "평판 확인에 통과했습니다. 거래가 처리 중입니다.",
+    "acknowledgedRiskSwap": "위험을 확인했습니다. 거래가 처리 중입니다.",
     "estimatesDisclaimer": "견적은 실시간 API 데이터를 기반으로 하지만 시장 상황은 빠르게 변할 수 있습니다. 슬리피지가 발생할 수 있습니다.",
     "cancel": "취소"
   },
@@ -236,7 +244,8 @@
     "viewSource": "출처 보기",
     "reputationCheckFailed": "평판 확인을 수행할 수 없습니다. 다시 시도해 주세요.",
     "dialogTitle": "{tokenName}에 대한 평판 보고서",
-    "dialogDescription": "이 보고서는 AI에 의해 생성되었으며 정보 제공 목적으로만 사용해야 합니다. 항상 직접 조사하십시오."
+    "dialogDescription": "이 보고서는 AI에 의해 생성되었으며 정보 제공 목적으로만 사용해야 합니다. 항상 직접 조사하십시오.",
+    "infoDisclaimer": "이 정보는 정보 제공 목적으로만 제공되며 재정적 조언을 구성하지 않습니다. 진행하기 전에 직접 조사하십시오."
   },
   "ApiErrorCard": {
     "errorLoading": "{context} 로드 중 오류",
@@ -281,10 +290,15 @@
     "title": "CryptoDx 챗봇",
     "placeholder": "메시지를 입력하세요...",
     "send": "보내기",
-    "askMeAbout": "에 대해 물어보세요...",
+    "askAbout": "에 대해 물어보세요...",
     "topics": "블록체인, DeFi, 암호화폐, NFT 또는 AI!",
     "errorResponse": "지금 응답을 생성하는 데 문제가 있습니다. 다른 질문을 시도해 주세요.",
-    "connectionError": "죄송합니다. 지금 연결하는 데 문제가 있습니다. 나중에 다시 시도해 주세요."
+    "connectionError": "죄송합니다. 지금 연결하는 데 문제가 있습니다. 나중에 다시 시도해 주세요.",
+    "listening": "듣는 중...",
+    "speakTooltip": "음성으로 질문하기",
+    "playAudioTooltip": "오디오 재생",
+    "speechError": "음성 인식이 실패했습니다. 다시 시도하거나 마이크 권한을 확인해 주세요.",
+    "speechNotSupported": "브라우저에서 음성 인식이 지원되지 않습니다."
   },
   "WalletConnect": {
     "title": "지갑 연결",
@@ -321,7 +335,10 @@
     "priceImpact": "가격 영향",
     "expectedOutput": "예상 출력",
     "minReceived": "최소 수령액",
-    "outputComparison": "출력 비교"
+    "outputComparison": "출력 비교",
+    "chartLegendExpected": "예상",
+    "chartLegendMinReceived": "최소 수령",
+    "chartLabelOutput": "출력"
   },
   "SpotPage": {
     "title": "현물 거래",

@@ -1,24 +1,32 @@
 
 'use client';
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { MessageSquare, Send, Bot, User, Loader2, X } from 'lucide-react';
+import { MessageSquare, Send, Bot, User, Loader2, X, Mic, Volume2 } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useLanguage } from '@/hooks/use-language';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { cn } from '@/lib/utils';
 import { SiteLogo } from './site-logo';
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { useToast } from '@/hooks/use-toast';
+
+interface MessagePart {
+  text: string;
+}
 
 interface Message {
   role: 'user' | 'model';
-  parts: { text: string }[];
+  parts: MessagePart[];
+  audioSrc?: string;
+  isAudioLoading?: boolean;
 }
 
 const LinkifiedText = ({ text }: { text: string }) => {
-  const urlRegex = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
+  const urlRegex = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#/%?=~_|!:,.;]*[-A-Z0-9+&@#/%?=~_|])/ig;
   if (!text) return null;
 
   const parts = text.split(urlRegex);
@@ -48,14 +56,25 @@ const LinkifiedText = ({ text }: { text: string }) => {
   );
 };
 
+// SpeechRecognition must be handled on client-side only
+const SpeechRecognition =
+  typeof window !== 'undefined'
+    ? window.SpeechRecognition || window.webkitSpeechRecognition
+    : null;
 
 export function Chatbot() {
   const { t, language } = useLanguage();
+  const { toast } = useToast();
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
+  const audioRef = useRef<HTMLAudioElement>(null);
+
+  // Speech to Text state
+  const [isListening, setIsListening] = useState(false);
+  const recognitionRef = useRef<any>(null);
 
   useEffect(() => {
     if (isOpen && messages.length === 0) {
@@ -73,22 +92,106 @@ export function Chatbot() {
       scrollAreaRef.current.scrollTop = scrollAreaRef.current.scrollHeight;
     }
   }, [messages]);
+  
+  // Set up Speech Recognition
+  useEffect(() => {
+    if (!SpeechRecognition) return;
 
-  const handleSend = async () => {
+    const recognition = new SpeechRecognition();
+    recognition.continuous = false;
+    recognition.interimResults = false;
+    recognition.lang = language;
+
+    recognition.onstart = () => setIsListening(true);
+    recognition.onend = () => setIsListening(false);
+    recognition.onerror = (event: any) => {
+      console.error('Speech recognition error:', event.error);
+      toast({ variant: 'destructive', title: 'Error', description: t('Chatbot.speechError') });
+    };
+    recognition.onresult = (event: any) => {
+      const transcript = event.results[0][0].transcript;
+      setInput(transcript);
+    };
+
+    recognitionRef.current = recognition;
+  }, [language, t, toast]);
+
+  const toggleListening = () => {
+    if (!SpeechRecognition) {
+      toast({ variant: 'destructive', title: 'Unsupported', description: t('Chatbot.speechNotSupported') });
+      return;
+    }
+    if (isListening) {
+      recognitionRef.current.stop();
+    } else {
+      try {
+        recognitionRef.current.start();
+      } catch (err) {
+        // Handle cases where recognition is already running
+        console.error("Could not start speech recognition", err);
+      }
+    }
+  };
+  
+  const playAudio = (audioSrc: string) => {
+    if (audioRef.current) {
+      audioRef.current.src = audioSrc;
+      audioRef.current.play().catch(e => console.error("Audio playback failed:", e));
+    }
+  };
+
+  const fetchAndPlayTTS = useCallback(async (text: string, messageIndex: number) => {
+    try {
+      const response = await fetch('/api/tts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text }),
+      });
+
+      if (!response.ok) throw new Error('Failed to fetch audio.');
+      
+      const { audioDataUri } = await response.json();
+
+      setMessages(prev => {
+        const newMessages = [...prev];
+        if (newMessages[messageIndex]) {
+            newMessages[messageIndex].audioSrc = audioDataUri;
+            newMessages[messageIndex].isAudioLoading = false;
+        }
+        return newMessages;
+      });
+
+      playAudio(audioDataUri);
+
+    } catch (error) {
+      console.error("TTS Error:", error);
+       setMessages(prev => {
+        const newMessages = [...prev];
+        if (newMessages[messageIndex]) {
+            newMessages[messageIndex].isAudioLoading = false;
+        }
+        return newMessages;
+      });
+    }
+  }, []);
+
+  const handleSend = useCallback(async () => {
     if (!input.trim()) return;
 
     const userMessage: Message = { role: 'user', parts: [{ text: input }] };
-    setMessages((prev) => [...prev, userMessage]);
+    const currentInput = input;
     setInput('');
+    
+    // Add user message and a loading placeholder for the model's response
+    setMessages(prev => [...prev, userMessage]);
     setIsLoading(true);
 
     try {
       const response = await fetch('/api/chat', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ history: messages, message: input, language }),
+        headers: { 'Content-Type': 'application/json' },
+        // Pass a clean history, excluding our temporary loading message
+        body: JSON.stringify({ history: [...messages, userMessage], message: currentInput, language }),
       });
 
       if (!response.ok) {
@@ -101,19 +204,24 @@ export function Chatbot() {
       const modelMessage: Message = {
         role: 'model',
         parts: [{ text: data.response }],
+        isAudioLoading: true,
       };
-      setMessages((prev) => [...prev, modelMessage]);
+      
+      const messageIndex = messages.length + 1;
+      // Replace the loading placeholder with the actual response
+      setMessages(prev => [...prev, modelMessage]);
+      fetchAndPlayTTS(data.response, messageIndex);
 
     } catch (error: any) {
       const errorMessage: Message = {
         role: 'model',
         parts: [{ text: error.message || t('Chatbot.connectionError') }],
       };
-      setMessages((prev) => [...prev, errorMessage]);
+       setMessages(prev => [...prev, errorMessage]);
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [input, messages, language, t, fetchAndPlayTTS]);
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && !isLoading) {
@@ -122,7 +230,7 @@ export function Chatbot() {
   };
 
   return (
-    <>
+    <TooltipProvider>
       <div className="fixed bottom-6 right-6 z-50">
         <Button
           size="icon"
@@ -142,7 +250,7 @@ export function Chatbot() {
                 <h2 className="text-lg font-semibold leading-none tracking-tight">{t('Chatbot.title')}</h2>
             </div>
             <p className="text-sm text-muted-foreground pt-1">
-                {t('Chatbot.askMeAbout')}{' '}
+                {t('Chatbot.askAbout')}{' '}
                 <span className="font-semibold text-primary">{t('Chatbot.topics')}</span>
             </p>
           </CardHeader>
@@ -158,15 +266,37 @@ export function Chatbot() {
                         )}
                     >
                         {message.role === 'model' && (
-                        <Avatar className="h-8 w-8 border">
-                            <AvatarFallback>
-                                <Bot className="h-5 w-5" />
-                            </AvatarFallback>
-                        </Avatar>
+                          <div className='flex flex-col gap-1 self-start'>
+                            <Avatar className="h-8 w-8 border">
+                                <AvatarFallback>
+                                    <Bot className="h-5 w-5" />
+                                </AvatarFallback>
+                            </Avatar>
+                             <Tooltip>
+                                <TooltipTrigger asChild>
+                                    <Button
+                                        variant="ghost"
+                                        size="icon"
+                                        className="h-6 w-6"
+                                        disabled={!message.audioSrc || message.isAudioLoading}
+                                        onClick={() => message.audioSrc && playAudio(message.audioSrc)}
+                                    >
+                                        {message.isAudioLoading ? (
+                                            <Loader2 className="h-4 w-4 animate-spin" />
+                                        ) : (
+                                            <Volume2 className="h-4 w-4" />
+                                        )}
+                                    </Button>
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                    <p>{t('Chatbot.playAudioTooltip')}</p>
+                                </TooltipContent>
+                            </Tooltip>
+                          </div>
                         )}
                         <div
                         className={cn(
-                            'p-3 rounded-lg max-w-sm whitespace-pre-wrap break-words',
+                            'p-3 rounded-lg max-w-[240px] whitespace-pre-wrap break-words',
                             message.role === 'user'
                             ? 'bg-primary text-primary-foreground'
                             : 'bg-muted'
@@ -199,28 +329,48 @@ export function Chatbot() {
           </ScrollArea>
           
           <CardFooter className="p-4 border-t bg-background">
-            <div className="relative w-full">
+            <div className="relative w-full flex items-center gap-2">
               <Input
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyPress={handleKeyPress}
-                placeholder={t('Chatbot.placeholder')}
-                className="pr-12"
+                placeholder={isListening ? t('Chatbot.listening') : t('Chatbot.placeholder')}
+                className="pr-24"
                 disabled={isLoading}
               />
-              <Button
-                size="icon"
-                className="absolute right-1 top-1/2 -translate-y-1/2 h-8 w-8"
-                onClick={handleSend}
-                disabled={isLoading || !input.trim()}
-              >
-                <Send className="h-4 w-4" />
-                <span className="sr-only">Send message</span>
-              </Button>
+               <div className="absolute right-1 top-1/2 -translate-y-1/2 flex items-center">
+                 <Tooltip>
+                    <TooltipTrigger asChild>
+                        <Button
+                            size="icon"
+                            variant="ghost"
+                            className={cn("h-8 w-8", isListening && "text-destructive animate-pulse")}
+                            onClick={toggleListening}
+                            disabled={!SpeechRecognition || isLoading}
+                        >
+                            <Mic className="h-4 w-4" />
+                            <span className="sr-only">{t('Chatbot.speakTooltip')}</span>
+                        </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                        <p>{t('Chatbot.speakTooltip')}</p>
+                    </TooltipContent>
+                  </Tooltip>
+                  <Button
+                    size="icon"
+                    className="h-8 w-8"
+                    onClick={handleSend}
+                    disabled={isLoading || !input.trim()}
+                  >
+                    <Send className="h-4 w-4" />
+                    <span className="sr-only">{t('Chatbot.send')}</span>
+                  </Button>
+               </div>
             </div>
           </CardFooter>
+          <audio ref={audioRef} className="hidden" />
         </Card>
       )}
-    </>
+    </TooltipProvider>
   );
 }

@@ -70,7 +70,13 @@
     "youGet": "Vous recevez",
     "continue": "Continuer",
     "buyInitiated": "Achat Initié (Simulé)",
-    "infoDisclaimer": "Ceci est à titre informatif uniquement et ne constitue pas un conseil financier. Veuillez faire vos propres recherches avant de continuer."
+    "reputationSkipped": "La vérification de la réputation a été ignorée. Continuation vers le fournisseur de paiement.",
+    "reputationPassed": "Vérification de la réputation réussie. Continuation vers le fournisseur de paiement.",
+    "reputationCheckFailed": "Impossible d'effectuer la vérification de la réputation. Veuillez réessayer.",
+    "acknowledgeAndContinue": "Accepter et Continuer",
+    "reputationAlert": "Alerte de Réputation",
+    "infoDisclaimer": "Ceci est à titre informatif uniquement et ne constitue pas un conseil financier. Veuillez faire vos propres recherches avant de continuer.",
+    "acknowledgedRisk": "Vous avez reconnu le risque. Continuation vers le fournisseur de paiement."
   },
   "SellInterface": {
     "title": "Vendre des Cryptos",
@@ -99,6 +105,8 @@
     "estimatedGas": "Gaz Estimé",
     "slippageTolerance": "Tolérance de Glissement (%)",
     "swapInitiated": "Swap Initié (Simulé)",
+    "reputationPassedSwap": "Vérifications de la réputation réussies. Votre transaction est en cours de traitement.",
+    "acknowledgedRiskSwap": "Vous avez reconnu le risque. Votre transaction est en cours de traitement.",
     "estimatesDisclaimer": "Les estimations sont basées sur des données d'API en temps réel mais les conditions du marché peuvent changer rapidement. Un glissement peut se produire.",
     "cancel": "Annuler"
   },
@@ -236,7 +244,8 @@
     "viewSource": "Voir la Source",
     "reputationCheckFailed": "Impossible d'effectuer la vérification de la réputation. Veuillez réessayer.",
     "dialogTitle": "Rapport de Réputation pour {tokenName}",
-    "dialogDescription": "Ce rapport est généré par une IA et doit être utilisé à des fins d'information uniquement. Faites toujours vos propres recherches."
+    "dialogDescription": "Ce rapport est généré par une IA et doit être utilisé à des fins d'information uniquement. Faites toujours vos propres recherches.",
+    "infoDisclaimer": "Ceci est à titre informatif uniquement et ne constitue pas un conseil financier. Veuillez faire vos propres recherches avant de continuer."
   },
   "ApiErrorCard": {
     "errorLoading": "Erreur lors du Chargement de {context}",
@@ -281,10 +290,15 @@
     "title": "Chatbot CryptoDx",
     "placeholder": "Tapez votre message...",
     "send": "Envoyer",
-    "askMeAbout": "Posez des questions sur...",
+    "askAbout": "Posez des questions sur...",
     "topics": "Blockchain, DeFi, Crypto, NFT ou IA !",
     "errorResponse": "J'ai des difficultés à générer une réponse pour le moment. Veuillez essayer une autre question.",
-    "connectionError": "Désolé, j'ai des problèmes de connexion en ce moment. Veuillez réessayer plus tard."
+    "connectionError": "Désolé, j'ai des problèmes de connexion en ce moment. Veuillez réessayer plus tard.",
+    "listening": "Écoute en cours...",
+    "speakTooltip": "Demandez avec votre voix",
+    "playAudioTooltip": "Lire l'audio",
+    "speechError": "La reconnaissance vocale a échoué. Veuillez réessayer ou vérifier les autorisations de votre microphone.",
+    "speechNotSupported": "La reconnaissance vocale n'est pas prise en charge par votre navigateur."
   },
   "WalletConnect": {
     "title": "Connecter un portefeuille",
@@ -321,7 +335,10 @@
     "priceImpact": "Impact sur le Prix",
     "expectedOutput": "Sortie Attendue",
     "minReceived": "Minimum Reçu",
-    "outputComparison": "Comparaison des Sorties"
+    "outputComparison": "Comparaison des Sorties",
+    "chartLegendExpected": "Attendu",
+    "chartLegendMinReceived": "Minimum Reçu",
+    "chartLabelOutput": "Sortie"
   },
   "SpotPage": {
     "title": "Trading au Comptant (Spot)",

@@ -70,7 +70,13 @@
     "youGet": "Tú obtienes",
     "continue": "Continuar",
     "buyInitiated": "Compra Iniciada (Simulada)",
-    "infoDisclaimer": "Esto es solo para fines informativos y no constituye asesoramiento financiero. Por favor, haga su propia investigación antes de proceder."
+    "reputationSkipped": "Se omitió la comprobación de reputación. Continuando con el proveedor de pagos.",
+    "reputationPassed": "Comprobación de reputación superada. Continuando con el proveedor de pagos.",
+    "reputationCheckFailed": "No se pudo realizar la comprobación de reputación. Por favor, inténtelo de nuevo.",
+    "acknowledgeAndContinue": "Reconocer y Continuar",
+    "reputationAlert": "Alerta de Reputación",
+    "infoDisclaimer": "Esto es solo para fines informativos y no constituye asesoramiento financiero. Por favor, haga su propia investigación antes de proceder.",
+    "acknowledgedRisk": "Has reconocido el riesgo. Continuando con el proveedor de pagos."
   },
   "SellInterface": {
     "title": "Vender Cripto",
@@ -99,6 +105,8 @@
     "estimatedGas": "Gas Estimado",
     "slippageTolerance": "Tolerancia de Deslizamiento (%)",
     "swapInitiated": "Intercambio Iniciado (Simulado)",
+    "reputationPassedSwap": "Comprobaciones de reputación superadas. Tu transacción se está procesando.",
+    "acknowledgedRiskSwap": "Has reconocido el riesgo. Tu transacción se está procesando.",
     "estimatesDisclaimer": "Las estimaciones se basan en datos de API en tiempo real, pero las condiciones del mercado pueden cambiar rápidamente. Puede ocurrir deslizamiento.",
     "cancel": "Cancelar"
   },
@@ -236,7 +244,8 @@
     "viewSource": "Ver Fuente",
     "reputationCheckFailed": "No se pudo realizar la comprobación de reputación. Por favor, inténtelo de nuevo.",
     "dialogTitle": "Informe de Reputación para {tokenName}",
-    "dialogDescription": "Este informe es generado por una IA y debe usarse solo con fines informativos. Siempre haga su propia investigación."
+    "dialogDescription": "Este informe es generado por una IA y debe usarse solo con fines informativos. Siempre haga su propia investigación.",
+    "infoDisclaimer": "Esto es solo para fines informativos y no constituye asesoramiento financiero. Por favor, haga su propia investigación antes de proceder."
   },
   "ApiErrorCard": {
     "errorLoading": "Error al Cargar {context}",
@@ -281,10 +290,15 @@
     "title": "Chatbot de CryptoDx",
     "placeholder": "Escribe tu mensaje...",
     "send": "Enviar",
-    "askMeAbout": "Pregunta sobre...",
+    "askAbout": "Pregunta sobre...",
     "topics": "¡Blockchain, DeFi, Cripto, NFT o IA!",
     "errorResponse": "Tengo problemas para generar una respuesta en este momento. Por favor, intenta con una pregunta diferente.",
-    "connectionError": "Lo siento, tengo problemas para conectarme en este momento. Por favor, inténtalo de nuevo más tarde."
+    "connectionError": "Lo siento, tengo problemas para conectarme en este momento. Por favor, inténtalo de nuevo más tarde.",
+    "listening": "Escuchando...",
+    "speakTooltip": "Pregunta con tu voz",
+    "playAudioTooltip": "Reproducir audio",
+    "speechError": "Fallo en el reconocimiento de voz. Por favor, inténtalo de nuevo o comprueba los permisos de tu micrófono.",
+    "speechNotSupported": "El reconocimiento de voz no es compatible con tu navegador."
   },
   "WalletConnect": {
     "title": "Conectar una billetera",
@@ -321,7 +335,10 @@
     "priceImpact": "Impacto en el Precio",
     "expectedOutput": "Salida Esperada",
     "minReceived": "Mínimo Recibido",
-    "outputComparison": "Comparación de Salida"
+    "outputComparison": "Comparación de Salidas",
+    "chartLegendExpected": "Esperado",
+    "chartLegendMinReceived": "Mínimo Recibido",
+    "chartLabelOutput": "Salida"
   },
   "SpotPage": {
     "title": "Comercio al Contado (Spot)",

@@ -70,7 +70,13 @@
     "youGet": "您获得",
     "continue": "继续",
     "buyInitiated": "购买已启动（模拟）",
-    "infoDisclaimer": "这仅供参考，不构成财务建议。在继续操作之前，请自行研究。"
+    "reputationSkipped": "已跳过声誉检查。正在继续前往支付提供商。",
+    "reputationPassed": "声誉检查通过。正在继续前往支付提供商。",
+    "reputationCheckFailed": "无法执行声誉检查。请重试。",
+    "acknowledgeAndContinue": "确认并继续",
+    "reputationAlert": "声誉警报",
+    "infoDisclaimer": "这仅供参考，不构成财务建议。在继续操作之前，请自行研究。",
+    "acknowledgedRisk": "您已确认风险。正在继续前往支付提供商。"
   },
   "SellInterface": {
     "title": "出售加密货币",
@@ -99,6 +105,8 @@
     "estimatedGas": "预估Gas费",
     "slippageTolerance": "滑点容差（%）",
     "swapInitiated": "兑换已启动（模拟）",
+    "reputationPassedSwap": "声誉检查通过。您的交易正在处理中。",
+    "acknowledgedRiskSwap": "您已确认风险。您的交易正在处理中。",
     "estimatesDisclaimer": "估算基于实时API数据，但市场状况可能迅速变化。可能会发生滑点。",
     "cancel": "取消"
   },
@@ -236,7 +244,8 @@
     "viewSource": "查看来源",
     "reputationCheckFailed": "无法执行声誉检查。请重试。",
     "dialogTitle": "{tokenName}的声誉报告",
-    "dialogDescription": "此报告由人工智能生成，仅供参考。请务必自行研究。"
+    "dialogDescription": "此报告由人工智能生成，仅供参考。请务必自行研究。",
+    "infoDisclaimer": "这仅供参考，不构成财务建议。在继续操作之前，请自行研究。"
   },
   "ApiErrorCard": {
     "errorLoading": "加载{context}时出错",
@@ -281,10 +290,15 @@
     "title": "CryptoDx聊天机器人",
     "placeholder": "输入您的消息...",
     "send": "发送",
-    "askMeAbout": "询问关于...",
+    "askAbout": "询问关于...",
     "topics": "区块链、DeFi、加密货币、NFT或人工智能！",
     "errorResponse": "我现在无法生成回复。请尝试其他问题。",
-    "connectionError": "抱歉，我现在连接时遇到问题。请稍后重试。"
+    "connectionError": "抱歉，我现在连接时遇到问题。请稍后重试。",
+    "listening": "正在聆听...",
+    "speakTooltip": "用语音提问",
+    "playAudioTooltip": "播放音频",
+    "speechError": "语音识别失败。请重试或检查您的麦克风权限。",
+    "speechNotSupported": "您的浏览器不支持语音识别。"
   },
   "WalletConnect": {
     "title": "连接钱包",
@@ -321,7 +335,10 @@
     "priceImpact": "价格影响",
     "expectedOutput": "预期输出",
     "minReceived": "最低收到",
-    "outputComparison": "输出比较"
+    "outputComparison": "输出比较",
+    "chartLegendExpected": "预期",
+    "chartLegendMinReceived": "最低收到",
+    "chartLabelOutput": "输出"
   },
   "SpotPage": {
     "title": "现货交易",
