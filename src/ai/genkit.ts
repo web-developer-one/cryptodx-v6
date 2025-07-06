@@ -1,32 +1,30 @@
-
 'use server';
-
 /**
- * @fileoverview This file contains a placeholder for the Genkit AI object.
- * The real Genkit packages are currently causing installation issues in the environment.
- * This placeholder allows the application to build and run, but AI features
- * will be disabled and will return error messages.
+ * @fileoverview This file initializes the Genkit AI and Google AI plugins.
+ * It exports a single `ai` object that is used to define and run AI flows.
  */
 
-// A placeholder 'ai' object to prevent build failures.
-export const ai = {
-  // Mock `definePrompt` to return a function that returns a dummy response.
-  // The actual implementation in the flow will handle the error message.
-  definePrompt: () => async (input: any) => {
-    console.warn(
-      'Genkit is disabled due to package installation issues. AI prompt was not sent.'
-    );
-    return { text: '', output: null };
-  },
+import {genkit} from 'genkit';
+import {googleAI} from 'genkit/plugins/googleai';
 
-  // Mock `defineFlow` to just return the flow's implementation function.
-  defineFlow: (config: any, implementation: any) => implementation,
-
-  // Mock `generate` to return a structure that won't crash the calling code.
-  generate: async (options: any) => {
-    console.warn(
-      'Genkit is disabled due to package installation issues. AI generation was not performed.'
-    );
-    return { media: null };
-  },
-};
+// Initialize Genkit and the Google AI plugin.
+// This should be the only instance of `genkit()` in the app.
+export const ai = genkit({
+  plugins: [
+    googleAI({
+      // The Gemini 1.5 Flash model is a good balance of cost, speed, and quality.
+      // Other models can be used here as well.
+      // https://ai.google.dev/models/gemini
+      // gemini-1.5-flash-latest is an auto-updating version
+      model: 'gemini-1.5-flash-latest',
+      // The embedding model is used for grounding and other tasks.
+      embeddingModel: 'text-embedding-004',
+    }),
+  ],
+  // Log all errors to the console.
+  logLevel: 'error',
+  // In a real app, you would want to enable telemetry to monitor your flows.
+  // This requires a separate `genkit-telemetry` service to be running.
+  // We disable it here for simplicity.
+  enableTelemetry: false,
+});
