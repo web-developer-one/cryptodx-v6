@@ -72,41 +72,25 @@ export async function getReputationReport(
   return await reputationFlow(input);
 }
 
-// Define the prompt for the reputation analysis.
+// Define the prompt for the reputation analysis. This prompt relies on Genkit's
+// structured output capabilities (via the output schema) rather than explicitly
+// asking for JSON in the text. This is a more robust method.
 const reputationPrompt = ai.definePrompt({
   name: 'reputationPrompt',
-  prompt: `You are a cryptocurrency risk assessment AI. Your task is to analyze the provided token and generate a risk report.
+  prompt: `You are a cryptocurrency risk assessment AI. Your task is to analyze the provided token and generate a risk report in the specified language.
 
-You MUST respond with ONLY a JSON object that conforms to the output schema.
-Do not include any other text, explanation, or markdown formatting like \`\`\`json.
-Your response MUST be in the requested language: {{{language}}}.
+Based on the token's name and symbol, search for any known scams, "rug pulls", security vulnerabilities, or other negative news.
 
+If there are no issues, set the status to "clear".
+If there are potential concerns, set the status to "warning".
+If there are major red flags, set the status to "critical".
+
+Provide a one-sentence summary and a list of specific findings if any issues are detected.
+
+Language for report: {{{language}}}
 Token to analyze:
 Name: {{{tokenName}}}
-Symbol: {{{tokenSymbol}}}
-
-If there are issues, your response should look like this example:
-{
-  "status": "warning",
-  "summary": "This token has been associated with a recent rug pull event.",
-  "findings": [
-    {
-      "title": "Association with Rug Pull",
-      "description": "On-chain data suggests a rapid withdrawal of liquidity by the developers on [Date].",
-      "source": "On-chain Analysis",
-      "severity": "high"
-    }
-  ]
-}
-
-If there are no issues, your response should look like this:
-{
-  "status": "clear",
-  "summary": "No significant negative events found in our scan.",
-  "findings": []
-}
-
-Now, generate the report for the requested token.`,
+Symbol: {{{tokenSymbol}}}`,
   input: {
     schema: z.object({
       tokenName: z.string(),
@@ -118,6 +102,7 @@ Now, generate the report for the requested token.`,
     schema: ReputationOutputSchema.shape.report,
   },
 });
+
 
 // Define the main Genkit flow for reputation checking.
 const reputationFlow = ai.defineFlow(
