@@ -282,16 +282,6 @@
     "p_changes": "Podemos actualizar esta Política de Cookies de vez en cuando para reflejar, por ejemplo, cambios en las cookies que usamos o por otras razones operativas, legales o regulatorias. Por lo tanto, por favor vuelve a visitar esta Política de Cookies regularmente para mantenerte informado sobre nuestro uso de cookies y tecnologías relacionadas.",
     "dismiss": "Cerrar"
   },
-  "Chatbot": {
-    "initialMessage": "¡Hola! Soy el Chatbot de 'CryptoDx'. ¿Cómo puedo ayudarte hoy en todo lo relacionado con Blockchain, DeFi, Cripto, NFT o IA?",
-    "title": "Chatbot de CryptoDx",
-    "placeholder": "Escribe tu mensaje...",
-    "send": "Enviar",
-    "askMeAbout": "Pregúntame sobre...",
-    "topics": "¡Blockchain, DeFi, Cripto, NFT, o Blockchain AI!",
-    "errorResponse": "Estoy teniendo problemas para generar una respuesta en este momento. Por favor, intenta una pregunta diferente.",
-    "connectionError": "Lo siento, estoy teniendo problemas para conectarme en este momento. Por favor, inténtalo de nuevo más tarde."
-  },
   "WalletConnect": {
     "title": "Conectar una billetera",
     "description": "Elige tu billetera de la lista a continuación para empezar.",

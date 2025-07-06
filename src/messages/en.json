@@ -1,5 +1,4 @@
 
-      
 {
   "Header": {
     "siteName": "CryptoDx",
@@ -282,16 +281,6 @@
     "h_changes": "Changes to this Cookie Policy",
     "p_changes": "We may update this Cookie Policy from time to time in order to reflect, for example, changes to the cookies we use or for other operational, legal, or regulatory reasons. Please therefore re-visit this Cookie Policy regularly to stay informed about our use of cookies and related technologies.",
     "dismiss": "Dismiss and Close"
-  },
-  "Chatbot": {
-    "initialMessage": "Hello! I'm the 'CryptoDx' Chatbot. How can I help you today on all things Blockchain, DeFi, Crypto, NFTs, or AI?",
-    "title": "CryptoDx Chatbot",
-    "placeholder": "Type your message...",
-    "send": "Send",
-    "askMeAbout": "Ask me about...",
-    "topics": "Blockchain, DeFi, Crypto, NFT, or Blockchain AI!",
-    "errorResponse": "I'm having trouble generating a response right now. Please try a different question.",
-    "connectionError": "Sorry, I'm having trouble connecting right now. Please try again later."
   },
   "WalletConnect": {
     "title": "Connect a wallet",
