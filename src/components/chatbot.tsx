@@ -102,7 +102,7 @@ export function Chatbot() {
       </div>
 
       {isOpen && (
-        <Card className="fixed bottom-24 right-6 z-50 w-full max-w-sm h-[70vh] flex flex-col shadow-2xl rounded-lg">
+        <Card className="fixed bottom-24 right-6 z-50 w-full max-w-sm h-[60vh] flex flex-col shadow-2xl rounded-lg">
            <CardHeader className="p-4 border-b">
              <div className="flex items-center gap-2">
                 <SiteLogo className="h-6 w-6" />
