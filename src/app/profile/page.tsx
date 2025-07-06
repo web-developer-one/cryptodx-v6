@@ -1,11 +1,11 @@
 
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/hooks/use-auth';
 import { useLanguage } from '@/hooks/use-language';
-import { useForm, Controller } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ProfileSchema, type ProfileFormData } from '@/lib/auth';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -21,8 +21,8 @@ import { Info } from 'lucide-react';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 
 const avatarOptions = [
-    'https://placehold.co/128x128.png',
-    'https://placehold.co/128x128.png',
+    'https://avataaars.io/?avatarStyle=Circle&topType=ShortHairTheCaesar&accessoriesType=Blank&hairColor=Black&facialHairType=BeardLight&facialHairColor=Auburn&clotheType=Hoodie&clotheColor=White&eyeType=Squint&eyebrowType=DefaultNatural&mouthType=Serious&skinColor=DarkBrown',
+    'https://avataaars.io/?avatarStyle=Circle&topType=LongHairStraightStrand&accessoriesType=Round&hairColor=Blonde&facialHairType=Blank&clotheType=ShirtScoopNeck&clotheColor=Red&eyeType=Default&eyebrowType=UnibrowNatural&mouthType=Smile&skinColor=DarkBrown',
     'https://placehold.co/128x128.png',
     'https://placehold.co/128x128.png',
     'https://placehold.co/128x128.png',
@@ -33,7 +33,7 @@ const avatarOptions = [
 
 export default function ProfilePage() {
   const { t } = useLanguage();
-  const { user, updateProfile, isLoading } = useAuth();
+  const { user, updateProfile, isLoading, setSessionUser } = useAuth();
   const router = useRouter();
 
   const form = useForm<ProfileFormData>({
@@ -56,6 +56,8 @@ export default function ProfilePage() {
   useEffect(() => {
     document.title = t('PageTitles.profile');
     if (user) {
+      // Only reset the form when the user ID changes (i.e., a different user logs in)
+      // This prevents the form from resetting on every state change, like avatar selection
       form.reset({
         username: user.username,
         firstName: user.firstName,
@@ -64,7 +66,7 @@ export default function ProfilePage() {
         avatar: user.avatar,
       });
     }
-  }, [t, user, form]);
+  }, [t, user?.id, form]);
 
   const onSubmit = (data: ProfileFormData) => {
     if (user) {
@@ -176,7 +178,14 @@ export default function ProfilePage() {
                     <FormLabel>{t('ProfilePage.avatar')}</FormLabel>
                     <FormControl>
                         <RadioGroup
-                        onValueChange={field.onChange}
+                        onValueChange={(value) => {
+                            // Update the form state for submission
+                            field.onChange(value);
+                            // Update the live user state for immediate header update
+                            if (user) {
+                                setSessionUser({ ...user, avatar: value });
+                            }
+                        }}
                         defaultValue={field.value}
                         className="grid grid-cols-4 sm:grid-cols-8 gap-4"
                         >

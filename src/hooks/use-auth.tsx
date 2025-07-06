@@ -20,6 +20,7 @@ interface AuthContextType {
   logout: () => void;
   register: (username: string, email: string, pass: string) => void;
   updateProfile: (profileData: UserProfile) => void;
+  setSessionUser: (user: UserProfile) => void;
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -72,7 +73,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             lastName: 'Software',
             email: MOCK_ADMIN_EMAIL,
             age: null,
-            avatar: 'https://placehold.co/128x128.jpeg',
+            avatar: 'https://placehold.co/128x128.png',
             pricingPlan: 'Administrator',
             isAdmin: true,
         };
@@ -115,7 +116,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       firstName: '',
       lastName: '',
       age: null,
-      avatar: 'https://placehold.co/128x128.jpeg',
+      avatar: 'https://placehold.co/128x128.png',
       pricingPlan: 'Free',
       isAdmin: false,
     };
@@ -155,6 +156,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     toast({ title: t('ProfilePage.saveSuccessTitle'), description: t('ProfilePage.saveSuccessDescription') });
   }, [user, toast, t]);
 
+  const setSessionUser = useCallback((newUserData: UserProfile) => {
+    setUser(newUserData);
+  }, []);
+
   const value = useMemo(() => ({
     user,
     isLoading,
@@ -162,7 +167,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     logout,
     register,
     updateProfile,
-  }), [user, isLoading, login, logout, register, updateProfile]);
+    setSessionUser,
+  }), [user, isLoading, login, logout, register, updateProfile, setSessionUser]);
 
   return (
     <AuthContext.Provider value={value}>
