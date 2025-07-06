@@ -19,7 +19,6 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { cn } from '@/lib/utils';
-import { Badge } from './ui/badge';
 import {
   Tooltip,
   TooltipContent,
@@ -65,12 +64,11 @@ export function Chatbot() {
     }
   }, [messages]);
 
+  // When the site language changes, update the chatbot language to match.
+  // The user can then override it with the chatbot's own selector.
   useEffect(() => {
-    // Sync chatbot language with site language unless advanced features are available
-    if (!canUseAdvancedFeatures) {
-        setTargetLanguage(siteLanguage);
-    }
-  }, [siteLanguage, canUseAdvancedFeatures]);
+    setTargetLanguage(siteLanguage);
+  }, [siteLanguage]);
 
   const handleSend = async () => {
     if (!input.trim() || isLoading) return;
@@ -101,7 +99,7 @@ export function Chatbot() {
       }
 
     } catch (error) {
-      console.error('Chatbot error:', error);
+      console.warn('Chatbot error:', error);
       const errorMessage: Message = {
         id: Date.now() + 1,
         role: 'bot',
@@ -193,23 +191,21 @@ export function Chatbot() {
               </div>
             </CardContent>
             <CardFooter className="flex flex-col gap-2 pt-4 border-t">
-              {canUseAdvancedFeatures && (
-                <div className="w-full flex items-center gap-2">
-                    <Languages className="h-4 w-4 text-muted-foreground" />
-                    <Select value={targetLanguage} onValueChange={setTargetLanguage}>
-                        <SelectTrigger className="w-full h-9">
-                            <SelectValue placeholder="Select language" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            {languages.map(lang => (
-                                <SelectItem key={lang.code} value={lang.code}>
-                                    {lang.displayName}
-                                </SelectItem>
-                            ))}
-                        </SelectContent>
-                    </Select>
-                </div>
-              )}
+              <div className="w-full flex items-center gap-2">
+                  <Languages className="h-4 w-4 text-muted-foreground" />
+                  <Select value={targetLanguage} onValueChange={setTargetLanguage}>
+                      <SelectTrigger className="w-full h-9">
+                          <SelectValue placeholder="Select language" />
+                      </SelectTrigger>
+                      <SelectContent>
+                          {languages.map(lang => (
+                              <SelectItem key={lang.code} value={lang.code}>
+                                  {lang.displayName}
+                              </SelectItem>
+                          ))}
+                      </SelectContent>
+                  </Select>
+              </div>
               <div className="w-full flex items-center gap-2">
                 <Textarea
                   value={input}
