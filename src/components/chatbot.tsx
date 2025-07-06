@@ -182,11 +182,6 @@ export function Chatbot() {
                   )}
                 </div>
               </ScrollArea>
-              <div className="text-left text-xs text-muted-foreground mt-2">
-                <p>
-                  {t('Chatbot.askMeAbout')} <span className="font-semibold">{t('Chatbot.topics')}</span>
-                </p>
-              </div>
             </CardContent>
             <CardFooter className="flex flex-col gap-2 pt-4 border-t">
               <div className="w-full flex items-center gap-2">
