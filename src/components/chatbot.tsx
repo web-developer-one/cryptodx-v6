@@ -112,7 +112,7 @@ export function Chatbot() {
         <audio ref={audioRef} className="hidden" />
         {isOpen ? (
           <Card className="w-96 h-[600px] flex flex-col shadow-2xl">
-            <CardHeader className="flex flex-row items-center justify-between p-4">
+            <CardHeader className="flex flex-row items-center justify-between px-4 pt-4 pb-2">
               <CardTitle className="flex items-center gap-2">
                 <Bot className="h-6 w-6" />
                 <span>{t('Chatbot.title')}</span>
@@ -121,7 +121,7 @@ export function Chatbot() {
                 <X className="h-5 w-5" />
               </Button>
             </CardHeader>
-            <CardContent className="flex-1 flex flex-col gap-4 overflow-hidden p-4">
+            <CardContent className="flex-1 flex flex-col gap-4 overflow-hidden p-4 pt-0">
               <ScrollArea className="flex-1" ref={scrollAreaRef}>
                 <div className="space-y-4 pr-4">
                   {messages.map((message) => (
