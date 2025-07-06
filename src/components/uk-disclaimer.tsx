@@ -18,13 +18,13 @@ export function UkDisclaimer() {
 
   return (
     <section className="w-full py-8 bg-muted/50 border-t">
-      <div className="container max-w-5xl px-4 md:px-6 flex items-start gap-4">
-        <Info className="h-5 w-5 text-muted-foreground mt-1 flex-shrink-0" />
+      <div className="container max-w-5xl px-4 md:px-6 flex items-center gap-4">
+        <Info className="h-5 w-5 text-muted-foreground flex-shrink-0" />
         <p className="text-sm text-muted-foreground">
           UK disclaimer: {panelText}
           <Dialog>
             <DialogTrigger asChild>
-              <button className="inline-block text-primary underline hover:text-primary/80">
+              <button className="inline-block text-primary underline hover:text-primary/80 ml-1">
                 Read more...
               </button>
             </DialogTrigger>
