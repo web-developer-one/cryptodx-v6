@@ -20,7 +20,10 @@ const LanguageContext = createContext<LanguageContextType | null>(null);
 
 // Helper function to access nested properties of an object using a dot-separated string.
 const getNestedValue = (obj: Record<string, any>, path: string): string | undefined => {
-  return path.split('.').reduce((acc, part) => acc && acc[part], obj);
+  // Use `any` for the accumulator to allow traversing from object to primitive.
+  const value = path.split('.').reduce((acc, part) => acc?.[part], obj as any);
+  // Ensure the final value is a string, otherwise it's not a valid translation.
+  return typeof value === 'string' ? value : undefined;
 };
 
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
