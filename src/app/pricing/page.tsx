@@ -91,6 +91,15 @@ const planDetails = [
             '"AI Chatbot advanced" provides features such as chatbot multilingual prompts and replies in text and speech.',
             '"Reputation alert advanced" provides information on real world scams and scandals activities from reputable sources in multilingual text and speech.',
         ]
+    },
+    {
+        title: "Administrator",
+        features: [
+            'Includes all features from the "Advanced" plan.',
+            '"AI Chatbot advanced" with multilingual text and speech.',
+            '"Reputation alert advanced" with multilingual text and speech.',
+            'Full administrative privileges across the application.',
+        ]
     }
 ]
 
@@ -99,6 +108,10 @@ export default function PricingPage() {
   const { toast } = useToast();
   const { user, updateProfile } = useAuth();
   const router = useRouter();
+
+  const displayedPlanDetails = user?.isAdmin
+    ? planDetails
+    : planDetails.filter((p) => p.title !== 'Administrator');
 
 
   useEffect(() => {
@@ -255,7 +268,7 @@ export default function PricingPage() {
             <div className="w-full max-w-5xl mt-16">
                 <h2 className="text-3xl font-bold text-center mb-8">Plan Details</h2>
                 <Accordion type="single" collapsible className="w-full">
-                    {planDetails.map((plan) => (
+                    {displayedPlanDetails.map((plan) => (
                         <AccordionItem key={plan.title} value={plan.title}>
                             <AccordionTrigger className="text-xl">{plan.title} Plan Features</AccordionTrigger>
                             <AccordionContent>
