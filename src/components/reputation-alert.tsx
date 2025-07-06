@@ -3,7 +3,6 @@
 
 import { useState, useEffect, useCallback, useRef } from "react";
 import { getReputationReport, ReputationOutput } from "@/ai/flows/reputation-flow";
-import { useAuth } from "@/hooks/use-auth";
 import { useLanguage } from "@/hooks/use-language";
 import { AlertCircle, CheckCircle, ShieldAlert, Loader2, Volume2, Info } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card";
@@ -23,14 +22,11 @@ interface ReputationAlertProps {
 }
 
 export function ReputationAlert({ tokenName, tokenSymbol }: ReputationAlertProps) {
-  const { user } = useAuth();
   const { t, language } = useLanguage();
   const [data, setData] = useState<ReputationOutput | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
-
-  const canUseAdvancedFeatures = user && (user.pricingPlan === 'Advanced' || user.isAdmin);
 
   const fetchReport = useCallback(async () => {
     setIsLoading(true);
@@ -40,7 +36,8 @@ export function ReputationAlert({ tokenName, tokenSymbol }: ReputationAlertProps
             tokenName,
             tokenSymbol,
             language: language,
-            enableAudio: canUseAdvancedFeatures
+            // Since user authentication is removed, disable audio feature.
+            enableAudio: false
         });
         setData(result);
     } catch (e: any) {
@@ -49,7 +46,7 @@ export function ReputationAlert({ tokenName, tokenSymbol }: ReputationAlertProps
     } finally {
         setIsLoading(false);
     }
-  }, [tokenName, tokenSymbol, language, canUseAdvancedFeatures, t]);
+  }, [tokenName, tokenSymbol, language, t]);
 
   useEffect(() => {
     fetchReport();
