@@ -16,9 +16,7 @@
     "DarkMode": "Mode Sombre",
     "myAccount": "Mon Compte",
     "profile": "Profil",
-    "logout": "Déconnexion",
-    "login": "Connexion",
-    "register": "S'inscrire"
+    "logout": "Déconnexion"
   },
   "HomePage": {
     "title": "Échangez vos Cryptos en toute Simplicité",

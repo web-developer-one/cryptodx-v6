@@ -312,14 +312,15 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
                     </DropdownMenuContent>
                 </DropdownMenu>
             ) : (
-                <div className="flex items-center gap-2">
-                    <Link href="/login" passHref>
-                        <Button variant="ghost" className="text-primary-foreground/90 transition-colors hover:bg-white/10 hover:text-primary-foreground">{t('Header.login')}</Button>
-                    </Link>
-                    <Link href="/register" passHref>
-                        <Button variant="secondary">{t('Header.register')}</Button>
-                    </Link>
-                </div>
+                <Link href="/login" passHref>
+                    <button className="flex items-center gap-2 rounded-full ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2">
+                        <Avatar className="h-9 w-9 border-2 border-primary-foreground/50">
+                            <AvatarFallback>
+                                <User className="h-5 w-5" />
+                            </AvatarFallback>
+                        </Avatar>
+                    </button>
+                </Link>
             )}
 
           <DropdownMenu>

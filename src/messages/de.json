@@ -16,9 +16,7 @@
     "DarkMode": "Dunkler Modus",
     "myAccount": "Mein Konto",
     "profile": "Profil",
-    "logout": "Abmelden",
-    "login": "Anmelden",
-    "register": "Registrieren"
+    "logout": "Abmelden"
   },
   "HomePage": {
     "title": "Tauschen Sie Ihre Krypto nahtlos",

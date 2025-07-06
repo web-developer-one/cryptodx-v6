@@ -16,9 +16,7 @@
     "DarkMode": "Dark Mode",
     "myAccount": "My Account",
     "profile": "Profile",
-    "logout": "Logout",
-    "login": "Login",
-    "register": "Register"
+    "logout": "Logout"
   },
   "HomePage": {
     "title": "Seamlessly Swap Your Crypto",

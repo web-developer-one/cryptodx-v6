@@ -15,9 +15,7 @@
     "DarkMode": "Modo Oscuro",
     "myAccount": "Mi Cuenta",
     "profile": "Perfil",
-    "logout": "Cerrar Sesión",
-    "login": "Iniciar Sesión",
-    "register": "Registrarse"
+    "logout": "Cerrar Sesión"
   },
   "HomePage": {
     "title": "Intercambia tus Criptomonedas sin Complicaciones",

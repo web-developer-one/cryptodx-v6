@@ -16,9 +16,7 @@
     "DarkMode": "ダークモード",
     "myAccount": "マイアカウント",
     "profile": "プロフィール",
-    "logout": "ログアウト",
-    "login": "ログイン",
-    "register": "登録"
+    "logout": "ログアウト"
   },
   "HomePage": {
     "title": "仮想通貨をシームレスにスワップ",

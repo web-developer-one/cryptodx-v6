@@ -16,9 +16,7 @@
     "DarkMode": "다크 모드",
     "myAccount": "내 계정",
     "profile": "프로필",
-    "logout": "로그아웃",
-    "login": "로그인",
-    "register": "가입하기"
+    "logout": "로그아웃"
   },
   "HomePage": {
     "title": "암호화폐를 원활하게 스왑하세요",

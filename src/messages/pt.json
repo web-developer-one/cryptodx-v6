@@ -16,9 +16,7 @@
     "DarkMode": "Modo Escuro",
     "myAccount": "Minha Conta",
     "profile": "Perfil",
-    "logout": "Sair",
-    "login": "Entrar",
-    "register": "Registrar"
+    "logout": "Sair"
   },
   "HomePage": {
     "title": "Troque sua Criptomoeda sem Esforço",
@@ -78,7 +76,7 @@
     "reputationCheckFailed": "Não foi possível realizar a verificação de reputação. Por favor, tente novamente.",
     "acknowledgeAndContinue": "Reconhecer e Continuar",
     "reputationAlert": "Alerta de Reputação",
-    "infoDisclaimer": "Isso é apenas para fins informativos e не constitui aconselhamento financeiro. Por favor, faça sua própria pesquisa antes de prosseguir.",
+    "infoDisclaimer": "Isso é apenas para fins informativos e não constitui aconselhamento financeiro. Por favor, faça sua própria pesquisa antes de prosseguir.",
     "acknowledgedRisk": "Você reconheceu o risco. Continuando para o provedor de pagamento."
   },
   "SellInterface": {
@@ -138,7 +136,7 @@
     "connectPrompt": "Conecte sua carteira para ver suas posições de liquidez.",
     "connectPromptDescription": "Suas posições de liquidez ativas serão exibidas aqui assim que você conectar sua carteira.",
     "noPositionsTitle": "Nenhuma Posição Encontrada",
-    "noPositionsDescription": "Você не tem nenhuma posição de liquidez ativa.",
+    "noPositionsDescription": "Você não tem nenhuma posição de liquidez ativa.",
     "createPositionPrompt": "Crie uma nova posição fornecendo liquidez a um pool.",
     "explorePools": "Explorar Pools",
     "newPosition": "+ Nova Posição",
@@ -262,12 +260,12 @@
     "p1": "Esta Política de Cookies explica como a CryptoDx (\"nós\", \"nos\" e \"nosso\") usa cookies e tecnologias semelhantes para reconhecê-lo quando você visita nosso site. Ela explica o que são essas tecnologias e por que as usamos, bem como seus direitos para controlar nosso uso delas.",
     "h_whatAre": "O que são cookies?",
     "p_whatAre1": "Um cookie é um pequeno arquivo de dados que é colocado no seu dispositivo quando você visita um site. Os cookies são amplamente utilizados pelos proprietários de sites para fazer seus sites funcionarem, ou para funcionarem de forma mais eficiente, bem como para fornecer informações de relatórios.",
-    "p_whatAre2": "Cookies definidos pelo proprietário do site (neste caso, CryptoDx) são chamados de \"cookies primários\". Cookies definidos por partes que не o proprietário do site são chamados de \"cookies de terceiros\". Cookies de terceiros permitem que recursos ou funcionalidades de terceiros sejam fornecidos no ou através do site (por exemplo, publicidade, conteúdo interativo e análises). As partes que definem esses cookies de terceiros podem reconhecer seu computador tanto quando ele visita o site em questão quanto quando visita outros sites.",
+    "p_whatAre2": "Cookies definidos pelo proprietário do site (neste caso, CryptoDx) são chamados de \"cookies primários\". Cookies definidos por partes que não o proprietário do site são chamados de \"cookies de terceiros\". Cookies de terceiros permitem que recursos ou funcionalidades de terceiros sejam fornecidos no ou através do site (por exemplo, publicidade, conteúdo interativo e análises). As partes que definem esses cookies de terceiros podem reconhecer seu computador tanto quando ele visita o site em questão quanto quando visita outros sites.",
     "h_whyUse": "Por que usamos cookies?",
     "p_whyUse": "Usamos cookies primários e de terceiros por várias razões. Alguns cookies são necessários por razões técnicas para que nosso Site funcione, e nos referimos a eles como cookies \"essenciais\" ou \"estritamente necessários\". Outros cookies também nos permitem rastrear e direcionar os interesses de nossos usuários para aprimorar a experiência em nossas Propriedades Online. Terceiros servem cookies através de nosso Site para publicidade, análises e outros fins. Isso é descrito em mais detalhes abaixo.",
     "h_types": "Tipos de Cookies que Usamos",
-    "li_necessary": "<strong>Cookies Estritamente Necessários:</strong> Estes cookies são essenciais para fornecer a você os serviços disponíveis através de nosso Site e para permitir que você use alguns de seus recursos. Como esses cookies são estritamente necessários para entregar o Site a você, você не pode recusá-los sem impactar como nosso Site funciona.",
-    "li_performance": "<strong>Cookies de Desempenho e Funcionalidade:</strong> Estes cookies são usados para aprimorar o desempenho e a funcionalidade de nosso Site, mas не são essenciais para seu uso. No entanto, sem esses cookies, certas funcionalidades (como lembrar sua preferência de tema) podem se tornar indisponíveis.",
+    "li_necessary": "<strong>Cookies Estritamente Necessários:</strong> Estes cookies são essenciais para fornecer a você os serviços disponíveis através de nosso Site e para permitir que você use alguns de seus recursos. Como esses cookies são estritamente necessários para entregar o Site a você, você não pode recusá-los sem impactar como nosso Site funciona.",
+    "li_performance": "<strong>Cookies de Desempenho e Funcionalidade:</strong> Estes cookies são usados para aprimorar o desempenho e a funcionalidade de nosso Site, mas não são essenciais para seu uso. No entanto, sem esses cookies, certas funcionalidades (como lembrar sua preferência de tema) podem se tornar indisponíveis.",
     "li_analytics": "<strong>Cookies de Análise e Personalização:</strong> Estes cookies coletam informações que são usadas de forma agregada para nos ajudar a entender como nosso Site está sendo usado ou quão eficazes são nossas campanhas de marketing, ou para nos ajudar a personalizar nosso Site para você.",
     "h_choices": "Suas escolhas em relação aos cookies",
     "p_choices": "Você tem o direito de decidir se aceita ou rejeita cookies. Você pode exercer suas preferências de cookies definindo ou alterando os controles do seu navegador para aceitar ou recusar cookies. Se você optar por rejeitar cookies, ainda poderá usar nosso site, embora seu acesso a algumas funcionalidades e áreas do nosso site possa ser restrito. Como os meios pelos quais você pode recusar cookies através dos controles do seu navegador variam de navegador para navegador, você deve visitar o menu de ajuda do seu navegador para mais informações.",
