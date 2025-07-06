@@ -89,7 +89,7 @@ export function SellInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocu
     if (!isWalletConnected) return;
     toast({
       title: t('SellInterface.sellInitiated'),
-      description: t('BuyInterface.reputationSkipped'), // Using existing translation key
+      description: t('BuyInterface.reputationPassed'), 
     });
   };
 

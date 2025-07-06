@@ -36,11 +36,12 @@ const ReputationOutputSchema = z.object({
   findings: z
     .array(
       z.object({
-        title: z.string().describe('A short, descriptive title for the finding.'),
+        title: z.string().optional().nullable().describe('A short, descriptive title for the finding.'),
         description: z
           .string()
+          .optional()
+          .nullable()
           .describe('A detailed, user-friendly description of the potential issue.'),
-        // All fields below are optional to make the flow more resilient.
         source: z
           .string()
           .optional()
@@ -52,6 +53,7 @@ const ReputationOutputSchema = z.object({
         sourceUrl: z.string().optional().nullable().describe('A valid URL to a reputable source that backs up the finding, such as a news article or blockchain explorer transaction. A Google search link is also acceptable.'),
       })
     )
+    .optional()
     .describe('A list of specific findings. Return an empty array if the status is "clear".'),
 });
 export type ReputationOutput = z.infer<typeof ReputationOutputSchema>;

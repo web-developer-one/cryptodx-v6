@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { getReputationReport, ReputationOutput } from "@/ai/flows/reputation-flow";
 import { useLanguage } from "@/hooks/use-language";
-import { AlertCircle, CheckCircle, ShieldAlert, Loader2, Info, ExternalLink } from "lucide-react";
+import { AlertCircle, CheckCircle, ShieldAlert, Info, ExternalLink } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
@@ -123,20 +123,20 @@ export function ReputationAlert({ tokenName, tokenSymbol }: ReputationAlertProps
         <CardContent>
             {findings && findings.length > 0 && (
                 <Accordion type="single" collapsible className="w-full">
-                    {findings.map((finding, index) => (
+                    {findings.filter(f => f && f.title).map((finding, index) => (
                         <AccordionItem key={index} value={`item-${index}`} className="border-destructive/20">
                             <AccordionTrigger className="hover:no-underline">
                             <div className="flex justify-between items-center w-full pr-4 text-left">
-                                <span className="font-semibold">{finding.title}</span>
-                                {finding.severity && <Badge variant={getSeverityBadgeVariant(finding.severity)} className="capitalize ml-2">{finding.severity}</Badge>}
+                                <span className="font-semibold">{finding!.title}</span>
+                                {finding!.severity && <Badge variant={getSeverityBadgeVariant(finding!.severity)} className="capitalize ml-2">{finding!.severity}</Badge>}
                             </div>
                             </AccordionTrigger>
                             <AccordionContent className="space-y-3">
-                            <p>{finding.description}</p>
+                            {finding!.description && <p>{finding!.description}</p>}
                             <div className="flex items-center justify-between text-xs text-muted-foreground">
-                                {finding.source ? <span><strong>{t('ReputationAlert.source')}:</strong> {finding.source}</span> : <span/>}
-                                {finding.sourceUrl && (
-                                    <a href={finding.sourceUrl} target="_blank" rel="noopener noreferrer">
+                                {finding!.source ? <span><strong>{t('ReputationAlert.source')}:</strong> {finding!.source}</span> : <span/>}
+                                {finding!.sourceUrl && (
+                                    <a href={finding!.sourceUrl} target="_blank" rel="noopener noreferrer">
                                         <Button variant="link" className="h-auto p-0 text-xs text-destructive hover:text-destructive/80">
                                             {t('ReputationAlert.viewSource')} <ExternalLink className="ml-1 h-3 w-3" />
                                         </Button>

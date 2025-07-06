@@ -6,12 +6,25 @@ import type { Cryptocurrency } from '@/lib/types';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger } from '@/components/ui/select';
 import Image from 'next/image';
 import { useWallet } from '@/hooks/use-wallet';
 import { WalletConnect } from './wallet-connect';
 import { useToast } from '@/hooks/use-toast';
 import { useLanguage } from '@/hooks/use-language';
+import { ReputationAlert } from './reputation-alert';
+import { getReputationReport, ReputationOutput } from '@/ai/flows/reputation-flow';
+import { Skeleton } from './ui/skeleton';
 
 type SupportedCurrency = {
     symbol: string;
@@ -34,13 +47,17 @@ const supportedCurrencies: SupportedCurrency[] = [
 
 
 export function BuyInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[] }) {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const [toToken, setToToken] = useState<Cryptocurrency>(cryptocurrencies.find(c => c.symbol === 'ETH') || cryptocurrencies[0]);
   const [fromFiat, setFromFiat] = useState<SupportedCurrency>(supportedCurrencies[0]);
   const [fiatAmount, setFiatAmount] = useState<string>('100');
   const [cryptoAmount, setCryptoAmount] = useState<string>('');
   const { isActive: isWalletConnected } = useWallet();
   const { toast } = useToast();
+  
+  const [isCheckingReputation, setIsCheckingReputation] = useState(false);
+  const [reputationReport, setReputationReport] = useState<ReputationOutput | null>(null);
+  const [reputationError, setReputationError] = useState<string | null>(null);
 
   useEffect(() => {
     if (fiatAmount && toToken?.price > 0 && fromFiat) {
@@ -85,14 +102,56 @@ export function BuyInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocur
     }
   }
 
-  const handleBuyClick = () => {
-    toast({
+  const proceedToPayment = () => {
+     toast({
       title: t('BuyInterface.buyInitiated'),
-      description: "Proceeding to payment provider.",
+      description: t('BuyInterface.reputationPassed'),
     });
+  }
+
+  const handleBuyClick = async () => {
+    if (!toToken) return;
+
+    setIsCheckingReputation(true);
+    setReputationReport(null);
+    setReputationError(null);
+
+    try {
+        const report = await getReputationReport({
+            tokenName: toToken.name,
+            tokenSymbol: toToken.symbol,
+            language,
+        });
+        setReputationReport(report);
+        if (report.status === 'clear') {
+           proceedToPayment();
+           setIsCheckingReputation(false);
+        }
+    } catch (err: any) {
+        setReputationError(t('BuyInterface.reputationCheckFailed'));
+        console.error("Reputation check failed:", err);
+    }
+    // isCheckingReputation will be set to false inside the dialog's onOpenChange
   };
 
+  const onAlertDialogClose = () => {
+      setIsCheckingReputation(false);
+      setReputationReport(null);
+      setReputationError(null);
+  }
+
+  const handleAcknowledgeAndContinue = () => {
+    onAlertDialogClose();
+    toast({
+      title: t('BuyInterface.buyInitiated'),
+      description: t('BuyInterface.acknowledgedRisk'),
+    });
+  }
+  
+  const shouldOpenDialog = isCheckingReputation && (!!reputationReport || !!reputationError);
+
   return (
+    <>
     <Card className="w-full max-w-md shadow-2xl shadow-primary/10">
       <CardHeader className="text-center">
         <CardTitle>{t('BuyInterface.title')}</CardTitle>
@@ -168,7 +227,7 @@ export function BuyInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocur
       </CardContent>
       <CardFooter>
         {isWalletConnected ? (
-            <Button className="w-full h-12 text-lg" onClick={handleBuyClick}>
+            <Button className="w-full h-12 text-lg" onClick={handleBuyClick} disabled={isCheckingReputation}>
               {t('BuyInterface.continue')}
             </Button>
         ) : (
@@ -178,5 +237,41 @@ export function BuyInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocur
         )}
       </CardFooter>
     </Card>
+
+    <AlertDialog open={shouldOpenDialog} onOpenChange={(isOpen) => !isOpen && onAlertDialogClose()}>
+        <AlertDialogContent>
+             <AlertDialogHeader>
+                <AlertDialogTitle>{t('BuyInterface.reputationAlert')}</AlertDialogTitle>
+                <AlertDialogDescription>
+                    {t('ReputationAlert.dialogDescription')}
+                </AlertDialogDescription>
+            </AlertDialogHeader>
+            <div className="max-h-[60vh] overflow-y-auto pr-4">
+                {reputationReport && toToken ? (
+                    <ReputationAlert key={toToken.id} tokenName={toToken.name} tokenSymbol={toToken.symbol} />
+                ): reputationError ? (
+                     <p className='text-destructive'>{reputationError}</p>
+                ) : (
+                    <div className="space-y-4">
+                        <div className="flex items-center gap-4">
+                            <Skeleton className="h-12 w-12 rounded-full" />
+                            <div className="space-y-2">
+                                <Skeleton className="h-6 w-48" />
+                                <Skeleton className="h-4 w-64" />
+                            </div>
+                        </div>
+                        <Skeleton className="h-10 w-full" />
+                    </div>
+                )}
+            </div>
+            <AlertDialogFooter>
+                <AlertDialogCancel>{t('SwapInterface.cancel')}</AlertDialogCancel>
+                <AlertDialogAction onClick={handleAcknowledgeAndContinue}>
+                  {t('BuyInterface.acknowledgeAndContinue')}
+                </AlertDialogAction>
+            </AlertDialogFooter>
+        </AlertDialogContent>
+    </AlertDialog>
+    </>
   );
 }

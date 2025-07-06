@@ -15,6 +15,7 @@ import { Shield } from 'lucide-react';
 import { ReputationAlert } from './reputation-alert';
 import type { Cryptocurrency } from '@/lib/types';
 import { useLanguage } from '@/hooks/use-language';
+import { useState } from 'react';
 
 interface ReputationDialogProps {
   token: Cryptocurrency;
@@ -22,10 +23,12 @@ interface ReputationDialogProps {
 
 export function ReputationDialog({ token }: ReputationDialogProps) {
     const { t } = useLanguage();
+    const [isOpen, setIsOpen] = useState(false);
+    
     if (!token) return null;
 
     return (
-        <AlertDialog>
+        <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
             <AlertDialogTrigger asChild>
                 <Button variant="ghost" size="icon" className="h-6 w-6 text-muted-foreground hover:text-foreground">
                     <Shield className="h-4 w-4" />
@@ -40,7 +43,8 @@ export function ReputationDialog({ token }: ReputationDialogProps) {
                     </AlertDialogDescription>
                 </AlertDialogHeader>
                 <div className="max-h-[60vh] overflow-y-auto pr-4">
-                    <ReputationAlert tokenName={token.name} tokenSymbol={token.symbol} />
+                    {/* The key forces a re-mount and re-fetch when the dialog is opened */}
+                    {isOpen && <ReputationAlert key={token.id} tokenName={token.name} tokenSymbol={token.symbol} />}
                 </div>
                 <AlertDialogFooter>
                     <AlertDialogCancel>{t('SwapInterface.cancel')}</AlertDialogCancel>
