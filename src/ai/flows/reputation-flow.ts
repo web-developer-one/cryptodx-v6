@@ -1,7 +1,6 @@
 
 'use server';
 
-import {ai} from '@/ai/genkit';
 import type {ReputationReport} from '@/lib/types';
 import {z} from 'zod';
 
@@ -97,33 +96,3 @@ export async function getReputationReport(
   // Throwing an error will trigger its error state, which is the desired behavior.
   throw new Error('AI reputation check is currently unavailable due to a configuration issue.');
 }
-
-
-// The original flow definition is left below for when the package issue can be resolved.
-const reputationPrompt = ai.definePrompt({
-  name: 'reputationPrompt',
-  input: {
-    schema: z.object({tokenName: z.string(), tokenSymbol: z.string()}),
-  },
-  output: {schema: ReputationOutputSchema.shape.report},
-  prompt: `You are a cryptocurrency reputation analyst. Your job is to assess the risk associated with a given token based on its name and symbol.
-  Search for any known scams, "rug pulls," security vulnerabilities, or negative news associated with the token: "{{tokenName}} ({{tokenSymbol}})."
-  
-  If no significant issues are found, set the status to "clear" and provide a positive summary.
-  
-  If you find potential issues, list them as findings with a title, description, source (e.g., "News Article," "Social Media Analysis," "Blockchain Record"), and a severity level (low, medium, or high).
-  Based on the severity of the findings, set the overall status to "warning" for moderate risks or "critical" for severe risks. Provide a concise summary of the key risks.
-  `,
-});
-
-const reputationFlow = ai.defineFlow(
-  {
-    name: 'reputationFlow',
-    inputSchema: ReputationInputSchema,
-    outputSchema: ReputationOutputSchema,
-  },
-  async (input: ReputationInput) => {
-    // This code path is not executed because getReputationReport is intercepted.
-    throw new Error('AI reputation check is currently unavailable.');
-  }
-);

@@ -1,7 +1,6 @@
 
 'use server';
 
-import {ai} from '@/ai/genkit';
 import {z} from 'zod';
 
 // This file has been modified to gracefully handle the absence of Genkit AI packages,
@@ -128,39 +127,3 @@ export async function askChatbot(input: ChatbotInput): Promise<ChatbotOutput> {
     audio: undefined,
   };
 }
-
-
-// The original flow definition is left below for when the package issue can be resolved.
-const chatbotPrompt = ai.definePrompt({
-  name: 'chatbotPrompt',
-  input: {
-    schema: z.object({
-      message: z.string(),
-      language: z.string(),
-    }),
-  },
-  prompt: `You are a helpful and friendly chatbot for a decentralized crypto exchange named CryptoDx.
-  Your goal is to answer user questions about blockchain, DeFi, crypto, NFTs, or AI in a clear and concise way.
-  
-  IMPORTANT: Respond in the following language: {{{language}}}.
-  
-  User's question:
-  "{{{message}}}"
-  `,
-});
-
-const chatbotFlow = ai.defineFlow(
-  {
-    name: 'chatbotFlow',
-    inputSchema: ChatbotInputSchema,
-    outputSchema: ChatbotOutputSchema,
-  },
-  async (input: ChatbotInput) => {
-    // This code path is not executed because askChatbot is intercepted.
-    return {
-      response:
-        "I'm sorry, the chatbot is currently unavailable due to a configuration issue. Please try again later.",
-      audio: undefined,
-    };
-  }
-);
