@@ -102,11 +102,13 @@ export function ReputationAlert({ tokenName, tokenSymbol }: ReputationAlertProps
     );
   }
 
-  const getSeverityBadgeVariant = (severity: 'low' | 'medium' | 'high'): 'default' | 'warning' | 'destructive' => {
+  const getSeverityBadgeVariant = (severity: 'low' | 'medium' | 'high' | null | undefined): 'default' | 'warning' | 'destructive' => {
+    if (!severity) return 'default';
     switch (severity) {
         case 'low': return 'default';
         case 'medium': return 'warning';
         case 'high': return 'destructive';
+        default: return 'default';
     }
   }
   
@@ -138,13 +140,13 @@ export function ReputationAlert({ tokenName, tokenSymbol }: ReputationAlertProps
                         <AccordionTrigger className="hover:no-underline">
                            <div className="flex justify-between items-center w-full pr-4">
                                 <span className="font-semibold">{finding.title}</span>
-                                <Badge variant={getSeverityBadgeVariant(finding.severity)} className="capitalize">{finding.severity}</Badge>
+                                <Badge variant={getSeverityBadgeVariant(finding.severity)} className="capitalize">{finding.severity || 'Info'}</Badge>
                            </div>
                         </AccordionTrigger>
                         <AccordionContent className="space-y-3">
                            <p>{finding.description}</p>
                            <div className="flex items-center justify-between text-xs text-muted-foreground">
-                                <span><strong>{t('ReputationAlert.source')}:</strong> {finding.source}</span>
+                                {finding.source ? <span><strong>{t('ReputationAlert.source')}:</strong> {finding.source}</span> : <span/>}
                                 {finding.sourceUrl && (
                                     <a href={finding.sourceUrl} target="_blank" rel="noopener noreferrer">
                                         <Button variant="link" className="h-auto p-0 text-xs text-destructive hover:text-destructive/80">

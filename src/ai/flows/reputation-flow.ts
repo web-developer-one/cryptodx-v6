@@ -49,11 +49,13 @@ const ReputationOutputSchema = z.object({
             .describe('A detailed, user-friendly description of the potential issue.'),
           source: z
             .string()
+            .optional()
+            .nullable()
             .describe(
-              'The source of the information (e.g., "On-chain Analysis", "Social Media Scan", "News Aggregation").'
+              'The source of the information (e.g., "On-chain Analysis", "Social Media Scan", "News Aggregation"). This is optional.'
             ),
-          severity: z.enum(['low', 'medium', 'high']).describe('The severity of the finding.'),
-          sourceUrl: z.string().optional().describe('A valid URL to a reputable source that backs up the finding, such as a news article or blockchain explorer transaction. A Google search link is also acceptable. This is optional.'),
+          severity: z.enum(['low', 'medium', 'high']).optional().nullable().describe('The severity of the finding. This is optional.'),
+          sourceUrl: z.string().optional().nullable().describe('A valid URL to a reputable source that backs up the finding, such as a news article or blockchain explorer transaction. A Google search link is also acceptable. This is optional.'),
         })
       )
       .describe('A list of specific findings. Return an empty array if the status is "clear".'),
