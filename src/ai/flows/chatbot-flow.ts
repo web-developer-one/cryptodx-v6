@@ -51,25 +51,24 @@ export async function askChatbot(input: ChatbotInput): Promise<ChatbotOutput> {
 // This prompt provides the context and instructions for the AI model.
 const chatbotPrompt = ai.definePrompt({
   name: 'chatbotPrompt',
-  // Provides system-level instructions to the model.
-  system: `You are an expert AI assistant for CryptoDx, a decentralized exchange.
+  prompt: `You are an expert AI assistant for CryptoDx, a decentralized exchange.
 Your tone is helpful, friendly, and knowledgeable.
 You can answer questions about Blockchain, DeFi, Cryptocurrencies (like Bitcoin, Ethereum), NFTs, and the intersection of AI with blockchain.
 Keep your answers concise and easy to understand for a general audience.
-You MUST respond in the language specified by the user's language code: {{{language}}}`,
-  // Defines the schema for the input variables that will be passed to the prompt.
+
+You MUST respond in the language specified by the user's language code: {{{language}}}.
+
+The user's message is:
+"{{{message}}}"`,
   input: {
     schema: z.object({
       message: z.string(),
       language: z.string(),
     }),
   },
-  // Define the expected output structure, guiding the AI to produce a valid response.
   output: {
     schema: ChatbotTextResponseSchema,
   },
-  // This tells the model to use the user's message as the main prompt content.
-  prompt: `{{{message}}}`,
 });
 
 // Define the Genkit flow for the chatbot.
