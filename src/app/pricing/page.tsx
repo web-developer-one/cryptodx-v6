@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Check } from 'lucide-react';
@@ -29,9 +30,9 @@ const tiers: { name: PricingPlan, price: string, sku: string, description: strin
     sku: 'crypto-swap-free',
     description: 'Get started with our basic features.',
     features: [
-      'AI Chatbot',
       'Hide small balances',
       'Hide unknown tokens',
+      'AI Chatbot',
     ],
     isMostPopular: false,
   },
@@ -41,10 +42,10 @@ const tiers: { name: PricingPlan, price: string, sku: string, description: strin
     sku: 'crypto-swap-basic',
     description: 'Unlock more powerful AI tools.',
     features: [
-      'AI Chatbot basic',
-      'Reputation alert basic',
       'Hide small balances',
       'Hide unknown tokens',
+      'AI Chatbot basic',
+      'Reputation alert basic',
     ],
     isMostPopular: true,
   },
@@ -54,10 +55,10 @@ const tiers: { name: PricingPlan, price: string, sku: string, description: strin
     sku: 'crypto-swap-advanced',
     description: 'For power users and professionals.',
     features: [
-      'AI Chatbot advanced',
-      'Reputation alert advance',
       'Hide small balances',
       'Hide unknown tokens',
+      'AI Chatbot Advanced',
+      'Reputation alert Advanced',
     ],
     isMostPopular: false,
   },
