@@ -75,13 +75,14 @@ export async function getReputationReport(
 // Define the prompt for the reputation analysis.
 const reputationPrompt = ai.definePrompt({
   name: 'reputationPrompt',
-  prompt: `You are a cryptocurrency risk assessment AI.
-Analyze the token based on the provided name and symbol for any known risks like scams, hacks, or major negative events.
-Your response MUST be a JSON object that conforms to the provided output schema.
-Your response MUST be in the language requested: {{{language}}}.
+  prompt: `You are a cryptocurrency risk assessment AI. Your task is to analyze the provided token and generate a risk report in JSON format.
+Analyze the token for any known risks like scams, hacks, or major negative events.
+Your response MUST be ONLY a JSON object that conforms to the schema. Do not include any other text, explanation, or markdown formatting like \`\`\`json.
+Your response MUST be in the requested language: {{{language}}}.
 
-Token Name: {{{tokenName}}}
-Token Symbol: {{{tokenSymbol}}}`,
+Token to analyze:
+Name: {{{tokenName}}}
+Symbol: {{{tokenSymbol}}}`,
   input: {
     schema: z.object({
       tokenName: z.string(),
@@ -90,7 +91,7 @@ Token Symbol: {{{tokenSymbol}}}`,
     }),
   },
   output: {
-    schema: ReputationOutputSchema.shape.report, // Changed to directly get the report object.
+    schema: ReputationOutputSchema.shape.report,
   },
 });
 
@@ -115,7 +116,7 @@ const reputationFlow = ai.defineFlow(
       }
     );
 
-    const report = llmResponse.output; // The output is the report object directly.
+    const report = llmResponse.output;
 
     // If the report generation fails, throw an error.
     if (!report) {
@@ -124,7 +125,7 @@ const reputationFlow = ai.defineFlow(
 
     // If audio is not enabled, or the report is clear, return the text report.
     if (!input.enableAudio || report.status === 'clear') {
-      return {report}; // The flow output schema expects the report to be nested.
+      return {report};
     }
 
     // Generate the audio summary.
@@ -142,7 +143,7 @@ const reputationFlow = ai.defineFlow(
     const audioMedia = ttsResponse.media;
     if (!audioMedia) {
       console.warn('TTS generation failed for reputation report, returning text-only.');
-      return {report}; // The flow output schema expects the report to be nested.
+      return {report};
     }
 
     // Convert PCM to WAV.
@@ -155,7 +156,7 @@ const reputationFlow = ai.defineFlow(
 
     // Return the full report with audio.
     return {
-      report, // The flow output schema expects the report to be nested.
+      report,
       audio: wavDataUri,
     };
   }
