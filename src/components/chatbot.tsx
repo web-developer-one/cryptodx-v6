@@ -1,16 +1,7 @@
-
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-  DialogFooter,
-} from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { MessageSquare, Send, Bot, User, Loader2, X } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -18,6 +9,7 @@ import { useLanguage } from '@/hooks/use-language';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { cn } from '@/lib/utils';
 import { SiteLogo } from './site-logo';
+import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
 
 interface Message {
   role: 'user' | 'model';
@@ -102,27 +94,28 @@ export function Chatbot() {
         <Button
           size="icon"
           className="rounded-full w-16 h-16 shadow-lg"
-          onClick={() => setIsOpen(true)}
+          onClick={() => setIsOpen(!isOpen)}
         >
-          <MessageSquare className="h-8 w-8" />
+          {isOpen ? <X className="h-8 w-8" /> : <MessageSquare className="h-8 w-8" />}
+          <span className="sr-only">Toggle Chatbot</span>
         </Button>
       </div>
 
-      <Dialog open={isOpen} onOpenChange={setIsOpen}>
-        <DialogContent className="sm:max-w-lg h-[80vh] flex flex-col p-0 gap-0">
-          <DialogHeader className="p-4 border-b">
-            <DialogTitle className="flex items-center gap-2">
+      {isOpen && (
+        <Card className="fixed bottom-24 right-6 z-50 w-full max-w-sm h-[70vh] flex flex-col shadow-2xl rounded-lg">
+           <CardHeader className="p-4 border-b">
+             <div className="flex items-center gap-2">
                 <SiteLogo className="h-6 w-6" />
-                <span>{t('Chatbot.title')}</span>
-            </DialogTitle>
-            <DialogDescription>
+                <h2 className="text-lg font-semibold leading-none tracking-tight">{t('Chatbot.title')}</h2>
+            </div>
+            <p className="text-sm text-muted-foreground pt-1">
                 {t('Chatbot.askMeAbout')}{' '}
                 <span className="font-semibold text-primary">{t('Chatbot.topics')}</span>
-            </DialogDescription>
-          </DialogHeader>
+            </p>
+          </CardHeader>
 
-          <ScrollArea className="flex-1" ref={scrollAreaRef}>
-            <div className="p-4 space-y-6">
+          <ScrollArea className="flex-1 bg-background" ref={scrollAreaRef}>
+            <CardContent className="p-4 space-y-6">
                 {messages.map((message, index) => (
                     <div
                         key={index}
@@ -169,10 +162,10 @@ export function Chatbot() {
                          </div>
                     </div>
                 )}
-            </div>
+            </CardContent>
           </ScrollArea>
           
-          <DialogFooter className="p-4 border-t bg-background">
+          <CardFooter className="p-4 border-t bg-background">
             <div className="relative w-full">
               <Input
                 value={input}
@@ -189,11 +182,12 @@ export function Chatbot() {
                 disabled={isLoading || !input.trim()}
               >
                 <Send className="h-4 w-4" />
+                <span className="sr-only">Send message</span>
               </Button>
             </div>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+          </CardFooter>
+        </Card>
+      )}
     </>
   );
 }
