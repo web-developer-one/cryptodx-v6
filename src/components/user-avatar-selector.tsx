@@ -1,3 +1,4 @@
+
 'use client';
 
 import React from 'react';
@@ -18,35 +19,32 @@ export const avatars = [
   {
     id: 'Admin',
     name: 'Admin',
-    src: 'https://avataaars.io/?avatarStyle=Circle&topType=LongHairFro&accessoriesType=Sunglasses&hairColor=BrownDark&facialHairType=BeardMajestic&facialHairColor=BrownDark&clotheType=ShirtVNeck&clotheColor=PastelBlue&eyeType=EyeRoll&eyebrowType=SadConcerned&mouthType=Disbelief&skinColor=DarkBrown',
-    hint: 'block letter',
-    unoptimized: true,
+    src: 'https://placehold.co/64x64.png',
+    hint: 'administrator gear',
   },
   {
     id: 'avatar2',
     name: 'Male',
-    src: 'https://avataaars.io/?avatarStyle=Circle&topType=WinterHat4&accessoriesType=Wayfarers&hatColor=Blue02&facialHairType=Blank&clotheType=Hoodie&clotheColor=Gray02&eyeType=Close&eyebrowType=SadConcernedNatural&mouthType=Default&skinColor=Light',
-    hint: 'Male',
+    src: 'https://placehold.co/64x64.png',
+    hint: 'male avatar',
   },
   {
     id: 'avatar3',
     name: 'Female',
-    src: 'https://avataaars.io/?avatarStyle=Circle&topType=LongHairShavedSides&accessoriesType=Kurt&facialHairType=Blank&clotheType=ShirtVNeck&clotheColor=PastelGreen&eyeType=WinkWacky&eyebrowType=Angry&mouthType=ScreamOpen&skinColor=Pale',
-    hint: 'Female',
+    src: 'https://placehold.co/64x64.png',
+    hint: 'female avatar',
   },
   {
     id: 'avatar4',
     name: 'BitCoin',
-    src: 'https://avataaars.io/?avatarStyle=Circle&topType=LongHairBob&accessoriesType=Sunglasses&hairColor=Black&facialHairType=Blank&facialHairColor=BrownDark&clotheType=ShirtCrewNeck&clotheColor=Blue03&graphicType=Diamond&eyeType=Default&eyebrowType=FlatNatural&mouthType=Smile&skinColor=Brown',
+    src: 'https://placehold.co/64x64.png',
     hint: 'bitcoin logo',
-    unoptimized: true,
   },
   {
     id: 'avatar5',
     name: 'Ethereum',
-    src: 'https://avataaars.io/?avatarStyle=Circle&topType=Hat&accessoriesType=Sunglasses&facialHairType=BeardMedium&facialHairColor=Red&clotheType=BlazerShirt&eyeType=Dizzy&eyebrowType=UpDown&mouthType=Concerned&skinColor=Tanned',
+    src: 'https://placehold.co/64x64.png',
     hint: 'ethereum logo',
-    unoptimized: true,
   },
 ];
 
@@ -95,7 +93,6 @@ export function UserAvatarSelector({
                   height={64}
                   className="h-full w-full object-cover"
                   data-ai-hint={avatar.hint}
-                  unoptimized={(avatar as any).unoptimized}
                 />
                 {currentAvatar === avatar.id && (
                   <div className="absolute -bottom-1 -right-1 flex h-6 w-6 items-center justify-center rounded-full bg-primary text-primary-foreground">

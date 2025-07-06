@@ -18,7 +18,7 @@ import { auth } from '@/lib/firebase';
 
 // We'll still use localStorage for profile data to avoid needing a full database setup for this prototype.
 const USER_PROFILE_STORAGE_PREFIX = 'crypto_swap_user_profile_';
-const MOCK_ADMIN_EMAIL = 'admin@cryptodx.io';
+const MOCK_ADMIN_EMAIL = 'saytee.software@gmail.com';
 
 // --- Auth Context Definition ---
 interface AuthContextType {

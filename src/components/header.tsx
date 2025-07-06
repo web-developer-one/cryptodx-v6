@@ -21,7 +21,6 @@ import {
   EyeOff,
   ShieldX,
   Languages,
-  ShieldAlert,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { WalletConnect } from "@/components/wallet-connect";
@@ -298,7 +297,6 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
                         alt={user.firstName || ''}
                         fill
                         className="object-cover"
-                        unoptimized={!!(getAvatarById(user.avatar) as any).unoptimized}
                     />
                     <AvatarFallback>
                       {user.firstName?.charAt(0)}
@@ -308,7 +306,7 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-56">
-                <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                <DropdownMenuLabel>My Profile</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem asChild>
                   <Link href="/profile">
