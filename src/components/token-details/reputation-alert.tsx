@@ -54,7 +54,10 @@ export function ReputationAlert({ token }: { token: TokenDetails }) {
           }
 
           try {
-              const audioResult = await textToSpeech(textToSpeak);
+              const audioResult = await textToSpeech({
+                  text: textToSpeak,
+                  language: targetLangInfo?.englishName,
+              });
               if (audioRef.current && audioResult.media) {
                   audioRef.current.src = audioResult.media;
                   audioRef.current.play().catch(e => console.error("Audio playback failed:", e));

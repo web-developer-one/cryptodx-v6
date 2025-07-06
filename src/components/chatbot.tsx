@@ -150,7 +150,11 @@ export function Chatbot() {
 
                 if (isAudioEnabled && isPremium) {
                     try {
-                        const audioResult = await textToSpeech(responseText);
+                        const targetLangInfo = languages.find(l => l.code === botLanguage);
+                        const audioResult = await textToSpeech({
+                            text: responseText,
+                            language: targetLangInfo?.englishName,
+                        });
                         if (audioRef.current && audioResult.media) {
                             audioRef.current.src = audioResult.media;
                             audioRef.current.play().catch(e => console.error("Audio playback failed:", e));
