@@ -25,10 +25,10 @@ const avatarOptions = [
     'https://avataaars.io/?avatarStyle=Circle&topType=LongHairStraightStrand&accessoriesType=Round&hairColor=Blonde&facialHairType=Blank&clotheType=ShirtScoopNeck&clotheColor=Red&eyeType=Default&eyebrowType=UnibrowNatural&mouthType=Smile&skinColor=DarkBrown',
     'https://avataaars.io/?avatarStyle=Circle&topType=WinterHat1&accessoriesType=Wayfarers&hatColor=Blue03&hairColor=BlondeGolden&facialHairType=Blank&facialHairColor=Black&clotheType=ShirtCrewNeck&clotheColor=Blue01&eyeType=Dizzy&eyebrowType=UnibrowNatural&mouthType=Disbelief&skinColor=Tanned',
     'https://avataaars.io/?avatarStyle=Circle&topType=LongHairNotTooLong&accessoriesType=Kurt&hairColor=Brown&facialHairType=Blank&facialHairColor=Black&clotheType=Hoodie&clotheColor=Red&eyeType=Default&eyebrowType=SadConcerned&mouthType=Disbelief&skinColor=DarkBrown',
-    'https://placehold.co/128x128.jpg',
-    'https://placehold.co/128x128.jpg',
-    'https://placehold.co/128x128.jpg',
-    'https://placehold.co/128x128.jpg',
+    'https://placehold.co/128x128.png',
+    'https://placehold.co/128x128.png',
+    'https://placehold.co/128x128.png',
+    'https://placehold.co/128x128.png',
 ];
 
 export default function ProfilePage() {
@@ -179,7 +179,7 @@ export default function ProfilePage() {
                 name="avatar"
                 render={({ field }) => (
                     <FormItem className="space-y-3">
-                    <FormLabel>{t('ProfilePage.avatar')}</FormLabel>
+                    <FormLabel className="text-center block">{t('ProfilePage.avatar')}</FormLabel>
                     <FormControl>
                         <RadioGroup
                         onValueChange={(value) => {
@@ -191,7 +191,7 @@ export default function ProfilePage() {
                             }
                         }}
                         defaultValue={field.value}
-                        className="grid grid-cols-4 sm:grid-cols-8 gap-4"
+                        className="flex flex-wrap justify-center gap-4"
                         >
                         {avatarOptions.map((src, index) => (
                             <FormItem key={index} className="flex items-center space-x-3 space-y-0">
@@ -208,7 +208,7 @@ export default function ProfilePage() {
                         ))}
                         </RadioGroup>
                     </FormControl>
-                    <FormMessage />
+                    <FormMessage className="text-center" />
                     </FormItem>
                 )}
                 />
