@@ -13,15 +13,19 @@ export function LiveUpdateNotifier() {
     const showUpdateToast = () => {
       toast({
         title: (
-          <div className="flex items-center justify-between w-full">
-            <div className="flex items-center gap-2">
-                <Bell className="h-5 w-5" />
-                <span>Live Update</span>
+            <div>
+                <div className="flex items-center justify-between w-full font-semibold">
+                    <div className="flex items-center gap-2">
+                        <Bell className="h-5 w-5" />
+                        <span>Live Update</span>
+                    </div>
+                    <Badge variant="warning">Important</Badge>
+                </div>
+                <p className="text-sm opacity-90 font-normal mt-1">
+                    Market data has been automatically refreshed.
+                </p>
             </div>
-            <Badge variant="warning">Important</Badge>
-          </div>
-        ),
-        description: "Market data has been automatically refreshed.",
+        )
       });
     };
 
