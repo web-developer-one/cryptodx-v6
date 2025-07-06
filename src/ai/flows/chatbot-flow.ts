@@ -54,6 +54,7 @@ const responses = {
     wallet: "In crypto, a wallet is a digital tool that allows you to store, send, and receive cryptocurrencies. It holds your private keys, which are secret passwords that give you access to your assets on the blockchain. Examples include MetaMask and Trust Wallet. You are always in control of your own wallet and keys.",
     smart_contract: "A smart contract is a self-executing contract with the terms of the agreement directly written into code. They run on a blockchain, so they are stored on a public database and cannot be changed. Transactions that happen in a smart contract are processed by the blockchain, which means they can be sent automatically without a third party.",
     what_is_cryptodx: "CryptoDx is a decentralized exchange (DEX) interface. It provides tools for users to swap cryptocurrencies, provide liquidity, and explore the market, all while maintaining control of their own assets in their personal wallets.",
+    blockchain_ai: "Blockchain AI combines artificial intelligence with blockchain technology. AI can analyze blockchain data for insights, improve security by detecting fraud, and automate smart contract execution. For example, AI could optimize DeFi yields or verify the authenticity of NFTs. This integration aims to create more intelligent, secure, and efficient decentralized systems.",
     help: "Due to a temporary configuration issue, my advanced AI is offline. However, I can provide high-quality information on many crypto topics. Try asking me questions like 'What is a blockchain?', 'Explain DeFi', or ask about specific cryptocurrencies like Bitcoin or Ethereum.",
     fallback: "I can answer many questions about crypto! Please try asking me something specific, like 'What is a smart contract?' or 'Tell me about Ethereum'. My advanced AI features are temporarily disabled, but my built-in knowledge is still quite good."
   },
@@ -67,6 +68,7 @@ const responses = {
     wallet: "En cripto, una billetera es una herramienta digital que te permite almacenar, enviar y recibir criptomonedas. Contiene tus claves privadas, que son contraseñas secretas que te dan acceso a tus activos en la blockchain. Ejemplos incluyen MetaMask y Trust Wallet. Siempre tienes el control de tu propia billetera y tus claves.",
     smart_contract: "Un contrato inteligente es un contrato autoejecutable con los términos del acuerdo escritos directamente en el código. Se ejecutan en una blockchain, por lo que se almacenan en una base de datos pública y no se pueden cambiar. Las transacciones que ocurren en un contrato inteligente son procesadas por la blockchain, lo que significa que se pueden enviar automáticamente sin un tercero.",
     what_is_cryptodx: "CryptoDx es una interfaz de intercambio descentralizado (DEX). Proporciona herramientas para que los usuarios intercambien criptomonedas, proporcionen liquidez y exploren el mercado, todo mientras mantienen el control de sus propios activos en sus billeteras personales.",
+    blockchain_ai: "La IA de Blockchain combina la inteligencia artificial con la tecnología blockchain. La IA puede analizar datos de la blockchain para obtener información, mejorar la seguridad detectando fraudes y automatizar la ejecución de contratos inteligentes. Por ejemplo, la IA podría optimizar los rendimientos de DeFi o verificar la autenticidad de los NFTs. Esta integración busca crear sistemas descentralizados más inteligentes, seguros y eficientes.",
     help: "Debido a un problema de configuración temporal, mi IA avanzada está desconectada. Sin embargo, puedo proporcionar información de alta calidad sobre muchos temas de cripto. Intenta hacerme preguntas como '¿Qué es una blockchain?', 'Explica DeFi', o pregunta sobre criptomonedas específicas como Bitcoin o Ethereum.",
     fallback: "¡Puedo responder muchas preguntas sobre cripto! Por favor, intenta preguntarme algo específico, como '¿Qué es un contrato inteligente?' o 'Háblame de Ethereum'. Mis funciones avanzadas de IA están deshabilitadas temporalmente, pero mi conocimiento incorporado sigue siendo bastante bueno."
   },
@@ -80,6 +82,7 @@ const responses = {
     wallet: "En crypto, un portefeuille est un outil numérique qui vous permet de stocker, envoyer et recevoir des cryptomonnaies. Il détient vos clés privées, qui sont des mots de passe secrets vous donnant accès à vos actifs sur la blockchain. Les exemples incluent MetaMask et Trust Wallet. Vous êtes toujours en contrôle de votre propre portefeuille et de vos clés.",
     smart_contract: "Un contrat intelligent est un contrat auto-exécutable dont les termes de l'accord sont directement écrits dans le code. Ils s'exécutent sur une blockchain, ils sont donc stockés sur une base de données publique et ne peuvent pas être modifiés. Les transactions qui se produisent dans un contrat intelligent sont traitées par la blockchain, ce qui signifie qu'elles peuvent être envoyées automatiquement sans tiers.",
     what_is_cryptodx: "CryptoDx est une interface d'échange décentralisé (DEX). Elle fournit des outils aux utilisateurs pour échanger des cryptomonnaies, fournir des liquidités et explorer le marché, tout en gardant le contrôle de leurs propres actifs dans leurs portefeuilles personnels.",
+    blockchain_ai: "L'IA Blockchain combine l'intelligence artificielle avec la technologie blockchain. L'IA peut analyser les données de la blockchain pour obtenir des informations, améliorer la sécurité en détectant la fraude et automatiser l'exécution des contrats intelligents. Par exemple, l'IA pourrait optimiser les rendements DeFi ou vérifier l'authenticité des NFT. Cette intégration vise à créer des systèmes décentralisés plus intelligents, sécurisés et efficaces.",
     help: "En raison d'un problème de configuration temporaire, mon IA avancée est hors ligne. Cependant, je peux fournir des informations de haute qualité sur de nombreux sujets crypto. Essayez de me poser des questions comme 'Qu'est-ce qu'une blockchain ?', 'Expliquez la DeFi', ou posez des questions sur des cryptomonnaies spécifiques comme le Bitcoin ou l'Ethereum.",
     fallback: "Je peux répondre à de nombreuses questions sur la crypto ! Essayez de me poser une question spécifique, comme 'Qu'est-ce qu'un contrat intelligent ?' ou 'Parlez-moi d'Ethereum'. Mes fonctionnalités d'IA avancées sont temporairement désactivées, mais mes connaissances intégrées sont toujours très bonnes."
   }
@@ -134,7 +137,7 @@ export async function askChatbot(input: ChatbotInput): Promise<ChatbotOutput> {
         response: currentLangResponses.nft,
     }
   }
-   if (message.includes('blockchain')) {
+   if (message.includes('blockchain') && !message.includes('ai')) {
       return {
           response: currentLangResponses.blockchain,
       }
@@ -157,6 +160,11 @@ export async function askChatbot(input: ChatbotInput): Promise<ChatbotOutput> {
   if (message.includes('what is cryptodx')) {
       return {
           response: currentLangResponses.what_is_cryptodx,
+      }
+  }
+  if (message.includes('blockchain ai') || (message.includes('blockchain') && message.includes('ai'))) {
+      return {
+          response: currentLangResponses.blockchain_ai,
       }
   }
   if (message.includes('what can you do') || message.includes('help')) {
