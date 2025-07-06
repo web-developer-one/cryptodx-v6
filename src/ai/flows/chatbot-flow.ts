@@ -5,7 +5,9 @@ import {ai} from '@/ai/genkit';
 import {z} from 'zod';
 
 // This file has been modified to gracefully handle the absence of Genkit AI packages,
-// which are causing installation errors in the current environment.
+// which are causing installation errors in the current environment. This version
+// expands the keyword-based responses to make the chatbot more helpful without
+// relying on external packages that break the build.
 
 // Helper to create a WAV file from raw PCM data. This avoids external dependencies.
 function pcmToWav(pcmData: Buffer): string {
@@ -62,42 +64,67 @@ export type ChatbotOutput = z.infer<typeof ChatbotOutputSchema>;
 
 export async function askChatbot(input: ChatbotInput): Promise<ChatbotOutput> {
   // AI features are disabled due to a persistent package installation issue.
-  // This function provides simple, keyword-based responses as a fallback.
+  // This function provides expanded, keyword-based responses as a fallback.
   console.warn("askChatbot was called, but AI features are disabled. Using fallback responses.");
 
   const message = input.message.toLowerCase();
 
+  // Expanded keyword-based responses
   if (message.includes('hello') || message.includes('hi')) {
     return {
-      response: "Hello! How can I help you with your crypto questions today? I can answer basic questions about Bitcoin, Ethereum, and NFTs.",
+      response: "Hello! I'm the CryptoDx chatbot. You can ask me about topics like Blockchain, DeFi, Bitcoin, Ethereum, and NFTs.",
     };
   }
   if (message.includes('bitcoin')) {
     return {
-      response:
-        'Bitcoin is the first decentralized cryptocurrency. It was created in 2009 by an unknown person or group of people using the name Satoshi Nakamoto. It operates on a proof-of-work blockchain.',
+      response: 'Bitcoin (BTC) is the first decentralized cryptocurrency. It was created in 2009 by an unknown person or group using the name Satoshi Nakamoto. It operates on a proof-of-work blockchain, which is secured by a global network of computers.',
     };
   }
   if (message.includes('ethereum')) {
     return {
-      response:
-        'Ethereum is a decentralized, open-source blockchain with smart contract functionality. Ether (ETH) is the native cryptocurrency of the platform. It is transitioning from proof-of-work to proof-of-stake.',
+      response: 'Ethereum is a decentralized, open-source blockchain with smart contract functionality. Its native cryptocurrency is Ether (ETH). Ethereum allows developers to build and deploy decentralized applications (dApps) and is currently secured by a proof-of-stake consensus mechanism.',
     };
   }
   if (message.includes('nft')) {
     return {
-        response: "A Non-Fungible Token (NFT) is a unique digital asset that represents ownership of real-world items like art, music, in-game items, and videos. They are bought and sold online, frequently with cryptocurrency, and they are generally encoded with the same underlying software as many cryptos."
+        response: "A Non-Fungible Token (NFT) is a unique digital asset representing ownership of items like art, music, or videos. They are recorded on a blockchain, which provides a public proof of ownership. Unlike cryptocurrencies like Bitcoin, each NFT is unique and cannot be replaced with another."
     }
+  }
+   if (message.includes('blockchain')) {
+      return {
+          response: "A blockchain is a distributed, immutable ledger that records transactions in a secure and transparent way. It's a chain of blocks, where each block contains a list of transactions. Once a block is added to the chain, it cannot be altered, ensuring the integrity of the record."
+      }
+  }
+  if (message.includes('defi')) {
+      return {
+          response: "DeFi, or Decentralized Finance, is a term for financial services built on blockchain technology. It aims to create an open and global financial system that doesn't rely on traditional central intermediaries like banks. DeFi applications include lending, borrowing, and trading assets."
+      }
+  }
+  if (message.includes('wallet')) {
+      return {
+          response: "In crypto, a wallet is a digital tool that allows you to store, send, and receive cryptocurrencies. It holds your private keys, which are secret passwords that give you access to your assets on the blockchain. Examples include MetaMask and Trust Wallet. You are always in control of your own wallet and keys."
+      }
+  }
+  if (message.includes('smart contract')) {
+      return {
+          response: "A smart contract is a self-executing contract with the terms of the agreement directly written into code. They run on a blockchain, so they are stored on a public database and cannot be changed. Transactions that happen in a smart contract are processed by the blockchain, which means they can be sent automatically without a third party."
+      }
+  }
+  if (message.includes('what is cryptodx')) {
+      return {
+          response: "CryptoDx is a decentralized exchange (DEX) interface. It provides tools for users to swap cryptocurrencies, provide liquidity, and explore the market, all while maintaining control of their own assets in their personal wallets."
+      }
   }
   if (message.includes('what can you do') || message.includes('help')) {
     return {
-        response: "Right now, my advanced AI capabilities are offline due to a configuration issue. I can provide some basic information about Bitcoin, Ethereum, and NFTs. Please try asking me about one of those topics."
+        response: "Due to a temporary configuration issue, my advanced AI is offline. However, I can provide high-quality information on many crypto topics. Try asking me questions like 'What is a blockchain?', 'Explain DeFi', or ask about specific cryptocurrencies like Bitcoin or Ethereum."
     }
   }
 
+  // Refined default response
   return {
     response:
-      "I'm sorry, I can only answer very basic questions about Bitcoin, Ethereum, or NFTs right now. My advanced AI features are temporarily disabled.",
+      "I can answer many questions about crypto! Please try asking me something specific, like 'What is a smart contract?' or 'Tell me about Ethereum'. My advanced AI features are temporarily disabled, but my built-in knowledge is still quite good.",
     audio: undefined,
   };
 }
