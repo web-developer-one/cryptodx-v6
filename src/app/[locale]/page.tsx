@@ -1,5 +1,6 @@
 
 import { languages } from '@/lib/i18n';
+import { redirect } from 'next/navigation';
 
 // This function tells Next.js what the valid `locale` params are.
 // By defining these, we prevent the [locale] route from capturing other
@@ -11,10 +12,8 @@ export async function generateStaticParams() {
 }
 
 export default function LocalePage() {
-  // The i18n logic is handled by a client-side context provider, not by URL path.
-  // If a user navigates to a path like `/es`, we redirect them to the homepage,
-  // where the language provider will handle setting the correct language.
-  
-  // This page is not meant to be rendered directly. Returning null prevents potential redirect loops.
-  return null;
+  // This page is not rendered. It immediately redirects to the homepage.
+  // The language preference is handled by a client-side context and localStorage,
+  // not by the URL path. This route exists to prevent 404s on paths like /es or /fr.
+  redirect('/');
 }
