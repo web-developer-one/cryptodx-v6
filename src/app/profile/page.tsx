@@ -25,10 +25,10 @@ const avatarOptions = [
     'https://avataaars.io/?avatarStyle=Circle&topType=LongHairStraightStrand&accessoriesType=Round&hairColor=Blonde&facialHairType=Blank&clotheType=ShirtScoopNeck&clotheColor=Red&eyeType=Default&eyebrowType=UnibrowNatural&mouthType=Smile&skinColor=DarkBrown',
     'https://avataaars.io/?avatarStyle=Circle&topType=WinterHat1&accessoriesType=Wayfarers&hatColor=Blue03&hairColor=BlondeGolden&facialHairType=Blank&facialHairColor=Black&clotheType=ShirtCrewNeck&clotheColor=Blue01&eyeType=Dizzy&eyebrowType=UnibrowNatural&mouthType=Disbelief&skinColor=Tanned',
     'https://avataaars.io/?avatarStyle=Circle&topType=LongHairNotTooLong&accessoriesType=Kurt&hairColor=Brown&facialHairType=Blank&facialHairColor=Black&clotheType=Hoodie&clotheColor=Red&eyeType=Default&eyebrowType=SadConcerned&mouthType=Disbelief&skinColor=DarkBrown',
-    '',
-    '',
-    '',
-    '',
+    'https://avataaars.io/?avatarStyle=Circle&topType=ShortHairDreads01&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=BlazerSweater&eyeType=Happy&eyebrowType=RaisedExcited&mouthType=Smile&skinColor=Light',
+    'https://avataaars.io/?avatarStyle=Circle&topType=Hijab&accessoriesType=Blank&hatColor=Gray01&clotheType=ShirtVNeck&clotheColor=Gray02&eyeType=Side&eyebrowType=Default&mouthType=Serious&skinColor=Brown',
+    'https://avataaars.io/?avatarStyle=Circle&topType=LongHairBob&accessoriesType=Sunglasses&hairColor=PastelPink&facialHairType=Blank&clotheType=GraphicShirt&clotheColor=Black&graphicType=Diamond&eyeType=Default&eyebrowType=Default&mouthType=Default&skinColor=Pale',
+    'https://avataaars.io/?avatarStyle=Circle&topType=Turban&accessoriesType=Blank&hatColor=Red&facialHairType=MoustacheMagnum&facialHairColor=Blonde&clotheType=Overall&clotheColor=PastelYellow&eyeType=Wink&eyebrowType=UpDown&mouthType=Tongue&skinColor=Yellow',
 ];
 
 export default function ProfilePage() {
