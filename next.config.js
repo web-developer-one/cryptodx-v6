@@ -45,22 +45,20 @@ const nextConfig = {
     // Add a watchOptions to ignore the .genkit-cache directory
     // This prevents the Next.js dev server from restarting in a loop
     // when the Genkit dev server writes to its cache.
-    const existingIgnored = config.watchOptions?.ignored;
-    const ignoredPaths = [];
+    const watchOptions = config.watchOptions || {};
+    const existingIgnored = watchOptions.ignored || [];
+    
+    const ignoredPaths = Array.isArray(existingIgnored)
+      ? existingIgnored
+      : [existingIgnored];
 
-    if (existingIgnored) {
-      if (Array.isArray(existingIgnored)) {
-        ignoredPaths.push(...existingIgnored);
-      } else {
-        ignoredPaths.push(existingIgnored);
-      }
+    if (!ignoredPaths.includes('**/.genkit-cache/**')) {
+      ignoredPaths.push('**/.genkit-cache/**');
     }
-
-    ignoredPaths.push('**/.genkit-cache/**');
     
     config.watchOptions = {
-        ...(config.watchOptions || {}),
-        ignored: ignoredPaths
+        ...watchOptions,
+        ignored: ignoredPaths,
     };
 
     return config;
