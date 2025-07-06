@@ -172,7 +172,7 @@ export default function ProfilePage() {
                 />
                  <FormItem>
                     <FormLabel>{t('ProfilePage.pricePlan')}</FormLabel>
-                    <Input value={user.pricingPlan} disabled />
+                    <Input value={user.isAdmin ? 'Administrator' : user.pricingPlan} disabled />
                 </FormItem>
               </div>
 
@@ -184,16 +184,16 @@ export default function ProfilePage() {
                     <FormLabel className="text-center block">{t('ProfilePage.avatar')}</FormLabel>
                     <FormControl>
                         <RadioGroup
-                        onValueChange={(value) => {
-                            // This updates the form's internal state so it will be submitted on save.
-                            field.onChange(value);
-                            // This updates the live session state so the header immediately reflects the change.
-                            if (user) {
-                                setSessionUser({ ...user, avatar: value });
-                            }
-                        }}
-                        defaultValue={field.value}
-                        className="flex flex-wrap justify-center gap-4"
+                          onValueChange={(value) => {
+                              // This updates the form's internal state so it will be submitted on save.
+                              field.onChange(value);
+                              // This updates the live session state so the header immediately reflects the change.
+                              if (user) {
+                                  setSessionUser({ ...user, avatar: value });
+                              }
+                          }}
+                          value={field.value}
+                          className="flex flex-wrap justify-center gap-4"
                         >
                         {avatarOptions.map((src, index) => (
                             <FormItem key={index} className="flex items-center space-x-3 space-y-0">
