@@ -1,3 +1,4 @@
+
 'use server';
 /**
  * @fileOverview A conversational AI flow for the CryptoDx chatbot.
@@ -49,7 +50,7 @@ const chatbotPrompt = ai.definePrompt({
 Your tone is helpful, friendly, and knowledgeable.
 You can answer questions about Blockchain, DeFi, Cryptocurrencies (like Bitcoin, Ethereum), NFTs, and the intersection of AI with blockchain.
 Keep your answers concise and easy to understand for a general audience.
-You MUST respond in the language specified by the user's language code.`,
+You MUST respond in the language specified by the user's language code: {{{language}}}`,
   // Defines the schema for the input variables that will be passed to the prompt.
   input: {
     schema: z.object({
