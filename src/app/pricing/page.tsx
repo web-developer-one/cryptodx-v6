@@ -14,6 +14,7 @@ import { AlertCircle } from 'lucide-react';
 import { useAuth } from '@/hooks/use-auth';
 import type { PricingPlan } from '@/lib/types';
 import { useRouter } from 'next/navigation';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 
 const PAYPAL_CLIENT_ID = process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID || "AfJ7bhG_VDx0Z2o_EtExWS_Ps2eUiZKS0lABsQCbQC02V-c_Z59cOw8xq3yNqO763BAKwSRAf8n7fob8";
 
@@ -63,6 +64,35 @@ const tiers: { name: PricingPlan, price: string, sku: string, description: strin
     isMostPopular: false,
   },
 ];
+
+const planDetails = [
+    {
+        title: "Free",
+        features: [
+            '"Hide small balances" provides a simple toggle on/ off feature.',
+            '"Hide unknown tokens" provides a simple toggle on/ off feature.',
+            '"AI Chatbot basic" provides features such as chatbot prompts and replies.',
+        ]
+    },
+    {
+        title: "Basic",
+        features: [
+            '"Hide small balances" provides a simple toggle on/ off feature.',
+            '"Hide unknown tokens" provides a simple toggle on/ off feature.',
+            '"AI Chatbot basic" provides features such as chatbot prompts and replies.',
+            '"Reputation alert basic" provides information on real world scams and scandals activities from reputable sources.',
+        ]
+    },
+    {
+        title: "Advanced",
+        features: [
+            '"Hide small balances" provides a simple toggle on/ off feature.',
+            '"Hide unknown tokens" provides a simple toggle on/ off feature.',
+            '"AI Chatbot advanced" provides features such as chatbot multilingual prompts and replies in text and speech.',
+            '"Reputation alert advanced" provides information on real world scams and scandals activities from reputable sources in multilingual text and speech.',
+        ]
+    }
+]
 
 export default function PricingPage() {
   const { t } = useLanguage();
@@ -220,6 +250,24 @@ export default function PricingPage() {
                         </Card>
                     );
                 })}
+            </div>
+
+            <div className="w-full max-w-5xl mt-16">
+                <h2 className="text-3xl font-bold text-center mb-8">Plan Details</h2>
+                <Accordion type="single" collapsible className="w-full">
+                    {planDetails.map((plan) => (
+                        <AccordionItem key={plan.title} value={plan.title}>
+                            <AccordionTrigger className="text-xl">{plan.title} Plan Features</AccordionTrigger>
+                            <AccordionContent>
+                                <ul className="list-disc pl-6 space-y-3 text-muted-foreground">
+                                    {plan.features.map((feature, index) => (
+                                        <li key={index}>{feature}</li>
+                                    ))}
+                                </ul>
+                            </AccordionContent>
+                        </AccordionItem>
+                    ))}
+                </Accordion>
             </div>
         </div>
     </PayPalScriptProvider>
