@@ -64,8 +64,8 @@ export function Footer() {
               {t('Footer.subtitle')}
             </p>
             <a
-              href="/Crypto_Swap_Whitepaper.md"
-              download="Crypto_Swap_Whitepaper.pdf"
+              href="/CryptoDx_Whitepaper.md"
+              download="CryptoDx_Whitepaper.pdf"
               className="text-sm text-primary-foreground/80 underline hover:text-primary-foreground mt-2"
             >
               Download our Whitepaper

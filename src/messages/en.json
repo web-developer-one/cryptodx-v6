@@ -2,7 +2,7 @@
       
 {
   "Header": {
-    "siteName": "Crypto Swap",
+    "siteName": "CryptoDx",
     "trade": "Trade",
     "explore": "Explore",
     "positions": "Positions",
@@ -35,8 +35,8 @@
   },
   "Faq": {
     "title": "Frequently Asked Questions",
-    "q1": "What is Crypto Swap?",
-    "a1": "Crypto Swap is a decentralized exchange (DEX) platform that allows users to trade cryptocurrencies directly from their wallets without the need for a central intermediary. It provides a secure and transparent way to swap tokens.",
+    "q1": "What is CryptoDx?",
+    "a1": "CryptoDx is a decentralized exchange (DEX) platform that allows users to trade cryptocurrencies directly from their wallets without the need for a central intermediary. It provides a secure and transparent way to swap tokens.",
     "q2": "Which wallets are supported?",
     "a2": "We support a variety of popular Web3 wallets, including MetaMask, Coinbase Wallet, and any wallet that supports the WalletConnect protocol. This ensures you can use your preferred wallet to interact with our platform.",
     "q3": "Are my funds safe?",
@@ -65,7 +65,7 @@
     "cookiePolicy": "Cookie Policy",
     "privacyPolicy": "Privacy Policy",
     "termsOfUse": "Terms of Use",
-    "copyright": "© {year} Crypto Swap. All rights reserved."
+    "copyright": "© {year} CryptoDx. All rights reserved."
   },
   "BuyInterface": {
     "title": "Buy Crypto",
@@ -267,10 +267,10 @@
   "CookiePolicyModal": {
     "title": "Cookie Policy",
     "lastUpdated": "Last updated: {date}",
-    "p1": "This Cookie Policy explains how Crypto Swap (\"we\", \"us\", and \"our\") uses cookies and similar technologies to recognize you when you visit our website. It explains what these technologies are and why we use them, as well as your rights to control our use of them.",
+    "p1": "This Cookie Policy explains how CryptoDx (\"we\", \"us\", and \"our\") uses cookies and similar technologies to recognize you when you visit our website. It explains what these technologies are and why we use them, as well as your rights to control our use of them.",
     "h_whatAre": "What are cookies?",
     "p_whatAre1": "A cookie is a small data file that is placed on your device when you visit a website. Cookies are widely used by website owners in order to make their websites work, or to work more efficiently, as well as to provide reporting information.",
-    "p_whatAre2": "Cookies set by the website owner (in this case, Crypto Swap) are called \"first-party cookies\". Cookies set by parties other than the website owner are called \"third-party cookies\". Third-party cookies enable third-party features or functionality to be provided on or through the website (e.g., advertising, interactive content, and analytics). The parties that set these third-party cookies can recognize your computer both when it visits the website in question and also when it visits certain other websites.",
+    "p_whatAre2": "Cookies set by the website owner (in this case, CryptoDx) are called \"first-party cookies\". Cookies set by parties other than the website owner are called \"third-party cookies\". Third-party cookies enable third-party features or functionality to be provided on or through the website (e.g., advertising, interactive content, and analytics). The parties that set these third-party cookies can recognize your computer both when it visits the website in question and also when it visits certain other websites.",
     "h_whyUse": "Why do we use cookies?",
     "p_whyUse": "We use first-party and third-party cookies for several reasons. Some cookies are required for technical reasons in order for our Website to operate, and we refer to these as \"essential\" or \"strictly necessary\" cookies. Other cookies also enable us to track and target the interests of our users to enhance the experience on our Online Properties. Third parties serve cookies through our Website for advertising, analytics, and other purposes. This is described in more detail below.",
     "h_types": "Types of Cookies We Use",
@@ -284,8 +284,8 @@
     "dismiss": "Dismiss and Close"
   },
   "Chatbot": {
-    "initialMessage": "Hello! I'm the 'Crypto Swap' Chatbot. How can I help you today on all things Blockchain, DeFi, Crypto, NFTs, or AI?",
-    "title": "Crypto Swap Chatbot",
+    "initialMessage": "Hello! I'm the 'CryptoDx' Chatbot. How can I help you today on all things Blockchain, DeFi, Crypto, NFTs, or AI?",
+    "title": "CryptoDx Chatbot",
     "placeholder": "Type your message...",
     "send": "Send",
     "askMeAbout": "Ask me about...",
@@ -344,7 +344,7 @@
     "comingSoon": "The spot trading interface is coming soon."
   },
   "PageTitles": {
-    "home": "Home | Swap Your Crypto",
+    "home": "Home | CryptoDx",
     "buy": "Buy Crypto",
     "sell": "Sell Crypto",
     "limit": "Limit Order",

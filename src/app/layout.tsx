@@ -25,7 +25,7 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: 'Home | Swap Your Crypto',
+  title: 'Home | CryptoDx',
   description: 'The easiest and most secure way to swap tokens in seconds.',
 };
 

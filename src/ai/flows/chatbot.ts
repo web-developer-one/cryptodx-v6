@@ -37,7 +37,7 @@ export async function cryptoChat(input: CryptoChatInput): Promise<CryptoChatOutp
 const getTokenInfo = ai.defineTool(
     {
         name: 'getTokenInfo',
-        description: 'Looks up a cryptocurrency on the Crypto Swap platform by its name or symbol. Returns the token ID if found, which can be used to build a link to the token detail page.',
+        description: 'Looks up a cryptocurrency on the CryptoDx platform by its name or symbol. Returns the token ID if found, which can be used to build a link to the token detail page.',
         inputSchema: z.object({
             tokenQuery: z.string().describe('The name or symbol of the cryptocurrency to search for, e.g., "Bitcoin" or "BTC".'),
         }),
@@ -78,7 +78,7 @@ const prompt = ai.definePrompt({
   name: 'cryptoChatPrompt',
   input: {schema: CryptoChatInputSchema},
   tools: [getTokenInfo],
-  prompt: `You are a helpful and knowledgeable multilingual AI assistant for the Crypto Swap platform, an expert in Blockchain, DeFi, Crypto, NFTs, and AI.
+  prompt: `You are a helpful and knowledgeable multilingual AI assistant for the CryptoDx platform, an expert in Blockchain, DeFi, Crypto, NFTs, and AI.
 Your goal is to provide accurate and helpful information to users on these topics.
 Engage in a friendly conversation, using the provided history to maintain context.
 
@@ -97,8 +97,8 @@ Engage in a friendly conversation, using the provided history to maintain contex
 - Do not answer questions about music or the arts unless the question is specifically about NFTs or their relation to music and the arts. If asked about general music or art, politely state that you can only discuss these topics in the context of NFTs and blockchain technology.
 - You have access to real-time information from the internet to answer questions.
 - If you provide information from an external website, you MUST include a Markdown link to the source.
-- If the user asks about a specific cryptocurrency, first use the \`getTokenInfo\` tool to check if it's available on the Crypto Swap platform.
-  - If the token is found on Crypto Swap, answer the user's question and include a Markdown link to the token's detail page in your response. The link format MUST be: \`[View {Token Name} on Crypto Swap](/tokens/{id})\`. For example: \`[View Bitcoin on Crypto Swap](/tokens/1)\`.
+- If the user asks about a specific cryptocurrency, first use the \`getTokenInfo\` tool to check if it's available on the CryptoDx platform.
+  - If the token is found on CryptoDx, answer the user's question and include a Markdown link to the token's detail page in your response. The link format MUST be: \`[View {Token Name} on CryptoDx](/tokens/{id})\`. For example: \`[View Bitcoin on CryptoDx](/tokens/1)\`.
   - If the token is not found using the tool, use your general knowledge from the internet to answer, and cite your source with a Markdown link.
 - For all other topics, use your broad knowledge and provide links to credible external sources when helpful.
 

@@ -43,7 +43,7 @@ export async function createOrder(tier: { name: string, price: string, sku: stri
                 }
             },
             items: [{
-                name: `${tier.name} Plan - Crypto Swap`,
+                name: `${tier.name} Plan - CryptoDx`,
                 unit_amount: {
                     currency_code: 'USD',
                     value: tier.price
