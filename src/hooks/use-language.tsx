@@ -27,7 +27,14 @@ const messageImports: Record<string, () => Promise<{ default: Translations }>> =
   en: () => import('../messages/en.json'),
   es: () => import('../messages/es.json'),
   fr: () => import('../messages/fr.json'),
-  // To add more languages, add the import here and to the `languages` array in `lib/i18n.ts`
+  de: () => import('../messages/de.json'),
+  pt: () => import('../messages/pt.json'),
+  ru: () => import('../messages/ru.json'),
+  ja: () => import('../messages/ja.json'),
+  'zh-CN': () => import('../messages/zh-CN.json'),
+  ko: () => import('../messages/ko.json'),
+  ar: () => import('../messages/ar.json'),
+  hi: () => import('../messages/hi.json'),
 };
 
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
@@ -116,3 +123,5 @@ export const useLanguage = () => {
   }
   return context;
 };
+
+    
