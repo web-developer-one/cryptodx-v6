@@ -67,8 +67,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             description: `The ${context === 'Google Login' ? 'Google' : 'Email/Password'} provider is disabled. Please enable it in your Firebase project console under Authentication > Sign-in method.`,
             duration: 10000,
         });
-    } else if (error.code === 'auth/invalid-credential' || error.code === 'auth/wrong-password' || error.code === 'auth/user-not-found') {
-        toast({ variant: 'destructive', title: `${context} Failed`, description: 'Invalid email or password.' });
+    } else if (error.code === 'auth/invalid-credential' || error.code === 'auth/wrong-password' || error.code === 'auth/user-not-found' || error.code === 'auth/email-already-in-use') {
+        toast({ variant: 'destructive', title: `${context} Failed`, description: 'Invalid email or password, or email is already in use.' });
     }
     else {
         toast({ variant: 'destructive', title: `${context} Failed`, description: error.message || `An unexpected error occurred.` });
@@ -100,7 +100,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       email: firebaseUser.email!,
       firstName,
       lastName,
-      avatar: 'avatar1',
+      avatar: 'avatar2',
       pricingPlan: 'Free',
       isAdmin: false,
     };
@@ -173,10 +173,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             email: firebaseUser.email!,
             firstName: userData.firstName,
             lastName: userData.lastName,
-            avatar: 'avatar1',
+            avatar: 'avatar2', // Default avatar
             pricingPlan: 'Free',
             isAdmin: firebaseUser.email === MOCK_ADMIN_EMAIL,
         };
+
+        if (newProfile.isAdmin) {
+          newProfile.avatar = 'Admin';
+          newProfile.pricingPlan = 'Administrator';
+        }
+
         localStorage.setItem(`${USER_PROFILE_STORAGE_PREFIX}${firebaseUser.uid}`, JSON.stringify(newProfile));
         setUser(newProfile); // Set user in state right away
 
@@ -189,9 +195,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, [toast, handleAuthError]);
 
   const logout = useCallback(async () => {
-    // If firebase isn't configured, we still need to clear local state
     if (!auth) {
-      authNotConfiguredToast(toast);
       setUser(null);
       router.push('/');
       toast({ title: 'Logged Out', description: 'You have been successfully logged out.' });
@@ -215,7 +219,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         return false;
     }
     
-    // Security check: Prevent non-admin users from assigning themselves the Administrator plan.
     if (updatedData.pricingPlan === 'Administrator' && !user.isAdmin) {
       console.warn("Security Alert: A non-admin user attempted to gain Administrator privileges. Operation blocked.");
       toast({
@@ -226,7 +229,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       return false;
     }
 
-    // For real users, update the standard profile
     const updatedUser = { ...user, ...updatedData };
     setUser(updatedUser);
     localStorage.setItem(`${USER_PROFILE_STORAGE_PREFIX}${user.id}`, JSON.stringify(updatedUser));
