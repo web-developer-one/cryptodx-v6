@@ -18,6 +18,7 @@ import { auth } from '@/lib/firebase';
 
 // We'll still use localStorage for profile data to avoid needing a full database setup for this prototype.
 const USER_PROFILE_STORAGE_PREFIX = 'crypto_swap_user_profile_';
+const MOCK_ADMIN_EMAIL = 'admin@cryptodx.io';
 
 // --- Auth Context Definition ---
 interface AuthContextType {
@@ -26,7 +27,7 @@ interface AuthContextType {
   login: (email: string, password: string) => Promise<boolean>;
   loginWithGoogle: () => Promise<boolean>;
   logout: () => void;
-  register: (userData: Omit<User, 'id' | 'avatar' | 'email' | 'pricingPlan'> & { email: string, password: string }) => Promise<boolean>;
+  register: (userData: Omit<User, 'id' | 'avatar' | 'email' | 'pricingPlan' | 'isAdmin'> & { email: string, password: string }) => Promise<boolean>;
   updateProfile: (updatedData: Partial<User>) => Promise<boolean>;
 }
 
@@ -75,6 +76,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, [toast]);
 
   const fetchUserProfile = useCallback(async (firebaseUser: FirebaseUser): Promise<User> => {
+    // Check for our mock admin user
+    if (firebaseUser.email === MOCK_ADMIN_EMAIL) {
+        return {
+            id: firebaseUser.uid,
+            email: firebaseUser.email,
+            firstName: 'Admin',
+            lastName: 'User',
+            avatar: 'Admin',
+            isAdmin: true,
+            pricingPlan: 'Administrator',
+        };
+    }
     const storedProfile = localStorage.getItem(`${USER_PROFILE_STORAGE_PREFIX}${firebaseUser.uid}`);
     if (storedProfile) {
       return JSON.parse(storedProfile);
@@ -89,6 +102,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       lastName,
       avatar: 'avatar1',
       pricingPlan: 'Free',
+      isAdmin: false,
     };
     localStorage.setItem(`${USER_PROFILE_STORAGE_PREFIX}${firebaseUser.uid}`, JSON.stringify(newProfile));
     return newProfile;
@@ -144,7 +158,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }, [toast, handleAuthError]);
 
-  const register = useCallback(async (userData: Omit<User, 'id' | 'avatar' | 'email' | 'pricingPlan'> & { email: string, password: string }): Promise<boolean> => {
+  const register = useCallback(async (userData: Omit<User, 'id' | 'avatar' | 'email' | 'pricingPlan' | 'isAdmin'> & { email: string, password: string }): Promise<boolean> => {
     if (!auth) {
       authNotConfiguredToast(toast);
       return false;
@@ -161,6 +175,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             lastName: userData.lastName,
             avatar: 'avatar1',
             pricingPlan: 'Free',
+            isAdmin: firebaseUser.email === MOCK_ADMIN_EMAIL,
         };
         localStorage.setItem(`${USER_PROFILE_STORAGE_PREFIX}${firebaseUser.uid}`, JSON.stringify(newProfile));
         setUser(newProfile); // Set user in state right away
@@ -189,6 +204,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const updateProfile = useCallback(async (updatedData: Partial<User>): Promise<boolean> => {
     if (!user) return false;
+    
+    // Security check for mock admin - don't allow changes to this special user via UI
+    if (user.email === MOCK_ADMIN_EMAIL) {
+        toast({
+            variant: 'destructive',
+            title: 'Action Not Allowed',
+            description: 'The admin user profile cannot be modified.',
+        });
+        return false;
+    }
     
     // Security check: Prevent non-admin users from assigning themselves the Administrator plan.
     if (updatedData.pricingPlan === 'Administrator' && !user.isAdmin) {
