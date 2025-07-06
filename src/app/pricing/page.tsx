@@ -14,6 +14,12 @@ import { AlertCircle } from 'lucide-react';
 import { useAuth } from '@/hooks/use-auth';
 import type { PricingPlan } from '@/lib/types';
 import { useRouter } from 'next/navigation';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 const PAYPAL_CLIENT_ID = process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID || "AfJ7bhG_VDx0Z2o_EtExWS_Ps2eUiZKS0lABsQCbQC02V-c_Z59cOw8xq3yNqO763BAKwSRAf8n7fob8";
 
@@ -220,6 +226,43 @@ export default function PricingPage() {
                         </Card>
                     );
                 })}
+            </div>
+            <div className="w-full max-w-5xl mt-16">
+                <h2 className="text-3xl font-bold text-center mb-8">Plan Feature Details</h2>
+                <Accordion type="single" collapsible className="w-full">
+                    <AccordionItem value="item-1">
+                        <AccordionTrigger>Free</AccordionTrigger>
+                        <AccordionContent>
+                            <ul className="list-disc pl-6 space-y-2 text-muted-foreground">
+                                <li><strong>Hide small balances:</strong> provides a simple toggle on/ off feature.</li>
+                                <li><strong>Hide unknown tokens:</strong> provides a simple toggle on/ off feature.</li>
+                                <li><strong>AI Chatbot basic:</strong> provides features such as chatbot prompts and relies.</li>
+                            </ul>
+                        </AccordionContent>
+                    </AccordionItem>
+                    <AccordionItem value="item-2">
+                        <AccordionTrigger>Basic</AccordionTrigger>
+                        <AccordionContent>
+                            <ul className="list-disc pl-6 space-y-2 text-muted-foreground">
+                                <li><strong>Hide small balances:</strong> provides a simple toggle on/ off feature.</li>
+                                <li><strong>Hide unknown tokens:</strong> provides a simple toggle on/ off feature.</li>
+                                <li><strong>AI Chatbot basic:</strong> provides features such as chatbot prompts and relies.</li>
+                                <li><strong>Reputation alert basic:</strong> provides information on real world scams and scandals activities from reputable sources.</li>
+                            </ul>
+                        </AccordionContent>
+                    </AccordionItem>
+                    <AccordionItem value="item-3">
+                        <AccordionTrigger>Advanced</AccordionTrigger>
+                        <AccordionContent>
+                            <ul className="list-disc pl-6 space-y-2 text-muted-foreground">
+                                <li><strong>Hide small balances:</strong> provides a simple toggle on/ off feature.</li>
+                                <li><strong>Hide unknown tokens:</strong> provides a simple toggle on/ off feature.</li>
+                                <li><strong>AI Chatbot advanced:</strong> provides features such as chatbot multilingual prompts and relies in text and speech.</li>
+                                <li><strong>Reputation alert advanced:</strong> provides information on real world scams and scandals activities from reputable sources in multilingual text and speech.</li>
+                            </ul>
+                        </AccordionContent>
+                    </AccordionItem>
+                </Accordion>
             </div>
         </div>
     </PayPalScriptProvider>
