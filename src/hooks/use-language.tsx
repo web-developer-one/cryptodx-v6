@@ -3,7 +3,6 @@
 
 import React, { createContext, useContext, useState, useEffect, useCallback, useMemo } from 'react';
 import englishMessages from '../messages/en.json';
-import { useToast } from './use-toast';
 import { languages } from '@/lib/i18n';
 
 type Translations = Record<string, any>;
@@ -18,64 +17,81 @@ interface LanguageContextType {
 
 const LanguageContext = createContext<LanguageContextType | null>(null);
 
-// Helper function to access nested properties of an object using a dot-separated string.
 const getNestedValue = (obj: Record<string, any>, path: string): string | undefined => {
-  // Use `any` for the accumulator to allow traversing from object to primitive.
   const value = path.split('.').reduce((acc, part) => acc?.[part], obj as any);
-  // Ensure the final value is a string, otherwise it's not a valid translation.
   return typeof value === 'string' ? value : undefined;
 };
 
+// A mapping of language codes to their message files for dynamic import.
+const messageImports: Record<string, () => Promise<{ default: Translations }>> = {
+  en: () => import('../messages/en.json'),
+  es: () => import('../messages/es.json'),
+  fr: () => import('../messages/fr.json'),
+  // To add more languages, add the import here and to the `languages` array in `lib/i18n.ts`
+};
+
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
-  // Always default to English initially to prevent hydration mismatch.
   const [language, setLanguageState] = useState('en');
   const [translations, setTranslations] = useState<Translations>(englishMessages);
-  const isLoading = false; // API translation is disabled.
+  const [isLoading, setIsLoading] = useState(false);
 
   // On initial client-side mount, detect and set the language preference.
   useEffect(() => {
     const savedLanguage = localStorage.getItem('language');
     let targetLanguage = 'en';
 
-    if (savedLanguage) {
+    if (savedLanguage && messageImports[savedLanguage]) {
       targetLanguage = savedLanguage;
     } else {
       const browserLangs = navigator.languages || [navigator.language];
       for (const lang of browserLangs) {
         const exactMatch = languages.find(l => l.code.toLowerCase() === lang.toLowerCase());
-        if (exactMatch) {
+        if (exactMatch && messageImports[exactMatch.code]) {
           targetLanguage = exactMatch.code;
           break;
         }
         const genericLang = lang.split('-')[0];
         const genericMatch = languages.find(l => l.code === genericLang);
-        if (genericMatch) {
+        if (genericMatch && messageImports[genericMatch.code]) {
           targetLanguage = genericMatch.code;
           break;
         }
       }
     }
     
-    setLanguageState(targetLanguage);
-    if (!savedLanguage) {
-      localStorage.setItem('language', targetLanguage);
-    }
+    setLanguage(targetLanguage);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // This is the function exposed to components to trigger a language change.
-  const setLanguage = useCallback((langCode: string) => {
-    localStorage.setItem('language', langCode);
-    setLanguageState(langCode);
-    // In this simplified version, we just log that the language has changed.
-    // All text will remain in English as API translation is disabled.
-    console.log(`Language preference changed to ${langCode}. UI will remain in English.`);
-  }, []);
+  const setLanguage = useCallback(async (langCode: string) => {
+    if (langCode === language && !isLoading) return;
+    
+    if (!messageImports[langCode]) {
+      console.warn(`Language "${langCode}" is not supported. Defaulting to English.`);
+      langCode = 'en';
+    }
+
+    setIsLoading(true);
+    try {
+      const module = await messageImports[langCode]();
+      setTranslations(module.default);
+      setLanguageState(langCode);
+      localStorage.setItem('language', langCode);
+    } catch (error) {
+      console.error(`Failed to load language file for ${langCode}:`, error);
+      setTranslations(englishMessages);
+      setLanguageState('en');
+      localStorage.setItem('language', 'en');
+    } finally {
+      setIsLoading(false);
+    }
+  }, [language, isLoading]);
 
   const t = useCallback((key: string): string => {
-    // Always use English messages as the translation feature is disabled.
-    const value = getNestedValue(englishMessages, key);
+    // Look for translation in current language, fallback to English, then to the key itself.
+    const value = getNestedValue(translations, key) || getNestedValue(englishMessages, key);
     return value || key;
-  }, []);
+  }, [translations]);
 
   const value = useMemo(() => ({
     language,
