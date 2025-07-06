@@ -21,6 +21,7 @@ import {
   EyeOff,
   ShieldX,
   Languages,
+  ShieldAlert,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { WalletConnect } from "@/components/wallet-connect";

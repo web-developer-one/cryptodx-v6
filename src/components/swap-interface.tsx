@@ -154,11 +154,10 @@ export function SwapInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocu
     }
   }
 
-  const handleSwapClick = async () => {
-    if (!isWalletConnected) return;
+  const handleSwapClick = () => {
     toast({
         title: t('SwapInterface.swapInitiated'),
-        description: t('SwapInterface.reputationPassedSwap'),
+        description: "Your transaction is being processed.",
     });
   };
 
@@ -348,9 +347,9 @@ export function SwapInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocu
       <CardFooter className="flex-col gap-4">
         <div className="w-full">
             {isWalletConnected ? (
-               <Button className="w-full h-12 text-lg" onClick={handleSwapClick}>
-                  {t('TradeNav.swap')}
-               </Button>
+              <Button className="w-full h-12 text-lg" onClick={handleSwapClick}>
+                {t('TradeNav.swap')}
+              </Button>
             ) : (
                 <WalletConnect>
                     <Button className="w-full h-12 text-lg">{t('Header.connectWallet')}</Button>

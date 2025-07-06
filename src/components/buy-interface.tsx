@@ -85,11 +85,10 @@ export function BuyInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocur
     }
   }
 
-  const handleBuyClick = async () => {
-    if (!isWalletConnected) return;
+  const handleBuyClick = () => {
     toast({
       title: t('BuyInterface.buyInitiated'),
-      description: t('BuyInterface.reputationSkipped'), // Using existing translation key
+      description: "Proceeding to payment provider.",
     });
   };
 
@@ -169,9 +168,9 @@ export function BuyInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocur
       </CardContent>
       <CardFooter>
         {isWalletConnected ? (
-          <Button className="w-full h-12 text-lg" onClick={handleBuyClick}>
-            {t('BuyInterface.continue')}
-          </Button>
+            <Button className="w-full h-12 text-lg" onClick={handleBuyClick}>
+              {t('BuyInterface.continue')}
+            </Button>
         ) : (
           <WalletConnect>
             <Button className="w-full h-12 text-lg">{t('Header.connectWallet')}</Button>

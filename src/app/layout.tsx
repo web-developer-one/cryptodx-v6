@@ -50,9 +50,9 @@ export default async function RootLayout({
               </div>
             </div>
             <Footer />
-            <Toaster />
-            <GdprModal />
           </div>
+          <Toaster />
+          <GdprModal />
         </Providers>
       </body>
     </html>
