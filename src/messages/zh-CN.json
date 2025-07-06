@@ -268,7 +268,7 @@
     "title": "CryptoDx聊天机器人",
     "placeholder": "输入您的消息...",
     "send": "发送",
-    "askMeAbout": "问我关于...",
+    "askMeAbout": "询问关于...",
     "topics": "区块链、DeFi、加密货币、NFT或人工智能！",
     "errorResponse": "我现在无法生成回复。请尝试其他问题。",
     "connectionError": "抱歉，我现在连接时遇到问题。请稍后重试。"

@@ -268,7 +268,7 @@
     "title": "CryptoDxチャットボット",
     "placeholder": "メッセージを入力してください...",
     "send": "送信",
-    "askMeAbout": "私に質問してください...",
+    "askMeAbout": "質問:",
     "topics": "ブロックチェーン、DeFi、仮想通貨、NFT、またはAI！",
     "errorResponse": "現在、応答を生成するのに問題が発生しています。別の質問をお試しください。",
     "connectionError": "申し訳ありませんが、現在接続に問題があります。後でもう一度お試しください。"

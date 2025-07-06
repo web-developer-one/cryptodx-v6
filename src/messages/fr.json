@@ -268,7 +268,7 @@
     "title": "Chatbot CryptoDx",
     "placeholder": "Tapez votre message...",
     "send": "Envoyer",
-    "askMeAbout": "Posez-moi des questions sur...",
+    "askMeAbout": "Posez des questions sur...",
     "topics": "Blockchain, DeFi, Crypto, NFT ou IA !",
     "errorResponse": "J'ai des difficultés à générer une réponse pour le moment. Veuillez essayer une autre question.",
     "connectionError": "Désolé, j'ai des problèmes de connexion en ce moment. Veuillez réessayer plus tard."

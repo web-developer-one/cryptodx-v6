@@ -268,7 +268,7 @@
     "title": "CryptoDx Chatbot",
     "placeholder": "Geben Sie Ihre Nachricht ein...",
     "send": "Senden",
-    "askMeAbout": "Fragen Sie mich nach...",
+    "askMeAbout": "Fragen Sie nach...",
     "topics": "Blockchain, DeFi, Krypto, NFT oder KI!",
     "errorResponse": "Ich habe im Moment Probleme, eine Antwort zu generieren. Bitte versuchen Sie eine andere Frage.",
     "connectionError": "Entschuldigung, ich habe im Moment Verbindungsprobleme. Bitte versuchen Sie es später erneut."

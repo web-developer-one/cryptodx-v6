@@ -268,7 +268,7 @@
     "title": "CryptoDx 챗봇",
     "placeholder": "메시지를 입력하세요...",
     "send": "보내기",
-    "askMeAbout": "저에게 물어보세요...",
+    "askMeAbout": "에 대해 물어보세요...",
     "topics": "블록체인, DeFi, 암호화폐, NFT 또는 AI!",
     "errorResponse": "지금 응답을 생성하는 데 문제가 있습니다. 다른 질문을 시도해 주세요.",
     "connectionError": "죄송합니다. 지금 연결하는 데 문제가 있습니다. 나중에 다시 시도해 주세요."
