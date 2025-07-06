@@ -4,7 +4,7 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { MessageSquare, Send, Bot, User, Loader2, X, Volume2 } from 'lucide-react';
+import { MessageSquare, Send, Bot, User, Loader2, X, Volume2, Mic, MicOff } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useLanguage } from '@/hooks/use-language';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
@@ -12,6 +12,7 @@ import { cn } from '@/lib/utils';
 import { SiteLogo } from './site-logo';
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { useToast } from '@/hooks/use-toast';
 
 interface MessagePart {
   text: string;
@@ -57,12 +58,17 @@ const LinkifiedText = ({ text }: { text: string }) => {
 
 export function Chatbot() {
   const { t, language } = useLanguage();
+  const { toast } = useToast();
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
+
+  const recognitionRef = useRef<any>(null);
+  const [isListening, setIsListening] = useState(false);
+  const [speechError, setSpeechError] = useState<string | null>(null);
 
   useEffect(() => {
     if (isOpen && messages.length === 0) {
@@ -123,11 +129,11 @@ export function Chatbot() {
     }
   }, []);
 
-  const handleSend = useCallback(async () => {
-    if (!input.trim()) return;
+  const handleSend = useCallback(async (messageOverride?: string) => {
+    const message = (messageOverride || input).trim();
+    if (!message) return;
 
-    const userMessage: Message = { role: 'user', parts: [{ text: input }] };
-    const currentInput = input;
+    const userMessage: Message = { role: 'user', parts: [{ text: message }] };
     setInput('');
     
     setMessages(prev => [...prev, userMessage]);
@@ -137,7 +143,7 @@ export function Chatbot() {
       const response = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ history: [...messages, userMessage], message: currentInput, language }),
+        body: JSON.stringify({ history: [...messages, userMessage], message: message, language }),
       });
 
       if (!response.ok) {
@@ -167,6 +173,62 @@ export function Chatbot() {
       setIsLoading(false);
     }
   }, [input, messages, language, t, fetchAndPlayTTS]);
+
+  useEffect(() => {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+      setSpeechError(t('Chatbot.speechNotSupported'));
+      return;
+    }
+
+    const recognition = new SpeechRecognition();
+    recognitionRef.current = recognition;
+    recognition.lang = language;
+    recognition.interimResults = true;
+    recognition.continuous = false;
+
+    recognition.onstart = () => {
+      setIsListening(true);
+    };
+
+    recognition.onend = () => {
+      setIsListening(false);
+    };
+
+    recognition.onerror = (event: any) => {
+      console.error('Speech recognition error:', event.error);
+      setSpeechError(t('Chatbot.speechError'));
+      setIsListening(false);
+    };
+
+    recognition.onresult = (event: any) => {
+      const transcript = Array.from(event.results)
+        .map((result: any) => result[0])
+        .map((result: any) => result.transcript)
+        .join('');
+      
+      setInput(transcript);
+
+      if (event.results[0].isFinal) {
+        handleSend(transcript);
+      }
+    };
+  }, [language, t, handleSend]);
+
+  const handleListenClick = () => {
+    if (isListening) {
+      recognitionRef.current?.stop();
+    } else {
+      if (!recognitionRef.current) {
+        toast({ variant: "destructive", title: "Error", description: speechError });
+        return;
+      }
+      setInput('');
+      setSpeechError(null);
+      recognitionRef.current?.start();
+    }
+  };
+
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && !isLoading) {
@@ -279,15 +341,25 @@ export function Chatbot() {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyPress={handleKeyPress}
-                placeholder={t('Chatbot.placeholder')}
-                className="pr-12"
+                placeholder={isListening ? t('Chatbot.listening') : t('Chatbot.placeholder')}
+                className="pr-24"
                 disabled={isLoading}
               />
                <div className="absolute right-1 top-1/2 -translate-y-1/2 flex items-center">
+                  <Tooltip>
+                      <TooltipTrigger asChild>
+                           <Button variant="ghost" size="icon" className="h-8 w-8" onClick={handleListenClick} disabled={isLoading || !recognitionRef.current}>
+                              {isListening ? <MicOff className="h-4 w-4 text-destructive" /> : <Mic className="h-4 w-4" />}
+                          </Button>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                           <p>{speechError ? speechError : t('Chatbot.speakTooltip')}</p>
+                      </TooltipContent>
+                  </Tooltip>
                   <Button
                     size="icon"
                     className="h-8 w-8"
-                    onClick={handleSend}
+                    onClick={() => handleSend()}
                     disabled={isLoading || !input.trim()}
                   >
                     <Send className="h-4 w-4" />
