@@ -101,17 +101,18 @@ const reputationFlow = ai.defineFlow(
     outputSchema: ReputationOutputSchema,
   },
   async (input) => {
-    // Generate the reputation report.
-    const llmResponse = await ai.generate({
-      prompt: reputationPrompt,
-      input: {
+    // Generate the reputation report by calling the defined prompt.
+    const llmResponse = await reputationPrompt(
+      {
         tokenName: input.tokenName,
         tokenSymbol: input.tokenSymbol,
         language: input.language,
       },
-      // Using a more capable model for analysis tasks.
-      model: 'gemini-1.5-pro-latest',
-    });
+      {
+        // Using a more capable model for analysis tasks.
+        model: 'gemini-1.5-pro-latest',
+      }
+    );
 
     const report = llmResponse.output?.report;
 

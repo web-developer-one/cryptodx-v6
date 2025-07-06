@@ -69,13 +69,10 @@ const chatbotFlow = ai.defineFlow(
     outputSchema: ChatbotOutputSchema,
   },
   async (input) => {
-    // Generate the text response from the AI model.
-    const llmResponse = await ai.generate({
-      prompt: chatbotPrompt,
-      input: {
-        message: input.message,
-        language: input.language,
-      },
+    // Generate the text response from the AI model by calling the defined prompt.
+    const llmResponse = await chatbotPrompt({
+      message: input.message,
+      language: input.language,
     });
     const textResponse = llmResponse.text;
 
