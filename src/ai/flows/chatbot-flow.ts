@@ -57,6 +57,8 @@ You MUST respond in the language specified by the user's language code.`,
       language: z.string(),
     }),
   },
+  // This tells the model to use the user's message as the main prompt content.
+  prompt: `{{{message}}}`,
 });
 
 // Define the Genkit flow for the chatbot.
