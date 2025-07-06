@@ -182,7 +182,7 @@ export function Chatbot() {
                   )}
                 </div>
               </ScrollArea>
-              <div className="text-center text-xs text-muted-foreground mt-2">
+              <div className="text-left text-xs text-muted-foreground mt-2">
                 <p>
                   {t('Chatbot.askMeAbout')} <span className="font-semibold">{t('Chatbot.topics')}</span>
                 </p>
