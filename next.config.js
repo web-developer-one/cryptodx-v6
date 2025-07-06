@@ -46,7 +46,7 @@ const nextConfig = {
     // This prevents the Next.js dev server from restarting in a loop
     // when the Genkit dev server writes to its cache.
     const existingIgnored = config.watchOptions?.ignored;
-    const ignoredPaths: (string | RegExp)[] = [];
+    const ignoredPaths = [];
 
     if (existingIgnored) {
       if (Array.isArray(existingIgnored)) {
