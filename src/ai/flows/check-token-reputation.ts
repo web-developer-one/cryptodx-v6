@@ -60,8 +60,17 @@ const checkTokenReputationFlow = ai.defineFlow(
     inputSchema: CheckTokenReputationInputSchema,
     outputSchema: CheckTokenReputationOutputSchema,
   },
-  async input => {
-    const {output} = await prompt(input);
-    return output!;
+  async (input) => {
+    const { output } = await prompt(input);
+    if (output) {
+      return output;
+    }
+    // Fallback if the model doesn't return a valid output
+    console.error('Reputation check flow failed to get a structured response from the model.');
+    return {
+      isScamOrScandal: false,
+      reasoning: '',
+      sourceUrl: undefined,
+    };
   }
 );

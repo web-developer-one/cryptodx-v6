@@ -51,7 +51,17 @@ const liveAlertFlow = ai.defineFlow(
     outputSchema: LiveAlertOutputSchema,
   },
   async () => {
-    const {output} = await prompt({});
-    return output!;
+    const { output } = await prompt({});
+    if (output) {
+      return output;
+    }
+    // Fallback if the model doesn't return a valid output
+    console.error('Live alert flow failed to get a structured response from the model.');
+    return {
+      hasAlert: false,
+      title: '',
+      message: '',
+      sourceUrl: undefined,
+    };
   }
 );

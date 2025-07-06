@@ -60,7 +60,13 @@ const translateTextsFlow = ai.defineFlow(
     outputSchema: TranslateTextsOutputSchema,
   },
   async (input) => {
-    const {output} = await prompt(input);
-    return output!;
+    const { output } = await prompt(input);
+    if (output) {
+      return output;
+    }
+    // If translation fails, we should throw an error so the UI can handle it (e.g., revert to English).
+    // Returning an empty object would wipe out all text.
+    console.error('Translation flow failed to get a structured response from the model.');
+    throw new Error('Translation failed to generate a response.');
   }
 );
