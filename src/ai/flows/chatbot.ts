@@ -20,7 +20,7 @@ const CryptoChatInputSchema = z.object({
   history: z.array(MessageSchema).describe('The history of the conversation.'),
   userMessage: z.string().describe('The message from the user.'),
   targetLanguage: z.string().describe('The target language for the response, e.g., "Spanish".').optional(),
-  isFreePlan: z.boolean().optional().describe('Whether the user is on the Free plan, which restricts the bot to English only.'),
+  isPremium: z.boolean().optional().describe('Whether the user is on a premium plan (Advanced or Admin), which allows multilingual responses.'),
 });
 export type CryptoChatInput = z.infer<typeof CryptoChatInputSchema>;
 
@@ -85,14 +85,14 @@ Engage in a friendly conversation, using the provided history to maintain contex
 
 Your response MUST be a JSON object that conforms to the output schema.
 
-{{#if targetLanguage}}
-**IMPORTANT**: You MUST respond in the following language: {{{targetLanguage}}}. Disregard any other language detections or instructions.
-{{else}}
-    {{#if isFreePlan}}
-**Language Handling**: You MUST respond in English, regardless of the user's language.
+{{#if isPremium}}
+    {{#if targetLanguage}}
+**Language Handling**: You MUST respond in the following language: {{{targetLanguage}}}. Disregard any other language detections or instructions.
     {{else}}
 **Language Handling**: You MUST detect the user's language from their message and the conversation history, and you MUST respond in that same language. If the user asks you to switch to a different language, you must do so.
     {{/if}}
+{{else}}
+**Language Handling**: You MUST respond in English, regardless of the user's language.
 {{/if}}
 
 - Politely decline to answer any questions that are not related to your core topics of Blockchain, DeFi, Crypto, NFTs, and AI.
@@ -123,11 +123,12 @@ const cryptoChatFlow = ai.defineFlow(
     try {
         const { output } = await prompt(input);
         
-        if (output) {
+        if (output?.response) {
             return output;
         }
         
         // This case handles when the model returns nothing that fits the schema.
+        console.error("cryptoChatFlow did not receive a valid response from the model.");
         return { response: "I'm sorry, I couldn't generate a response right now. Please try a different question." };
 
     } catch (e) {

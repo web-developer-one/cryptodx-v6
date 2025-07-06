@@ -140,7 +140,7 @@ export function Chatbot() {
                 history: chatHistory, 
                 userMessage: userMessage.content,
                 targetLanguage: isPremium ? languages.find(l => l.code === botLanguage)?.englishName : undefined,
-                isFreePlan: !user || user.pricingPlan === 'Free'
+                isPremium: isPremium
             });
             
             const responseText = result.response?.trim();
