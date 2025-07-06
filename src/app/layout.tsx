@@ -9,6 +9,7 @@ import { GdprModal } from '@/components/gdpr-modal';
 import { Toaster } from '@/components/ui/toaster';
 import { Providers } from '@/components/providers';
 import { MarketHighlights } from '@/components/market-highlights';
+import { LiveUpdateNotifier } from '@/components/live-update-notifier';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -53,6 +54,7 @@ export default async function RootLayout({
           </div>
           <Toaster />
           <GdprModal />
+          <LiveUpdateNotifier />
         </Providers>
       </body>
     </html>
