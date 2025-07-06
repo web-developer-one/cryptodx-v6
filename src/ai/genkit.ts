@@ -21,10 +21,7 @@ export const ai = genkit({
       embeddingModel: 'text-embedding-004',
     }),
   ],
-  // Log all errors to the console.
-  logLevel: 'error',
-  // In a real app, you would want to enable telemetry to monitor your flows.
-  // This requires a separate `genkit-telemetry` service to be running.
-  // We disable it here for simplicity.
-  enableTelemetry: false,
+  // In Genkit 1.x, logLevel and enableTelemetry are configured differently
+  // or are on by default if a telemetry plugin is provided.
+  // The default behavior (no telemetry unless a plugin is added) is sufficient for this app.
 });
