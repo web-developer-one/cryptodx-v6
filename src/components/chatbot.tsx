@@ -1,7 +1,8 @@
+
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { Bot, Send, Loader2, X, Languages, Volume2 } from 'lucide-react';
+import { Bot, Send, Loader2, X, Volume2 } from 'lucide-react';
 import { Button } from './ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from './ui/card';
 import { Textarea } from './ui/textarea';
@@ -9,14 +10,6 @@ import { ScrollArea } from './ui/scroll-area';
 import { askChatbot } from '@/ai/flows/chatbot-flow';
 import { useAuth } from '@/hooks/use-auth';
 import { useLanguage } from '@/hooks/use-language';
-import { languages } from '@/lib/i18n';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
 import { cn } from '@/lib/utils';
 import {
   Tooltip,
@@ -46,7 +39,6 @@ export function Chatbot() {
   ]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [targetLanguage, setTargetLanguage] = useState(siteLanguage);
   
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
@@ -62,12 +54,6 @@ export function Chatbot() {
     }
   }, [messages]);
 
-  // When the site language changes, update the chatbot language to match.
-  // The user can then override it with the chatbot's own selector.
-  useEffect(() => {
-    setTargetLanguage(siteLanguage);
-  }, [siteLanguage]);
-
   const handleSend = async () => {
     if (!input.trim() || isLoading) return;
 
@@ -79,7 +65,7 @@ export function Chatbot() {
     try {
       const result = await askChatbot({
         message: input,
-        language: targetLanguage,
+        language: siteLanguage,
         enableAudio: canUseAdvancedFeatures,
       });
 
@@ -183,22 +169,7 @@ export function Chatbot() {
                 </div>
               </ScrollArea>
             </CardContent>
-            <CardFooter className="flex flex-col gap-2 pt-4 border-t">
-              <div className="w-full flex items-center gap-2">
-                  <Languages className="h-4 w-4 text-muted-foreground" />
-                  <Select value={targetLanguage} onValueChange={setTargetLanguage}>
-                      <SelectTrigger className="w-full h-9">
-                          <SelectValue placeholder="Select language" />
-                      </SelectTrigger>
-                      <SelectContent>
-                          {languages.map(lang => (
-                              <SelectItem key={lang.code} value={lang.code}>
-                                  {lang.displayName}
-                              </SelectItem>
-                          ))}
-                      </SelectContent>
-                  </Select>
-              </div>
+            <CardFooter className="pt-4 border-t">
               <div className="w-full flex items-center gap-2">
                 <Textarea
                   value={input}
