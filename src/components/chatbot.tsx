@@ -112,7 +112,7 @@ export function Chatbot() {
         <audio ref={audioRef} className="hidden" />
         {isOpen ? (
           <Card className="w-96 h-[600px] flex flex-col shadow-2xl">
-            <CardHeader className="flex flex-row items-center justify-between">
+            <CardHeader className="flex flex-row items-center justify-between p-4">
               <CardTitle className="flex items-center gap-2">
                 <Bot className="h-6 w-6" />
                 <span>{t('Chatbot.title')}</span>
