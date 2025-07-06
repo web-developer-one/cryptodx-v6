@@ -23,8 +23,8 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 const avatarOptions = [
     'https://avataaars.io/?avatarStyle=Circle&topType=ShortHairTheCaesar&accessoriesType=Blank&hairColor=Black&facialHairType=BeardLight&facialHairColor=Auburn&clotheType=Hoodie&clotheColor=White&eyeType=Squint&eyebrowType=DefaultNatural&mouthType=Serious&skinColor=DarkBrown',
     'https://avataaars.io/?avatarStyle=Circle&topType=LongHairStraightStrand&accessoriesType=Round&hairColor=Blonde&facialHairType=Blank&clotheType=ShirtScoopNeck&clotheColor=Red&eyeType=Default&eyebrowType=UnibrowNatural&mouthType=Smile&skinColor=DarkBrown',
-    'https://placehold.co/128x128.png',
-    'https://placehold.co/128x128.png',
+    'https://avataaars.io/?avatarStyle=Circle&topType=WinterHat1&accessoriesType=Wayfarers&hatColor=Blue03&hairColor=BlondeGolden&facialHairType=Blank&facialHairColor=Black&clotheType=ShirtCrewNeck&clotheColor=Blue01&eyeType=Dizzy&eyebrowType=UnibrowNatural&mouthType=Disbelief&skinColor=Tanned',
+    'https://avataaars.io/?avatarStyle=Circle&topType=LongHairNotTooLong&accessoriesType=Kurt&hairColor=Brown&facialHairType=Blank&facialHairColor=Black&clotheType=Hoodie&clotheColor=Red&eyeType=Default&eyebrowType=SadConcerned&mouthType=Disbelief&skinColor=DarkBrown',
     'https://placehold.co/128x128.png',
     'https://placehold.co/128x128.png',
     'https://placehold.co/128x128.png',
