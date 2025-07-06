@@ -35,6 +35,12 @@ const ChatbotOutputSchema = z.object({
 });
 export type ChatbotOutput = z.infer<typeof ChatbotOutputSchema>;
 
+// Define the schema for the text response from the AI model. This provides a clear structure for the AI.
+const ChatbotTextResponseSchema = z.object({
+    response: z.string().describe("The chatbot's text response in the requested language."),
+});
+
+
 // An exported wrapper function that calls the Genkit flow.
 // This is the function that the UI will interact with.
 export async function askChatbot(input: ChatbotInput): Promise<ChatbotOutput> {
@@ -58,6 +64,10 @@ You MUST respond in the language specified by the user's language code: {{{langu
       language: z.string(),
     }),
   },
+  // Define the expected output structure, guiding the AI to produce a valid response.
+  output: {
+    schema: ChatbotTextResponseSchema,
+  },
   // This tells the model to use the user's message as the main prompt content.
   prompt: `{{{message}}}`,
 });
@@ -75,7 +85,14 @@ const chatbotFlow = ai.defineFlow(
       message: input.message,
       language: input.language,
     });
-    const textResponse = llmResponse.text;
+    
+    // By using an output schema, we get a structured object back.
+    const textResponse = llmResponse.output?.response;
+
+    // If the model fails to generate a response, throw an error.
+    if (!textResponse) {
+        throw new Error("The AI model failed to generate a text response.");
+    }
 
     // If audio is not enabled, return only the text response.
     if (!input.enableAudio) {
