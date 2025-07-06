@@ -26,6 +26,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
+import { SiteLogo } from './site-logo';
 
 type Message = {
   id: number;
@@ -235,7 +236,7 @@ export function Chatbot() {
             className="rounded-full h-16 w-16 shadow-lg"
             onClick={() => setIsOpen(true)}
           >
-            <Bot className="h-8 w-8" />
+            <SiteLogo className="h-8 w-8" />
           </Button>
         )}
       </div>
