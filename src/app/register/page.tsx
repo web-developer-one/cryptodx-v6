@@ -13,6 +13,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Loader2 } from 'lucide-react';
+import { useLanguage } from '@/hooks/use-language';
 
 // Google Icon SVG
 const GoogleIcon = () => (
@@ -34,6 +35,7 @@ export default function RegisterPage() {
   const { register, loginWithGoogle, isLoading: isAuthLoading } = useAuth();
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { t } = useLanguage();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -46,8 +48,8 @@ export default function RegisterPage() {
   });
 
   useEffect(() => {
-    document.title = 'Create Account | Crypto Swap';
-  }, []);
+    document.title = t('PageTitles.register');
+  }, [t]);
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsSubmitting(true);

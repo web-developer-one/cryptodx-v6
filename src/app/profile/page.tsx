@@ -17,6 +17,7 @@ import { UserAvatarSelector } from '@/components/user-avatar-selector';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { ShieldCheck, Loader2, Crown } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
+import { useLanguage } from '@/hooks/use-language';
 
 const profileFormSchema = z.object({
   firstName: z.string().min(1, { message: 'First name is required.' }),
@@ -29,6 +30,7 @@ export default function ProfilePage() {
   const router = useRouter();
   const { user, isLoading: isAuthLoading, updateProfile } = useAuth();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { t } = useLanguage();
 
   const form = useForm<z.infer<typeof profileFormSchema>>({
     resolver: zodResolver(profileFormSchema),
@@ -41,8 +43,8 @@ export default function ProfilePage() {
   });
   
   useEffect(() => {
-    document.title = 'My Profile | Crypto Mx';
-  }, []);
+    document.title = t('PageTitles.profile');
+  }, [t]);
 
   useEffect(() => {
     if (!isAuthLoading && !user) {

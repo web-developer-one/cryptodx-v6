@@ -344,7 +344,7 @@
     "comingSoon": "The spot trading interface is coming soon."
   },
   "PageTitles": {
-    "home": "Crypto Swap | Seamless Token Exchange",
+    "home": "Home | Swap Your Crypto",
     "buy": "Buy Crypto | Crypto Swap",
     "sell": "Sell Crypto | Crypto Swap",
     "limit": "Limit Order | Crypto Swap",
@@ -356,6 +356,9 @@
     "tokens": "Explore Tokens | Crypto Swap",
     "tokenDetail": "{tokenName} Details | Crypto Swap",
     "transactions": "Transactions | Crypto Swap",
-    "pricing": "Pricing Plans | Crypto Swap"
+    "pricing": "Pricing Plans | Crypto Swap",
+    "login": "Login | Crypto Swap",
+    "register": "Create Account | Crypto Swap",
+    "profile": "My Profile | Crypto Swap"
   }
 }

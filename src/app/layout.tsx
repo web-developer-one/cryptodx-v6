@@ -25,8 +25,8 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: 'Crypto Swap | Seamless Token Exchange',
-  description: 'Swap, trade, and manage your cryptocurrency assets with ease on our decentralized exchange platform.',
+  title: 'Home | Swap Your Crypto',
+  description: 'The easiest and most secure way to swap tokens in seconds.',
 };
 
 export default async function RootLayout({
