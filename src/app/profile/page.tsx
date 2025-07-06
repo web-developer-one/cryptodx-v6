@@ -1,0 +1,215 @@
+
+'use client';
+
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useAuth } from '@/hooks/use-auth';
+import { useLanguage } from '@/hooks/use-language';
+import { useForm, Controller } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { ProfileSchema, type ProfileFormData } from '@/lib/auth';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Label } from '@/components/ui/label';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { cn } from '@/lib/utils';
+import { Skeleton } from '@/components/ui/skeleton';
+import { Info } from 'lucide-react';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+
+const avatarOptions = [
+    'https://placehold.co/128x128.jpeg',
+    'https://placehold.co/128x128.jpeg',
+    'https://placehold.co/128x128.jpeg',
+    'https://placehold.co/128x128.jpeg',
+    'https://placehold.co/128x128.jpeg',
+    'https://placehold.co/128x128.jpeg',
+    'https://placehold.co/128x128.jpeg',
+    'https://placehold.co/128x128.jpeg',
+];
+
+export default function ProfilePage() {
+  const { t } = useLanguage();
+  const { user, updateProfile, isLoading } = useAuth();
+  const router = useRouter();
+
+  const form = useForm<ProfileFormData>({
+    resolver: zodResolver(ProfileSchema),
+    defaultValues: {
+      username: '',
+      firstName: '',
+      lastName: '',
+      age: null,
+      avatar: '',
+    },
+  });
+
+  useEffect(() => {
+    if (!isLoading && !user) {
+      router.push('/login');
+    }
+  }, [user, isLoading, router]);
+
+  useEffect(() => {
+    document.title = t('PageTitles.profile');
+    if (user) {
+      form.reset({
+        username: user.username,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        age: user.age,
+        avatar: user.avatar,
+      });
+    }
+  }, [t, user, form]);
+
+  const onSubmit = (data: ProfileFormData) => {
+    if (user) {
+      updateProfile({
+        ...user,
+        ...data,
+        age: data.age === null ? null : Number(data.age),
+      });
+    }
+  };
+
+  if (isLoading || !user) {
+    return (
+        <div className="container flex-1 flex flex-col items-center justify-center py-12">
+            <Card className="w-full max-w-3xl">
+                <CardHeader>
+                    <Skeleton className="h-8 w-48" />
+                    <Skeleton className="h-4 w-64 mt-2" />
+                </CardHeader>
+                <CardContent className="space-y-6">
+                    <Skeleton className="h-10 w-full" />
+                    <Skeleton className="h-10 w-full" />
+                    <Skeleton className="h-24 w-full" />
+                    <Skeleton className="h-10 w-32" />
+                </CardContent>
+            </Card>
+        </div>
+    );
+  }
+
+  return (
+    <div className="container flex-1 flex flex-col items-center justify-center py-12">
+      <Card className="w-full max-w-3xl">
+        <CardHeader>
+          <CardTitle>{t('ProfilePage.title')}</CardTitle>
+          <CardDescription>{t('ProfilePage.subtitle')}</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <FormField
+                  control={form.control}
+                  name="username"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{t('ProfilePage.username')}</FormLabel>
+                      <FormControl>
+                        <Input {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                 <FormItem>
+                    <FormLabel>{t('ProfilePage.emailAddress')}</FormLabel>
+                    <Input value={user.email} disabled />
+                </FormItem>
+                <FormField
+                  control={form.control}
+                  name="firstName"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{t('ProfilePage.firstName')}</FormLabel>
+                      <FormControl>
+                        <Input {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="lastName"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{t('ProfilePage.lastName')}</FormLabel>
+                      <FormControl>
+                        <Input {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                 <FormField
+                  control={form.control}
+                  name="age"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{t('ProfilePage.age')}</FormLabel>
+                      <FormControl>
+                        <Input type="number" {...field} value={field.value ?? ''} onChange={e => field.onChange(e.target.value === '' ? null : Number(e.target.value))} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+               <FormField
+                control={form.control}
+                name="avatar"
+                render={({ field }) => (
+                    <FormItem className="space-y-3">
+                    <FormLabel>{t('ProfilePage.avatar')}</FormLabel>
+                    <FormControl>
+                        <RadioGroup
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                        className="grid grid-cols-4 sm:grid-cols-8 gap-4"
+                        >
+                        {avatarOptions.map((src, index) => (
+                            <FormItem key={index} className="flex items-center space-x-3 space-y-0">
+                                <FormControl>
+                                    <RadioGroupItem value={src} className="sr-only" />
+                                </FormControl>
+                                <Label className="cursor-pointer">
+                                    <Avatar className={cn("h-20 w-20 border-2 transition-all", field.value === src ? "border-primary" : "border-transparent")}>
+                                        <AvatarImage src={src} data-ai-hint="blockchain avatar" alt={`Avatar ${index + 1}`} />
+                                        <AvatarFallback>A</AvatarFallback>
+                                    </Avatar>
+                                </Label>
+                            </FormItem>
+                        ))}
+                        </RadioGroup>
+                    </FormControl>
+                    <FormMessage />
+                    </FormItem>
+                )}
+                />
+              
+              <Alert>
+                <Info className="h-4 w-4" />
+                <AlertDescription>
+                  {t('ProfilePage.disclaimer')}
+                </AlertDescription>
+              </Alert>
+
+              <Button type="submit" disabled={form.formState.isSubmitting}>
+                {form.formState.isSubmitting ? t('ProfilePage.saving') : t('ProfilePage.saveButton')}
+              </Button>
+            </form>
+          </Form>
+        </CardContent>
+      </Card>
+    </div>
+  );
+}

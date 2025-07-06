@@ -54,10 +54,13 @@ import { Label } from "./ui/label";
 import { ScrollArea } from "./ui/scroll-area";
 import { useLanguage } from "@/hooks/use-language";
 import { languages } from "@/lib/i18n";
+import { useAuth } from "@/hooks/use-auth";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 
 export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[] }) {
   const { t, language, setLanguage, isLoading: isTranslating } = useLanguage();
+  const { user, logout } = useAuth();
 
   const [mounted, setMounted] = React.useState(false);
   const [theme, setTheme] = React.useState<"light" | "dark">("light");
@@ -240,7 +243,7 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
           </Sheet>
         </div>
 
-        <div className="flex flex-1 items-center justify-end space-x-1">
+        <div className="flex flex-1 items-center justify-end space-x-2">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button
@@ -281,6 +284,38 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
             <Button variant="secondary">{t('Header.connectWallet')}</Button>
           </WalletConnect>
           
+           {user ? (
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <button className="flex items-center gap-2 rounded-full ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2">
+                            <Avatar className="h-9 w-9 border-2 border-primary-foreground/50">
+                                <AvatarImage src={user.avatar} alt={user.username} />
+                                <AvatarFallback>{user.username.charAt(0).toUpperCase()}</AvatarFallback>
+                            </Avatar>
+                        </button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end" className="w-56">
+                        <DropdownMenuLabel>{t('Header.myAccount')}</DropdownMenuLabel>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem asChild>
+                            <Link href="/profile" className="cursor-pointer">{t('Header.profile')}</Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onClick={logout} className="cursor-pointer">
+                            {t('Header.logout')}
+                        </DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
+            ) : (
+                <div className="flex items-center gap-2">
+                    <Link href="/login" passHref>
+                        <Button variant="ghost" className="text-primary-foreground/90 transition-colors hover:bg-white/10 hover:text-primary-foreground">{t('Header.login')}</Button>
+                    </Link>
+                    <Link href="/register" passHref>
+                        <Button variant="secondary">{t('Header.register')}</Button>
+                    </Link>
+                </div>
+            )}
+
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="icon" className="text-primary-foreground/90 transition-colors hover:bg-white/10 hover:text-primary-foreground">
