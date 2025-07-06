@@ -76,18 +76,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, [toast]);
 
   const fetchUserProfile = useCallback(async (firebaseUser: FirebaseUser): Promise<User> => {
-    // Check for our mock admin user
-    if (firebaseUser.email === MOCK_ADMIN_EMAIL) {
-        return {
-            id: firebaseUser.uid,
-            email: firebaseUser.email,
-            firstName: 'Admin',
-            lastName: 'User',
-            avatar: 'Admin',
-            isAdmin: true,
-            pricingPlan: 'Administrator',
-        };
-    }
     const storedProfile = localStorage.getItem(`${USER_PROFILE_STORAGE_PREFIX}${firebaseUser.uid}`);
     if (storedProfile) {
       return JSON.parse(storedProfile);
@@ -102,8 +90,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       lastName,
       avatar: 'avatar2',
       pricingPlan: 'Free',
-      isAdmin: false,
+      isAdmin: firebaseUser.email === MOCK_ADMIN_EMAIL,
     };
+    if (newProfile.isAdmin) {
+        newProfile.avatar = 'Admin';
+        newProfile.pricingPlan = 'Administrator';
+    }
     localStorage.setItem(`${USER_PROFILE_STORAGE_PREFIX}${firebaseUser.uid}`, JSON.stringify(newProfile));
     return newProfile;
   }, []);
