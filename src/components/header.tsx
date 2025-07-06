@@ -16,8 +16,6 @@ import {
   Check,
   Sun,
   Moon,
-  User as UserIcon,
-  LogOut,
   EyeOff,
   ShieldX,
   Languages,
@@ -56,14 +54,10 @@ import { Label } from "./ui/label";
 import { ScrollArea } from "./ui/scroll-area";
 import { useLanguage } from "@/hooks/use-language";
 import { languages } from "@/lib/i18n";
-import { useAuth } from "@/hooks/use-auth";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import { getAvatarById } from "./user-avatar-selector";
 
 
 export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[] }) {
   const { t, language, setLanguage, isLoading: isTranslating } = useLanguage();
-  const { user, logout } = useAuth();
 
   const [mounted, setMounted] = React.useState(false);
   const [theme, setTheme] = React.useState<"light" | "dark">("light");
@@ -287,50 +281,6 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
             <Button variant="secondary">{t('Header.connectWallet')}</Button>
           </WalletConnect>
           
-          {user ? (
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="relative h-8 w-8 rounded-full p-0">
-                  <Avatar className="h-full w-full">
-                    <Image
-                        src={getAvatarById(user.avatar).src}
-                        alt={user.firstName || ''}
-                        fill
-                        className="object-cover"
-                    />
-                    <AvatarFallback>
-                      {user.firstName?.charAt(0)}
-                      {user.lastName?.charAt(0)}
-                    </AvatarFallback>
-                  </Avatar>
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-56">
-                <DropdownMenuLabel>My Profile</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem asChild>
-                  <Link href="/profile">
-                    <UserIcon className="mr-2 h-4 w-4" />
-                    <span>Profile</span>
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                 <DropdownMenuItem onClick={logout}>
-                    <LogOut className="mr-2 h-4 w-4" />
-                    <span>Logout</span>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          ) : (
-             <Link href="/login">
-                <Button variant="ghost" className="relative h-8 w-8 rounded-full p-0">
-                    <Avatar className="h-full w-full">
-                      <AvatarFallback><UserIcon /></AvatarFallback>
-                    </Avatar>
-                  </Button>
-              </Link>
-          )}
-
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="icon" className="text-primary-foreground/90 transition-colors hover:bg-white/10 hover:text-primary-foreground">

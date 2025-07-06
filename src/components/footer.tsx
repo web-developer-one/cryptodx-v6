@@ -41,7 +41,6 @@ export function Footer() {
     {
       title: t('Footer.site'),
       links: [
-        { name: "Pricing", href: "/pricing" },
         { name: t('Footer.blog'), href: "https://cryptomx.co/blog/" },
         { name: t('Footer.cookiePolicy'), href: "#" },
         { name: t('Footer.privacyPolicy'), href: "#" },

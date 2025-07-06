@@ -12,11 +12,7 @@
     "hideUnknownTokens": "Hide unknown tokens",
     "language": "Language",
     "LightMode": "Light Mode",
-    "DarkMode": "Dark Mode",
-    "myAccount": "My Account",
-    "profile": "Profile",
-    "logout": "Logout",
-    "login": "Log In"
+    "DarkMode": "Dark Mode"
   },
   "HomePage": {
     "title": "Seamlessly Swap Your Crypto",
@@ -99,8 +95,7 @@
     "estimatedGas": "Estimated Gas",
     "slippageTolerance": "Slippage Tolerance (%)",
     "swapInitiated": "Swap Initiated (Simulated)",
-    "estimatesDisclaimer": "Estimates are based on real-time API data but market conditions can change rapidly. Slippage may occur.",
-    "cancel": "Cancel"
+    "estimatesDisclaimer": "Estimates are based on real-time API data but market conditions can change rapidly. Slippage may occur."
   },
   "LimitOrderInterface": {
     "title": "Limit",
@@ -321,10 +316,6 @@
     "spot": "Spot Trading",
     "tokens": "Explore Tokens",
     "tokenDetail": "{tokenName} Details",
-    "transactions": "Transactions",
-    "pricing": "Pricing Plans",
-    "login": "Login",
-    "register": "Create Account",
-    "profile": "My Profile"
+    "transactions": "Transactions"
   }
 }
