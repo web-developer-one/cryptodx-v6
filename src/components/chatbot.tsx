@@ -134,7 +134,7 @@ export function Chatbot() {
                     >
                       <div
                         className={cn(
-                          'max-w-[80%] rounded-lg px-3 py-2 text-sm',
+                          'max-w-[90%] rounded-lg px-3 py-2 text-sm',
                           message.role === 'user'
                             ? 'bg-primary text-primary-foreground'
                             : 'bg-muted'
@@ -160,7 +160,7 @@ export function Chatbot() {
                   ))}
                   {isLoading && (
                     <div className="flex items-end gap-2 justify-start">
-                         <div className="flex items-center gap-2 max-w-[80%] rounded-lg px-3 py-2 text-sm bg-muted">
+                         <div className="flex items-center gap-2 max-w-[90%] rounded-lg px-3 py-2 text-sm bg-muted">
                             <Loader2 className="h-4 w-4 animate-spin" />
                             <span>Thinking...</span>
                         </div>
