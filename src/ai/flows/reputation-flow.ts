@@ -75,14 +75,38 @@ export async function getReputationReport(
 // Define the prompt for the reputation analysis.
 const reputationPrompt = ai.definePrompt({
   name: 'reputationPrompt',
-  prompt: `You are a cryptocurrency risk assessment AI. Your task is to analyze the provided token and generate a risk report in JSON format.
-Analyze the token for any known risks like scams, hacks, or major negative events.
-Your response MUST be ONLY a JSON object that conforms to the schema. Do not include any other text, explanation, or markdown formatting like \`\`\`json.
+  prompt: `You are a cryptocurrency risk assessment AI. Your task is to analyze the provided token and generate a risk report.
+
+You MUST respond with ONLY a JSON object that conforms to the output schema.
+Do not include any other text, explanation, or markdown formatting like \`\`\`json.
 Your response MUST be in the requested language: {{{language}}}.
 
 Token to analyze:
 Name: {{{tokenName}}}
-Symbol: {{{tokenSymbol}}}`,
+Symbol: {{{tokenSymbol}}}
+
+If there are issues, your response should look like this example:
+{
+  "status": "warning",
+  "summary": "This token has been associated with a recent rug pull event.",
+  "findings": [
+    {
+      "title": "Association with Rug Pull",
+      "description": "On-chain data suggests a rapid withdrawal of liquidity by the developers on [Date].",
+      "source": "On-chain Analysis",
+      "severity": "high"
+    }
+  ]
+}
+
+If there are no issues, your response should look like this:
+{
+  "status": "clear",
+  "summary": "No significant negative events found in our scan.",
+  "findings": []
+}
+
+Now, generate the report for the requested token.`,
   input: {
     schema: z.object({
       tokenName: z.string(),
