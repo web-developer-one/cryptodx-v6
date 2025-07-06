@@ -84,19 +84,3 @@ export interface User {
   isAdmin?: boolean;
   pricingPlan?: PricingPlan;
 }
-
-
-export type ReputationStatus = 'clear' | 'warning' | 'critical';
-
-export interface ReputationFinding {
-    title: string;
-    description: string;
-    source: string;
-    severity: 'low' | 'medium' | 'high';
-}
-
-export interface ReputationReport {
-    status: ReputationStatus;
-    summary: string;
-    findings: ReputationFinding[];
-}

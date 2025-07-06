@@ -8,7 +8,6 @@
     "slippage": "الانزلاق",
     "connectWallet": "اتصل بالمحفظة",
     "settings": "الإعدادات",
-    "reputationAlert": "تنبيه السمعة",
     "hideSmallBalances": "إخفاء الأرصدة الصغيرة",
     "hideUnknownTokens": "إخفاء الرموز غير المعروفة",
     "language": "اللغة",
@@ -71,14 +70,7 @@
     "youPay": "أنت تدفع",
     "youGet": "أنت تحصل على",
     "continue": "متابعة",
-    "buyInitiated": "تم بدء الشراء (محاكاة)",
-    "reputationSkipped": "تم تخطي فحص السمعة. المتابعة إلى مزود الدفع.",
-    "reputationPassed": "نجح فحص السمعة. المتابعة إلى مزود الدفع.",
-    "reputationCheckFailed": "تعذر إجراء فحص السمعة. يرجى المحاولة مرة أخرى.",
-    "acknowledgeAndContinue": "إقرار ومتابعة",
-    "reputationAlert": "تنبيه السمعة",
-    "infoDisclaimer": "هذا لأغراض إعلامية فقط ولا يشكل نصيحة مالية. يرجى إجراء البحث الخاص بك قبل المتابعة.",
-    "acknowledgedRisk": "لقد أقررت بالمخاطر. المتابعة إلى مزود الدفع."
+    "buyInitiated": "تم بدء الشراء (محاكاة)"
   },
   "SellInterface": {
     "title": "بيع العملات المشفرة",
@@ -107,8 +99,6 @@
     "estimatedGas": "الغاز المقدر",
     "slippageTolerance": "تحمل الانزلاق (%)",
     "swapInitiated": "تم بدء التبديل (محاكاة)",
-    "reputationPassedSwap": "نجحت فحوصات السمعة. تتم معالجة معاملتك.",
-    "acknowledgedRiskSwap": "لقد أقررت بالمخاطر. تتم معالجة معاملتك.",
     "estimatesDisclaimer": "تستند التقديرات إلى بيانات API في الوقت الفعلي ولكن يمكن أن تتغير ظروف السوق بسرعة. قد يحدث انزلاق.",
     "cancel": "إلغاء"
   },
@@ -236,14 +226,6 @@
     "line": "خط",
     "candlestick": "شمعدان"
   },
-  "ReputationAlert": {
-    "checking": "جارٍ التحقق من السمعة...",
-    "checkingDescription": "جارٍ تحليل سجل الرمز للمشكلات المعروفة.",
-    "clear": "سمعة نظيفة",
-    "clearDescription": "لم يتم العثور على أحداث سلبية كبيرة في فحصنا.",
-    "alertTitle": "تنبيه السمعة لـ {tokenName} ({tokenSymbol})",
-    "source": "المصدر"
-  },
   "ApiErrorCard": {
     "errorLoading": "خطأ في تحميل {context}",
     "configErrorTitle": "خطأ في تكوين مفتاح API",
@@ -346,5 +328,3 @@
     "profile": "ملفي الشخصي"
   }
 }
-
-    

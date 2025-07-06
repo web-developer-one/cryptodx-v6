@@ -8,7 +8,6 @@
     "slippage": "スリッページ",
     "connectWallet": "ウォレットを接続",
     "settings": "設定",
-    "reputationAlert": "評判アラート",
     "hideSmallBalances": "少額残高を非表示",
     "hideUnknownTokens": "不明なトークンを非表示",
     "language": "言語",
@@ -71,14 +70,7 @@
     "youPay": "支払い額",
     "youGet": "受取額",
     "continue": "続行",
-    "buyInitiated": "購入開始（シミュレーション）",
-    "reputationSkipped": "評判チェックはスキップされました。決済プロバイダーに進みます。",
-    "reputationPassed": "評判チェックに合格しました。決済プロバイダーに進みます。",
-    "reputationCheckFailed": "評判チェックを実行できませんでした。もう一度お試しください。",
-    "acknowledgeAndContinue": "承認して続行",
-    "reputationAlert": "評判アラート",
-    "infoDisclaimer": "これは情報提供のみを目的としており、金融アドバイスを構成するものではありません。続行する前にご自身で調査を行ってください。",
-    "acknowledgedRisk": "リスクを承認しました。決済プロバイダーに進みます。"
+    "buyInitiated": "購入開始（シミュレーション）"
   },
   "SellInterface": {
     "title": "仮想通貨を売却",
@@ -107,8 +99,6 @@
     "estimatedGas": "推定ガス代",
     "slippageTolerance": "スリッページ許容度（%）",
     "swapInitiated": "スワップ開始（シミュレーション）",
-    "reputationPassedSwap": "評判チェックに合格しました。取引は処理中です。",
-    "acknowledgedRiskSwap": "リスクを承認しました。取引は処理中です。",
     "estimatesDisclaimer": "見積もりはリアルタイムのAPIデータに基づきますが、市場状況は急速に変化する可能性があります。スリッページが発生する場合があります。",
     "cancel": "キャンセル"
   },
@@ -236,14 +226,6 @@
     "line": "ライン",
     "candlestick": "ローソク足"
   },
-  "ReputationAlert": {
-    "checking": "評判を確認中...",
-    "checkingDescription": "既知の問題についてトークンの履歴を分析しています。",
-    "clear": "評判はクリアです",
-    "clearDescription": "スキャンで重大な否定的なイベントは見つかりませんでした。",
-    "alertTitle": "{tokenName} ({tokenSymbol}) の評判アラート",
-    "source": "ソース"
-  },
   "ApiErrorCard": {
     "errorLoading": "{context}の読み込み中にエラーが発生しました",
     "configErrorTitle": "APIキー設定エラー",
@@ -346,5 +328,3 @@
     "profile": "マイプロフィール"
   }
 }
-
-    

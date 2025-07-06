@@ -8,7 +8,6 @@
     "slippage": "Slippage",
     "connectWallet": "Connect Wallet",
     "settings": "Settings",
-    "reputationAlert": "Reputation Alert",
     "hideSmallBalances": "Hide small balances",
     "hideUnknownTokens": "Hide unknown tokens",
     "language": "Language",
@@ -71,14 +70,7 @@
     "youPay": "You pay",
     "youGet": "You get",
     "continue": "Continue",
-    "buyInitiated": "Buy Initiated (Simulated)",
-    "reputationSkipped": "Reputation check was skipped. Continuing to payment provider.",
-    "reputationPassed": "Reputation check passed. Continuing to payment provider.",
-    "reputationCheckFailed": "Could not perform reputation check. Please try again.",
-    "acknowledgeAndContinue": "Acknowledge and Continue",
-    "reputationAlert": "Reputation Alert",
-    "infoDisclaimer": "This is for informational purposes only and does not constitute financial advice. Please do your own research before proceeding.",
-    "acknowledgedRisk": "You have acknowledged the risk. Continuing to payment provider."
+    "buyInitiated": "Buy Initiated (Simulated)"
   },
   "SellInterface": {
     "title": "Sell Crypto",
@@ -107,8 +99,6 @@
     "estimatedGas": "Estimated Gas",
     "slippageTolerance": "Slippage Tolerance (%)",
     "swapInitiated": "Swap Initiated (Simulated)",
-    "reputationPassedSwap": "Reputation checks passed. Your transaction is being processed.",
-    "acknowledgedRiskSwap": "You have acknowledged the risk. Your transaction is being processed.",
     "estimatesDisclaimer": "Estimates are based on real-time API data but market conditions can change rapidly. Slippage may occur.",
     "cancel": "Cancel"
   },
@@ -235,14 +225,6 @@
     "trade": "Trade {symbol}",
     "line": "Line",
     "candlestick": "Candlestick"
-  },
-  "ReputationAlert": {
-    "checking": "Checking Reputation...",
-    "checkingDescription": "Analyzing token history for known issues.",
-    "clear": "Reputation Clear",
-    "clearDescription": "No significant negative events found in our scan.",
-    "alertTitle": "Reputation Alert for {tokenName} ({tokenSymbol})",
-    "source": "Source"
   },
   "ApiErrorCard": {
     "errorLoading": "Error Loading {context}",
