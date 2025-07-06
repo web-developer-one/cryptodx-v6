@@ -1,3 +1,4 @@
+
 'use server';
 
 import {ai} from '@/ai/genkit';
@@ -68,30 +69,35 @@ export async function askChatbot(input: ChatbotInput): Promise<ChatbotOutput> {
 
   if (message.includes('hello') || message.includes('hi')) {
     return {
-      response: "Hello! How can I help you with your crypto questions today?",
+      response: "Hello! How can I help you with your crypto questions today? I can answer basic questions about Bitcoin, Ethereum, and NFTs.",
     };
   }
   if (message.includes('bitcoin')) {
     return {
       response:
-        'Bitcoin is the first decentralized cryptocurrency. It was created in 2009 by an unknown person or group of people using the name Satoshi Nakamoto.',
+        'Bitcoin is the first decentralized cryptocurrency. It was created in 2009 by an unknown person or group of people using the name Satoshi Nakamoto. It operates on a proof-of-work blockchain.',
     };
   }
   if (message.includes('ethereum')) {
     return {
       response:
-        'Ethereum is a decentralized, open-source blockchain with smart contract functionality. Ether (ETH) is the native cryptocurrency of the platform.',
+        'Ethereum is a decentralized, open-source blockchain with smart contract functionality. Ether (ETH) is the native cryptocurrency of the platform. It is transitioning from proof-of-work to proof-of-stake.',
     };
+  }
+  if (message.includes('nft')) {
+    return {
+        response: "A Non-Fungible Token (NFT) is a unique digital asset that represents ownership of real-world items like art, music, in-game items, and videos. They are bought and sold online, frequently with cryptocurrency, and they are generally encoded with the same underlying software as many cryptos."
+    }
   }
   if (message.includes('what can you do') || message.includes('help')) {
     return {
-        response: "Right now, my advanced AI capabilities are offline. I can provide some basic information about Bitcoin and Ethereum. Please try asking me about one of those."
+        response: "Right now, my advanced AI capabilities are offline due to a configuration issue. I can provide some basic information about Bitcoin, Ethereum, and NFTs. Please try asking me about one of those topics."
     }
   }
 
   return {
     response:
-      "I'm sorry, I can only answer very basic questions right now. My advanced AI features are temporarily disabled. Try asking 'What is Bitcoin?'.",
+      "I'm sorry, I can only answer very basic questions about Bitcoin, Ethereum, or NFTs right now. My advanced AI features are temporarily disabled.",
     audio: undefined,
   };
 }
