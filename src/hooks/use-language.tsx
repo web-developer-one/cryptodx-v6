@@ -2,7 +2,6 @@
 'use client';
 
 import React, { createContext, useContext, useState, useEffect, useCallback, useMemo } from 'react';
-import { translateTexts } from '@/ai/flows/translate-text';
 import englishMessages from '../messages/en.json';
 import { useToast } from './use-toast';
 import { get, set } from 'idb-keyval';
@@ -103,16 +102,27 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
       
       setIsLoading(true);
       try {
-        const result = await translateTexts({
-          texts: englishMessages,
-          targetLanguage: languageNameForAI,
+        const response = await fetch('/api/translate', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                texts: englishMessages,
+                targetLanguage: languageNameForAI,
+            }),
         });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.error || `Request failed with status ${response.status}`);
+        }
+
+        const result = await response.json();
 
         if (result && result.translations) {
           setTranslations(result.translations);
           await set(`translations_${language}`, result.translations);
         } else {
-          throw new Error("AI did not return translations.");
+          throw new Error("API did not return translations.");
         }
       } catch (error) {
         console.error("Translation failed:", error);
