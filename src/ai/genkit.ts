@@ -5,7 +5,7 @@
  */
 
 import {genkit} from 'genkit';
-import {googleAI} from 'genkit/plugins/googleai';
+import {googleAI} from '@genkit-ai/googleai';
 
 // Initialize Genkit and the Google AI plugin.
 // This should be the only instance of `genkit()` in the app.
