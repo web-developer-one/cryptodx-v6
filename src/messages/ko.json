@@ -1,4 +1,3 @@
-
 {
   "Header": {
     "siteName": "CryptoDx",
@@ -235,6 +234,15 @@
     "trade": "{symbol} 거래",
     "line": "선",
     "candlestick": "캔들스틱"
+  },
+  "ReputationAlert": {
+    "checking": "평판 확인 중...",
+    "checkingDescription": "알려진 문제에 대해 토큰 기록을 분석 중입니다.",
+    "clear": "평판 깨끗함",
+    "clearDescription": "스캔에서 중요한 부정적인 이벤트가 발견되지 않았습니다.",
+    "alertTitle": "{tokenName}({tokenSymbol})에 대한 평판 경고",
+    "source": "출처",
+    "viewSource": "출처 보기"
   },
   "ApiErrorCard": {
     "errorLoading": "{context} 로드 중 오류",

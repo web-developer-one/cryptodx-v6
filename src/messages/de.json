@@ -1,4 +1,3 @@
-
 {
   "Header": {
     "siteName": "CryptoDx",
@@ -235,6 +234,15 @@
     "trade": "{symbol} handeln",
     "line": "Linie",
     "candlestick": "Candlestick"
+  },
+  "ReputationAlert": {
+    "checking": "Reputation wird geprüft...",
+    "checkingDescription": "Analyse der Token-Historie auf bekannte Probleme.",
+    "clear": "Reputation einwandfrei",
+    "clearDescription": "In unserem Scan wurden keine signifikanten negativen Ereignisse gefunden.",
+    "alertTitle": "Reputationswarnung für {tokenName} ({tokenSymbol})",
+    "source": "Quelle",
+    "viewSource": "Quelle anzeigen"
   },
   "ApiErrorCard": {
     "errorLoading": "Fehler beim Laden von {context}",

@@ -1,4 +1,3 @@
-
 {
   "Header": {
     "siteName": "CryptoDx",
@@ -235,6 +234,15 @@
     "trade": "交易{symbol}",
     "line": "折线图",
     "candlestick": "K线图"
+  },
+  "ReputationAlert": {
+    "checking": "正在检查声誉...",
+    "checkingDescription": "正在分析代币历史以查找已知问题。",
+    "clear": "声誉良好",
+    "clearDescription": "我们的扫描未发现重大负面事件。",
+    "alertTitle": "{tokenName} ({tokenSymbol}) 的声誉警报",
+    "source": "来源",
+    "viewSource": "查看来源"
   },
   "ApiErrorCard": {
     "errorLoading": "加载{context}时出错",

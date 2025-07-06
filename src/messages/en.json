@@ -1,4 +1,3 @@
-
 {
   "Header": {
     "siteName": "CryptoDx",
@@ -242,7 +241,8 @@
     "clear": "Reputation Clear",
     "clearDescription": "No significant negative events found in our scan.",
     "alertTitle": "Reputation Alert for {tokenName} ({tokenSymbol})",
-    "source": "Source"
+    "source": "Source",
+    "viewSource": "View Source"
   },
   "ApiErrorCard": {
     "errorLoading": "Error Loading {context}",

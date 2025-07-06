@@ -1,4 +1,3 @@
-
 {
   "Header": {
     "siteName": "CryptoDx",
@@ -235,6 +234,15 @@
     "trade": "تداول {symbol}",
     "line": "خط",
     "candlestick": "شمعدان"
+  },
+  "ReputationAlert": {
+    "checking": "جاري التحقق من السمعة...",
+    "checkingDescription": "تحليل سجل الرمز بحثًا عن مشكلات معروفة.",
+    "clear": "السمعة نظيفة",
+    "clearDescription": "لم يتم العثور على أحداث سلبية كبيرة في فحصنا.",
+    "alertTitle": "تنبيه السمعة لـ {tokenName} ({tokenSymbol})",
+    "source": "المصدر",
+    "viewSource": "عرض المصدر"
   },
   "ApiErrorCard": {
     "errorLoading": "خطأ في تحميل {context}",

@@ -69,8 +69,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         const adminUser: UserProfile = {
             id: 'admin-user-01',
             username: 'Admin',
-            firstName: 'SayTee',
-            lastName: 'Software',
+            firstName: 'Larry',
+            lastName: 'Saytee',
             email: MOCK_ADMIN_EMAIL,
             age: null,
             avatar: '',

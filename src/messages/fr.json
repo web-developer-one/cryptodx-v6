@@ -1,4 +1,3 @@
-
 {
   "Header": {
     "siteName": "CryptoDx",
@@ -235,6 +234,15 @@
     "trade": "Échanger {symbol}",
     "line": "Ligne",
     "candlestick": "Chandelier"
+  },
+  "ReputationAlert": {
+    "checking": "Vérification de la réputation...",
+    "checkingDescription": "Analyse de l'historique du jeton pour les problèmes connus.",
+    "clear": "Réputation Claire",
+    "clearDescription": "Aucun événement négatif significatif trouvé dans notre analyse.",
+    "alertTitle": "Alerte de réputation pour {tokenName} ({tokenSymbol})",
+    "source": "Source",
+    "viewSource": "Voir la Source"
   },
   "ApiErrorCard": {
     "errorLoading": "Erreur lors du Chargement de {context}",

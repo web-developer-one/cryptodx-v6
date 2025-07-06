@@ -1,4 +1,3 @@
-
 'use server';
 /**
  * @fileOverview An AI flow for assessing the reputation of a cryptocurrency token.
@@ -54,6 +53,7 @@ const ReputationOutputSchema = z.object({
               'The source of the information (e.g., "On-chain Analysis", "Social Media Scan", "News Aggregation").'
             ),
           severity: z.enum(['low', 'medium', 'high']).describe('The severity of the finding.'),
+          sourceUrl: z.string().url().describe('A valid URL to a reputable source that backs up the finding, such as a news article or blockchain explorer transaction. A Google search link is also acceptable if a direct source is not available.'),
         })
       )
       .describe('A list of specific findings. Return an empty array if the status is "clear".'),
@@ -85,7 +85,7 @@ If there are no issues, set the status to "clear".
 If there are potential concerns, set the status to "warning".
 If there are major red flags, set the status to "critical".
 
-Provide a one-sentence summary and a list of specific findings if any issues are detected.
+Provide a one-sentence summary and a list of specific findings if any issues are detected. For each finding, you must provide a valid "sourceUrl" that links to evidence, such as a news article, blog post, or a blockchain explorer page. A link to a search engine query is acceptable if a direct source cannot be found.
 
 Language for report: {{{language}}}
 Token to analyze:

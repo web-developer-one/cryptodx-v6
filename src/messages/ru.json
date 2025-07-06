@@ -1,4 +1,3 @@
-
 {
   "Header": {
     "siteName": "CryptoDx",
@@ -235,6 +234,15 @@
     "trade": "Торговать {symbol}",
     "line": "Линия",
     "candlestick": "Свечи"
+  },
+  "ReputationAlert": {
+    "checking": "Проверка репутации...",
+    "checkingDescription": "Анализ истории токена на наличие известных проблем.",
+    "clear": "Репутация чиста",
+    "clearDescription": "В нашем сканировании не найдено значительных негативных событий.",
+    "alertTitle": "Предупреждение о репутации для {tokenName} ({tokenSymbol})",
+    "source": "Источник",
+    "viewSource": "Просмотреть источник"
   },
   "ApiErrorCard": {
     "errorLoading": "Ошибка загрузки {context}",

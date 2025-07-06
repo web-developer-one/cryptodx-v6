@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -18,6 +17,7 @@ import { cn } from "@/lib/utils";
 import { PriceChart } from "@/components/token-details/price-chart";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from '@/hooks/use-language';
+import { ReputationAlert } from "@/components/reputation-alert";
 
 export function TokenDetailClient({ initialToken }: { initialToken: TokenDetails }) {
     const { t } = useLanguage();
@@ -81,6 +81,8 @@ export function TokenDetailClient({ initialToken }: { initialToken: TokenDetails
         </div>
       </div>
       
+      <ReputationAlert tokenName={token.name} tokenSymbol={token.symbol} />
+
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-1">
           <KeyStatistics token={token} />

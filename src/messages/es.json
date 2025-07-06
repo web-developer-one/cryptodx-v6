@@ -1,4 +1,3 @@
-
 {
   "Header": {
     "siteName": "CryptoDx",
@@ -8,6 +7,7 @@
     "slippage": "Deslizamiento",
     "connectWallet": "Conectar Billetera",
     "settings": "Ajustes",
+    "reputationAlert": "Alerta de Reputación",
     "hideSmallBalances": "Ocultar saldos pequeños",
     "hideUnknownTokens": "Ocultar tokens desconocidos",
     "language": "Idioma",
@@ -234,6 +234,15 @@
     "trade": "Comerciar {symbol}",
     "line": "Línea",
     "candlestick": "Velas"
+  },
+  "ReputationAlert": {
+    "checking": "Comprobando Reputación...",
+    "checkingDescription": "Analizando el historial del token en busca de problemas conocidos.",
+    "clear": "Reputación Limpia",
+    "clearDescription": "No se encontraron eventos negativos significativos en nuestro análisis.",
+    "alertTitle": "Alerta de Reputación para {tokenName} ({tokenSymbol})",
+    "source": "Fuente",
+    "viewSource": "Ver Fuente"
   },
   "ApiErrorCard": {
     "errorLoading": "Error al Cargar {context}",

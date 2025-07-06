@@ -1,10 +1,9 @@
-
 'use client';
 
 import { useState, useEffect, useCallback, useRef } from "react";
 import { getReputationReport, ReputationOutput } from "@/ai/flows/reputation-flow";
 import { useLanguage } from "@/hooks/use-language";
-import { AlertCircle, CheckCircle, ShieldAlert, Loader2, Volume2, Info } from "lucide-react";
+import { AlertCircle, CheckCircle, ShieldAlert, Loader2, Volume2, Info, ExternalLink } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
@@ -142,9 +141,18 @@ export function ReputationAlert({ tokenName, tokenSymbol }: ReputationAlertProps
                                 <Badge variant={getSeverityBadgeVariant(finding.severity)} className="capitalize">{finding.severity}</Badge>
                            </div>
                         </AccordionTrigger>
-                        <AccordionContent>
-                           <p className="mb-2">{finding.description}</p>
-                           <p className="text-xs text-muted-foreground"><strong>{t('ReputationAlert.source')}:</strong> {finding.source}</p>
+                        <AccordionContent className="space-y-3">
+                           <p>{finding.description}</p>
+                           <div className="flex items-center justify-between text-xs text-muted-foreground">
+                                <span><strong>{t('ReputationAlert.source')}:</strong> {finding.source}</span>
+                                {finding.sourceUrl && (
+                                    <a href={finding.sourceUrl} target="_blank" rel="noopener noreferrer">
+                                        <Button variant="link" className="h-auto p-0 text-xs text-destructive hover:text-destructive/80">
+                                            {t('ReputationAlert.viewSource')} <ExternalLink className="ml-1 h-3 w-3" />
+                                        </Button>
+                                    </a>
+                                )}
+                           </div>
                         </AccordionContent>
                     </AccordionItem>
                 ))}
