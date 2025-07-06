@@ -294,11 +294,7 @@
     "topics": "Blockchain, DeFi, Crypto, NFT, or AI!",
     "errorResponse": "I'm having trouble generating a response right now. Please try a different question.",
     "connectionError": "Sorry, I'm having trouble connecting right now. Please try again later.",
-    "listening": "Listening...",
-    "speakTooltip": "Ask with your voice",
-    "playAudioTooltip": "Play audio",
-    "speechError": "Speech recognition failed. Please try again or check your microphone permissions.",
-    "speechNotSupported": "Speech recognition is not supported in your browser."
+    "playAudioTooltip": "Play audio"
   },
   "WalletConnect": {
     "title": "Connect a wallet",

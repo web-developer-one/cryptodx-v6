@@ -294,11 +294,7 @@
     "topics": "¡Blockchain, DeFi, Cripto, NFT o IA!",
     "errorResponse": "Tengo problemas para generar una respuesta en este momento. Por favor, intenta con una pregunta diferente.",
     "connectionError": "Lo siento, tengo problemas para conectarme en este momento. Por favor, inténtalo de nuevo más tarde.",
-    "listening": "Escuchando...",
-    "speakTooltip": "Pregunta con tu voz",
-    "playAudioTooltip": "Reproducir audio",
-    "speechError": "Fallo en el reconocimiento de voz. Por favor, inténtalo de nuevo o comprueba los permisos de tu micrófono.",
-    "speechNotSupported": "El reconocimiento de voz no es compatible con tu navegador."
+    "playAudioTooltip": "Reproducir audio"
   },
   "WalletConnect": {
     "title": "Conectar una billetera",
