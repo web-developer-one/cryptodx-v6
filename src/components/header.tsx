@@ -19,6 +19,8 @@ import {
   EyeOff,
   ShieldX,
   Languages,
+  User,
+  LogOut,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { WalletConnect } from "@/components/wallet-connect";
@@ -298,10 +300,14 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
                         <DropdownMenuLabel>{t('Header.myAccount')}</DropdownMenuLabel>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem asChild>
-                            <Link href="/profile" className="cursor-pointer">{t('Header.profile')}</Link>
+                            <Link href="/profile" className="cursor-pointer flex items-center">
+                                <User className="mr-2 h-4 w-4" />
+                                <span>{t('Header.profile')}</span>
+                            </Link>
                         </DropdownMenuItem>
-                        <DropdownMenuItem onClick={logout} className="cursor-pointer">
-                            {t('Header.logout')}
+                        <DropdownMenuItem onClick={logout} className="cursor-pointer flex items-center">
+                            <LogOut className="mr-2 h-4 w-4" />
+                            <span>{t('Header.logout')}</span>
                         </DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
