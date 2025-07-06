@@ -1,3 +1,4 @@
+
 'use server';
 /**
  * @fileOverview An AI flow for assessing the reputation of a cryptocurrency token.
@@ -78,7 +79,7 @@ const reputationPrompt = ai.definePrompt({
 Your task is to evaluate a given token and generate a concise, factual reputation report.
 Analyze the provided token name and symbol for any known associations with scams, hacks, rug pulls, or significant negative community sentiment.
 Base your findings on publicly available information. Be objective and avoid speculation.
-You MUST provide your response in the language requested.
+You MUST provide your response in the language requested: {{{language}}}
 If there are no significant issues, return a "clear" status with a positive summary and an empty findings array.
 If there are issues, categorize them as "warning" or "critical" and provide detailed findings.`,
   input: {
@@ -91,6 +92,7 @@ If there are issues, categorize them as "warning" or "critical" and provide deta
   output: {
     schema: ReputationOutputSchema.pick({report: true}), // We only want the model to generate the report part.
   },
+  prompt: `Please analyze the following token:\nToken Name: {{{tokenName}}}\nToken Symbol: {{{tokenSymbol}}}`,
 });
 
 // Define the main Genkit flow for reputation checking.
