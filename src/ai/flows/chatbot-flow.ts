@@ -76,8 +76,6 @@ const chatbotFlow = ai.defineFlow(
         message: input.message,
         language: input.language,
       },
-      // Pass the user's message as history to provide context.
-      history: [{role: 'user', content: [{text: input.message}]}],
     });
     const textResponse = llmResponse.text;
 
