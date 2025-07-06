@@ -96,14 +96,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   // Listen for Firebase auth state changes
   useEffect(() => {
-    // Check for a mock admin session first on initial load
-    const mockAdminData = localStorage.getItem('mock_admin_user');
-    if (mockAdminData) {
-        setUser(JSON.parse(mockAdminData));
-        setIsLoading(false);
-        return; // Skip Firebase listener if mock admin is active
-    }
-    
     // If firebase is not configured, we are not loading a user.
     if (!auth) {
       setIsLoading(false);
@@ -122,32 +114,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, [fetchUserProfile]);
 
   const login = useCallback(async (email: string, password: string): Promise<boolean> => {
-    // Special case for admin login
-    if (email === 'saytee.software@gmail.com' && password === 'admin') {
-      const adminUser: User = {
-        id: 'admin-user-id',
-        email: 'saytee.software@gmail.com',
-        firstName: 'Admin',
-        lastName: 'User',
-        avatar: 'avatar4', // Robot avatar
-        isAdmin: true,
-        pricingPlan: 'Administrator',
-      };
-      // Manually set user state and store in local storage to simulate a session
-      setUser(adminUser);
-      localStorage.setItem('mock_admin_user', JSON.stringify(adminUser));
-      toast({ title: 'Admin Login Successful', description: 'Welcome, Administrator!' });
-      return true;
-    }
-
     if (!auth) {
       authNotConfiguredToast(toast);
       return false;
     }
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      // Clear any mock admin session if a real login succeeds
-      localStorage.removeItem('mock_admin_user');
       toast({ title: 'Login Successful', description: `Welcome back!` });
       return true;
     } catch (error: any) {
@@ -164,8 +136,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const provider = new GoogleAuthProvider();
     try {
       await signInWithPopup(auth, provider);
-      // Clear any mock admin session if a real login succeeds
-      localStorage.removeItem('mock_admin_user');
       toast({ title: 'Login Successful', description: 'Welcome! You have signed in with Google.' });
       return true;
     } catch (error: any) {
@@ -204,12 +174,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, [toast, handleAuthError]);
 
   const logout = useCallback(async () => {
-    // Clear mock admin user from localStorage
-    localStorage.removeItem('mock_admin_user');
-
+    // If firebase isn't configured, we still need to clear local state
     if (!auth) {
       authNotConfiguredToast(toast);
-      // If firebase isn't configured, we still need to clear local state
       setUser(null);
       router.push('/');
       toast({ title: 'Logged Out', description: 'You have been successfully logged out.' });
@@ -232,15 +199,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         description: 'You cannot assign this plan.',
       });
       return false;
-    }
-
-    // If the user is the mock admin, update the mock data in localStorage
-    if (user.isAdmin) {
-      const updatedAdmin = { ...user, ...updatedData };
-      setUser(updatedAdmin);
-      localStorage.setItem('mock_admin_user', JSON.stringify(updatedAdmin));
-      toast({ title: 'Profile Updated', description: 'Your changes have been saved.' });
-      return true;
     }
 
     // For real users, update the standard profile
