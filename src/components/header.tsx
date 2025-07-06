@@ -18,7 +18,6 @@ import {
   Moon,
   User as UserIcon,
   LogOut,
-  ShieldAlert,
   EyeOff,
   ShieldX,
   Languages,
@@ -55,7 +54,6 @@ import { SiteLogo } from "./site-logo";
 import { Switch } from "./ui/switch";
 import { Label } from "./ui/label";
 import { ScrollArea } from "./ui/scroll-area";
-import { useReputation } from "@/hooks/use-reputation";
 import { useLanguage } from "@/hooks/use-language";
 import { languages } from "@/lib/i18n";
 import { useAuth } from "@/hooks/use-auth";
@@ -147,7 +145,6 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
   const [selectedNetwork, setSelectedNetwork] = React.useState(networks[0]);
   const [hideSmallBalances, setHideSmallBalances] = React.useState(false);
   const [hideUnknownTokens, setHideUnknownTokens] = React.useState(true);
-  const { isReputationCheckEnabled, toggleReputationCheck } = useReputation();
   
   React.useEffect(() => {
     // If cryptocurrencies load after initial render, update selected network
@@ -358,17 +355,6 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
                   checked={theme === 'dark'}
                   onCheckedChange={toggleTheme}
                   disabled={!mounted}
-                />
-              </DropdownMenuItem>
-               <DropdownMenuItem onSelect={(e) => e.preventDefault()} className="flex items-center justify-between">
-                <Label htmlFor="reputation-alert" className="font-normal cursor-pointer flex items-center gap-2">
-                  <ShieldAlert className="h-4 w-4" />
-                  <span>{t('Header.reputationAlert')}</span>
-                </Label>
-                <Switch
-                  id="reputation-alert"
-                  checked={isReputationCheckEnabled}
-                  onCheckedChange={toggleReputationCheck}
                 />
               </DropdownMenuItem>
               <DropdownMenuItem onSelect={(e) => e.preventDefault()} className="flex items-center justify-between">

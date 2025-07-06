@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useState, useEffect, useMemo, useRef } from "react";
+import { useState, useEffect, useMemo } from "react";
 import {
   Card,
   CardContent,
@@ -19,7 +19,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ArrowDownUp, Settings, Info, AlertTriangle, Loader2 } from "lucide-react";
+import { ArrowDownUp, Settings, Info } from "lucide-react";
 import type { Cryptocurrency } from "@/lib/types";
 import { WalletConnect } from "./wallet-connect";
 import Image from "next/image";
@@ -37,15 +37,8 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "./ui/alert-dialog";
 import { useToast } from "@/hooks/use-toast";
-import { checkTokenReputation } from "@/ai/flows/check-token-reputation";
-import { useReputation } from "@/hooks/use-reputation";
-import { useAuth } from "@/hooks/use-auth";
 import { useLanguage } from "@/hooks/use-language";
-import { languages } from "@/lib/i18n";
-import { textToSpeech } from "@/ai/flows/text-to-speech";
-import { translateTexts } from "@/ai/flows/translate-text";
 
 export function SwapInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[] }) {
   const [fromToken, setFromToken] = useState<Cryptocurrency>(cryptocurrencies[0]);
@@ -59,13 +52,7 @@ export function SwapInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocu
   const [isSlippageAuto, setIsSlippageAuto] = useState(true);
   const [deadline, setDeadline] = useState("30");
   const { toast } = useToast();
-  const [isChecking, setIsChecking] = useState(false);
-  const [reputationAlert, setReputationAlert] = useState<{ title: string; description: React.ReactNode } | null>(null);
-  const { isReputationCheckEnabled } = useReputation();
-  const { user } = useAuth();
-  const { language } = useLanguage();
-  const audioRef = useRef<HTMLAudioElement>(null);
-
+  const { t } = useLanguage();
 
   const exchangeRate = useMemo(() => {
     if (fromToken?.price > 0 && toToken?.price > 0) {
@@ -168,113 +155,20 @@ export function SwapInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocu
   }
 
   const handleSwapClick = async () => {
-    if (!isWalletConnected || isChecking) return;
-
-    if (!isReputationCheckEnabled) {
-      toast({
-          title: "Swap Initiated (Simulated)",
-          description: "Reputation check was skipped. Your transaction is being processed.",
-      });
-      return;
-    }
-    
-    setIsChecking(true);
-    setReputationAlert(null);
-
-    try {
-        const tokensToCheck = [fromToken, toToken].filter((v, i, a) => a.findIndex(t => (t.id === v.id)) === i); // de-duplicate
-        
-        const reputationPromises = tokensToCheck.map(token => 
-            checkTokenReputation({
-                tokenName: token.name,
-                tokenSymbol: token.symbol,
-            }).then(result => ({ ...result, token }))
-        );
-
-        const results = await Promise.all(reputationPromises);
-        const badTokens = results.filter(r => r.isScamOrScandal);
-
-        if (badTokens.length > 0) {
-            const description = (
-                <div className="space-y-4">
-                    {badTokens.map(({ token, reasoning, sourceUrl }) => (
-                        <div key={token.id}>
-                            <p>
-                                <strong>{token.name} ({token.symbol}):</strong> {reasoning}
-                            </p>
-                            {sourceUrl && (
-                                <p className="text-sm mt-1">
-                                    Source: <a href={sourceUrl} target="_blank" rel="noopener noreferrer" className="text-primary underline hover:text-primary/80 break-all">{sourceUrl}</a>
-                                </p>
-                            )}
-                        </div>
-                    ))}
-                    <p className="mt-4 text-xs text-muted-foreground">
-                        This is for informational purposes only and does not constitute financial advice. Please do your own research before proceeding.
-                    </p>
-                </div>
-            );
-            setReputationAlert({
-                title: 'Reputation Alert',
-                description: description,
-            });
-
-            if (user?.isAdmin || user?.pricingPlan === 'Advanced') {
-                const reasoningText = badTokens.map(t => `${t.token.name}: ${t.reasoning}`).join('. ');
-                
-                let textToSpeak = reasoningText;
-                const targetLangInfo = languages.find(l => l.code === language);
-            
-                if (language !== 'en' && targetLangInfo) {
-                    try {
-                        const translationResult = await translateTexts({
-                            texts: { alert: reasoningText },
-                            targetLanguage: targetLangInfo.englishName,
-                        });
-                        if (translationResult.translations?.alert) {
-                            textToSpeak = translationResult.translations.alert;
-                        }
-                    } catch (e) { console.error("Could not translate alert audio", e); }
-                }
-                
-                try {
-                    const audioResult = await textToSpeech({
-                        text: textToSpeak,
-                        language: targetLangInfo?.englishName,
-                    });
-                    if (audioRef.current && audioResult.media) {
-                        audioRef.current.src = audioResult.media;
-                        audioRef.current.play().catch(e => console.error("Audio playback failed:", e));
-                    }
-                } catch (e) { console.error("Could not generate alert audio", e); }
-            }
-
-        } else {
-            toast({
-                title: "Swap Initiated (Simulated)",
-                description: "Reputation checks passed. Your transaction is being processed.",
-            });
-        }
-    } catch (error) {
-        console.error("Reputation check failed:", error);
-        toast({
-            variant: "destructive",
-            title: "Error",
-            description: "Could not perform reputation check. Please try again.",
-        });
-    } finally {
-        setIsChecking(false);
-    }
+    if (!isWalletConnected) return;
+    toast({
+        title: t('SwapInterface.swapInitiated'),
+        description: t('SwapInterface.reputationPassedSwap'),
+    });
   };
 
   const slippageValueDisplay = parseFloat(slippage) || 0;
 
   return (
-    <>
     <Card className="w-full max-w-md shadow-2xl shadow-primary/10">
       <CardHeader className="relative text-center">
-        <CardTitle>Swap</CardTitle>
-        <CardDescription>Trade tokens in an instant</CardDescription>
+        <CardTitle>{t('SwapInterface.title')}</CardTitle>
+        <CardDescription>{t('SwapInterface.description')}</CardDescription>
         <Popover>
           <PopoverTrigger asChild>
             <Button variant="ghost" size="icon" className="absolute top-4 right-4">
@@ -284,27 +178,27 @@ export function SwapInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocu
           <PopoverContent className="w-80" align="end">
             <div className="grid gap-4">
               <div className="space-y-2">
-                <h4 className="font-medium leading-none">Settings</h4>
+                <h4 className="font-medium leading-none">{t('SwapInterface.settingsTitle')}</h4>
                 <p className="text-sm text-muted-foreground">
-                  Customize your transaction settings.
+                  {t('SwapInterface.settingsDescription')}
                 </p>
               </div>
               <div className="grid gap-2">
                 <div className="flex items-center justify-between">
                   <Label htmlFor="slippage" className="flex items-center gap-1">
-                    Max Slippage
+                    {t('SwapInterface.maxSlippage')}
                     <TooltipProvider>
                       <Tooltip>
                         <TooltipTrigger asChild>
                           <Info className="h-3 w-3 cursor-help" />
                         </TooltipTrigger>
                         <TooltipContent>
-                          <p>Your transaction will revert if the price changes<br/>unfavorably by more than this percentage.</p>
+                          <p>{t('SwapInterface.maxSlippageTooltip')}</p>
                         </TooltipContent>
                       </Tooltip>
                     </TooltipProvider>
                   </Label>
-                  <Button variant={isSlippageAuto ? 'secondary' : 'ghost'} size="sm" onClick={handleAutoSlippage} className="h-7">Auto</Button>
+                  <Button variant={isSlippageAuto ? 'secondary' : 'ghost'} size="sm" onClick={handleAutoSlippage} className="h-7">{t('SwapInterface.auto')}</Button>
                 </div>
                 <div className="relative">
                   <Input
@@ -320,14 +214,14 @@ export function SwapInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocu
               <div className="grid gap-2">
                 <div className="flex items-center justify-between">
                   <Label htmlFor="deadline" className="flex items-center gap-1">
-                    Swap Deadline
+                    {t('SwapInterface.swapDeadline')}
                      <TooltipProvider>
                       <Tooltip>
                         <TooltipTrigger asChild>
                            <Info className="h-3 w-3 cursor-help" />
                         </TooltipTrigger>
                         <TooltipContent>
-                          <p>Your transaction will revert if it is pending for<br/>longer than this time.</p>
+                          <p>{t('SwapInterface.swapDeadlineTooltip')}</p>
                         </TooltipContent>
                       </Tooltip>
                     </TooltipProvider>
@@ -341,13 +235,13 @@ export function SwapInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocu
                     onChange={handleDeadlineChange}
                     className="h-10 pr-20 text-sm"
                   />
-                  <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">minutes</span>
+                  <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">{t('SwapInterface.minutes')}</span>
                 </div>
               </div>
                <div className="grid gap-2">
                 <div className="flex items-center justify-between">
                   <Label htmlFor="trade-options" className="flex items-center gap-1">
-                    Trade Options
+                    {t('SwapInterface.tradeOptions')}
                   </Label>
                 </div>
                 <Input
@@ -365,8 +259,8 @@ export function SwapInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocu
         {/* From Token */}
         <div className="p-4 rounded-lg bg-[#f8fafc] dark:bg-secondary/50 border">
           <div className="flex justify-between items-center mb-1">
-            <label className="text-sm text-muted-foreground" htmlFor="from-input">From</label>
-            <span className="text-sm text-muted-foreground">Sell</span>
+            <label className="text-sm text-muted-foreground" htmlFor="from-input">{t('SwapInterface.from')}</label>
+            <span className="text-sm text-muted-foreground">{t('SwapInterface.sell')}</span>
           </div>
           <div className="flex items-center gap-2">
             <Input id="from-input" type="text" placeholder="0" className="text-3xl h-12 bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0 p-0" value={fromAmount} onChange={handleFromAmountChange} />
@@ -413,8 +307,8 @@ export function SwapInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocu
         {/* To Token */}
         <div className="p-4 rounded-lg bg-[#f8fafc] dark:bg-secondary/50 border">
           <div className="flex justify-between items-center mb-1">
-            <label className="text-sm text-muted-foreground" htmlFor="to-input">To</label>
-            <span className="text-sm text-muted-foreground">Buy</span>
+            <label className="text-sm text-muted-foreground" htmlFor="to-input">{t('SwapInterface.to')}</label>
+            <span className="text-sm text-muted-foreground">{t('SwapInterface.buy')}</span>
           </div>
           <div className="flex items-center gap-2">
             <Input id="to-input" type="text" placeholder="0" className="text-3xl h-12 bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0 p-0" value={toAmount} onChange={handleToAmountChange}/>
@@ -454,22 +348,22 @@ export function SwapInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocu
       <CardFooter className="flex-col gap-4">
         <div className="w-full">
             {isWalletConnected ? (
-               <Button className="w-full h-12 text-lg" onClick={handleSwapClick} disabled={isChecking}>
-                  {isChecking ? <Loader2 className="h-6 w-6 animate-spin" /> : "Swap"}
+               <Button className="w-full h-12 text-lg" onClick={handleSwapClick}>
+                  {t('TradeNav.swap')}
                </Button>
             ) : (
                 <WalletConnect>
-                    <Button className="w-full h-12 text-lg">Connect Wallet</Button>
+                    <Button className="w-full h-12 text-lg">{t('Header.connectWallet')}</Button>
                 </WalletConnect>
             )}
         </div>
         <div className="w-full flex flex-col gap-1 text-sm text-muted-foreground">
             <div className="flex justify-between">
-                <span>Price</span>
+                <span>{t('SwapInterface.price')}</span>
                 <span>{exchangeRate > 0 ? `1 ${fromToken.symbol} ≈ ${exchangeRate.toFixed(4)} ${toToken.symbol}` : "-"}</span>
             </div>
             <div className="flex justify-between">
-                <span>Price Impact</span>
+                <span>{t('SwapInterface.priceImpact')}</span>
                 <span className={cn({
                     "text-green-500": priceImpact !== null && priceImpact < 1,
                     "text-destructive": priceImpact !== null && priceImpact >= 3,
@@ -478,48 +372,18 @@ export function SwapInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocu
                 </span>
             </div>
             <div className="flex justify-between">
-                <span>Estimated Gas</span>
+                <span>{t('SwapInterface.estimatedGas')}</span>
                 <span>{gasEstimate}</span>
             </div>
             <div className="flex justify-between">
-                <span>Slippage Tolerance (%)</span>
+                <span>{t('SwapInterface.slippageTolerance')}</span>
                 <span>{slippageValueDisplay}%</span>
             </div>
         </div>
         <p className="text-xs text-muted-foreground/80 text-center">
-            Estimates are based on real-time API data but market conditions can change rapidly. Slippage may occur.
+            {t('SwapInterface.estimatesDisclaimer')}
         </p>
       </CardFooter>
     </Card>
-
-    <AlertDialog open={!!reputationAlert} onOpenChange={(open) => !open && setReputationAlert(null)}>
-        <AlertDialogContent>
-            <AlertDialogHeader>
-                <AlertDialogTitle className="flex items-center gap-2">
-                    <AlertTriangle className="h-6 w-6 text-destructive" />
-                    <span>{reputationAlert?.title}</span>
-                </AlertDialogTitle>
-                <AlertDialogDescription asChild>
-                    <div className="pt-4 text-base">
-                        {reputationAlert?.description}
-                    </div>
-                </AlertDialogDescription>
-            </AlertDialogHeader>
-            <AlertDialogFooter>
-                <AlertDialogCancel onClick={() => setReputationAlert(null)}>Cancel Swap</AlertDialogCancel>
-                <AlertDialogAction onClick={() => {
-                    toast({
-                        title: "Swap Initiated (Simulated)",
-                        description: "You have acknowledged the risk. Your transaction is being processed.",
-                    });
-                    setReputationAlert(null);
-                }}>
-                    Acknowledge and Continue
-                </AlertDialogAction>
-            </AlertDialogFooter>
-        </AlertDialogContent>
-    </AlertDialog>
-    <audio ref={audioRef} className="hidden" />
-    </>
   );
 }

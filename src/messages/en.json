@@ -291,12 +291,7 @@
     "askMeAbout": "Ask me about...",
     "topics": "Blockchain, DeFi, Crypto, NFT, or AI!",
     "errorResponse": "I'm having trouble generating a response right now. Please try a different question.",
-    "connectionError": "Sorry, I'm having trouble connecting right now. Please try again later.",
-    "micPermissionDenied": "Microphone access was denied. Please enable it in your browser settings.",
-    "transcriptionFailed": "Sorry, I couldn't understand that. Please try speaking again.",
-    "micNotSupported": "Your browser does not support microphone recording.",
-    "recordMessage": "Record message",
-    "stopRecording": "Stop recording"
+    "connectionError": "Sorry, I'm having trouble connecting right now. Please try again later."
   },
   "WalletConnect": {
     "title": "Connect a wallet",

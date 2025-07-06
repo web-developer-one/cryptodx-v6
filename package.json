@@ -4,8 +4,6 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "genkit:dev": "genkit start -- tsx src/ai/dev.ts",
-    "genkit:watch": "genkit start -- tsx --watch src/ai/dev.ts",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -13,8 +11,6 @@
   },
   "dependencies": {
     "@firebase/auth": "^1.10.0",
-    "@genkit-ai/googleai": "0.4.0",
-    "@genkit-ai/next": "0.4.0",
     "@hookform/resolvers": "3.9.0",
     "@paypal/checkout-server-sdk": "^1.0.3",
     "@paypal/react-paypal-js": "^8.5.0",
@@ -46,7 +42,6 @@
     "embla-carousel-react": "^8.6.0",
     "ethers": "^6.13.1",
     "firebase": "^11.10.0",
-    "genkit": "0.4.0",
     "idb-keyval": "^6.2.1",
     "lucide-react": "^0.475.0",
     "next": "14.2.4",
@@ -57,15 +52,12 @@
     "recharts": "^2.15.1",
     "tailwind-merge": "^3.0.1",
     "tailwindcss-animate": "^1.0.7",
-    "wav": "^1.0.2",
     "zod": "^3.24.2"
   },
   "devDependencies": {
     "@types/node": "^20",
     "@types/react": "18.3.1",
     "@types/react-dom": "18.3.0",
-    "@types/wav": "1.0.1",
-    "genkit-cli": "0.4.0",
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"

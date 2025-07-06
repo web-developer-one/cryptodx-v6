@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -16,17 +16,11 @@ import { checkTokenReputation, CheckTokenReputationOutput } from '@/ai/flows/che
 import type { TokenDetails } from '@/lib/types';
 import { Card, CardContent } from '../ui/card';
 import { useLanguage } from '@/hooks/use-language';
-import { useAuth } from '@/hooks/use-auth';
-import { textToSpeech } from '@/ai/flows/text-to-speech';
-import { translateTexts } from '@/ai/flows/translate-text';
-import { languages } from '@/lib/i18n';
 
 export function ReputationAlert({ token }: { token: TokenDetails }) {
-  const { t, language } = useLanguage();
-  const { user } = useAuth();
+  const { t } = useLanguage();
   const [isLoading, setIsLoading] = useState(true);
   const [reputation, setReputation] = useState<CheckTokenReputationOutput | null>(null);
-  const audioRef = useRef<HTMLAudioElement>(null);
 
   useEffect(() => {
     const getReputation = async () => {
@@ -37,34 +31,6 @@ export function ReputationAlert({ token }: { token: TokenDetails }) {
           tokenSymbol: token.symbol,
         });
         setReputation(result);
-
-        if (result.isScamOrScandal && (user?.isAdmin || user?.pricingPlan === 'Advanced')) {
-          let textToSpeak = result.reasoning;
-          const targetLangInfo = languages.find(l => l.code === language);
-          if (language !== 'en' && targetLangInfo) {
-              try {
-                  const translationResult = await translateTexts({
-                      texts: { alert: result.reasoning },
-                      targetLanguage: targetLangInfo.englishName,
-                  });
-                  if (translationResult.translations?.alert) {
-                      textToSpeak = translationResult.translations.alert;
-                  }
-              } catch (e) { console.error("Could not translate alert audio", e); }
-          }
-
-          try {
-              const audioResult = await textToSpeech({
-                  text: textToSpeak,
-                  language: targetLangInfo?.englishName,
-              });
-              if (audioRef.current && audioResult.media) {
-                  audioRef.current.src = audioResult.media;
-                  audioRef.current.play().catch(e => console.error("Audio playback failed:", e));
-              }
-          } catch (e) { console.error("Could not generate alert audio", e); }
-        }
-
       } catch (error) {
         console.error("Failed to check token reputation:", error);
         // Don't show an error to the user, just fail silently.
@@ -75,7 +41,7 @@ export function ReputationAlert({ token }: { token: TokenDetails }) {
     };
 
     getReputation();
-  }, [token.name, token.symbol, user?.isAdmin, user?.pricingPlan, language]);
+  }, [token.name, token.symbol]);
 
 
   if (isLoading) {
@@ -134,7 +100,6 @@ export function ReputationAlert({ token }: { token: TokenDetails }) {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-      <audio ref={audioRef} className="hidden" />
     </>
   );
 }

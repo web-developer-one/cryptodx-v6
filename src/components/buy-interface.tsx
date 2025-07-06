@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import type { Cryptocurrency } from '@/lib/types';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -10,16 +10,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger } from '@/components/u
 import Image from 'next/image';
 import { useWallet } from '@/hooks/use-wallet';
 import { WalletConnect } from './wallet-connect';
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from './ui/alert-dialog';
 import { useToast } from '@/hooks/use-toast';
-import { checkTokenReputation } from '@/ai/flows/check-token-reputation';
-import { AlertTriangle, Loader2 } from 'lucide-react';
-import { useReputation } from '@/hooks/use-reputation';
 import { useLanguage } from '@/hooks/use-language';
-import { useAuth } from '@/hooks/use-auth';
-import { textToSpeech } from '@/ai/flows/text-to-speech';
-import { translateTexts } from '@/ai/flows/translate-text';
-import { languages } from '@/lib/i18n';
 
 type SupportedCurrency = {
     symbol: string;
@@ -42,19 +34,13 @@ const supportedCurrencies: SupportedCurrency[] = [
 
 
 export function BuyInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[] }) {
-  const { t, language } = useLanguage();
+  const { t } = useLanguage();
   const [toToken, setToToken] = useState<Cryptocurrency>(cryptocurrencies.find(c => c.symbol === 'ETH') || cryptocurrencies[0]);
   const [fromFiat, setFromFiat] = useState<SupportedCurrency>(supportedCurrencies[0]);
   const [fiatAmount, setFiatAmount] = useState<string>('100');
   const [cryptoAmount, setCryptoAmount] = useState<string>('');
   const { isActive: isWalletConnected } = useWallet();
   const { toast } = useToast();
-  const [isChecking, setIsChecking] = useState(false);
-  const [reputationAlert, setReputationAlert] = useState<{ title: string; description: React.ReactNode } | null>(null);
-  const { isReputationCheckEnabled } = useReputation();
-  const { user } = useAuth();
-  const audioRef = useRef<HTMLAudioElement>(null);
-
 
   useEffect(() => {
     if (fiatAmount && toToken?.price > 0 && fromFiat) {
@@ -100,92 +86,14 @@ export function BuyInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocur
   }
 
   const handleBuyClick = async () => {
-    if (!isWalletConnected || isChecking) return;
-    
-    if (!isReputationCheckEnabled) {
-      toast({
-        title: t('BuyInterface.buyInitiated'),
-        description: t('BuyInterface.reputationSkipped'),
-      });
-      return;
-    }
-    
-    setIsChecking(true);
-    setReputationAlert(null);
-
-    try {
-        const result = await checkTokenReputation({
-            tokenName: toToken.name,
-            tokenSymbol: toToken.symbol,
-        });
-
-        if (result.isScamOrScandal) {
-            const description = (
-                <div className="space-y-2">
-                    <p>
-                        <strong>{toToken.name} ({toToken.symbol}):</strong> {result.reasoning}
-                    </p>
-                    {result.sourceUrl && (
-                        <p className="text-sm mt-2">
-                            {t('ReputationAlert.source')}: <a href={result.sourceUrl} target="_blank" rel="noopener noreferrer" className="text-primary underline hover:text-primary/80 break-all">{result.sourceUrl}</a>
-                        </p>
-                    )}
-                    <p className="mt-4 text-xs text-muted-foreground">
-                        {t('BuyInterface.infoDisclaimer')}
-                    </p>
-                </div>
-            );
-            setReputationAlert({
-                title: t('BuyInterface.reputationAlert'),
-                description: description,
-            });
-
-             if (user?.isAdmin || user?.pricingPlan === 'Advanced') {
-                let textToSpeak = result.reasoning;
-                const targetLangInfo = languages.find(l => l.code === language);
-                if (language !== 'en' && targetLangInfo) {
-                    try {
-                        const translationResult = await translateTexts({
-                            texts: { alert: result.reasoning },
-                            targetLanguage: targetLangInfo.englishName,
-                        });
-                        if (translationResult.translations?.alert) {
-                            textToSpeak = translationResult.translations.alert;
-                        }
-                    } catch (e) { console.error("Could not translate alert audio", e); }
-                }
-
-                try {
-                    const audioResult = await textToSpeech({
-                        text: textToSpeak,
-                        language: targetLangInfo?.englishName,
-                    });
-                    if (audioRef.current && audioResult.media) {
-                        audioRef.current.src = audioResult.media;
-                        audioRef.current.play().catch(e => console.error("Audio playback failed:", e));
-                    }
-                } catch (e) { console.error("Could not generate alert audio", e); }
-            }
-        } else {
-            toast({
-                title: t('BuyInterface.buyInitiated'),
-                description: t('BuyInterface.reputationPassed'),
-            });
-        }
-    } catch (error) {
-        console.error("Reputation check failed:", error);
-        toast({
-            variant: "destructive",
-            title: t('Header.settings'),
-            description: t('BuyInterface.reputationCheckFailed'),
-        });
-    } finally {
-        setIsChecking(false);
-    }
+    if (!isWalletConnected) return;
+    toast({
+      title: t('BuyInterface.buyInitiated'),
+      description: t('BuyInterface.reputationSkipped'), // Using existing translation key
+    });
   };
 
   return (
-    <>
     <Card className="w-full max-w-md shadow-2xl shadow-primary/10">
       <CardHeader className="text-center">
         <CardTitle>{t('BuyInterface.title')}</CardTitle>
@@ -261,8 +169,8 @@ export function BuyInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocur
       </CardContent>
       <CardFooter>
         {isWalletConnected ? (
-          <Button className="w-full h-12 text-lg" onClick={handleBuyClick} disabled={isChecking}>
-            {isChecking ? <Loader2 className="h-6 w-6 animate-spin" /> : t('BuyInterface.continue')}
+          <Button className="w-full h-12 text-lg" onClick={handleBuyClick}>
+            {t('BuyInterface.continue')}
           </Button>
         ) : (
           <WalletConnect>
@@ -271,35 +179,5 @@ export function BuyInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocur
         )}
       </CardFooter>
     </Card>
-
-    <AlertDialog open={!!reputationAlert} onOpenChange={(open) => !open && setReputationAlert(null)}>
-        <AlertDialogContent>
-            <AlertDialogHeader>
-                <AlertDialogTitle className="flex items-center gap-2">
-                    <AlertTriangle className="h-6 w-6 text-destructive" />
-                    <span>{reputationAlert?.title}</span>
-                </AlertDialogTitle>
-                <AlertDialogDescription asChild>
-                    <div className="pt-4 text-base">
-                        {reputationAlert?.description}
-                    </div>
-                </AlertDialogDescription>
-            </AlertDialogHeader>
-            <AlertDialogFooter>
-                <AlertDialogCancel onClick={() => setReputationAlert(null)}>{t('SwapInterface.cancel')}</AlertDialogCancel>
-                <AlertDialogAction onClick={() => {
-                    toast({
-                        title: t('BuyInterface.buyInitiated'),
-                        description: t('BuyInterface.acknowledgedRisk'),
-                    });
-                    setReputationAlert(null);
-                }}>
-                    {t('BuyInterface.acknowledgeAndContinue')}
-                </AlertDialogAction>
-            </AlertDialogFooter>
-        </AlertDialogContent>
-    </AlertDialog>
-    <audio ref={audioRef} className="hidden" />
-    </>
   );
 }

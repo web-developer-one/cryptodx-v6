@@ -1,5 +1,5 @@
 import {genkit} from 'genkit';
-import {googleAI as googleAIPlugin} from '@genkit-ai/googleai';
+import {googleAI as googleAIPlugin} from '@genkit-ai/google-ai';
 
 const googleAI = googleAIPlugin();
 
