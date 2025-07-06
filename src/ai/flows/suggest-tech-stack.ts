@@ -48,7 +48,7 @@ const suggestTechStackFlow = ai.defineFlow(
     inputSchema: SuggestTechStackInputSchema,
     outputSchema: SuggestTechStackOutputSchema,
   },
-  async input => {
+  async (input: SuggestTechStackInput) => {
     const {output} = await prompt(input);
     return output!;
   }

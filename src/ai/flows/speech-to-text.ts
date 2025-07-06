@@ -36,7 +36,7 @@ const speechToTextFlow = ai.defineFlow(
     inputSchema: SpeechToTextInputSchema,
     outputSchema: SpeechToTextOutputSchema,
   },
-  async (input) => {
+  async (input: SpeechToTextInput) => {
     const { text } = await ai.generate({
       // Gemini 1.5 Flash is great for multimodal tasks.
       model: 'googleai/gemini-1.5-flash-latest',

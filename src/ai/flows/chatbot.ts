@@ -119,7 +119,7 @@ const cryptoChatFlow = ai.defineFlow(
     inputSchema: CryptoChatInputSchema,
     outputSchema: CryptoChatOutputSchema,
   },
-  async (input) => {
+  async (input: CryptoChatInput) => {
     try {
         const { output } = await prompt(input);
         

@@ -74,7 +74,7 @@ const generateLandingPageFlow = ai.defineFlow(
     inputSchema: GenerateLandingPageInputSchema,
     outputSchema: GenerateLandingPageOutputSchema,
   },
-  async input => {
+  async (input: GenerateLandingPageInput) => {
     const {output} = await prompt(input);
     return output!;
   }

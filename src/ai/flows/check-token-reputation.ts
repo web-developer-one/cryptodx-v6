@@ -60,7 +60,7 @@ const checkTokenReputationFlow = ai.defineFlow(
     inputSchema: CheckTokenReputationInputSchema,
     outputSchema: CheckTokenReputationOutputSchema,
   },
-  async (input) => {
+  async (input: CheckTokenReputationInput) => {
     const { output } = await prompt(input);
     if (output) {
       return output;
