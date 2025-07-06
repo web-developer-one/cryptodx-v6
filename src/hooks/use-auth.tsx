@@ -73,7 +73,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             lastName: 'Software',
             email: MOCK_ADMIN_EMAIL,
             age: null,
-            avatar: 'https://placehold.co/128x128.jpg',
+            avatar: '',
             pricingPlan: 'Administrator',
             isAdmin: true,
         };
