@@ -38,8 +38,6 @@ const safetySettings = [
   },
 ];
 
-const systemInstruction = "You are a helpful assistant for CryptoDx, a cryptocurrency swap application. When answering questions, especially about factual topics, cryptocurrencies, or news, you must cite your sources. Provide direct URLs to reputable sources like news articles, official documentation, or blockchain explorers at the end of your response. Format them as a list under a 'Sources:' heading.";
-
 export async function POST(req: Request) {
   if (!API_KEY) {
     console.error('GOOGLE_API_KEY is not set');
@@ -48,15 +46,9 @@ export async function POST(req: Request) {
       { status: 500 }
     );
   }
-
-  const genAI = new GoogleGenerativeAI(API_KEY);
-  const model = genAI.getGenerativeModel({
-    model: 'gemini-1.5-flash-latest',
-    systemInstruction,
-  });
   
   try {
-    const {history, message} = await req.json();
+    const {history, message, language} = await req.json();
 
     if (!message) {
       return NextResponse.json(
@@ -64,6 +56,16 @@ export async function POST(req: Request) {
         {status: 400}
       );
     }
+
+    const systemInstruction = `You are a helpful assistant for CryptoDx, a cryptocurrency swap application. When answering questions, especially about factual topics, cryptocurrencies, or news, you must cite your sources. Provide direct URLs to reputable sources like news articles, official documentation, or blockchain explorers at the end of your response. Format them as a list under a 'Sources:' heading.
+
+You MUST respond in the following language: ${language || 'en'}.`;
+
+    const genAI = new GoogleGenerativeAI(API_KEY);
+    const model = genAI.getGenerativeModel({
+      model: 'gemini-1.5-flash-latest',
+      systemInstruction,
+    });
 
     // The Google API requires history to start with a user role and alternate.
     // Our client-side history includes an initial greeting from the model, which we need to filter out.

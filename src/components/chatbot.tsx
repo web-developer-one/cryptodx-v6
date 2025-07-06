@@ -50,7 +50,7 @@ const LinkifiedText = ({ text }: { text: string }) => {
 
 
 export function Chatbot() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -88,7 +88,7 @@ export function Chatbot() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ history: messages, message: input }),
+        body: JSON.stringify({ history: messages, message: input, language }),
       });
 
       if (!response.ok) {
