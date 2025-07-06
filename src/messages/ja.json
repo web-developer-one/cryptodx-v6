@@ -69,7 +69,8 @@
     "youPay": "支払い額",
     "youGet": "受取額",
     "continue": "続行",
-    "buyInitiated": "購入開始（シミュレーション）"
+    "buyInitiated": "購入開始（シミュレーション）",
+    "infoDisclaimer": "これは情報提供のみを目的としており、金融アドバイスを構成するものではありません。続行する前にご自身で調査を行ってください。"
   },
   "SellInterface": {
     "title": "仮想通貨を売却",
@@ -225,6 +226,18 @@
     "line": "ライン",
     "candlestick": "ローソク足"
   },
+  "ReputationAlert": {
+    "checking": "評価を確認中...",
+    "checkingDescription": "既知の問題についてトークンの履歴を分析しています。",
+    "clear": "評価クリア",
+    "clearDescription": "スキャンで重大な否定的なイベントは見つかりませんでした。",
+    "alertTitle": "{tokenName} ({tokenSymbol}) の評価アラート",
+    "source": "ソース",
+    "viewSource": "ソースを表示",
+    "reputationCheckFailed": "評価の確認を実行できませんでした。もう一度お試しください。",
+    "dialogTitle": "{tokenName} の評価レポート",
+    "dialogDescription": "このレポートはAIによって生成されたものであり、情報提供のみを目的として使用してください。常に独自の調査を行ってください。"
+  },
   "ApiErrorCard": {
     "errorLoading": "{context}の読み込み中にエラーが発生しました",
     "configErrorTitle": "APIキー設定エラー",
@@ -308,10 +321,7 @@
     "priceImpact": "価格への影響",
     "expectedOutput": "期待される出力",
     "minReceived": "最低受取額",
-    "outputComparison": "出力の比較",
-    "chartLabelOutput": "出力",
-    "chartLegendExpected": "期待値",
-    "chartLegendMinReceived": "保証最低額"
+    "outputComparison": "出力の比較"
   },
   "SpotPage": {
     "title": "スポット取引",

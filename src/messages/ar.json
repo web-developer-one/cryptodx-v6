@@ -69,7 +69,8 @@
     "youPay": "أنت تدفع",
     "youGet": "أنت تحصل على",
     "continue": "متابعة",
-    "buyInitiated": "تم بدء الشراء (محاكاة)"
+    "buyInitiated": "تم بدء الشراء (محاكاة)",
+    "infoDisclaimer": "هذا لأغراض إعلامية فقط ولا يشكل نصيحة مالية. يرجى إجراء البحث الخاص بك قبل المتابعة."
   },
   "SellInterface": {
     "title": "بيع العملات المشفرة",
@@ -225,6 +226,18 @@
     "line": "خط",
     "candlestick": "شمعدان"
   },
+  "ReputationAlert": {
+    "checking": "جارٍ التحقق من السمعة...",
+    "checkingDescription": "تحليل سجل الرمز بحثًا عن المشكلات المعروفة.",
+    "clear": "سمعة نظيفة",
+    "clearDescription": "لم يتم العثور على أحداث سلبية كبيرة في فحصنا.",
+    "alertTitle": "تنبيه السمعة لـ {tokenName} ({tokenSymbol})",
+    "source": "المصدر",
+    "viewSource": "عرض المصدر",
+    "reputationCheckFailed": "تعذر إجراء فحص السمعة. يرجى المحاولة مرة أخرى.",
+    "dialogTitle": "تقرير السمعة لـ {tokenName}",
+    "dialogDescription": "هذا التقرير تم إنشاؤه بواسطة الذكاء الاصطناعي ويجب استخدامه لأغراض إعلامية فقط. قم دائمًا بإجراء البحث الخاص بك."
+  },
   "ApiErrorCard": {
     "errorLoading": "خطأ في تحميل {context}",
     "configErrorTitle": "خطأ في تكوين مفتاح API",
@@ -308,10 +321,7 @@
     "priceImpact": "تأثير السعر",
     "expectedOutput": "الناتج المتوقع",
     "minReceived": "الحد الأدنى المستلم",
-    "outputComparison": "مقارنة الناتج",
-    "chartLabelOutput": "الناتج",
-    "chartLegendExpected": "المتوقع",
-    "chartLegendMinReceived": "الحد الأدنى المضمون"
+    "outputComparison": "مقارنة الناتج"
   },
   "SpotPage": {
     "title": "التداول الفوري",

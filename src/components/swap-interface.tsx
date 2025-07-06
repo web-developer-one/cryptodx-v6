@@ -39,6 +39,7 @@ import {
 } from "@/components/ui/tooltip";
 import { useToast } from "@/hooks/use-toast";
 import { useLanguage } from "@/hooks/use-language";
+import { ReputationDialog } from "./reputation-dialog";
 
 export function SwapInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[] }) {
   const [fromToken, setFromToken] = useState<Cryptocurrency>(cryptocurrencies[0]);
@@ -258,7 +259,10 @@ export function SwapInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocu
         {/* From Token */}
         <div className="p-4 rounded-lg bg-[#f8fafc] dark:bg-secondary/50 border">
           <div className="flex justify-between items-center mb-1">
-            <label className="text-sm text-muted-foreground" htmlFor="from-input">{t('SwapInterface.from')}</label>
+             <div className="flex items-center gap-1">
+                <label className="text-sm text-muted-foreground" htmlFor="from-input">{t('SwapInterface.from')}</label>
+                <ReputationDialog token={fromToken}/>
+            </div>
             <span className="text-sm text-muted-foreground">{t('SwapInterface.sell')}</span>
           </div>
           <div className="flex items-center gap-2">
@@ -306,7 +310,10 @@ export function SwapInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocu
         {/* To Token */}
         <div className="p-4 rounded-lg bg-[#f8fafc] dark:bg-secondary/50 border">
           <div className="flex justify-between items-center mb-1">
-            <label className="text-sm text-muted-foreground" htmlFor="to-input">{t('SwapInterface.to')}</label>
+            <div className="flex items-center gap-1">
+                <label className="text-sm text-muted-foreground" htmlFor="to-input">{t('SwapInterface.to')}</label>
+                <ReputationDialog token={toToken}/>
+            </div>
             <span className="text-sm text-muted-foreground">{t('SwapInterface.buy')}</span>
           </div>
           <div className="flex items-center gap-2">

@@ -69,7 +69,8 @@
     "youPay": "Vous payez",
     "youGet": "Vous recevez",
     "continue": "Continuer",
-    "buyInitiated": "Achat Initié (Simulé)"
+    "buyInitiated": "Achat Initié (Simulé)",
+    "infoDisclaimer": "Ceci est à titre informatif uniquement et ne constitue pas un conseil financier. Veuillez faire vos propres recherches avant de continuer."
   },
   "SellInterface": {
     "title": "Vendre des Cryptos",
@@ -225,6 +226,18 @@
     "line": "Ligne",
     "candlestick": "Chandelier"
   },
+  "ReputationAlert": {
+    "checking": "Vérification de la Réputation...",
+    "checkingDescription": "Analyse de l'historique du jeton pour les problèmes connus.",
+    "clear": "Réputation Claire",
+    "clearDescription": "Aucun événement négatif significatif trouvé dans notre analyse.",
+    "alertTitle": "Alerte de Réputation pour {tokenName} ({tokenSymbol})",
+    "source": "Source",
+    "viewSource": "Voir la Source",
+    "reputationCheckFailed": "Impossible d'effectuer la vérification de la réputation. Veuillez réessayer.",
+    "dialogTitle": "Rapport de Réputation pour {tokenName}",
+    "dialogDescription": "Ce rapport est généré par une IA et doit être utilisé à des fins d'information uniquement. Faites toujours vos propres recherches."
+  },
   "ApiErrorCard": {
     "errorLoading": "Erreur lors du Chargement de {context}",
     "configErrorTitle": "Erreur de Configuration de la Clé API",
@@ -308,10 +321,7 @@
     "priceImpact": "Impact sur le Prix",
     "expectedOutput": "Sortie Attendue",
     "minReceived": "Minimum Reçu",
-    "outputComparison": "Comparaison des Sorties",
-    "chartLabelOutput": "Sortie",
-    "chartLegendExpected": "Attendu",
-    "chartLegendMinReceived": "Minimum Garanti"
+    "outputComparison": "Comparaison des Sorties"
   },
   "SpotPage": {
     "title": "Trading au Comptant (Spot)",

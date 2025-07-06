@@ -69,7 +69,8 @@
     "youPay": "您支付",
     "youGet": "您获得",
     "continue": "继续",
-    "buyInitiated": "购买已启动（模拟）"
+    "buyInitiated": "购买已启动（模拟）",
+    "infoDisclaimer": "这仅供参考，不构成财务建议。在继续操作之前，请自行研究。"
   },
   "SellInterface": {
     "title": "出售加密货币",
@@ -225,6 +226,18 @@
     "line": "折线图",
     "candlestick": "K线图"
   },
+  "ReputationAlert": {
+    "checking": "正在检查声誉...",
+    "checkingDescription": "分析代币历史记录以查找已知问题。",
+    "clear": "声誉良好",
+    "clearDescription": "在我们的扫描中未发现重大负面事件。",
+    "alertTitle": "{tokenName}（{tokenSymbol}）的声誉警报",
+    "source": "来源",
+    "viewSource": "查看来源",
+    "reputationCheckFailed": "无法执行声誉检查。请重试。",
+    "dialogTitle": "{tokenName}的声誉报告",
+    "dialogDescription": "此报告由人工智能生成，仅供参考。请务必自行研究。"
+  },
   "ApiErrorCard": {
     "errorLoading": "加载{context}时出错",
     "configErrorTitle": "API密钥配置错误",
@@ -308,10 +321,7 @@
     "priceImpact": "价格影响",
     "expectedOutput": "预期输出",
     "minReceived": "最低收到",
-    "outputComparison": "输出比较",
-    "chartLabelOutput": "输出",
-    "chartLegendExpected": "预期",
-    "chartLegendMinReceived": "保证最低"
+    "outputComparison": "输出比较"
   },
   "SpotPage": {
     "title": "现货交易",

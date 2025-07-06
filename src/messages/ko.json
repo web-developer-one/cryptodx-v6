@@ -69,7 +69,8 @@
     "youPay": "지불 금액",
     "youGet": "받는 금액",
     "continue": "계속",
-    "buyInitiated": "구매 시작됨(시뮬레이션)"
+    "buyInitiated": "구매 시작됨(시뮬레이션)",
+    "infoDisclaimer": "이 정보는 정보 제공 목적으로만 제공되며 재정적 조언을 구성하지 않습니다. 진행하기 전에 직접 조사하십시오."
   },
   "SellInterface": {
     "title": "암호화폐 판매",
@@ -225,6 +226,18 @@
     "line": "선",
     "candlestick": "캔들스틱"
   },
+  "ReputationAlert": {
+    "checking": "평판 확인 중...",
+    "checkingDescription": "알려진 문제에 대한 토큰 기록 분석 중.",
+    "clear": "평판 양호",
+    "clearDescription": "스캔에서 중요한 부정적인 이벤트가 발견되지 않았습니다.",
+    "alertTitle": "{tokenName} ({tokenSymbol})에 대한 평판 경고",
+    "source": "출처",
+    "viewSource": "출처 보기",
+    "reputationCheckFailed": "평판 확인을 수행할 수 없습니다. 다시 시도해 주세요.",
+    "dialogTitle": "{tokenName}에 대한 평판 보고서",
+    "dialogDescription": "이 보고서는 AI에 의해 생성되었으며 정보 제공 목적으로만 사용해야 합니다. 항상 직접 조사하십시오."
+  },
   "ApiErrorCard": {
     "errorLoading": "{context} 로드 중 오류",
     "configErrorTitle": "API 키 구성 오류",
@@ -308,10 +321,7 @@
     "priceImpact": "가격 영향",
     "expectedOutput": "예상 출력",
     "minReceived": "최소 수령액",
-    "outputComparison": "출력 비교",
-    "chartLabelOutput": "출력",
-    "chartLegendExpected": "예상",
-    "chartLegendMinReceived": "보장된 최소"
+    "outputComparison": "출력 비교"
   },
   "SpotPage": {
     "title": "현물 거래",

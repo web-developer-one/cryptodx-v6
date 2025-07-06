@@ -69,7 +69,8 @@
     "youPay": "Tú pagas",
     "youGet": "Tú obtienes",
     "continue": "Continuar",
-    "buyInitiated": "Compra Iniciada (Simulada)"
+    "buyInitiated": "Compra Iniciada (Simulada)",
+    "infoDisclaimer": "Esto es solo para fines informativos y no constituye asesoramiento financiero. Por favor, haga su propia investigación antes de proceder."
   },
   "SellInterface": {
     "title": "Vender Cripto",
@@ -225,6 +226,18 @@
     "line": "Línea",
     "candlestick": "Velas"
   },
+  "ReputationAlert": {
+    "checking": "Comprobando Reputación...",
+    "checkingDescription": "Analizando el historial del token en busca de problemas conocidos.",
+    "clear": "Reputación Limpia",
+    "clearDescription": "No se encontraron eventos negativos significativos en nuestro análisis.",
+    "alertTitle": "Alerta de Reputación para {tokenName} ({tokenSymbol})",
+    "source": "Fuente",
+    "viewSource": "Ver Fuente",
+    "reputationCheckFailed": "No se pudo realizar la comprobación de reputación. Por favor, inténtelo de nuevo.",
+    "dialogTitle": "Informe de Reputación para {tokenName}",
+    "dialogDescription": "Este informe es generado por una IA y debe usarse solo con fines informativos. Siempre haga su propia investigación."
+  },
   "ApiErrorCard": {
     "errorLoading": "Error al Cargar {context}",
     "configErrorTitle": "Error de Configuración de Clave API",
@@ -308,10 +321,7 @@
     "priceImpact": "Impacto en el Precio",
     "expectedOutput": "Salida Esperada",
     "minReceived": "Mínimo Recibido",
-    "outputComparison": "Comparación de Salida",
-    "chartLabelOutput": "Salida",
-    "chartLegendExpected": "Esperado",
-    "chartLegendMinReceived": "Mínimo Garantizado"
+    "outputComparison": "Comparación de Salida"
   },
   "SpotPage": {
     "title": "Comercio al Contado (Spot)",
