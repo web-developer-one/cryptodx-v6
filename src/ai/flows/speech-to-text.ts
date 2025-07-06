@@ -7,7 +7,7 @@
  * - SpeechToTextOutput - The return type for the speechToText function.
  */
 
-import {ai, googleAI} from '@/ai/genkit';
+import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 
 const SpeechToTextInputSchema = z.object({
@@ -39,7 +39,7 @@ const speechToTextFlow = ai.defineFlow(
   async (input: SpeechToTextInput) => {
     const { text } = await ai.generate({
       // Gemini 1.5 Flash is great for multimodal tasks.
-      model: googleAI.model('gemini-1.5-flash-latest'),
+      model: 'googleai/gemini-1.5-flash-latest',
       prompt: [
         { media: { url: input.audioDataUri } },
         { text: 'Transcribe the audio. The user can speak in any language, so please auto-detect the language and provide the transcript in that language.' },

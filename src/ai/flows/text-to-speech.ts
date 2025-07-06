@@ -7,7 +7,7 @@
  * - TextToSpeechOutput - The return type for the textToSpeech function.
  */
 
-import {ai, googleAI} from '@/ai/genkit';
+import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 import wav from 'wav';
 
@@ -34,7 +34,7 @@ const textToSpeechFlow = ai.defineFlow(
   },
   async (input: TextToSpeechInput) => {
     const { media } = await ai.generate({
-      model: googleAI.model('gemini-2.5-flash-preview-tts'),
+      model: 'googleai/gemini-2.5-flash-preview-tts',
       config: {
         responseModalities: ['AUDIO'],
         speechConfig: {
