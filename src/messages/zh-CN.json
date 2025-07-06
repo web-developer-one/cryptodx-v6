@@ -7,7 +7,6 @@
     "slippage": "滑点",
     "connectWallet": "连接钱包",
     "settings": "设置",
-    "reputationAlert": "声誉警报",
     "hideSmallBalances": "隐藏小额余额",
     "hideUnknownTokens": "隐藏未知代币",
     "language": "语言",
@@ -70,14 +69,7 @@
     "youPay": "您支付",
     "youGet": "您获得",
     "continue": "继续",
-    "buyInitiated": "购买已启动（模拟）",
-    "reputationSkipped": "已跳过声誉检查。正在继续转至支付提供商。",
-    "reputationPassed": "声誉检查通过。正在继续转至支付提供商。",
-    "reputationCheckFailed": "无法执行声誉检查。请重试。",
-    "acknowledgeAndContinue": "确认并继续",
-    "reputationAlert": "声誉警报",
-    "infoDisclaimer": "这仅供参考，不构成财务建议。在继续操作前，请自行研究。",
-    "acknowledgedRisk": "您已确认风险。正在继续转至支付提供商。"
+    "buyInitiated": "购买已启动（模拟）"
   },
   "SellInterface": {
     "title": "出售加密货币",
@@ -106,8 +98,6 @@
     "estimatedGas": "预估Gas费",
     "slippageTolerance": "滑点容差（%）",
     "swapInitiated": "兑换已启动（模拟）",
-    "reputationPassedSwap": "声誉检查通过。您的交易正在处理中。",
-    "acknowledgedRiskSwap": "您已确认风险。您的交易正在处理中。",
     "estimatesDisclaimer": "估算基于实时API数据，但市场状况可能迅速变化。可能会发生滑点。",
     "cancel": "取消"
   },
@@ -234,15 +224,6 @@
     "trade": "交易{symbol}",
     "line": "折线图",
     "candlestick": "K线图"
-  },
-  "ReputationAlert": {
-    "checking": "正在检查声誉...",
-    "checkingDescription": "正在分析代币历史以查找已知问题。",
-    "clear": "声誉良好",
-    "clearDescription": "我们的扫描未发现重大负面事件。",
-    "alertTitle": "{tokenName} ({tokenSymbol}) 的声誉警报",
-    "source": "来源",
-    "viewSource": "查看来源"
   },
   "ApiErrorCard": {
     "errorLoading": "加载{context}时出错",

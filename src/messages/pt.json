@@ -7,7 +7,6 @@
     "slippage": "Slippage",
     "connectWallet": "Conectar Carteira",
     "settings": "Configurações",
-    "reputationAlert": "Alerta de Reputação",
     "hideSmallBalances": "Ocultar saldos pequenos",
     "hideUnknownTokens": "Ocultar tokens desconhecidos",
     "language": "Idioma",
@@ -70,14 +69,7 @@
     "youPay": "Você paga",
     "youGet": "Você recebe",
     "continue": "Continuar",
-    "buyInitiated": "Compra Iniciada (Simulada)",
-    "reputationSkipped": "A verificação de reputação foi ignorada. Continuando para o provedor de pagamento.",
-    "reputationPassed": "Verificação de reputação aprovada. Continuando para o provedor de pagamento.",
-    "reputationCheckFailed": "Não foi possível realizar a verificação de reputação. Por favor, tente novamente.",
-    "acknowledgeAndContinue": "Reconhecer e Continuar",
-    "reputationAlert": "Alerta de Reputação",
-    "infoDisclaimer": "Isso é apenas para fins informativos e não constitui aconselhamento financeiro. Por favor, faça sua própria pesquisa antes de prosseguir.",
-    "acknowledgedRisk": "Você reconheceu o risco. Continuando para o provedor de pagamento."
+    "buyInitiated": "Compra Iniciada (Simulada)"
   },
   "SellInterface": {
     "title": "Vender Cripto",
@@ -106,8 +98,6 @@
     "estimatedGas": "Gás Estimado",
     "slippageTolerance": "Tolerância de Slippage (%)",
     "swapInitiated": "Troca Iniciada (Simulada)",
-    "reputationPassedSwap": "Verificações de reputação aprovadas. Sua transação está sendo processada.",
-    "acknowledgedRiskSwap": "Você reconheceu o risco. Sua transação está sendo processada.",
     "estimatesDisclaimer": "As estimativas são baseadas em dados de API em tempo real, mas as condições de mercado podem mudar rapidamente. Pode ocorrer slippage.",
     "cancel": "Cancelar"
   },
@@ -234,15 +224,6 @@
     "trade": "Negociar {symbol}",
     "line": "Linha",
     "candlestick": "Candlestick"
-  },
-  "ReputationAlert": {
-    "checking": "Verificando Reputação...",
-    "checkingDescription": "Analisando o histórico do token para problemas conhecidos.",
-    "clear": "Reputação Limpa",
-    "clearDescription": "Nenhum evento negativo significativo encontrado em nossa varredura.",
-    "alertTitle": "Alerta de Reputação para {tokenName} ({tokenSymbol})",
-    "source": "Fonte",
-    "viewSource": "Ver Fonte"
   },
   "ApiErrorCard": {
     "errorLoading": "Erro ao Carregar {context}",

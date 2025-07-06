@@ -7,7 +7,6 @@
     "slippage": "Glissement",
     "connectWallet": "Connecter le Portefeuille",
     "settings": "Paramètres",
-    "reputationAlert": "Alerte de Réputation",
     "hideSmallBalances": "Masquer les petits soldes",
     "hideUnknownTokens": "Masquer les jetons inconnus",
     "language": "Langue",
@@ -70,14 +69,7 @@
     "youPay": "Vous payez",
     "youGet": "Vous recevez",
     "continue": "Continuer",
-    "buyInitiated": "Achat Initié (Simulé)",
-    "reputationSkipped": "La vérification de la réputation a été ignorée. Continuation vers le fournisseur de paiement.",
-    "reputationPassed": "Vérification de la réputation réussie. Continuation vers le fournisseur de paiement.",
-    "reputationCheckFailed": "Impossible d'effectuer la vérification de la réputation. Veuillez réessayer.",
-    "acknowledgeAndContinue": "Reconnaître et Continuer",
-    "reputationAlert": "Alerte de Réputation",
-    "infoDisclaimer": "Ceci est à titre informatif uniquement et ne constitue pas un conseil financier. Veuillez faire vos propres recherches avant de continuer.",
-    "acknowledgedRisk": "Vous avez reconnu le risque. Continuation vers le fournisseur de paiement."
+    "buyInitiated": "Achat Initié (Simulé)"
   },
   "SellInterface": {
     "title": "Vendre des Cryptos",
@@ -106,8 +98,6 @@
     "estimatedGas": "Gaz Estimé",
     "slippageTolerance": "Tolérance de Glissement (%)",
     "swapInitiated": "Swap Initié (Simulé)",
-    "reputationPassedSwap": "Vérifications de réputation réussies. Votre transaction est en cours de traitement.",
-    "acknowledgedRiskSwap": "Vous avez reconnu le risque. Votre transaction est en cours de traitement.",
     "estimatesDisclaimer": "Les estimations sont basées sur des données d'API en temps réel mais les conditions du marché peuvent changer rapidement. Un glissement peut se produire.",
     "cancel": "Annuler"
   },
@@ -234,15 +224,6 @@
     "trade": "Échanger {symbol}",
     "line": "Ligne",
     "candlestick": "Chandelier"
-  },
-  "ReputationAlert": {
-    "checking": "Vérification de la réputation...",
-    "checkingDescription": "Analyse de l'historique du jeton pour les problèmes connus.",
-    "clear": "Réputation Claire",
-    "clearDescription": "Aucun événement négatif significatif trouvé dans notre analyse.",
-    "alertTitle": "Alerte de réputation pour {tokenName} ({tokenSymbol})",
-    "source": "Source",
-    "viewSource": "Voir la Source"
   },
   "ApiErrorCard": {
     "errorLoading": "Erreur lors du Chargement de {context}",

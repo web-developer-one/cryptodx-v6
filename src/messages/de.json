@@ -7,7 +7,6 @@
     "slippage": "Slippage",
     "connectWallet": "Wallet verbinden",
     "settings": "Einstellungen",
-    "reputationAlert": "Reputationswarnung",
     "hideSmallBalances": "Kleine Salden ausblenden",
     "hideUnknownTokens": "Unbekannte Token ausblenden",
     "language": "Sprache",
@@ -70,14 +69,7 @@
     "youPay": "Sie zahlen",
     "youGet": "Sie erhalten",
     "continue": "Weiter",
-    "buyInitiated": "Kauf eingeleitet (simuliert)",
-    "reputationSkipped": "Reputationsprüfung wurde übersprungen. Weiterleitung zum Zahlungsanbieter.",
-    "reputationPassed": "Reputationsprüfung bestanden. Weiterleitung zum Zahlungsanbieter.",
-    "reputationCheckFailed": "Reputationsprüfung konnte nicht durchgeführt werden. Bitte versuchen Sie es erneut.",
-    "acknowledgeAndContinue": "Anerkennen und Fortfahren",
-    "reputationAlert": "Reputationswarnung",
-    "infoDisclaimer": "Dies dient nur zu Informationszwecken und stellt keine Finanzberatung dar. Bitte recherchieren Sie selbst, bevor Sie fortfahren.",
-    "acknowledgedRisk": "Sie haben das Risiko anerkannt. Weiterleitung zum Zahlungsanbieter."
+    "buyInitiated": "Kauf eingeleitet (simuliert)"
   },
   "SellInterface": {
     "title": "Krypto verkaufen",
@@ -106,8 +98,6 @@
     "estimatedGas": "Geschätztes Gas",
     "slippageTolerance": "Slippage-Toleranz (%)",
     "swapInitiated": "Tausch eingeleitet (simuliert)",
-    "reputationPassedSwap": "Reputationsprüfungen bestanden. Ihre Transaktion wird bearbeitet.",
-    "acknowledgedRiskSwap": "Sie haben das Risiko anerkannt. Ihre Transaktion wird bearbeitet.",
     "estimatesDisclaimer": "Schätzungen basieren auf Echtzeit-API-Daten, aber die Marktbedingungen können sich schnell ändern. Slippage kann auftreten.",
     "cancel": "Abbrechen"
   },
@@ -234,15 +224,6 @@
     "trade": "{symbol} handeln",
     "line": "Linie",
     "candlestick": "Candlestick"
-  },
-  "ReputationAlert": {
-    "checking": "Reputation wird geprüft...",
-    "checkingDescription": "Analyse der Token-Historie auf bekannte Probleme.",
-    "clear": "Reputation einwandfrei",
-    "clearDescription": "In unserem Scan wurden keine signifikanten negativen Ereignisse gefunden.",
-    "alertTitle": "Reputationswarnung für {tokenName} ({tokenSymbol})",
-    "source": "Quelle",
-    "viewSource": "Quelle anzeigen"
   },
   "ApiErrorCard": {
     "errorLoading": "Fehler beim Laden von {context}",
