@@ -374,7 +374,7 @@
     "lastName": "Nom",
     "age": "Âge",
     "avatar": "Sélectionner un Avatar",
-    "role": "Rôle",
+    "pricePlan": "Plan Tarifaire",
     "saveButton": "Enregistrer le Profil",
     "saving": "Enregistrement...",
     "saveSuccessTitle": "Profil Mis à Jour",

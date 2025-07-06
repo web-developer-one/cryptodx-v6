@@ -374,7 +374,7 @@
     "lastName": "성",
     "age": "나이",
     "avatar": "아바타 선택",
-    "role": "역할",
+    "pricePlan": "요금제",
     "saveButton": "프로필 저장",
     "saving": "저장 중...",
     "saveSuccessTitle": "프로필 업데이트됨",

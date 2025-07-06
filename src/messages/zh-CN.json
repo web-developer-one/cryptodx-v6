@@ -374,7 +374,7 @@
     "lastName": "姓氏",
     "age": "年龄",
     "avatar": "选择头像",
-    "role": "角色",
+    "pricePlan": "价格方案",
     "saveButton": "保存个人资料",
     "saving": "保存中...",
     "saveSuccessTitle": "个人资料已更新",

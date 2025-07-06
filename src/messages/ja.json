@@ -374,7 +374,7 @@
     "lastName": "姓",
     "age": "年齢",
     "avatar": "アバターを選択",
-    "role": "役割",
+    "pricePlan": "料金プラン",
     "saveButton": "プロフィールを保存",
     "saving": "保存中...",
     "saveSuccessTitle": "プロフィール更新済み",

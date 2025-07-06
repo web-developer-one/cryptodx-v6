@@ -389,7 +389,7 @@
     "lastName": "Last Name",
     "age": "Age",
     "avatar": "Select Avatar",
-    "role": "Role",
+    "pricePlan": "Price Plan",
     "saveButton": "Save Profile",
     "saving": "Saving...",
     "saveSuccessTitle": "Profile Updated",

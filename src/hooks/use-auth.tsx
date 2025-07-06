@@ -116,7 +116,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       firstName: '',
       lastName: '',
       age: null,
-      avatar: 'https://placehold.co/128x128.jpg',
+      avatar: '',
       pricingPlan: 'Free',
       isAdmin: false,
     };

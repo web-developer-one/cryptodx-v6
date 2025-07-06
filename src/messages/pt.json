@@ -374,7 +374,7 @@
     "lastName": "Sobrenome",
     "age": "Idade",
     "avatar": "Selecionar Avatar",
-    "role": "Função",
+    "pricePlan": "Plano de Preços",
     "saveButton": "Salvar Perfil",
     "saving": "Salvando...",
     "saveSuccessTitle": "Perfil Atualizado",
