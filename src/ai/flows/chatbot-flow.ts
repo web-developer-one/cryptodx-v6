@@ -1,4 +1,3 @@
-
 'use server';
 
 import {ai} from '@/ai/genkit';
@@ -62,11 +61,37 @@ export type ChatbotOutput = z.infer<typeof ChatbotOutputSchema>;
 
 export async function askChatbot(input: ChatbotInput): Promise<ChatbotOutput> {
   // AI features are disabled due to a persistent package installation issue.
-  // Return a static error message to the user.
-  console.warn("askChatbot was called, but AI features are disabled.");
+  // This function provides simple, keyword-based responses as a fallback.
+  console.warn("askChatbot was called, but AI features are disabled. Using fallback responses.");
+
+  const message = input.message.toLowerCase();
+
+  if (message.includes('hello') || message.includes('hi')) {
+    return {
+      response: "Hello! How can I help you with your crypto questions today?",
+    };
+  }
+  if (message.includes('bitcoin')) {
+    return {
+      response:
+        'Bitcoin is the first decentralized cryptocurrency. It was created in 2009 by an unknown person or group of people using the name Satoshi Nakamoto.',
+    };
+  }
+  if (message.includes('ethereum')) {
+    return {
+      response:
+        'Ethereum is a decentralized, open-source blockchain with smart contract functionality. Ether (ETH) is the native cryptocurrency of the platform.',
+    };
+  }
+  if (message.includes('what can you do') || message.includes('help')) {
+    return {
+        response: "Right now, my advanced AI capabilities are offline. I can provide some basic information about Bitcoin and Ethereum. Please try asking me about one of those."
+    }
+  }
+
   return {
     response:
-      "I'm sorry, the chatbot is currently unavailable due to a configuration issue. Please try again later.",
+      "I'm sorry, I can only answer very basic questions right now. My advanced AI features are temporarily disabled. Try asking 'What is Bitcoin?'.",
     audio: undefined,
   };
 }
