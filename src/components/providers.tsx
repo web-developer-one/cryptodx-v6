@@ -8,12 +8,12 @@ import { AuthProvider } from '@/hooks/use-auth';
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
-    <AuthProvider>
-        <WalletProvider>
-            <LanguageProvider>
-            {children}
-            </LanguageProvider>
-        </WalletProvider>
-    </AuthProvider>
+    <LanguageProvider>
+      <AuthProvider>
+          <WalletProvider>
+              {children}
+          </WalletProvider>
+      </AuthProvider>
+    </LanguageProvider>
   );
 }
