@@ -62,10 +62,16 @@ export async function POST(req: Request) {
       );
     }
 
+    // The Google API requires history to start with a user role and alternate.
+    // Our client-side history includes an initial greeting from the model, which we need to filter out.
+    const startOfConversation = history.findIndex((m: Content) => m.role === 'user');
+    const validHistory = startOfConversation === -1 ? [] : history.slice(startOfConversation);
+
+
     const chatSession = model.startChat({
       generationConfig,
       safetySettings,
-      history: history as Content[],
+      history: validHistory,
     });
 
     const result = await chatSession.sendMessage(message);
@@ -73,7 +79,6 @@ export async function POST(req: Request) {
 
     return NextResponse.json({
       response: responseText,
-      history: [...history, {role: 'user', parts: [{text: message}]}, {role: 'model', parts: [{text: responseText}]}]
     });
   } catch (error: any) {
     console.error('Error in chat API:', error);
