@@ -8,6 +8,7 @@
     "slippage": "स्लिपेज",
     "connectWallet": "वॉलेट कनेक्ट करें",
     "settings": "सेटिंग्स",
+    "reputationAlert": "प्रतिष्ठा चेतावनी",
     "hideSmallBalances": "छोटे बैलेंस छिपाएँ",
     "hideUnknownTokens": "अज्ञात टोकन छिपाएँ",
     "language": "भाषा",
@@ -16,7 +17,8 @@
     "myAccount": "मेरा खाता",
     "profile": "प्रोफ़ाइल",
     "logout": "लॉग आउट",
-    "login": "लॉग इन"
+    "login": "लॉग इन",
+    "register": "पंजीकरण"
   },
   "HomePage": {
     "title": "सहजता से अपनी क्रिप्टो स्वैप करें",
@@ -70,7 +72,14 @@
     "youPay": "आप भुगतान करते हैं",
     "youGet": "आपको मिलता है",
     "continue": "जारी रखें",
-    "buyInitiated": "खरीद शुरू हुई (नकली)"
+    "buyInitiated": "खरीद शुरू हुई (नकली)",
+    "reputationSkipped": "प्रतिष्ठा जांच छोड़ दी गई। भुगतान प्रदाता के पास आगे बढ़ रहा है।",
+    "reputationPassed": "प्रतिष्ठा जांच पास हुई। भुगतान प्रदाता के पास आगे बढ़ रहा है।",
+    "reputationCheckFailed": "प्रतिष्ठा जांच नहीं की जा सकी। कृपया पुनः प्रयास करें।",
+    "acknowledgeAndContinue": "स्वीकार करें और जारी रखें",
+    "reputationAlert": "प्रतिष्ठा चेतावनी",
+    "infoDisclaimer": "यह केवल सूचना के उद्देश्यों के लिए है और वित्तीय सलाह का गठन नहीं करता है। कृपया आगे बढ़ने से पहले अपना स्वयं का शोध करें।",
+    "acknowledgedRisk": "आपने जोखिम को स्वीकार कर लिया है। भुगतान प्रदाता के पास आगे बढ़ रहा है।"
   },
   "SellInterface": {
     "title": "क्रिप्टो बेचें",
@@ -99,6 +108,8 @@
     "estimatedGas": "अनुमानित गैस",
     "slippageTolerance": "स्लिपेज सहिष्णुता (%)",
     "swapInitiated": "स्वैप शुरू हुआ (नकली)",
+    "reputationPassedSwap": "प्रतिष्ठा जांच पास हुई। आपका लेनदेन संसाधित किया जा रहा है।",
+    "acknowledgedRiskSwap": "आपने जोखिम को स्वीकार कर लिया है। आपका लेनदेन संसाधित किया जा रहा है।",
     "estimatesDisclaimer": "अनुमान वास्तविक समय के एपीआई डेटा पर आधारित हैं लेकिन बाजार की स्थितियां तेजी से बदल सकती हैं। स्लिपेज हो सकता है।",
     "cancel": "रद्द करें"
   },
@@ -268,13 +279,13 @@
     "title": "एक वॉलेट कनेक्ट करें",
     "description": "शुरू करने के लिए नीचे दी गई सूची से अपना वॉलेट चुनें।",
     "disconnect": "डिस्कनेक्ट",
-    "notImplemented": "इस ऐप में {walletName} से कनेक्शन समर्थित नहीं है। कृपया MetaMask, Trust Wallet, या Coinbase Wallet का उपयोग करें।",
+    "notImplemented": "इस ऐप में {walletName} से कनेक्शन समर्थित नहीं है। कृपया MetaMask, Trust Wallet, или Coinbase Wallet का उपयोग करें।",
     "walletConnected": "वॉलेट कनेक्टेड",
     "walletConnectedDescription": "खाते से सफलतापूर्वक कनेक्ट किया गया: {account}",
     "connectionFailed": "कनेक्शन विफल",
     "connectionFailedDescription": "वॉलेट से कनेक्ट नहीं किया जा सका। अनुरोध अस्वीकार कर दिया गया हो सकता है।",
     "walletNotFound": "वॉलेट नहीं मिला",
-    "walletNotFoundDescription": "कृपया MetaMask, Trust Wallet, या Coinbase Wallet जैसा संगत ब्राउज़र वॉलेट एक्सटेंशन स्थापित करें।",
+    "walletNotFoundDescription": "कृपया MetaMask, Trust Wallet, или Coinbase Wallet जैसा संगत ब्राउज़र वॉलेट एक्सटेंशन स्थापित करें।",
     "walletDisconnected": "वॉलेट डिस्कनेक्ट हो गया",
     "walletDisconnectedDescription": "आपने अपना वॉलेट सफलतापूर्वक डिस्कनेक्ट कर दिया है।",
     "accountSwitched": "खाता बदल गया",
@@ -326,5 +337,52 @@
     "login": "लॉग इन",
     "register": "खाता बनाएं",
     "profile": "मेरी प्रोफ़ाइल"
+  },
+  "LoginPage": {
+    "subtitle": "जारी रखने के लिए अपने खाते में लॉग इन करें।",
+    "email": "ईमेल पता",
+    "password": "पासवर्ड",
+    "loginButton": "लॉग इन",
+    "noAccount": "खाता नहीं है?",
+    "registerNow": "अभी पंजीकरण करें",
+    "loginSuccessTitle": "लॉगिन सफल",
+    "loginSuccessAdmin": "वापस स्वागत है, प्रशासक!",
+    "loginSuccessUser": "वापस स्वागत है!",
+    "loginErrorTitle": "लॉगिन विफल",
+    "loginErrorInvalid": "अमान्य ईमेल या पासवर्ड।"
+  },
+  "RegisterPage": {
+    "subtitle": "शुरू करने के लिए एक खाता बनाएँ।",
+    "username": "उपयोगकर्ता नाम",
+    "usernamePlaceholder": "जैसे सातोशी",
+    "email": "ईमेल पता",
+    "password": "पासवर्ड",
+    "confirmPassword": "पासवर्ड की पुष्टि करें",
+    "registerButton": "खाता बनाएं",
+    "hasAccount": "पहले से ही एक खाता है?",
+    "loginNow": "अभी लॉग इन करें",
+    "registerSuccessTitle": "पंजीकरण सफल",
+    "registerSuccessUser": "आपका खाता बन गया है। स्वागत है!",
+    "registerErrorTitle": "पंजीकरण विफल",
+    "registerErrorExists": "इस ईमेल से एक खाता पहले से मौजूद है।"
+  },
+  "ProfilePage": {
+    "title": "मेरी प्रोफ़ाइल",
+    "subtitle": "अपने खाते का विवरण और प्राथमिकताएँ अपडेट करें।",
+    "username": "उपयोगकर्ता नाम",
+    "emailAddress": "ईमेल पता (बदला नहीं जा सकता)",
+    "firstName": "पहला नाम",
+    "lastName": "अंतिम नाम",
+    "age": "आयु",
+    "avatar": "अवतार चुनें",
+    "role": "भूमिका",
+    "saveButton": "प्रोफ़ाइल सहेजें",
+    "saving": "सहेज रहा है...",
+    "saveSuccessTitle": "प्रोफ़ाइल अपडेट की गई",
+    "saveSuccessDescription": "आपकी प्रोफ़ाइल सफलतापूर्वक अपडेट कर दी गई है।",
+    "disclaimer": "हम आपकी गोपनीयता का महत्व देते हैं। हमारी साइट पर कोई ब्लॉकचेन, क्रिप्टो या निजी कुंजी जानकारी कभी संग्रहीत नहीं की जाती है।"
+  },
+  "LogoutToast": {
+    "description": "आप सफलतापूर्वक लॉग आउट हो गए हैं।"
   }
 }

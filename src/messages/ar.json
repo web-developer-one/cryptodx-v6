@@ -8,6 +8,7 @@
     "slippage": "الانزلاق",
     "connectWallet": "اتصل بالمحفظة",
     "settings": "الإعدادات",
+    "reputationAlert": "تنبيه السمعة",
     "hideSmallBalances": "إخفاء الأرصدة الصغيرة",
     "hideUnknownTokens": "إخفاء الرموز غير المعروفة",
     "language": "اللغة",
@@ -16,7 +17,8 @@
     "myAccount": "حسابي",
     "profile": "الملف الشخصي",
     "logout": "تسجيل الخروج",
-    "login": "تسجيل الدخول"
+    "login": "تسجيل الدخول",
+    "register": "تسجيل"
   },
   "HomePage": {
     "title": "بدّل عملاتك المشفرة بسلاسة",
@@ -70,7 +72,14 @@
     "youPay": "أنت تدفع",
     "youGet": "أنت تحصل على",
     "continue": "متابعة",
-    "buyInitiated": "تم بدء الشراء (محاكاة)"
+    "buyInitiated": "تم بدء الشراء (محاكاة)",
+    "reputationSkipped": "تم تخطي فحص السمعة. المتابعة إلى مزود الدفع.",
+    "reputationPassed": "نجح فحص السمعة. المتابعة إلى مزود الدفع.",
+    "reputationCheckFailed": "تعذر إجراء فحص السمعة. يرجى المحاولة مرة أخرى.",
+    "acknowledgeAndContinue": "الإقرار والمتابعة",
+    "reputationAlert": "تنبيه السمعة",
+    "infoDisclaimer": "هذا لأغراض إعلامية فقط ولا يشكل نصيحة مالية. يرجى إجراء البحث الخاص بك قبل المتابعة.",
+    "acknowledgedRisk": "لقد أقررت بالمخاطر. المتابعة إلى مزود الدفع."
   },
   "SellInterface": {
     "title": "بيع العملات المشفرة",
@@ -99,6 +108,8 @@
     "estimatedGas": "الغاز المقدر",
     "slippageTolerance": "تحمل الانزلاق (%)",
     "swapInitiated": "تم بدء التبديل (محاكاة)",
+    "reputationPassedSwap": "نجحت عمليات فحص السمعة. تتم معالجة معاملتك.",
+    "acknowledgedRiskSwap": "لقد أقررت بالمخاطر. تتم معالجة معاملتك.",
     "estimatesDisclaimer": "تستند التقديرات إلى بيانات API في الوقت الفعلي ولكن يمكن أن تتغير ظروف السوق بسرعة. قد يحدث انزلاق.",
     "cancel": "إلغاء"
   },
@@ -326,5 +337,52 @@
     "login": "تسجيل الدخول",
     "register": "إنشاء حساب",
     "profile": "ملفي الشخصي"
+  },
+  "LoginPage": {
+    "subtitle": "سجل الدخول إلى حسابك للمتابعة.",
+    "email": "عنوان البريد الإلكتروني",
+    "password": "كلمة المرور",
+    "loginButton": "تسجيل الدخول",
+    "noAccount": "ليس لديك حساب؟",
+    "registerNow": "سجل الآن",
+    "loginSuccessTitle": "تم تسجيل الدخول بنجاح",
+    "loginSuccessAdmin": "مرحبًا بعودتك أيها المسؤول!",
+    "loginSuccessUser": "مرحبًا بعودتك!",
+    "loginErrorTitle": "فشل تسجيل الدخول",
+    "loginErrorInvalid": "بريد إلكتروني أو كلمة مرور غير صالحة."
+  },
+  "RegisterPage": {
+    "subtitle": "أنشئ حسابًا للبدء.",
+    "username": "اسم المستخدم",
+    "usernamePlaceholder": "مثال: ساتوشي",
+    "email": "عنوان البريد الإلكتروني",
+    "password": "كلمة المرور",
+    "confirmPassword": "تأكيد كلمة المرور",
+    "registerButton": "إنشاء حساب",
+    "hasAccount": "هل لديك حساب بالفعل؟",
+    "loginNow": "سجل الدخول الآن",
+    "registerSuccessTitle": "تم التسجيل بنجاح",
+    "registerSuccessUser": "تم إنشاء حسابك. مرحباً بك!",
+    "registerErrorTitle": "فشل التسجيل",
+    "registerErrorExists": "يوجد حساب بهذا البريد الإلكتروني بالفعل."
+  },
+  "ProfilePage": {
+    "title": "ملفي الشخصي",
+    "subtitle": "قم بتحديث تفاصيل حسابك وتفضيلاتك.",
+    "username": "اسم المستخدم",
+    "emailAddress": "عنوان البريد الإلكتروني (لا يمكن تغييره)",
+    "firstName": "الاسم الأول",
+    "lastName": "اسم العائلة",
+    "age": "العمر",
+    "avatar": "اختر صورة رمزية",
+    "role": "الدور",
+    "saveButton": "حفظ الملف الشخصي",
+    "saving": "جارٍ الحفظ...",
+    "saveSuccessTitle": "تم تحديث الملف الشخصي",
+    "saveSuccessDescription": "تم تحديث ملفك الشخصي بنجاح.",
+    "disclaimer": "نحن نقدر خصوصيتك. لا يتم تخزين أي معلومات خاصة بالبلوك تشين أو العملات المشفرة أو المفاتيح الخاصة على موقعنا."
+  },
+  "LogoutToast": {
+    "description": "لقد قمت بتسجيل الخروج بنجاح."
   }
 }

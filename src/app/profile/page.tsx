@@ -21,14 +21,14 @@ import { Info } from 'lucide-react';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 
 const avatarOptions = [
-    'https://placehold.co/128x128.jpeg',
-    'https://placehold.co/128x128.jpeg',
-    'https://placehold.co/128x128.jpeg',
-    'https://placehold.co/128x128.jpeg',
-    'https://placehold.co/128x128.jpeg',
-    'https://placehold.co/128x128.jpeg',
-    'https://placehold.co/128x128.jpeg',
-    'https://placehold.co/128x128.jpeg',
+    'https://placehold.co/128x128.png',
+    'https://placehold.co/128x128.png',
+    'https://placehold.co/128x128.png',
+    'https://placehold.co/128x128.png',
+    'https://placehold.co/128x128.png',
+    'https://placehold.co/128x128.png',
+    'https://placehold.co/128x128.png',
+    'https://placehold.co/128x128.png',
 ];
 
 export default function ProfilePage() {
@@ -98,7 +98,7 @@ export default function ProfilePage() {
   return (
     <div className="container flex-1 flex flex-col items-center justify-center py-12">
       <Card className="w-full max-w-3xl">
-        <CardHeader>
+        <CardHeader className="text-center">
           <CardTitle>{t('ProfilePage.title')}</CardTitle>
           <CardDescription>{t('ProfilePage.subtitle')}</CardDescription>
         </CardHeader>
@@ -162,6 +162,10 @@ export default function ProfilePage() {
                     </FormItem>
                   )}
                 />
+                 <FormItem>
+                    <FormLabel>{t('ProfilePage.role')}</FormLabel>
+                    <Input value={user.pricingPlan} disabled />
+                </FormItem>
               </div>
 
                <FormField

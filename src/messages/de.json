@@ -8,6 +8,7 @@
     "slippage": "Slippage",
     "connectWallet": "Wallet verbinden",
     "settings": "Einstellungen",
+    "reputationAlert": "Reputationswarnung",
     "hideSmallBalances": "Kleine Salden ausblenden",
     "hideUnknownTokens": "Unbekannte Token ausblenden",
     "language": "Sprache",
@@ -16,7 +17,8 @@
     "myAccount": "Mein Konto",
     "profile": "Profil",
     "logout": "Abmelden",
-    "login": "Anmelden"
+    "login": "Anmelden",
+    "register": "Registrieren"
   },
   "HomePage": {
     "title": "Tauschen Sie Ihre Krypto nahtlos",
@@ -70,7 +72,14 @@
     "youPay": "Sie zahlen",
     "youGet": "Sie erhalten",
     "continue": "Weiter",
-    "buyInitiated": "Kauf eingeleitet (simuliert)"
+    "buyInitiated": "Kauf eingeleitet (simuliert)",
+    "reputationSkipped": "Reputationsprüfung wurde übersprungen. Weiterleitung zum Zahlungsanbieter.",
+    "reputationPassed": "Reputationsprüfung bestanden. Weiterleitung zum Zahlungsanbieter.",
+    "reputationCheckFailed": "Reputationsprüfung konnte nicht durchgeführt werden. Bitte versuchen Sie es erneut.",
+    "acknowledgeAndContinue": "Anerkennen und Fortfahren",
+    "reputationAlert": "Reputationswarnung",
+    "infoDisclaimer": "Dies dient nur zu Informationszwecken und stellt keine Finanzberatung dar. Bitte recherchieren Sie selbst, bevor Sie fortfahren.",
+    "acknowledgedRisk": "Sie haben das Risiko anerkannt. Weiterleitung zum Zahlungsanbieter."
   },
   "SellInterface": {
     "title": "Krypto verkaufen",
@@ -99,6 +108,8 @@
     "estimatedGas": "Geschätztes Gas",
     "slippageTolerance": "Slippage-Toleranz (%)",
     "swapInitiated": "Tausch eingeleitet (simuliert)",
+    "reputationPassedSwap": "Reputationsprüfungen bestanden. Ihre Transaktion wird bearbeitet.",
+    "acknowledgedRiskSwap": "Sie haben das Risiko anerkannt. Ihre Transaktion wird bearbeitet.",
     "estimatesDisclaimer": "Schätzungen basieren auf Echtzeit-API-Daten, aber die Marktbedingungen können sich schnell ändern. Slippage kann auftreten.",
     "cancel": "Abbrechen"
   },
@@ -326,5 +337,52 @@
     "login": "Anmelden",
     "register": "Konto erstellen",
     "profile": "Mein Profil"
+  },
+  "LoginPage": {
+    "subtitle": "Melden Sie sich bei Ihrem Konto an, um fortzufahren.",
+    "email": "E-Mail-Adresse",
+    "password": "Passwort",
+    "loginButton": "Anmelden",
+    "noAccount": "Haben Sie noch kein Konto?",
+    "registerNow": "Jetzt registrieren",
+    "loginSuccessTitle": "Anmeldung Erfolgreich",
+    "loginSuccessAdmin": "Willkommen zurück, Administrator!",
+    "loginSuccessUser": "Willkommen zurück!",
+    "loginErrorTitle": "Anmeldung Fehlgeschlagen",
+    "loginErrorInvalid": "Ungültige E-Mail oder Passwort."
+  },
+  "RegisterPage": {
+    "subtitle": "Erstellen Sie ein Konto, um zu beginnen.",
+    "username": "Benutzername",
+    "usernamePlaceholder": "z.B. satoshi",
+    "email": "E-Mail-Adresse",
+    "password": "Passwort",
+    "confirmPassword": "Passwort bestätigen",
+    "registerButton": "Konto erstellen",
+    "hasAccount": "Haben Sie bereits ein Konto?",
+    "loginNow": "Jetzt anmelden",
+    "registerSuccessTitle": "Registrierung Erfolgreich",
+    "registerSuccessUser": "Ihr Konto wurde erstellt. Willkommen!",
+    "registerErrorTitle": "Registrierung Fehlgeschlagen",
+    "registerErrorExists": "Ein Konto mit dieser E-Mail existiert bereits."
+  },
+  "ProfilePage": {
+    "title": "Mein Profil",
+    "subtitle": "Aktualisieren Sie Ihre Kontodetails und -einstellungen.",
+    "username": "Benutzername",
+    "emailAddress": "E-Mail-Adresse (kann nicht geändert werden)",
+    "firstName": "Vorname",
+    "lastName": "Nachname",
+    "age": "Alter",
+    "avatar": "Avatar auswählen",
+    "role": "Rolle",
+    "saveButton": "Profil speichern",
+    "saving": "Speichern...",
+    "saveSuccessTitle": "Profil Aktualisiert",
+    "saveSuccessDescription": "Ihr Profil wurde erfolgreich aktualisiert.",
+    "disclaimer": "Wir schätzen Ihre Privatsphäre. Auf unserer Seite werden niemals Blockchain-, Krypto- oder private Schlüsselinformationen gespeichert."
+  },
+  "LogoutToast": {
+    "description": "Sie wurden erfolgreich abgemeldet."
   }
 }

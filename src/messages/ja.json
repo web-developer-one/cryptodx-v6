@@ -8,6 +8,7 @@
     "slippage": "スリッページ",
     "connectWallet": "ウォレットを接続",
     "settings": "設定",
+    "reputationAlert": "評判アラート",
     "hideSmallBalances": "少額残高を非表示",
     "hideUnknownTokens": "不明なトークンを非表示",
     "language": "言語",
@@ -16,7 +17,8 @@
     "myAccount": "マイアカウント",
     "profile": "プロフィール",
     "logout": "ログアウト",
-    "login": "ログイン"
+    "login": "ログイン",
+    "register": "登録"
   },
   "HomePage": {
     "title": "仮想通貨をシームレスにスワップ",
@@ -70,7 +72,14 @@
     "youPay": "支払い額",
     "youGet": "受取額",
     "continue": "続行",
-    "buyInitiated": "購入開始（シミュレーション）"
+    "buyInitiated": "購入開始（シミュレーション）",
+    "reputationSkipped": "評判チェックはスキップされました。決済プロバイダーに進みます。",
+    "reputationPassed": "評判チェックに合格しました。決済プロバイダーに進みます。",
+    "reputationCheckFailed": "評判チェックを実行できませんでした。もう一度お試しください。",
+    "acknowledgeAndContinue": "承認して続行",
+    "reputationAlert": "評判アラート",
+    "infoDisclaimer": "これは情報提供のみを目的としており、金融アドバイスを構成するものではありません。続行する前にご自身で調査を行ってください。",
+    "acknowledgedRisk": "リスクを承認しました。決済プロバイダーに進みます。"
   },
   "SellInterface": {
     "title": "仮想通貨を売却",
@@ -99,6 +108,8 @@
     "estimatedGas": "推定ガス代",
     "slippageTolerance": "スリッページ許容度（%）",
     "swapInitiated": "スワップ開始（シミュレーション）",
+    "reputationPassedSwap": "評判チェックに合格しました。取引は処理中です。",
+    "acknowledgedRiskSwap": "リスクを承認しました。取引は処理中です。",
     "estimatesDisclaimer": "見積もりはリアルタイムのAPIデータに基づきますが、市場状況は急速に変化する可能性があります。スリッページが発生する場合があります。",
     "cancel": "キャンセル"
   },
@@ -326,5 +337,52 @@
     "login": "ログイン",
     "register": "アカウント作成",
     "profile": "マイプロフィール"
+  },
+  "LoginPage": {
+    "subtitle": "アカウントにログインして続行してください。",
+    "email": "メールアドレス",
+    "password": "パスワード",
+    "loginButton": "ログイン",
+    "noAccount": "アカウントをお持ちではありませんか？",
+    "registerNow": "今すぐ登録",
+    "loginSuccessTitle": "ログイン成功",
+    "loginSuccessAdmin": "おかえりなさい、管理者様！",
+    "loginSuccessUser": "おかえりなさい！",
+    "loginErrorTitle": "ログイン失敗",
+    "loginErrorInvalid": "無効なメールアドレスまたはパスワードです。"
+  },
+  "RegisterPage": {
+    "subtitle": "アカウントを作成して始めましょう。",
+    "username": "ユーザー名",
+    "usernamePlaceholder": "例: satoshi",
+    "email": "メールアドレス",
+    "password": "パスワード",
+    "confirmPassword": "パスワードを確認",
+    "registerButton": "アカウントを作成",
+    "hasAccount": "すでにアカウントをお持ちですか？",
+    "loginNow": "今すぐログイン",
+    "registerSuccessTitle": "登録成功",
+    "registerSuccessUser": "アカウントが作成されました。ようこそ！",
+    "registerErrorTitle": "登録失敗",
+    "registerErrorExists": "このメールアドレスのアカウントは既に存在します。"
+  },
+  "ProfilePage": {
+    "title": "マイプロフィール",
+    "subtitle": "アカウントの詳細と設定を更新します。",
+    "username": "ユーザー名",
+    "emailAddress": "メールアドレス（変更不可）",
+    "firstName": "名",
+    "lastName": "姓",
+    "age": "年齢",
+    "avatar": "アバターを選択",
+    "role": "役割",
+    "saveButton": "プロフィールを保存",
+    "saving": "保存中...",
+    "saveSuccessTitle": "プロフィール更新済み",
+    "saveSuccessDescription": "プロフィールが正常に更新されました。",
+    "disclaimer": "私たちはあなたのプライバシーを尊重します。ブロックチェーン、仮想通貨、または秘密鍵の情報は、当サイトには一切保存されません。"
+  },
+  "LogoutToast": {
+    "description": "正常にログアウトしました。"
   }
 }

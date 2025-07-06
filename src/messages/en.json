@@ -348,6 +348,7 @@
     "tokens": "Explore Tokens",
     "tokenDetail": "{tokenName} Details",
     "transactions": "Transactions",
+    "pricing": "Pricing Plans",
     "login": "Login",
     "register": "Register",
     "profile": "My Profile"
@@ -389,6 +390,7 @@
     "lastName": "Last Name",
     "age": "Age",
     "avatar": "Select Avatar",
+    "role": "Role",
     "saveButton": "Save Profile",
     "saving": "Saving...",
     "saveSuccessTitle": "Profile Updated",

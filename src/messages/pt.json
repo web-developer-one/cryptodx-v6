@@ -8,6 +8,7 @@
     "slippage": "Slippage",
     "connectWallet": "Conectar Carteira",
     "settings": "Configurações",
+    "reputationAlert": "Alerta de Reputação",
     "hideSmallBalances": "Ocultar saldos pequenos",
     "hideUnknownTokens": "Ocultar tokens desconhecidos",
     "language": "Idioma",
@@ -16,7 +17,8 @@
     "myAccount": "Minha Conta",
     "profile": "Perfil",
     "logout": "Sair",
-    "login": "Entrar"
+    "login": "Entrar",
+    "register": "Registrar"
   },
   "HomePage": {
     "title": "Troque sua Criptomoeda sem Esforço",
@@ -70,7 +72,14 @@
     "youPay": "Você paga",
     "youGet": "Você recebe",
     "continue": "Continuar",
-    "buyInitiated": "Compra Iniciada (Simulada)"
+    "buyInitiated": "Compra Iniciada (Simulada)",
+    "reputationSkipped": "A verificação de reputação foi ignorada. Continuando para o provedor de pagamento.",
+    "reputationPassed": "Verificação de reputação aprovada. Continuando para o provedor de pagamento.",
+    "reputationCheckFailed": "Não foi possível realizar a verificação de reputação. Por favor, tente novamente.",
+    "acknowledgeAndContinue": "Reconhecer e Continuar",
+    "reputationAlert": "Alerta de Reputação",
+    "infoDisclaimer": "Isso é apenas para fins informativos e не constitui aconselhamento financeiro. Por favor, faça sua própria pesquisa antes de prosseguir.",
+    "acknowledgedRisk": "Você reconheceu o risco. Continuando para o provedor de pagamento."
   },
   "SellInterface": {
     "title": "Vender Cripto",
@@ -99,6 +108,8 @@
     "estimatedGas": "Gás Estimado",
     "slippageTolerance": "Tolerância de Slippage (%)",
     "swapInitiated": "Troca Iniciada (Simulada)",
+    "reputationPassedSwap": "Verificações de reputação aprovadas. Sua transação está sendo processada.",
+    "acknowledgedRiskSwap": "Você reconheceu o risco. Sua transação está sendo processada.",
     "estimatesDisclaimer": "As estimativas são baseadas em dados de API em tempo real, mas as condições de mercado podem mudar rapidamente. Pode ocorrer slippage.",
     "cancel": "Cancelar"
   },
@@ -127,7 +138,7 @@
     "connectPrompt": "Conecte sua carteira para ver suas posições de liquidez.",
     "connectPromptDescription": "Suas posições de liquidez ativas serão exibidas aqui assim que você conectar sua carteira.",
     "noPositionsTitle": "Nenhuma Posição Encontrada",
-    "noPositionsDescription": "Você não tem nenhuma posição de liquidez ativa.",
+    "noPositionsDescription": "Você не tem nenhuma posição de liquidez ativa.",
     "createPositionPrompt": "Crie uma nova posição fornecendo liquidez a um pool.",
     "explorePools": "Explorar Pools",
     "newPosition": "+ Nova Posição",
@@ -242,7 +253,7 @@
   "GdprModal": {
     "title": "Nosso Compromisso com sua Privacidade (GDPR)",
     "body1": "Valorizamos sua privacidade e estamos comprometidos em proteger seus dados pessoais em conformidade com o GDPR.",
-    "body2": "Sob o GDPR, você tem direitos sobre seus dados pessoais, incluindo o direito de acessar, corrigir, excluir ou restringir seu processamento. Você также tem o direito à portabilidade de dados e de se opor ao processamento em certas condições. Ao continuar a usar nosso site, você reconhece que leu e entendeu nossas práticas. Para informações detalhadas, revise nossa Política de Privacidade completa.",
+    "body2": "Sob o GDPR, você tem direitos sobre seus dados pessoais, incluindo o direito de acessar, corrigir, excluir ou restringir seu processamento. Você também tem o direito à portabilidade de dados e de se opor ao processamento em certas condições. Ao continuar a usar nosso site, você reconhece que leu e entendeu nossas práticas. Para informações detalhadas, revise nossa Política de Privacidade completa.",
     "dismiss": "Dispensar e Fechar"
   },
   "CookiePolicyModal": {
@@ -251,12 +262,12 @@
     "p1": "Esta Política de Cookies explica como a CryptoDx (\"nós\", \"nos\" e \"nosso\") usa cookies e tecnologias semelhantes para reconhecê-lo quando você visita nosso site. Ela explica o que são essas tecnologias e por que as usamos, bem como seus direitos para controlar nosso uso delas.",
     "h_whatAre": "O que são cookies?",
     "p_whatAre1": "Um cookie é um pequeno arquivo de dados que é colocado no seu dispositivo quando você visita um site. Os cookies são amplamente utilizados pelos proprietários de sites para fazer seus sites funcionarem, ou para funcionarem de forma mais eficiente, bem como para fornecer informações de relatórios.",
-    "p_whatAre2": "Cookies definidos pelo proprietário do site (neste caso, CryptoDx) são chamados de \"cookies primários\". Cookies definidos por partes que não o proprietário do site são chamados de \"cookies de terceiros\". Cookies de terceiros permitem que recursos ou funcionalidades de terceiros sejam fornecidos no ou através do site (por exemplo, publicidade, conteúdo interativo e análises). As partes que definem esses cookies de terceiros podem reconhecer seu computador tanto quando ele visita o site em questão quanto quando visita outros sites.",
+    "p_whatAre2": "Cookies definidos pelo proprietário do site (neste caso, CryptoDx) são chamados de \"cookies primários\". Cookies definidos por partes que не o proprietário do site são chamados de \"cookies de terceiros\". Cookies de terceiros permitem que recursos ou funcionalidades de terceiros sejam fornecidos no ou através do site (por exemplo, publicidade, conteúdo interativo e análises). As partes que definem esses cookies de terceiros podem reconhecer seu computador tanto quando ele visita o site em questão quanto quando visita outros sites.",
     "h_whyUse": "Por que usamos cookies?",
     "p_whyUse": "Usamos cookies primários e de terceiros por várias razões. Alguns cookies são necessários por razões técnicas para que nosso Site funcione, e nos referimos a eles como cookies \"essenciais\" ou \"estritamente necessários\". Outros cookies também nos permitem rastrear e direcionar os interesses de nossos usuários para aprimorar a experiência em nossas Propriedades Online. Terceiros servem cookies através de nosso Site para publicidade, análises e outros fins. Isso é descrito em mais detalhes abaixo.",
     "h_types": "Tipos de Cookies que Usamos",
     "li_necessary": "<strong>Cookies Estritamente Necessários:</strong> Estes cookies são essenciais para fornecer a você os serviços disponíveis através de nosso Site e para permitir que você use alguns de seus recursos. Como esses cookies são estritamente necessários para entregar o Site a você, você не pode recusá-los sem impactar como nosso Site funciona.",
-    "li_performance": "<strong>Cookies de Desempenho e Funcionalidade:</strong> Estes cookies são usados para aprimorar o desempenho e a funcionalidade de nosso Site, mas não são essenciais para seu uso. No entanto, sem esses cookies, certas funcionalidades (como lembrar sua preferência de tema) podem se tornar indisponíveis.",
+    "li_performance": "<strong>Cookies de Desempenho e Funcionalidade:</strong> Estes cookies são usados para aprimorar o desempenho e a funcionalidade de nosso Site, mas не são essenciais para seu uso. No entanto, sem esses cookies, certas funcionalidades (como lembrar sua preferência de tema) podem se tornar indisponíveis.",
     "li_analytics": "<strong>Cookies de Análise e Personalização:</strong> Estes cookies coletam informações que são usadas de forma agregada para nos ajudar a entender como nosso Site está sendo usado ou quão eficazes são nossas campanhas de marketing, ou para nos ajudar a personalizar nosso Site para você.",
     "h_choices": "Suas escolhas em relação aos cookies",
     "p_choices": "Você tem o direito de decidir se aceita ou rejeita cookies. Você pode exercer suas preferências de cookies definindo ou alterando os controles do seu navegador para aceitar ou recusar cookies. Se você optar por rejeitar cookies, ainda poderá usar nosso site, embora seu acesso a algumas funcionalidades e áreas do nosso site possa ser restrito. Como os meios pelos quais você pode recusar cookies através dos controles do seu navegador variam de navegador para navegador, você deve visitar o menu de ajuda do seu navegador para mais informações.",
@@ -326,5 +337,52 @@
     "login": "Entrar",
     "register": "Criar Conta",
     "profile": "Meu Perfil"
+  },
+  "LoginPage": {
+    "subtitle": "Faça login na sua conta para continuar.",
+    "email": "Endereço de E-mail",
+    "password": "Senha",
+    "loginButton": "Entrar",
+    "noAccount": "Não tem uma conta?",
+    "registerNow": "Registre-se agora",
+    "loginSuccessTitle": "Login Bem-sucedido",
+    "loginSuccessAdmin": "Bem-vindo de volta, Administrador!",
+    "loginSuccessUser": "Bem-vindo de volta!",
+    "loginErrorTitle": "Falha no Login",
+    "loginErrorInvalid": "E-mail ou senha inválidos."
+  },
+  "RegisterPage": {
+    "subtitle": "Crie uma conta para começar.",
+    "username": "Nome de Usuário",
+    "usernamePlaceholder": "ex: satoshi",
+    "email": "Endereço de E-mail",
+    "password": "Senha",
+    "confirmPassword": "Confirmar Senha",
+    "registerButton": "Criar Conta",
+    "hasAccount": "Já tem uma conta?",
+    "loginNow": "Faça login agora",
+    "registerSuccessTitle": "Registro Bem-sucedido",
+    "registerSuccessUser": "Sua conta foi criada. Bem-vindo!",
+    "registerErrorTitle": "Falha no Registro",
+    "registerErrorExists": "Uma conta com este e-mail já existe."
+  },
+  "ProfilePage": {
+    "title": "Meu Perfil",
+    "subtitle": "Atualize os detalhes e preferências da sua conta.",
+    "username": "Nome de Usuário",
+    "emailAddress": "Endereço de E-mail (não pode ser alterado)",
+    "firstName": "Primeiro Nome",
+    "lastName": "Sobrenome",
+    "age": "Idade",
+    "avatar": "Selecionar Avatar",
+    "role": "Função",
+    "saveButton": "Salvar Perfil",
+    "saving": "Salvando...",
+    "saveSuccessTitle": "Perfil Atualizado",
+    "saveSuccessDescription": "Seu perfil foi atualizado com sucesso.",
+    "disclaimer": "Valorizamos sua privacidade. Nenhuma informação de blockchain, cripto ou chaves privadas é armazenada em nosso site."
+  },
+  "LogoutToast": {
+    "description": "Você saiu com sucesso."
   }
 }
