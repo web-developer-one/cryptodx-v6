@@ -12,16 +12,16 @@ export function LiveUpdateNotifier() {
   useEffect(() => {
     const showUpdateToast = () => {
       toast({
-        title: (
-            <div>
-                <div className="flex items-center justify-between w-full font-semibold">
-                    <div className="flex items-center gap-2">
+        description: (
+             <div className="flex flex-col gap-2">
+                <div className="flex items-center justify-between w-full">
+                    <div className="flex items-center gap-2 font-semibold text-foreground">
                         <Bell className="h-5 w-5" />
                         <span>Live Update</span>
                     </div>
                     <Badge variant="warning">Important</Badge>
                 </div>
-                <p className="text-sm opacity-90 font-normal mt-1">
+                <p className="text-sm opacity-90 font-normal">
                     Market data has been automatically refreshed.
                 </p>
             </div>
