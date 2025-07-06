@@ -47,6 +47,8 @@ export default function ProfilePage() {
     },
   });
 
+  const { reset } = form;
+
   useEffect(() => {
     if (!isLoading && !user) {
       router.push('/login');
@@ -60,7 +62,7 @@ export default function ProfilePage() {
       // or when a different user logs in. The dependency on `user.id` is crucial
       // to prevent this from re-running and overwriting form edits when the
       // user object is updated for the live avatar preview.
-      form.reset({
+      reset({
         username: user.username,
         firstName: user.firstName,
         lastName: user.lastName,
@@ -68,7 +70,7 @@ export default function ProfilePage() {
         avatar: user.avatar,
       });
     }
-  }, [t, user?.id, form.reset]);
+  }, [t, user?.id, reset]);
 
   const onSubmit = (data: ProfileFormData) => {
     if (user) {
