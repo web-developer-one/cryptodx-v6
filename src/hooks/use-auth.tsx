@@ -206,11 +206,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     if (!user) return false;
     
     // Security check for mock admin - don't allow changes to this special user via UI
-    if (user.email === MOCK_ADMIN_EMAIL) {
+    if (user.email === MOCK_ADMIN_EMAIL && updatedData.email && user.email !== updatedData.email) {
         toast({
             variant: 'destructive',
             title: 'Action Not Allowed',
-            description: 'The admin user profile cannot be modified.',
+            description: 'The admin user email cannot be modified.',
         });
         return false;
     }
