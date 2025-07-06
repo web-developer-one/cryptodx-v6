@@ -41,6 +41,12 @@ const nextConfig = {
       },
     ],
   },
+  // Add a watchOptions to ignore the .genkit-cache directory
+  // This prevents the Next.js dev server from restarting in a loop
+  // when the Genkit dev server writes to its cache.
+  watchOptions: {
+    ignored: ['**/.genkit-cache/**'],
+  },
 };
 
 module.exports = nextConfig;
