@@ -113,7 +113,7 @@ export default function PricingPage() {
                             tier.isMostPopular ? 'border-primary ring-2 ring-primary shadow-lg' : ''
                             )}
                         >
-                            <CardHeader className="relative">
+                            <CardHeader className="relative text-center">
                             {tier.isMostPopular && (
                                 <div className="absolute top-0 -translate-y-1/2 w-full flex justify-center">
                                     <div className="bg-primary text-primary-foreground px-3 py-1 text-sm font-semibold rounded-full">
@@ -124,7 +124,7 @@ export default function PricingPage() {
                             <CardTitle className="text-2xl font-bold">{tier.name}</CardTitle>
                             <CardDescription>{tier.description}</CardDescription>
                             </CardHeader>
-                            <CardContent className="flex-1 flex flex-col gap-6">
+                            <CardContent className="flex-1 flex flex-col gap-6 items-center">
                                 <div className="text-4xl font-bold">
                                     ${tier.price}
                                     <span className="text-sm font-normal text-muted-foreground">/month</span>
