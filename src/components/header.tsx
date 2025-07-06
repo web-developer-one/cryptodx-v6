@@ -28,6 +28,8 @@ import { WalletConnect } from "@/components/wallet-connect";
 import {
   Sheet,
   SheetContent,
+  SheetHeader,
+  SheetTitle,
   SheetTrigger,
   SheetClose,
 } from "@/components/ui/sheet";
@@ -199,6 +201,9 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
               </Button>
             </SheetTrigger>
             <SheetContent side="left" className="border-r-border bg-card pr-0 pt-12 text-card-foreground">
+              <SheetHeader className="sr-only">
+                <SheetTitle>Main Menu</SheetTitle>
+              </SheetHeader>
               <nav className="flex flex-col gap-2 text-lg font-medium">
                 <SheetClose asChild>
                   <Link
@@ -288,7 +293,7 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
           {user ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="relative h-9 w-9 rounded-full p-0">
+                <Button variant="ghost" className="relative h-8 w-8 rounded-full p-0">
                   <Avatar className="h-full w-full">
                     <Image
                         src={getAvatarById(user.avatar).src}
@@ -322,7 +327,7 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
             </DropdownMenu>
           ) : (
              <Link href="/login">
-                <Button variant="ghost" className="relative h-9 w-9 rounded-full p-0">
+                <Button variant="ghost" className="relative h-8 w-8 rounded-full p-0">
                     <Avatar className="h-full w-full">
                       <AvatarFallback><UserIcon /></AvatarFallback>
                     </Avatar>
