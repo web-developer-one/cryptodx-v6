@@ -23,6 +23,6 @@ export const ProfileSchema = z.object({
     firstName: z.string().min(1, { message: "First name is required." }),
     lastName: z.string().min(1, { message: "Last name is required." }),
     age: z.union([z.number().min(18, { message: 'You must be at least 18.' }).max(120), z.literal(""), z.null()]).transform(v => v === "" ? null : v).nullable(),
-    avatar: z.string().url({ message: "Invalid avatar URL." }),
+    avatar: z.string().url({ message: "Invalid avatar URL." }).or(z.literal('')),
 });
 export type ProfileFormData = z.infer<typeof ProfileSchema>;
