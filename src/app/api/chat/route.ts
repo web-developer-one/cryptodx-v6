@@ -1,3 +1,4 @@
+
 import {NextResponse} from 'next/server';
 import {
   GoogleGenerativeAI,
@@ -8,15 +9,7 @@ import {
 
 const API_KEY = process.env.GOOGLE_API_KEY;
 
-if (!API_KEY) {
-  throw new Error('GOOGLE_API_KEY is not set');
-}
-
-const genAI = new GoogleGenerativeAI(API_KEY);
-
-const model = genAI.getGenerativeModel({
-  model: 'gemini-1.5-flash-latest',
-});
+// NOTE: Moved initialization into the POST handler to handle missing API key gracefully.
 
 const generationConfig = {
   temperature: 1,
@@ -46,6 +39,19 @@ const safetySettings = [
 ];
 
 export async function POST(req: Request) {
+  if (!API_KEY) {
+    console.error('GOOGLE_API_KEY is not set');
+    return NextResponse.json(
+      { error: 'The AI API key is not configured on the server. Please set the GOOGLE_API_KEY environment variable.' },
+      { status: 500 }
+    );
+  }
+
+  const genAI = new GoogleGenerativeAI(API_KEY);
+  const model = genAI.getGenerativeModel({
+    model: 'gemini-1.5-flash-latest',
+  });
+  
   try {
     const {history, message} = await req.json();
 

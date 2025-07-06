@@ -67,7 +67,9 @@ export function Chatbot() {
       });
 
       if (!response.ok) {
-        throw new Error(t('Chatbot.errorResponse'));
+        const errorData = await response.json().catch(() => null);
+        const serverError = errorData?.error || t('Chatbot.errorResponse');
+        throw new Error(serverError);
       }
 
       const data = await response.json();
@@ -77,10 +79,10 @@ export function Chatbot() {
       };
       setMessages((prev) => [...prev, modelMessage]);
 
-    } catch (error) {
+    } catch (error: any) {
       const errorMessage: Message = {
         role: 'model',
-        parts: [{ text: t('Chatbot.connectionError') }],
+        parts: [{ text: error.message || t('Chatbot.connectionError') }],
       };
       setMessages((prev) => [...prev, errorMessage]);
     } finally {
