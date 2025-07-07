@@ -11,7 +11,7 @@ export const avatars = [
   '/avatars/admin-avatar.png',
   '/avatars/male-01-avatar.png',
   '/avatars/female-01-avatar.png',
-  '/avatars/avatar_4.png',
+  '/avatars/male-02-avatar.png',
   '/avatars/avatar_5.png',
   '/avatars/avatar_6.png',
   '/avatars/avatar_7.png',
