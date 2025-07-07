@@ -391,5 +391,16 @@
   },
   "LogoutToast": {
     "description": "You have been successfully logged out."
+  },
+  "ReputationChecker": {
+    "title": "Reputation Report for {tokenName}",
+    "description": "An AI-powered analysis of the token's online presence and sentiment.",
+    "loadingTitle": "Scanning the web for {tokenName}...",
+    "loadingDescription": "This may take a moment.",
+    "errorTitle": "An Error Occurred",
+    "errorFetch": "Failed to fetch reputation. The token may be too new, or there might be a network issue. Please try again.",
+    "reportTitle": "Analysis Complete",
+    "copy": "Copy",
+    "copied": "Copied!"
   }
 }

@@ -391,5 +391,16 @@
   },
   "LogoutToast": {
     "description": "Vous avez été déconnecté avec succès."
+  },
+  "ReputationChecker": {
+    "title": "Rapport de Réputation pour {tokenName}",
+    "description": "Une analyse par IA de la présence en ligne et du sentiment du jeton.",
+    "loadingTitle": "Analyse du web pour {tokenName}...",
+    "loadingDescription": "Cela peut prendre un moment.",
+    "errorTitle": "Une Erreur est Survenue",
+    "errorFetch": "Échec de la récupération de la réputation. Le jeton est peut-être trop récent, ou il pourrait y avoir un problème de réseau. Veuillez réessayer.",
+    "reportTitle": "Analyse Terminée",
+    "copy": "Copier",
+    "copied": "Copié !"
   }
 }

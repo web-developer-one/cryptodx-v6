@@ -17,6 +17,7 @@ import { cn } from "@/lib/utils";
 import { PriceChart } from "@/components/token-details/price-chart";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from '@/hooks/use-language';
+import { ReputationChecker } from '@/components/reputation-checker';
 
 export function TokenDetailClient({ initialToken }: { initialToken: TokenDetails }) {
     const { t } = useLanguage();
@@ -74,6 +75,7 @@ export function TokenDetailClient({ initialToken }: { initialToken: TokenDetails
             <PriceChart token={token} />
         </div>
       </div>
+      <ReputationChecker tokenName={token.name} />
     </>
   );
 }
