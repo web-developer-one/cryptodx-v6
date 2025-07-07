@@ -3,7 +3,7 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'zod';
-import {googleSearch} from 'genkit/tools';
+import { googleSearch } from '@genkit-ai/googleai';
 
 // Input and Output schemas for the reputation check.
 export const ReputationInputSchema = z.object({
