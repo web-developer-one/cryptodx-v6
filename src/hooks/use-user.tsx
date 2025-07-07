@@ -28,58 +28,64 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
   const { toast } = useToast();
   const { t } = useLanguage();
 
-  const handleAuthAction = useCallback(async (action: Promise<User | null>, successTitle: string, successDescription: string, errorTitle: string) => {
+  const login = useCallback(async (email: string, password: string) => {
     try {
-      const userData = await action;
+      const userData = await auth.login(email, password);
+      
       if (userData) {
         setUser(userData);
         localStorage.setItem('userId', userData.id);
+        
+        const successTitle = t('LoginPage.loginSuccessTitle');
+        const successDescription = userData.pricePlan === 'Administrator' 
+            ? t('LoginPage.loginSuccessAdmin') 
+            : t('LoginPage.loginSuccessUser');
+            
         toast({ title: successTitle, description: successDescription });
+        return true;
+      } else {
+        toast({ variant: 'destructive', title: t('LoginPage.loginErrorTitle'), description: t('LoginPage.loginErrorInvalid') });
+        return false;
+      }
+    } catch (error: any) {
+      toast({ variant: 'destructive', title: t('LoginPage.loginErrorTitle'), description: error.message });
+      return false;
+    }
+  }, [t, toast]);
+
+  const register = useCallback(async (userData: Omit<User, 'id' | 'pricePlan' | 'avatar'>) => {
+    try {
+      const newUser = await auth.register({ ...userData, avatar: auth.avatars[0] });
+      if (newUser) {
+        setUser(newUser);
+        localStorage.setItem('userId', newUser.id);
+        toast({ title: t('RegisterPage.registerSuccessTitle'), description: t('RegisterPage.registerSuccessUser') });
+        return true;
+      } else {
+        toast({ variant: 'destructive', title: t('RegisterPage.registerErrorTitle'), description: t('RegisterPage.registerErrorExists') });
+        return false;
+      }
+    } catch (error: any) {
+       toast({ variant: 'destructive', title: t('RegisterPage.registerErrorTitle'), description: error.message });
+       return false;
+    }
+  }, [t, toast]);
+
+  const updateProfile = useCallback(async (profileData: Partial<User>) => {
+    if (!user) return false;
+     try {
+      const updatedUser = await auth.updateUser(user.id, profileData);
+      if (updatedUser) {
+        setUser(updatedUser);
+        toast({ title: t('ProfilePage.saveSuccessTitle'), description: t('ProfilePage.saveSuccessDescription') });
         return true;
       }
       return false;
     } catch (error: any) {
-      toast({ variant: 'destructive', title: errorTitle, description: error.message });
+      toast({ variant: 'destructive', title: 'Profile Update Failed', description: error.message });
       return false;
     }
-  }, [toast]);
-
-  const login = useCallback(async (email: string, password: string) => {
-    const success = await handleAuthAction(
-      auth.login(email, password),
-      t('LoginPage.loginSuccessTitle'),
-      t('LoginPage.loginSuccessUser'),
-      t('LoginPage.loginErrorTitle')
-    );
-    if (!success) {
-      toast({ variant: 'destructive', title: t('LoginPage.loginErrorTitle'), description: t('LoginPage.loginErrorInvalid') });
-    }
-    return success;
-  }, [handleAuthAction, t]);
-
-  const register = useCallback(async (userData: Omit<User, 'id' | 'pricePlan' | 'avatar'>) => {
-    const success = await handleAuthAction(
-      auth.register({ ...userData, avatar: auth.avatars[0] }),
-      t('RegisterPage.registerSuccessTitle'),
-      t('RegisterPage.registerSuccessUser'),
-      t('RegisterPage.registerErrorTitle')
-    );
-    if (!success) {
-       toast({ variant: 'destructive', title: t('RegisterPage.registerErrorTitle'), description: t('RegisterPage.registerErrorExists') });
-    }
-    return success;
-  }, [handleAuthAction, t]);
-
-  const updateProfile = useCallback(async (profileData: Partial<User>) => {
-    if (!user) return false;
-    const success = await handleAuthAction(
-      auth.updateUser(user.id, profileData),
-      t('ProfilePage.saveSuccessTitle'),
-      t('ProfilePage.saveSuccessDescription'),
-      'Profile Update Failed'
-    );
-    return success;
-  }, [user, handleAuthAction, t]);
+  }, [user, t, toast]);
 
   const logout = useCallback(() => {
     setUser(null);
