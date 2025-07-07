@@ -6,7 +6,6 @@ import type { User } from '@/lib/types';
 import { useToast } from './use-toast';
 import { useLanguage } from './use-language';
 import { get, set, keys } from 'idb-keyval';
-import { useRouter } from 'next/navigation';
 
 export const avatars = [
   '/avatars/admin-avatar.png',
@@ -113,10 +112,10 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
       }
 
       const newUser: User = {
-        id: (Date.now()).toString(), // More unique ID
+        id: (Date.now()).toString(),
         ...userData,
         pricePlan: 'Free',
-        avatar: avatars[1], // Default non-admin avatar
+        avatar: avatars[1], 
       };
 
       const newUsers = [...users, newUser];
