@@ -157,7 +157,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, [user, toast, t]);
 
   const setSessionUser = useCallback((newUserData: UserProfile) => {
-    setUser(newUserData);
+    // This function now uses a functional update to prevent stale state issues,
+    // ensuring the header and other components always have the latest user data.
+    setUser(currentUser => {
+      if (!currentUser) return newUserData;
+      const updatedUser = { ...currentUser, ...newUserData };
+      localStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(updatedUser));
+      return updatedUser;
+    });
   }, []);
 
   const value = useMemo(() => ({

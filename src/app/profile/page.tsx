@@ -47,7 +47,7 @@ export default function ProfilePage() {
     },
   });
 
-  const { reset } = form;
+  const { reset, watch } = form;
 
   useEffect(() => {
     if (!isLoading && !user) {
@@ -83,6 +83,15 @@ export default function ProfilePage() {
       });
     }
   };
+
+  // Watch the avatar field in the form to reflect the live selection from the context.
+  const liveAvatar = watch('avatar');
+  useEffect(() => {
+      if (user && user.avatar) {
+          form.setValue('avatar', user.avatar);
+      }
+  }, [user, form]);
+
 
   if (isLoading || !user) {
     return (
@@ -188,9 +197,7 @@ export default function ProfilePage() {
                               // This updates the form's internal state so it will be submitted on save.
                               field.onChange(value);
                               // This updates the live session state so the header immediately reflects the change.
-                              if (user) {
-                                  setSessionUser({ ...user, avatar: value });
-                              }
+                              setSessionUser({ ...user, avatar: value });
                           }}
                           value={field.value}
                           className="flex flex-wrap justify-center gap-4"
