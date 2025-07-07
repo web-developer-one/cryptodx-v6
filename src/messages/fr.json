@@ -39,7 +39,7 @@
     "q3": "Mes fonds sont-ils en sécurité ?",
     "a3": "Oui, vos fonds sont en sécurité. En tant que plateforme décentralisée, vous avez toujours le contrôle de vos clés privées et de vos actifs. Nous ne prenons jamais la garde de vos fonds. Toutes les transactions sont exécutées via des contrats intelligents sur la blockchain.",
     "q4": "Comment les taux de change sont-ils déterminés ?",
-    "a4": "Les taux de change sont déterminés par des teneurs de marché automatisés (AMM) en fonction des pools de liquidité pour la paire de jetons que vous échangez. Les prix peuvent fluctuer en fonction de la dynamique de l'offre et de la demande au sein des pools.",
+    "a4": "Les taux de change sont déterminés par des teneurs de marché automatisés (AMM) en fonction des pools de liquidité pour la paire de jetons que vous échangez. Les prix могут fluctuer en fonction de la dynamique de l'offre et de la demande au sein des pools.",
     "q5": "Y a-t-il des frais ?",
     "a5": "Il existe deux types de frais : des frais de plateforme minimes pour chaque échange, et des frais de réseau (frais de gaz) requis par la blockchain pour traiter la transaction. Tous les frais sont clairement affichés avant que vous ne confirmiez une transaction."
   },
