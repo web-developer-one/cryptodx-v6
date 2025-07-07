@@ -74,7 +74,8 @@
     "title": "Krypto verkaufen",
     "youSell": "Sie verkaufen",
     "youReceive": "Sie erhalten",
-    "sellInitiated": "Verkauf eingeleitet (simuliert)"
+    "sellInitiated": "Verkauf eingeleitet (simuliert)",
+    "sellInitiatedDescription": "Ihre Verkaufstransaktion wurde übermittelt."
   },
   "SwapInterface": {
     "title": "Tauschen",

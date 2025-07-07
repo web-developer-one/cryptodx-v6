@@ -2,7 +2,6 @@
 'use client';
 
 import { Check } from 'lucide-react';
-import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 import { useEffect } from 'react';
@@ -126,12 +125,7 @@ export default function PricingPage() {
                     </ul>
                     </CardContent>
                     <CardFooter>
-                        <Button 
-                            className="w-full"
-                            variant={tier.isMostPopular ? 'default' : 'secondary'}
-                        >
-                            Get Started
-                        </Button>
+                        {/* Get Started Button Removed */}
                     </CardFooter>
                 </Card>
             ))}

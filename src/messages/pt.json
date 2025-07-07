@@ -74,7 +74,8 @@
     "title": "Vender Cripto",
     "youSell": "Você vende",
     "youReceive": "Você recebe",
-    "sellInitiated": "Venda Iniciada (Simulada)"
+    "sellInitiated": "Venda Iniciada (Simulada)",
+    "sellInitiatedDescription": "Sua transação de venda foi enviada."
   },
   "SwapInterface": {
     "title": "Trocar",

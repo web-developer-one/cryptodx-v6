@@ -74,7 +74,8 @@
     "title": "仮想通貨を売却",
     "youSell": "売却額",
     "youReceive": "受取額",
-    "sellInitiated": "売却開始（シミュレーション）"
+    "sellInitiated": "売却開始（シミュレーション）",
+    "sellInitiatedDescription": "売却取引が送信されました。"
   },
   "SwapInterface": {
     "title": "スワップ",

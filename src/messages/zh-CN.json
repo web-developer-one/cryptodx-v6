@@ -74,7 +74,8 @@
     "title": "出售加密货币",
     "youSell": "您出售",
     "youReceive": "您收到",
-    "sellInitiated": "出售已启动（模拟）"
+    "sellInitiated": "出售已启动（模拟）",
+    "sellInitiatedDescription": "您的卖出交易已提交。"
   },
   "SwapInterface": {
     "title": "兑换",

@@ -74,7 +74,8 @@
     "title": "بيع العملات المشفرة",
     "youSell": "أنت تبيع",
     "youReceive": "أنت تستلم",
-    "sellInitiated": "تم بدء البيع (محاكاة)"
+    "sellInitiated": "تم بدء البيع (محاكاة)",
+    "sellInitiatedDescription": "تم إرسال معاملة البيع الخاصة بك."
   },
   "SwapInterface": {
     "title": "تبديل",

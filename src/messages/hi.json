@@ -74,7 +74,8 @@
     "title": "क्रिप्टो बेचें",
     "youSell": "आप बेचते हैं",
     "youReceive": "आपको मिलता है",
-    "sellInitiated": "बिक्री शुरू हुई (नकली)"
+    "sellInitiated": "बिक्री शुरू हुई (नकली)",
+    "sellInitiatedDescription": "आपका बिक्री लेनदेन सबमिट कर दिया गया है।"
   },
   "SwapInterface": {
     "title": "स्वैप",

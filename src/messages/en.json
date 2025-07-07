@@ -74,7 +74,8 @@
     "title": "Sell Crypto",
     "youSell": "You sell",
     "youReceive": "You receive",
-    "sellInitiated": "Sell Initiated (Simulated)"
+    "sellInitiated": "Sell Initiated (Simulated)",
+    "sellInitiatedDescription": "Your sell transaction has been submitted."
   },
   "SwapInterface": {
     "title": "Swap",

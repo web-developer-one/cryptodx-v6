@@ -74,7 +74,8 @@
     "title": "암호화폐 판매",
     "youSell": "판매 금액",
     "youReceive": "받는 금액",
-    "sellInitiated": "판매 시작됨(시뮬레이션)"
+    "sellInitiated": "판매 시작됨(시뮬레이션)",
+    "sellInitiatedDescription": "판매 거래가 제출되었습니다."
   },
   "SwapInterface": {
     "title": "스왑",

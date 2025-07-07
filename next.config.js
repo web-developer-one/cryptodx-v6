@@ -11,12 +11,6 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'avataaars.io',
-        port: '',
-        pathname: '/**',
-      },
-      {
-        protocol: 'https',
         hostname: 'cryptologos.cc',
         port: '',
         pathname: '/**',
