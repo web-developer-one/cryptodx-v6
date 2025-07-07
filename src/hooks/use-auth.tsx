@@ -19,7 +19,7 @@ interface AuthContextType {
   login: (email: string, pass: string) => void;
   logout: () => void;
   register: (username: string, email: string, pass: string) => void;
-  updateProfile: (profileData: UserProfile) => void;
+  updateProfile: (profileData: Partial<UserProfile>) => void;
   setSessionUser: (data: Partial<UserProfile>) => void;
 }
 
@@ -138,23 +138,28 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     router.push('/');
   }, [router, toast, t]);
 
-  const updateProfile = useCallback((profileData: UserProfile) => {
-    if (!user) return;
+  const updateProfile = useCallback((profileData: Partial<UserProfile>) => {
+    setUser(currentUser => {
+      if (!currentUser) return null;
 
-    const users = getUsers();
-    const userIndex = users.findIndex(u => u.id === profileData.id);
-    
-    if (userIndex !== -1) {
-      users[userIndex] = profileData;
-      saveUsers(users);
-    } else if (profileData.isAdmin) {
-      // Admin user might not be in the list, no need to save
-    }
+      const updatedUser = { ...currentUser, ...profileData } as UserProfile;
+      
+      const users = getUsers();
+      const userIndex = users.findIndex(u => u.id === updatedUser.id);
+      
+      if (userIndex !== -1) {
+        users[userIndex] = updatedUser;
+        saveUsers(users);
+      } else if (updatedUser.isAdmin) {
+        // Admin user might not be in the list, no need to save
+      }
 
-    setUser(profileData);
-    localStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(profileData));
-    toast({ title: t('ProfilePage.saveSuccessTitle'), description: t('ProfilePage.saveSuccessDescription') });
-  }, [user, toast, t]);
+      localStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(updatedUser));
+      toast({ title: t('ProfilePage.saveSuccessTitle'), description: t('ProfilePage.saveSuccessDescription') });
+      
+      return updatedUser;
+    });
+  }, [toast, t]);
 
   const setSessionUser = useCallback((data: Partial<UserProfile>) => {
     setUser(currentUser => {

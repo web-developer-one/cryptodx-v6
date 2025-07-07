@@ -38,6 +38,7 @@ export default function ProfilePage() {
 
   const form = useForm<ProfileFormData>({
     resolver: zodResolver(ProfileSchema),
+    // Form will be populated by an effect once user data is loaded.
     defaultValues: {
       username: '',
       firstName: '',
@@ -47,21 +48,20 @@ export default function ProfilePage() {
     },
   });
 
-  const { reset, watch } = form;
+  const { reset } = form;
 
+  // Effect to redirect if not logged in
   useEffect(() => {
     if (!isLoading && !user) {
       router.push('/login');
     }
   }, [user, isLoading, router]);
 
+  // This effect syncs the form with the user data from the auth context.
+  // It runs when the user data is first loaded, and whenever it's updated (e.g., avatar change).
   useEffect(() => {
     document.title = t('PageTitles.profile');
     if (user) {
-      // This effect populates the form when the user data is first loaded,
-      // or when a different user logs in. The dependency on `user.id` is crucial
-      // to prevent this from re-running and overwriting form edits when the
-      // user object is updated for the live avatar preview.
       reset({
         username: user.username,
         firstName: user.firstName,
@@ -70,18 +70,20 @@ export default function ProfilePage() {
         avatar: user.avatar,
       });
     }
-  }, [t, user?.id, reset]);
+  }, [t, user, reset]);
 
   const onSubmit = (data: ProfileFormData) => {
-    if (user) {
-      // Merge the latest session data (which has the previewed avatar)
-      // with the form data before saving.
-      updateProfile({
-        ...user,
-        ...data,
-        age: data.age === null ? null : Number(data.age),
-      });
-    }
+    if (!user) return;
+    updateProfile({
+      // The form data is the source of truth for edited fields.
+      ...data,
+      // But we still need the non-form data from the user object
+      id: user.id,
+      email: user.email,
+      isAdmin: user.isAdmin,
+      pricingPlan: user.pricingPlan,
+      age: data.age === null ? null : Number(data.age),
+    });
   };
 
   if (isLoading || !user) {
@@ -185,10 +187,9 @@ export default function ProfilePage() {
                     <FormControl>
                         <RadioGroup
                           onValueChange={(value) => {
-                              // This updates the form's internal state so it will be submitted on save.
-                              field.onChange(value);
-                              // This updates the live session state so the header immediately reflects the change.
-                              setSessionUser({ avatar: value });
+                            // Update the central auth state directly.
+                            // The form will re-sync via the useEffect hook.
+                            setSessionUser({ avatar: value });
                           }}
                           value={field.value}
                           className="flex flex-wrap justify-center gap-4"
