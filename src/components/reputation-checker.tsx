@@ -8,25 +8,48 @@ import { Copy, Check, ShieldAlert, Loader2, ExternalLink } from 'lucide-react';
 import { useLanguage } from '@/hooks/use-language';
 import { useToast } from '@/hooks/use-toast';
 import { CodeBlock } from './code-block';
+import { cn } from '@/lib/utils';
 
-// Component to render the report text, parsing basic markdown for bolding.
-const FormattedReport = ({ rawText }: { rawText: string }) => {
-    // Splits the text by the bold markers (e.g., **text**) and reassembles it with <strong> tags.
-    const parts = rawText.split(/(\*\*.*?\*\*)/g);
-    
+// Parses the score from a raw text report.
+const parseScore = (reportText: string): number | null => {
+    if (!reportText) return null;
+    const scoreRegex = /(?:Overall Reputation Score|reputation score of):\s*(\d{1,2})\/10/i;
+    const match = reportText.match(scoreRegex);
+    if (match && match[1]) {
+        return parseInt(match[1], 10);
+    }
+    return null;
+};
+
+// Determines the color class based on the reputation score.
+const getScoreColor = (score: number | null): string => {
+    if (score === null) return '';
+    if (score < 5) return 'text-destructive'; // Red for scores < 5
+    if (score <= 7) return 'text-warning';   // Yellow for scores 5-7
+    return 'text-success';                   // Green for scores > 7
+};
+
+const FormattedReport = ({ rawText, scoreColorClass }: { rawText: string, scoreColorClass: string }) => {
+    const scoreRegex = /(?:Overall Reputation Score|reputation score of):\s*(\d{1,2})\/10/i;
+
     return (
         <div className="prose prose-sm dark:prose-invert max-w-none text-muted-foreground space-y-2">
-            {parts.map((part, index) => {
-                if (part.startsWith('**') && part.endsWith('**')) {
-                    return <strong key={index}>{part.substring(2, part.length - 2)}</strong>;
-                }
-                // Render text, preserving line breaks.
-                return part.split('\n').map((line, lineIndex) => (
-                    <React.Fragment key={`${index}-${lineIndex}`}>
-                        {line}
-                        {lineIndex < part.split('\n').length - 1 && <br />}
-                    </React.Fragment>
-                ));
+            {rawText.split('\n').map((line, index) => {
+                if (!line.trim()) return null;
+                
+                const isScoreLine = scoreRegex.test(line);
+                const parts = line.split(/(\*\*.*?\*\*)/g);
+                
+                return (
+                    <p key={index} className={cn(isScoreLine && scoreColorClass)}>
+                        {parts.map((part, partIndex) => {
+                            if (part.startsWith('**') && part.endsWith('**')) {
+                                return <strong key={partIndex}>{part.substring(2, part.length - 2)}</strong>;
+                            }
+                            return part;
+                        })}
+                    </p>
+                );
             })}
         </div>
     );
@@ -35,6 +58,7 @@ const FormattedReport = ({ rawText }: { rawText: string }) => {
 export function ReputationChecker({ tokenName }: { tokenName: string }) {
     const [isLoading, setIsLoading] = useState(true);
     const [report, setReport] = useState<string | null>(null);
+    const [score, setScore] = useState<number | null>(null);
     const [error, setError] = useState<{ type: string, message: string } | null>(null);
     const [isCopied, setIsCopied] = useState(false);
     const { t } = useLanguage();
@@ -47,6 +71,7 @@ export function ReputationChecker({ tokenName }: { tokenName: string }) {
             setIsLoading(true);
             setError(null);
             setReport(null);
+            setScore(null);
 
             try {
                 const response = await fetch('/api/reputation', {
@@ -55,16 +80,13 @@ export function ReputationChecker({ tokenName }: { tokenName: string }) {
                     body: JSON.stringify({ tokenName })
                 });
 
-                // This is the critical part: check if the response is OK *before* parsing.
                 if (!response.ok) {
                     let errorData;
                     try {
                         errorData = await response.json();
                     } catch (e) {
-                         // The response was not JSON (e.g., an HTML error page from the server).
                         throw new Error(`Server returned an error. Status: ${response.status}`);
                     }
-                    // Throw an error with the structured message from our API.
                     throw { 
                         type: errorData.error || 'FETCH_FAILED',
                         message: errorData.message || 'An unknown server error occurred.'
@@ -73,6 +95,7 @@ export function ReputationChecker({ tokenName }: { tokenName: string }) {
 
                 const result = await response.json();
                 setReport(result.report);
+                setScore(parseScore(result.report));
 
             } catch (err: any) {
                 console.error("Error fetching reputation:", err);
@@ -86,7 +109,7 @@ export function ReputationChecker({ tokenName }: { tokenName: string }) {
         };
 
         checkReputation();
-    }, [tokenName, t]); // Dependency array ensures this runs when the token name changes.
+    }, [tokenName, t]);
 
     const handleCopyToClipboard = () => {
         if (report) {
@@ -137,10 +160,14 @@ export function ReputationChecker({ tokenName }: { tokenName: string }) {
         );
     }
 
+    const scoreColor = getScoreColor(score);
+
     return (
         <Card>
             <CardHeader>
-                <CardTitle className="text-xl">{t('ReputationChecker.title').replace('{tokenName}', tokenName)}</CardTitle>
+                <CardTitle className={cn("text-xl transition-colors", scoreColor)}>
+                    {t('ReputationChecker.title').replace('{tokenName}', tokenName)}
+                </CardTitle>
                 <CardDescription>{t('ReputationChecker.description')}</CardDescription>
             </CardHeader>
             <CardContent className="min-h-[250px] flex flex-col items-center justify-center">
@@ -165,7 +192,7 @@ export function ReputationChecker({ tokenName }: { tokenName: string }) {
                                 {isCopied ? t('ReputationChecker.copied') : t('ReputationChecker.copy')}
                             </Button>
                         </div>
-                        <FormattedReport rawText={report} />
+                        <FormattedReport rawText={report} scoreColorClass={scoreColor} />
                     </div>
                 )}
             </CardContent>
