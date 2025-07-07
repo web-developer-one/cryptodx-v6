@@ -6,24 +6,12 @@ import type { Cryptocurrency } from '@/lib/types';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from '@/components/ui/alert-dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger } from '@/components/ui/select';
 import Image from 'next/image';
 import { useWallet } from '@/hooks/use-wallet';
 import { WalletConnect } from './wallet-connect';
 import { useToast } from '@/hooks/use-toast';
 import { useLanguage } from '@/hooks/use-language';
-import { ReputationAlert } from './reputation-alert';
-import { getReputationReport, ReputationOutput } from '@/ai/flows/reputation-flow';
 
 type SupportedCurrency = {
     symbol: string;
@@ -46,7 +34,7 @@ const supportedCurrencies: SupportedCurrency[] = [
 
 
 export function BuyInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[] }) {
-  const { t, language } = useLanguage();
+  const { t } = useLanguage();
   const [toToken, setToToken] = useState<Cryptocurrency>(cryptocurrencies.find(c => c.symbol === 'ETH') || cryptocurrencies[0]);
   const [fromFiat, setFromFiat] = useState<SupportedCurrency>(supportedCurrencies[0]);
   const [fiatAmount, setFiatAmount] = useState<string>('100');
@@ -54,10 +42,6 @@ export function BuyInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocur
   const { isActive: isWalletConnected } = useWallet();
   const { toast } = useToast();
   
-  const [isCheckingReputation, setIsCheckingReputation] = useState(false);
-  const [reputationReport, setReputationReport] = useState<ReputationOutput | null>(null);
-  const [reputationError, setReputationError] = useState<string | null>(null);
-
   useEffect(() => {
     if (fiatAmount && toToken?.price > 0 && fromFiat) {
       const amountInUsd = parseFloat(fiatAmount) / fromFiat.rate;
@@ -101,53 +85,12 @@ export function BuyInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocur
     }
   }
 
-  const proceedToPayment = () => {
-     toast({
-      title: t('BuyInterface.buyInitiated'),
-      description: t('BuyInterface.reputationPassed'),
-    });
-  }
-
-  const handleBuyClick = async () => {
-    if (!toToken) return;
-
-    setIsCheckingReputation(true);
-    setReputationReport(null);
-    setReputationError(null);
-
-    try {
-        const report = await getReputationReport({
-            tokenName: toToken.name,
-            tokenSymbol: toToken.symbol,
-            language,
-        });
-        setReputationReport(report);
-        if (report.status === 'clear') {
-           proceedToPayment();
-           // Close the dialog since it's clear
-           setIsCheckingReputation(false);
-        }
-    } catch (err: any) {
-        setReputationError(t('BuyInterface.reputationCheckFailed'));
-        console.error("Reputation check failed:", err);
-    }
-  };
-
-  const onAlertDialogClose = () => {
-      setIsCheckingReputation(false);
-      setReputationReport(null);
-      setReputationError(null);
-  }
-
-  const handleAcknowledgeAndContinue = () => {
-    onAlertDialogClose();
+  const handleBuyClick = () => {
     toast({
       title: t('BuyInterface.buyInitiated'),
-      description: t('BuyInterface.acknowledgedRisk'),
+      description: t('BuyInterface.paymentProvider'),
     });
   }
-  
-  const shouldOpenDialog = isCheckingReputation;
 
   return (
     <>
@@ -226,8 +169,8 @@ export function BuyInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocur
       </CardContent>
       <CardFooter>
         {isWalletConnected ? (
-            <Button className="w-full h-12 text-lg" onClick={handleBuyClick} disabled={isCheckingReputation}>
-              {isCheckingReputation ? t('ReputationAlert.checking') : t('BuyInterface.continue')}
+            <Button className="w-full h-12 text-lg" onClick={handleBuyClick}>
+              {t('BuyInterface.continue')}
             </Button>
         ) : (
           <WalletConnect>
@@ -236,34 +179,6 @@ export function BuyInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocur
         )}
       </CardFooter>
     </Card>
-
-    <AlertDialog open={shouldOpenDialog} onOpenChange={(isOpen) => !isOpen && onAlertDialogClose()}>
-        <AlertDialogContent>
-             <AlertDialogHeader>
-                <AlertDialogTitle>{t('BuyInterface.reputationAlert')}</AlertDialogTitle>
-                <AlertDialogDescription>
-                    {t('ReputationAlert.dialogDescription')}
-                </AlertDialogDescription>
-            </AlertDialogHeader>
-            <div className="max-h-[60vh] overflow-y-auto pr-4">
-                <ReputationAlert
-                    isLoading={!reputationReport && !reputationError}
-                    report={reputationReport}
-                    error={reputationError}
-                    tokenName={toToken.name}
-                    tokenSymbol={toToken.symbol}
-                />
-            </div>
-            {(reputationReport || reputationError) && (
-              <AlertDialogFooter>
-                  <AlertDialogCancel>{t('SwapInterface.cancel')}</AlertDialogCancel>
-                  <AlertDialogAction onClick={handleAcknowledgeAndContinue}>
-                    {t('BuyInterface.acknowledgeAndContinue')}
-                  </AlertDialogAction>
-              </AlertDialogFooter>
-            )}
-        </AlertDialogContent>
-    </AlertDialog>
     </>
   );
 }
