@@ -5,7 +5,7 @@ import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js";
 import { useState } from "react";
 import { useUser } from "@/hooks/use-user";
 import { useRouter } from "next/navigation";
-import { useToast } from "./ui/toast";
+import { useToast } from "@/hooks/use-toast";
 import { Loader2 } from "lucide-react";
 import { Button } from "./ui/button";
 
