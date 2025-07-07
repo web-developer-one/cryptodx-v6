@@ -1,3 +1,4 @@
+
 'use client';
 
 import { ReputationOutput } from "@/ai/flows/reputation-flow";
@@ -126,4 +127,6 @@ export function ReputationAlert({ report, error, isLoading, tokenName, tokenSymb
                 <p>{t('ReputationAlert.infoDisclaimer')}</p>
             </div>
         </CardContent>
-    
+    </Card>
+  );
+}

@@ -1,3 +1,4 @@
+
 'use server';
 /**
  * @fileOverview An AI flow for assessing the reputation of a cryptocurrency token.
@@ -89,7 +90,7 @@ Based on your analysis, set the 'status' field:
 - **"warning"**: If the name fits speculative or "meme" coin patterns but is not a confirmed scam. The findings should explain why the name is considered speculative.
 - **"critical"**: If the name strongly suggests impersonation or matches a known scam from your training data.
 
-Provide a one-sentence summary and a list of specific findings if any issues are detected. For each finding, explain your reasoning clearly. You do not need to provide a 'sourceUrl'.
+Provide a one-sentence summary and a list of specific findings if any issues are detected. You do not need to provide a 'sourceUrl'.
 
 Language for report: {{{language}}}
 Token to analyze:
@@ -125,4 +126,7 @@ const reputationFlow = ai.defineFlow(
     if (!report) {
       throw new Error('Failed to generate reputation report from the AI model.');
     }
-
+    
+    return report;
+  }
+);
