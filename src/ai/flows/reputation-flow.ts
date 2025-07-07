@@ -3,7 +3,7 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'zod';
-import { googleSearch } from '@genkit-ai/googleai';
+// Removed the googleSearch import as it was causing server errors.
 
 // Input and Output schemas for the reputation check.
 export const ReputationInputSchema = z.object({
@@ -31,27 +31,26 @@ const reputationFlow = ai.defineFlow(
     outputSchema: ReputationOutputSchema,
   },
   async (input) => {
-    // This prompt asks the AI to act as an analyst and provide a structured report.
+    // This prompt asks the AI to act as an analyst and provide a structured report based on its internal knowledge.
     const prompt = `
         You are a crypto security analyst. Please perform a comprehensive reputation check for the cryptocurrency token: "${input.tokenName}".
-        Use the provided search tool to find real-time information from the internet. Your analysis should cover the following points:
+        Your analysis should cover the following points based on your knowledge up to your last training data:
 
-        1.  **Social Media Sentiment:** Analyze recent discussions on platforms like X (formerly Twitter) and Reddit. What is the general sentiment (Positive, Negative, Neutral)? Are there any significant discussions, red flags, or positive endorsements from reputable sources?
+        1.  **Social Media Sentiment:** Analyze common discussions on platforms like X (formerly Twitter) and Reddit. What is the general sentiment (Positive, Negative, Neutral)? Are there any significant discussions, red flags, or positive endorsements from reputable sources?
 
-        2.  **Developer Activity & Community:** Look for signs of active development (e.g., GitHub commits if available) and an engaged community. Is the project team transparent?
+        2.  **Developer Activity & Community:** Look for signs of active development and an engaged community. Is the project team transparent?
 
-        3.  **Potential Red Flags:** Identify any common red flags such as accusations of being a scam, lack of communication from the team, unresolved community issues, or suspicious wallet activities if mentioned in public discussions.
+        3.  **Potential Red Flags:** Identify any common red flags such as accusations of being a scam, lack of communication from the team, or unresolved community issues.
 
         4.  **Overall Summary:** Provide a concise summary of your findings and a final reputation score from 1 to 10 (1 being very poor, 10 being excellent).
 
         Structure your response clearly with headings for each section. Use Markdown for formatting (e.g., **Heading** for bold headings).
-        Cite your sources with URLs where possible.
+        Cite your sources with URLs where possible, if you have them in your knowledge base.
     `;
 
-    // We pass the googleSearch tool to the generate call to allow the model to access the internet.
+    // The AI will generate a report based on its training data without live web access.
     const response = await ai.generate({
       prompt,
-      tools: [googleSearch],
     });
     
     const reportText = response.text;
