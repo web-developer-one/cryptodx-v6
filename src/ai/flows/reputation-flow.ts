@@ -60,7 +60,7 @@ const reputationPrompt = ai.definePrompt({
   output: {
     schema: ReputationOutputSchema,
   },
-  prompt: `You are a cryptocurrency risk assessment AI. Your knowledge is based on information available up to your last training cut-off. You cannot access real-time data.
+  system: `You are a cryptocurrency risk assessment AI. Your knowledge is based on information available up to your last training cut-off. You cannot access real-time data.
 
 Your task is to analyze the provided token's name and symbol to identify potential red flags based on patterns commonly associated with high-risk or fraudulent tokens. Generate a risk report in the specified language.
 
@@ -75,9 +75,8 @@ Set the 'status' field:
 - "warning": If the name fits speculative patterns but is not a confirmed scam.
 - "critical": If the name strongly suggests impersonation or matches a known scam.
 
-Provide a one-sentence summary and a list of specific findings if any issues are detected. Do not provide a 'sourceUrl' unless you have a high-confidence, specific URL from your training data. A Google search link is not acceptable.
-
-Language for report: {{{language}}}
+Provide a one-sentence summary and a list of specific findings if any issues are detected. Do not provide a 'sourceUrl' unless you have a high-confidence, specific URL from your training data. A Google search link is not acceptable.`,
+  prompt: `Language for report: {{{language}}}
 Token to analyze:
 Name: {{{tokenName}}}
 Symbol: {{{tokenSymbol}}}`,
@@ -91,24 +90,13 @@ const reputationFlow = ai.defineFlow(
     outputSchema: ReputationOutputSchema,
   },
   async (input) => {
-    const llmResponse = await reputationPrompt(
-      {
-        tokenName: input.tokenName,
-        tokenSymbol: input.tokenSymbol,
-        language: input.language,
-      },
-      {
-        model: 'gemini-1.5-pro-latest',
-      }
-    );
+    const { output } = await reputationPrompt(input);
 
-    const report = llmResponse.output;
-
-    if (!report) {
+    if (!output) {
       throw new Error('Failed to generate reputation report from the AI model.');
     }
     
-    return report;
+    return output;
   }
 );
 
