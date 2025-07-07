@@ -226,7 +226,7 @@ export default function ProfilePage() {
                                         user.avatar === avatarUrl ? "ring-primary" : "ring-transparent hover:ring-muted-foreground"
                                     )}
                                 >
-                                     <Image src={avatarUrl} alt={`Avatar ${index + 1}`} width={80} height={80} className="rounded-full" />
+                                     <Image src={avatarUrl} alt={`Avatar ${index + 1}`} width={60} height={60} className="rounded-full" />
                                 </button>
                             ))}
                         </div>
@@ -246,3 +246,4 @@ export default function ProfilePage() {
     </div>
   );
 }
+    
