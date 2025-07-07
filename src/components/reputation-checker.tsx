@@ -13,7 +13,7 @@ import { cn } from '@/lib/utils';
 // Parses the score from a raw text report, handling multiple phrasings.
 const parseScore = (reportText: string): number | null => {
     if (!reportText) return null;
-    const scoreRegex = /(?:Overall Reputation Score|Final Reputation Score|reputation score of):\s*(\d{1,2})\/10/i;
+    const scoreRegex = /(?:Overall Reputation Score|Final Reputation Score|Reputation Score):\s*(\d{1,2})\/10/i;
     const match = reportText.match(scoreRegex);
     if (match && match[1]) {
         return parseInt(match[1], 10);
@@ -30,7 +30,7 @@ const getScoreColor = (score: number | null): string => {
 };
 
 const FormattedReport = ({ rawText, scoreColorClass }: { rawText: string, scoreColorClass: string }) => {
-    const scoreRegex = /(?:Overall Reputation Score|Final Reputation Score|reputation score of):\s*(\d{1,2})\/10/i;
+    const scoreRegex = /(?:Overall Reputation Score|Final Reputation Score|Reputation Score):\s*(\d{1,2})\/10/i;
 
     return (
         <div className="prose prose-sm dark:prose-invert max-w-none text-muted-foreground space-y-2">
