@@ -125,3 +125,6 @@ export function TokenDetailClient({ initialToken }: { initialToken: TokenDetails
             <PriceChart token={token} />
         </div>
       </div>
+    </>
+  );
+}
