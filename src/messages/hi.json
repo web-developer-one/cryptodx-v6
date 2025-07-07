@@ -12,7 +12,10 @@
     "hideUnknownTokens": "अज्ञात टोकन छिपाएँ",
     "language": "भाषा",
     "LightMode": "लाइट मोड",
-    "DarkMode": "डार्क मोड"
+    "DarkMode": "डार्क मोड",
+    "myAccount": "मेरा खाता",
+    "profile": "प्रोफ़ाइल",
+    "logout": "लॉग आउट"
   },
   "HomePage": {
     "title": "सहजता से अपनी क्रिप्टो स्वैप करें",
@@ -74,8 +77,7 @@
     "title": "क्रिप्टो बेचें",
     "youSell": "आप बेचते हैं",
     "youReceive": "आपको मिलता है",
-    "sellInitiated": "बिक्री शुरू हुई (नकली)",
-    "sellInitiatedDescription": "आपका बिक्री लेनदेन सबमिट कर दिया गया है।"
+    "sellInitiated": "बिक्री शुरू हुई (नकली)"
   },
   "SwapInterface": {
     "title": "स्वैप",
@@ -338,6 +340,56 @@
     "tokens": "टोकन का अन्वेषण करें",
     "tokenDetail": "{tokenName} विवरण",
     "transactions": "लेनदेन",
-    "pricing": "मूल्य निर्धारण योजनाएं"
+    "pricing": "मूल्य निर्धारण योजनाएं",
+    "login": "लॉग इन",
+    "register": "खाता बनाएं",
+    "profile": "मेरी प्रोफ़ाइल"
+  },
+  "LoginPage": {
+    "subtitle": "जारी रखने के लिए अपने खाते में लॉग इन करें।",
+    "email": "ईमेल पता",
+    "password": "पासवर्ड",
+    "loginButton": "लॉग इन",
+    "noAccount": "खाता नहीं है?",
+    "registerNow": "अभी पंजीकरण करें",
+    "loginSuccessTitle": "लॉगिन सफल",
+    "loginSuccessAdmin": "वापस स्वागत है, प्रशासक!",
+    "loginSuccessUser": "वापस स्वागत है!",
+    "loginErrorTitle": "लॉगिन विफल",
+    "loginErrorInvalid": "अमान्य ईमेल या पासवर्ड।"
+  },
+  "RegisterPage": {
+    "subtitle": "शुरू करने के लिए एक खाता बनाएँ।",
+    "username": "उपयोगकर्ता नाम",
+    "usernamePlaceholder": "जैसे सातोशी",
+    "email": "ईमेल पता",
+    "password": "पासवर्ड",
+    "confirmPassword": "पासवर्ड की पुष्टि करें",
+    "registerButton": "खाता बनाएं",
+    "hasAccount": "पहले से ही एक खाता है?",
+    "loginNow": "अभी लॉग इन करें",
+    "registerSuccessTitle": "पंजीकरण सफल",
+    "registerSuccessUser": "आपका खाता बन गया है। स्वागत है!",
+    "registerErrorTitle": "पंजीकरण विफल",
+    "registerErrorExists": "इस ईमेल से एक खाता पहले से मौजूद है।"
+  },
+  "ProfilePage": {
+    "title": "मेरी प्रोफ़ाइल",
+    "subtitle": "अपने खाते का विवरण और प्राथमिकताएँ अपडेट करें।",
+    "username": "उपयोगकर्ता नाम",
+    "emailAddress": "ईमेल पता (बदला नहीं जा सकता)",
+    "firstName": "पहला नाम",
+    "lastName": "अंतिम नाम",
+    "age": "आयु",
+    "avatar": "अवतार चुनें",
+    "pricePlan": "मूल्य निर्धारण योजना",
+    "saveButton": "प्रोफ़ाइल सहेजें",
+    "saving": "सहेज रहा है...",
+    "saveSuccessTitle": "प्रोफ़ाइल अपडेट की गई",
+    "saveSuccessDescription": "आपकी प्रोफ़ाइल सफलतापूर्वक अपडेट कर दी गई है।",
+    "disclaimer": "हम आपकी गोपनीयता का महत्व देते हैं। हमारी साइट पर कोई ब्लॉकचेन, क्रिप्टो या निजी कुंजी जानकारी कभी संग्रहीत नहीं की जाती है।"
+  },
+  "LogoutToast": {
+    "description": "आप सफलतापूर्वक लॉग आउट हो गए हैं।"
   }
 }

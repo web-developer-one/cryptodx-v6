@@ -12,7 +12,10 @@
     "hideUnknownTokens": "إخفاء الرموز غير المعروفة",
     "language": "اللغة",
     "LightMode": "الوضع الفاتح",
-    "DarkMode": "الوضع الداكن"
+    "DarkMode": "الوضع الداكن",
+    "myAccount": "حسابي",
+    "profile": "الملف الشخصي",
+    "logout": "تسجيل الخروج"
   },
   "HomePage": {
     "title": "بدّل عملاتك المشفرة بسلاسة",
@@ -74,8 +77,7 @@
     "title": "بيع العملات المشفرة",
     "youSell": "أنت تبيع",
     "youReceive": "أنت تستلم",
-    "sellInitiated": "تم بدء البيع (محاكاة)",
-    "sellInitiatedDescription": "تم إرسال معاملة البيع الخاصة بك."
+    "sellInitiated": "تم بدء البيع (محاكاة)"
   },
   "SwapInterface": {
     "title": "تبديل",
@@ -338,6 +340,56 @@
     "tokens": "استكشاف الرموز",
     "tokenDetail": "تفاصيل {tokenName}",
     "transactions": "المعاملات",
-    "pricing": "خطط الأسعار"
+    "pricing": "خطط الأسعار",
+    "login": "تسجيل الدخول",
+    "register": "إنشاء حساب",
+    "profile": "ملفي الشخصي"
+  },
+  "LoginPage": {
+    "subtitle": "سجل الدخول إلى حسابك للمتابعة.",
+    "email": "عنوان البريد الإلكتروني",
+    "password": "كلمة المرور",
+    "loginButton": "تسجيل الدخول",
+    "noAccount": "ليس لديك حساب؟",
+    "registerNow": "سجل الآن",
+    "loginSuccessTitle": "تم تسجيل الدخول بنجاح",
+    "loginSuccessAdmin": "مرحبًا بعودتك أيها المسؤول!",
+    "loginSuccessUser": "مرحبًا بعودتك!",
+    "loginErrorTitle": "فشل تسجيل الدخول",
+    "loginErrorInvalid": "بريد إلكتروني أو كلمة مرور غير صالحة."
+  },
+  "RegisterPage": {
+    "subtitle": "أنشئ حسابًا للبدء.",
+    "username": "اسم المستخدم",
+    "usernamePlaceholder": "مثال: ساتوشي",
+    "email": "عنوان البريد الإلكتروني",
+    "password": "كلمة المرور",
+    "confirmPassword": "تأكيد كلمة المرور",
+    "registerButton": "إنشاء حساب",
+    "hasAccount": "هل لديك حساب بالفعل؟",
+    "loginNow": "سجل الدخول الآن",
+    "registerSuccessTitle": "تم التسجيل بنجاح",
+    "registerSuccessUser": "تم إنشاء حسابك. مرحباً بك!",
+    "registerErrorTitle": "فشل التسجيل",
+    "registerErrorExists": "يوجد حساب بهذا البريد الإلكتروني بالفعل."
+  },
+  "ProfilePage": {
+    "title": "ملفي الشخصي",
+    "subtitle": "قم بتحديث تفاصيل حسابك وتفضيلاتك.",
+    "username": "اسم المستخدم",
+    "emailAddress": "عنوان البريد الإلكتروني (لا يمكن تغييره)",
+    "firstName": "الاسم الأول",
+    "lastName": "اسم العائلة",
+    "age": "العمر",
+    "avatar": "اختر صورة رمزية",
+    "pricePlan": "خطة الأسعار",
+    "saveButton": "حفظ الملف الشخصي",
+    "saving": "جارٍ الحفظ...",
+    "saveSuccessTitle": "تم تحديث الملف الشخصي",
+    "saveSuccessDescription": "تم تحديث ملفك الشخصي بنجاح.",
+    "disclaimer": "نحن نقدر خصوصيتك. لا يتم تخزين أي معلومات خاصة بالبلوك تشين أو العملات المشفرة أو المفاتيح الخاصة على موقعنا."
+  },
+  "LogoutToast": {
+    "description": "لقد قمت بتسجيل الخروج بنجاح."
   }
 }

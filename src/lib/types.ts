@@ -1,5 +1,18 @@
 
 
+export interface User {
+  id: string;
+  username: string;
+  email: string;
+  password?: string; // Should not be sent to client
+  firstName: string;
+  lastName: string;
+  age: number;
+  sex: string;
+  pricePlan: 'Free' | 'Basic' | 'Advanced' | 'Administrator';
+  avatar: string;
+}
+
 export interface Cryptocurrency {
   id: number;
   name: string;

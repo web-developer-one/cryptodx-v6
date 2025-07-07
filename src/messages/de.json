@@ -12,7 +12,10 @@
     "hideUnknownTokens": "Unbekannte Token ausblenden",
     "language": "Sprache",
     "LightMode": "Heller Modus",
-    "DarkMode": "Dunkler Modus"
+    "DarkMode": "Dunkler Modus",
+    "myAccount": "Mein Konto",
+    "profile": "Profil",
+    "logout": "Abmelden"
   },
   "HomePage": {
     "title": "Tauschen Sie Ihre Krypto nahtlos",
@@ -74,8 +77,7 @@
     "title": "Krypto verkaufen",
     "youSell": "Sie verkaufen",
     "youReceive": "Sie erhalten",
-    "sellInitiated": "Verkauf eingeleitet (simuliert)",
-    "sellInitiatedDescription": "Ihre Verkaufstransaktion wurde übermittelt."
+    "sellInitiated": "Verkauf eingeleitet (simuliert)"
   },
   "SwapInterface": {
     "title": "Tauschen",
@@ -338,6 +340,56 @@
     "tokens": "Token erkunden",
     "tokenDetail": "Details zu {tokenName}",
     "transactions": "Transaktionen",
-    "pricing": "Preispläne"
+    "pricing": "Preispläne",
+    "login": "Anmelden",
+    "register": "Konto erstellen",
+    "profile": "Mein Profil"
+  },
+  "LoginPage": {
+    "subtitle": "Melden Sie sich bei Ihrem Konto an, um fortzufahren.",
+    "email": "E-Mail-Adresse",
+    "password": "Passwort",
+    "loginButton": "Anmelden",
+    "noAccount": "Haben Sie noch kein Konto?",
+    "registerNow": "Jetzt registrieren",
+    "loginSuccessTitle": "Anmeldung Erfolgreich",
+    "loginSuccessAdmin": "Willkommen zurück, Administrator!",
+    "loginSuccessUser": "Willkommen zurück!",
+    "loginErrorTitle": "Anmeldung Fehlgeschlagen",
+    "loginErrorInvalid": "Ungültige E-Mail oder Passwort."
+  },
+  "RegisterPage": {
+    "subtitle": "Erstellen Sie ein Konto, um zu beginnen.",
+    "username": "Benutzername",
+    "usernamePlaceholder": "z.B. satoshi",
+    "email": "E-Mail-Adresse",
+    "password": "Passwort",
+    "confirmPassword": "Passwort bestätigen",
+    "registerButton": "Konto erstellen",
+    "hasAccount": "Haben Sie bereits ein Konto?",
+    "loginNow": "Jetzt anmelden",
+    "registerSuccessTitle": "Registrierung Erfolgreich",
+    "registerSuccessUser": "Ihr Konto wurde erstellt. Willkommen!",
+    "registerErrorTitle": "Registrierung Fehlgeschlagen",
+    "registerErrorExists": "Ein Konto mit dieser E-Mail existiert bereits."
+  },
+  "ProfilePage": {
+    "title": "Mein Profil",
+    "subtitle": "Aktualisieren Sie Ihre Kontodetails und -einstellungen.",
+    "username": "Benutzername",
+    "emailAddress": "E-Mail-Adresse (kann nicht geändert werden)",
+    "firstName": "Vorname",
+    "lastName": "Nachname",
+    "age": "Alter",
+    "avatar": "Avatar auswählen",
+    "pricePlan": "Preisplan",
+    "saveButton": "Profil speichern",
+    "saving": "Speichern...",
+    "saveSuccessTitle": "Profil Aktualisiert",
+    "saveSuccessDescription": "Ihr Profil wurde erfolgreich aktualisiert.",
+    "disclaimer": "Wir schätzen Ihre Privatsphäre. Auf unserer Seite werden niemals Blockchain-, Krypto- oder private Schlüsselinformationen gespeichert."
+  },
+  "LogoutToast": {
+    "description": "Sie wurden erfolgreich abgemeldet."
   }
 }

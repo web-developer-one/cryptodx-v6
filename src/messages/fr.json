@@ -12,7 +12,10 @@
     "hideUnknownTokens": "Masquer les jetons inconnus",
     "language": "Langue",
     "LightMode": "Mode Clair",
-    "DarkMode": "Mode Sombre"
+    "DarkMode": "Mode Sombre",
+    "myAccount": "Mon Compte",
+    "profile": "Profil",
+    "logout": "Déconnexion"
   },
   "HomePage": {
     "title": "Échangez vos Cryptos en toute Simplicité",
@@ -74,8 +77,7 @@
     "title": "Vendre des Cryptos",
     "youSell": "Vous vendez",
     "youReceive": "Vous recevez",
-    "sellInitiated": "Vente Initiée (Simulée)",
-    "sellInitiatedDescription": "Votre transaction de vente a été soumise."
+    "sellInitiated": "Vente Initiée (Simulée)"
   },
   "SwapInterface": {
     "title": "Swap",
@@ -338,6 +340,56 @@
     "tokens": "Explorer les Jetons",
     "tokenDetail": "Détails de {tokenName}",
     "transactions": "Transactions",
-    "pricing": "Plans Tarifaires"
+    "pricing": "Plans Tarifaires",
+    "login": "Connexion",
+    "register": "Créer un Compte",
+    "profile": "Mon Profil"
+  },
+  "LoginPage": {
+    "subtitle": "Connectez-vous à votre compte pour continuer.",
+    "email": "Adresse E-mail",
+    "password": "Mot de passe",
+    "loginButton": "Connexion",
+    "noAccount": "Vous n'avez pas de compte ?",
+    "registerNow": "Inscrivez-vous maintenant",
+    "loginSuccessTitle": "Connexion Réussie",
+    "loginSuccessAdmin": "Bon retour, Administrateur !",
+    "loginSuccessUser": "Bon retour !",
+    "loginErrorTitle": "Échec de la Connexion",
+    "loginErrorInvalid": "Adresse e-mail ou mot de passe invalide."
+  },
+  "RegisterPage": {
+    "subtitle": "Créez un compte pour commencer.",
+    "username": "Nom d'utilisateur",
+    "usernamePlaceholder": "ex. satoshi",
+    "email": "Adresse E-mail",
+    "password": "Mot de passe",
+    "confirmPassword": "Confirmer le mot de passe",
+    "registerButton": "Créer un Compte",
+    "hasAccount": "Vous avez déjà un compte ?",
+    "loginNow": "Connectez-vous maintenant",
+    "registerSuccessTitle": "Inscription Réussie",
+    "registerSuccessUser": "Votre compte a été créé. Bienvenue !",
+    "registerErrorTitle": "Échec de l'Inscription",
+    "registerErrorExists": "Un compte avec cet e-mail existe déjà."
+  },
+  "ProfilePage": {
+    "title": "Mon Profil",
+    "subtitle": "Mettez à jour les détails et préférences de votre compte.",
+    "username": "Nom d'utilisateur",
+    "emailAddress": "Adresse E-mail (ne peut pas être changée)",
+    "firstName": "Prénom",
+    "lastName": "Nom",
+    "age": "Âge",
+    "avatar": "Sélectionner un Avatar",
+    "pricePlan": "Plan Tarifaire",
+    "saveButton": "Enregistrer le Profil",
+    "saving": "Enregistrement...",
+    "saveSuccessTitle": "Profil Mis à Jour",
+    "saveSuccessDescription": "Votre profil a été mis à jour avec succès.",
+    "disclaimer": "Nous respectons votre vie privée. Aucune information sur la blockchain, les cryptos ou les clés privées n'est jamais stockée sur notre site."
+  },
+  "LogoutToast": {
+    "description": "Vous avez été déconnecté avec succès."
   }
 }

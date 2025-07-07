@@ -12,7 +12,10 @@
     "hideUnknownTokens": "Скрыть неизвестные токены",
     "language": "Язык",
     "LightMode": "Светлый режим",
-    "DarkMode": "Темный режим"
+    "DarkMode": "Темный режим",
+    "myAccount": "Мой аккаунт",
+    "profile": "Профиль",
+    "logout": "Выйти"
   },
   "HomePage": {
     "title": "Беспрепятственно обменивайте свою криптовалюту",
@@ -74,8 +77,7 @@
     "title": "Продать криптовалюту",
     "youSell": "Вы продаете",
     "youReceive": "Вы получаете",
-    "sellInitiated": "Продажа инициирована (симуляция)",
-    "sellInitiatedDescription": "Ваша транзакция продажи отправлена."
+    "sellInitiated": "Продажа инициирована (симуляция)"
   },
   "SwapInterface": {
     "title": "Обмен",
@@ -338,6 +340,56 @@
     "tokens": "Исследовать токены",
     "tokenDetail": "Детали {tokenName}",
     "transactions": "Транзакции",
-    "pricing": "Тарифные планы"
+    "pricing": "Тарифные планы",
+    "login": "Войти",
+    "register": "Создать аккаунт",
+    "profile": "Мой профиль"
+  },
+  "LoginPage": {
+    "subtitle": "Войдите в свой аккаунт, чтобы продолжить.",
+    "email": "Адрес электронной почты",
+    "password": "Пароль",
+    "loginButton": "Войти",
+    "noAccount": "Нет аккаунта?",
+    "registerNow": "Зарегистрируйтесь сейчас",
+    "loginSuccessTitle": "Вход выполнен успешно",
+    "loginSuccessAdmin": "С возвращением, Администратор!",
+    "loginSuccessUser": "С возвращением!",
+    "loginErrorTitle": "Ошибка входа",
+    "loginErrorInvalid": "Неверный адрес электронной почты или пароль."
+  },
+  "RegisterPage": {
+    "subtitle": "Создайте аккаунт, чтобы начать.",
+    "username": "Имя пользователя",
+    "usernamePlaceholder": "например, satoshi",
+    "email": "Адрес электронной почты",
+    "password": "Пароль",
+    "confirmPassword": "Подтвердите пароль",
+    "registerButton": "Создать аккаунт",
+    "hasAccount": "Уже есть аккаунт?",
+    "loginNow": "Войдите сейчас",
+    "registerSuccessTitle": "Регистрация успешна",
+    "registerSuccessUser": "Ваш аккаунт был создан. Добро пожаловать!",
+    "registerErrorTitle": "Ошибка регистрации",
+    "registerErrorExists": "Аккаунт с таким адресом электронной почты уже существует."
+  },
+  "ProfilePage": {
+    "title": "Мой профиль",
+    "subtitle": "Обновите данные и предпочтения вашего аккаунта.",
+    "username": "Имя пользователя",
+    "emailAddress": "Адрес электронной почты (не может быть изменен)",
+    "firstName": "Имя",
+    "lastName": "Фамилия",
+    "age": "Возраст",
+    "avatar": "Выберите аватар",
+    "pricePlan": "Тарифный план",
+    "saveButton": "Сохранить профиль",
+    "saving": "Сохранение...",
+    "saveSuccessTitle": "Профиль обновлен",
+    "saveSuccessDescription": "Ваш профиль был успешно обновлен.",
+    "disclaimer": "Мы ценим вашу конфиденциальность. На нашем сайте никогда не хранится информация о блокчейне, криптовалюте или приватных ключах."
+  },
+  "LogoutToast": {
+    "description": "Вы успешно вышли из системы."
   }
 }

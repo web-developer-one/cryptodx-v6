@@ -12,7 +12,10 @@
     "hideUnknownTokens": "Hide unknown tokens",
     "language": "Language",
     "LightMode": "Light Mode",
-    "DarkMode": "Dark Mode"
+    "DarkMode": "Dark Mode",
+    "myAccount": "My Account",
+    "profile": "Profile",
+    "logout": "Logout"
   },
   "HomePage": {
     "title": "Seamlessly Swap Your Crypto",
@@ -74,8 +77,7 @@
     "title": "Sell Crypto",
     "youSell": "You sell",
     "youReceive": "You receive",
-    "sellInitiated": "Sell Initiated (Simulated)",
-    "sellInitiatedDescription": "Your sell transaction has been submitted."
+    "sellInitiated": "Sell Initiated (Simulated)"
   },
   "SwapInterface": {
     "title": "Swap",
@@ -338,6 +340,56 @@
     "tokens": "Explore Tokens",
     "tokenDetail": "{tokenName} Details",
     "transactions": "Transactions",
-    "pricing": "Pricing Plans"
+    "pricing": "Pricing Plans",
+    "login": "Login",
+    "register": "Register",
+    "profile": "My Profile"
+  },
+  "LoginPage": {
+    "subtitle": "Login to your account to continue.",
+    "email": "Email Address",
+    "password": "Password",
+    "loginButton": "Login",
+    "noAccount": "Don't have an account?",
+    "registerNow": "Register now",
+    "loginSuccessTitle": "Login Successful",
+    "loginSuccessAdmin": "Welcome back, Administrator!",
+    "loginSuccessUser": "Welcome back!",
+    "loginErrorTitle": "Login Failed",
+    "loginErrorInvalid": "Invalid email or password."
+  },
+  "RegisterPage": {
+    "subtitle": "Create an account to get started.",
+    "username": "Username",
+    "usernamePlaceholder": "e.g. satoshi",
+    "email": "Email Address",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "registerButton": "Create Account",
+    "hasAccount": "Already have an account?",
+    "loginNow": "Login now",
+    "registerSuccessTitle": "Registration Successful",
+    "registerSuccessUser": "Your account has been created. Welcome!",
+    "registerErrorTitle": "Registration Failed",
+    "registerErrorExists": "An account with this email already exists."
+  },
+  "ProfilePage": {
+    "title": "My Profile",
+    "subtitle": "Update your account details and preferences.",
+    "username": "Username",
+    "emailAddress": "Email Address (cannot be changed)",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "age": "Age",
+    "avatar": "Select Avatar",
+    "pricePlan": "Price Plan",
+    "saveButton": "Save Profile",
+    "saving": "Saving...",
+    "saveSuccessTitle": "Profile Updated",
+    "saveSuccessDescription": "Your profile has been successfully updated.",
+    "disclaimer": "We value your privacy. No blockchain, crypto, or private key information is ever stored on our site."
+  },
+  "LogoutToast": {
+    "description": "You have been successfully logged out."
   }
 }

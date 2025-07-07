@@ -12,7 +12,10 @@
     "hideUnknownTokens": "Ocultar tokens desconocidos",
     "language": "Idioma",
     "LightMode": "Modo Claro",
-    "DarkMode": "Modo Oscuro"
+    "DarkMode": "Modo Oscuro",
+    "myAccount": "Mi Cuenta",
+    "profile": "Perfil",
+    "logout": "Cerrar Sesión"
   },
   "HomePage": {
     "title": "Intercambia tus Criptomonedas sin Complicaciones",
@@ -74,8 +77,7 @@
     "title": "Vender Cripto",
     "youSell": "Tú vendes",
     "youReceive": "Tú recibes",
-    "sellInitiated": "Venta Iniciada (Simulada)",
-    "sellInitiatedDescription": "Tu transacción de venta ha sido enviada."
+    "sellInitiated": "Venta Iniciada (Simulada)"
   },
   "SwapInterface": {
     "title": "Intercambiar",
@@ -338,6 +340,56 @@
     "tokens": "Explorar Tokens",
     "tokenDetail": "Detalles de {tokenName}",
     "transactions": "Transacciones",
-    "pricing": "Planes de Precios"
+    "pricing": "Planes de Precios",
+    "login": "Iniciar Sesión",
+    "register": "Crear Cuenta",
+    "profile": "Mi Perfil"
+  },
+  "LoginPage": {
+    "subtitle": "Inicia sesión en tu cuenta para continuar.",
+    "email": "Dirección de Correo Electrónico",
+    "password": "Contraseña",
+    "loginButton": "Iniciar Sesión",
+    "noAccount": "¿No tienes una cuenta?",
+    "registerNow": "Regístrate ahora",
+    "loginSuccessTitle": "Inicio de Sesión Exitoso",
+    "loginSuccessAdmin": "¡Bienvenido de nuevo, Administrador!",
+    "loginSuccessUser": "¡Bienvenido de nuevo!",
+    "loginErrorTitle": "Fallo en el Inicio de Sesión",
+    "loginErrorInvalid": "Correo electrónico o contraseña no válidos."
+  },
+  "RegisterPage": {
+    "subtitle": "Crea una cuenta para empezar.",
+    "username": "Nombre de Usuario",
+    "usernamePlaceholder": "ej. satoshi",
+    "email": "Dirección de Correo Electrónico",
+    "password": "Contraseña",
+    "confirmPassword": "Confirmar Contraseña",
+    "registerButton": "Crear Cuenta",
+    "hasAccount": "¿Ya tienes una cuenta?",
+    "loginNow": "Inicia sesión ahora",
+    "registerSuccessTitle": "Registro Exitoso",
+    "registerSuccessUser": "Tu cuenta ha sido creada. ¡Bienvenido!",
+    "registerErrorTitle": "Fallo en el Registro",
+    "registerErrorExists": "Ya existe una cuenta con este correo electrónico."
+  },
+  "ProfilePage": {
+    "title": "Mi Perfil",
+    "subtitle": "Actualiza los detalles y preferencias de tu cuenta.",
+    "username": "Nombre de Usuario",
+    "emailAddress": "Dirección de Correo Electrónico (no se puede cambiar)",
+    "firstName": "Nombre",
+    "lastName": "Apellido",
+    "age": "Edad",
+    "avatar": "Seleccionar Avatar",
+    "pricePlan": "Plan de Precios",
+    "saveButton": "Guardar Perfil",
+    "saving": "Guardando...",
+    "saveSuccessTitle": "Perfil Actualizado",
+    "saveSuccessDescription": "Tu perfil ha sido actualizado exitosamente.",
+    "disclaimer": "Valoramos tu privacidad. Ninguna información de blockchain, cripto o claves privadas se almacena en nuestro sitio."
+  },
+  "LogoutToast": {
+    "description": "Has cerrado sesión exitosamente."
   }
 }

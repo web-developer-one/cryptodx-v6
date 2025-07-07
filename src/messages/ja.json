@@ -12,7 +12,10 @@
     "hideUnknownTokens": "不明なトークンを非表示",
     "language": "言語",
     "LightMode": "ライトモード",
-    "DarkMode": "ダークモード"
+    "DarkMode": "ダークモード",
+    "myAccount": "マイアカウント",
+    "profile": "プロフィール",
+    "logout": "ログアウト"
   },
   "HomePage": {
     "title": "仮想通貨をシームレスにスワップ",
@@ -74,8 +77,7 @@
     "title": "仮想通貨を売却",
     "youSell": "売却額",
     "youReceive": "受取額",
-    "sellInitiated": "売却開始（シミュレーション）",
-    "sellInitiatedDescription": "売却取引が送信されました。"
+    "sellInitiated": "売却開始（シミュレーション）"
   },
   "SwapInterface": {
     "title": "スワップ",
@@ -338,6 +340,56 @@
     "tokens": "トークンを探索",
     "tokenDetail": "{tokenName}の詳細",
     "transactions": "取引",
-    "pricing": "料金プラン"
+    "pricing": "料金プラン",
+    "login": "ログイン",
+    "register": "アカウント作成",
+    "profile": "マイプロフィール"
+  },
+  "LoginPage": {
+    "subtitle": "アカウントにログインして続行してください。",
+    "email": "メールアドレス",
+    "password": "パスワード",
+    "loginButton": "ログイン",
+    "noAccount": "アカウントをお持ちではありませんか？",
+    "registerNow": "今すぐ登録",
+    "loginSuccessTitle": "ログイン成功",
+    "loginSuccessAdmin": "おかえりなさい、管理者様！",
+    "loginSuccessUser": "おかえりなさい！",
+    "loginErrorTitle": "ログイン失敗",
+    "loginErrorInvalid": "無効なメールアドレスまたはパスワードです。"
+  },
+  "RegisterPage": {
+    "subtitle": "アカウントを作成して始めましょう。",
+    "username": "ユーザー名",
+    "usernamePlaceholder": "例: satoshi",
+    "email": "メールアドレス",
+    "password": "パスワード",
+    "confirmPassword": "パスワードを確認",
+    "registerButton": "アカウントを作成",
+    "hasAccount": "すでにアカウントをお持ちですか？",
+    "loginNow": "今すぐログイン",
+    "registerSuccessTitle": "登録成功",
+    "registerSuccessUser": "アカウントが作成されました。ようこそ！",
+    "registerErrorTitle": "登録失敗",
+    "registerErrorExists": "このメールアドレスのアカウントは既に存在します。"
+  },
+  "ProfilePage": {
+    "title": "マイプロフィール",
+    "subtitle": "アカウントの詳細と設定を更新します。",
+    "username": "ユーザー名",
+    "emailAddress": "メールアドレス（変更不可）",
+    "firstName": "名",
+    "lastName": "姓",
+    "age": "年齢",
+    "avatar": "アバターを選択",
+    "pricePlan": "料金プラン",
+    "saveButton": "プロフィールを保存",
+    "saving": "保存中...",
+    "saveSuccessTitle": "プロフィール更新済み",
+    "saveSuccessDescription": "プロフィールが正常に更新されました。",
+    "disclaimer": "私たちはあなたのプライバシーを尊重します。ブロックチェーン、仮想通貨、または秘密鍵の情報は、当サイトには一切保存されません。"
+  },
+  "LogoutToast": {
+    "description": "正常にログアウトしました。"
   }
 }

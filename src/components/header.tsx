@@ -19,6 +19,9 @@ import {
   EyeOff,
   ShieldX,
   Languages,
+  User,
+  LogOut,
+  LogIn
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { WalletConnect } from "@/components/wallet-connect";
@@ -54,10 +57,13 @@ import { Label } from "./ui/label";
 import { ScrollArea } from "./ui/scroll-area";
 import { useLanguage } from "@/hooks/use-language";
 import { languages } from "@/lib/i18n";
+import { useUser } from "@/hooks/use-user";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
 
 export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[] }) {
   const { t, language, setLanguage, isLoading: isTranslating } = useLanguage();
+  const { user, isAuthenticated, logout } = useUser();
 
   const [mounted, setMounted] = React.useState(false);
   const [theme, setTheme] = React.useState<"light" | "dark">("light");
@@ -297,7 +303,7 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
                     ) : (
                         <Moon className="h-4 w-4" />
                     )}
-                    <span>{theme === 'light' ? 'Light Mode' : 'Dark Mode'}</span>
+                    <span>{theme === 'light' ? t('Header.LightMode') : t('Header.DarkMode')}</span>
                 </Label>
                 <Switch
                   id="theme-toggle"
@@ -353,7 +359,40 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
               </DropdownMenuSub>
             </DropdownMenuContent>
           </DropdownMenu>
-
+            
+          {isAuthenticated && user ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="icon" className="rounded-full">
+                     <Avatar>
+                        <AvatarImage src={user.avatar} alt={user.username} />
+                        <AvatarFallback>{user.username.charAt(0)}</AvatarFallback>
+                    </Avatar>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuLabel>{t('Header.myAccount')}</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem asChild>
+                    <Link href="/profile">
+                        <User className="mr-2 h-4 w-4" />
+                        <span>{t('Header.profile')}</span>
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={logout}>
+                    <LogOut className="mr-2 h-4 w-4" />
+                    <span>{t('Header.logout')}</span>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+          ) : (
+               <Link href="/login" passHref>
+                 <Button variant="secondary" className="gap-2">
+                    <LogIn className="h-4 w-4" />
+                    {t('LoginPage.loginButton')}
+                 </Button>
+               </Link>
+          )}
         </div>
       </div>
     </header>

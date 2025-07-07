@@ -12,7 +12,10 @@
     "hideUnknownTokens": "Ocultar tokens desconhecidos",
     "language": "Idioma",
     "LightMode": "Modo Claro",
-    "DarkMode": "Modo Escuro"
+    "DarkMode": "Modo Escuro",
+    "myAccount": "Minha Conta",
+    "profile": "Perfil",
+    "logout": "Sair"
   },
   "HomePage": {
     "title": "Troque sua Criptomoeda sem Esforço",
@@ -74,8 +77,7 @@
     "title": "Vender Cripto",
     "youSell": "Você vende",
     "youReceive": "Você recebe",
-    "sellInitiated": "Venda Iniciada (Simulada)",
-    "sellInitiatedDescription": "Sua transação de venda foi enviada."
+    "sellInitiated": "Venda Iniciada (Simulada)"
   },
   "SwapInterface": {
     "title": "Trocar",
@@ -258,7 +260,7 @@
     "li_performance": "<strong>Cookies de Desempenho e Funcionalidade:</strong> Estes cookies são usados para aprimorar o desempenho e a funcionalidade de nosso Site, mas não são essenciais para seu uso. No entanto, sem esses cookies, certas funcionalidades (como lembrar sua preferência de tema) podem se tornar indisponíveis.",
     "li_analytics": "<strong>Cookies de Análise e Personalização:</strong> Estes cookies coletam informações que são usadas de forma agregada para nos ajudar a entender como nosso Site está sendo usado ou quão eficazes são nossas campanhas de marketing, ou para nos ajudar a personalizar nosso Site para você.",
     "h_choices": "Suas escolhas em relação aos cookies",
-    "p_choices": "Você tem o direito de decidir se aceita ou rejeita cookies. Você pode exercer suas preferências de cookies definindo ou alterando os controles do seu navegador para aceitar ou recusar cookies. Se você optar por rejeitar cookies, ainda poderá usar nosso site, embora seu acesso a algumas funcionalidades e áreas do nosso site possa ser restrito. Como os meios pelos quais você pode recusar cookies através dos controles do seu navegador variam de navegador para navegador, você deve visitar o menu de ajuda do seu navegador para mais informações.",
+    "p_choices": "Você tem o direito de decidir se aceita ou rejeita cookies. Você pode exercer suas preferences de cookies definindo ou alterando os controles do seu navegador para aceitar ou recusar cookies. Se você optar por rejeitar cookies, ainda poderá usar nosso site, embora seu acesso a algumas funcionalidades e áreas do nosso site possa ser restrito. Como os meios pelos quais você pode recusar cookies através dos controles do seu navegador variam de navegador para navegador, você deve visitar o menu de ajuda do seu navegador para mais informações.",
     "h_changes": "Mudanças nesta Política de Cookies",
     "p_changes": "Podemos atualizar esta Política de Cookies de tempos em tempos para refletir, por exemplo, mudanças nos cookies que usamos ou por outras razões operacionais, legais ou regulatórias. Portanto, por favor, reveja esta Política de Cookies regularmente para se manter informado sobre nosso uso de cookies e tecnologias relacionadas.",
     "dismiss": "Dispensar e Fechar"
@@ -338,6 +340,56 @@
     "tokens": "Explorar Tokens",
     "tokenDetail": "Detalhes de {tokenName}",
     "transactions": "Transações",
-    "pricing": "Planos de Preços"
+    "pricing": "Planos de Preços",
+    "login": "Entrar",
+    "register": "Criar Conta",
+    "profile": "Meu Perfil"
+  },
+  "LoginPage": {
+    "subtitle": "Faça login na sua conta para continuar.",
+    "email": "Endereço de E-mail",
+    "password": "Senha",
+    "loginButton": "Entrar",
+    "noAccount": "Não tem uma conta?",
+    "registerNow": "Registre-se agora",
+    "loginSuccessTitle": "Login Bem-sucedido",
+    "loginSuccessAdmin": "Bem-vindo de volta, Administrador!",
+    "loginSuccessUser": "Bem-vindo de volta!",
+    "loginErrorTitle": "Falha no Login",
+    "loginErrorInvalid": "E-mail ou senha inválidos."
+  },
+  "RegisterPage": {
+    "subtitle": "Crie uma conta para começar.",
+    "username": "Nome de Usuário",
+    "usernamePlaceholder": "ex: satoshi",
+    "email": "Endereço de E-mail",
+    "password": "Senha",
+    "confirmPassword": "Confirmar Senha",
+    "registerButton": "Criar Conta",
+    "hasAccount": "Já tem uma conta?",
+    "loginNow": "Faça login agora",
+    "registerSuccessTitle": "Registro Bem-sucedido",
+    "registerSuccessUser": "Sua conta foi criada. Bem-vindo!",
+    "registerErrorTitle": "Falha no Registro",
+    "registerErrorExists": "Uma conta com este e-mail já existe."
+  },
+  "ProfilePage": {
+    "title": "Meu Perfil",
+    "subtitle": "Atualize os detalhes e preferências da sua conta.",
+    "username": "Nome de Usuário",
+    "emailAddress": "Endereço de E-mail (não pode ser alterado)",
+    "firstName": "Primeiro Nome",
+    "lastName": "Sobrenome",
+    "age": "Idade",
+    "avatar": "Selecionar Avatar",
+    "pricePlan": "Plano de Preços",
+    "saveButton": "Salvar Perfil",
+    "saving": "Salvando...",
+    "saveSuccessTitle": "Perfil Atualizado",
+    "saveSuccessDescription": "Seu perfil foi atualizado com sucesso.",
+    "disclaimer": "Valorizamos sua privacidade. Nenhuma informação de blockchain, cripto ou chaves privadas é armazenada em nosso site."
+  },
+  "LogoutToast": {
+    "description": "Você saiu com sucesso."
   }
 }
