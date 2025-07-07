@@ -1,3 +1,4 @@
+
 {
   "Header": {
     "siteName": "CryptoDx",
@@ -11,10 +12,7 @@
     "hideUnknownTokens": "अज्ञात टोकन छिपाएँ",
     "language": "भाषा",
     "LightMode": "लाइट मोड",
-    "DarkMode": "डार्क मोड",
-    "myAccount": "मेरा खाता",
-    "profile": "प्रोफ़ाइल",
-    "logout": "लॉग आउट"
+    "DarkMode": "डार्क मोड"
   },
   "HomePage": {
     "title": "सहजता से अपनी क्रिप्टो स्वैप करें",
@@ -70,13 +68,7 @@
     "youGet": "आपको मिलता है",
     "continue": "जारी रखें",
     "buyInitiated": "खरीद शुरू हुई (नकली)",
-    "reputationSkipped": "प्रतिष्ठा जाँच छोड़ दी गई। भुगतान प्रदाता पर जा रहे हैं।",
-    "reputationPassed": "प्रतिष्ठा जाँच सफल। भुगतान प्रदाता पर जा रहे हैं।",
-    "reputationCheckFailed": "प्रतिष्ठा जाँच नहीं की जा सकी। कृपया पुनः प्रयास करें।",
-    "acknowledgeAndContinue": "स्वीकार करें और जारी रखें",
-    "reputationAlert": "प्रतिष्ठा चेतावनी",
-    "infoDisclaimer": "यह केवल सूचना के उद्देश्यों के लिए है और वित्तीय सलाह का गठन नहीं करता है। कृपया आगे बढ़ने से पहले अपना स्वयं का शोध करें।",
-    "acknowledgedRisk": "आपने जोखिम स्वीकार कर लिया है। भुगतान प्रदाता पर जा रहे हैं।"
+    "paymentProvider": "भुगतान प्रदाता पर जा रहे हैं।"
   },
   "SellInterface": {
     "title": "क्रिप्टो बेचें",
@@ -105,8 +97,6 @@
     "estimatedGas": "अनुमानित गैस",
     "slippageTolerance": "स्लिपेज सहिष्णुता (%)",
     "swapInitiated": "स्वैप शुरू हुआ (नकली)",
-    "reputationPassedSwap": "प्रतिष्ठा जाँच सफल। आपका लेनदेन संसाधित किया जा रहा है।",
-    "acknowledgedRiskSwap": "आपने जोखिम स्वीकार कर लिया है। आपका लेनदेन संसाधित किया जा रहा है।",
     "estimatesDisclaimer": "अनुमान वास्तविक समय के एपीआई डेटा पर आधारित हैं लेकिन बाजार की स्थितियां तेजी से बदल सकती हैं। स्लिपेज हो सकता है।",
     "cancel": "रद्द करें"
   },
@@ -234,19 +224,6 @@
     "line": "रेखा",
     "candlestick": "कैंडलस्टिक"
   },
-  "ReputationAlert": {
-    "checking": "प्रतिष्ठा की जाँच हो रही है...",
-    "checkingDescription": "ज्ञात समस्याओं के लिए टोकन इतिहास का विश्लेषण किया जा रहा है।",
-    "clear": "प्रतिष्ठा स्पष्ट है",
-    "clearDescription": "हमारे स्कैन में कोई महत्वपूर्ण नकारात्मक घटनाएँ नहीं मिलीं।",
-    "alertTitle": "{tokenName} ({tokenSymbol}) के लिए प्रतिष्ठा चेतावनी",
-    "source": "स्रोत",
-    "viewSource": "स्रोत देखें",
-    "reputationCheckFailed": "प्रतिष्ठा जाँच नहीं की जा सकी। कृपया पुनः प्रयास करें।",
-    "dialogTitle": "{tokenName} के लिए प्रतिष्ठा रिपोर्ट",
-    "dialogDescription": "यह रिपोर्ट एक AI द्वारा उत्पन्न की गई है और इसका उपयोग केवल सूचना के उद्देश्यों के लिए किया जाना चाहिए। हमेशा अपना स्वयं का शोध करें।",
-    "infoDisclaimer": "यह केवल सूचना के उद्देश्यों के लिए है और वित्तीय सलाह का गठन नहीं करता है। कृपया आगे बढ़ने से पहले अपना स्वयं का शोध करें।"
-  },
   "ApiErrorCard": {
     "errorLoading": "{context} लोड करते समय त्रुटि",
     "configErrorTitle": "API कुंजी कॉन्फ़िगरेशन त्रुटि",
@@ -360,56 +337,6 @@
     "tokens": "टोकन का अन्वेषण करें",
     "tokenDetail": "{tokenName} विवरण",
     "transactions": "लेनदेन",
-    "pricing": "मूल्य निर्धारण योजनाएं",
-    "login": "लॉग इन",
-    "register": "खाता बनाएं",
-    "profile": "मेरी प्रोफ़ाइल"
-  },
-  "LoginPage": {
-    "subtitle": "जारी रखने के लिए अपने खाते में लॉग इन करें।",
-    "email": "ईमेल पता",
-    "password": "पासवर्ड",
-    "loginButton": "लॉग इन",
-    "noAccount": "खाता नहीं है?",
-    "registerNow": "अभी पंजीकरण करें",
-    "loginSuccessTitle": "लॉगिन सफल",
-    "loginSuccessAdmin": "वापस स्वागत है, प्रशासक!",
-    "loginSuccessUser": "वापस स्वागत है!",
-    "loginErrorTitle": "लॉगिन विफल",
-    "loginErrorInvalid": "अमान्य ईमेल या पासवर्ड।"
-  },
-  "RegisterPage": {
-    "subtitle": "शुरू करने के लिए एक खाता बनाएँ।",
-    "username": "उपयोगकर्ता नाम",
-    "usernamePlaceholder": "जैसे सातोशी",
-    "email": "ईमेल पता",
-    "password": "पासवर्ड",
-    "confirmPassword": "पासवर्ड की पुष्टि करें",
-    "registerButton": "खाता बनाएं",
-    "hasAccount": "पहले से ही एक खाता है?",
-    "loginNow": "अभी लॉग इन करें",
-    "registerSuccessTitle": "पंजीकरण सफल",
-    "registerSuccessUser": "आपका खाता बन गया है। स्वागत है!",
-    "registerErrorTitle": "पंजीकरण विफल",
-    "registerErrorExists": "इस ईमेल से एक खाता पहले से मौजूद है।"
-  },
-  "ProfilePage": {
-    "title": "मेरी प्रोफ़ाइल",
-    "subtitle": "अपने खाते का विवरण और प्राथमिकताएँ अपडेट करें।",
-    "username": "उपयोगकर्ता नाम",
-    "emailAddress": "ईमेल पता (बदला नहीं जा सकता)",
-    "firstName": "पहला नाम",
-    "lastName": "अंतिम नाम",
-    "age": "आयु",
-    "avatar": "अवतार चुनें",
-    "pricePlan": "मूल्य निर्धारण योजना",
-    "saveButton": "प्रोफ़ाइल सहेजें",
-    "saving": "सहेज रहा है...",
-    "saveSuccessTitle": "प्रोफ़ाइल अपडेट की गई",
-    "saveSuccessDescription": "आपकी प्रोफ़ाइल सफलतापूर्वक अपडेट कर दी गई है।",
-    "disclaimer": "हम आपकी गोपनीयता का महत्व देते हैं। हमारी साइट पर कोई ब्लॉकचेन, क्रिप्टो या निजी कुंजी जानकारी कभी संग्रहीत नहीं की जाती है।"
-  },
-  "LogoutToast": {
-    "description": "आप सफलतापूर्वक लॉग आउट हो गए हैं।"
+    "pricing": "मूल्य निर्धारण योजनाएं"
   }
 }

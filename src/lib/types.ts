@@ -71,17 +71,3 @@ export interface SelectedCurrency {
     name: string;
     rate: number;
 }
-
-export type PricingPlan = 'Free' | 'Basic' | 'Advanced' | 'Administrator';
-
-export interface UserProfile {
-  id: string;
-  username: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  age: number | null;
-  avatar: string; // URL to the avatar image
-  pricingPlan: PricingPlan;
-  isAdmin: boolean;
-}

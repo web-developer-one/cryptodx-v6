@@ -1,3 +1,4 @@
+
 {
   "Header": {
     "siteName": "CryptoDx",
@@ -11,10 +12,7 @@
     "hideUnknownTokens": "隐藏未知代币",
     "language": "语言",
     "LightMode": "浅色模式",
-    "DarkMode": "深色模式",
-    "myAccount": "我的账户",
-    "profile": "个人资料",
-    "logout": "登出"
+    "DarkMode": "深色模式"
   },
   "HomePage": {
     "title": "无缝兑换您的加密货币",
@@ -70,13 +68,7 @@
     "youGet": "您获得",
     "continue": "继续",
     "buyInitiated": "购买已启动（模拟）",
-    "reputationSkipped": "已跳过声誉检查。正在继续前往支付提供商。",
-    "reputationPassed": "声誉检查通过。正在继续前往支付提供商。",
-    "reputationCheckFailed": "无法执行声誉检查。请重试。",
-    "acknowledgeAndContinue": "确认并继续",
-    "reputationAlert": "声誉警报",
-    "infoDisclaimer": "这仅供参考，不构成财务建议。在继续操作之前，请自行研究。",
-    "acknowledgedRisk": "您已确认风险。正在继续前往支付提供商。"
+    "paymentProvider": "正在继续前往支付提供商。"
   },
   "SellInterface": {
     "title": "出售加密货币",
@@ -105,8 +97,6 @@
     "estimatedGas": "预估Gas费",
     "slippageTolerance": "滑点容差（%）",
     "swapInitiated": "兑换已启动（模拟）",
-    "reputationPassedSwap": "声誉检查通过。您的交易正在处理中。",
-    "acknowledgedRiskSwap": "您已确认风险。您的交易正在处理中。",
     "estimatesDisclaimer": "估算基于实时API数据，但市场状况可能迅速变化。可能会发生滑点。",
     "cancel": "取消"
   },
@@ -234,19 +224,6 @@
     "line": "折线图",
     "candlestick": "K线图"
   },
-  "ReputationAlert": {
-    "checking": "正在检查声誉...",
-    "checkingDescription": "分析代币历史记录以查找已知问题。",
-    "clear": "声誉良好",
-    "clearDescription": "在我们的扫描中未发现重大负面事件。",
-    "alertTitle": "{tokenName}（{tokenSymbol}）的声誉警报",
-    "source": "来源",
-    "viewSource": "查看来源",
-    "reputationCheckFailed": "无法执行声誉检查。请重试。",
-    "dialogTitle": "{tokenName}的声誉报告",
-    "dialogDescription": "此报告由人工智能生成，仅供参考。请务必自行研究。",
-    "infoDisclaimer": "这仅供参考，不构成财务建议。在继续操作之前，请自行研究。"
-  },
   "ApiErrorCard": {
     "errorLoading": "加载{context}时出错",
     "configErrorTitle": "API密钥配置错误",
@@ -360,56 +337,6 @@
     "tokens": "探索代币",
     "tokenDetail": "{tokenName}详情",
     "transactions": "交易",
-    "pricing": "价格方案",
-    "login": "登录",
-    "register": "创建账户",
-    "profile": "我的个人资料"
-  },
-  "LoginPage": {
-    "subtitle": "登录您的账户以继续。",
-    "email": "电子邮件地址",
-    "password": "密码",
-    "loginButton": "登录",
-    "noAccount": "没有账户？",
-    "registerNow": "立即注册",
-    "loginSuccessTitle": "登录成功",
-    "loginSuccessAdmin": "欢迎回来，管理员！",
-    "loginSuccessUser": "欢迎回来！",
-    "loginErrorTitle": "登录失败",
-    "loginErrorInvalid": "电子邮件或密码无效。"
-  },
-  "RegisterPage": {
-    "subtitle": "创建一个账户开始吧。",
-    "username": "用户名",
-    "usernamePlaceholder": "例如 satoshi",
-    "email": "电子邮件地址",
-    "password": "密码",
-    "confirmPassword": "确认密码",
-    "registerButton": "创建账户",
-    "hasAccount": "已经有账户了？",
-    "loginNow": "立即登录",
-    "registerSuccessTitle": "注册成功",
-    "registerSuccessUser": "您的账户已创建。欢迎！",
-    "registerErrorTitle": "注册失败",
-    "registerErrorExists": "此电子邮件的账户已存在。"
-  },
-  "ProfilePage": {
-    "title": "我的个人资料",
-    "subtitle": "更新您的账户详情和偏好。",
-    "username": "用户名",
-    "emailAddress": "电子邮件地址（无法更改）",
-    "firstName": "名字",
-    "lastName": "姓氏",
-    "age": "年龄",
-    "avatar": "选择头像",
-    "pricePlan": "价格方案",
-    "saveButton": "保存个人资料",
-    "saving": "保存中...",
-    "saveSuccessTitle": "个人资料已更新",
-    "saveSuccessDescription": "您的个人资料已成功更新。",
-    "disclaimer": "我们重视您的隐私。我们的网站绝不会存储任何区块链、加密货币或私钥信息。"
-  },
-  "LogoutToast": {
-    "description": "您已成功登出。"
+    "pricing": "价格方案"
   }
 }

@@ -19,8 +19,6 @@ import {
   EyeOff,
   ShieldX,
   Languages,
-  User,
-  LogOut,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { WalletConnect } from "@/components/wallet-connect";
@@ -56,13 +54,10 @@ import { Label } from "./ui/label";
 import { ScrollArea } from "./ui/scroll-area";
 import { useLanguage } from "@/hooks/use-language";
 import { languages } from "@/lib/i18n";
-import { useAuth } from "@/hooks/use-auth";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 
 export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[] }) {
   const { t, language, setLanguage, isLoading: isTranslating } = useLanguage();
-  const { user, logout } = useAuth();
 
   const [mounted, setMounted] = React.useState(false);
   const [theme, setTheme] = React.useState<"light" | "dark">("light");
@@ -286,41 +281,6 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
             <Button variant="secondary">{t('Header.connectWallet')}</Button>
           </WalletConnect>
           
-           {user ? (
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <button className="flex items-center gap-2 rounded-full ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2">
-                            <Avatar className="h-9 w-9 border-2 border-primary-foreground/50">
-                                <AvatarImage src={user.avatar} alt={user.username} />
-                                <AvatarFallback>{user.username.charAt(0).toUpperCase()}</AvatarFallback>
-                            </Avatar>
-                        </button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end" className="w-56">
-                        <DropdownMenuLabel>{t('Header.myAccount')}</DropdownMenuLabel>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem asChild>
-                            <Link href="/profile" className="cursor-pointer flex items-center">
-                                <User className="mr-2 h-4 w-4" />
-                                <span>{t('Header.profile')}</span>
-                            </Link>
-                        </DropdownMenuItem>
-                        <DropdownMenuItem onClick={logout} className="cursor-pointer flex items-center">
-                            <LogOut className="mr-2 h-4 w-4" />
-                            <span>{t('Header.logout')}</span>
-                        </DropdownMenuItem>
-                    </DropdownMenuContent>
-                </DropdownMenu>
-            ) : (
-                <Link href="/login" className="flex items-center gap-2 rounded-full ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2">
-                    <Avatar className="h-9 w-9 border-2 border-primary-foreground/50">
-                        <AvatarFallback>
-                            <User className="h-5 w-5" />
-                        </AvatarFallback>
-                    </Avatar>
-                </Link>
-            )}
-
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="icon" className="text-primary-foreground/90 transition-colors hover:bg-white/10 hover:text-primary-foreground">

@@ -1,3 +1,4 @@
+
 {
   "Header": {
     "siteName": "CryptoDx",
@@ -11,10 +12,7 @@
     "hideUnknownTokens": "Ocultar tokens desconocidos",
     "language": "Idioma",
     "LightMode": "Modo Claro",
-    "DarkMode": "Modo Oscuro",
-    "myAccount": "Mi Cuenta",
-    "profile": "Perfil",
-    "logout": "Cerrar Sesión"
+    "DarkMode": "Modo Oscuro"
   },
   "HomePage": {
     "title": "Intercambia tus Criptomonedas sin Complicaciones",
@@ -70,13 +68,7 @@
     "youGet": "Tú obtienes",
     "continue": "Continuar",
     "buyInitiated": "Compra Iniciada (Simulada)",
-    "reputationSkipped": "Se omitió la comprobación de reputación. Continuando con el proveedor de pagos.",
-    "reputationPassed": "Comprobación de reputación superada. Continuando con el proveedor de pagos.",
-    "reputationCheckFailed": "No se pudo realizar la comprobación de reputación. Por favor, inténtelo de nuevo.",
-    "acknowledgeAndContinue": "Reconocer y Continuar",
-    "reputationAlert": "Alerta de Reputación",
-    "infoDisclaimer": "Esto es solo para fines informativos y no constituye asesoramiento financiero. Por favor, haga su propia investigación antes de proceder.",
-    "acknowledgedRisk": "Has reconocido el riesgo. Continuando con el proveedor de pagos."
+    "paymentProvider": "Continuando con el proveedor de pagos."
   },
   "SellInterface": {
     "title": "Vender Cripto",
@@ -105,8 +97,6 @@
     "estimatedGas": "Gas Estimado",
     "slippageTolerance": "Tolerancia de Deslizamiento (%)",
     "swapInitiated": "Intercambio Iniciado (Simulado)",
-    "reputationPassedSwap": "Comprobaciones de reputación superadas. Tu transacción se está procesando.",
-    "acknowledgedRiskSwap": "Has reconocido el riesgo. Tu transacción se está procesando.",
     "estimatesDisclaimer": "Las estimaciones se basan en datos de API en tiempo real, pero las condiciones del mercado pueden cambiar rápidamente. Puede ocurrir deslizamiento.",
     "cancel": "Cancelar"
   },
@@ -234,19 +224,6 @@
     "line": "Línea",
     "candlestick": "Velas"
   },
-  "ReputationAlert": {
-    "checking": "Comprobando Reputación...",
-    "checkingDescription": "Analizando el historial del token en busca de problemas conocidos.",
-    "clear": "Reputación Limpia",
-    "clearDescription": "No se encontraron eventos negativos significativos en nuestro análisis.",
-    "alertTitle": "Alerta de Reputación para {tokenName} ({tokenSymbol})",
-    "source": "Fuente",
-    "viewSource": "Ver Fuente",
-    "reputationCheckFailed": "No se pudo realizar la comprobación de reputación. Por favor, inténtelo de nuevo.",
-    "dialogTitle": "Informe de Reputación para {tokenName}",
-    "dialogDescription": "Este informe es generado por una IA y debe usarse solo con fines informativos. Siempre haga su propia investigación.",
-    "infoDisclaimer": "Esto es solo para fines informativos y no constituye asesoramiento financiero. Por favor, haga su propia investigación antes de proceder."
-  },
   "ApiErrorCard": {
     "errorLoading": "Error al Cargar {context}",
     "configErrorTitle": "Error de Configuración de Clave API",
@@ -360,56 +337,6 @@
     "tokens": "Explorar Tokens",
     "tokenDetail": "Detalles de {tokenName}",
     "transactions": "Transacciones",
-    "pricing": "Planes de Precios",
-    "login": "Iniciar Sesión",
-    "register": "Crear Cuenta",
-    "profile": "Mi Perfil"
-  },
-  "LoginPage": {
-    "subtitle": "Inicia sesión en tu cuenta para continuar.",
-    "email": "Dirección de Correo Electrónico",
-    "password": "Contraseña",
-    "loginButton": "Iniciar Sesión",
-    "noAccount": "¿No tienes una cuenta?",
-    "registerNow": "Regístrate ahora",
-    "loginSuccessTitle": "Inicio de Sesión Exitoso",
-    "loginSuccessAdmin": "¡Bienvenido de nuevo, Administrador!",
-    "loginSuccessUser": "¡Bienvenido de nuevo!",
-    "loginErrorTitle": "Fallo en el Inicio de Sesión",
-    "loginErrorInvalid": "Correo electrónico o contraseña no válidos."
-  },
-  "RegisterPage": {
-    "subtitle": "Crea una cuenta para empezar.",
-    "username": "Nombre de Usuario",
-    "usernamePlaceholder": "ej. satoshi",
-    "email": "Dirección de Correo Electrónico",
-    "password": "Contraseña",
-    "confirmPassword": "Confirmar Contraseña",
-    "registerButton": "Crear Cuenta",
-    "hasAccount": "¿Ya tienes una cuenta?",
-    "loginNow": "Inicia sesión ahora",
-    "registerSuccessTitle": "Registro Exitoso",
-    "registerSuccessUser": "Tu cuenta ha sido creada. ¡Bienvenido!",
-    "registerErrorTitle": "Fallo en el Registro",
-    "registerErrorExists": "Ya existe una cuenta con este correo electrónico."
-  },
-  "ProfilePage": {
-    "title": "Mi Perfil",
-    "subtitle": "Actualiza los detalles y preferencias de tu cuenta.",
-    "username": "Nombre de Usuario",
-    "emailAddress": "Dirección de Correo Electrónico (no se puede cambiar)",
-    "firstName": "Nombre",
-    "lastName": "Apellido",
-    "age": "Edad",
-    "avatar": "Seleccionar Avatar",
-    "pricePlan": "Plan de Precios",
-    "saveButton": "Guardar Perfil",
-    "saving": "Guardando...",
-    "saveSuccessTitle": "Perfil Actualizado",
-    "saveSuccessDescription": "Tu perfil ha sido actualizado exitosamente.",
-    "disclaimer": "Valoramos tu privacidad. Ninguna información de blockchain, cripto o claves privadas se almacena en nuestro sitio."
-  },
-  "LogoutToast": {
-    "description": "Has cerrado sesión exitosamente."
+    "pricing": "Planes de Precios"
   }
 }
