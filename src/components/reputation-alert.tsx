@@ -1,7 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from "react";
-import { getReputationReport, ReputationOutput } from "@/ai/flows/reputation-flow";
+import { ReputationOutput } from "@/ai/flows/reputation-flow";
 import { useLanguage } from "@/hooks/use-language";
 import { AlertCircle, CheckCircle, ShieldAlert, Info, ExternalLink } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card";
@@ -17,39 +16,15 @@ import { Skeleton } from "./ui/skeleton";
 
 
 interface ReputationAlertProps {
+    report: ReputationOutput | null;
+    error: string | null;
+    isLoading: boolean;
     tokenName: string;
     tokenSymbol: string;
 }
 
-export function ReputationAlert({ tokenName, tokenSymbol }: ReputationAlertProps) {
-  const { t, language } = useLanguage();
-  const [data, setData] = useState<ReputationOutput | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  const fetchReport = useCallback(async () => {
-    if (!tokenName || !tokenSymbol) return;
-    setIsLoading(true);
-    setError(null);
-    setData(null);
-    try {
-        const result = await getReputationReport({
-            tokenName,
-            tokenSymbol,
-            language,
-        });
-        setData(result);
-    } catch (e: any) {
-        console.error("Reputation check failed:", e);
-        setError(t('ReputationAlert.reputationCheckFailed'));
-    } finally {
-        setIsLoading(false);
-    }
-  }, [tokenName, tokenSymbol, language, t]);
-
-  useEffect(() => {
-    fetchReport();
-  }, [fetchReport]);
+export function ReputationAlert({ report, error, isLoading, tokenName, tokenSymbol }: ReputationAlertProps) {
+  const { t } = useLanguage();
 
   if (isLoading) {
     return (
@@ -67,21 +42,21 @@ export function ReputationAlert({ tokenName, tokenSymbol }: ReputationAlertProps
     );
   }
 
-  if (error || !data) {
+  if (error || !report) {
     return (
          <Card className="border-destructive bg-destructive/10">
             <CardHeader className="flex-row items-center gap-4 space-y-0">
                 <AlertCircle className="h-6 w-6 text-destructive" />
                 <div>
                     <CardTitle className="text-destructive">{t('ReputationAlert.reputationCheckFailed')}</CardTitle>
-                    <CardDescription>{error || "An unknown error occurred."}</CardDescription>
+                    <CardDescription className="text-destructive/80">{error || "An unknown error occurred."}</CardDescription>
                 </div>
             </CardHeader>
         </Card>
     );
   }
 
-  const { status, summary, findings } = data;
+  const { status, summary, findings } = report;
 
   if (status === 'clear') {
      return (

@@ -24,7 +24,6 @@ import { useToast } from '@/hooks/use-toast';
 import { useLanguage } from '@/hooks/use-language';
 import { ReputationAlert } from './reputation-alert';
 import { getReputationReport, ReputationOutput } from '@/ai/flows/reputation-flow';
-import { Skeleton } from './ui/skeleton';
 
 type SupportedCurrency = {
     symbol: string;
@@ -125,13 +124,13 @@ export function BuyInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocur
         setReputationReport(report);
         if (report.status === 'clear') {
            proceedToPayment();
+           // Close the dialog since it's clear
            setIsCheckingReputation(false);
         }
     } catch (err: any) {
         setReputationError(t('BuyInterface.reputationCheckFailed'));
         console.error("Reputation check failed:", err);
     }
-    // isCheckingReputation will be set to false inside the dialog's onOpenChange
   };
 
   const onAlertDialogClose = () => {
@@ -148,7 +147,7 @@ export function BuyInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocur
     });
   }
   
-  const shouldOpenDialog = isCheckingReputation && (!!reputationReport || !!reputationError);
+  const shouldOpenDialog = isCheckingReputation;
 
   return (
     <>
@@ -228,7 +227,7 @@ export function BuyInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocur
       <CardFooter>
         {isWalletConnected ? (
             <Button className="w-full h-12 text-lg" onClick={handleBuyClick} disabled={isCheckingReputation}>
-              {t('BuyInterface.continue')}
+              {isCheckingReputation ? t('ReputationAlert.checking') : t('BuyInterface.continue')}
             </Button>
         ) : (
           <WalletConnect>
@@ -247,29 +246,22 @@ export function BuyInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocur
                 </AlertDialogDescription>
             </AlertDialogHeader>
             <div className="max-h-[60vh] overflow-y-auto pr-4">
-                {reputationReport && toToken ? (
-                    <ReputationAlert key={toToken.id} tokenName={toToken.name} tokenSymbol={toToken.symbol} />
-                ): reputationError ? (
-                     <p className='text-destructive'>{reputationError}</p>
-                ) : (
-                    <div className="space-y-4">
-                        <div className="flex items-center gap-4">
-                            <Skeleton className="h-12 w-12 rounded-full" />
-                            <div className="space-y-2">
-                                <Skeleton className="h-6 w-48" />
-                                <Skeleton className="h-4 w-64" />
-                            </div>
-                        </div>
-                        <Skeleton className="h-10 w-full" />
-                    </div>
-                )}
+                <ReputationAlert
+                    isLoading={!reputationReport && !reputationError}
+                    report={reputationReport}
+                    error={reputationError}
+                    tokenName={toToken.name}
+                    tokenSymbol={toToken.symbol}
+                />
             </div>
-            <AlertDialogFooter>
-                <AlertDialogCancel>{t('SwapInterface.cancel')}</AlertDialogCancel>
-                <AlertDialogAction onClick={handleAcknowledgeAndContinue}>
-                  {t('BuyInterface.acknowledgeAndContinue')}
-                </AlertDialogAction>
-            </AlertDialogFooter>
+            {(reputationReport || reputationError) && (
+              <AlertDialogFooter>
+                  <AlertDialogCancel>{t('SwapInterface.cancel')}</AlertDialogCancel>
+                  <AlertDialogAction onClick={handleAcknowledgeAndContinue}>
+                    {t('BuyInterface.acknowledgeAndContinue')}
+                  </AlertDialogAction>
+              </AlertDialogFooter>
+            )}
         </AlertDialogContent>
     </AlertDialog>
     </>

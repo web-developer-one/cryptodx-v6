@@ -16,19 +16,49 @@ import { ReputationAlert } from './reputation-alert';
 import type { Cryptocurrency } from '@/lib/types';
 import { useLanguage } from '@/hooks/use-language';
 import { useState } from 'react';
+import { getReputationReport, ReputationOutput } from "@/ai/flows/reputation-flow";
 
 interface ReputationDialogProps {
   token: Cryptocurrency;
 }
 
 export function ReputationDialog({ token }: ReputationDialogProps) {
-    const { t } = useLanguage();
+    const { t, language } = useLanguage();
     const [isOpen, setIsOpen] = useState(false);
+    const [report, setReport] = useState<ReputationOutput | null>(null);
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+
+    const handleOpenChange = async (open: boolean) => {
+        setIsOpen(open);
+        if (open && !report) { // Fetch only if opening and no report exists yet
+            setIsLoading(true);
+            setError(null);
+            try {
+                const result = await getReputationReport({
+                    tokenName: token.name,
+                    tokenSymbol: token.symbol,
+                    language,
+                });
+                setReport(result);
+            } catch (e: any) {
+                console.error("Reputation check failed:", e);
+                setError(t('ReputationAlert.reputationCheckFailed'));
+            } finally {
+                setIsLoading(false);
+            }
+        }
+        if (!open) { // Reset on close
+            setReport(null);
+            setError(null);
+            setIsLoading(false);
+        }
+    };
     
     if (!token) return null;
 
     return (
-        <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
+        <AlertDialog open={isOpen} onOpenChange={handleOpenChange}>
             <AlertDialogTrigger asChild>
                 <Button variant="ghost" size="icon" className="h-6 w-6 text-muted-foreground hover:text-foreground">
                     <Shield className="h-4 w-4" />
@@ -43,8 +73,13 @@ export function ReputationDialog({ token }: ReputationDialogProps) {
                     </AlertDialogDescription>
                 </AlertDialogHeader>
                 <div className="max-h-[60vh] overflow-y-auto pr-4">
-                    {/* The key forces a re-mount and re-fetch when the dialog is opened */}
-                    {isOpen && <ReputationAlert key={token.id} tokenName={token.name} tokenSymbol={token.symbol} />}
+                    <ReputationAlert 
+                        isLoading={isLoading}
+                        report={report}
+                        error={error}
+                        tokenName={token.name}
+                        tokenSymbol={token.symbol}
+                    />
                 </div>
                 <AlertDialogFooter>
                     <AlertDialogCancel>{t('SwapInterface.cancel')}</AlertDialogCancel>

@@ -74,22 +74,22 @@ const reputationPrompt = ai.definePrompt({
   output: {
     schema: ReputationOutputSchema,
   },
-  prompt: `You are a cryptocurrency risk assessment AI. Your task is to analyze the provided token and generate a risk report in the specified language.
-  
-Act like a blockchain analyst. Based on the token's name and symbol, search for key reputation indicators.
-Your analysis should check for:
-- Known scams, "rug pulls", or security vulnerabilities.
-- Lack of a public security audit from a reputable firm.
-- Unverified smart contract source code on a major block explorer.
-- Negative news or widespread community complaints.
-- Excessive owner/admin privileges in the smart contract that could pose a risk to holders.
+  prompt: `You are a cryptocurrency risk assessment AI. Your knowledge is based on information available up to your last training cut-off. You cannot access real-time blockchain data or news.
 
-If there are no significant issues, set the status to "clear".
-If there are potential concerns or some missing information (like no audit), set the status to "warning".
-If there are major red flags (like a known scam or major vulnerability), set the status to "critical".
+Your task is to analyze the provided token's name and symbol to identify potential red flags based on patterns commonly associated with high-risk or fraudulent tokens. Generate a risk report in the specified language.
 
-Provide a one-sentence summary and a list of specific findings if any issues are detected.
-For each finding, if you can find a reputable source (like a news article, blog post, or blockchain explorer page), provide a valid "sourceUrl" linking to it. A link to a search engine query is also acceptable. If no direct source is available, you may omit the "sourceUrl". Provide a severity for each finding.
+Based on the token's name and symbol, evaluate the following:
+- **Impersonation Risk**: Does the name or symbol appear to be impersonating a well-known, legitimate project? (e.g., "Ethereem", "Bitkoin")
+- **"Meme Coin" Patterns**: Does the name follow patterns of highly speculative or "meme" coins which often have high risk? (e.g., names including "Safe", "Moon", "Elon", "Doge", "Shiba", or animal names).
+- **Generic Naming**: Is the name overly generic, which could be a tactic to appear trustworthy without substance?
+- **Known Scams**: Does the name or symbol match any known scams, "rug pulls", or fraudulent projects from your training data?
+
+Based on your analysis, set the 'status' field:
+- **"clear"**: If the name and symbol do not raise any of the red flags above. Summary should state that no obvious risks were found based on name analysis.
+- **"warning"**: If the name fits speculative or "meme coin" patterns but is not a confirmed scam. The findings should explain why the name is considered speculative.
+- **"critical"**: If the name strongly suggests impersonation or matches a known scam from your training data.
+
+Provide a one-sentence summary and a list of specific findings if any issues are detected. For each finding, explain your reasoning clearly. You do not need to provide a 'sourceUrl'.
 
 Language for report: {{{language}}}
 Token to analyze:
