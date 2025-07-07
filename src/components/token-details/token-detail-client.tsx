@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -17,7 +18,7 @@ import { cn } from "@/lib/utils";
 import { PriceChart } from "@/components/token-details/price-chart";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from '@/hooks/use-language';
-import { getReputationReport, type ReputationOutput } from '@/ai/flows/reputation-flow';
+import type { ReputationOutput } from '@/ai/flows/reputation-flow';
 import { ReputationAlert } from '../reputation-alert';
 
 export function TokenDetailClient({ initialToken }: { initialToken: TokenDetails }) {
@@ -51,11 +52,24 @@ export function TokenDetailClient({ initialToken }: { initialToken: TokenDetails
         setIsReputationLoading(true);
         setReputationError(null);
         try {
-          const result = await getReputationReport({
-            tokenName: token.name,
-            tokenSymbol: token.symbol,
-            language,
+          const response = await fetch('/api/reputation', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              tokenName: token.name,
+              tokenSymbol: token.symbol,
+              language,
+            }),
           });
+          
+          if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.error || 'Failed to fetch reputation');
+          }
+
+          const result: ReputationOutput = await response.json();
           setReputationReport(result);
         } catch (e: any) {
           console.error("Reputation check failed:", e);
