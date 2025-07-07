@@ -222,11 +222,11 @@ export default function ProfilePage() {
                                     type="button"
                                     onClick={() => setSelectedAvatar(avatarUrl)}
                                     className={cn(
-                                        "rounded-full ring-2 ring-offset-2 ring-offset-background transition-all",
+                                        "relative w-14 h-14 rounded-full ring-2 ring-offset-2 ring-offset-background transition-all overflow-hidden",
                                         user.avatar === avatarUrl ? "ring-primary" : "ring-transparent hover:ring-muted-foreground"
                                     )}
                                 >
-                                     <Image src={avatarUrl} alt={`Avatar ${index + 1}`} width={60} height={60} className="rounded-full" />
+                                     <Image src={avatarUrl} alt={`Avatar ${index + 1}`} fill className="object-cover" />
                                 </button>
                             ))}
                         </div>
