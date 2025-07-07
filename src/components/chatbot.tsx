@@ -87,12 +87,12 @@ export function Chatbot() {
     }
   }, [messages]);
   
-  const playAudio = (audioSrc: string) => {
+  const playAudio = useCallback((audioSrc: string) => {
     if (audioRef.current) {
       audioRef.current.src = audioSrc;
       audioRef.current.play().catch(e => console.error("Audio playback failed:", e));
     }
-  };
+  }, []);
 
   const fetchAndPlayTTS = useCallback(async (text: string, messageIndex: number) => {
     try {
@@ -104,10 +104,14 @@ export function Chatbot() {
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => null);
-        throw new Error(errorData?.error || 'Failed to fetch audio.');
+        throw new Error(errorData?.error || t('Chatbot.ttsErrorDescription'));
       }
       
       const { audioDataUri } = await response.json();
+      
+      if (!audioDataUri) {
+          throw new Error('API returned empty audio data.');
+      }
 
       setMessages(prev => {
         const newMessages = [...prev];
@@ -125,7 +129,7 @@ export function Chatbot() {
       toast({
         variant: 'destructive',
         title: t('Chatbot.ttsErrorTitle'),
-        description: error.message || t('Chatbot.ttsErrorDescription'),
+        description: error.message,
       });
        setMessages(prev => {
         const newMessages = [...prev];
@@ -135,7 +139,7 @@ export function Chatbot() {
         return newMessages;
       });
     }
-  }, [t, toast]);
+  }, [t, toast, playAudio]);
 
   const handleSend = useCallback(async (messageOverride?: string) => {
     const message = (messageOverride || input).trim();
@@ -144,14 +148,22 @@ export function Chatbot() {
     const userMessage: Message = { role: 'user', parts: [{ text: message }] };
     setInput('');
     
+    // Pass a function to setMessages to get the most up-to-date state
     setMessages(prev => [...prev, userMessage]);
     setIsLoading(true);
 
     try {
+      // Use a functional update to get the latest messages for the API call
+      let historyForApi: Message[] = [];
+      setMessages(currentMessages => {
+          historyForApi = currentMessages;
+          return currentMessages;
+      });
+
       const response = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ history: [...messages, userMessage], message: message, language }),
+        body: JSON.stringify({ history: historyForApi, message: message, language }),
       });
 
       if (!response.ok) {
@@ -167,8 +179,12 @@ export function Chatbot() {
         isAudioLoading: true,
       };
       
-      const messageIndex = messages.length + 1;
-      setMessages(prev => [...prev, modelMessage]);
+      let messageIndex = 0;
+      setMessages(prev => {
+        messageIndex = prev.length;
+        return [...prev, modelMessage];
+      });
+
       fetchAndPlayTTS(data.response, messageIndex);
 
     } catch (error: any) {
@@ -180,7 +196,12 @@ export function Chatbot() {
     } finally {
       setIsLoading(false);
     }
-  }, [input, messages, language, t, fetchAndPlayTTS]);
+  }, [input, language, t, fetchAndPlayTTS]);
+  
+  const handleSendRef = useRef(handleSend);
+  useEffect(() => {
+      handleSendRef.current = handleSend;
+  }, [handleSend]);
 
   useEffect(() => {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -191,25 +212,8 @@ export function Chatbot() {
 
     const recognition = new SpeechRecognition();
     recognitionRef.current = recognition;
-    recognition.lang = language;
-    recognition.interimResults = true;
-    recognition.continuous = false;
-
-    recognition.onstart = () => {
-      setIsListening(true);
-    };
-
-    recognition.onend = () => {
-      setIsListening(false);
-    };
-
-    recognition.onerror = (event: any) => {
-      console.error('Speech recognition error:', event.error);
-      setSpeechError(t('Chatbot.speechError'));
-      setIsListening(false);
-    };
-
-    recognition.onresult = (event: any) => {
+    
+    const onResult = (event: any) => {
       const transcript = Array.from(event.results)
         .map((result: any) => result[0])
         .map((result: any) => result.transcript)
@@ -218,17 +222,50 @@ export function Chatbot() {
       setInput(transcript);
 
       if (event.results[0].isFinal) {
-        handleSend(transcript);
+        handleSendRef.current(transcript);
       }
     };
-  }, [language, t, handleSend]);
+    
+    const onError = (event: any) => {
+      console.error('Speech recognition error:', event.error);
+      setSpeechError(t('Chatbot.speechError'));
+      setIsListening(false);
+    };
+
+    const onStart = () => setIsListening(true);
+    const onEnd = () => setIsListening(false);
+    
+    recognition.addEventListener('result', onResult);
+    recognition.addEventListener('error', onError);
+    recognition.addEventListener('start', onStart);
+    recognition.addEventListener('end', onEnd);
+    
+    return () => {
+        if(recognitionRef.current) {
+            recognitionRef.current.stop();
+            recognitionRef.current.removeEventListener('result', onResult);
+            recognitionRef.current.removeEventListener('error', onError);
+            recognitionRef.current.removeEventListener('start', onStart);
+            recognitionRef.current.removeEventListener('end', onEnd);
+            recognitionRef.current = null;
+        }
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Run only once
+
+  useEffect(() => {
+      if (recognitionRef.current) {
+          recognitionRef.current.lang = language;
+      }
+  }, [language]);
+
 
   const handleListenClick = () => {
     if (isListening) {
       recognitionRef.current?.stop();
     } else {
       if (!recognitionRef.current) {
-        toast({ variant: "destructive", title: "Error", description: speechError });
+        toast({ variant: "destructive", title: "Error", description: speechError || t('Chatbot.speechNotSupported') });
         return;
       }
       setInput('');
