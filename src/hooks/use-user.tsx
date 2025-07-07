@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { createContext, useContext, useState, useEffect, useCallback, useMemo } from 'react';
@@ -9,7 +8,7 @@ import { get, set } from 'idb-keyval';
 
 // --- Mock Database Logic ---
 
-const avatars = [
+export const avatars = [
   '/avatars/avatar_1.png',
   '/avatars/avatar_2.png',
   '/avatars/avatar_3.png',

@@ -15,12 +15,11 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { useUser } from "@/hooks/use-user";
+import { useUser, avatars } from "@/hooks/use-user";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useLanguage } from "@/hooks/use-language";
 import { Loader2 } from "lucide-react";
-import { avatars } from "@/lib/auth";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -132,7 +131,7 @@ export default function ProfilePage() {
                                 <FormItem>
                                 <FormLabel>{t('ProfilePage.emailAddress')}</FormLabel>
                                 <FormControl>
-                                    <Input {...field} />
+                                    <Input {...field} disabled />
                                 </FormControl>
                                 <FormMessage />
                                 </FormItem>
