@@ -28,17 +28,15 @@ export function ReputationAlert({ report, error, isLoading, tokenName, tokenSymb
 
   if (isLoading) {
     return (
-        <div className="space-y-4">
-            <div className="flex items-center gap-4">
-                <Skeleton className="h-12 w-12 rounded-full" />
-                <div className="space-y-2">
-                    <Skeleton className="h-6 w-48" />
-                    <Skeleton className="h-4 w-64" />
-                </div>
+      <Card>
+        <CardHeader className="flex-row items-center gap-4 space-y-0">
+          <Skeleton className="h-10 w-10 rounded-full" />
+            <div className="space-y-2">
+                <Skeleton className="h-5 w-48" />
+                <Skeleton className="h-4 w-64" />
             </div>
-            <Skeleton className="h-10 w-full" />
-            <Skeleton className="h-10 w-full" />
-        </div>
+        </CardHeader>
+      </Card>
     );
   }
 
@@ -128,6 +126,4 @@ export function ReputationAlert({ report, error, isLoading, tokenName, tokenSymb
                 <p>{t('ReputationAlert.infoDisclaimer')}</p>
             </div>
         </CardContent>
-    </Card>
-  )
-}
+    

@@ -86,7 +86,7 @@ Based on the token's name and symbol, evaluate the following:
 
 Based on your analysis, set the 'status' field:
 - **"clear"**: If the name and symbol do not raise any of the red flags above. Summary should state that no obvious risks were found based on name analysis.
-- **"warning"**: If the name fits speculative or "meme coin" patterns but is not a confirmed scam. The findings should explain why the name is considered speculative.
+- **"warning"**: If the name fits speculative or "meme" coin patterns but is not a confirmed scam. The findings should explain why the name is considered speculative.
 - **"critical"**: If the name strongly suggests impersonation or matches a known scam from your training data.
 
 Provide a one-sentence summary and a list of specific findings if any issues are detected. For each finding, explain your reasoning clearly. You do not need to provide a 'sourceUrl'.
@@ -126,6 +126,3 @@ const reputationFlow = ai.defineFlow(
       throw new Error('Failed to generate reputation report from the AI model.');
     }
 
-    return report;
-  }
-);

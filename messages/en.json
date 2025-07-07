@@ -226,6 +226,16 @@
     "line": "Line",
     "candlestick": "Candlestick"
   },
+  "ReputationAlert": {
+    "checking": "Checking Reputation...",
+    "checkingDescription": "Analyzing token history for known issues.",
+    "clear": "Reputation Clear",
+    "alertTitle": "Reputation Alert for {tokenName} ({tokenSymbol})",
+    "source": "Source",
+    "viewSource": "View Source",
+    "reputationCheckFailed": "Could not perform reputation check. Please try again.",
+    "infoDisclaimer": "This is for informational purposes only and does not constitute financial advice. Please do your own research before proceeding."
+  },
   "ApiErrorCard": {
     "errorLoading": "Error Loading {context}",
     "configErrorTitle": "API Key Configuration Error",
