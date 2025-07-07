@@ -1,7 +1,7 @@
 
 'use client';
 
-import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js";
+import { PayPalButtons, usePayPalScriptReducer, OnApproveData, CreateOrderActions, OnApproveActions } from "@paypal/react-paypal-js";
 import { useState } from "react";
 import { useUser } from "@/hooks/use-user";
 import { useRouter } from "next/navigation";
@@ -17,6 +17,10 @@ interface PayPalPurchaseButtonProps {
     };
 }
 
+// Check if we are in sandbox mode. This is true if the public key is missing or is the default 'sb'.
+const IS_SANDBOX = !process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID || process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID === 'sb';
+
+
 export function PayPalPurchaseButton({ tier }: PayPalPurchaseButtonProps) {
     const [{ isPending }] = usePayPalScriptReducer();
     const { updateProfile } = useUser();
@@ -24,7 +28,8 @@ export function PayPalPurchaseButton({ tier }: PayPalPurchaseButtonProps) {
     const { toast } = useToast();
     const [isProcessing, setIsProcessing] = useState(false);
 
-    const createOrder = async () => {
+    // --- PRODUCTION FLOW (Server-Side) ---
+    const createOrderServer = async (): Promise<string> => {
         try {
             const response = await fetch('/api/orders', {
                 method: 'POST',
@@ -35,16 +40,16 @@ export function PayPalPurchaseButton({ tier }: PayPalPurchaseButtonProps) {
             if (order.id) {
                 return order.id;
             } else {
-                toast({ variant: 'destructive', title: 'Error', description: order.error || 'Could not create PayPal order.' });
+                toast({ variant: 'destructive', title: 'Error Creating Order', description: order.error || 'Could not create PayPal order.' });
                 return Promise.reject(new Error(order.error || 'Could not create PayPal order.'));
             }
         } catch (error) {
-            toast({ variant: 'destructive', title: 'Error', description: 'Could not connect to create order.' });
+            toast({ variant: 'destructive', title: 'Connection Error', description: 'Could not connect to the server to create an order.' });
             return Promise.reject(error);
         }
     };
 
-    const onApprove = async (data: any) => {
+    const onApproveServer = async (data: OnApproveData): Promise<void> => {
         setIsProcessing(true);
         try {
             const response = await fetch(`/api/orders/${data.orderID}/capture`, {
@@ -76,17 +81,46 @@ export function PayPalPurchaseButton({ tier }: PayPalPurchaseButtonProps) {
             setIsProcessing(false);
         }
     };
+    
+    // --- SANDBOX FLOW (Client-Side Only) ---
+    const createOrderClient = (data: Record<string, unknown>, actions: CreateOrderActions) => {
+        console.log("Creating order on client-side (sandbox mode).");
+        return actions.order.create({
+            purchase_units: [{
+                description: `CryptoDx ${tier.name} Plan (Sandbox Test)`,
+                amount: {
+                    value: tier.price
+                }
+            }]
+        });
+    };
 
+    const onApproveClient = (data: OnApproveData, actions: OnApproveActions) => {
+        console.log("Approving order on client-side (sandbox mode).", data);
+        if (!actions.order) {
+            return Promise.reject(new Error("Order actions not available in onApproveClient"));
+        }
+        return actions.order.capture().then((details) => {
+            console.log("Sandbox transaction details:", details);
+             toast({
+                title: 'Sandbox Purchase Complete!',
+                description: `Test transaction for the ${tier.name} plan was successful. This does not update your profile.`,
+            });
+        });
+    };
+
+    // Render a loading state while the PayPal script or our processing is running.
     if (isPending || isProcessing) {
         return <Button disabled className="w-full h-12"><Loader2 className="h-6 w-6 animate-spin" /></Button>;
     }
 
     return (
         <PayPalButtons
+            key={IS_SANDBOX ? 'sandbox' : 'production'} // Force re-render if the mode changes
             className="w-full"
             style={{ layout: "vertical", label: "pay" }}
-            createOrder={createOrder}
-            onApprove={onApprove}
+            createOrder={IS_SANDBOX ? createOrderClient : createOrderServer}
+            onApprove={IS_SANDBOX ? onApproveClient : onApproveServer}
             onError={(err) => {
                  toast({ variant: 'destructive', title: 'PayPal Error', description: 'An error occurred with the PayPal transaction.' });
                  console.error("PayPal Error:", err);
@@ -94,3 +128,4 @@ export function PayPalPurchaseButton({ tier }: PayPalPurchaseButtonProps) {
         />
     );
 }
+
