@@ -67,10 +67,17 @@ You MUST respond in the following language: ${language || 'en'}.`;
       systemInstruction,
     });
 
+    // Sanitize the history to ensure it only contains the fields the API expects.
+    // This prevents errors from extra fields added by the client-side (e.g., audioSrc).
+    const sanitizedHistory = history.map((h: any) => ({
+      role: h.role,
+      parts: h.parts.map((p: any) => ({ text: p.text }))
+    }));
+
     // The Google API requires history to start with a user role and alternate.
     // Our client-side history includes an initial greeting from the model, which we need to filter out.
-    const startOfConversation = history.findIndex((m: Content) => m.role === 'user');
-    const validHistory = startOfConversation === -1 ? [] : history.slice(startOfConversation);
+    const startOfConversation = sanitizedHistory.findIndex((m: Content) => m.role === 'user');
+    const validHistory = startOfConversation === -1 ? [] : sanitizedHistory.slice(startOfConversation);
 
 
     const chatSession = model.startChat({
@@ -87,8 +94,9 @@ You MUST respond in the following language: ${language || 'en'}.`;
     });
   } catch (error: any) {
     console.error('Error in chat API:', error);
+    // Provide a more generic error to the client, but log the details on the server.
     return NextResponse.json(
-      {error: 'Internal Server Error', details: error.message},
+      {error: 'The AI service failed to process the request. Please try again.'},
       {status: 500}
     );
   }
