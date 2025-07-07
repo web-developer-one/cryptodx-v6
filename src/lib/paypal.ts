@@ -11,21 +11,21 @@ function getPayPalClient() {
     const clientId = process.env.PAYPAL_CLIENT_ID;
     const clientSecret = process.env.PAYPAL_CLIENT_SECRET;
 
-    if (!clientId || !clientSecret) {
-        const errorMessage = 'PayPal client ID or secret is not configured. Please set PAYPAL_CLIENT_ID and PAYPAL_CLIENT_SECRET in your environment.';
+    if (!clientId || !clientSecret || clientId === 'sb') {
+        const errorMessage = 'PayPal client ID or secret is not configured for server-side operations. Please set PAYPAL_CLIENT_ID and PAYPAL_CLIENT_SECRET in your environment.';
         console.error(errorMessage);
         throw new Error(errorMessage);
     }
     
-    // Explicitly use the Sandbox environment. This is safer for development and avoids issues with process.env.NODE_ENV.
-    // The LiveEnvironment should be used for production.
+    // In a real app, you might switch between Sandbox and Live based on an env var.
+    // For this example, we'll stick to Sandbox.
     const environment = new paypal.core.SandboxEnvironment(clientId, clientSecret);
     return new paypal.core.PayPalHttpClient(environment);
 }
 
 
 export async function createOrder(tier: { name: string, price: string, sku: string }) {
-    const client = getPayPalClient(); // Will throw an error if not configured
+    const client = getPayPalClient();
 
     const request = new paypal.orders.OrdersCreateRequest();
     request.prefer("return=representation");
@@ -61,7 +61,6 @@ export async function createOrder(tier: { name: string, price: string, sku: stri
             id: order.result.id,
         };
     } catch (err: any) {
-        // Create a more descriptive error message to send back to the client
         let errorMessage = "Failed to create PayPal order.";
         if (err.statusCode && err.message) {
              try {
@@ -72,7 +71,6 @@ export async function createOrder(tier: { name: string, price: string, sku: stri
                     errorMessage = errorDetails.message;
                 }
              } catch (e) {
-                 // Fallback for non-JSON messages
                  errorMessage = err.message;
              }
         }
@@ -82,7 +80,7 @@ export async function createOrder(tier: { name: string, price: string, sku: stri
 }
 
 export async function captureOrder(orderId: string) {
-    const client = getPayPalClient(); // Will throw an error if not configured
+    const client = getPayPalClient();
     
     const request = new paypal.orders.OrdersCaptureRequest(orderId);
     request.requestBody({});

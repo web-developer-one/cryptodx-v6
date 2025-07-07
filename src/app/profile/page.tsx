@@ -87,7 +87,7 @@ export default function ProfilePage() {
     setIsSaving(true);
     await updateProfile({
         ...data,
-        avatar: user.avatar, // Ensure the currently selected avatar is saved
+        avatar: user.avatar,
     });
     setIsSaving(false);
   }
@@ -204,19 +204,9 @@ export default function ProfilePage() {
                             render={({ field }) => (
                                 <FormItem>
                                 <FormLabel>{t('ProfilePage.pricePlan')}</FormLabel>
-                                  <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                    <FormControl>
-                                      <SelectTrigger>
-                                        <SelectValue placeholder="Select plan" />
-                                      </SelectTrigger>
-                                    </FormControl>
-                                    <SelectContent>
-                                      <SelectItem value="Free">Free</SelectItem>
-                                      <SelectItem value="Basic">Basic</SelectItem>
-                                      <SelectItem value="Advanced">Advanced</SelectItem>
-                                      <SelectItem value="Administrator">Administrator</SelectItem>
-                                    </SelectContent>
-                                  </Select>
+                                  <FormControl>
+                                    <Input {...field} disabled />
+                                  </FormControl>
                                 <FormMessage />
                                 </FormItem>
                             )}

@@ -5,9 +5,8 @@ import React, { createContext, useContext, useState, useEffect, useCallback, use
 import type { User } from '@/lib/types';
 import { useToast } from './use-toast';
 import { useLanguage } from './use-language';
-import { get, set } from 'idb-keyval';
-
-// --- Mock Database Logic ---
+import { get, set, keys } from 'idb-keyval';
+import { useRouter } from 'next/navigation';
 
 export const avatars = [
   '/avatars/admin-avatar.png',
@@ -33,33 +32,7 @@ const initialUsers: User[] = [
     pricePlan: 'Administrator',
     avatar: avatars[0],
   },
-  {
-    id: '2',
-    username: 'satoshi',
-    email: 'satoshi@nakamoto.com',
-    password: 'password',
-    firstName: 'Satoshi',
-    lastName: 'Nakamoto',
-    age: 35,
-    sex: 'Male',
-    pricePlan: 'Advanced',
-    avatar: avatars[1],
-  },
-  {
-    id: '3',
-    username: 'testuser',
-    email: 'test@user.com',
-    password: 'password',
-    firstName: 'Test',
-    lastName: 'User',
-    age: 28,
-    sex: 'Male',
-    pricePlan: 'Free',
-    avatar: avatars[2],
-  },
 ];
-
-// --- User Context ---
 
 interface UserContextType {
   user: User | null;
@@ -80,18 +53,16 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
   const { toast } = useToast();
   const { t } = useLanguage();
 
-  // On first client-side load, initialize the mock DB if it doesn't exist.
   useEffect(() => {
     const initializeDb = async () => {
-      const existingUsers = await get('users');
-      if (!existingUsers) {
+      const allKeys = await keys();
+      if (!allKeys.includes('users')) {
         await set('users', initialUsers);
       }
     };
     initializeDb();
   }, []);
 
-  // Check for an active session on mount
   useEffect(() => {
     const checkUserSession = async () => {
       setIsLoading(true);
@@ -101,6 +72,8 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
         const userData = users?.find(u => u.id === userId);
         if (userData) {
           setUser(userData);
+        } else {
+            localStorage.removeItem('userId');
         }
       }
       setIsLoading(false);
@@ -108,31 +81,28 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
     checkUserSession();
   }, []);
 
-  const login = useCallback(async (email: string, password: string) => {
-    try {
-      const users = await get<User[]>('users');
-      const userData = users?.find(u => u.email === email && u.password === password);
-      
-      if (userData) {
-        setUser(userData);
-        localStorage.setItem('userId', userData.id);
-        
-        const successTitle = t('LoginPage.loginSuccessTitle');
-        const successDescription = userData.pricePlan === 'Administrator' 
-            ? t('LoginPage.loginSuccessAdmin') 
-            : t('LoginPage.loginSuccessUser');
-            
-        toast({ title: successTitle, description: successDescription });
-        return true;
-      } else {
-        toast({ variant: 'destructive', title: t('LoginPage.loginErrorTitle'), description: t('LoginPage.loginErrorInvalid') });
-        return false;
-      }
-    } catch (error: any) {
-      toast({ variant: 'destructive', title: t('LoginPage.loginErrorTitle'), description: error.message });
+  const login = useCallback(async (email: string, password: string): Promise<boolean> => {
+    const users = await get<User[]>('users') || [];
+    const userData = users.find(u => u.email === email && u.password === password);
+
+    if (userData) {
+      setUser(userData);
+      localStorage.setItem('userId', userData.id);
+      toast({
+        title: t('LoginPage.loginSuccessTitle'),
+        description: userData.pricePlan === 'Administrator' ? t('LoginPage.loginSuccessAdmin') : t('LoginPage.loginSuccessUser'),
+      });
+      return true;
+    } else {
+      toast({
+        variant: 'destructive',
+        title: t('LoginPage.loginErrorTitle'),
+        description: t('LoginPage.loginErrorInvalid'),
+      });
       return false;
     }
   }, [t, toast]);
+
 
   const register = useCallback(async (userData: Omit<User, 'id' | 'pricePlan' | 'avatar'>) => {
     try {
@@ -143,10 +113,10 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
       }
 
       const newUser: User = {
-        id: (users.length + 1).toString(),
+        id: (Date.now()).toString(), // More unique ID
         ...userData,
-        pricePlan: 'Free', // Default plan
-        avatar: avatars[0], // Default avatar
+        pricePlan: 'Free',
+        avatar: avatars[1], // Default non-admin avatar
       };
 
       const newUsers = [...users, newUser];
