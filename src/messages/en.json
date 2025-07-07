@@ -227,6 +227,21 @@
     "line": "Line",
     "candlestick": "Candlestick"
   },
+  "ReputationAlert": {
+    "dialogTitle": "Reputation Check: {tokenName}",
+    "dialogDescription": "This AI-generated report analyzes public data for potential risks and community sentiment. It is not financial advice.",
+    "reputationCheckFailed": "The reputation check failed. The AI service may be temporarily unavailable.",
+    "summary": "AI Summary",
+    "sentiment": "Community Sentiment",
+    "riskLevel": "Assessed Risk",
+    "findings": "Key Findings",
+    "positive": "Positive",
+    "neutral": "Neutral",
+    "negative": "Negative",
+    "low": "Low",
+    "medium": "Medium",
+    "high": "High"
+  },
   "ApiErrorCard": {
     "errorLoading": "Error Loading {context}",
     "configErrorTitle": "API Key Configuration Error",

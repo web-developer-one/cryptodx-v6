@@ -227,6 +227,21 @@
     "line": "折线图",
     "candlestick": "K线图"
   },
+  "ReputationAlert": {
+    "dialogTitle": "声誉检查：{tokenName}",
+    "dialogDescription": "这份由人工智能生成的报告分析了公共数据，以发现潜在风险和社区情绪。这不是财务建议。",
+    "reputationCheckFailed": "声誉检查失败。人工智能服务可能暂时不可用。",
+    "summary": "人工智能摘要",
+    "sentiment": "社区情绪",
+    "riskLevel": "评估风险",
+    "findings": "主要发现",
+    "positive": "积极",
+    "neutral": "中性",
+    "negative": "消极",
+    "low": "低",
+    "medium": "中",
+    "high": "高"
+  },
   "ApiErrorCard": {
     "errorLoading": "加载{context}时出错",
     "configErrorTitle": "API密钥配置错误",

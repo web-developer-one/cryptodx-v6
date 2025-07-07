@@ -39,6 +39,7 @@ import {
 } from "@/components/ui/tooltip";
 import { useToast } from "@/hooks/use-toast";
 import { useLanguage } from "@/hooks/use-language";
+import { ReputationDialog } from "./reputation-dialog";
 
 export function SwapInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[] }) {
   const [fromToken, setFromToken] = useState<Cryptocurrency>(cryptocurrencies[0]);
@@ -263,36 +264,39 @@ export function SwapInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocu
           </div>
           <div className="flex items-center gap-2">
             <Input id="from-input" type="text" placeholder="0" className="text-3xl h-12 bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0 p-0" value={fromAmount} onChange={handleFromAmountChange} />
-            <Select value={fromToken.symbol} onValueChange={handleFromTokenChange}>
-              <SelectTrigger className="w-[180px] h-12 text-lg font-bold">
-                 <div className="flex items-center gap-2">
-                    <Image
-                        src={fromToken.logo || `https://placehold.co/20x20.png`}
-                        alt={`${fromToken.name} logo`}
-                        width={20}
-                        height={20}
-                        className="rounded-full"
-                    />
-                    {fromToken.symbol}
-                </div>
-              </SelectTrigger>
-              <SelectContent>
-                {cryptocurrencies.map((token) => (
-                  <SelectItem key={token.id} value={token.symbol}>
-                    <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1">
+              <ReputationDialog token={fromToken} />
+              <Select value={fromToken.symbol} onValueChange={handleFromTokenChange}>
+                <SelectTrigger className="w-[180px] h-12 text-lg font-bold">
+                  <div className="flex items-center gap-2">
                       <Image
-                        src={token.logo || `https://placehold.co/20x20.png`}
-                        alt={`${token.name} logo`}
-                        width={20}
-                        height={20}
-                        className="rounded-full"
+                          src={fromToken.logo || `https://placehold.co/20x20.png`}
+                          alt={`${fromToken.name} logo`}
+                          width={20}
+                          height={20}
+                          className="rounded-full"
                       />
-                      {token.symbol}
-                    </div>
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+                      {fromToken.symbol}
+                  </div>
+                </SelectTrigger>
+                <SelectContent>
+                  {cryptocurrencies.map((token) => (
+                    <SelectItem key={token.id} value={token.symbol}>
+                      <div className="flex items-center gap-2">
+                        <Image
+                          src={token.logo || `https://placehold.co/20x20.png`}
+                          alt={`${token.name} logo`}
+                          width={20}
+                          height={20}
+                          className="rounded-full"
+                        />
+                        {token.symbol}
+                      </div>
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
           </div>
         </div>
 
@@ -311,36 +315,39 @@ export function SwapInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocu
           </div>
           <div className="flex items-center gap-2">
             <Input id="to-input" type="text" placeholder="0" className="text-3xl h-12 bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0 p-0" value={toAmount} onChange={handleToAmountChange}/>
-            <Select value={toToken.symbol} onValueChange={handleToTokenChange}>
-              <SelectTrigger className="w-[180px] h-12 text-lg font-bold">
-                <div className="flex items-center gap-2">
-                    <Image
-                        src={toToken.logo || `https://placehold.co/20x20.png`}
-                        alt={`${toToken.name} logo`}
-                        width={20}
-                        height={20}
-                        className="rounded-full"
-                    />
-                    {toToken.symbol}
-                </div>
-              </SelectTrigger>
-              <SelectContent>
-                {cryptocurrencies.map((token) => (
-                  <SelectItem key={token.id} value={token.symbol}>
-                    <div className="flex items-center gap-2">
-                       <Image
-                        src={token.logo || `https://placehold.co/20x20.png`}
-                        alt={`${token.name} logo`}
-                        width={20}
-                        height={20}
-                        className="rounded-full"
+             <div className="flex items-center gap-1">
+              <ReputationDialog token={toToken} />
+              <Select value={toToken.symbol} onValueChange={handleToTokenChange}>
+                <SelectTrigger className="w-[180px] h-12 text-lg font-bold">
+                  <div className="flex items-center gap-2">
+                      <Image
+                          src={toToken.logo || `https://placehold.co/20x20.png`}
+                          alt={`${toToken.name} logo`}
+                          width={20}
+                          height={20}
+                          className="rounded-full"
                       />
-                      {token.symbol}
-                    </div>
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+                      {toToken.symbol}
+                  </div>
+                </SelectTrigger>
+                <SelectContent>
+                  {cryptocurrencies.map((token) => (
+                    <SelectItem key={token.id} value={token.symbol}>
+                      <div className="flex items-center gap-2">
+                        <Image
+                          src={token.logo || `https://placehold.co/20x20.png`}
+                          alt={`${token.name} logo`}
+                          width={20}
+                          height={20}
+                          className="rounded-full"
+                        />
+                        {token.symbol}
+                      </div>
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
           </div>
         </div>
       </CardContent>

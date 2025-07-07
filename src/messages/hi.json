@@ -227,6 +227,21 @@
     "line": "रेखा",
     "candlestick": "कैंडलस्टिक"
   },
+  "ReputationAlert": {
+    "dialogTitle": "प्रतिष्ठा जांच: {tokenName}",
+    "dialogDescription": "यह AI-जनित रिपोर्ट संभावित जोखिमों और सामुदायिक भावना के लिए सार्वजनिक डेटा का विश्लेषण करती है। यह वित्तीय सलाह नहीं है।",
+    "reputationCheckFailed": "प्रतिष्ठा जांच विफल रही। AI सेवा अस्थायी रूप से अनुपलब्ध हो सकती है।",
+    "summary": "AI सारांश",
+    "sentiment": "सामुदायिक भावना",
+    "riskLevel": "आकलित जोखिम",
+    "findings": "मुख्य निष्कर्ष",
+    "positive": "सकारात्मक",
+    "neutral": "तटस्थ",
+    "negative": "नकारात्मक",
+    "low": "कम",
+    "medium": "मध्यम",
+    "high": "उच्च"
+  },
   "ApiErrorCard": {
     "errorLoading": "{context} लोड करते समय त्रुटि",
     "configErrorTitle": "API कुंजी कॉन्फ़िगरेशन त्रुटि",
