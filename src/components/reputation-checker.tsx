@@ -4,7 +4,7 @@
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Copy, Check, ShieldAlert, Loader2, ExternalLink } from 'lucide-react';
+import { Copy, Check, ShieldAlert, Loader2, ExternalLink, ChevronDown, ChevronUp } from 'lucide-react';
 import { useLanguage } from '@/hooks/use-language';
 import { useToast } from '@/hooks/use-toast';
 import { CodeBlock } from './code-block';
@@ -56,6 +56,7 @@ const FormattedReport = ({ rawText, scoreColorClass }: { rawText: string, scoreC
 };
 
 export function ReputationChecker({ tokenName }: { tokenName: string }) {
+    const [isOpen, setIsOpen] = useState(true);
     const [isLoading, setIsLoading] = useState(true);
     const [report, setReport] = useState<string | null>(null);
     const [score, setScore] = useState<number | null>(null);
@@ -165,37 +166,54 @@ export function ReputationChecker({ tokenName }: { tokenName: string }) {
     return (
         <Card>
             <CardHeader>
-                <CardTitle className={cn("text-xl transition-colors", scoreColor)}>
-                    {t('ReputationChecker.title').replace('{tokenName}', tokenName)}
-                </CardTitle>
-                <CardDescription>{t('ReputationChecker.description')}</CardDescription>
+                <div className="flex justify-between items-start gap-4">
+                    <div className="flex-1">
+                        <CardTitle className={cn("text-xl transition-colors", scoreColor)}>
+                            {t('ReputationChecker.title').replace('{tokenName}', tokenName)}
+                        </CardTitle>
+                        <CardDescription>{t('ReputationChecker.description')}</CardDescription>
+                    </div>
+                     <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => setIsOpen(!isOpen)}
+                        className="flex-shrink-0"
+                        aria-expanded={isOpen}
+                    >
+                        {isOpen ? <ChevronUp className="h-5 w-5" /> : <ChevronDown className="h-5 w-5" />}
+                        <span className="sr-only">Toggle Report</span>
+                    </Button>
+                </div>
             </CardHeader>
-            <CardContent className="min-h-[250px] flex flex-col items-center justify-center">
-                {isLoading && (
-                    <div className="text-center text-muted-foreground m-auto space-y-2">
-                        <Loader2 className="animate-spin mx-auto h-8 w-8 text-primary" />
-                        <p className="font-medium">{t('ReputationChecker.loadingTitle').replace('{tokenName}', tokenName)}</p>
-                        <p className="text-sm">{t('ReputationChecker.loadingDescription')}</p>
-                    </div>
-                )}
-                {!isLoading && error && renderErrorContent()}
-                {!isLoading && !error && report && (
-                    <div className="w-full">
-                        <div className="flex justify-between items-center mb-4">
-                            <h3 className="text-lg font-semibold">{t('ReputationChecker.reportTitle')}</h3>
-                            <Button
-                                onClick={handleCopyToClipboard}
-                                variant="ghost"
-                                size="sm"
-                            >
-                                {isCopied ? <Check className="h-4 w-4 mr-2" /> : <Copy className="h-4 w-4 mr-2" />}
-                                {isCopied ? t('ReputationChecker.copied') : t('ReputationChecker.copy')}
-                            </Button>
+            {isOpen && (
+                <CardContent className="min-h-[250px] flex flex-col items-center justify-center pt-0">
+                    {isLoading && (
+                        <div className="text-center text-muted-foreground m-auto space-y-2">
+                            <Loader2 className="animate-spin mx-auto h-8 w-8 text-primary" />
+                            <p className="font-medium">{t('ReputationChecker.loadingTitle').replace('{tokenName}', tokenName)}</p>
+                            <p className="text-sm">{t('ReputationChecker.loadingDescription')}</p>
                         </div>
-                        <FormattedReport rawText={report} scoreColorClass={scoreColor} />
-                    </div>
-                )}
-            </CardContent>
+                    )}
+                    {!isLoading && error && renderErrorContent()}
+                    {!isLoading && !error && report && (
+                        <div className="w-full">
+                            <div className="flex justify-between items-center mb-4">
+                                <h3 className="text-lg font-semibold">{t('ReputationChecker.reportTitle')}</h3>
+                                <Button
+                                    onClick={handleCopyToClipboard}
+                                    variant="ghost"
+                                    size="sm"
+                                >
+                                    {isCopied ? <Check className="h-4 w-4 mr-2" /> : <Copy className="h-4 w-4 mr-2" />}
+                                    {isCopied ? t('ReputationChecker.copied') : t('ReputationChecker.copy')}
+                                </Button>
+                            </div>
+                            <FormattedReport rawText={report} scoreColorClass={scoreColor} />
+                        </div>
+                    )}
+                </CardContent>
+            )}
         </Card>
     );
 }
+
