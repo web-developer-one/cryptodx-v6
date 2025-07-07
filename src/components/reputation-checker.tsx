@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -57,22 +58,16 @@ export function ReputationChecker({ tokenName }: { tokenName: string }) {
                     body: JSON.stringify({ tokenName })
                 });
 
-                // ** THIS IS THE FIX **
-                // Check if the response was successful *before* trying to parse it as JSON.
                 if (!response.ok) {
+                    const errorBody = await response.text();
                     let errorData;
                     try {
-                        // The server might have sent a JSON error object
-                        errorData = await response.json();
+                        errorData = JSON.parse(errorBody);
                     } catch (e) {
-                        // If not, it's likely an HTML error page or other non-JSON response
-                        const errorText = await response.text();
-                        console.error("Non-JSON API response:", errorText);
-                        // This will trigger the catch block below with a helpful message
-                        throw new Error(`Server returned a non-JSON response. Status: ${response.status}.`);
+                        console.error("Non-JSON API error response:", errorBody);
+                        throw new Error(`Server returned an error. Status: ${response.status}.`);
                     }
                     
-                    // Throw an object that matches the expected error shape
                     throw {
                         type: errorData.error || 'FETCH_FAILED',
                         message: errorData.message || t('ReputationChecker.errorFetch')
