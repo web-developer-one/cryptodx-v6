@@ -20,7 +20,7 @@ interface AuthContextType {
   logout: () => void;
   register: (username: string, email: string, pass: string) => void;
   updateProfile: (profileData: UserProfile) => void;
-  setSessionUser: (user: UserProfile) => void;
+  setSessionUser: (data: Partial<UserProfile>) => void;
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -156,12 +156,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     toast({ title: t('ProfilePage.saveSuccessTitle'), description: t('ProfilePage.saveSuccessDescription') });
   }, [user, toast, t]);
 
-  const setSessionUser = useCallback((newUserData: UserProfile) => {
-    // This function now uses a functional update to prevent stale state issues,
-    // ensuring the header and other components always have the latest user data.
+  const setSessionUser = useCallback((data: Partial<UserProfile>) => {
     setUser(currentUser => {
-      if (!currentUser) return newUserData;
-      const updatedUser = { ...currentUser, ...newUserData };
+      if (!currentUser) return null; // Can't update a non-existent user
+      const updatedUser = { ...currentUser, ...data };
       localStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(updatedUser));
       return updatedUser;
     });
