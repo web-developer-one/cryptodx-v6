@@ -375,7 +375,7 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
                   <Button variant="ghost" size="icon" className="rounded-full">
                      <Avatar>
                         <AvatarImage src={user.avatar} alt={user.username} />
-                        <AvatarFallback>{user.username.charAt(0)}</AvatarFallback>
+                        <AvatarFallback>{user.username.charAt(0).toUpperCase()}</AvatarFallback>
                     </Avatar>
                   </Button>
                 </DropdownMenuTrigger>
@@ -383,12 +383,12 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
                   <DropdownMenuLabel>{t('Header.myAccount')}</DropdownMenuLabel>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem asChild>
-                    <Link href="/profile">
+                    <Link href="/profile" className="cursor-pointer">
                         <User className="mr-2 h-4 w-4" />
                         <span>{t('Header.profile')}</span>
                     </Link>
                   </DropdownMenuItem>
-                  <DropdownMenuItem onClick={handleLogout}>
+                  <DropdownMenuItem onClick={handleLogout} className="cursor-pointer">
                     <LogOut className="mr-2 h-4 w-4" />
                     <span>{t('Header.logout')}</span>
                   </DropdownMenuItem>
