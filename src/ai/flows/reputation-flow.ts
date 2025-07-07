@@ -59,12 +59,6 @@ const ReputationOutputSchema = z.object({
 });
 export type ReputationOutput = z.infer<typeof ReputationOutputSchema>;
 
-// The exported wrapper function that the UI interacts with.
-export async function getReputationReport(
-  input: ReputationInput
-): Promise<ReputationOutput> {
-  return await reputationFlow(input);
-}
 
 // Define the prompt for the reputation analysis, based on expert principles.
 const reputationPrompt = ai.definePrompt({
@@ -130,3 +124,10 @@ const reputationFlow = ai.defineFlow(
     return report;
   }
 );
+
+// The exported wrapper function that the UI interacts with.
+export async function getReputationReport(
+  input: ReputationInput
+): Promise<ReputationOutput> {
+  return reputationFlow(input);
+}
