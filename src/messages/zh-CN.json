@@ -298,7 +298,9 @@
     "speakTooltip": "用语音提问",
     "playAudioTooltip": "播放音频",
     "speechError": "语音识别失败。请重试或检查您的麦克风权限。",
-    "speechNotSupported": "您的浏览器不支持语音识别。"
+    "speechNotSupported": "您的浏览器不支持语音识别。",
+    "ttsErrorTitle": "文本转语音失败",
+    "ttsErrorDescription": "无法为响应生成音频。请检查API配置和网络。"
   },
   "WalletConnect": {
     "title": "连接钱包",

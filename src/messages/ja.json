@@ -298,7 +298,9 @@
     "speakTooltip": "音声で質問する",
     "playAudioTooltip": "音声を再生",
     "speechError": "音声認識に失敗しました。もう一度試すか、マイクの権限を確認してください。",
-    "speechNotSupported": "お使いのブラウザでは音声認識がサポートされていません。"
+    "speechNotSupported": "お使いのブラウザでは音声認識がサポートされていません。",
+    "ttsErrorTitle": "テキスト読み上げ失敗",
+    "ttsErrorDescription": "応答の音声を生成できませんでした。API設定とネットワークを確認してください。"
   },
   "WalletConnect": {
     "title": "ウォレットを接続",

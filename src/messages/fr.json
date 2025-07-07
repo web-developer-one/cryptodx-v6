@@ -272,7 +272,7 @@
     "p1": "Cette Politique de Cookies explique comment CryptoDx (\"nous\", \"nos\") utilise des cookies et des technologies similaires pour vous reconnaître lorsque vous visitez notre site web. Elle explique ce que sont ces technologies et pourquoi nous les utilisons, ainsi que vos droits de contrôler notre utilisation de celles-ci.",
     "h_whatAre": "Que sont les cookies ?",
     "p_whatAre1": "Un cookie est un petit fichier de données placé sur votre appareil lorsque vous visitez un site web. Les cookies sont largement utilisés par les propriétaires de sites web pour faire fonctionner leurs sites, ou pour les faire fonctionner plus efficacement, ainsi que pour fournir des informations de reporting.",
-    "p_whatAre2": "Les cookies définis par le propriétaire du site web (dans ce cas, CryptoDx) sont appelés \"cookies propriétaires\". Les cookies définis par des parties autres que le propriétaire du site web sont appelés \"cookies tiers\". Les cookies tiers permettent de fournir des fonctionnalités ou des fonctionnalités tierces sur ou via le site web (par exemple, publicité, contenu interactif et analyses). Les parties qui définissent ces cookies tiers peuvent reconnaître votre ordinateur à la fois lorsqu'il visite le site web en question et lorsqu'il visite certains autres sites web.",
+    "p_whatAre2": "Les cookies définis par le propriétaire du site web (dans ce cas, CryptoDx) sont appelés \"cookies propriétaires\". Les cookies definis par des parties autres que le propriétaire du site web sont appelés \"cookies tiers\". Les cookies tiers permettent de fournir des fonctionnalités ou des fonctionnalités tierces sur ou via le site web (par exemple, publicité, contenu interactif et analyses). Les parties qui définissent ces cookies tiers peuvent reconnaître votre ordinateur à la fois lorsqu'il visite le site web en question et lorsqu'il visite certains autres sites web.",
     "h_whyUse": "Pourquoi utilisons-nous des cookies ?",
     "p_whyUse": "Nous utilisons des cookies propriétaires et tiers pour plusieurs raisons. Certains cookies sont requis pour des raisons techniques afin que notre Site Web fonctionne, et nous les appelons cookies \"essentiels\" ou \"strictement nécessaires\". D'autres cookies nous permettent également de suivre et de cibler les intérêts de nos utilisateurs pour améliorer l'expérience sur nos Propriétés en Ligne. Des tiers diffusent des cookies via notre Site Web à des fins de publicité, d'analyse et autres. Ceci est décrit plus en détail ci-dessous.",
     "h_types": "Types de Cookies que nous Utilisons",
@@ -298,7 +298,9 @@
     "speakTooltip": "Demandez avec votre voix",
     "playAudioTooltip": "Lire l'audio",
     "speechError": "La reconnaissance vocale a échoué. Veuillez réessayer ou vérifier les autorisations de votre microphone.",
-    "speechNotSupported": "La reconnaissance vocale n'est pas prise en charge par votre navigateur."
+    "speechNotSupported": "La reconnaissance vocale n'est pas prise en charge par votre navigateur.",
+    "ttsErrorTitle": "Échec de la Synthèse Vocale",
+    "ttsErrorDescription": "Impossible de générer l'audio pour la réponse. Veuillez vérifier la configuration de l'API et le réseau."
   },
   "WalletConnect": {
     "title": "Connecter un portefeuille",

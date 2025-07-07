@@ -298,7 +298,9 @@
     "speakTooltip": "Pergunte com sua voz",
     "playAudioTooltip": "Reproduzir áudio",
     "speechError": "Falha no reconhecimento de voz. Por favor, tente novamente ou verifique as permissões do seu microfone.",
-    "speechNotSupported": "O reconhecimento de voz não é suportado no seu navegador."
+    "speechNotSupported": "O reconhecimento de voz não é suportado no seu navegador.",
+    "ttsErrorTitle": "Falha na Conversão de Texto em Voz",
+    "ttsErrorDescription": "Não foi possível gerar o áudio para a resposta. Verifique a configuração da API e a rede."
   },
   "WalletConnect": {
     "title": "Conectar uma carteira",

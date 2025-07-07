@@ -298,7 +298,9 @@
     "speakTooltip": "Preguntar con tu voz",
     "playAudioTooltip": "Reproducir audio",
     "speechError": "Falló el reconocimiento de voz. Por favor, inténtalo de nuevo o comprueba los permisos de tu micrófono.",
-    "speechNotSupported": "El reconocimiento de voz no es compatible con tu navegador."
+    "speechNotSupported": "El reconocimiento de voz no es compatible con tu navegador.",
+    "ttsErrorTitle": "Error de Texto a Voz",
+    "ttsErrorDescription": "No se pudo generar el audio para la respuesta. Verifique la configuración de la API y la red."
   },
   "WalletConnect": {
     "title": "Conectar una billetera",

@@ -102,7 +102,10 @@ export function Chatbot() {
         body: JSON.stringify({ text }),
       });
 
-      if (!response.ok) throw new Error('Failed to fetch audio.');
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => null);
+        throw new Error(errorData?.error || 'Failed to fetch audio.');
+      }
       
       const { audioDataUri } = await response.json();
 
@@ -117,8 +120,13 @@ export function Chatbot() {
 
       playAudio(audioDataUri);
 
-    } catch (error) {
+    } catch (error: any) {
       console.error("TTS Error:", error);
+      toast({
+        variant: 'destructive',
+        title: t('Chatbot.ttsErrorTitle'),
+        description: error.message || t('Chatbot.ttsErrorDescription'),
+      });
        setMessages(prev => {
         const newMessages = [...prev];
         if (newMessages[messageIndex]) {
@@ -127,7 +135,7 @@ export function Chatbot() {
         return newMessages;
       });
     }
-  }, []);
+  }, [t, toast]);
 
   const handleSend = useCallback(async (messageOverride?: string) => {
     const message = (messageOverride || input).trim();

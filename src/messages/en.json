@@ -298,7 +298,9 @@
     "speakTooltip": "Ask with your voice",
     "playAudioTooltip": "Play audio",
     "speechError": "Speech recognition failed. Please try again or check your microphone permissions.",
-    "speechNotSupported": "Speech recognition is not supported in your browser."
+    "speechNotSupported": "Speech recognition is not supported in your browser.",
+    "ttsErrorTitle": "Text-to-Speech Failed",
+    "ttsErrorDescription": "Could not generate audio for the response. Please check API configuration and network."
   },
   "WalletConnect": {
     "title": "Connect a wallet",

@@ -298,7 +298,9 @@
     "speakTooltip": "Fragen Sie mit Ihrer Stimme",
     "playAudioTooltip": "Audio abspielen",
     "speechError": "Spracherkennung fehlgeschlagen. Bitte versuchen Sie es erneut oder überprüfen Sie Ihre Mikrofonberechtigungen.",
-    "speechNotSupported": "Die Spracherkennung wird in Ihrem Browser nicht unterstützt."
+    "speechNotSupported": "Die Spracherkennung wird in Ihrem Browser nicht unterstützt.",
+    "ttsErrorTitle": "Text-zu-Sprache Fehlgeschlagen",
+    "ttsErrorDescription": "Audio für die Antwort konnte nicht generiert werden. Bitte überprüfen Sie die API-Konfiguration und das Netzwerk."
   },
   "WalletConnect": {
     "title": "Ein Wallet verbinden",
