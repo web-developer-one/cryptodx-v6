@@ -97,38 +97,24 @@ export default function PricingPage() {
   }, [t]);
 
    const getButtonState = (tierName: 'Free' | 'Basic' | 'Advanced') => {
-    // Logic for unauthenticated users
+    // Free plan always shows "Default Plan"
+    if (tierName === 'Free') {
+      return { text: "Default Plan", isDefault: true };
+    }
+
+    // For paid plans, if user is not authenticated, prompt them to log in.
     if (!isAuthenticated || !user) {
-      if (tierName === 'Free') {
-        // Unauthenticated users can get started with the free plan
-        return { text: "Get Started", disabled: false, isCurrent: false, isLogin: true, action: 'register' };
-      }
-      // For paid plans, prompt login
-      return { text: "Login to Upgrade", disabled: false, isCurrent: false, isLogin: true, action: 'login' };
+      return { text: "Login to Upgrade", isLogin: true };
     }
     
-    // Logic for authenticated users
-    const currentUserPlan = user.pricePlan;
-
-    if (currentUserPlan === tierName) {
-      return { text: "Current Plan", disabled: true, isCurrent: true };
-    }
-
-    if (currentUserPlan === 'Advanced') {
-      // An Advanced user has the top plan, so other tiers are just part of their subscription.
-      return { text: "Subscribed", disabled: true, isCurrent: false };
+    // Logic for authenticated users for paid plans.
+    // If the user is already on this plan, show "Current Plan"
+    if (user.pricePlan === tierName) {
+      return { text: "Current Plan", isCurrent: true };
     }
     
-    if (currentUserPlan === 'Basic' && tierName === 'Free') {
-      // A Basic user can't "downgrade" to Free via this UI.
-      return { text: "Subscribed", disabled: true, isCurrent: false };
-    }
-
-    // This case now covers:
-    // - Free user upgrading to Basic or Advanced
-    // - Basic user upgrading to Advanced
-    // - Administrator user purchasing any plan (as they don't match any other condition)
-    return { text: `Upgrade to ${tierName}`, disabled: false, isCurrent: false, isPurchase: true };
+    // Any other case means they can purchase a paid plan.
+    return { text: `Upgrade to ${tierName}`, isPurchase: true };
   }
 
   return (
@@ -186,16 +172,16 @@ export default function PricingPage() {
                           </ul>
                           </CardContent>
                           <CardFooter>
-                              {buttonState.isCurrent || (buttonState.disabled && !buttonState.isLogin) ? (
-                                  <Button disabled className="w-full">{buttonState.text}</Button>
+                              {buttonState.isDefault || buttonState.isCurrent ? (
+                                <Button disabled className="w-full">{buttonState.text}</Button>
                               ) : buttonState.isLogin ? (
-                                  <Link href={buttonState.action === 'register' ? '/register' : '/login'} className="w-full">
-                                      <Button className="w-full">{buttonState.text}</Button>
-                                  </Link>
+                                <Link href={'/login'} className="w-full">
+                                    <Button className="w-full">{buttonState.text}</Button>
+                                </Link>
                               ) : buttonState.isPurchase ? (
-                                  <PayPalPurchaseButton tier={tier} />
+                                <PayPalPurchaseButton tier={tier} />
                               ) : (
-                                  <Button className="w-full">{buttonState.text}</Button>
+                                <Button className="w-full">{buttonState.text}</Button>
                               )}
                           </CardFooter>
                       </Card>
