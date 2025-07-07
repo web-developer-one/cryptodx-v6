@@ -18,16 +18,10 @@ import { cn } from "@/lib/utils";
 import { PriceChart } from "@/components/token-details/price-chart";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from '@/hooks/use-language';
-import type { ReputationOutput } from '@/ai/flows/reputation-flow';
-import { ReputationAlert } from '../reputation-alert';
 
 export function TokenDetailClient({ initialToken }: { initialToken: TokenDetails }) {
-    const { t, language } = useLanguage();
+    const { t } = useLanguage();
     const [token, setToken] = useState(initialToken);
-    
-    const [reputationReport, setReputationReport] = useState<ReputationOutput | null>(null);
-    const [isReputationLoading, setIsReputationLoading] = useState(true);
-    const [reputationError, setReputationError] = useState<string | null>(null);
 
     useEffect(() => {
         document.title = t('PageTitles.tokenDetail').replace('{tokenName}', token.name);
@@ -45,42 +39,6 @@ export function TokenDetailClient({ initialToken }: { initialToken: TokenDetails
             }));
         }
     }, [token.low24h, token.high24h, token.price, token.change24h]);
-    
-    useEffect(() => {
-      const fetchReputation = async () => {
-        if (!token) return;
-        setIsReputationLoading(true);
-        setReputationError(null);
-        try {
-          const response = await fetch('/api/reputation', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              tokenName: token.name,
-              tokenSymbol: token.symbol,
-              language,
-            }),
-          });
-          
-          if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.error || 'Failed to fetch reputation');
-          }
-
-          const result: ReputationOutput = await response.json();
-          setReputationReport(result);
-        } catch (e: any) {
-          console.error("Reputation check failed:", e);
-          setReputationError(t('ReputationAlert.reputationCheckFailed'));
-        } finally {
-          setIsReputationLoading(false);
-        }
-      };
-
-      fetchReputation();
-    }, [token, language, t]);
 
 
   return (
@@ -122,14 +80,6 @@ export function TokenDetailClient({ initialToken }: { initialToken: TokenDetails
           </div>
         </div>
       </div>
-
-      <ReputationAlert 
-        isLoading={isReputationLoading}
-        report={reputationReport}
-        error={reputationError}
-        tokenName={token.name}
-        tokenSymbol={token.symbol}
-      />
       
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-1">
