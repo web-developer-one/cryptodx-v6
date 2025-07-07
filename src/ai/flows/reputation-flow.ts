@@ -3,6 +3,7 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'zod';
+import {googleSearch} from 'genkit/tools';
 
 // Input and Output schemas for the reputation check.
 export const ReputationInputSchema = z.object({
@@ -32,8 +33,8 @@ const reputationFlow = ai.defineFlow(
   async (input) => {
     // This prompt asks the AI to act as an analyst and provide a structured report.
     const prompt = `
-        Please perform a comprehensive reputation check for the cryptocurrency token: "${input.tokenName}".
-        Scan through relevant internet platforms for real-time information. Your analysis should cover the following points:
+        You are a crypto security analyst. Please perform a comprehensive reputation check for the cryptocurrency token: "${input.tokenName}".
+        Use the provided search tool to find real-time information from the internet. Your analysis should cover the following points:
 
         1.  **Social Media Sentiment:** Analyze recent discussions on platforms like X (formerly Twitter) and Reddit. What is the general sentiment (Positive, Negative, Neutral)? Are there any significant discussions, red flags, or positive endorsements from reputable sources?
 
@@ -44,10 +45,15 @@ const reputationFlow = ai.defineFlow(
         4.  **Overall Summary:** Provide a concise summary of your findings and a final reputation score from 1 to 10 (1 being very poor, 10 being excellent).
 
         Structure your response clearly with headings for each section. Use Markdown for formatting (e.g., **Heading** for bold headings).
+        Cite your sources with URLs where possible.
     `;
 
-    // We use a simple generate call, asking for a text response.
-    const response = await ai.generate({ prompt });
+    // We pass the googleSearch tool to the generate call to allow the model to access the internet.
+    const response = await ai.generate({
+      prompt,
+      tools: [googleSearch],
+    });
+    
     const reportText = response.text;
 
     if (!reportText) {
@@ -55,7 +61,6 @@ const reputationFlow = ai.defineFlow(
     }
     
     // We wrap the plain text response into the object required by our output schema.
-    // This is more reliable than asking the AI to generate a complex JSON object.
     return { report: reportText };
   }
 );
