@@ -2,7 +2,6 @@
 'use client';
 
 import React, { createContext, useContext, useState, useEffect, useCallback, useMemo } from 'react';
-import { useRouter } from 'next/navigation';
 import type { User } from '@/lib/types';
 import * as auth from '@/lib/auth';
 import { useToast } from './use-toast';
@@ -24,7 +23,6 @@ const UserContext = createContext<UserContextType | null>(null);
 export function UserProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const router = useRouter();
   const { toast } = useToast();
   const { t } = useLanguage();
 
@@ -91,14 +89,16 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
     setUser(null);
     localStorage.removeItem('userId');
     toast({ description: t('LogoutToast.description') });
-    router.push('/');
-  }, [router, t, toast]);
+  }, [t, toast]);
   
-  const setSelectedAvatar = (avatarUrl: string) => {
-    if(user) {
-        setUser({...user, avatar: avatarUrl});
-    }
-  };
+  const setSelectedAvatar = useCallback((avatarUrl: string) => {
+    setUser(currentUser => {
+        if (currentUser) {
+            return {...currentUser, avatar: avatarUrl};
+        }
+        return null;
+    });
+  }, []);
 
   useEffect(() => {
     const checkUserSession = async () => {
@@ -123,7 +123,7 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
     register,
     updateProfile,
     setSelectedAvatar,
-  }), [user, isLoading, login, logout, register, updateProfile]);
+  }), [user, isLoading, login, logout, register, updateProfile, setSelectedAvatar]);
 
   return (
     <UserContext.Provider value={value}>

@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -26,20 +25,6 @@ export function TokenDetailClient({ initialToken }: { initialToken: TokenDetails
     useEffect(() => {
         document.title = t('PageTitles.tokenDetail').replace('{tokenName}', token.name);
     }, [t, token.name]);
-
-    useEffect(() => {
-        if (token.low24h === null || token.high24h === null) {
-            const newLow = token.price * (1 - Math.abs(token.change24h / 100) * (Math.random() * 0.5 + 0.8));
-            const newHigh = token.price * (1 + Math.abs(token.change24h / 100) * (Math.random() * 0.5 + 0.8));
-
-            setToken(prevToken => ({
-                ...prevToken,
-                low24h: prevToken.low24h ?? newLow,
-                high24h: prevToken.high24h ?? newHigh,
-            }));
-        }
-    }, [token.low24h, token.high24h, token.price, token.change24h]);
-
 
   return (
     <>

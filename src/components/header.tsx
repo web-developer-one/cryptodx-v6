@@ -4,6 +4,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import * as React from "react";
+import { useRouter } from "next/navigation";
 import {
   Menu,
   ArrowRightLeft,
@@ -21,7 +22,6 @@ import {
   Languages,
   User,
   LogOut,
-  LogIn
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { WalletConnect } from "@/components/wallet-connect";
@@ -42,7 +42,6 @@ import {
   DropdownMenuSub,
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
-  DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
   Accordion,
@@ -59,11 +58,13 @@ import { useLanguage } from "@/hooks/use-language";
 import { languages } from "@/lib/i18n";
 import { useUser } from "@/hooks/use-user";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { Skeleton } from "./ui/skeleton";
 
 
 export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[] }) {
   const { t, language, setLanguage, isLoading: isTranslating } = useLanguage();
-  const { user, isAuthenticated, logout } = useUser();
+  const { user, isAuthenticated, logout, isLoading: isUserLoading } = useUser();
+  const router = useRouter();
 
   const [mounted, setMounted] = React.useState(false);
   const [theme, setTheme] = React.useState<"light" | "dark">("light");
@@ -91,6 +92,11 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
 
   const toggleTheme = () => {
     setTheme(theme === "light" ? "dark" : "light");
+  };
+
+  const handleLogout = () => {
+    logout();
+    router.push('/');
   };
 
   const menuItems = [
@@ -360,7 +366,9 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
             </DropdownMenuContent>
           </DropdownMenu>
             
-          {isAuthenticated && user ? (
+          {isUserLoading ? (
+            <Skeleton className="h-10 w-10 rounded-full" />
+          ) : isAuthenticated && user ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="ghost" size="icon" className="rounded-full">
@@ -379,7 +387,7 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
                         <span>{t('Header.profile')}</span>
                     </Link>
                   </DropdownMenuItem>
-                  <DropdownMenuItem onClick={logout}>
+                  <DropdownMenuItem onClick={handleLogout}>
                     <LogOut className="mr-2 h-4 w-4" />
                     <span>{t('Header.logout')}</span>
                   </DropdownMenuItem>
@@ -387,9 +395,12 @@ export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[
               </DropdownMenu>
           ) : (
                <Link href="/login" passHref>
-                 <Button variant="secondary" className="gap-2">
-                    <LogIn className="h-4 w-4" />
-                    {t('LoginPage.loginButton')}
+                 <Button variant="ghost" size="icon" className="rounded-full">
+                    <Avatar>
+                        <AvatarFallback>
+                            <User className="h-5 w-5" />
+                        </AvatarFallback>
+                    </Avatar>
                  </Button>
                </Link>
           )}
