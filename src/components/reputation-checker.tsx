@@ -10,10 +10,10 @@ import { useToast } from '@/hooks/use-toast';
 import { CodeBlock } from './code-block';
 import { cn } from '@/lib/utils';
 
-// Parses the score from a raw text report.
+// Parses the score from a raw text report, handling multiple phrasings.
 const parseScore = (reportText: string): number | null => {
     if (!reportText) return null;
-    const scoreRegex = /(?:Overall Reputation Score|reputation score of):\s*(\d{1,2})\/10/i;
+    const scoreRegex = /(?:Overall Reputation Score|Final Reputation Score|reputation score of):\s*(\d{1,2})\/10/i;
     const match = reportText.match(scoreRegex);
     if (match && match[1]) {
         return parseInt(match[1], 10);
@@ -30,7 +30,7 @@ const getScoreColor = (score: number | null): string => {
 };
 
 const FormattedReport = ({ rawText, scoreColorClass }: { rawText: string, scoreColorClass: string }) => {
-    const scoreRegex = /(?:Overall Reputation Score|reputation score of):\s*(\d{1,2})\/10/i;
+    const scoreRegex = /(?:Overall Reputation Score|Final Reputation Score|reputation score of):\s*(\d{1,2})\/10/i;
 
     return (
         <div className="prose prose-sm dark:prose-invert max-w-none text-muted-foreground space-y-2">
@@ -41,7 +41,7 @@ const FormattedReport = ({ rawText, scoreColorClass }: { rawText: string, scoreC
                 const parts = line.split(/(\*\*.*?\*\*)/g);
                 
                 return (
-                    <p key={index} className={cn(isScoreLine && scoreColorClass)}>
+                    <p key={index} className={cn(isScoreLine && scoreColorClass, isScoreLine && 'font-bold')}>
                         {parts.map((part, partIndex) => {
                             if (part.startsWith('**') && part.endsWith('**')) {
                                 return <strong key={partIndex}>{part.substring(2, part.length - 2)}</strong>;
