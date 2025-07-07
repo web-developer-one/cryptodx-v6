@@ -4,22 +4,25 @@
 import {ai} from '@/ai/genkit';
 import {z} from 'zod';
 
+// Input and Output schemas for the reputation check.
 export const ReputationInputSchema = z.object({
-  tokenName: z.string().describe('The name of the cryptocurrency token.'),
+  tokenName: z.string(),
 });
 export type ReputationInput = z.infer<typeof ReputationInputSchema>;
 
 export const ReputationOutputSchema = z.object({
-  report: z.string().describe('A detailed reputation report for the token, formatted in Markdown.'),
+  report: z.string(),
 });
 export type ReputationOutput = z.infer<typeof ReputationOutputSchema>;
 
+// Exported function that the API route will call.
 export async function checkReputation(
   input: ReputationInput
 ): Promise<ReputationOutput> {
   return reputationFlow(input);
 }
 
+// This is the core Genkit flow that interacts with the AI model.
 const reputationFlow = ai.defineFlow(
   {
     name: 'reputationFlow',
@@ -27,6 +30,7 @@ const reputationFlow = ai.defineFlow(
     outputSchema: ReputationOutputSchema,
   },
   async (input) => {
+    // This prompt asks the AI to act as an analyst and provide a structured report.
     const prompt = `
         Please perform a comprehensive reputation check for the cryptocurrency token: "${input.tokenName}".
         Scan through relevant internet platforms for real-time information. Your analysis should cover the following points:
@@ -35,25 +39,23 @@ const reputationFlow = ai.defineFlow(
 
         2.  **Developer Activity & Community:** Look for signs of active development (e.g., GitHub commits if available) and an engaged community. Is the project team transparent?
 
-        3.  **Potential Red Flags:** Identify any common red flags such as accusations of being a scam, lack of communication from the team, or suspicious wallet activities if mentioned in public discussions.
+        3.  **Potential Red Flags:** Identify any common red flags such as accusations of being a scam, lack of communication from the team, unresolved community issues, or suspicious wallet activities if mentioned in public discussions.
 
         4.  **Overall Summary:** Provide a concise summary of your findings and a final reputation score from 1 to 10 (1 being very poor, 10 being excellent).
 
         Structure your response clearly with headings for each section. Use Markdown for formatting (e.g., **Heading** for bold headings).
     `;
 
-    // Use a direct generation call for more reliable text output
-    const response = await ai.generate({
-      prompt: prompt,
-    });
-    
+    // We use a simple generate call, asking for a text response.
+    const response = await ai.generate({ prompt });
     const reportText = response.text;
 
     if (!reportText) {
-      throw new Error('Failed to generate reputation report from the AI model.');
+      throw new Error('The AI model failed to generate a report.');
     }
-
-    // Manually construct the object to match the output schema
+    
+    // We wrap the plain text response into the object required by our output schema.
+    // This is more reliable than asking the AI to generate a complex JSON object.
     return { report: reportText };
   }
 );

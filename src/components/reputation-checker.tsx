@@ -9,30 +9,26 @@ import { useLanguage } from '@/hooks/use-language';
 import { useToast } from '@/hooks/use-toast';
 import { CodeBlock } from './code-block';
 
-// This component safely renders markdown-like text from the AI
+// Component to render the report text, parsing basic markdown for bolding.
 const FormattedReport = ({ rawText }: { rawText: string }) => {
-    // Split by newlines to create paragraphs/breaks
-    const paragraphs = rawText.split(/(\r\n|\n|\r)/);
-  
-    const formatLine = (line: string) => {
-      // Split line by bold markers (e.g., **text**), keeping the markers
-      const parts = line.split(/(\*\*.*?\*\*)/g);
-      return parts.map((part, index) => {
-        if (part.startsWith('**') && part.endsWith('**')) {
-          // It's a bold part
-          return <strong key={index}>{part.substring(2, part.length - 2)}</strong>;
-        }
-        return part; // It's a regular text part
-      });
-    };
-  
+    // Splits the text by the bold markers (e.g., **text**) and reassembles it with <strong> tags.
+    const parts = rawText.split(/(\*\*.*?\*\*)/g);
+    
     return (
-      <div className="prose prose-sm dark:prose-invert max-w-none text-muted-foreground space-y-4">
-        {paragraphs.map((p, i) => (
-          // Render non-empty lines, treating them as paragraphs
-          p.trim() ? <p key={i}>{formatLine(p)}</p> : null
-        ))}
-      </div>
+        <div className="prose prose-sm dark:prose-invert max-w-none text-muted-foreground space-y-2">
+            {parts.map((part, index) => {
+                if (part.startsWith('**') && part.endsWith('**')) {
+                    return <strong key={index}>{part.substring(2, part.length - 2)}</strong>;
+                }
+                // Render text, preserving line breaks.
+                return part.split('\n').map((line, lineIndex) => (
+                    <React.Fragment key={`${index}-${lineIndex}`}>
+                        {line}
+                        {lineIndex < part.split('\n').length - 1 && <br />}
+                    </React.Fragment>
+                ));
+            })}
+        </div>
     );
 };
 
@@ -44,6 +40,7 @@ export function ReputationChecker({ tokenName }: { tokenName: string }) {
     const { t } = useLanguage();
     const { toast } = useToast();
 
+    // Automatically fetch the reputation when the component loads or tokenName changes.
     useEffect(() => {
         const checkReputation = async () => {
             if (!tokenName) return;
@@ -58,19 +55,19 @@ export function ReputationChecker({ tokenName }: { tokenName: string }) {
                     body: JSON.stringify({ tokenName })
                 });
 
+                // This is the critical part: check if the response is OK *before* parsing.
                 if (!response.ok) {
-                    const errorBody = await response.text();
                     let errorData;
                     try {
-                        errorData = JSON.parse(errorBody);
+                        errorData = await response.json();
                     } catch (e) {
-                        console.error("Non-JSON API error response:", errorBody);
-                        throw new Error(`Server returned an error. Status: ${response.status}.`);
+                         // The response was not JSON (e.g., an HTML error page from the server).
+                        throw new Error(`Server returned an error. Status: ${response.status}`);
                     }
-                    
-                    throw {
+                    // Throw an error with the structured message from our API.
+                    throw { 
                         type: errorData.error || 'FETCH_FAILED',
-                        message: errorData.message || t('ReputationChecker.errorFetch')
+                        message: errorData.message || 'An unknown server error occurred.'
                     };
                 }
 
@@ -89,8 +86,7 @@ export function ReputationChecker({ tokenName }: { tokenName: string }) {
         };
 
         checkReputation();
-    }, [tokenName, t]);
-
+    }, [tokenName, t]); // Dependency array ensures this runs when the token name changes.
 
     const handleCopyToClipboard = () => {
         if (report) {
@@ -105,6 +101,7 @@ export function ReputationChecker({ tokenName }: { tokenName: string }) {
         }
     };
     
+    // Renders the specific UI for different error types.
     const renderErrorContent = () => {
         if (!error) return null;
 
@@ -130,7 +127,7 @@ export function ReputationChecker({ tokenName }: { tokenName: string }) {
             )
         }
 
-        // Default error display
+        // Default error display for other issues.
         return (
             <div className="text-center text-destructive m-auto space-y-2">
                 <ShieldAlert className="mx-auto h-8 w-8" />
