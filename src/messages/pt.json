@@ -391,5 +391,16 @@
   },
   "LogoutToast": {
     "description": "Você saiu com sucesso."
+  },
+  "ReputationChecker": {
+    "title": "Relatório de Reputação para {tokenName}",
+    "description": "Uma análise alimentada por IA da presença online e sentimento do token.",
+    "loadingTitle": "Analisando a web para {tokenName}...",
+    "loadingDescription": "Isso pode levar um momento.",
+    "errorTitle": "Ocorreu um Erro",
+    "errorFetch": "Falha ao buscar a reputação. O token pode ser muito novo ou pode haver um problema de rede. Por favor, tente novamente.",
+    "reportTitle": "Análise Concluída",
+    "copy": "Copiar",
+    "copied": "Copiado!"
   }
 }

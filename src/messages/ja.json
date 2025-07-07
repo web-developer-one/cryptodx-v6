@@ -391,5 +391,16 @@
   },
   "LogoutToast": {
     "description": "正常にログアウトしました。"
+  },
+  "ReputationChecker": {
+    "title": "{tokenName}の評判レポート",
+    "description": "トークンのオンラインでの存在感とセンチメントのAIによる分析。",
+    "loadingTitle": "{tokenName}のウェブをスキャン中...",
+    "loadingDescription": "少々お待ちください。",
+    "errorTitle": "エラーが発生しました",
+    "errorFetch": "評判を取得できませんでした。トークンが新しすぎるか、ネットワークの問題が発生している可能性があります。もう一度お試しください。",
+    "reportTitle": "分析完了",
+    "copy": "コピー",
+    "copied": "コピーしました！"
   }
 }

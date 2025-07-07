@@ -391,5 +391,16 @@
   },
   "LogoutToast": {
     "description": "성공적으로 로그아웃되었습니다."
+  },
+  "ReputationChecker": {
+    "title": "{tokenName} 평판 보고서",
+    "description": "토큰의 온라인 존재 및 정서에 대한 AI 기반 분석.",
+    "loadingTitle": "{tokenName}에 대한 웹 스캔 중...",
+    "loadingDescription": "잠시만 기다려 주세요.",
+    "errorTitle": "오류가 발생했습니다",
+    "errorFetch": "평판을 가져오지 못했습니다. 토큰이 너무 새롭거나 네트워크 문제가 있을 수 있습니다. 다시 시도해 주세요.",
+    "reportTitle": "분석 완료",
+    "copy": "복사",
+    "copied": "복사됨!"
   }
 }

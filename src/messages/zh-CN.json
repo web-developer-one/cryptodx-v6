@@ -391,5 +391,16 @@
   },
   "LogoutToast": {
     "description": "您已成功登出。"
+  },
+  "ReputationChecker": {
+    "title": "{tokenName}的声誉报告",
+    "description": "由人工智能驱动的代币在线存在和情绪分析。",
+    "loadingTitle": "正在扫描网络以获取{tokenName}的信息...",
+    "loadingDescription": "这可能需要一些时间。",
+    "errorTitle": "发生错误",
+    "errorFetch": "无法获取声誉。该代币可能太新，或者可能存在网络问题。请重试。",
+    "reportTitle": "分析完成",
+    "copy": "复制",
+    "copied": "已复制！"
   }
 }

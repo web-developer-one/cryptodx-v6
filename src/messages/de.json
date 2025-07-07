@@ -391,5 +391,16 @@
   },
   "LogoutToast": {
     "description": "Sie wurden erfolgreich abgemeldet."
+  },
+  "ReputationChecker": {
+    "title": "Reputationsbericht für {tokenName}",
+    "description": "Eine KI-gestützte Analyse der Online-Präsenz und der Stimmung des Tokens.",
+    "loadingTitle": "Scanne das Web nach {tokenName}...",
+    "loadingDescription": "Dies kann einen Moment dauern.",
+    "errorTitle": "Ein Fehler ist aufgetreten",
+    "errorFetch": "Die Reputation konnte nicht abgerufen werden. Der Token ist möglicherweise zu neu, oder es liegt ein Netzwerkproblem vor. Bitte versuchen Sie es erneut.",
+    "reportTitle": "Analyse abgeschlossen",
+    "copy": "Kopieren",
+    "copied": "Kopiert!"
   }
 }
