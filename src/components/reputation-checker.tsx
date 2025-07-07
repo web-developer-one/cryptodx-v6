@@ -4,9 +4,10 @@
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Copy, Check, ShieldAlert, Loader2 } from 'lucide-react';
+import { Copy, Check, ShieldAlert, Loader2, ExternalLink } from 'lucide-react';
 import { useLanguage } from '@/hooks/use-language';
 import { useToast } from '@/hooks/use-toast';
+import { CodeBlock } from './code-block';
 
 // This component safely renders markdown-like text from the AI
 const FormattedReport = ({ rawText }: { rawText: string }) => {
@@ -38,7 +39,7 @@ const FormattedReport = ({ rawText }: { rawText: string }) => {
 export function ReputationChecker({ tokenName }: { tokenName: string }) {
     const [isLoading, setIsLoading] = useState(true);
     const [report, setReport] = useState<string | null>(null);
-    const [error, setError] = useState<string | null>(null);
+    const [error, setError] = useState<{ type: string, message: string } | null>(null);
     const [isCopied, setIsCopied] = useState(false);
     const { t } = useLanguage();
     const { toast } = useToast();
@@ -60,14 +61,20 @@ export function ReputationChecker({ tokenName }: { tokenName: string }) {
                 const result = await response.json();
                 
                 if (!response.ok) {
-                    throw new Error(result.error || "An unknown error occurred.");
+                    throw {
+                        type: result.error || 'FETCH_FAILED',
+                        message: result.message || t('ReputationChecker.errorFetch')
+                    };
                 }
 
                 setReport(result.report);
 
             } catch (err: any) {
                 console.error("Error fetching reputation:", err);
-                setError(t('ReputationChecker.errorFetch'));
+                setError({
+                    type: err.type || 'FETCH_FAILED',
+                    message: err.message || t('ReputationChecker.errorFetch')
+                });
             } finally {
                 setIsLoading(false);
             }
@@ -89,6 +96,41 @@ export function ReputationChecker({ tokenName }: { tokenName: string }) {
             });
         }
     };
+    
+    const renderErrorContent = () => {
+        if (!error) return null;
+
+        if (error.type === 'GOOGLE_API_KEY_MISSING') {
+            return (
+                 <div className="w-full text-left space-y-4">
+                     <h3 className="font-semibold text-destructive">{t('ApiErrorCard.configErrorTitle')}</h3>
+                     <p className="text-sm text-muted-foreground">{error.message}</p>
+                     <div>
+                        <p className="text-sm font-semibold mb-2">{t('ApiErrorCard.requiredEnvVar')}</p>
+                        <CodeBlock code="GOOGLE_API_KEY=your_genkit_key_here" />
+                     </div>
+                     <div>
+                        <p className="text-sm text-muted-foreground">{t('ApiErrorCard.fixDescription')}</p>
+                        <a href="https://app.netlify.com/find/env-vars" target="_blank" rel="noopener noreferrer" className="mt-2 block">
+                            <Button variant="outline" className="w-full">
+                                {t('ApiErrorCard.setEnvVarButton')}
+                                <ExternalLink className="ml-2 h-4 w-4" />
+                            </Button>
+                        </a>
+                    </div>
+                </div>
+            )
+        }
+
+        // Default error display
+        return (
+            <div className="text-center text-destructive m-auto space-y-2">
+                <ShieldAlert className="mx-auto h-8 w-8" />
+                <p className="font-semibold">{t('ReputationChecker.errorTitle')}</p>
+                <p className="text-sm">{error.message}</p>
+            </div>
+        );
+    }
 
     return (
         <Card>
@@ -104,14 +146,8 @@ export function ReputationChecker({ tokenName }: { tokenName: string }) {
                         <p className="text-sm">{t('ReputationChecker.loadingDescription')}</p>
                     </div>
                 )}
-                {error && !isLoading && (
-                    <div className="text-center text-destructive m-auto space-y-2">
-                        <ShieldAlert className="mx-auto h-8 w-8" />
-                        <p className="font-semibold">{t('ReputationChecker.errorTitle')}</p>
-                        <p className="text-sm">{error}</p>
-                    </div>
-                )}
-                {report && !isLoading && (
+                {!isLoading && error && renderErrorContent()}
+                {!isLoading && !error && report && (
                     <div className="w-full">
                         <div className="flex justify-between items-center mb-4">
                             <h3 className="text-lg font-semibold">{t('ReputationChecker.reportTitle')}</h3>

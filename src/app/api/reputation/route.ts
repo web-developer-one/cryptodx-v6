@@ -1,8 +1,19 @@
+'use server';
 
 import {NextResponse} from 'next/server';
 import {checkReputation} from '@/ai/flows/reputation-flow';
 
+const API_KEY = process.env.GOOGLE_API_KEY;
+
 export async function POST(req: Request) {
+  if (!API_KEY) {
+    console.error('GOOGLE_API_KEY is not set for reputation check');
+    return NextResponse.json(
+      { error: 'GOOGLE_API_KEY_MISSING', message: 'The AI API key is not configured on the server. Please set the GOOGLE_API_KEY environment variable.' },
+      { status: 500 }
+    );
+  }
+
   try {
     const {tokenName} = await req.json();
 
