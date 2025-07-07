@@ -227,21 +227,6 @@
     "line": "Linie",
     "candlestick": "Candlestick"
   },
-  "ReputationAlert": {
-    "dialogTitle": "Reputationsprüfung: {tokenName}",
-    "dialogDescription": "Dieser KI-generierte Bericht analysiert öffentliche Daten auf potenzielle Risiken und die Stimmung der Community. Es handelt sich nicht um eine Finanzberatung.",
-    "reputationCheckFailed": "Die Reputationsprüfung ist fehlgeschlagen. Der KI-Dienst ist möglicherweise vorübergehend nicht verfügbar.",
-    "summary": "KI-Zusammenfassung",
-    "sentiment": "Community-Stimmung",
-    "riskLevel": "Bewertetes Risiko",
-    "findings": "Wichtige Erkenntnisse",
-    "positive": "Positiv",
-    "neutral": "Neutral",
-    "negative": "Negativ",
-    "low": "Niedrig",
-    "medium": "Mittel",
-    "high": "Hoch"
-  },
   "ApiErrorCard": {
     "errorLoading": "Fehler beim Laden von {context}",
     "configErrorTitle": "Fehler bei der API-Schlüsselkonfiguration",

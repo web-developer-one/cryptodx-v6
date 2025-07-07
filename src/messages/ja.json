@@ -227,21 +227,6 @@
     "line": "ライン",
     "candlestick": "ローソク足"
   },
-  "ReputationAlert": {
-    "dialogTitle": "評判チェック：{tokenName}",
-    "dialogDescription": "このAI生成レポートは、潜在的なリスクとコミュニティの感情について公開データを分析します。これは金融アドバイスではありません。",
-    "reputationCheckFailed": "評判チェックに失敗しました。AIサービスが一時的に利用できない可能性があります。",
-    "summary": "AIの概要",
-    "sentiment": "コミュニティの感情",
-    "riskLevel": "評価されたリスク",
-    "findings": "主な調査結果",
-    "positive": "肯定的",
-    "neutral": "中立",
-    "negative": "否定的",
-    "low": "低い",
-    "medium": "中程度",
-    "high": "高い"
-  },
   "ApiErrorCard": {
     "errorLoading": "{context}の読み込み中にエラーが発生しました",
     "configErrorTitle": "APIキー設定エラー",

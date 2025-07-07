@@ -227,21 +227,6 @@
     "line": "خط",
     "candlestick": "شمعدان"
   },
-  "ReputationAlert": {
-    "dialogTitle": "التحقق من السمعة: {tokenName}",
-    "dialogDescription": "هذا التقرير الذي تم إنشاؤه بواسطة الذكاء الاصطناعي يحلل البيانات العامة بحثًا عن المخاطر المحتملة ومشاعر المجتمع. هذه ليست نصيحة مالية.",
-    "reputationCheckFailed": "فشل التحقق من السمعة. قد تكون خدمة الذكاء الاصطناعي غير متاحة مؤقتًا.",
-    "summary": "ملخص الذكاء الاصطناعي",
-    "sentiment": "مشاعر المجتمع",
-    "riskLevel": "الخطر المقدر",
-    "findings": "النتائج الرئيسية",
-    "positive": "إيجابي",
-    "neutral": "محايد",
-    "negative": "سلبي",
-    "low": "منخفض",
-    "medium": "متوسط",
-    "high": "مرتفع"
-  },
   "ApiErrorCard": {
     "errorLoading": "خطأ في تحميل {context}",
     "configErrorTitle": "خطأ في تكوين مفتاح API",

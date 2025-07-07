@@ -227,21 +227,6 @@
     "line": "Ligne",
     "candlestick": "Chandelier"
   },
-  "ReputationAlert": {
-    "dialogTitle": "Vérification de la Réputation : {tokenName}",
-    "dialogDescription": "Ce rapport généré par l'IA analyse les données publiques pour les risques potentiels et le sentiment de la communauté. Il ne s'agit pas d'un conseil financier.",
-    "reputationCheckFailed": "La vérification de la réputation a échoué. Le service d'IA est peut-être temporairement indisponible.",
-    "summary": "Résumé de l'IA",
-    "sentiment": "Sentiment de la Communauté",
-    "riskLevel": "Risque Évalué",
-    "findings": "Principales Constatations",
-    "positive": "Positif",
-    "neutral": "Neutre",
-    "negative": "Négatif",
-    "low": "Faible",
-    "medium": "Moyen",
-    "high": "Élevé"
-  },
   "ApiErrorCard": {
     "errorLoading": "Erreur lors du Chargement de {context}",
     "configErrorTitle": "Erreur de Configuration de la Clé API",

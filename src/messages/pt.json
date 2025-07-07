@@ -227,21 +227,6 @@
     "line": "Linha",
     "candlestick": "Candlestick"
   },
-  "ReputationAlert": {
-    "dialogTitle": "Verificação de Reputação: {tokenName}",
-    "dialogDescription": "Este relatório gerado por IA analisa dados públicos em busca de riscos potenciais e sentimento da comunidade. Não é um conselho financeiro.",
-    "reputationCheckFailed": "A verificação de reputação falhou. O serviço de IA pode estar temporariamente indisponível.",
-    "summary": "Resumo da IA",
-    "sentiment": "Sentimento da Comunidade",
-    "riskLevel": "Risco Avaliado",
-    "findings": "Principais Conclusões",
-    "positive": "Positivo",
-    "neutral": "Neutro",
-    "negative": "Negativo",
-    "low": "Baixo",
-    "medium": "Médio",
-    "high": "Alto"
-  },
   "ApiErrorCard": {
     "errorLoading": "Erro ao Carregar {context}",
     "configErrorTitle": "Erro de Configuração da Chave de API",
