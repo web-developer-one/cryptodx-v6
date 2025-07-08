@@ -64,13 +64,16 @@ export function SwapInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocu
   const [toToken, setToToken] = useState<Cryptocurrency>(cryptocurrencies.length > 1 ? cryptocurrencies[1] : cryptocurrencies[0]);
   const [fromAmount, setFromAmount] = useState<string>("1");
   const [toAmount, setToAmount] = useState<string>("");
-  const { isActive: isWalletConnected, balance: ethBalance } = useWallet();
+  const { isActive: isWalletConnected, balances } = useWallet();
   const [gasEstimate, setGasEstimate] = useState<string>("-");
 
   const [slippage, setSlippage] = useState("0.5");
   const [isSlippageAuto, setIsSlippageAuto] = useState(true);
   const [deadline, setDeadline] = useState("30");
   const { toast } = useToast();
+
+  const fromTokenBalance = useMemo(() => balances?.[fromToken.symbol], [balances, fromToken.symbol]);
+  const toTokenBalance = useMemo(() => balances?.[toToken.symbol], [balances, toToken.symbol]);
 
   const exchangeRate = useMemo(() => {
     if (fromToken?.price > 0 && toToken?.price > 0) {
@@ -180,8 +183,8 @@ export function SwapInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocu
   };
 
   const handleSetMax = () => {
-    if (fromToken.symbol === 'ETH' && ethBalance) {
-        setFromAmount(ethBalance);
+    if (fromTokenBalance) {
+        setFromAmount(fromTokenBalance);
     }
   };
 
@@ -283,9 +286,9 @@ export function SwapInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocu
         <div className="p-4 rounded-lg bg-[#f8fafc] dark:bg-secondary/50 border">
           <div className="flex justify-between items-center mb-1">
             <label className="text-sm text-muted-foreground" htmlFor="from-input">{t('SwapInterface.sell')}</label>
-            {isWalletConnected && fromToken.symbol === 'ETH' && ethBalance && (
+            {isWalletConnected && fromTokenBalance !== undefined && (
                 <div className="text-sm text-muted-foreground flex items-center gap-1">
-                    <span>{t('SwapInterface.balance').replace('{balance}', `${parseFloat(ethBalance).toFixed(4)} ${fromToken.symbol}`)}</span>
+                    <span>{t('SwapInterface.balance').replace('{balance}', `${parseFloat(fromTokenBalance).toLocaleString('en-US', {maximumFractionDigits: 5})} ${fromToken.symbol}`)}</span>
                     <Button variant="link" size="sm" className="h-auto p-0" onClick={handleSetMax}>
                         {t('SwapInterface.max')}
                     </Button>
@@ -338,6 +341,11 @@ export function SwapInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocu
         <div className="p-4 rounded-lg bg-[#f8fafc] dark:bg-secondary/50 border">
           <div className="flex justify-between items-center mb-1">
             <label className="text-sm text-muted-foreground" htmlFor="to-input">{t('SwapInterface.buy')}</label>
+             {isWalletConnected && toTokenBalance !== undefined && (
+                <div className="text-sm text-muted-foreground flex items-center gap-1">
+                    <span>{t('SwapInterface.balance').replace('{balance}', `${parseFloat(toTokenBalance).toLocaleString('en-US', {maximumFractionDigits: 5})} ${toToken.symbol}`)}</span>
+                </div>
+            )}
           </div>
           <div className="flex items-center gap-2">
             <Input id="to-input" type="text" placeholder="0" className="text-3xl h-12 bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0 p-0" value={toAmount} onChange={handleToAmountChange}/>

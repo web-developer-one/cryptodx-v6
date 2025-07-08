@@ -1,3 +1,4 @@
+
 'use client';
 
 import {
@@ -27,7 +28,7 @@ const mockTokens = [
 ];
 
 export function WalletDetailsModal() {
-  const { account, balance, disconnect } = useWallet();
+  const { account, balances, disconnect } = useWallet();
   const { toast } = useToast();
   const { t } = useLanguage();
   const [isCopied, setIsCopied] = useState(false);
@@ -35,12 +36,12 @@ export function WalletDetailsModal() {
 
   useEffect(() => {
     // Mock fetching token prices and calculating total value
-    if (balance) {
-      const ethValue = parseFloat(balance) * 3600; // Mock ETH price
+    if (balances?.ETH) {
+      const ethValue = parseFloat(balances.ETH) * 3600; // Mock ETH price
       const usdcValue = 5000; // from mockTokens
       setTotalValue((ethValue + usdcValue).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
     }
-  }, [balance]);
+  }, [balances]);
 
   const handleCopy = () => {
     if (account) {
@@ -72,7 +73,7 @@ export function WalletDetailsModal() {
           <div className="p-4 space-y-4">
               <div className="text-center">
                   <p className="text-3xl font-bold">${totalValue}</p>
-                  <p className="text-sm text-muted-foreground">{balance ? `${parseFloat(balance).toFixed(4)} ETH` : ''}</p>
+                  <p className="text-sm text-muted-foreground">{balances?.ETH ? `${parseFloat(balances.ETH).toFixed(4)} ETH` : ''}</p>
               </div>
               <div className="grid grid-cols-2 gap-2">
                   <Button variant="outline"><ArrowUpCircle className="mr-2 h-4 w-4" /> {t('WalletDetailsModal.send')}</Button>
