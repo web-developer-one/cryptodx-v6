@@ -91,8 +91,8 @@
     "swapDeadlineTooltip": "如果您的交易待处理时间超过此时间，它将恢复原状。",
     "minutes": "分钟",
     "tradeOptions": "交易选项",
-    "from": "从",
-    "to": "到",
+    "from": "出售",
+    "to": "购买",
     "sell": "出售",
     "buy": "购买",
     "price": "价格",
@@ -101,7 +101,9 @@
     "slippageTolerance": "滑点容差（%）",
     "swapInitiated": "兑换已启动（模拟）",
     "estimatesDisclaimer": "估算基于实时API数据，但市场状况可能迅速变化。可能会发生滑点。",
-    "cancel": "取消"
+    "cancel": "取消",
+    "balance": "余额: {balance}",
+    "max": "最大值"
   },
   "LimitOrderInterface": {
     "title": "限价",
@@ -298,6 +300,14 @@
     "walletDisconnectedDescription": "您已成功断开钱包连接。",
     "accountSwitched": "账户已切换",
     "accountSwitchedDescription": "已切换到账户：{account}"
+  },
+  "WalletDetailsModal": {
+    "send": "发送",
+    "receive": "接收",
+    "tokens": "代币",
+    "pools": "资金池",
+    "activity": "活动",
+    "disconnect": "断开连接"
   },
   "SlippagePage": {
     "title": "滑点分析与模拟",

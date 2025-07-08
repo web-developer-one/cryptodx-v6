@@ -91,8 +91,8 @@
     "swapDeadlineTooltip": "Ваша транзакция будет отменена, если она будет ожидать дольше этого времени.",
     "minutes": "минут",
     "tradeOptions": "Торговые опции",
-    "from": "Из",
-    "to": "В",
+    "from": "Продать",
+    "to": "Купить",
     "sell": "Продать",
     "buy": "Купить",
     "price": "Цена",
@@ -101,7 +101,9 @@
     "slippageTolerance": "Допустимое проскальзывание (%)",
     "swapInitiated": "Обмен инициирован (симуляция)",
     "estimatesDisclaimer": "Оценки основаны на данных API в реальном времени, но рыночные условия могут быстро меняться. Может произойти проскальзывание.",
-    "cancel": "Отмена"
+    "cancel": "Отмена",
+    "balance": "Баланс: {balance}",
+    "max": "Макс"
   },
   "LimitOrderInterface": {
     "title": "Лимит",
@@ -298,6 +300,14 @@
     "walletDisconnectedDescription": "Вы успешно отключили свой кошелек.",
     "accountSwitched": "Аккаунт переключен",
     "accountSwitchedDescription": "Переключено на аккаунт: {account}"
+  },
+  "WalletDetailsModal": {
+    "send": "Отправить",
+    "receive": "Получить",
+    "tokens": "Токены",
+    "pools": "Пулы",
+    "activity": "Активность",
+    "disconnect": "Отключить"
   },
   "SlippagePage": {
     "title": "Анализ и симуляция проскальзывания",

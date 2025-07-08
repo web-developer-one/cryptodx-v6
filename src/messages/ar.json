@@ -91,8 +91,8 @@
     "swapDeadlineTooltip": "سيتم التراجع عن معاملتك إذا كانت معلقة لأكثر من هذا الوقت.",
     "minutes": "دقائق",
     "tradeOptions": "خيارات التداول",
-    "from": "من",
-    "to": "إلى",
+    "from": "بيع",
+    "to": "شراء",
     "sell": "بيع",
     "buy": "شراء",
     "price": "السعر",
@@ -101,7 +101,9 @@
     "slippageTolerance": "تحمل الانزلاق (%)",
     "swapInitiated": "تم بدء التبديل (محاكاة)",
     "estimatesDisclaimer": "تستند التقديرات إلى بيانات API في الوقت الفعلي ولكن يمكن أن تتغير ظروف السوق بسرعة. قد يحدث انزلاق.",
-    "cancel": "إلغاء"
+    "cancel": "إلغاء",
+    "balance": "الرصيد: {balance}",
+    "max": "الحد الأقصى"
   },
   "LimitOrderInterface": {
     "title": "حد",
@@ -298,6 +300,14 @@
     "walletDisconnectedDescription": "لقد قمت بقطع اتصال محفظتك بنجاح.",
     "accountSwitched": "تم تبديل الحساب",
     "accountSwitchedDescription": "تم التبديل إلى الحساب: {account}"
+  },
+  "WalletDetailsModal": {
+    "send": "إرسال",
+    "receive": "استقبال",
+    "tokens": "الرموز",
+    "pools": "المجمعات",
+    "activity": "النشاط",
+    "disconnect": "قطع الاتصال"
   },
   "SlippagePage": {
     "title": "تحليل ومحاكاة الانزلاق",

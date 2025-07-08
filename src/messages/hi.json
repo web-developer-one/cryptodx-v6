@@ -91,8 +91,8 @@
     "swapDeadlineTooltip": "यदि आपका लेनदेन इस समय से अधिक समय तक लंबित रहता है तो इसे वापस कर दिया जाएगा।",
     "minutes": "मिनट",
     "tradeOptions": "व्यापार विकल्प",
-    "from": "से",
-    "to": "को",
+    "from": "बेचें",
+    "to": "खरीदें",
     "sell": "बेचें",
     "buy": "खरीदें",
     "price": "कीमत",
@@ -101,7 +101,9 @@
     "slippageTolerance": "स्लिपेज सहिष्णुता (%)",
     "swapInitiated": "स्वैप शुरू हुआ (नकली)",
     "estimatesDisclaimer": "अनुमान वास्तविक समय के एपीआई डेटा पर आधारित हैं लेकिन बाजार की स्थितियां तेजी से बदल सकती हैं। स्लिपेज हो सकता है।",
-    "cancel": "रद्द करें"
+    "cancel": "रद्द करें",
+    "balance": "शेष राशि: {balance}",
+    "max": "मैक्स"
   },
   "LimitOrderInterface": {
     "title": "सीमा",
@@ -298,6 +300,14 @@
     "walletDisconnectedDescription": "आपने अपना वॉलेट सफलतापूर्वक डिस्कनेक्ट कर दिया है।",
     "accountSwitched": "खाता बदल गया",
     "accountSwitchedDescription": "खाते में स्विच किया गया: {account}"
+  },
+  "WalletDetailsModal": {
+    "send": "भेजें",
+    "receive": "प्राप्त करें",
+    "tokens": "टोकन",
+    "pools": "पूल",
+    "activity": "गतिविधि",
+    "disconnect": "डिस्कनेक्ट"
   },
   "SlippagePage": {
     "title": "स्लिपेज विश्लेषण और सिमुलेशन",

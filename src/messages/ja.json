@@ -91,8 +91,8 @@
     "swapDeadlineTooltip": "この時間以上保留中の場合、取引は元に戻ります。",
     "minutes": "分",
     "tradeOptions": "取引オプション",
-    "from": "から",
-    "to": "へ",
+    "from": "売却",
+    "to": "購入",
     "sell": "売却",
     "buy": "購入",
     "price": "価格",
@@ -101,7 +101,9 @@
     "slippageTolerance": "スリッページ許容度（%）",
     "swapInitiated": "スワップ開始（シミュレーション）",
     "estimatesDisclaimer": "見積もりはリアルタイムのAPIデータに基づきますが、市場状況は急速に変化する可能性があります。スリッページが発生する場合があります。",
-    "cancel": "キャンセル"
+    "cancel": "キャンセル",
+    "balance": "残高: {balance}",
+    "max": "最大"
   },
   "LimitOrderInterface": {
     "title": "指値",
@@ -298,6 +300,14 @@
     "walletDisconnectedDescription": "ウォレットを正常に切断しました。",
     "accountSwitched": "アカウント切り替え",
     "accountSwitchedDescription": "アカウントに切り替えました: {account}"
+  },
+  "WalletDetailsModal": {
+    "send": "送信",
+    "receive": "受信",
+    "tokens": "トークン",
+    "pools": "プール",
+    "activity": "アクティビティ",
+    "disconnect": "切断"
   },
   "SlippagePage": {
     "title": "スリッページ分析とシミュレーション",

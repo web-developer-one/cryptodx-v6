@@ -91,8 +91,8 @@
     "swapDeadlineTooltip": "이 시간보다 오래 보류되면 거래가 되돌려집니다.",
     "minutes": "분",
     "tradeOptions": "거래 옵션",
-    "from": "보내는 쪽",
-    "to": "받는 쪽",
+    "from": "판매",
+    "to": "구매",
     "sell": "판매",
     "buy": "구매",
     "price": "가격",
@@ -101,7 +101,9 @@
     "slippageTolerance": "슬리피지 허용치(%)",
     "swapInitiated": "스왑 시작됨(시뮬레이션)",
     "estimatesDisclaimer": "견적은 실시간 API 데이터를 기반으로 하지만 시장 상황은 빠르게 변할 수 있습니다. 슬리피지가 발생할 수 있습니다.",
-    "cancel": "취소"
+    "cancel": "취소",
+    "balance": "잔액: {balance}",
+    "max": "최대"
   },
   "LimitOrderInterface": {
     "title": "지정가",
@@ -298,6 +300,14 @@
     "walletDisconnectedDescription": "지갑 연결을 성공적으로 해제했습니다.",
     "accountSwitched": "계정 전환됨",
     "accountSwitchedDescription": "계정으로 전환됨: {account}"
+  },
+  "WalletDetailsModal": {
+    "send": "보내기",
+    "receive": "받기",
+    "tokens": "토큰",
+    "pools": "풀",
+    "activity": "활동",
+    "disconnect": "연결 해제"
   },
   "SlippagePage": {
     "title": "슬리피지 분석 및 시뮬레이션",
