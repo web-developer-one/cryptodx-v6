@@ -2,7 +2,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Copy, Check, ShieldAlert, Loader2, ExternalLink, ChevronDown, ChevronUp } from 'lucide-react';
 import { useLanguage } from '@/hooks/use-language';
@@ -13,7 +13,7 @@ import { cn } from '@/lib/utils';
 // Parses the score from a raw text report, handling multiple phrasings.
 const parseScore = (reportText: string): number | null => {
     if (!reportText) return null;
-    const scoreRegex = /(?:Overall Reputation Score|Final Reputation Score|Reputation Score):\s*(\d{1,2})\/10/i;
+    const scoreRegex = /(?:Reputation Score|Final Reputation Score|Overall Reputation Score):\s*(\d{1,2})\/10/i;
     const match = reportText.match(scoreRegex);
     if (match && match[1]) {
         return parseInt(match[1], 10);
@@ -30,7 +30,7 @@ const getScoreColor = (score: number | null): string => {
 };
 
 const FormattedReport = ({ rawText, scoreColorClass }: { rawText: string, scoreColorClass: string }) => {
-    const scoreRegex = /(?:Overall Reputation Score|Final Reputation Score|Reputation Score):\s*(\d{1,2})\/10/i;
+    const scoreRegex = /(?:Reputation Score|Final Reputation Score|Overall Reputation Score):\s*(\d{1,2})\/10/i;
 
     return (
         <div className="prose prose-sm dark:prose-invert max-w-none text-muted-foreground space-y-2">
@@ -56,8 +56,8 @@ const FormattedReport = ({ rawText, scoreColorClass }: { rawText: string, scoreC
 };
 
 export function ReputationChecker({ tokenName }: { tokenName: string }) {
-    const [isOpen, setIsOpen] = useState(true);
-    const [isLoading, setIsLoading] = useState(true);
+    const [isOpen, setIsOpen] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const [report, setReport] = useState<string | null>(null);
     const [score, setScore] = useState<number | null>(null);
     const [error, setError] = useState<{ type: string, message: string } | null>(null);
@@ -66,51 +66,54 @@ export function ReputationChecker({ tokenName }: { tokenName: string }) {
     const { toast } = useToast();
 
     // Automatically fetch the reputation when the component loads or tokenName changes.
-    useEffect(() => {
-        const checkReputation = async () => {
-            if (!tokenName) return;
-            setIsLoading(true);
-            setError(null);
-            setReport(null);
-            setScore(null);
+    const checkReputation = async () => {
+        if (!tokenName) return;
+        setIsLoading(true);
+        setError(null);
+        setReport(null);
+        setScore(null);
 
-            try {
-                const response = await fetch('/api/reputation', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ tokenName })
-                });
+        try {
+            const response = await fetch('/api/reputation', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ tokenName })
+            });
 
-                if (!response.ok) {
-                    let errorData;
-                    try {
-                        errorData = await response.json();
-                    } catch (e) {
-                        throw new Error(`Server returned an error. Status: ${response.status}`);
-                    }
-                    throw { 
-                        type: errorData.error || 'FETCH_FAILED',
-                        message: errorData.message || 'An unknown server error occurred.'
-                    };
+            if (!response.ok) {
+                let errorData;
+                try {
+                    errorData = await response.json();
+                } catch (e) {
+                    throw new Error(`Server returned an error. Status: ${response.status}`);
                 }
-
-                const result = await response.json();
-                setReport(result.report);
-                setScore(parseScore(result.report));
-
-            } catch (err: any) {
-                console.error("Error fetching reputation:", err);
-                setError({
-                    type: err.type || 'FETCH_FAILED',
-                    message: err.message || t('ReputationChecker.errorFetch')
-                });
-            } finally {
-                setIsLoading(false);
+                throw { 
+                    type: errorData.error || 'FETCH_FAILED',
+                    message: errorData.message || 'An unknown server error occurred.'
+                };
             }
-        };
 
-        checkReputation();
-    }, [tokenName, t]);
+            const result = await response.json();
+            setReport(result.report);
+            setScore(parseScore(result.report));
+
+        } catch (err: any) {
+            console.error("Error fetching reputation:", err);
+            setError({
+                type: err.type || 'FETCH_FAILED',
+                message: err.message || t('ReputationChecker.errorFetch')
+            });
+        } finally {
+            setIsLoading(false);
+        }
+    };
+    
+    useEffect(() => {
+        if(isOpen && !report && !isLoading && !error) {
+            checkReputation();
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isOpen]);
 
     const handleCopyToClipboard = () => {
         if (report) {
@@ -165,10 +168,10 @@ export function ReputationChecker({ tokenName }: { tokenName: string }) {
 
     return (
         <Card>
-            <CardHeader>
+            <CardHeader className="cursor-pointer" onClick={() => setIsOpen(!isOpen)}>
                 <div className="flex justify-between items-start gap-4">
                     <div className="flex-1">
-                        <CardTitle className={cn("text-xl transition-colors", scoreColor)}>
+                        <CardTitle className={cn("text-xl transition-colors", isLoading ? "" : scoreColor)}>
                             {t('ReputationChecker.title').replace('{tokenName}', tokenName)}
                         </CardTitle>
                         <CardDescription>{t('ReputationChecker.description')}</CardDescription>
@@ -176,7 +179,6 @@ export function ReputationChecker({ tokenName }: { tokenName: string }) {
                      <Button
                         variant="ghost"
                         size="icon"
-                        onClick={() => setIsOpen(!isOpen)}
                         className="flex-shrink-0"
                         aria-expanded={isOpen}
                     >
@@ -186,6 +188,7 @@ export function ReputationChecker({ tokenName }: { tokenName: string }) {
                 </div>
             </CardHeader>
             {isOpen && (
+              <>
                 <CardContent className="min-h-[250px] flex flex-col items-center justify-center pt-0">
                     {isLoading && (
                         <div className="text-center text-muted-foreground m-auto space-y-2">
@@ -212,6 +215,12 @@ export function ReputationChecker({ tokenName }: { tokenName: string }) {
                         </div>
                     )}
                 </CardContent>
+                <CardFooter>
+                    <p className="text-xs text-muted-foreground text-center w-full">
+                       {t('ReputationChecker.disclaimer')}
+                    </p>
+                </CardFooter>
+              </>
             )}
         </Card>
     );

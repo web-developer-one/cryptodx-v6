@@ -68,6 +68,8 @@ export function TokenDetailClient({ initialToken }: { initialToken: TokenDetails
         </div>
       </div>
       
+      <ReputationChecker tokenName={token.name} />
+
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-1">
           <KeyStatistics token={token} />
@@ -76,7 +78,6 @@ export function TokenDetailClient({ initialToken }: { initialToken: TokenDetails
             <PriceChart token={token} />
         </div>
       </div>
-      <ReputationChecker tokenName={token.name} />
     </>
   );
 }

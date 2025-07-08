@@ -396,11 +396,12 @@
     "title": "Rapport de Réputation pour {tokenName}",
     "description": "Une analyse par IA de la présence en ligne et du sentiment du jeton.",
     "loadingTitle": "Analyse du web pour {tokenName}...",
-    "loadingDescription": "Cela peut prendre un moment.",
+    "loadingDescription": "Cela может prendre un moment.",
     "errorTitle": "Une Erreur est Survenue",
     "errorFetch": "Échec de la récupération de la réputation. Le jeton est peut-être trop récent, ou il pourrait y avoir un problème de réseau. Veuillez réessayer.",
     "reportTitle": "Analyse Terminée",
     "copy": "Copier",
-    "copied": "Copié !"
+    "copied": "Copié !",
+    "disclaimer": "Avertissement : Ce rapport est généré par une IA et est uniquement à titre informatif. Ce n'est pas un conseil financier. Faites toujours vos propres recherches (DYOR)."
   }
 }

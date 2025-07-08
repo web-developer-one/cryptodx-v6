@@ -401,6 +401,7 @@
     "errorFetch": "No se pudo obtener la reputación. El token puede ser demasiado nuevo o podría haber un problema de red. Por favor, inténtalo de nuevo.",
     "reportTitle": "Análisis Completo",
     "copy": "Copiar",
-    "copied": "¡Copiado!"
+    "copied": "¡Copiado!",
+    "disclaimer": "Descargo de responsabilidad: Este informe es generado por una IA y es solo para fines informativos. No es un consejo financiero. Siempre haga su propia investigación (DYOR)."
   }
 }

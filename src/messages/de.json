@@ -401,6 +401,7 @@
     "errorFetch": "Die Reputation konnte nicht abgerufen werden. Der Token ist möglicherweise zu neu, oder es liegt ein Netzwerkproblem vor. Bitte versuchen Sie es erneut.",
     "reportTitle": "Analyse abgeschlossen",
     "copy": "Kopieren",
-    "copied": "Kopiert!"
+    "copied": "Kopiert!",
+    "disclaimer": "Haftungsausschluss: Dieser Bericht wird von einer KI erstellt und dient nur zu Informationszwecken. Es handelt sich nicht um eine Finanzberatung. Führen Sie immer Ihre eigene Recherche durch (DYOR)."
   }
 }
