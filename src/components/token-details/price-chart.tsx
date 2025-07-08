@@ -177,78 +177,78 @@ export function PriceChart({ token }: { token: TokenDetails }) {
   }, [chartData, brushStartIndex, activeTab]);
 
   return (
-    <Card>
-      <CardHeader>
-        <div className="flex flex-col sm:flex-row items-start justify-between gap-4">
-            <div>
-                <CardTitle>{t('TokenDetail.priceChartTitle').replace('{tokenName}', token.name)}</CardTitle>
-            </div>
-            <div className="flex flex-col items-start sm:items-end gap-2 w-full sm:w-auto">
-              <Link href="/" passHref>
-                  <Button>{t('TokenDetail.trade').replace('{symbol}', token.symbol)}</Button>
-              </Link>
-              <div className="flex items-center justify-end gap-1 flex-wrap">
-                  <Tabs value={activeTab} onValueChange={setActiveTab}>
-                      <TabsList className="h-7">
-                          <TabsTrigger value="line" className="text-xs px-2 h-6">{t('TokenDetail.line')}</TabsTrigger>
-                          <TabsTrigger value="candlestick" className="text-xs px-2 h-6">{t('TokenDetail.candlestick')}</TabsTrigger>
-                      </TabsList>
-                  </Tabs>
-                {timeframes.map((tf) => (
-                  <Button
-                    key={tf}
-                    variant="ghost"
-                    size="sm"
-                    className={cn( "h-7 px-2 text-xs", timeframe === tf && "bg-accent text-accent-foreground" )}
-                    onClick={() => handleTimeframeChange(tf)}
-                  >
-                    {tf}
-                  </Button>
-                ))}
-              </div>
-            </div>
-        </div>
-      </CardHeader>
-      <CardContent>
-          <TabsContent value="line" className="w-full h-[400px]">
-            <ResponsiveContainer width="100%" height="100%">
-                <ComposedChart data={chartData} margin={{ top: 5, right: 0, bottom: 0, left: 0 }}>
-                    <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                    <XAxis dataKey="date" tickLine={false} axisLine={false} tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 12 }} dy={10} />
-                    <YAxis orientation="right" domain={yAxisDomain} tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 12 }} tickFormatter={(value) => `$${value.toLocaleString(undefined, {maximumFractionDigits: 2})}`} axisLine={false} tickLine={false} width={80}/>
-                    <Tooltip content={<CustomLineTooltip />} />
-                    <defs>
-                        <linearGradient id="colorPrice" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.8}/>
-                        <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0}/>
-                        </linearGradient>
-                    </defs>
-                    <Area type="monotone" dataKey="price" stroke="hsl(var(--primary))" fillOpacity={1} fill="url(#colorPrice)" strokeWidth={2} />
-                    <Brush dataKey="date" height={15} stroke="hsl(var(--primary))" startIndex={brushStartIndex} endIndex={chartData.length - 1} key={`line-${brushStartIndex}`} tickFormatter={(index) => chartData[index]?.date} travellerWidth={10} y={385}>
-                        <ComposedChart>
-                            <Area dataKey="price" stroke="hsl(var(--primary))" fill="hsl(var(--primary))" fillOpacity={0.5} />
+    <Tabs value={activeTab} onValueChange={setActiveTab} defaultValue="line">
+        <Card>
+            <CardHeader>
+                <div className="flex flex-col sm:flex-row items-start justify-between gap-4">
+                    <div>
+                        <CardTitle>{t('TokenDetail.priceChartTitle').replace('{tokenName}', token.name)}</CardTitle>
+                    </div>
+                    <div className="flex flex-col items-start sm:items-end gap-2 w-full sm:w-auto">
+                    <Link href="/" passHref>
+                        <Button>{t('TokenDetail.trade').replace('{symbol}', token.symbol)}</Button>
+                    </Link>
+                    <div className="flex items-center justify-end gap-1 flex-wrap">
+                        <TabsList className="h-7">
+                            <TabsTrigger value="line" className="text-xs px-2 h-6">{t('TokenDetail.line')}</TabsTrigger>
+                            <TabsTrigger value="candlestick" className="text-xs px-2 h-6">{t('TokenDetail.candlestick')}</TabsTrigger>
+                        </TabsList>
+                        {timeframes.map((tf) => (
+                        <Button
+                            key={tf}
+                            variant="ghost"
+                            size="sm"
+                            className={cn( "h-7 px-2 text-xs", timeframe === tf && "bg-accent text-accent-foreground" )}
+                            onClick={() => handleTimeframeChange(tf)}
+                        >
+                            {tf}
+                        </Button>
+                        ))}
+                    </div>
+                    </div>
+                </div>
+            </CardHeader>
+            <CardContent>
+                <TabsContent value="line" className="w-full h-[400px]">
+                    <ResponsiveContainer width="100%" height="100%">
+                        <ComposedChart data={chartData} margin={{ top: 5, right: 0, bottom: 0, left: 0 }}>
+                            <CartesianGrid strokeDasharray="3 3" vertical={false} />
+                            <XAxis dataKey="date" tickLine={false} axisLine={false} tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 12 }} dy={10} />
+                            <YAxis orientation="right" domain={yAxisDomain} tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 12 }} tickFormatter={(value) => `$${value.toLocaleString(undefined, {maximumFractionDigits: 2})}`} axisLine={false} tickLine={false} width={80}/>
+                            <Tooltip content={<CustomLineTooltip />} />
+                            <defs>
+                                <linearGradient id="colorPrice" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.8}/>
+                                <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0}/>
+                                </linearGradient>
+                            </defs>
+                            <Area type="monotone" dataKey="price" stroke="hsl(var(--primary))" fillOpacity={1} fill="url(#colorPrice)" strokeWidth={2} />
+                            <Brush dataKey="date" height={15} stroke="hsl(var(--primary))" startIndex={brushStartIndex} endIndex={chartData.length - 1} key={`line-${brushStartIndex}`} tickFormatter={(index) => chartData[index]?.date} travellerWidth={10} y={385}>
+                                <ComposedChart>
+                                    <Area dataKey="price" stroke="hsl(var(--primary))" fill="hsl(var(--primary))" fillOpacity={0.5} />
+                                </ComposedChart>
+                            </Brush>
                         </ComposedChart>
-                    </Brush>
-                </ComposedChart>
-            </ResponsiveContainer>
-          </TabsContent>
-          <TabsContent value="candlestick" className="w-full h-[400px]">
-             <ResponsiveContainer width="100%" height="100%">
-                <ComposedChart data={chartData} margin={{ top: 5, right: 0, bottom: 0, left: 0 }}>
-                     <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                    <XAxis dataKey="date" tickLine={false} axisLine={false} tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 12 }} dy={10} scale="band" />
-                    <YAxis orientation="right" domain={yAxisDomain} tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 12 }} tickFormatter={(value) => `$${value.toLocaleString(undefined, {maximumFractionDigits: 2})}`} axisLine={false} tickLine={false} width={80}/>
-                    <Tooltip content={<CustomCandleTooltip />} cursor={{ fill: 'hsl(var(--accent))' }} />
-                    <Customized component={<CandlestickSeries data={chartData} />} />
-                    <Brush dataKey="date" height={15} stroke="hsl(var(--primary))" startIndex={brushStartIndex} endIndex={chartData.length - 1} key={`candle-${brushStartIndex}`} tickFormatter={(index) => chartData[index]?.date} travellerWidth={10} y={385}>
-                        <BarChart data={chartData}>
-                            <Bar dataKey="price" fill="hsl(var(--primary))" />
-                        </BarChart>
-                    </Brush>
-                </ComposedChart>
-            </ResponsiveContainer>
-          </TabsContent>
-      </CardContent>
-    </Card>
+                    </ResponsiveContainer>
+                </TabsContent>
+                <TabsContent value="candlestick" className="w-full h-[400px]">
+                    <ResponsiveContainer width="100%" height="100%">
+                        <ComposedChart data={chartData} margin={{ top: 5, right: 0, bottom: 0, left: 0 }}>
+                            <CartesianGrid strokeDasharray="3 3" vertical={false} />
+                            <XAxis dataKey="date" tickLine={false} axisLine={false} tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 12 }} dy={10} scale="band" />
+                            <YAxis orientation="right" domain={yAxisDomain} tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 12 }} tickFormatter={(value) => `$${value.toLocaleString(undefined, {maximumFractionDigits: 2})}`} axisLine={false} tickLine={false} width={80}/>
+                            <Tooltip content={<CustomCandleTooltip />} cursor={{ fill: 'hsl(var(--accent))' }} />
+                            <Customized component={<CandlestickSeries data={chartData} />} />
+                            <Brush dataKey="date" height={15} stroke="hsl(var(--primary))" startIndex={brushStartIndex} endIndex={chartData.length - 1} key={`candle-${brushStartIndex}`} tickFormatter={(index) => chartData[index]?.date} travellerWidth={10} y={385}>
+                                <BarChart data={chartData}>
+                                    <Bar dataKey="price" fill="hsl(var(--primary))" />
+                                </BarChart>
+                            </Brush>
+                        </ComposedChart>
+                    </ResponsiveContainer>
+                </TabsContent>
+            </CardContent>
+        </Card>
+    </Tabs>
   );
 }
