@@ -49,7 +49,7 @@ export async function POST(req: Request) {
   }
   
   try {
-    const {history, message, language: appLanguage} = await req.json();
+    const {history, message, language: appLanguage, enableMultilingual} = await req.json();
 
     if (!message) {
       return NextResponse.json(
@@ -61,35 +61,37 @@ export async function POST(req: Request) {
     const genAI = new GoogleGenerativeAI(API_KEY);
 
     // --- Start of refined language detection logic ---
-    const languageDetectionModel = genAI.getGenerativeModel({ model: 'gemini-1.5-flash-latest' });
-    const detectionPrompt = `
-      Analyze the following text and identify its primary language.
-      Respond with ONLY the official English name of the language (e.g., "English", "Spanish", "French").
-      Do not include any other words, punctuation, or explanation. Just the language name.
-
-      Text: "${message}"
-    `;
-    
     let detectedLanguageName = 'English'; // Default to English
     const fallbackLangCode = appLanguage || 'en';
     const fallbackLangName = languages.find(l => l.code === fallbackLangCode)?.englishName || 'English';
 
-    try {
-        const result = await languageDetectionModel.generateContent(detectionPrompt);
-        const responseText = result.response.text().trim(); 
+    if (enableMultilingual) {
+        const languageDetectionModel = genAI.getGenerativeModel({ model: 'gemini-1.5-flash-latest' });
+        const detectionPrompt = `
+          Analyze the following text and identify its primary language.
+          Respond with ONLY the official English name of the language (e.g., "English", "Spanish", "French").
+          Do not include any other words, punctuation, or explanation. Just the language name.
 
-        // Check if the detected language name is one we support by looking up its English name
-        const foundLanguage = languages.find(l => l.englishName.toLowerCase() === responseText.toLowerCase());
+          Text: "${message}"
+        `;
+        
+        try {
+            const result = await languageDetectionModel.generateContent(detectionPrompt);
+            const responseText = result.response.text().trim(); 
 
-        if (foundLanguage) {
-            detectedLanguageName = foundLanguage.englishName;
-        } else {
-             console.warn(`Detected language '${responseText}' is not in the supported list or format. Falling back to app language: ${fallbackLangName}`);
-             detectedLanguageName = fallbackLangName;
+            // Check if the detected language name is one we support by looking up its English name
+            const foundLanguage = languages.find(l => l.englishName.toLowerCase() === responseText.toLowerCase());
+
+            if (foundLanguage) {
+                detectedLanguageName = foundLanguage.englishName;
+            } else {
+                 console.warn(`Detected language '${responseText}' is not in the supported list or format. Falling back to app language: ${fallbackLangName}`);
+                 detectedLanguageName = fallbackLangName;
+            }
+        } catch (e) {
+            console.error("Language detection call failed, falling back to app language.", e);
+            detectedLanguageName = fallbackLangName;
         }
-    } catch (e) {
-        console.error("Language detection call failed, falling back to app language.", e);
-        detectedLanguageName = fallbackLangName;
     }
     // --- End of refined language detection logic ---
 

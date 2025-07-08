@@ -276,6 +276,7 @@
     "connectionError": "Entschuldigung, ich habe im Moment Verbindungsprobleme. Bitte versuchen Sie es später erneut.",
     "listening": "Höre zu...",
     "speakTooltip": "Fragen Sie mit Ihrer Stimme",
+    "speakUpgradeTooltip": "Upgrade auf Advanced für Spracheingabe",
     "playAudioTooltip": "Audio abspielen",
     "speechError": "Spracherkennung fehlgeschlagen. Bitte versuchen Sie es erneut oder überprüfen Sie Ihre Mikrofonberechtigungen.",
     "speechNotSupported": "Die Spracherkennung wird in Ihrem Browser nicht unterstützt.",

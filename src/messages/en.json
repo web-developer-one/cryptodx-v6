@@ -276,6 +276,7 @@
     "connectionError": "Sorry, I'm having trouble connecting right now. Please try again later.",
     "listening": "Listening...",
     "speakTooltip": "Ask with your voice",
+    "speakUpgradeTooltip": "Upgrade to Advanced for voice input",
     "playAudioTooltip": "Play audio",
     "speechError": "Speech recognition failed. Please try again or check your microphone permissions.",
     "speechNotSupported": "Speech recognition is not supported in your browser.",

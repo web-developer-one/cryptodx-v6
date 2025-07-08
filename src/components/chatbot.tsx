@@ -13,6 +13,7 @@ import { SiteLogo } from './site-logo';
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { useToast } from '@/hooks/use-toast';
+import { useUser } from '@/hooks/use-user';
 
 interface MessagePart {
   text: string;
@@ -59,6 +60,7 @@ const LinkifiedText = ({ text }: { text: string }) => {
 export function Chatbot() {
   const { t, language } = useLanguage();
   const { toast } = useToast();
+  const { user, isAuthenticated } = useUser();
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -69,6 +71,8 @@ export function Chatbot() {
   const recognitionRef = useRef<any>(null);
   const [isListening, setIsListening] = useState(false);
   const [speechError, setSpeechError] = useState<string | null>(null);
+
+  const hasAdvancedChatFeatures = isAuthenticated && user && ['Advanced', 'Administrator'].includes(user.pricePlan);
 
   useEffect(() => {
     if (isOpen && messages.length === 0) {
@@ -163,7 +167,7 @@ export function Chatbot() {
       const response = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ history: historyForApi, message: message, language }),
+        body: JSON.stringify({ history: historyForApi, message: message, language, enableMultilingual: hasAdvancedChatFeatures }),
       });
 
       if (!response.ok) {
@@ -176,7 +180,7 @@ export function Chatbot() {
       const modelMessage: Message = {
         role: 'model',
         parts: [{ text: data.response }],
-        isAudioLoading: true,
+        isAudioLoading: hasAdvancedChatFeatures,
       };
       
       let messageIndex = 0;
@@ -185,7 +189,9 @@ export function Chatbot() {
         return [...prev, modelMessage];
       });
 
-      fetchAndPlayTTS(data.response, messageIndex);
+      if (hasAdvancedChatFeatures) {
+        fetchAndPlayTTS(data.response, messageIndex);
+      }
 
     } catch (error: any) {
       const errorMessage: Message = {
@@ -196,7 +202,7 @@ export function Chatbot() {
     } finally {
       setIsLoading(false);
     }
-  }, [input, language, t, fetchAndPlayTTS]);
+  }, [input, language, t, fetchAndPlayTTS, hasAdvancedChatFeatures]);
   
   const handleSendRef = useRef(handleSend);
   useEffect(() => {
@@ -334,26 +340,28 @@ export function Chatbot() {
                                     <Bot className="h-5 w-5" />
                                 </AvatarFallback>
                             </Avatar>
-                             <Tooltip>
-                                <TooltipTrigger asChild>
-                                    <Button
-                                        variant="ghost"
-                                        size="icon"
-                                        className="h-6 w-6"
-                                        disabled={!message.audioSrc || message.isAudioLoading}
-                                        onClick={() => message.audioSrc && playAudio(message.audioSrc)}
-                                    >
-                                        {message.isAudioLoading ? (
-                                            <Loader2 className="h-4 w-4 animate-spin" />
-                                        ) : (
-                                            <Volume2 className="h-4 w-4" />
-                                        )}
-                                    </Button>
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                    <p>{t('Chatbot.playAudioTooltip')}</p>
-                                </TooltipContent>
-                            </Tooltip>
+                            {hasAdvancedChatFeatures && (
+                                <Tooltip>
+                                    <TooltipTrigger asChild>
+                                        <Button
+                                            variant="ghost"
+                                            size="icon"
+                                            className="h-6 w-6"
+                                            disabled={!message.audioSrc || message.isAudioLoading}
+                                            onClick={() => message.audioSrc && playAudio(message.audioSrc)}
+                                        >
+                                            {message.isAudioLoading ? (
+                                                <Loader2 className="h-4 w-4 animate-spin" />
+                                            ) : (
+                                                <Volume2 className="h-4 w-4" />
+                                            )}
+                                        </Button>
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                        <p>{t('Chatbot.playAudioTooltip')}</p>
+                                    </TooltipContent>
+                                </Tooltip>
+                            )}
                           </div>
                         )}
                         <div
@@ -403,12 +411,12 @@ export function Chatbot() {
                <div className="absolute right-1 top-1/2 -translate-y-1/2 flex items-center">
                   <Tooltip>
                       <TooltipTrigger asChild>
-                           <Button variant="ghost" size="icon" className="h-8 w-8" onClick={handleListenClick} disabled={isLoading || !recognitionRef.current}>
+                           <Button variant="ghost" size="icon" className="h-8 w-8" onClick={handleListenClick} disabled={isLoading || !recognitionRef.current || !hasAdvancedChatFeatures}>
                               {isListening ? <MicOff className="h-4 w-4 text-destructive" /> : <Mic className="h-4 w-4" />}
                           </Button>
                       </TooltipTrigger>
                       <TooltipContent>
-                           <p>{speechError ? speechError : t('Chatbot.speakTooltip')}</p>
+                           <p>{!hasAdvancedChatFeatures ? t('Chatbot.speakUpgradeTooltip') : (speechError ? speechError : t('Chatbot.speakTooltip'))}</p>
                       </TooltipContent>
                   </Tooltip>
                   <Button

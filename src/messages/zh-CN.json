@@ -276,6 +276,7 @@
     "connectionError": "抱歉，我现在连接时遇到问题。请稍后重试。",
     "listening": "正在聆听...",
     "speakTooltip": "用语音提问",
+    "speakUpgradeTooltip": "升级到高级版以使用语音输入",
     "playAudioTooltip": "播放音频",
     "speechError": "语音识别失败。请重试或检查您的麦克风权限。",
     "speechNotSupported": "您的浏览器不支持语音识别。",

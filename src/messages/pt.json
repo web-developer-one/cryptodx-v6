@@ -276,6 +276,7 @@
     "connectionError": "Desculpe, estou com problemas para conectar agora. Por favor, tente novamente mais tarde.",
     "listening": "Ouvindo...",
     "speakTooltip": "Pergunte com sua voz",
+    "speakUpgradeTooltip": "Atualize para Avançado para entrada de voz",
     "playAudioTooltip": "Reproduzir áudio",
     "speechError": "Falha no reconhecimento de voz. Por favor, tente novamente ou verifique as permissões do seu microfone.",
     "speechNotSupported": "O reconhecimento de voz não é suportado no seu navegador.",
