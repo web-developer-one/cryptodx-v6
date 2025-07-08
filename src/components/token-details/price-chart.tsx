@@ -98,6 +98,10 @@ const CustomCandleTooltip = ({ active, payload, label }: any) => {
 const CandlestickSeries = (props: any) => {
     const { data, yAxis, xAxis } = props;
     
+    if (!data || !yAxis || !xAxis) {
+      return null;
+    }
+
     return (
         <g>
             {data.map((d: any, i: number) => {
@@ -238,7 +242,7 @@ export function PriceChart({ token }: { token: TokenDetails }) {
                             <XAxis dataKey="date" tickLine={false} axisLine={false} tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 12 }} dy={10} scale="band" />
                             <YAxis orientation="right" domain={yAxisDomain} tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 12 }} tickFormatter={(value) => `$${value.toLocaleString(undefined, {maximumFractionDigits: 2})}`} axisLine={false} tickLine={false} width={80}/>
                             <Tooltip content={<CustomCandleTooltip />} cursor={{ fill: 'hsl(var(--accent))' }} />
-                            <Customized component={<CandlestickSeries data={chartData} />} />
+                            <Customized component={CandlestickSeries} />
                             <Brush dataKey="date" height={15} stroke="hsl(var(--primary))" startIndex={brushStartIndex} endIndex={chartData.length - 1} key={`candle-${brushStartIndex}`} tickFormatter={(index) => chartData[index]?.date} travellerWidth={10} y={385}>
                                 <BarChart data={chartData}>
                                     <Bar dataKey="price" fill="hsl(var(--primary))" />
