@@ -48,7 +48,7 @@ export async function POST(req: Request) {
   }
   
   try {
-    const {history, message, language} = await req.json();
+    const {history, message, language: appLanguage} = await req.json();
 
     if (!message) {
       return NextResponse.json(
@@ -57,11 +57,35 @@ export async function POST(req: Request) {
       );
     }
 
+    const genAI = new GoogleGenerativeAI(API_KEY);
+
+    // --- Start of language detection logic ---
+    const languageDetectionModel = genAI.getGenerativeModel({ model: 'gemini-1.5-flash-latest' });
+    const detectionPrompt = `Identify the primary language of the following text. Respond with only the IETF BCP 47 language code (e.g., "en" for English, "es" for Spanish). Do not add any other words or explanation.
+    
+Text: "${message}"`;
+    
+    let detectedLanguage = appLanguage || 'en'; // Default to app's current language
+    try {
+        const result = await languageDetectionModel.generateContent(detectionPrompt);
+        // Clean up response to get just the language code.
+        const responseText = result.response.text().trim().replace(/['"`\.]/g, ''); 
+        
+        // Basic validation of the language code format (e.g., 'en', 'es-MX')
+        if (/^[a-z]{2,3}(-[A-Z]{2,4})?$/i.test(responseText)) {
+            detectedLanguage = responseText;
+        } else {
+             console.warn(`Language detection returned invalid format: '${responseText}'. Falling back to app language: ${detectedLanguage}`);
+        }
+    } catch (e) {
+        console.error("Language detection call failed, falling back to app language.", e);
+    }
+    // --- End of language detection logic ---
+
     const systemInstruction = `You are a helpful assistant for CryptoDx, a cryptocurrency swap application. When answering questions, especially about factual topics, cryptocurrencies, or news, you must cite your sources. Provide direct URLs to reputable sources like news articles, official documentation, or blockchain explorers at the end of your response. Format them as a list under a 'Sources:' heading.
 
-You MUST respond in the following language: ${language || 'en'}.`;
+You MUST respond in the following language: ${detectedLanguage}.`;
 
-    const genAI = new GoogleGenerativeAI(API_KEY);
     const model = genAI.getGenerativeModel({
       model: 'gemini-1.5-flash-latest',
       systemInstruction,
