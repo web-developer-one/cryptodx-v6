@@ -60,51 +60,51 @@ export async function POST(req: Request) {
 
     const genAI = new GoogleGenerativeAI(API_KEY);
 
-    // --- Start of language detection logic ---
+    // --- Start of refined language detection logic ---
     const languageDetectionModel = genAI.getGenerativeModel({ model: 'gemini-1.5-flash-latest' });
-    const detectionPrompt = `Identify the primary language of the following text. Respond with only the IETF BCP 47 language code (e.g., "en" for English, "es" for Spanish, "fr" for French). Do not add any other words or explanation.
+    const detectionPrompt = `
+      Analyze the following text and identify its primary language.
+      Respond with ONLY the official English name of the language (e.g., "English", "Spanish", "French").
+      Do not include any other words, punctuation, or explanation. Just the language name.
+
+      Text: "${message}"
+    `;
     
-Text: "${message}"`;
-    
-    let detectedLanguageName = 'English'; // Default to English name
+    let detectedLanguageName = 'English'; // Default to English
     const fallbackLangCode = appLanguage || 'en';
+    const fallbackLangName = languages.find(l => l.code === fallbackLangCode)?.englishName || 'English';
 
     try {
         const result = await languageDetectionModel.generateContent(detectionPrompt);
-        const responseText = result.response.text().trim().replace(/['"`\.]/g, ''); 
-        
-        if (/^[a-z]{2,3}(-[A-Z]{2,4})?$/i.test(responseText)) {
-            const genericCode = responseText.split('-')[0];
-            const langInfo = languages.find(l => l.code === genericCode);
+        const responseText = result.response.text().trim(); 
 
-            if (langInfo) {
-                detectedLanguageName = langInfo.englishName;
-            } else {
-                console.warn(`Language code '${responseText}' not found in supported languages. Falling back to app language.`);
-                const fallbackLangInfo = languages.find(l => l.code === fallbackLangCode);
-                if (fallbackLangInfo) {
-                    detectedLanguageName = fallbackLangInfo.englishName;
-                }
-            }
+        // Check if the detected language name is one we support by looking up its English name
+        const foundLanguage = languages.find(l => l.englishName.toLowerCase() === responseText.toLowerCase());
+
+        if (foundLanguage) {
+            detectedLanguageName = foundLanguage.englishName;
         } else {
-             console.warn(`Language detection returned invalid format: '${responseText}'. Falling back to app language.`);
-             const fallbackLangInfo = languages.find(l => l.code === fallbackLangCode);
-             if (fallbackLangInfo) {
-                detectedLanguageName = fallbackLangInfo.englishName;
-             }
+             console.warn(`Detected language '${responseText}' is not in the supported list or format. Falling back to app language: ${fallbackLangName}`);
+             detectedLanguageName = fallbackLangName;
         }
     } catch (e) {
         console.error("Language detection call failed, falling back to app language.", e);
-        const fallbackLangInfo = languages.find(l => l.code === fallbackLangCode);
-        if (fallbackLangInfo) {
-            detectedLanguageName = fallbackLangInfo.englishName;
-        }
+        detectedLanguageName = fallbackLangName;
     }
-    // --- End of language detection logic ---
+    // --- End of refined language detection logic ---
 
-    const systemInstruction = `You are a helpful assistant for CryptoDx, a cryptocurrency swap application. When answering questions, especially about factual topics, cryptocurrencies, or news, you must cite your sources. Provide direct URLs to reputable sources like news articles, official documentation, or blockchain explorers at the end of your response. Format them as a list under a 'Sources:' heading.
+    // --- Start of refined system instruction ---
+    const systemInstruction = `
+Your primary directive is to respond in a specific language. You MUST respond in ${detectedLanguageName}.
+All parts of your response, including greetings, closings, and citations, must be in ${detectedLanguageName}.
+Do not, under any circumstances, switch to English or any other language unless explicitly asked to do so in the user's message.
 
-You MUST respond in the following language: ${detectedLanguageName}.`;
+You are a helpful assistant for CryptoDx, a cryptocurrency swap application.
+When answering questions, especially about factual topics, cryptocurrencies, or news, you must cite your sources.
+Provide direct URLs to reputable sources like news articles, official documentation, or blockchain explorers at the end of your response.
+Format them as a list under a heading. This heading must be the ${detectedLanguageName} translation of the English word "Sources:".
+    `;
+    // --- End of refined system instruction ---
 
     const model = genAI.getGenerativeModel({
       model: 'gemini-1.5-flash-latest',
