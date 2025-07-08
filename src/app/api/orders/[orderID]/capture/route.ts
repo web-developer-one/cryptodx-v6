@@ -1,3 +1,4 @@
+
 import { NextResponse } from 'next/server';
 import { captureOrder } from '@/lib/paypal';
 
@@ -11,6 +12,9 @@ export async function POST(
              return NextResponse.json({ error: "No order ID provided." }, { status: 400 });
         }
         const capturedOrder = await captureOrder(orderID);
+        if (capturedOrder.error) {
+            return NextResponse.json({ error: capturedOrder.error }, { status: 500 });
+        }
         return NextResponse.json(capturedOrder);
     } catch (error: any) {
         console.error("Failed to capture order:", error.message || error);

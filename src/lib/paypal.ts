@@ -3,29 +3,18 @@
 
 import paypal from '@paypal/checkout-server-sdk';
 
-/**
- * Creates and returns a configured PayPal HTTP client.
- * Throws an error if the required environment variables are not set.
- */
-function getPayPalClient() {
+export async function createOrder(tier: { name: string, price: string, sku: string }) {
     const clientId = process.env.PAYPAL_CLIENT_ID;
     const clientSecret = process.env.PAYPAL_CLIENT_SECRET;
 
     if (!clientId || !clientSecret || clientId === 'sb') {
         const errorMessage = 'PayPal client ID or secret is not configured for server-side operations. Please set PAYPAL_CLIENT_ID and PAYPAL_CLIENT_SECRET in your environment.';
         console.error(errorMessage);
-        throw new Error(errorMessage);
+        return { error: errorMessage };
     }
     
-    // In a real app, you might switch between Sandbox and Live based on an env var.
-    // For this example, we'll stick to Sandbox.
     const environment = new paypal.core.SandboxEnvironment(clientId, clientSecret);
-    return new paypal.core.PayPalHttpClient(environment);
-}
-
-
-export async function createOrder(tier: { name: string, price: string, sku: string }) {
-    const client = getPayPalClient();
+    const client = new paypal.core.PayPalHttpClient(environment);
 
     const request = new paypal.orders.OrdersCreateRequest();
     request.prefer("return=representation");
@@ -57,9 +46,7 @@ export async function createOrder(tier: { name: string, price: string, sku: stri
 
     try {
         const order = await client.execute(request);
-        return {
-            id: order.result.id,
-        };
+        return { id: order.result.id };
     } catch (err: any) {
         let errorMessage = "Failed to create PayPal order.";
         if (err.statusCode && err.message) {
@@ -75,12 +62,22 @@ export async function createOrder(tier: { name: string, price: string, sku: stri
              }
         }
         console.error("Error creating PayPal order:", errorMessage);
-        throw new Error(errorMessage);
+        return { error: errorMessage };
     }
 }
 
 export async function captureOrder(orderId: string) {
-    const client = getPayPalClient();
+    const clientId = process.env.PAYPAL_CLIENT_ID;
+    const clientSecret = process.env.PAYPAL_CLIENT_SECRET;
+
+     if (!clientId || !clientSecret || clientId === 'sb') {
+        const errorMessage = 'PayPal client ID or secret is not configured for server-side operations.';
+        console.error(errorMessage);
+        return { error: errorMessage };
+    }
+    
+    const environment = new paypal.core.SandboxEnvironment(clientId, clientSecret);
+    const client = new paypal.core.PayPalHttpClient(environment);
     
     const request = new paypal.orders.OrdersCaptureRequest(orderId);
     request.requestBody({});
@@ -103,6 +100,6 @@ export async function captureOrder(orderId: string) {
              }
         }
         console.error("Error capturing PayPal order:", errorMessage);
-        throw new Error(errorMessage);
+        return { error: errorMessage };
     }
 }

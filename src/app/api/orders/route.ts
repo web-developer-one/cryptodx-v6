@@ -1,3 +1,4 @@
+
 import { NextResponse } from 'next/server';
 import { createOrder } from '@/lib/paypal';
 
@@ -8,6 +9,9 @@ export async function POST(request: Request) {
             return NextResponse.json({ error: "Invalid tier information provided." }, { status: 400 });
         }
         const order = await createOrder(tier);
+        if (order.error) {
+            return NextResponse.json({ error: order.error }, { status: 500 });
+        }
         return NextResponse.json(order);
     } catch (error: any) {
         console.error("Failed to create order:", error.message || error);
