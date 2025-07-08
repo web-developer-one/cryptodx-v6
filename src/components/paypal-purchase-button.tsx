@@ -89,6 +89,7 @@ export function PayPalPurchaseButton({ tier }: PayPalPurchaseButtonProps) {
             purchase_units: [{
                 description: `CryptoDx ${tier.name} Plan (Sandbox Test)`,
                 amount: {
+                    currency_code: 'USD',
                     value: tier.price
                 }
             }]
