@@ -28,9 +28,21 @@ import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "./ui/tooltip";
 import { useLanguage } from "@/hooks/use-language";
+import { Skeleton } from "./ui/skeleton";
 
 export function LimitOrderInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[] }) {
   const { t } = useLanguage();
+
+  if (cryptocurrencies.length === 0) {
+    return (
+      <Card className="w-full max-w-md shadow-2xl shadow-primary/10">
+        <CardHeader><Skeleton className="h-8 w-24 mx-auto" /></CardHeader>
+        <CardContent><Skeleton className="h-[400px] w-full" /></CardContent>
+        <CardFooter><Skeleton className="h-12 w-full" /></CardFooter>
+      </Card>
+    );
+  }
+  
   const [fromToken, setFromToken] = useState<Cryptocurrency>(cryptocurrencies[0]);
   const [toToken, setToToken] = useState<Cryptocurrency>(cryptocurrencies.length > 1 ? cryptocurrencies[1] : cryptocurrencies[0]);
   const [fromAmount, setFromAmount] = useState<string>("1");

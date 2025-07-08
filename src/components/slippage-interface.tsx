@@ -14,11 +14,22 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/comp
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer, Legend } from 'recharts';
 import { Slider } from '@/components/ui/slider';
 import { useLanguage } from '@/hooks/use-language';
+import { Skeleton } from './ui/skeleton';
 
 const SIMULATED_POOL_BASE_LIQUIDITY = 500000; // $500k base liquidity for simulation
 
 export function SlippageInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[] }) {
   const { t } = useLanguage();
+
+  if (cryptocurrencies.length === 0) {
+    return (
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 w-full max-w-7xl">
+        <Skeleton className="lg:col-span-1 h-[500px]" />
+        <Skeleton className="lg:col-span-2 h-[500px]" />
+      </div>
+    );
+  }
+
   const [fromToken, setFromToken] = useState<Cryptocurrency>(cryptocurrencies[0]);
   const [toToken, setToToken] = useState<Cryptocurrency>(cryptocurrencies.length > 1 ? cryptocurrencies[1] : cryptocurrencies[0]);
   const [tradeAmount, setTradeAmount] = useState<string>('1000');

@@ -12,9 +12,21 @@ import { useWallet } from '@/hooks/use-wallet';
 import { WalletConnect } from './wallet-connect';
 import { Plus } from 'lucide-react';
 import { useLanguage } from '@/hooks/use-language';
+import { Skeleton } from './ui/skeleton';
 
 export function CreatePositionInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[] }) {
   const { t } = useLanguage();
+
+  if (cryptocurrencies.length === 0) {
+    return (
+      <Card className="w-full max-w-md shadow-2xl shadow-primary/10">
+        <CardHeader><Skeleton className="h-8 w-48 mx-auto" /></CardHeader>
+        <CardContent><Skeleton className="h-[300px] w-full" /></CardContent>
+        <CardFooter><Skeleton className="h-12 w-full" /></CardFooter>
+      </Card>
+    );
+  }
+  
   const [token0, setToken0] = useState<Cryptocurrency>(cryptocurrencies.find(c => c.symbol === 'ETH') || cryptocurrencies[0]);
   const [token1, setToken1] = useState<Cryptocurrency>(cryptocurrencies.find(c => c.symbol === 'USDC') || (cryptocurrencies.length > 1 ? cryptocurrencies[1] : cryptocurrencies[0]));
   const [amount0, setAmount0] = useState<string>('1');

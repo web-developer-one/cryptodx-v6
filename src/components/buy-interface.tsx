@@ -12,6 +12,7 @@ import { useWallet } from '@/hooks/use-wallet';
 import { WalletConnect } from './wallet-connect';
 import { useToast } from '@/hooks/use-toast';
 import { useLanguage } from '@/hooks/use-language';
+import { Skeleton } from './ui/skeleton';
 
 type SupportedCurrency = {
     symbol: string;
@@ -35,6 +36,18 @@ const supportedCurrencies: SupportedCurrency[] = [
 
 export function BuyInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[] }) {
   const { t } = useLanguage();
+
+  // Guard against rendering with no data, which can cause crashes on init
+  if (cryptocurrencies.length === 0) {
+    return (
+       <Card className="w-full max-w-md shadow-2xl shadow-primary/10">
+          <CardHeader><Skeleton className="h-8 w-32 mx-auto" /></CardHeader>
+          <CardContent><Skeleton className="h-[250px] w-full" /></CardContent>
+          <CardFooter><Skeleton className="h-12 w-full" /></CardFooter>
+      </Card>
+    )
+  }
+
   const [toToken, setToToken] = useState<Cryptocurrency>(cryptocurrencies.find(c => c.symbol === 'ETH') || cryptocurrencies[0]);
   const [fromFiat, setFromFiat] = useState<SupportedCurrency>(supportedCurrencies[0]);
   const [fiatAmount, setFiatAmount] = useState<string>('100');

@@ -39,8 +39,27 @@ import {
 } from "@/components/ui/tooltip";
 import { useToast } from "@/hooks/use-toast";
 import { useLanguage } from "@/hooks/use-language";
+import { Skeleton } from "./ui/skeleton";
 
 export function SwapInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[] }) {
+  const { t } = useLanguage();
+
+  if (cryptocurrencies.length === 0) {
+    return (
+      <Card className="w-full max-w-md shadow-2xl shadow-primary/10">
+          <CardHeader>
+            <Skeleton className="h-8 w-24 mx-auto" />
+            <Skeleton className="h-5 w-48 mx-auto mt-2" />
+          </CardHeader>
+          <CardContent><Skeleton className="h-[200px] w-full" /></CardContent>
+          <CardFooter className="flex-col gap-4">
+            <Skeleton className="h-12 w-full" />
+            <Skeleton className="h-20 w-full" />
+          </CardFooter>
+      </Card>
+    );
+  }
+
   const [fromToken, setFromToken] = useState<Cryptocurrency>(cryptocurrencies[0]);
   const [toToken, setToToken] = useState<Cryptocurrency>(cryptocurrencies.length > 1 ? cryptocurrencies[1] : cryptocurrencies[0]);
   const [fromAmount, setFromAmount] = useState<string>("1");
@@ -52,7 +71,6 @@ export function SwapInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocu
   const [isSlippageAuto, setIsSlippageAuto] = useState(true);
   const [deadline, setDeadline] = useState("30");
   const { toast } = useToast();
-  const { t } = useLanguage();
 
   const exchangeRate = useMemo(() => {
     if (fromToken?.price > 0 && toToken?.price > 0) {
