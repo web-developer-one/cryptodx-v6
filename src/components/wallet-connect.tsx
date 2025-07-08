@@ -80,7 +80,7 @@ const truncateAddress = (address: string) => {
   return `${address.substring(0, 6)}...${address.substring(address.length - 4)}`;
 };
 
-export function WalletConnect({ children }: { children?: React.ReactNode }) {
+export function WalletConnect({ children, chainId }: { children?: React.ReactNode, chainId: string }) {
   const { account, isActive, connectWallet } = useWallet();
   const { toast } = useToast();
   const { t } = useLanguage();
@@ -93,7 +93,7 @@ export function WalletConnect({ children }: { children?: React.ReactNode }) {
 
   const handleWalletClick = async (walletId: string, walletName: string) => {
     if (['metamask', 'trustwallet', 'coinbase'].includes(walletId)) {
-      await connectWallet();
+      await connectWallet(chainId);
       setDialogOpen(false); 
     } else {
       toast({

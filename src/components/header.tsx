@@ -61,6 +61,12 @@ import { useUser } from "@/hooks/use-user";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Skeleton } from "./ui/skeleton";
 
+interface NetworkOption {
+    name: string;
+    symbol: string;
+    chainId: string;
+    logo?: string;
+}
 
 export function Header() {
   const { t, language, setLanguage, isLoading: isTranslating } = useLanguage();
@@ -139,37 +145,38 @@ export function Header() {
     },
   ];
 
-  const networkOptions = [
-    { name: 'Ethereum', symbol: 'ETH' },
-    { name: 'Solana', symbol: 'SOL' },
-    { name: 'Polygon', symbol: 'MATIC' },
-    { name: 'BNB Chain', symbol: 'BNB' },
-  ];
-  
+  const networkOptions: Omit<NetworkOption, 'logo'>[] = React.useMemo(() => [
+    { name: 'Ethereum', symbol: 'ETH', chainId: '0x1' },
+    { name: 'BNB Chain', symbol: 'BNB', chainId: '0x38' },
+    { name: 'Polygon', symbol: 'MATIC', chainId: '0x89' },
+    { name: 'Arbitrum One', symbol: 'ETH', chainId: '0xa4b1' },
+    { name: 'Optimism', symbol: 'ETH', chainId: '0xa' },
+    { name: 'Avalanche', symbol: 'AVAX', chainId: '0xa86a' },
+  ], []);
 
   const networks = React.useMemo(() => {
     return networkOptions.map(opt => {
       const crypto = (cryptocurrencies || []).find(c => c.symbol === opt.symbol);
       return {
-        name: opt.name,
-        symbol: opt.symbol,
+        ...opt,
         logo: crypto?.logo || 'https://placehold.co/20x20.png',
       };
     });
-  }, [cryptocurrencies]);
+  }, [cryptocurrencies, networkOptions]);
 
-  const [selectedNetwork, setSelectedNetwork] = React.useState(networks[0]);
-  const [hideSmallBalances, setHideSmallBalances] = React.useState(false);
-  const [hideUnknownTokens, setHideUnknownTokens] = React.useState(true);
+  const [selectedNetwork, setSelectedNetwork] = React.useState<NetworkOption>(networks[0]);
   
   React.useEffect(() => {
-    // If cryptocurrencies load after initial render, update selected network
-    if (networks.length > 0 && selectedNetwork.logo.includes('placehold')) {
+    // If networks load after initial render, update selected network with full data
+    if (networks.length > 0 && (!selectedNetwork.logo || selectedNetwork.logo.includes('placehold'))) {
         setSelectedNetwork(networks[0]);
     }
   }, [networks, selectedNetwork]);
 
 
+  const [hideSmallBalances, setHideSmallBalances] = React.useState(false);
+  const [hideUnknownTokens, setHideUnknownTokens] = React.useState(true);
+  
   return (
     <header className="sticky top-0 z-50 w-full border-b border-primary/50 bg-primary text-primary-foreground">
       <div className="container flex h-16 max-w-screen-2xl items-center">
@@ -269,13 +276,13 @@ export function Header() {
                 variant="ghost"
                 className="flex items-center gap-1.5 px-3 font-medium text-primary-foreground/90 transition-colors hover:bg-white/10 hover:text-primary-foreground"
               >
-                <Image
+                {selectedNetwork.logo && (<Image
                   src={selectedNetwork.logo}
                   alt={`${selectedNetwork.name} logo`}
                   width={20}
                   height={20}
                   className="rounded-full"
-                />
+                />)}
                 <span className="hidden sm:inline">{selectedNetwork.name}</span>
                 <ChevronDown className="h-4 w-4 opacity-50" />
               </Button>
@@ -299,7 +306,7 @@ export function Header() {
             </DropdownMenuContent>
           </DropdownMenu>
 
-          <WalletConnect>
+          <WalletConnect chainId={selectedNetwork.chainId}>
             <Button variant="secondary">{t('Header.connectWallet')}</Button>
           </WalletConnect>
           

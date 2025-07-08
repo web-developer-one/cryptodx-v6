@@ -4,6 +4,7 @@
 import React, { useCallback, useEffect } from 'react';
 import { ethers } from 'ethers';
 import { toast } from '@/hooks/use-toast';
+import { useLanguage } from './use-language';
 
 declare global {
     interface Window {
@@ -16,7 +17,7 @@ interface WalletContextType {
   account: string | null;
   isActive: boolean;
   balances: Record<string, string> | null;
-  connectWallet: () => Promise<void>;
+  connectWallet: (chainId?: string) => Promise<void>;
   disconnect: () => void;
   isLoading: boolean;
 }
@@ -29,6 +30,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
   const [account, setAccount] = React.useState<string | null>(null);
   const [balances, setBalances] = React.useState<Record<string, string> | null>(null);
   const [isLoading, setIsLoading] = React.useState(true);
+  const { t } = useLanguage();
 
   const fetchBalances = async (address: string) => {
     try {
@@ -52,51 +54,71 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
-  // Memoize the disconnect function
   const disconnect = useCallback(() => {
     setAccount(null);
     setBalances(null);
     localStorage.setItem('explicitly_disconnected', 'true');
     toast({
-        title: "Wallet Disconnected",
-        description: "You have successfully disconnected your wallet.",
+        title: t('WalletConnect.walletDisconnected'),
+        description: t('WalletConnect.walletDisconnectedDescription'),
     });
-  }, []);
+  }, [t]);
   
-  // Memoize the connect function
-  const connectWallet = useCallback(async () => {
-    if (typeof window.ethereum !== 'undefined') {
-      try {
+  const connectWallet = useCallback(async (chainId: string = '0x1') => {
+    if (typeof window.ethereum === 'undefined') {
+        toast({
+            variant: "destructive",
+            title: t('WalletConnect.walletNotFound'),
+            description: t('WalletConnect.walletNotFoundDescription'),
+        });
+        return;
+    }
+
+    try {
+        await window.ethereum.request({
+            method: 'wallet_switchEthereumChain',
+            params: [{ chainId }],
+        });
+    } catch (switchError: any) {
+        if (switchError.code === 4902) {
+             toast({
+                variant: "destructive",
+                title: "Network Not Found in Wallet",
+                description: "This network has not been added to your wallet. Please add it manually before connecting.",
+            });
+        } else {
+             toast({
+                variant: "destructive",
+                title: "Network Switch Failed",
+                description: "Could not switch to the selected network. Please try again.",
+            });
+        }
+        console.error("Failed to switch network", switchError);
+        return; // Stop the connection process if network switch fails
+    }
+
+    try {
         const provider = new ethers.BrowserProvider(window.ethereum);
-        // Request account access
         const accounts = await provider.send('eth_requestAccounts', []);
         if (accounts.length > 0) {
             setAccount(accounts[0]);
             await fetchBalances(accounts[0]);
             localStorage.removeItem('explicitly_disconnected');
             toast({
-                title: "Wallet Connected",
-                description: `Successfully connected to account: ${accounts[0].substring(0, 6)}...${accounts[0].substring(accounts[0].length - 4)}`,
+                title: t('WalletConnect.walletConnected'),
+                description: t('WalletConnect.walletConnectedDescription').replace('{account}', `${accounts[0].substring(0, 6)}...${accounts[0].substring(accounts[0].length - 4)}`),
             });
         }
-      } catch (error) {
+    } catch (error) {
         console.error("User rejected request or an error occurred", error);
         toast({
             variant: "destructive",
-            title: "Connection Failed",
-            description: "Could not connect to the wallet. The request may have been rejected.",
-        });
-      }
-    } else {
-        toast({
-            variant: "destructive",
-            title: "Wallet Not Found",
-            description: "Please install a compatible browser wallet extension like MetaMask, Trust Wallet, or Coinbase Wallet.",
+            title: t('WalletConnect.connectionFailed'),
+            description: t('WalletConnect.connectionFailedDescription'),
         });
     }
-  }, []);
+  }, [t]);
 
-  // Effect to handle account and network changes
   useEffect(() => {
     if (typeof window.ethereum === 'undefined') {
         setIsLoading(false);
@@ -105,20 +127,23 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
 
     const handleAccountsChanged = async (accounts: string[]) => {
       if (accounts.length === 0) {
-        // MetaMask is locked or the user has disconnected all accounts
         disconnect();
       } else if (accounts[0] !== account) {
         setAccount(accounts[0]);
         await fetchBalances(accounts[0]);
         localStorage.removeItem('explicitly_disconnected');
         toast({
-            title: "Account Switched",
-            description: `Switched to account: ${accounts[0].substring(0, 6)}...${accounts[0].substring(accounts[0].length - 4)}`,
+            title: t('WalletConnect.accountSwitched'),
+            description: t('WalletConnect.accountSwitchedDescription').replace('{account}', `${accounts[0].substring(0, 6)}...${accounts[0].substring(accounts[0].length - 4)}`),
         });
       }
     };
+    
+    const handleChainChanged = () => {
+        // Simple reload to ensure all components re-render with new network context
+        window.location.reload();
+    };
 
-    // Check for already connected account on component mount
     const checkExistingConnection = async () => {
         const explicitlyDisconnected = localStorage.getItem('explicitly_disconnected') === 'true';
         if (explicitlyDisconnected) {
@@ -143,14 +168,15 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
     checkExistingConnection();
 
     window.ethereum.on('accountsChanged', handleAccountsChanged);
+    window.ethereum.on('chainChanged', handleChainChanged);
 
-    // Cleanup listener
     return () => {
       if (window.ethereum.removeListener) {
         window.ethereum.removeListener('accountsChanged', handleAccountsChanged);
+        window.ethereum.removeListener('chainChanged', handleChainChanged);
       }
     };
-  }, [account, disconnect]);
+  }, [account, disconnect, t]);
 
   const value = {
     account,
