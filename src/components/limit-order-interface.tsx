@@ -49,8 +49,11 @@ export function LimitOrderInterface({ cryptocurrencies }: { cryptocurrencies: Cr
   const [toAmount, setToAmount] = useState<string>("");
   const [limitPrice, setLimitPrice] = useState<string>("");
   const [expiry, setExpiry] = useState<string>("7d");
-  const { isActive: isWalletConnected } = useWallet();
+  const { isActive: isWalletConnected, balances } = useWallet();
   const [lastEdited, setLastEdited] = useState<"from" | "to">("from");
+
+  const fromTokenBalance = useMemo(() => balances?.[fromToken.symbol], [balances, fromToken.symbol]);
+  const toTokenBalance = useMemo(() => balances?.[toToken.symbol], [balances, toToken.symbol]);
 
   const marketPrice = useMemo(() => {
     if (fromToken?.price > 0 && toToken?.price > 0) {
@@ -135,6 +138,13 @@ export function LimitOrderInterface({ cryptocurrencies }: { cryptocurrencies: Cr
     }
   };
 
+  const handleSetMax = () => {
+    if (fromTokenBalance) {
+        setFromAmount(fromTokenBalance);
+        setLastEdited('from');
+    }
+  };
+
   const limitPricePercentageDiff = useMemo(() => {
     const price = parseFloat(limitPrice);
     if (marketPrice > 0 && price > 0) {
@@ -151,8 +161,18 @@ export function LimitOrderInterface({ cryptocurrencies }: { cryptocurrencies: Cr
       <CardContent className="flex flex-col gap-2">
         {/* From Token */}
         <div className="p-4 rounded-lg bg-[#f8fafc] dark:bg-secondary/50 border">
-          <label className="text-sm text-muted-foreground" htmlFor="from-input">{t('LimitOrderInterface.youSell')}</label>
-          <div className="flex items-center gap-2 mt-1">
+          <div className="flex justify-between items-center mb-1">
+            <label className="text-sm text-muted-foreground" htmlFor="from-input">{t('LimitOrderInterface.youSell')}</label>
+             {isWalletConnected && fromTokenBalance !== undefined && (
+                <div className="text-sm text-muted-foreground flex items-center gap-1">
+                    <span>{t('SwapInterface.balance').replace('{balance}', `${parseFloat(fromTokenBalance).toLocaleString('en-US', {maximumFractionDigits: 5})} ${fromToken.symbol}`)}</span>
+                    <Button variant="link" size="sm" className="h-auto p-0" onClick={handleSetMax}>
+                        {t('SwapInterface.max')}
+                    </Button>
+                </div>
+            )}
+          </div>
+          <div className="flex items-center gap-2">
             <Input id="from-input" type="text" placeholder="0" className="text-3xl h-12 bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0 p-0" value={fromAmount} onChange={handleAmountChange(setFromAmount, "from")} />
             <Select value={fromToken.symbol} onValueChange={handleFromTokenChange}>
               <SelectTrigger className="w-[180px] h-12 text-lg font-bold">
@@ -196,8 +216,15 @@ export function LimitOrderInterface({ cryptocurrencies }: { cryptocurrencies: Cr
 
         {/* To Token */}
         <div className="p-4 rounded-lg bg-[#f8fafc] dark:bg-secondary/50 border">
-          <label className="text-sm text-muted-foreground" htmlFor="to-input">{t('LimitOrderInterface.youBuy')}</label>
-          <div className="flex items-center gap-2 mt-1">
+          <div className="flex justify-between items-center mb-1">
+            <label className="text-sm text-muted-foreground" htmlFor="to-input">{t('LimitOrderInterface.youBuy')}</label>
+            {isWalletConnected && toTokenBalance !== undefined && (
+                <span className="text-sm text-muted-foreground">
+                    {t('SwapInterface.balance').replace('{balance}', `${parseFloat(toTokenBalance).toLocaleString('en-US', {maximumFractionDigits: 5})} ${toToken.symbol}`)}
+                </span>
+            )}
+          </div>
+          <div className="flex items-center gap-2">
             <Input id="to-input" type="text" placeholder="0" className="text-3xl h-12 bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0 p-0" value={toAmount} onChange={handleAmountChange(setToAmount, "to")}/>
             <Select value={toToken.symbol} onValueChange={handleToTokenChange}>
               <SelectTrigger className="w-[180px] h-12 text-lg font-bold">

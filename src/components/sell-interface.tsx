@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import type { Cryptocurrency } from '@/lib/types';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -51,8 +51,10 @@ export function SellInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocu
   const [cryptoAmount, setCryptoAmount] = useState<string>('1');
   const [fiatAmount, setFiatAmount] = useState<string>('');
   const [toFiat, setToFiat] = useState<SupportedCurrency>(supportedCurrencies[0]);
-  const { isActive: isWalletConnected } = useWallet();
+  const { isActive: isWalletConnected, balances } = useWallet();
   const { toast } = useToast();
+
+  const fromTokenBalance = useMemo(() => balances?.[fromToken.symbol], [balances, fromToken.symbol]);
 
   useEffect(() => {
     if (cryptoAmount && fromToken?.price > 0 && toFiat) {
@@ -105,6 +107,12 @@ export function SellInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocu
     });
   };
 
+  const handleSetMax = () => {
+    if (fromTokenBalance) {
+        setCryptoAmount(fromTokenBalance);
+    }
+  };
+
   return (
     <Card className="w-full max-w-md shadow-2xl shadow-primary/10">
       <CardHeader className="text-center">
@@ -113,8 +121,18 @@ export function SellInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocu
       <CardContent className="flex flex-col gap-4">
         {/* You sell */}
         <div className="p-4 rounded-lg bg-[#f8fafc] dark:bg-secondary/50 border">
-          <label className="text-sm text-muted-foreground" htmlFor="crypto-input">{t('SellInterface.youSell')}</label>
-          <div className="flex items-center gap-2 mt-1">
+          <div className="flex justify-between items-center mb-1">
+            <label className="text-sm text-muted-foreground" htmlFor="crypto-input">{t('SellInterface.youSell')}</label>
+            {isWalletConnected && fromTokenBalance !== undefined && (
+                <div className="text-sm text-muted-foreground flex items-center gap-1">
+                    <span>{t('SwapInterface.balance').replace('{balance}', `${parseFloat(fromTokenBalance).toLocaleString('en-US', {maximumFractionDigits: 5})} ${fromToken.symbol}`)}</span>
+                    <Button variant="link" size="sm" className="h-auto p-0" onClick={handleSetMax}>
+                        {t('SwapInterface.max')}
+                    </Button>
+                </div>
+            )}
+          </div>
+          <div className="flex items-center gap-2">
             <Input id="crypto-input" type="text" placeholder="0" className="text-3xl h-12 bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0 p-0" value={cryptoAmount} onChange={handleCryptoAmountChange}/>
             <Select value={fromToken.symbol} onValueChange={handleFromTokenChange}>
               <SelectTrigger className="w-[180px] h-12 text-lg font-bold">

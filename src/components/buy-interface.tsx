@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import type { Cryptocurrency } from '@/lib/types';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -52,8 +52,10 @@ export function BuyInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocur
   const [fromFiat, setFromFiat] = useState<SupportedCurrency>(supportedCurrencies[0]);
   const [fiatAmount, setFiatAmount] = useState<string>('100');
   const [cryptoAmount, setCryptoAmount] = useState<string>('');
-  const { isActive: isWalletConnected } = useWallet();
+  const { isActive: isWalletConnected, balances } = useWallet();
   const { toast } = useToast();
+
+  const toTokenBalance = useMemo(() => balances?.[toToken.symbol], [balances, toToken.symbol]);
   
   useEffect(() => {
     if (fiatAmount && toToken?.price > 0 && fromFiat) {
@@ -140,8 +142,15 @@ export function BuyInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocur
         
         {/* You get */}
         <div className="p-4 rounded-lg bg-[#f8fafc] dark:bg-secondary/50 border">
-          <label className="text-sm text-muted-foreground" htmlFor="crypto-input">{t('BuyInterface.youGet')}</label>
-          <div className="flex items-center gap-2 mt-1">
+          <div className="flex justify-between items-center mb-1">
+            <label className="text-sm text-muted-foreground" htmlFor="crypto-input">{t('BuyInterface.youGet')}</label>
+             {isWalletConnected && toTokenBalance !== undefined && (
+                <span className="text-sm text-muted-foreground">
+                    {t('SwapInterface.balance').replace('{balance}', `${parseFloat(toTokenBalance).toLocaleString('en-US', {maximumFractionDigits: 5})} ${toToken.symbol}`)}
+                </span>
+            )}
+          </div>
+          <div className="flex items-center gap-2">
             <Input id="crypto-input" type="text" placeholder="0" className="text-3xl h-12 bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0 p-0" value={cryptoAmount} onChange={handleCryptoAmountChange}/>
             <Select value={toToken.symbol} onValueChange={handleToTokenChange}>
               <SelectTrigger className="w-[180px] h-12 text-lg font-bold">
