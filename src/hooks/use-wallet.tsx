@@ -30,14 +30,6 @@ export const networkConfigs: Record<string, NetworkConfig> = {
         blockExplorerUrls: ['https://etherscan.io'],
         logo: 'https://s2.coinmarketcap.com/static/img/coins/64x64/1027.png',
     },
-    '0xe708': {
-        chainId: '0xe708',
-        chainName: 'Linea',
-        nativeCurrency: { name: 'Ether', symbol: 'ETH', decimals: 18 },
-        rpcUrls: ['https://linea-mainnet.infura.io/v3/'],
-        blockExplorerUrls: ['https://lineascan.build'],
-        logo: 'https://s2.coinmarketcap.com/static/img/coins/64x64/27829.png',
-    },
     '0xa86a': {
         chainId: '0xa86a',
         chainName: 'Avalanche C-Chain',
