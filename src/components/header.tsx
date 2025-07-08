@@ -50,7 +50,6 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import type { Cryptocurrency } from "@/lib/types";
 import { SiteLogo } from "./site-logo";
 import { Switch } from "./ui/switch";
 import { Label } from "./ui/label";
@@ -60,13 +59,7 @@ import { languages } from "@/lib/i18n";
 import { useUser } from "@/hooks/use-user";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Skeleton } from "./ui/skeleton";
-
-interface NetworkOption {
-    name: string;
-    symbol: string;
-    chainId: string;
-    logo?: string;
-}
+import { networkConfigs, type NetworkConfig } from "@/hooks/use-wallet";
 
 export function Header() {
   const { t, language, setLanguage, isLoading: isTranslating } = useLanguage();
@@ -75,15 +68,9 @@ export function Header() {
 
   const [mounted, setMounted] = React.useState(false);
   const [theme, setTheme] = React.useState<"light" | "dark">("light");
-  const [cryptocurrencies, setCryptocurrencies] = React.useState<Cryptocurrency[]>([]);
 
-  React.useEffect(() => {
-    fetch('/api/listings')
-      .then(res => res.json())
-      .then(({data}) => {
-        if(data) setCryptocurrencies(data);
-      });
-  }, []);
+  const networks = React.useMemo(() => Object.values(networkConfigs), []);
+  const [selectedNetwork, setSelectedNetwork] = React.useState<NetworkConfig>(networks[0]);
 
   React.useEffect(() => {
     const storedTheme = localStorage.getItem("theme");
@@ -144,35 +131,6 @@ export function Header() {
       ],
     },
   ];
-
-  const networkOptions: Omit<NetworkOption, 'logo'>[] = React.useMemo(() => [
-    { name: 'Ethereum', symbol: 'ETH', chainId: '0x1' },
-    { name: 'BNB Chain', symbol: 'BNB', chainId: '0x38' },
-    { name: 'Polygon', symbol: 'MATIC', chainId: '0x89' },
-    { name: 'Arbitrum One', symbol: 'ETH', chainId: '0xa4b1' },
-    { name: 'Optimism', symbol: 'ETH', chainId: '0xa' },
-    { name: 'Avalanche', symbol: 'AVAX', chainId: '0xa86a' },
-  ], []);
-
-  const networks = React.useMemo(() => {
-    return networkOptions.map(opt => {
-      const crypto = (cryptocurrencies || []).find(c => c.symbol === opt.symbol);
-      return {
-        ...opt,
-        logo: crypto?.logo || 'https://placehold.co/20x20.png',
-      };
-    });
-  }, [cryptocurrencies, networkOptions]);
-
-  const [selectedNetwork, setSelectedNetwork] = React.useState<NetworkOption>(networks[0]);
-  
-  React.useEffect(() => {
-    // If networks load after initial render, update selected network with full data
-    if (networks.length > 0 && (!selectedNetwork.logo || selectedNetwork.logo.includes('placehold'))) {
-        setSelectedNetwork(networks[0]);
-    }
-  }, [networks, selectedNetwork]);
-
 
   const [hideSmallBalances, setHideSmallBalances] = React.useState(false);
   const [hideUnknownTokens, setHideUnknownTokens] = React.useState(true);
@@ -276,31 +234,31 @@ export function Header() {
                 variant="ghost"
                 className="flex items-center gap-1.5 px-3 font-medium text-primary-foreground/90 transition-colors hover:bg-white/10 hover:text-primary-foreground"
               >
-                {selectedNetwork.logo && (<Image
+                {selectedNetwork.logo ? (<Image
                   src={selectedNetwork.logo}
-                  alt={`${selectedNetwork.name} logo`}
+                  alt={`${selectedNetwork.chainName} logo`}
                   width={20}
                   height={20}
                   className="rounded-full"
-                />)}
-                <span className="hidden sm:inline">{selectedNetwork.name}</span>
+                />) : <div className="h-5 w-5 rounded-full bg-secondary" />}
+                <span className="hidden sm:inline">{selectedNetwork.chainName}</span>
                 <ChevronDown className="h-4 w-4 opacity-50" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               {networks.map((network) => (
                 <DropdownMenuItem
-                  key={network.name}
+                  key={network.chainId}
                   onClick={() => setSelectedNetwork(network)}
                 >
-                  <Image
+                  {network.logo && (<Image
                     src={network.logo}
-                    alt={`${network.name} logo`}
+                    alt={`${network.chainName} logo`}
                     width={20}
                     height={20}
                     className="mr-2 rounded-full"
-                  />
-                  {network.name}
+                  />)}
+                  {network.chainName}
                 </DropdownMenuItem>
               ))}
             </DropdownMenuContent>

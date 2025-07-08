@@ -12,50 +12,89 @@ declare global {
     }
 }
 
-const networkConfigs: Record<string, {
+export interface NetworkConfig {
     chainId: string;
     chainName: string;
     nativeCurrency: { name: string; symbol: string; decimals: number; };
     rpcUrls: string[];
     blockExplorerUrls: string[];
-}> = {
-    '0x38': { // BNB Chain
+    logo?: string;
+}
+
+export const networkConfigs: Record<string, NetworkConfig> = {
+    '0x1': {
+        chainId: '0x1',
+        chainName: 'Ethereum Mainnet',
+        nativeCurrency: { name: 'Ether', symbol: 'ETH', decimals: 18 },
+        rpcUrls: ['https://rpc.ankr.com/eth'],
+        blockExplorerUrls: ['https://etherscan.io'],
+        logo: 'https://s2.coinmarketcap.com/static/img/coins/64x64/1027.png',
+    },
+    '0xe708': {
+        chainId: '0xe708',
+        chainName: 'Linea',
+        nativeCurrency: { name: 'Ether', symbol: 'ETH', decimals: 18 },
+        rpcUrls: ['https://rpc.linea.build'],
+        blockExplorerUrls: ['https://lineascan.build'],
+        logo: 'https://s2.coinmarketcap.com/static/img/coins/64x64/1027.png', // Using ETH logo for now
+    },
+    '0xa86a': {
+        chainId: '0xa86a',
+        chainName: 'Avalanche C-Chain',
+        nativeCurrency: { name: 'Avalanche', symbol: 'AVAX', decimals: 18 },
+        rpcUrls: ['https://api.avax.network/ext/bc/C/rpc'],
+        blockExplorerUrls: ['https://snowtrace.io'],
+        logo: 'https://s2.coinmarketcap.com/static/img/coins/64x64/5805.png'
+    },
+    '0xa4b1': {
+        chainId: '0xa4b1',
+        chainName: 'Arbitrum One',
+        nativeCurrency: { name: 'Ether', symbol: 'ETH', decimals: 18 },
+        rpcUrls: ['https://arb1.arbitrum.io/rpc'],
+        blockExplorerUrls: ['https://explorer.arbitrum.io'],
+        logo: 'https://s2.coinmarketcap.com/static/img/coins/64x64/11841.png'
+    },
+    '0x2105': {
+        chainId: '0x2105',
+        chainName: 'Base Mainnet',
+        nativeCurrency: { name: 'Ether', symbol: 'ETH', decimals: 18 },
+        rpcUrls: ['https://mainnet.base.org'],
+        blockExplorerUrls: ['https://basescan.org'],
+        logo: 'https://s2.coinmarketcap.com/static/img/coins/64x64/27740.png'
+    },
+    '0x38': {
         chainId: '0x38',
-        chainName: 'BNB Smart Chain',
+        chainName: 'Binance Smart Chain',
         nativeCurrency: { name: 'BNB', symbol: 'BNB', decimals: 18 },
         rpcUrls: ['https://bsc-dataseed.binance.org/'],
         blockExplorerUrls: ['https://bscscan.com'],
+        logo: 'https://s2.coinmarketcap.com/static/img/coins/64x64/1839.png'
     },
-    '0x89': { // Polygon
-        chainId: '0x89',
-        chainName: 'Polygon Mainnet',
-        nativeCurrency: { name: 'MATIC', symbol: 'MATIC', decimals: 18 },
-        rpcUrls: ['https://polygon-rpc.com/'],
-        blockExplorerUrls: ['https://polygonscan.com/'],
-    },
-    '0xa4b1': { // Arbitrum One
-        chainId: '0xa4b1',
-        chainName: 'Arbitrum One',
-        nativeCurrency: { name: 'ETH', symbol: 'ETH', decimals: 18 },
-        rpcUrls: ['https://arb1.arbitrum.io/rpc'],
-        blockExplorerUrls: ['https://arbiscan.io'],
-    },
-    '0xa': { // Optimism
+    '0xa': {
         chainId: '0xa',
         chainName: 'OP Mainnet',
-        nativeCurrency: { name: 'ETH', symbol: 'ETH', decimals: 18 },
+        nativeCurrency: { name: 'Ether', symbol: 'ETH', decimals: 18 },
         rpcUrls: ['https://mainnet.optimism.io'],
-        blockExplorerUrls: ['https://optimistic.etherscan.io'],
+        blockExplorerUrls: ['https://optimism.etherscan.io'],
+        logo: 'https://s2.coinmarketcap.com/static/img/coins/64x64/11840.png'
     },
-    '0xa86a': { // Avalanche
-        chainId: '0xa86a',
-        chainName: 'Avalanche Network C-Chain',
-        nativeCurrency: { name: 'AVAX', symbol: 'AVAX', decimals: 18 },
-        rpcUrls: ['https://api.avax.network/ext/bc/C/rpc'],
-        blockExplorerUrls: ['https://snowtrace.io/'],
+    '0x89': {
+        chainId: '0x89',
+        chainName: 'Polygon Mainnet',
+        nativeCurrency: { name: 'Polygon', symbol: 'MATIC', decimals: 18 }, // Note: Symbol is MATIC for compatibility
+        rpcUrls: ['https://polygon-rpc.com/'],
+        blockExplorerUrls: ['https://polygonscan.com'],
+        logo: 'https://s2.coinmarketcap.com/static/img/coins/64x64/3890.png'
+    },
+    '0x144': {
+        chainId: '0x144',
+        chainName: 'zkSync Era Mainnet',
+        nativeCurrency: { name: 'Ether', symbol: 'ETH', decimals: 18 },
+        rpcUrls: ['https://mainnet.era.zksync.io'],
+        blockExplorerUrls: ['https://explorer.zksync.io'],
+        logo: 'https://s2.coinmarketcap.com/static/img/coins/64x64/24093.png'
     },
 };
-
 
 // Define the shape of the wallet context
 interface WalletContextType {
