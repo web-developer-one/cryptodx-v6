@@ -21,13 +21,22 @@ const parseScore = (reportText: string): number | null => {
     return null;
 };
 
-// Determines the color class based on the reputation score.
+// Determines the color class for the text based on the reputation score.
 const getScoreColor = (score: number | null): string => {
     if (score === null) return '';
     if (score < 5) return 'text-destructive'; // Red for scores < 5
     if (score <= 7) return 'text-warning';   // Yellow for scores 5-7
     return 'text-success';                   // Green for scores > 7
 };
+
+// Determines the background color class for the card based on the reputation score.
+const getBackgroundColorClass = (score: number | null): string => {
+    if (score === null) return '';
+    if (score < 5) return 'bg-destructive/10 border-destructive/20';
+    if (score <= 7) return 'bg-warning/10 border-warning/20';
+    return 'bg-success/10 border-success/20';
+};
+
 
 const FormattedReport = ({ rawText, scoreColorClass }: { rawText: string, scoreColorClass: string }) => {
     const scoreRegex = /(?:Reputation Score|Final Reputation Score|Overall Reputation Score):\s*(\d{1,2})\/10/i;
@@ -65,7 +74,7 @@ export function ReputationChecker({ tokenName }: { tokenName: string }) {
     const { t } = useLanguage();
     const { toast } = useToast();
 
-    // Automatically fetch the reputation when the component loads or tokenName changes.
+    // Automatically fetch the reputation when the component is expanded.
     const checkReputation = async () => {
         if (!tokenName) return;
         setIsLoading(true);
@@ -165,9 +174,10 @@ export function ReputationChecker({ tokenName }: { tokenName: string }) {
     }
 
     const scoreColor = getScoreColor(score);
+    const backgroundColor = getBackgroundColorClass(score);
 
     return (
-        <Card>
+        <Card className={cn("transition-colors", !isLoading && report ? backgroundColor : '')}>
             <CardHeader className="cursor-pointer" onClick={() => setIsOpen(!isOpen)}>
                 <div className="flex justify-between items-start gap-4">
                     <div className="flex-1">
@@ -225,3 +235,4 @@ export function ReputationChecker({ tokenName }: { tokenName: string }) {
         </Card>
     );
 }
+
