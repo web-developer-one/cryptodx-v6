@@ -284,6 +284,16 @@ export function Chatbot() {
   return (
     <TooltipProvider>
       <div className="fixed bottom-6 right-6 z-50">
+        {!isOpen && (
+          <div className="absolute bottom-[4.5rem] right-0 flex w-max max-w-xs flex-col items-end gap-2">
+            <div className="animate-in fade-in slide-in-from-bottom-2 duration-300 rounded-lg bg-muted px-3 py-1.5 text-sm text-muted-foreground shadow-lg">
+              <p className="font-semibold">{t('Chatbot.askAbout')}</p>
+            </div>
+            <div className="animate-in fade-in slide-in-from-bottom-2 delay-150 duration-300 rounded-lg bg-muted px-3 py-1.5 text-sm text-muted-foreground shadow-lg">
+              <p>{t('Chatbot.topics')}</p>
+            </div>
+          </div>
+        )}
         <Button
           size="icon"
           className="rounded-full w-16 h-16 shadow-lg"
@@ -295,7 +305,7 @@ export function Chatbot() {
       </div>
 
       {isOpen && (
-        <Card className="fixed bottom-24 right-6 z-50 w-full max-w-sm h-[60vh] flex flex-col shadow-2xl rounded-lg">
+        <Card className="fixed bottom-24 right-6 z-50 w-full max-w-sm h-[60vh] flex flex-col shadow-2xl rounded-lg animate-in fade-in-0 zoom-in-95">
            <CardHeader className="p-4 border-b">
              <div className="flex items-center gap-2">
                 <SiteLogo className="h-6 w-6" />
