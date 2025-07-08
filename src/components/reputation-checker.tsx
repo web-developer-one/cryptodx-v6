@@ -145,7 +145,7 @@ export function ReputationChecker({ tokenName, collapsible = true }: ReputationC
                 setTimeout(() => setIsCopied(false), 2000);
             }).catch(err => {
                 console.error('Failed to copy text: ', err);
-                toast({ variant: 'destructive', title: 'Error', description: 'Failed to copy report.' });
+                toast({ variant: 'destructive', title: 'Error', description: t('ReputationChecker.copyError') });
             });
         }
     };

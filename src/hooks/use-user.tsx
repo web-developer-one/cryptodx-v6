@@ -146,7 +146,7 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
       }
       return false;
     } catch (error: any) {
-      toast({ variant: 'destructive', title: 'Profile Update Failed', description: error.message });
+      toast({ variant: 'destructive', title: t('ProfilePage.saveErrorTitle'), description: t('ProfilePage.saveErrorDescription') });
       return false;
     }
   }, [user, t, toast]);

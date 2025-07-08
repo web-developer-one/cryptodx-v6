@@ -77,7 +77,8 @@
     "title": "Vendre des Cryptos",
     "youSell": "Vous vendez",
     "youReceive": "Vous recevez",
-    "sellInitiated": "Vente Initiée (Simulée)"
+    "sellInitiated": "Vente Initiée (Simulée)",
+    "sellInitiatedDescription": "Votre transaction de vente a été soumise."
   },
   "SwapInterface": {
     "title": "Swap",
@@ -100,6 +101,7 @@
     "estimatedGas": "Gaz Estimé",
     "slippageTolerance": "Tolérance de Glissement (%)",
     "swapInitiated": "Swap Initié (Simulé)",
+    "swapInitiatedDescription": "Votre transaction est en cours de traitement.",
     "estimatesDisclaimer": "Les estimations sont basées sur des données d'API en temps réel mais les conditions du marché peuvent changer rapidement. Un glissement peut se produire.",
     "cancel": "Annuler",
     "balance": "Solde: {balance}",
@@ -267,6 +269,59 @@
     "p_changes": "Nous pouvons mettre à jour cette Politique de Cookies de temps à autre afin de refléter, par exemple, les changements apportés aux cookies que nous utilisons ou pour d'autres raisons opérationnelles, légales ou réglementaires. Veuillez donc consulter régulièrement cette Politique de Cookies pour rester informé sur notre utilisation des cookies et des technologies associées.",
     "dismiss": "Fermer"
   },
+  "PrivacyPolicyModal": {
+    "title": "Politique de Confidentialité",
+    "lastUpdated": "Dernière mise à jour : {date}",
+    "p1": "Cette Politique de Confidentialité décrit Nos politiques et procédures concernant la collecte, l'utilisation et la divulgation de Vos informations lorsque Vous utilisez le Service et Vous informe de Vos droits en matière de confidentialité et de la manière dont la loi Vous protège. Nous utilisons Vos données personnelles pour fournir et améliorer le Service. En utilisant le Service, Vous acceptez la collecte et l'utilisation des informations conformément à cette Politique de Confidentialité.",
+    "h_interpretation": "Interprétation et Définitions",
+    "p_interpretation": "Les mots dont la première lettre est en majuscule ont des significations définies dans les conditions suivantes. Les définitions suivantes auront la même signification qu'elles apparaissent au singulier ou au pluriel.",
+    "h_definitions": "Définitions",
+    "p_definitions": "Aux fins de la présente Politique de Confidentialité :",
+    "li_account": "<strong>Compte</strong> désigne un compte unique créé pour Vous permettre d'accéder à notre Service ou à des parties de notre Service.",
+    "li_company": "<strong>Société</strong> (désignée par \"la Société\", \"Nous\", \"Nos\" ou \"Notre\" dans le présent Accord) se réfère à CryptoDx.",
+    "li_cookies": "<strong>Cookies</strong> sont de petits fichiers placés sur Votre ordinateur, appareil mobile ou tout autre appareil par un site web, contenant les détails de Votre historique de navigation sur ce site web parmi ses nombreuses utilisations.",
+    "li_country": "<strong>Pays</strong> se réfère à : Votre Pays",
+    "li_device": "<strong>Appareil</strong> désigne tout appareil pouvant accéder au Service tel qu'un ordinateur, un téléphone portable ou une tablette numérique.",
+    "li_personalData": "<strong>Données Personnelles</strong> désigne toute information se rapportant à une personne physique identifiée ou identifiable.",
+    "li_service": "<strong>Service</strong> se réfère au Site Web.",
+    "li_serviceProvider": "<strong>Fournisseur de Services</strong> désigne toute personne physique ou morale qui traite les données pour le compte de la Société. Il s'agit de sociétés tierces ou de personnes employées par la Société pour faciliter le Service, pour fournir le Service au nom de la Société, pour exécuter des services liés au Service ou pour aider la Société à analyser l'utilisation du Service.",
+    "li_usageData": "<strong>Données d'Utilisation</strong> se réfère aux données collectées automatiquement, générées soit par l'utilisation du Service, soit par l'infrastructure du Service elle-même (par exemple, la durée d'une visite de page).",
+    "li_website": "<strong>Site Web</strong> se réfère à CryptoDx, accessible depuis ce domaine.",
+    "li_you": "<strong>Vous</strong> désigne la personne accédant ou utilisant le Service, ou la société ou autre entité juridique au nom de laquelle cette personne accède ou utilise le Service, selon le cas.",
+    "h_collecting": "Collecte et Utilisation de Vos Données Personnelles",
+    "h_types": "Types de Données Collectées",
+    "h_personalData": "Données Personnelles",
+    "p_personalData": "Lors de l'utilisation de Notre Service, Nous pouvons Vous demander de Nous fournir certaines informations personnellement identifiables qui peuvent être utilisées pour Vous contacter ou Vous identifier. Les informations personnellement identifiables peuvent inclure, sans s'y limiter : les Données d'Utilisation.",
+    "h_usageData": "Données d'Utilisation",
+    "p_usageData": "Les Données d'Utilisation sont collectées automatiquement lors de l'utilisation du Service. Les Données d'Utilisation peuvent inclure des informations telles que l'adresse de protocole Internet de Votre Appareil (par exemple, l'adresse IP), le type de navigateur, la version du navigateur, les pages de notre Service que Vous visitez, l'heure et la date de Votre visite, le temps passé sur ces pages, les identifiants uniques de l'appareil et d'autres données de diagnostic. Lorsque Vous accédez au Service par ou via un appareil mobile, Nous pouvons collecter certaines informations automatiquement, y compris, mais sans s'y limiter, le type d'appareil mobile que Vous utilisez, l'ID unique de Votre appareil mobile, l'adresse IP de Votre appareil mobile, Votre système d'exploitation mobile, le type de navigateur Internet mobile que Vous utilisez, les identifiants uniques de l'appareil et d'autres données de diagnostic.",
+    "h_contact": "Contactez-Nous",
+    "p_contact": "Si vous avez des questions sur cette Politique de Confidentialité, vous pouvez nous contacter par e-mail.",
+    "dismiss": "Fermer"
+  },
+  "TermsOfUseModal": {
+    "title": "Conditions d'Utilisation",
+    "lastUpdated": "Dernière mise à jour : {date}",
+    "p1": "Bienvenue sur CryptoDx. Ces Conditions d'Utilisation (\"Conditions\") régissent votre accès et votre utilisation de notre site web, de nos services et de nos applications (collectivement, le \"Service\"). Veuillez lire attentivement ces Conditions avant d'utiliser le Service.",
+    "h_agreement": "1. Acceptation des Conditions",
+    "p_agreement": "En utilisant notre Service, vous acceptez d'être lié par ces Conditions. Si vous n'acceptez pas ces Conditions, vous ne pouvez pas utiliser le Service. Nous pouvons modifier les Conditions à tout moment, à notre seule discrétion. Si nous le faisons, nous vous en informerons soit en publiant les Conditions modifiées sur le site, soit par d'autres communications.",
+    "h_eligibility": "2. Éligibilité",
+    "p_eligibility": "Vous devez avoir au moins 18 ans pour utiliser le Service. En acceptant ces Conditions, vous déclarez et garantissez que : (a) vous avez au moins 18 ans ; (b) vous n'avez pas été précédemment suspendu ou retiré du Service ; et (c) votre inscription et votre utilisation du Service sont conformes à toutes les lois et réglementations applicables.",
+    "h_service": "3. Le Service",
+    "p_service": "CryptoDx est une interface d'échange décentralisée. Nous n'opérons pas en tant qu'institution financière, et nous ne fournissons aucun service financier. Nous sommes un fournisseur de logiciels qui permet aux utilisateurs d'interagir avec des protocoles décentralisés. Vous êtes responsable de vos propres actions et de la sécurité de votre portefeuille.",
+    "h_prohibited": "4. Activités Interdites",
+    "p_prohibited": "Vous acceptez de ne pas vous engager dans l'une des activités interdites suivantes :",
+    "li_illegal": "Utiliser le Service à des fins illégales ou en violation de toute loi locale, étatique, nationale ou internationale.",
+    "li_disrupt": "S'engager dans toute activité qui pourrait interférer, perturber, affecter négativement ou empêcher d'autres utilisateurs de profiter pleinement du Service.",
+    "li_circumvent": "Tenter de contourner les techniques de filtrage de contenu que nous employons, ou tenter d'accéder à tout service ou zone du Service auquel vous n'êtes pas autorisé à accéder.",
+    "li_automated": "Utiliser un robot, une araignée, un robot d'exploration, un grattoir ou tout autre moyen ou interface automatisé non fourni par nous pour accéder au Service ou pour extraire des données.",
+    "h_disclaimers": "5. Avertissements",
+    "p_disclaimers": "LE SERVICE EST FOURNI \"TEL QUEL\" ET \"TEL QUE DISPONIBLE\" SANS GARANTIE D'AUCUNE SORTE, EXPRESSE OU IMPLICITE. VOUS RECONNAISSEZ ET ACCEPTEZ QUE VOUS AVEZ EU TOUTE L'OPPORTUNITÉ QUE VOUS JUGEZ NÉCESSAIRE D'ENQUÊTER SUR LE SERVICE, LES LOIS, RÈGLES OU RÉGLEMENTATIONS APPLICABLES À VOTRE UTILISATION DU SERVICE ET QUE VOUS NE VOUS FIEZ À AUCUNE DÉCLARATION DE LOI OU DE FAIT FAITE PAR CRYPTODX CONCERNANT LE SERVICE.",
+    "h_liability": "6. Limitation de Responsabilité",
+    "p_liability": "DANS LA MESURE MAXIMALE AUTORISÉE PAR LA LOI APPLICABLE, EN AUCUN CAS CRYPTODX OU SES AFFILIÉS NE SERONT RESPONSABLES DE DOMMAGES INDIRECTS, SPÉCIAUX, ACCESSOIRES, CONSÉCUTIFS OU PUNITIFS DE QUELQUE NATURE QUE CE SOIT.",
+    "h_governing": "7. Droit Applicable",
+    "p_governing": "Ces Conditions et toute action y afférente seront régies par les lois de la juridiction dans laquelle la société est basée, sans égard à ses dispositions en matière de conflit de lois.",
+    "dismiss": "Fermer"
+  },
   "Chatbot": {
     "initialMessage": "Bonjour ! Je suis le Chatbot 'CryptoDx'. Comment puis-je vous aider aujourd'hui sur tout ce qui concerne la Blockchain, la DeFi, les Cryptos, les NFT ou l'IA ?",
     "title": "Chatbot CryptoDx",
@@ -299,7 +354,13 @@
     "walletDisconnected": "Portefeuille Déconnecté",
     "walletDisconnectedDescription": "Vous avez déconnecté votre portefeuille avec succès.",
     "accountSwitched": "Compte Changé",
-    "accountSwitchedDescription": "Passage au compte : {account}"
+    "accountSwitchedDescription": "Passage au compte : {account}",
+    "addNetworkFailedTitle": "Échec de l'Ajout du Réseau",
+    "addNetworkFailedDesc": "Impossible d'ajouter le réseau sélectionné à votre portefeuille.",
+    "networkNotSupportedTitle": "Réseau Non Pris en Charge",
+    "networkNotSupportedDesc": "Ce réseau ne peut pas être ajouté automatiquement. Veuillez l'ajouter manuellement à votre portefeuille.",
+    "switchNetworkFailedTitle": "Échec du Changement de Réseau",
+    "switchNetworkFailedDesc": "Impossible de passer au réseau sélectionné. Veuillez réessayer."
   },
   "WalletDetailsModal": {
     "send": "Envoyer",
@@ -398,6 +459,8 @@
     "saving": "Enregistrement...",
     "saveSuccessTitle": "Profil Mis à Jour",
     "saveSuccessDescription": "Votre profil a été mis à jour avec succès.",
+    "saveErrorTitle": "Échec de la Mise à Jour du Profil",
+    "saveErrorDescription": "Une erreur est survenue lors de la mise à jour de votre profil.",
     "disclaimer": "Nous respectons votre vie privée. Aucune information sur la blockchain, les cryptos ou les clés privées n'est jamais stockée sur notre site."
   },
   "LogoutToast": {
@@ -413,9 +476,26 @@
     "reportTitle": "Analyse Terminée",
     "copy": "Copier",
     "copied": "Copié !",
+    "copyError": "Échec de la copie du rapport.",
     "disclaimer": "Avertissement : Ce rapport est généré par une IA et est uniquement à titre informatif. Ce n'est pas un conseil financier. Faites toujours vos propres recherches (DYOR).",
     "lockedTitle": "Débloquer les Rapports de Réputation par IA",
     "lockedDescription": "Passez à un plan Basic, Advanced ou Administrator pour obtenir des informations et des analyses de sécurité basées sur l'IA pour n'importe quel jeton.",
     "upgradeButton": "Voir les Plans Tarifaires"
+  },
+  "PayPalPurchase": {
+    "createOrderErrorTitle": "Erreur lors de la Création de la Commande",
+    "createOrderErrorDesc": "Impossible de créer la commande PayPal.",
+    "connectionErrorTitle": "Erreur de Connexion",
+    "connectionErrorDesc": "Impossible de se connecter au serveur pour créer une commande.",
+    "purchaseSuccessTitle": "Achat Réussi !",
+    "purchaseSuccessDesc": "Vous avez été mis à niveau avec succès vers le plan {tierName}.",
+    "profileUpdateError": "Échec de la mise à jour du profil utilisateur après l'achat.",
+    "paymentIncompleteError": "Le paiement n'a pas été effectué avec succès.",
+    "purchaseFailedTitle": "Échec de l'Achat",
+    "purchaseFailedDesc": "Une erreur est survenue lors du traitement du paiement.",
+    "sandboxSuccessTitle": "Achat en Sandbox Terminé !",
+    "sandboxSuccessDesc": "La transaction de test pour le plan {tierName} a réussi. Cela ne met pas à jour votre profil.",
+    "paypalErrorTitle": "Erreur PayPal",
+    "paypalErrorDesc": "Une erreur est survenue avec la transaction PayPal."
   }
 }

@@ -178,7 +178,7 @@ export function SwapInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocu
   const handleSwapClick = () => {
     toast({
         title: t('SwapInterface.swapInitiated'),
-        description: "Your transaction is being processed.",
+        description: t('SwapInterface.swapInitiatedDescription'),
     });
   };
 

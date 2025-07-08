@@ -77,7 +77,8 @@
     "title": "Vender Cripto",
     "youSell": "Você vende",
     "youReceive": "Você recebe",
-    "sellInitiated": "Venda Iniciada (Simulada)"
+    "sellInitiated": "Venda Iniciada (Simulada)",
+    "sellInitiatedDescription": "Sua transação de venda foi enviada."
   },
   "SwapInterface": {
     "title": "Trocar",
@@ -100,6 +101,7 @@
     "estimatedGas": "Gás Estimado",
     "slippageTolerance": "Tolerância de Slippage (%)",
     "swapInitiated": "Troca Iniciada (Simulada)",
+    "swapInitiatedDescription": "Sua transação está sendo processada.",
     "estimatesDisclaimer": "As estimativas são baseadas em dados de API em tempo real, mas as condições de mercado podem mudar rapidamente. Pode ocorrer slippage.",
     "cancel": "Cancelar",
     "balance": "Saldo: {balance}",
@@ -267,6 +269,59 @@
     "p_changes": "Podemos atualizar esta Política de Cookies de tempos em tempos para refletir, por exemplo, mudanças nos cookies que usamos ou por outras razões operacionais, legais ou regulatórias. Portanto, por favor, reveja esta Política de Cookies regularmente para se manter informado sobre nosso uso de cookies e tecnologias relacionadas.",
     "dismiss": "Dispensar e Fechar"
   },
+  "PrivacyPolicyModal": {
+    "title": "Política de Privacidade",
+    "lastUpdated": "Última atualização: {date}",
+    "p1": "Esta Política de Privacidade descreve Nossas políticas e procedimentos sobre a coleta, uso e divulgação de Suas informações quando Você usa o Serviço e informa sobre Seus direitos de privacidade e como a lei O protege. Usamos Seus dados pessoais para fornecer e melhorar o Serviço. Ao usar o Serviço, Você concorda com a coleta e uso de informações de acordo com esta Política de Privacidade.",
+    "h_interpretation": "Interpretação e Definições",
+    "p_interpretation": "As palavras cuja letra inicial é maiúscula têm significados definidos sob as seguintes condições. As seguintes definições terão o mesmo significado, independentemente de aparecerem no singular ou no plural.",
+    "h_definitions": "Definições",
+    "p_definitions": "Para os fins desta Política de Privacidade:",
+    "li_account": "<strong>Conta</strong> significa uma conta única criada para Você acessar nosso Serviço ou partes de nosso Serviço.",
+    "li_company": "<strong>Empresa</strong> (referida como \"a Empresa\", \"Nós\" ou \"Nosso\" neste Contrato) refere-se a CryptoDx.",
+    "li_cookies": "<strong>Cookies</strong> são pequenos arquivos que são colocados em Seu computador, dispositivo móvel ou qualquer outro dispositivo por um site, contendo os detalhes de Seu histórico de navegação nesse site entre seus muitos usos.",
+    "li_country": "<strong>País</strong> refere-se a: Seu País",
+    "li_device": "<strong>Dispositivo</strong> significa qualquer dispositivo que possa acessar o Serviço, como um computador, um celular ou um tablet digital.",
+    "li_personalData": "<strong>Dados Pessoais</strong> é qualquer informação que se relacione a um indivíduo identificado ou identificável.",
+    "li_service": "<strong>Serviço</strong> refere-se ao Site.",
+    "li_serviceProvider": "<strong>Provedor de Serviços</strong> significa qualquer pessoa física ou jurídica que processa os dados em nome da Empresa. Refere-se a empresas de terceiros ou indivíduos empregados pela Empresa para facilitar o Serviço, para fornecer o Serviço em nome da Empresa, para realizar serviços relacionados ao Serviço ou para ajudar a Empresa a analisar como o Serviço é usado.",
+    "li_usageData": "<strong>Dados de Uso</strong> refere-se a dados coletados automaticamente, gerados pelo uso do Serviço ou da própria infraestrutura do Serviço (por exemplo, a duração de uma visita à página).",
+    "li_website": "<strong>Site</strong> refere-se a CryptoDx, acessível a partir deste domínio.",
+    "li_you": "<strong>Você</strong> significa o indivíduo que acessa ou usa o Serviço, ou a empresa ou outra entidade legal em nome da qual tal indivíduo está acessando ou usando o Serviço, conforme aplicável.",
+    "h_collecting": "Coleta e Uso de Seus Dados Pessoais",
+    "h_types": "Tipos de Dados Coletados",
+    "h_personalData": "Dados Pessoais",
+    "p_personalData": "Ao usar Nosso Serviço, podemos pedir que Você nos forneça certas informações de identificação pessoal que podem ser usadas para contatá-lo ou identificá-lo. As informações de identificação pessoal могут incluir, mas não estão limitadas a: Dados de Uso.",
+    "h_usageData": "Dados de Uso",
+    "p_usageData": "Os Dados de Uso são coletados automaticamente ao usar o Serviço. Os Dados de Uso podem incluir informações como o endereço de Protocolo de Internet do Seu Dispositivo (por exemplo, endereço IP), tipo de navegador, versão do navegador, as páginas de nosso Serviço que Você visita, a hora e a data de Sua visita, o tempo gasto nessas páginas, identificadores únicos de dispositivo e outros dados de diagnóstico. Quando Você acessa o Serviço por ou através de um dispositivo móvel, podemos coletar certas informações automaticamente, incluindo, mas не limitadas a, o tipo de dispositivo móvel que Você usa, o ID único do seu dispositivo móvel, o endereço IP do seu dispositivo móvel, seu sistema operacional móvel, o tipo de navegador de Internet móvel que Você usa, identificadores únicos de dispositivo e outros dados de diagnóstico.",
+    "h_contact": "Contate-Nos",
+    "p_contact": "Se você tiver alguma dúvida sobre esta Política de Privacidade, pode nos contatar por e-mail.",
+    "dismiss": "Dispensar e Fechar"
+  },
+  "TermsOfUseModal": {
+    "title": "Termos de Uso",
+    "lastUpdated": "Última atualização: {date}",
+    "p1": "Bem-vindo à CryptoDx. Estes Termos de Uso (\"Termos\") regem seu acesso e uso de nosso site, serviços e aplicativos (coletivamente, o \"Serviço\"). Por favor, leia estes Termos cuidadosamente antes de usar o Serviço.",
+    "h_agreement": "1. Concordância com os Termos",
+    "p_agreement": "Ao usar nosso Serviço, você concorda em ficar vinculado a estes Termos. Se você não concordar com estes Termos, não poderá usar o Serviço. Podemos modificar os Termos a qualquer momento, a nosso exclusivo critério. Se o fizermos, informaremos você publicando os Termos modificados no site ou por meio de outras comunicações.",
+    "h_eligibility": "2. Elegibilidade",
+    "p_eligibility": "Você deve ter pelo menos 18 anos de idade para usar o Serviço. Ao concordar com estes Termos, você declara e garante a nós que: (a) você tem pelo menos 18 anos de idade; (b) você não foi anteriormente suspenso ou removido do Serviço; e (c) seu registro e uso do Serviço estão em conformidade com todas e quaisquer leis e regulamentos aplicáveis.",
+    "h_service": "3. O Serviço",
+    "p_service": "CryptoDx é uma interface de exchange descentralizada. Não operamos como uma instituição financeira, nem fornecemos quaisquer serviços financeiros. Somos um provedor de software que permite aos usuários interagir com protocolos descentralizados. Você é responsável por suas próprias ações e pela segurança de sua carteira.",
+    "h_prohibited": "4. Atividades Proibidas",
+    "p_prohibited": "Você concorda em não se envolver em nenhuma das seguintes atividades proibidas:",
+    "li_illegal": "Usar o Serviço para qualquer finalidade ilegal ou em violação de qualquer lei local, estadual, nacional ou internacional.",
+    "li_disrupt": "Envolver-se em qualquer atividade que possa interferir, interromper, afetar negativamente ou inibir outros usuários de desfrutar plenamente do Serviço.",
+    "li_circumvent": "Tentar contornar quaisquer técnicas de filtragem de conteúdo que empregamos, ou tentar acessar qualquer serviço ou área do Serviço que você não está autorizado a acessar.",
+    "li_automated": "Usar qualquer robô, spider, crawler, scraper ou outros meios ou interface automatizados não fornecidos por nós para acessar o Serviço ou para extrair dados.",
+    "h_disclaimers": "5. Isenções de Responsabilidade",
+    "p_disclaimers": "O SERVIÇO É FORNECIDO \"COMO ESTÁ\" E \"CONFORME DISPONÍVEL\" SEM GARANTIAS DE QUALQUER TIPO, EXPRESSAS OU IMPLÍCITAS. VOCÊ RECONHECE E CONCORDA QUE TEVE QUALQUER OPORTUNIDADE QUE JULGOU NECESSÁRIA PARA INVESTIGAR O SERVIÇO, LEIS, REGRAS OU REGULAMENTOS QUE POSSAM SER APLICÁVEIS AO SEU USO DO SERVIÇO E QUE VOCÊ NÃO ESTÁ CONFIANDO EM NENHUMA DECLARAÇÃO DE LEI OU FATO FEITA PELA CRYPTODX RELACIONADA AO SERVIÇO.",
+    "h_liability": "6. Limitação de Responsabilidade",
+    "p_liability": "NA EXTENSÃO MÁXIMA PERMITIDA PELA LEI APLICÁVEL, EM NENHUMA HIPÓTESE A CRYPTODX OU SUAS AFILIADAS SERÃO RESPONSÁVEIS POR QUAISQUER DANOS INDIRETOS, ESPECIAIS, INCIDENTAIS, CONSEQUENCIAIS OU PUNITIVOS DE QUALQUER TIPO.",
+    "h_governing": "7. Lei Aplicável",
+    "p_governing": "Estes Termos e qualquer ação relacionada a eles serão regidos pelas leis da jurisdição em que a empresa está sediada, sem levar em conta suas disposições sobre conflito de leis.",
+    "dismiss": "Dispensar e Fechar"
+  },
   "Chatbot": {
     "initialMessage": "Olá! Eu sou o Chatbot 'CryptoDx'. Como posso ajudá-lo hoje em tudo sobre Blockchain, DeFi, Cripto, NFTs ou IA?",
     "title": "Chatbot CryptoDx",
@@ -299,7 +354,13 @@
     "walletDisconnected": "Carteira Desconectada",
     "walletDisconnectedDescription": "Você desconectou sua carteira com sucesso.",
     "accountSwitched": "Conta Trocada",
-    "accountSwitchedDescription": "Trocado para a conta: {account}"
+    "accountSwitchedDescription": "Trocado para a conta: {account}",
+    "addNetworkFailedTitle": "Falha ao Adicionar Rede",
+    "addNetworkFailedDesc": "Não foi possível adicionar a rede selecionada à sua carteira.",
+    "networkNotSupportedTitle": "Rede Não Suportada",
+    "networkNotSupportedDesc": "Esta rede não pode ser adicionada automaticamente. Por favor, adicione-a manualmente à sua carteira.",
+    "switchNetworkFailedTitle": "Falha na Troca de Rede",
+    "switchNetworkFailedDesc": "Não foi possível trocar para a rede selecionada. Por favor, tente novamente."
   },
   "WalletDetailsModal": {
     "send": "Enviar",
@@ -398,6 +459,8 @@
     "saving": "Salvando...",
     "saveSuccessTitle": "Perfil Atualizado",
     "saveSuccessDescription": "Seu perfil foi atualizado com sucesso.",
+    "saveErrorTitle": "Falha ao Atualizar o Perfil",
+    "saveErrorDescription": "Ocorreu um erro ao atualizar seu perfil.",
     "disclaimer": "Valorizamos sua privacidade. Nenhuma informação de blockchain, cripto ou chaves privadas é armazenada em nosso site."
   },
   "LogoutToast": {
@@ -413,9 +476,26 @@
     "reportTitle": "Análise Concluída",
     "copy": "Copiar",
     "copied": "Copiado!",
+    "copyError": "Falha ao copiar o relatório.",
     "disclaimer": "Aviso Legal: Este relatório é gerado por uma IA e é apenas para fins informativos. Não é um conselho financeiro. Faça sempre a sua própria pesquisa (DYOR).",
     "lockedTitle": "Desbloquear Relatórios de Reputação com IA",
     "lockedDescription": "Atualize para um plano Básico, Avançado ou de Administrador para obter insights orientados por IA e análise de segurança para qualquer token.",
     "upgradeButton": "Ver Planos de Preços"
+  },
+  "PayPalPurchase": {
+    "createOrderErrorTitle": "Erro ao Criar Pedido",
+    "createOrderErrorDesc": "Não foi possível criar o pedido do PayPal.",
+    "connectionErrorTitle": "Erro de Conexão",
+    "connectionErrorDesc": "Não foi possível conectar ao servidor para criar um pedido.",
+    "purchaseSuccessTitle": "Compra Bem-sucedida!",
+    "purchaseSuccessDesc": "Você foi atualizado com sucesso para o plano {tierName}.",
+    "profileUpdateError": "Falha ao atualizar o perfil do usuário após a compra.",
+    "paymentIncompleteError": "O pagamento não foi concluído com sucesso.",
+    "purchaseFailedTitle": "Falha na Compra",
+    "purchaseFailedDesc": "Ocorreu um erro durante o processamento do pagamento.",
+    "sandboxSuccessTitle": "Compra no Sandbox Concluída!",
+    "sandboxSuccessDesc": "A transação de teste para o plano {tierName} foi bem-sucedida. Isso não atualiza seu perfil.",
+    "paypalErrorTitle": "Erro no PayPal",
+    "paypalErrorDesc": "Ocorreu um erro com a transação do PayPal."
   }
 }

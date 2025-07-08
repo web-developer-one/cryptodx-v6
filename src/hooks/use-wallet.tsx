@@ -134,12 +134,11 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
                         method: 'wallet_addEthereumChain',
                         params: [networkToAdd],
                     });
-                    // After adding, we don't need to switch again, MetaMask usually does it automatically.
                 } catch (addError) {
                     toast({
                         variant: "destructive",
-                        title: "Failed to Add Network",
-                        description: "Could not add the selected network to your wallet.",
+                        title: t('WalletConnect.addNetworkFailedTitle'),
+                        description: t('WalletConnect.addNetworkFailedDesc'),
                     });
                     console.error("Failed to add network", addError);
                     return; // Stop if adding fails
@@ -147,16 +146,16 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
             } else {
                 toast({
                     variant: "destructive",
-                    title: "Network Not Supported",
-                    description: "This network cannot be added automatically. Please add it to your wallet manually.",
+                    title: t('WalletConnect.networkNotSupportedTitle'),
+                    description: t('WalletConnect.networkNotSupportedDesc'),
                 });
                 return; // Stop if network config is missing
             }
         } else {
              toast({
                 variant: "destructive",
-                title: "Network Switch Failed",
-                description: "Could not switch to the selected network. Please try again.",
+                title: t('WalletConnect.switchNetworkFailedTitle'),
+                description: t('WalletConnect.switchNetworkFailedDesc'),
             });
             console.error("Failed to switch network", switchError);
             return; // Stop the connection process if network switch fails

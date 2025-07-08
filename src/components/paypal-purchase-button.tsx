@@ -1,3 +1,4 @@
+
 'use client';
 
 import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js";
@@ -8,6 +9,7 @@ import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
 import { Loader2 } from "lucide-react";
 import { Button } from "./ui/button";
+import { useLanguage } from "@/hooks/use-language";
 
 interface PayPalPurchaseButtonProps {
     tier: {
@@ -26,6 +28,7 @@ export function PayPalPurchaseButton({ tier }: PayPalPurchaseButtonProps) {
     const { updateProfile } = useUser();
     const router = useRouter();
     const { toast } = useToast();
+    const { t } = useLanguage();
     const [isProcessing, setIsProcessing] = useState(false);
 
     // --- PRODUCTION FLOW (Server-Side) ---
@@ -40,11 +43,11 @@ export function PayPalPurchaseButton({ tier }: PayPalPurchaseButtonProps) {
             if (order.id) {
                 return order.id;
             } else {
-                toast({ variant: 'destructive', title: 'Error Creating Order', description: order.error || 'Could not create PayPal order.' });
+                toast({ variant: 'destructive', title: t('PayPalPurchase.createOrderErrorTitle'), description: order.error || t('PayPalPurchase.createOrderErrorDesc') });
                 return Promise.reject(new Error(order.error || 'Could not create PayPal order.'));
             }
         } catch (error) {
-            toast({ variant: 'destructive', title: 'Connection Error', description: 'Could not connect to the server to create an order.' });
+            toast({ variant: 'destructive', title: t('PayPalPurchase.connectionErrorTitle'), description: t('PayPalPurchase.connectionErrorDesc') });
             return Promise.reject(error);
         }
     };
@@ -61,21 +64,21 @@ export function PayPalPurchaseButton({ tier }: PayPalPurchaseButtonProps) {
                 const success = await updateProfile({ pricePlan: tier.name as any });
                 if (success) {
                     toast({
-                        title: 'Purchase Successful!',
-                        description: `You have successfully upgraded to the ${tier.name} plan.`,
+                        title: t('PayPalPurchase.purchaseSuccessTitle'),
+                        description: t('PayPalPurchase.purchaseSuccessDesc').replace('{tierName}', tier.name),
                     });
                     router.push('/profile');
                 } else {
-                     throw new Error('Failed to update user profile after purchase.');
+                     throw new Error(t('PayPalPurchase.profileUpdateError'));
                 }
             } else {
-                throw new Error(orderDetails.error || 'Payment was not completed successfully.');
+                throw new Error(orderDetails.error || t('PayPalPurchase.paymentIncompleteError'));
             }
         } catch (error: any) {
              toast({
                 variant: 'destructive',
-                title: 'Purchase Failed',
-                description: error.message || 'An error occurred during payment processing.',
+                title: t('PayPalPurchase.purchaseFailedTitle'),
+                description: error.message || t('PayPalPurchase.purchaseFailedDesc'),
             });
         } finally {
             setIsProcessing(false);
@@ -105,8 +108,8 @@ export function PayPalPurchaseButton({ tier }: PayPalPurchaseButtonProps) {
         return actions.order.capture().then((details) => {
             console.log("Sandbox transaction details:", details);
              toast({
-                title: 'Sandbox Purchase Complete!',
-                description: `Test transaction for the ${tier.name} plan was successful. This does not update your profile.`,
+                title: t('PayPalPurchase.sandboxSuccessTitle'),
+                description: t('PayPalPurchase.sandboxSuccessDesc').replace('{tierName}', tier.name),
             });
         });
     };
@@ -124,7 +127,7 @@ export function PayPalPurchaseButton({ tier }: PayPalPurchaseButtonProps) {
             createOrder={IS_SANDBOX ? createOrderClient : createOrderServer}
             onApprove={IS_SANDBOX ? onApproveClient : onApproveServer}
             onError={(err) => {
-                 toast({ variant: 'destructive', title: 'PayPal Error', description: 'An error occurred with the PayPal transaction.' });
+                 toast({ variant: 'destructive', title: t('PayPalPurchase.paypalErrorTitle'), description: t('PayPalPurchase.paypalErrorDesc') });
                  console.error("PayPal Error:", err);
             }}
         />
