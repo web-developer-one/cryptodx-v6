@@ -91,8 +91,8 @@
     "swapDeadlineTooltip": "Tu transacción se revertirá si está pendiente por más de este tiempo.",
     "minutes": "minutos",
     "tradeOptions": "Opciones de Comercio",
-    "from": "Desde",
-    "to": "Hasta",
+    "from": "Vender",
+    "to": "Comprar",
     "sell": "Vender",
     "buy": "Comprar",
     "price": "Precio",
@@ -101,7 +101,9 @@
     "slippageTolerance": "Tolerancia de Deslizamiento (%)",
     "swapInitiated": "Intercambio Iniciado (Simulado)",
     "estimatesDisclaimer": "Las estimaciones se basan en datos de API en tiempo real, pero las condiciones del mercado pueden cambiar rápidamente. Puede ocurrir deslizamiento.",
-    "cancel": "Cancelar"
+    "cancel": "Cancelar",
+    "balance": "Saldo: {balance}",
+    "max": "Máx"
   },
   "LimitOrderInterface": {
     "title": "Límite",
@@ -276,6 +278,7 @@
     "connectionError": "Lo siento, tengo problemas para conectarme en este momento. Por favor, inténtalo de nuevo más tarde.",
     "listening": "Escuchando...",
     "speakTooltip": "Preguntar con tu voz",
+    "speakUpgradeTooltip": "Actualiza a Avanzado para entrada de voz",
     "playAudioTooltip": "Reproducir audio",
     "speechError": "Falló el reconocimiento de voz. Por favor, inténtalo de nuevo o comprueba los permisos de tu micrófono.",
     "speechNotSupported": "El reconocimiento de voz no es compatible con tu navegador.",
@@ -297,6 +300,14 @@
     "walletDisconnectedDescription": "Has desconectado exitosamente tu billetera.",
     "accountSwitched": "Cuenta Cambiada",
     "accountSwitchedDescription": "Cambiado a la cuenta: {account}"
+  },
+  "WalletDetailsModal": {
+    "send": "Enviar",
+    "receive": "Recibir",
+    "tokens": "Tokens",
+    "pools": "Pools",
+    "activity": "Actividad",
+    "disconnect": "Desconectar"
   },
   "SlippagePage": {
     "title": "Análisis y Simulación de Deslizamiento",
@@ -391,5 +402,20 @@
   },
   "LogoutToast": {
     "description": "Has cerrado sesión exitosamente."
+  },
+  "ReputationChecker": {
+    "title": "Informe de Reputación para {tokenName}",
+    "description": "Un análisis impulsado por IA de la presencia en línea y el sentimiento del token.",
+    "loadingTitle": "Escaneando la web en busca de {tokenName}...",
+    "loadingDescription": "Esto puede tardar un momento.",
+    "errorTitle": "Ocurrió un Error",
+    "errorFetch": "No se pudo obtener la reputación. El token puede ser demasiado nuevo o podría haber un problema de red. Por favor, inténtalo de nuevo.",
+    "reportTitle": "Análisis Completo",
+    "copy": "Copiar",
+    "copied": "¡Copiado!",
+    "disclaimer": "Descargo de responsabilidad: Este informe es generado por una IA y es solo para fines informativos. No es un consejo financiero. Siempre haga su propia investigación (DYOR).",
+    "lockedTitle": "Desbloquear Informes de Reputación Impulsados por IA",
+    "lockedDescription": "Actualice a un plan Básico, Avanzado o de Administrador para obtener información impulsada por IA y análisis de seguridad para cualquier token.",
+    "upgradeButton": "Ver Planes de Precios"
   }
 }

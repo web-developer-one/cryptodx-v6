@@ -91,8 +91,8 @@
     "swapDeadlineTooltip": "이 시간보다 오래 보류되면 거래가 되돌려집니다.",
     "minutes": "분",
     "tradeOptions": "거래 옵션",
-    "from": "보내는 쪽",
-    "to": "받는 쪽",
+    "from": "판매",
+    "to": "구매",
     "sell": "판매",
     "buy": "구매",
     "price": "가격",
@@ -276,6 +276,7 @@
     "connectionError": "죄송합니다. 지금 연결하는 데 문제가 있습니다. 나중에 다시 시도해 주세요.",
     "listening": "듣는 중...",
     "speakTooltip": "음성으로 질문하기",
+    "speakUpgradeTooltip": "음성 입력을 위해 Advanced로 업그레이드하세요",
     "playAudioTooltip": "오디오 재생",
     "speechError": "음성 인식이 실패했습니다. 다시 시도하거나 마이크 권한을 확인해 주세요.",
     "speechNotSupported": "브라우저에서 음성 인식이 지원되지 않습니다.",
@@ -297,6 +298,14 @@
     "walletDisconnectedDescription": "지갑 연결을 성공적으로 해제했습니다.",
     "accountSwitched": "계정 전환됨",
     "accountSwitchedDescription": "계정으로 전환됨: {account}"
+  },
+  "WalletDetailsModal": {
+    "send": "보내기",
+    "receive": "받기",
+    "tokens": "토큰",
+    "pools": "풀",
+    "activity": "활동",
+    "disconnect": "연결 해제"
   },
   "SlippagePage": {
     "title": "슬리피지 분석 및 시뮬레이션",
@@ -391,5 +400,20 @@
   },
   "LogoutToast": {
     "description": "성공적으로 로그아웃되었습니다."
+  },
+  "ReputationChecker": {
+    "title": "{tokenName} 평판 보고서",
+    "description": "토큰의 온라인 존재 및 정서에 대한 AI 기반 분석.",
+    "loadingTitle": "{tokenName}에 대한 웹 스캔 중...",
+    "loadingDescription": "잠시만 기다려 주세요.",
+    "errorTitle": "오류가 발생했습니다",
+    "errorFetch": "평판을 가져오지 못했습니다. 토큰이 너무 새롭거나 네트워크 문제가 있을 수 있습니다. 다시 시도해 주세요.",
+    "reportTitle": "분석 완료",
+    "copy": "복사",
+    "copied": "복사됨!",
+    "disclaimer": "면책 조항: 이 보고서는 AI에 의해 생성되었으며 정보 제공 목적으로만 제공됩니다. 재정적 조언이 아닙니다. 항상 직접 조사하십시오 (DYOR).",
+    "lockedTitle": "AI 기반 평판 보고서 잠금 해제",
+    "lockedDescription": "Basic, Advanced 또는 Administrator 플랜으로 업그레이드하여 모든 토큰에 대한 AI 기반 통찰력 및 보안 분석을 받으십시오.",
+    "upgradeButton": "요금제 보기"
   }
 }

@@ -91,8 +91,8 @@
     "swapDeadlineTooltip": "Sua transação será revertida se ficar pendente por mais tempo que este.",
     "minutes": "minutos",
     "tradeOptions": "Opções de Negociação",
-    "from": "De",
-    "to": "Para",
+    "from": "Vender",
+    "to": "Comprar",
     "sell": "Vender",
     "buy": "Comprar",
     "price": "Preço",
@@ -276,6 +276,7 @@
     "connectionError": "Desculpe, estou com problemas para conectar agora. Por favor, tente novamente mais tarde.",
     "listening": "Ouvindo...",
     "speakTooltip": "Pergunte com sua voz",
+    "speakUpgradeTooltip": "Atualize para Avançado para entrada de voz",
     "playAudioTooltip": "Reproduzir áudio",
     "speechError": "Falha no reconhecimento de voz. Por favor, tente novamente ou verifique as permissões do seu microfone.",
     "speechNotSupported": "O reconhecimento de voz não é suportado no seu navegador.",
@@ -297,6 +298,14 @@
     "walletDisconnectedDescription": "Você desconectou sua carteira com sucesso.",
     "accountSwitched": "Conta Trocada",
     "accountSwitchedDescription": "Trocado para a conta: {account}"
+  },
+  "WalletDetailsModal": {
+    "send": "Enviar",
+    "receive": "Receber",
+    "tokens": "Tokens",
+    "pools": "Pools",
+    "activity": "Atividade",
+    "disconnect": "Desconectar"
   },
   "SlippagePage": {
     "title": "Análise e Simulação de Slippage",
@@ -391,5 +400,20 @@
   },
   "LogoutToast": {
     "description": "Você saiu com sucesso."
+  },
+  "ReputationChecker": {
+    "title": "Relatório de Reputação para {tokenName}",
+    "description": "Uma análise alimentada por IA da presença online e sentimento do token.",
+    "loadingTitle": "Analisando a web para {tokenName}...",
+    "loadingDescription": "Isso pode levar um momento.",
+    "errorTitle": "Ocorreu um Erro",
+    "errorFetch": "Falha ao buscar a reputação. O token pode ser muito novo ou pode haver um problema de rede. Por favor, tente novamente.",
+    "reportTitle": "Análise Concluída",
+    "copy": "Copiar",
+    "copied": "Copiado!",
+    "disclaimer": "Aviso Legal: Este relatório é gerado por uma IA e é apenas para fins informativos. Não é um conselho financeiro. Faça sempre a sua própria pesquisa (DYOR).",
+    "lockedTitle": "Desbloquear Relatórios de Reputação com IA",
+    "lockedDescription": "Atualize para um plano Básico, Avançado ou de Administrador para obter insights orientados por IA e análise de segurança para qualquer token.",
+    "upgradeButton": "Ver Planos de Preços"
   }
 }

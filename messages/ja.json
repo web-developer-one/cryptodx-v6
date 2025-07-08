@@ -91,8 +91,8 @@
     "swapDeadlineTooltip": "この時間以上保留中の場合、取引は元に戻ります。",
     "minutes": "分",
     "tradeOptions": "取引オプション",
-    "from": "から",
-    "to": "へ",
+    "from": "売却",
+    "to": "購入",
     "sell": "売却",
     "buy": "購入",
     "price": "価格",
@@ -276,6 +276,7 @@
     "connectionError": "申し訳ありませんが、現在接続に問題があります。後でもう一度お試しください。",
     "listening": "聞き取り中...",
     "speakTooltip": "音声で質問する",
+    "speakUpgradeTooltip": "音声入力にはAdvancedにアップグレードしてください",
     "playAudioTooltip": "音声を再生",
     "speechError": "音声認識に失敗しました。もう一度試すか、マイクの権限を確認してください。",
     "speechNotSupported": "お使いのブラウザでは音声認識がサポートされていません。",
@@ -297,6 +298,14 @@
     "walletDisconnectedDescription": "ウォレットを正常に切断しました。",
     "accountSwitched": "アカウント切り替え",
     "accountSwitchedDescription": "アカウントに切り替えました: {account}"
+  },
+  "WalletDetailsModal": {
+    "send": "送信",
+    "receive": "受信",
+    "tokens": "トークン",
+    "pools": "プール",
+    "activity": "アクティビティ",
+    "disconnect": "切断"
   },
   "SlippagePage": {
     "title": "スリッページ分析とシミュレーション",
@@ -391,5 +400,20 @@
   },
   "LogoutToast": {
     "description": "正常にログアウトしました。"
+  },
+  "ReputationChecker": {
+    "title": "{tokenName}の評判レポート",
+    "description": "トークンのオンラインでの存在感とセンチメントのAIによる分析。",
+    "loadingTitle": "{tokenName}のウェブをスキャン中...",
+    "loadingDescription": "少々お待ちください。",
+    "errorTitle": "エラーが発生しました",
+    "errorFetch": "評判を取得できませんでした。トークンが新しすぎるか、ネットワークの問題が発生している可能性があります。もう一度お試しください。",
+    "reportTitle": "分析完了",
+    "copy": "コピー",
+    "copied": "コピーしました！",
+    "disclaimer": "免責事項：このレポートはAIによって生成されたものであり、情報提供のみを目的としています。これは財務アドバイスではありません。常に独自の調査を行ってください（DYOR）。",
+    "lockedTitle": "AI搭載の評判レポートのロックを解除",
+    "lockedDescription": "ベーシック、アドバンスト、またはアドミニストレータープランにアップグレードして、任意のトークンのAI主導の洞察とセキュリティ分析を入手してください。",
+    "upgradeButton": "料金プランを表示"
   }
 }

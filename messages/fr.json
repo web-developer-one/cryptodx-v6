@@ -91,8 +91,8 @@
     "swapDeadlineTooltip": "Votre transaction sera annulée si elle est en attente plus longtemps que ce délai.",
     "minutes": "minutes",
     "tradeOptions": "Options d'Échange",
-    "from": "De",
-    "to": "À",
+    "from": "Vendre",
+    "to": "Acheter",
     "sell": "Vendre",
     "buy": "Acheter",
     "price": "Prix",
@@ -101,7 +101,9 @@
     "slippageTolerance": "Tolérance de Glissement (%)",
     "swapInitiated": "Swap Initié (Simulé)",
     "estimatesDisclaimer": "Les estimations sont basées sur des données d'API en temps réel mais les conditions du marché peuvent changer rapidement. Un glissement peut se produire.",
-    "cancel": "Annuler"
+    "cancel": "Annuler",
+    "balance": "Solde: {balance}",
+    "max": "Max"
   },
   "LimitOrderInterface": {
     "title": "Limite",
@@ -276,6 +278,7 @@
     "connectionError": "Désolé, j'ai des problèmes de connexion en ce moment. Veuillez réessayer plus tard.",
     "listening": "Écoute en cours...",
     "speakTooltip": "Demandez avec votre voix",
+    "speakUpgradeTooltip": "Passez à Avancé pour l'entrée vocale",
     "playAudioTooltip": "Lire l'audio",
     "speechError": "La reconnaissance vocale a échoué. Veuillez réessayer ou vérifier les autorisations de votre microphone.",
     "speechNotSupported": "La reconnaissance vocale n'est pas prise en charge par votre navigateur.",
@@ -297,6 +300,14 @@
     "walletDisconnectedDescription": "Vous avez déconnecté votre portefeuille avec succès.",
     "accountSwitched": "Compte Changé",
     "accountSwitchedDescription": "Passage au compte : {account}"
+  },
+  "WalletDetailsModal": {
+    "send": "Envoyer",
+    "receive": "Recevoir",
+    "tokens": "Jetons",
+    "pools": "Pools",
+    "activity": "Activité",
+    "disconnect": "Déconnecter"
   },
   "SlippagePage": {
     "title": "Analyse et Simulation du Glissement",
@@ -391,5 +402,20 @@
   },
   "LogoutToast": {
     "description": "Vous avez été déconnecté avec succès."
+  },
+  "ReputationChecker": {
+    "title": "Rapport de Réputation pour {tokenName}",
+    "description": "Une analyse par IA de la présence en ligne et du sentiment du jeton.",
+    "loadingTitle": "Analyse du web pour {tokenName}...",
+    "loadingDescription": "Cela peut prendre un moment.",
+    "errorTitle": "Une Erreur est Survenue",
+    "errorFetch": "Échec de la récupération de la réputation. Le jeton est peut-être trop récent, ou il pourrait y avoir un problème de réseau. Veuillez réessayer.",
+    "reportTitle": "Analyse Terminée",
+    "copy": "Copier",
+    "copied": "Copié !",
+    "disclaimer": "Avertissement : Ce rapport est généré par une IA et est uniquement à titre informatif. Ce n'est pas un conseil financier. Faites toujours vos propres recherches (DYOR).",
+    "lockedTitle": "Débloquer les Rapports de Réputation par IA",
+    "lockedDescription": "Passez à un plan Basic, Advanced ou Administrator pour obtenir des informations et des analyses de sécurité basées sur l'IA pour n'importe quel jeton.",
+    "upgradeButton": "Voir les Plans Tarifaires"
   }
 }

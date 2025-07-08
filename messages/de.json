@@ -91,8 +91,8 @@
     "swapDeadlineTooltip": "Ihre Transaktion wird rückgängig gemacht, wenn sie länger als diese Zeit aussteht.",
     "minutes": "Minuten",
     "tradeOptions": "Handelsoptionen",
-    "from": "Von",
-    "to": "An",
+    "from": "Verkaufen",
+    "to": "Kaufen",
     "sell": "Verkaufen",
     "buy": "Kaufen",
     "price": "Preis",
@@ -101,7 +101,9 @@
     "slippageTolerance": "Slippage-Toleranz (%)",
     "swapInitiated": "Tausch eingeleitet (simuliert)",
     "estimatesDisclaimer": "Schätzungen basieren auf Echtzeit-API-Daten, aber die Marktbedingungen können sich schnell ändern. Slippage kann auftreten.",
-    "cancel": "Abbrechen"
+    "cancel": "Abbrechen",
+    "balance": "Guthaben: {balance}",
+    "max": "Max"
   },
   "LimitOrderInterface": {
     "title": "Limit",
@@ -276,6 +278,7 @@
     "connectionError": "Entschuldigung, ich habe im Moment Verbindungsprobleme. Bitte versuchen Sie es später erneut.",
     "listening": "Höre zu...",
     "speakTooltip": "Fragen Sie mit Ihrer Stimme",
+    "speakUpgradeTooltip": "Upgrade auf Advanced für Spracheingabe",
     "playAudioTooltip": "Audio abspielen",
     "speechError": "Spracherkennung fehlgeschlagen. Bitte versuchen Sie es erneut oder überprüfen Sie Ihre Mikrofonberechtigungen.",
     "speechNotSupported": "Die Spracherkennung wird in Ihrem Browser nicht unterstützt.",
@@ -297,6 +300,14 @@
     "walletDisconnectedDescription": "Sie haben Ihr Wallet erfolgreich getrennt.",
     "accountSwitched": "Konto gewechselt",
     "accountSwitchedDescription": "Gewechselt zu Konto: {account}"
+  },
+  "WalletDetailsModal": {
+    "send": "Senden",
+    "receive": "Empfangen",
+    "tokens": "Token",
+    "pools": "Pools",
+    "activity": "Aktivität",
+    "disconnect": "Trennen"
   },
   "SlippagePage": {
     "title": "Slippage-Analyse & Simulation",
@@ -391,5 +402,20 @@
   },
   "LogoutToast": {
     "description": "Sie wurden erfolgreich abgemeldet."
+  },
+  "ReputationChecker": {
+    "title": "Reputationsbericht für {tokenName}",
+    "description": "Eine KI-gestützte Analyse der Online-Präsenz und der Stimmung des Tokens.",
+    "loadingTitle": "Scanne das Web nach {tokenName}...",
+    "loadingDescription": "Dies kann einen Moment dauern.",
+    "errorTitle": "Ein Fehler ist aufgetreten",
+    "errorFetch": "Die Reputation konnte nicht abgerufen werden. Der Token ist möglicherweise zu neu, oder es liegt ein Netzwerkproblem vor. Bitte versuchen Sie es erneut.",
+    "reportTitle": "Analyse abgeschlossen",
+    "copy": "Kopieren",
+    "copied": "Kopiert!",
+    "disclaimer": "Haftungsausschluss: Dieser Bericht wird von einer KI erstellt und dient nur zu Informationszwecken. Es handelt sich nicht um eine Finanzberatung. Führen Sie immer Ihre eigene Recherche durch (DYOR).",
+    "lockedTitle": "KI-gestützte Reputationsberichte freischalten",
+    "lockedDescription": "Führen Sie ein Upgrade auf einen Basic-, Advanced- oder Administrator-Plan durch, um KI-gesteuerte Einblicke und Sicherheitsanalysen für jeden Token zu erhalten.",
+    "upgradeButton": "Preispläne anzeigen"
   }
 }

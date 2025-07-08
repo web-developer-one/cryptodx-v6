@@ -91,8 +91,8 @@
     "swapDeadlineTooltip": "如果您的交易待处理时间超过此时间，它将恢复原状。",
     "minutes": "分钟",
     "tradeOptions": "交易选项",
-    "from": "从",
-    "to": "到",
+    "from": "出售",
+    "to": "购买",
     "sell": "出售",
     "buy": "购买",
     "price": "价格",
@@ -276,6 +276,7 @@
     "connectionError": "抱歉，我现在连接时遇到问题。请稍后重试。",
     "listening": "正在聆听...",
     "speakTooltip": "用语音提问",
+    "speakUpgradeTooltip": "升级到高级版以使用语音输入",
     "playAudioTooltip": "播放音频",
     "speechError": "语音识别失败。请重试或检查您的麦克风权限。",
     "speechNotSupported": "您的浏览器不支持语音识别。",
@@ -297,6 +298,14 @@
     "walletDisconnectedDescription": "您已成功断开钱包连接。",
     "accountSwitched": "账户已切换",
     "accountSwitchedDescription": "已切换到账户：{account}"
+  },
+  "WalletDetailsModal": {
+    "send": "发送",
+    "receive": "接收",
+    "tokens": "代币",
+    "pools": "资金池",
+    "activity": "活动",
+    "disconnect": "断开连接"
   },
   "SlippagePage": {
     "title": "滑点分析与模拟",
@@ -391,5 +400,20 @@
   },
   "LogoutToast": {
     "description": "您已成功登出。"
+  },
+  "ReputationChecker": {
+    "title": "{tokenName}的声誉报告",
+    "description": "由人工智能驱动的代币在线存在和情绪分析。",
+    "loadingTitle": "正在扫描网络以获取{tokenName}的信息...",
+    "loadingDescription": "这可能需要一些时间。",
+    "errorTitle": "发生错误",
+    "errorFetch": "无法获取声誉。该代币可能太新，或者可能存在网络问题。请重试。",
+    "reportTitle": "分析完成",
+    "copy": "复制",
+    "copied": "已复制！",
+    "disclaimer": "免责声明：本报告由人工智能生成，仅供参考。它不是财务建议。请务必自己进行研究（DYOR）。",
+    "lockedTitle": "解锁AI驱动的声誉报告",
+    "lockedDescription": "升级到基本、高级或管理员计划，以获取任何代币的AI驱动的见解和安全分析。",
+    "upgradeButton": "查看定价计划"
   }
 }
