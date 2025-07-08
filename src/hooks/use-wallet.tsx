@@ -26,7 +26,7 @@ export const networkConfigs: Record<string, NetworkConfig> = {
         chainId: '0x1',
         chainName: 'Ethereum Mainnet',
         nativeCurrency: { name: 'Ether', symbol: 'ETH', decimals: 18 },
-        rpcUrls: ['https://rpc.ankr.com/eth'],
+        rpcUrls: ['https://mainnet.infura.io/v3/'],
         blockExplorerUrls: ['https://etherscan.io'],
         logo: 'https://s2.coinmarketcap.com/static/img/coins/64x64/1027.png',
     },
@@ -34,15 +34,15 @@ export const networkConfigs: Record<string, NetworkConfig> = {
         chainId: '0xe708',
         chainName: 'Linea',
         nativeCurrency: { name: 'Ether', symbol: 'ETH', decimals: 18 },
-        rpcUrls: ['https://rpc.linea.build'],
+        rpcUrls: ['https://linea-mainnet.infura.io/v3/'],
         blockExplorerUrls: ['https://lineascan.build'],
-        logo: 'https://s2.coinmarketcap.com/static/img/coins/64x64/1027.png', // Using ETH logo for now
+        logo: 'https://s2.coinmarketcap.com/static/img/coins/64x64/1027.png', 
     },
     '0xa86a': {
         chainId: '0xa86a',
         chainName: 'Avalanche C-Chain',
         nativeCurrency: { name: 'Avalanche', symbol: 'AVAX', decimals: 18 },
-        rpcUrls: ['https://api.avax.network/ext/bc/C/rpc'],
+        rpcUrls: ['https://avalanche-mainnet.infura.io/v3/'],
         blockExplorerUrls: ['https://snowtrace.io'],
         logo: 'https://s2.coinmarketcap.com/static/img/coins/64x64/5805.png'
     },
@@ -50,7 +50,7 @@ export const networkConfigs: Record<string, NetworkConfig> = {
         chainId: '0xa4b1',
         chainName: 'Arbitrum One',
         nativeCurrency: { name: 'Ether', symbol: 'ETH', decimals: 18 },
-        rpcUrls: ['https://arb1.arbitrum.io/rpc'],
+        rpcUrls: ['https://arbitrum-mainnet.infura.io/v3/'],
         blockExplorerUrls: ['https://explorer.arbitrum.io'],
         logo: 'https://s2.coinmarketcap.com/static/img/coins/64x64/11841.png'
     },
@@ -58,7 +58,7 @@ export const networkConfigs: Record<string, NetworkConfig> = {
         chainId: '0x2105',
         chainName: 'Base Mainnet',
         nativeCurrency: { name: 'Ether', symbol: 'ETH', decimals: 18 },
-        rpcUrls: ['https://mainnet.base.org'],
+        rpcUrls: ['https://base-mainnet.infura.io/v3/'],
         blockExplorerUrls: ['https://basescan.org'],
         logo: 'https://s2.coinmarketcap.com/static/img/coins/64x64/27740.png'
     },
@@ -74,15 +74,15 @@ export const networkConfigs: Record<string, NetworkConfig> = {
         chainId: '0xa',
         chainName: 'OP Mainnet',
         nativeCurrency: { name: 'Ether', symbol: 'ETH', decimals: 18 },
-        rpcUrls: ['https://mainnet.optimism.io'],
+        rpcUrls: ['https://optimism-mainnet.infura.io/v3/'],
         blockExplorerUrls: ['https://optimism.etherscan.io'],
         logo: 'https://s2.coinmarketcap.com/static/img/coins/64x64/11840.png'
     },
     '0x89': {
         chainId: '0x89',
         chainName: 'Polygon Mainnet',
-        nativeCurrency: { name: 'Polygon', symbol: 'MATIC', decimals: 18 }, // Note: Symbol is MATIC for compatibility
-        rpcUrls: ['https://polygon-rpc.com/'],
+        nativeCurrency: { name: 'MATIC', symbol: 'MATIC', decimals: 18 },
+        rpcUrls: ['https://polygon-mainnet.infura.io/v3/'],
         blockExplorerUrls: ['https://polygonscan.com'],
         logo: 'https://s2.coinmarketcap.com/static/img/coins/64x64/3890.png'
     },
