@@ -6,6 +6,7 @@ import {
   HarmBlockThreshold,
   Content,
 } from '@google/generative-ai';
+import { languages } from '@/lib/i18n';
 
 const API_KEY = process.env.GOOGLE_API_KEY;
 
@@ -61,30 +62,49 @@ export async function POST(req: Request) {
 
     // --- Start of language detection logic ---
     const languageDetectionModel = genAI.getGenerativeModel({ model: 'gemini-1.5-flash-latest' });
-    const detectionPrompt = `Identify the primary language of the following text. Respond with only the IETF BCP 47 language code (e.g., "en" for English, "es" for Spanish). Do not add any other words or explanation.
+    const detectionPrompt = `Identify the primary language of the following text. Respond with only the IETF BCP 47 language code (e.g., "en" for English, "es" for Spanish, "fr" for French). Do not add any other words or explanation.
     
 Text: "${message}"`;
     
-    let detectedLanguage = appLanguage || 'en'; // Default to app's current language
+    let detectedLanguageName = 'English'; // Default to English name
+    const fallbackLangCode = appLanguage || 'en';
+
     try {
         const result = await languageDetectionModel.generateContent(detectionPrompt);
-        // Clean up response to get just the language code.
         const responseText = result.response.text().trim().replace(/['"`\.]/g, ''); 
         
-        // Basic validation of the language code format (e.g., 'en', 'es-MX')
         if (/^[a-z]{2,3}(-[A-Z]{2,4})?$/i.test(responseText)) {
-            detectedLanguage = responseText;
+            const genericCode = responseText.split('-')[0];
+            const langInfo = languages.find(l => l.code === genericCode);
+
+            if (langInfo) {
+                detectedLanguageName = langInfo.englishName;
+            } else {
+                console.warn(`Language code '${responseText}' not found in supported languages. Falling back to app language.`);
+                const fallbackLangInfo = languages.find(l => l.code === fallbackLangCode);
+                if (fallbackLangInfo) {
+                    detectedLanguageName = fallbackLangInfo.englishName;
+                }
+            }
         } else {
-             console.warn(`Language detection returned invalid format: '${responseText}'. Falling back to app language: ${detectedLanguage}`);
+             console.warn(`Language detection returned invalid format: '${responseText}'. Falling back to app language.`);
+             const fallbackLangInfo = languages.find(l => l.code === fallbackLangCode);
+             if (fallbackLangInfo) {
+                detectedLanguageName = fallbackLangInfo.englishName;
+             }
         }
     } catch (e) {
         console.error("Language detection call failed, falling back to app language.", e);
+        const fallbackLangInfo = languages.find(l => l.code === fallbackLangCode);
+        if (fallbackLangInfo) {
+            detectedLanguageName = fallbackLangInfo.englishName;
+        }
     }
     // --- End of language detection logic ---
 
     const systemInstruction = `You are a helpful assistant for CryptoDx, a cryptocurrency swap application. When answering questions, especially about factual topics, cryptocurrencies, or news, you must cite your sources. Provide direct URLs to reputable sources like news articles, official documentation, or blockchain explorers at the end of your response. Format them as a list under a 'Sources:' heading.
 
-You MUST respond in the following language: ${detectedLanguage}.`;
+You MUST respond in the following language: ${detectedLanguageName}.`;
 
     const model = genAI.getGenerativeModel({
       model: 'gemini-1.5-flash-latest',
