@@ -33,6 +33,9 @@ export function TokenDetailClient({ initialToken }: { initialToken: TokenDetails
     const allowedPlans: User['pricePlan'][] = ['Basic', 'Advanced', 'Administrator'];
     const hasAccess = isAuthenticated && user && allowedPlans.includes(user.pricePlan);
 
+    // For Basic plan, it's not collapsible. For Advanced/Admin, it is.
+    const isCollapsible = user?.pricePlan !== 'Basic';
+
   return (
     <>
       <div>
@@ -74,7 +77,7 @@ export function TokenDetailClient({ initialToken }: { initialToken: TokenDetails
       </div>
       
        {hasAccess ? (
-        <ReputationChecker tokenName={token.name} />
+        <ReputationChecker tokenName={token.name} collapsible={isCollapsible} />
       ) : (
         <Card className="bg-muted/50 border-dashed">
             <CardHeader className="text-center items-center">

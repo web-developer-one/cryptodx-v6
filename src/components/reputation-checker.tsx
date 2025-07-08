@@ -10,10 +10,16 @@ import { useToast } from '@/hooks/use-toast';
 import { CodeBlock } from './code-block';
 import { cn } from '@/lib/utils';
 
+interface ReputationCheckerProps {
+  tokenName: string;
+  collapsible?: boolean;
+}
+
 // Parses the score from a raw text report, handling multiple phrasings.
 const parseScore = (reportText: string): number | null => {
     if (!reportText) return null;
-    const scoreRegex = /(?:Reputation Score|Final Reputation Score|Overall Reputation Score):\s*(\d{1,2})\/10/i;
+    // Regex to find "Reputation Score: X/10", "Final Reputation Score: X/10", etc.
+    const scoreRegex = /(?:Reputation|Final Reputation|Overall Reputation) Score:\s*(\d{1,2})\/10/i;
     const match = reportText.match(scoreRegex);
     if (match && match[1]) {
         return parseInt(match[1], 10);
@@ -39,7 +45,7 @@ const getBackgroundColorClass = (score: number | null): string => {
 
 
 const FormattedReport = ({ rawText, scoreColorClass }: { rawText: string, scoreColorClass: string }) => {
-    const scoreRegex = /(?:Reputation Score|Final Reputation Score|Overall Reputation Score):\s*(\d{1,2})\/10/i;
+    const scoreRegex = /(?:Reputation|Final Reputation|Overall Reputation) Score:\s*(\d{1,2})\/10/i;
 
     return (
         <div className="prose prose-sm dark:prose-invert max-w-none text-muted-foreground space-y-2">
@@ -64,8 +70,8 @@ const FormattedReport = ({ rawText, scoreColorClass }: { rawText: string, scoreC
     );
 };
 
-export function ReputationChecker({ tokenName }: { tokenName: string }) {
-    const [isOpen, setIsOpen] = useState(false); // Collapsed by default
+export function ReputationChecker({ tokenName, collapsible = true }: ReputationCheckerProps) {
+    const [isOpen, setIsOpen] = useState(!collapsible); // If not collapsible, start open.
     const [isLoading, setIsLoading] = useState(false);
     const [report, setReport] = useState<string | null>(null);
     const [score, setScore] = useState<number | null>(null);
@@ -74,7 +80,6 @@ export function ReputationChecker({ tokenName }: { tokenName: string }) {
     const { t } = useLanguage();
     const { toast } = useToast();
 
-    // Automatically fetch the reputation when the component is expanded for the first time.
     const checkReputation = async () => {
         if (!tokenName) return;
         setIsLoading(true);
@@ -178,7 +183,10 @@ export function ReputationChecker({ tokenName }: { tokenName: string }) {
 
     return (
         <Card className={cn("transition-colors", !isLoading && report ? backgroundColor : '')}>
-            <CardHeader className="cursor-pointer" onClick={() => setIsOpen(!isOpen)}>
+            <CardHeader 
+                className={cn(collapsible && "cursor-pointer")} 
+                onClick={() => collapsible && setIsOpen(!isOpen)}
+            >
                 <div className="flex justify-between items-start gap-4">
                     <div className="flex-1">
                         <CardTitle className={cn("text-xl transition-colors", isLoading ? "" : scoreColor)}>
@@ -186,15 +194,17 @@ export function ReputationChecker({ tokenName }: { tokenName: string }) {
                         </CardTitle>
                         <CardDescription>{t('ReputationChecker.description')}</CardDescription>
                     </div>
-                     <Button
-                        variant="ghost"
-                        size="icon"
-                        className="flex-shrink-0"
-                        aria-expanded={isOpen}
-                    >
-                        {isOpen ? <ChevronUp className="h-5 w-5" /> : <ChevronDown className="h-5 w-5" />}
-                        <span className="sr-only">Toggle Report</span>
-                    </Button>
+                    {collapsible && (
+                        <Button
+                            variant="ghost"
+                            size="icon"
+                            className="flex-shrink-0"
+                            aria-expanded={isOpen}
+                        >
+                            {isOpen ? <ChevronUp className="h-5 w-5" /> : <ChevronDown className="h-5 w-5" />}
+                            <span className="sr-only">Toggle Report</span>
+                        </Button>
+                    )}
                 </div>
             </CardHeader>
             {isOpen && (
