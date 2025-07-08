@@ -1,4 +1,3 @@
-'use server';
 /**
  * @fileoverview This file initializes the Genkit AI and Google AI plugins.
  * It exports a single `ai` object that is used to define and run AI flows.
