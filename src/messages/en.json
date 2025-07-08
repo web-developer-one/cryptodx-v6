@@ -101,7 +101,9 @@
     "slippageTolerance": "Slippage Tolerance (%)",
     "swapInitiated": "Swap Initiated (Simulated)",
     "estimatesDisclaimer": "Estimates are based on real-time API data but market conditions can change rapidly. Slippage may occur.",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "balance": "Balance: {balance}",
+    "max": "Max"
   },
   "LimitOrderInterface": {
     "title": "Limit",
@@ -298,6 +300,14 @@
     "walletDisconnectedDescription": "You have successfully disconnected your wallet.",
     "accountSwitched": "Account Switched",
     "accountSwitchedDescription": "Switched to account: {account}"
+  },
+  "WalletDetailsModal": {
+    "send": "Send",
+    "receive": "Receive",
+    "tokens": "Tokens",
+    "pools": "Pools",
+    "activity": "Activity",
+    "disconnect": "Disconnect"
   },
   "SlippagePage": {
     "title": "Slippage Analysis & Simulation",

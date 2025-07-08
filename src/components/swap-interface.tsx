@@ -64,7 +64,7 @@ export function SwapInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocu
   const [toToken, setToToken] = useState<Cryptocurrency>(cryptocurrencies.length > 1 ? cryptocurrencies[1] : cryptocurrencies[0]);
   const [fromAmount, setFromAmount] = useState<string>("1");
   const [toAmount, setToAmount] = useState<string>("");
-  const { isActive: isWalletConnected } = useWallet();
+  const { isActive: isWalletConnected, balance: ethBalance } = useWallet();
   const [gasEstimate, setGasEstimate] = useState<string>("-");
 
   const [slippage, setSlippage] = useState("0.5");
@@ -179,6 +179,12 @@ export function SwapInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocu
     });
   };
 
+  const handleSetMax = () => {
+    if (fromToken.symbol === 'ETH' && ethBalance) {
+        setFromAmount(ethBalance);
+    }
+  };
+
   const slippageValueDisplay = parseFloat(slippage) || 0;
 
   return (
@@ -277,7 +283,18 @@ export function SwapInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocu
         <div className="p-4 rounded-lg bg-[#f8fafc] dark:bg-secondary/50 border">
           <div className="flex justify-between items-center mb-1">
              <label className="text-sm text-muted-foreground" htmlFor="from-input">{t('SwapInterface.from')}</label>
-            <span className="text-sm text-muted-foreground">{t('SwapInterface.sell')}</span>
+             <div className="text-sm text-muted-foreground flex items-center gap-2">
+                {isWalletConnected && fromToken.symbol === 'ETH' && ethBalance ? (
+                    <span className='flex items-center gap-1'>
+                        <span>{t('SwapInterface.balance').replace('{balance}', parseFloat(ethBalance).toFixed(4))}</span>
+                        <Button variant="link" size="sm" className="h-auto p-0" onClick={handleSetMax}>
+                            {t('SwapInterface.max')}
+                        </Button>
+                    </span>
+                ) : (
+                    <span>{t('SwapInterface.sell')}</span>
+                )}
+             </div>
           </div>
           <div className="flex items-center gap-2">
             <Input id="from-input" type="text" placeholder="0" className="text-3xl h-12 bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0 p-0" value={fromAmount} onChange={handleFromAmountChange} />

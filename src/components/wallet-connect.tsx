@@ -1,21 +1,17 @@
+
 'use client';
 
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
   DialogTrigger,
 } from "@/components/ui/dialog";
 import Image from "next/image";
 import React from 'react';
 import { useWallet } from '@/hooks/use-wallet';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from './ui/dropdown-menu';
-import { ChevronDown } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast";
 import { useLanguage } from "@/hooks/use-language";
+import { WalletDetailsModal } from './wallet-details-modal';
 
 const wallets = [
     {
@@ -81,10 +77,10 @@ const truncateAddress = (address: string) => {
 };
 
 export function WalletConnect({ children }: { children?: React.ReactNode }) {
-  const { account, isActive, connectWallet, disconnect, isLoading } = useWallet();
+  const { account, isActive, connectWallet } = useWallet();
   const { toast } = useToast();
   const { t } = useLanguage();
-  const [open, setOpen] = React.useState(false);
+  const [dialogOpen, setDialogOpen] = React.useState(false);
   const [mounted, setMounted] = React.useState(false);
 
   React.useEffect(() => {
@@ -95,7 +91,7 @@ export function WalletConnect({ children }: { children?: React.ReactNode }) {
     // These wallets typically inject into window.ethereum and follow EIP-1193 standard.
     if (['metamask', 'trustwallet', 'coinbase'].includes(walletId)) {
       await connectWallet();
-      setOpen(false); // Close dialog after attempting connection
+      setDialogOpen(false); // Close dialog after attempting connection
     } else {
       // Bitcoin and Ledger wallets require different connection methods not supported by this app's current architecture.
       toast({
@@ -114,61 +110,23 @@ export function WalletConnect({ children }: { children?: React.ReactNode }) {
 
   if (isActive && account) {
     return (
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
+      <Dialog>
+        <DialogTrigger asChild>
           <Button variant="secondary">
             {truncateAddress(account)}
-            <ChevronDown className="ml-2 h-4 w-4" />
           </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
-          <DropdownMenuItem onClick={disconnect}>
-            {t('WalletConnect.disconnect')}
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
+        </DialogTrigger>
+        <WalletDetailsModal />
+      </Dialog>
     );
   }
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
       <DialogTrigger asChild>
         {children || <Button variant="secondary">{t('Header.connectWallet')}</Button>}
       </DialogTrigger>
-      <DialogContent className="sm:max-w-md">
-        <DialogHeader>
-          <DialogTitle>{t('WalletConnect.title')}</DialogTitle>
-          <DialogDescription>
-            {t('WalletConnect.description')}
-          </DialogDescription>
-        </DialogHeader>
-        <div className="flex flex-col space-y-2">
-            {wallets.map((wallet) => (
-                <Button
-                    key={wallet.name}
-                    variant="outline"
-                    className="h-20 justify-start p-4 text-lg"
-                    onClick={() => handleWalletClick(wallet.id, wallet.name)}
-                >
-                    {wallet.logo ? (
-                        <div className="mr-4 flex h-14 w-14 items-center justify-center">
-                            {wallet.logo}
-                        </div>
-                    ) : (
-                        <Image
-                            src="https://placehold.co/56x56.png"
-                            alt={`${wallet.name} logo`}
-                            width={56}
-                            height={56}
-                            className="mr-4 rounded-md"
-                            data-ai-hint={`${wallet.name.toLowerCase().split(' ')[0]} logo`}
-                        />
-                    )}
-                    {wallet.name}
-                </Button>
-            ))}
-        </div>
-      </DialogContent>
+      <WalletDetailsModal />
     </Dialog>
   );
 }

@@ -15,6 +15,7 @@ declare global {
 interface WalletContextType {
   account: string | null;
   isActive: boolean;
+  balance: string | null;
   connectWallet: () => Promise<void>;
   disconnect: () => void;
   isLoading: boolean;
@@ -26,11 +27,25 @@ const WalletContext = React.createContext<WalletContextType | null>(null);
 // Create the provider component
 export function WalletProvider({ children }: { children: React.ReactNode }) {
   const [account, setAccount] = React.useState<string | null>(null);
+  const [balance, setBalance] = React.useState<string | null>(null);
   const [isLoading, setIsLoading] = React.useState(true);
+
+  const fetchBalance = async (address: string) => {
+    try {
+      const provider = new ethers.BrowserProvider(window.ethereum);
+      const balanceWei = await provider.getBalance(address);
+      const balanceEther = ethers.formatEther(balanceWei);
+      setBalance(balanceEther);
+    } catch (error) {
+      console.error("Failed to fetch balance:", error);
+      setBalance(null);
+    }
+  };
 
   // Memoize the disconnect function
   const disconnect = useCallback(() => {
     setAccount(null);
+    setBalance(null);
     localStorage.setItem('explicitly_disconnected', 'true');
     toast({
         title: "Wallet Disconnected",
@@ -47,6 +62,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
         const accounts = await provider.send('eth_requestAccounts', []);
         if (accounts.length > 0) {
             setAccount(accounts[0]);
+            await fetchBalance(accounts[0]);
             localStorage.removeItem('explicitly_disconnected');
             toast({
                 title: "Wallet Connected",
@@ -77,12 +93,13 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
         return;
     };
 
-    const handleAccountsChanged = (accounts: string[]) => {
+    const handleAccountsChanged = async (accounts: string[]) => {
       if (accounts.length === 0) {
         // MetaMask is locked or the user has disconnected all accounts
         disconnect();
       } else if (accounts[0] !== account) {
         setAccount(accounts[0]);
+        await fetchBalance(accounts[0]);
         localStorage.removeItem('explicitly_disconnected');
         toast({
             title: "Account Switched",
@@ -104,6 +121,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
             const accounts = await provider.send('eth_accounts', []);
             if (accounts.length > 0) {
                 setAccount(accounts[0]);
+                await fetchBalance(accounts[0]);
             }
         } catch (error) {
             console.log("Could not check for existing connection", error);
@@ -127,6 +145,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
   const value = {
     account,
     isActive: !!account,
+    balance,
     connectWallet,
     disconnect,
     isLoading,
