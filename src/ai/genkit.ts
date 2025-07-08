@@ -11,10 +11,7 @@ import {googleAI} from '@genkit-ai/googleai';
 // This should be the only instance of `genkit()` in the app.
 export const ai = genkit({
   plugins: [
-    googleAI({
-      // The embedding model is used for grounding and other tasks.
-      embeddingModel: 'text-embedding-004',
-    }),
+    googleAI(),
   ],
   // In Genkit 1.x, logLevel and enableTelemetry are configured differently
   // or are on by default if a telemetry plugin is provided.
