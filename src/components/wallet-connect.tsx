@@ -55,7 +55,7 @@ const wallets = [
         name: 'Binance Wallet',
         id: 'binancewallet',
         logo: <Image
-            src="https://walletguide.walletconnect.network/_next/image?url=https%3A%2F%2Fapi.web3modal.com%2Fv2%2Fwallet-image%2F200x200%2Febac7b39-688c-41e3-7912-a4fefba74600%3FprojectId%3Dad53ae497ee922ad9beb2ef78b1a7a6e%26st%3Dwallet-guide%26sv%3D1.0.0&w=256&q=75"
+            src="https://seeklogo.com/images/B/binance-wallet-logo-97F4D94975-seeklogo.com.png"
             alt="Binance Wallet logo"
             width={56}
             height={56}
@@ -91,7 +91,7 @@ const truncateAddress = (address: string) => {
   return `${address.substring(0, 6)}...${address.substring(address.length - 4)}`;
 };
 
-export function WalletConnect({ children, chainId }: { children?: React.ReactNode, chainId: string }) {
+export function WalletConnect({ children }: { children?: React.ReactNode }) {
   const { account, isActive, connectWallet } = useWallet();
   const { toast } = useToast();
   const { t } = useLanguage();
@@ -104,7 +104,7 @@ export function WalletConnect({ children, chainId }: { children?: React.ReactNod
 
   const handleWalletClick = async (walletId: string, walletName: string) => {
     if (['metamask', 'trustwallet', 'coinbase', 'binancewallet'].includes(walletId)) {
-      await connectWallet(chainId);
+      await connectWallet();
       setDialogOpen(false); 
     } else {
       toast({

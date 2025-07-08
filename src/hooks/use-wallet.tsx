@@ -36,7 +36,7 @@ export const networkConfigs: Record<string, NetworkConfig> = {
         nativeCurrency: { name: 'Ether', symbol: 'ETH', decimals: 18 },
         rpcUrls: ['https://linea-mainnet.infura.io/v3/'],
         blockExplorerUrls: ['https://lineascan.build'],
-        logo: 'https://s2.coinmarketcap.com/static/img/coins/64x64/1027.png', 
+        logo: 'https://s2.coinmarketcap.com/static/img/coins/64x64/27829.png',
     },
     '0xa86a': {
         chainId: '0xa86a',
@@ -101,9 +101,11 @@ interface WalletContextType {
   account: string | null;
   isActive: boolean;
   balances: Record<string, string> | null;
-  connectWallet: (chainId?: string) => Promise<void>;
+  connectWallet: () => Promise<void>;
   disconnect: () => void;
   isLoading: boolean;
+  selectedNetwork: NetworkConfig;
+  setSelectedNetwork: React.Dispatch<React.SetStateAction<NetworkConfig>>;
 }
 
 // Create the context with a default null value
@@ -114,6 +116,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
   const [account, setAccount] = React.useState<string | null>(null);
   const [balances, setBalances] = React.useState<Record<string, string> | null>(null);
   const [isLoading, setIsLoading] = React.useState(true);
+  const [selectedNetwork, setSelectedNetwork] = React.useState<NetworkConfig>(networkConfigs['0x1']);
   const { t } = useLanguage();
 
   const fetchBalances = async (address: string) => {
@@ -122,12 +125,11 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
       const balanceWei = await provider.getBalance(address);
       const balanceEther = ethers.formatEther(balanceWei);
       
-      // Mock other token balances for demonstration purposes
       const mockBalances: Record<string, string> = {
           ETH: balanceEther,
-          USDC: (Math.random() * 5000 + 1000).toFixed(2), // 1k-6k USDC
-          WBTC: (Math.random() * 0.1).toFixed(5), // 0-0.1 WBTC
-          DOGE: (Math.random() * 100000).toFixed(0), // 0-100k DOGE
+          USDC: (Math.random() * 5000 + 1000).toFixed(2),
+          WBTC: (Math.random() * 0.1).toFixed(5),
+          DOGE: (Math.random() * 100000).toFixed(0),
           SHIB: (Math.random() * 500000000).toFixed(0)
       };
 
@@ -148,7 +150,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
     });
   }, [t]);
   
-  const connectWallet = useCallback(async (chainId: string = '0x1') => {
+  const connectWallet = useCallback(async () => {
     if (typeof window.ethereum === 'undefined') {
         toast({
             variant: "destructive",
@@ -161,12 +163,11 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
     try {
         await window.ethereum.request({
             method: 'wallet_switchEthereumChain',
-            params: [{ chainId }],
+            params: [{ chainId: selectedNetwork.chainId }],
         });
     } catch (switchError: any) {
-        // This error code indicates that the chain has not been added to MetaMask.
         if (switchError.code === 4902) {
-            const networkToAdd = networkConfigs[chainId];
+            const networkToAdd = networkConfigs[selectedNetwork.chainId];
             if (networkToAdd) {
                 try {
                     await window.ethereum.request({
@@ -180,7 +181,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
                         description: t('WalletConnect.addNetworkFailedDesc'),
                     });
                     console.error("Failed to add network", addError);
-                    return; // Stop if adding fails
+                    return;
                 }
             } else {
                 toast({
@@ -188,7 +189,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
                     title: t('WalletConnect.networkNotSupportedTitle'),
                     description: t('WalletConnect.networkNotSupportedDesc'),
                 });
-                return; // Stop if network config is missing
+                return;
             }
         } else {
              toast({
@@ -197,7 +198,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
                 description: t('WalletConnect.switchNetworkFailedDesc'),
             });
             console.error("Failed to switch network", switchError);
-            return; // Stop the connection process if network switch fails
+            return;
         }
     }
 
@@ -221,7 +222,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
             description: t('WalletConnect.connectionFailedDescription'),
         });
     }
-  }, [t]);
+  }, [t, selectedNetwork]);
 
   useEffect(() => {
     if (typeof window.ethereum === 'undefined') {
@@ -244,7 +245,6 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
     };
     
     const handleChainChanged = () => {
-        // Simple reload to ensure all components re-render with new network context
         window.location.reload();
     };
 
@@ -289,6 +289,8 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
     connectWallet,
     disconnect,
     isLoading,
+    selectedNetwork,
+    setSelectedNetwork,
   };
 
   return (
@@ -298,7 +300,6 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
   );
 }
 
-// Create a custom hook for easy access to the context
 export const useWallet = () => {
   const context = React.useContext(WalletContext);
   if (context === null) {

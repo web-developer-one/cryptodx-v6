@@ -59,18 +59,16 @@ import { languages } from "@/lib/i18n";
 import { useUser } from "@/hooks/use-user";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Skeleton } from "./ui/skeleton";
-import { networkConfigs, type NetworkConfig } from "@/hooks/use-wallet";
+import { useWallet, networkConfigs } from "@/hooks/use-wallet";
 
 export function Header() {
   const { t, language, setLanguage, isLoading: isTranslating } = useLanguage();
   const { user, isAuthenticated, logout, isLoading: isUserLoading } = useUser();
+  const { selectedNetwork, setSelectedNetwork } = useWallet();
   const router = useRouter();
 
   const [mounted, setMounted] = React.useState(false);
   const [theme, setTheme] = React.useState<"light" | "dark">("light");
-
-  const networks = React.useMemo(() => Object.values(networkConfigs), []);
-  const [selectedNetwork, setSelectedNetwork] = React.useState<NetworkConfig>(networks[0]);
 
   React.useEffect(() => {
     const storedTheme = localStorage.getItem("theme");
@@ -246,7 +244,7 @@ export function Header() {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              {networks.map((network) => (
+              {Object.values(networkConfigs).map((network) => (
                 <DropdownMenuItem
                   key={network.chainId}
                   onClick={() => setSelectedNetwork(network)}
@@ -264,7 +262,7 @@ export function Header() {
             </DropdownMenuContent>
           </DropdownMenu>
 
-          <WalletConnect chainId={selectedNetwork.chainId}>
+          <WalletConnect>
             <Button variant="secondary">{t('Header.connectWallet')}</Button>
           </WalletConnect>
           
