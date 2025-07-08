@@ -4,6 +4,10 @@
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
 import Image from "next/image";
@@ -88,15 +92,13 @@ export function WalletConnect({ children }: { children?: React.ReactNode }) {
   }, []);
 
   const handleWalletClick = async (walletId: string, walletName: string) => {
-    // These wallets typically inject into window.ethereum and follow EIP-1193 standard.
     if (['metamask', 'trustwallet', 'coinbase'].includes(walletId)) {
       await connectWallet();
-      setDialogOpen(false); // Close dialog after attempting connection
+      setDialogOpen(false); 
     } else {
-      // Bitcoin and Ledger wallets require different connection methods not supported by this app's current architecture.
       toast({
         variant: "destructive",
-        title: t('WalletConnect.notImplemented').split('.')[0], // A bit hacky but works for now
+        title: t('WalletConnect.notImplemented').split('.')[0],
         description: t('WalletConnect.notImplemented').replace('{walletName}', walletName),
       });
     }
@@ -126,7 +128,24 @@ export function WalletConnect({ children }: { children?: React.ReactNode }) {
       <DialogTrigger asChild>
         {children || <Button variant="secondary">{t('Header.connectWallet')}</Button>}
       </DialogTrigger>
-      <WalletDetailsModal />
+      <DialogContent className="sm:max-w-md">
+        <DialogHeader>
+          <DialogTitle>{t('WalletConnect.title')}</DialogTitle>
+          <DialogDescription>{t('WalletConnect.description')}</DialogDescription>
+        </DialogHeader>
+        <div className="grid grid-cols-4 gap-4 py-4">
+            {wallets.map((wallet) => (
+            <button
+                key={wallet.name}
+                className="flex flex-col items-center justify-start gap-2 p-2 rounded-lg hover:bg-accent transition-colors text-center"
+                onClick={() => handleWalletClick(wallet.id, wallet.name)}
+            >
+                {wallet.logo}
+                <span className="text-xs font-medium">{wallet.name}</span>
+            </button>
+            ))}
+        </div>
+      </DialogContent>
     </Dialog>
   );
 }
