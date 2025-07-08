@@ -51,6 +51,17 @@ const wallets = [
             className="rounded-md"
         />
     },
+    {
+        name: 'Binance Wallet',
+        id: 'binancewallet',
+        logo: <Image
+            src="https://seeklogo.com/images/B/binance-wallet-logo-97F24E6845-seeklogo.com.png"
+            alt="Binance Wallet logo"
+            width={56}
+            height={56}
+            className="rounded-md"
+        />
+    },
     { 
         name: 'Bitcoin Wallet', 
         id: 'bitcoin',
@@ -92,7 +103,7 @@ export function WalletConnect({ children, chainId }: { children?: React.ReactNod
   }, []);
 
   const handleWalletClick = async (walletId: string, walletName: string) => {
-    if (['metamask', 'trustwallet', 'coinbase'].includes(walletId)) {
+    if (['metamask', 'trustwallet', 'coinbase', 'binancewallet'].includes(walletId)) {
       await connectWallet(chainId);
       setDialogOpen(false); 
     } else {
