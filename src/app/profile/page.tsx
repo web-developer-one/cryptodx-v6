@@ -33,7 +33,7 @@ const profileFormSchema = z.object({
   lastName: z.string(),
   age: z.coerce.number().min(0).optional(),
   sex: z.string().optional(),
-  pricePlan: z.string(),
+  pricePlan: z.enum(['Free', 'Basic', 'Advanced', 'Administrator']),
   email: z.string().email(),
 });
 
@@ -53,7 +53,7 @@ export default function ProfilePage() {
       lastName: '',
       age: 0,
       sex: '',
-      pricePlan: '',
+      pricePlan: 'Free',
       email: '',
     },
   });
