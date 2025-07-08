@@ -35,7 +35,7 @@ const getScoreColor = (score: number | null): string => {
     if (score === null) return '';
     if (score < 5) return 'text-destructive'; // Red for scores < 5
     if (score <= 7) return 'text-warning';   // Yellow for scores 5-7
-    return 'text-success';                   // Green for scores > 7
+    return 'text-destructive';               // Red for scores > 7
 };
 
 // Determines the background color class for the card based on the reputation score.
@@ -43,7 +43,7 @@ const getBackgroundColorClass = (score: number | null): string => {
     if (score === null) return '';
     if (score < 5) return 'bg-destructive/10 border-destructive/20';
     if (score <= 7) return 'bg-warning/10 border-warning/20';
-    return 'bg-success/10 border-success/20';
+    return 'bg-destructive/10 border-destructive/20';
 };
 
 

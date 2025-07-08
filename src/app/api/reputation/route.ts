@@ -61,7 +61,7 @@ export async function POST(req: Request) {
 
         3.  **Potential Red Flags:** Identify any common red flags such as accusations of being a scam, lack of communication from the team, or unresolved community issues.
 
-        4.  **Overall Summary:** Provide a concise summary of your findings and a final reputation score from 1 to 10 (1 being very poor, 10 being excellent).
+        4.  **Overall Summary:** Provide a concise summary of your findings. Conclude this section with a line in the format "Final Reputation Score: X/10", where X is a score from 1 to 10 (1 being very poor, 10 being excellent).
 
         Structure your response clearly with headings for each section. Use Markdown for formatting (e.g., **Heading** for bold headings).
         Cite your sources with URLs where possible, if you have them in your knowledge base.
