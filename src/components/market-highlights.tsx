@@ -14,6 +14,7 @@ import Image from "next/image";
 import React, { useState, useEffect } from "react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useLanguage } from "@/hooks/use-language";
+import { Skeleton } from "./ui/skeleton";
 
 const supportedCurrencies: SelectedCurrency[] = [
     { symbol: 'USD', name: 'US Dollar', rate: 1 },
@@ -120,7 +121,29 @@ function MarketListCard({ title, coins }: { title: string, coins: Cryptocurrency
   );
 }
 
-export function MarketHighlights({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[] }) {
+export function MarketHighlights() {
+  const [cryptocurrencies, setCryptocurrencies] = React.useState<Cryptocurrency[]>([]);
+  const [isLoading, setIsLoading] = React.useState(true);
+
+  React.useEffect(() => {
+    fetch('/api/listings')
+      .then(res => res.json())
+      .then(({data}) => {
+        if(data) setCryptocurrencies(data);
+        setIsLoading(false);
+      })
+  }, []);
+
+  if (isLoading) {
+    return (
+       <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <Skeleton className="h-[320px]" />
+        <Skeleton className="h-[320px]" />
+        <Skeleton className="h-[320px]" />
+      </div>
+    )
+  }
+
   const topGainers = [...cryptocurrencies]
     .sort((a, b) => b.change24h - a.change24h)
     .slice(0, 5);

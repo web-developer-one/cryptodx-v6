@@ -62,13 +62,22 @@ import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Skeleton } from "./ui/skeleton";
 
 
-export function Header({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[] }) {
+export function Header() {
   const { t, language, setLanguage, isLoading: isTranslating } = useLanguage();
   const { user, isAuthenticated, logout, isLoading: isUserLoading } = useUser();
   const router = useRouter();
 
   const [mounted, setMounted] = React.useState(false);
   const [theme, setTheme] = React.useState<"light" | "dark">("light");
+  const [cryptocurrencies, setCryptocurrencies] = React.useState<Cryptocurrency[]>([]);
+
+  React.useEffect(() => {
+    fetch('/api/listings')
+      .then(res => res.json())
+      .then(({data}) => {
+        if(data) setCryptocurrencies(data);
+      });
+  }, []);
 
   React.useEffect(() => {
     const storedTheme = localStorage.getItem("theme");
