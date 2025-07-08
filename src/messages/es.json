@@ -402,6 +402,9 @@
     "reportTitle": "Análisis Completo",
     "copy": "Copiar",
     "copied": "¡Copiado!",
-    "disclaimer": "Descargo de responsabilidad: Este informe es generado por una IA y es solo para fines informativos. No es un consejo financiero. Siempre haga su propia investigación (DYOR)."
+    "disclaimer": "Descargo de responsabilidad: Este informe es generado por una IA y es solo para fines informativos. No es un consejo financiero. Siempre haga su propia investigación (DYOR).",
+    "lockedTitle": "Desbloquear Informes de Reputación Impulsados por IA",
+    "lockedDescription": "Actualice a un plan Básico, Avanzado o de Administrador para obtener información impulsada por IA y análisis de seguridad para cualquier token.",
+    "upgradeButton": "Ver Planes de Precios"
   }
 }

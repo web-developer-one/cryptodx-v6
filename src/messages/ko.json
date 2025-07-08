@@ -402,6 +402,9 @@
     "reportTitle": "분석 완료",
     "copy": "복사",
     "copied": "복사됨!",
-    "disclaimer": "면책 조항: 이 보고서는 AI에 의해 생성되었으며 정보 제공 목적으로만 제공됩니다. 재정적 조언이 아닙니다. 항상 직접 조사하십시오 (DYOR)."
+    "disclaimer": "면책 조항: 이 보고서는 AI에 의해 생성되었으며 정보 제공 목적으로만 제공됩니다. 재정적 조언이 아닙니다. 항상 직접 조사하십시오 (DYOR).",
+    "lockedTitle": "AI 기반 평판 보고서 잠금 해제",
+    "lockedDescription": "Basic, Advanced 또는 Administrator 플랜으로 업그레이드하여 모든 토큰에 대한 AI 기반 통찰력 및 보안 분석을 받으십시오.",
+    "upgradeButton": "요금제 보기"
   }
 }

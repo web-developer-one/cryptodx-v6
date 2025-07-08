@@ -2,7 +2,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import type { TokenDetails } from "@/lib/types";
+import type { TokenDetails, User } from "@/lib/types";
 import { KeyStatistics } from "@/components/token-details/key-statistics";
 import {
   Card,
@@ -11,7 +11,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { ArrowDown, ArrowUp, ArrowLeft } from "lucide-react";
+import { ArrowDown, ArrowUp, ArrowLeft, Lock } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
@@ -19,14 +19,19 @@ import { PriceChart } from "@/components/token-details/price-chart";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from '@/hooks/use-language';
 import { ReputationChecker } from '@/components/reputation-checker';
+import { useUser } from '@/hooks/use-user';
 
 export function TokenDetailClient({ initialToken }: { initialToken: TokenDetails }) {
     const { t } = useLanguage();
+    const { user, isAuthenticated } = useUser();
     const [token, setToken] = useState(initialToken);
 
     useEffect(() => {
         document.title = t('PageTitles.tokenDetail').replace('{tokenName}', token.name);
     }, [t, token.name]);
+
+    const allowedPlans: User['pricePlan'][] = ['Basic', 'Advanced', 'Administrator'];
+    const hasAccess = isAuthenticated && user && allowedPlans.includes(user.pricePlan);
 
   return (
     <>
@@ -68,7 +73,24 @@ export function TokenDetailClient({ initialToken }: { initialToken: TokenDetails
         </div>
       </div>
       
-      <ReputationChecker tokenName={token.name} />
+       {hasAccess ? (
+        <ReputationChecker tokenName={token.name} />
+      ) : (
+        <Card className="bg-muted/50 border-dashed">
+            <CardHeader className="text-center items-center">
+                <Lock className="h-8 w-8 text-muted-foreground mb-2" />
+                <CardTitle>{t('ReputationChecker.lockedTitle')}</CardTitle>
+                <CardDescription className="max-w-md">
+                    {t('ReputationChecker.lockedDescription')}
+                </CardDescription>
+            </CardHeader>
+            <CardContent className="flex justify-center">
+                <Link href="/pricing" passHref>
+                    <Button>{t('ReputationChecker.upgradeButton')}</Button>
+                </Link>
+            </CardContent>
+        </Card>
+      )}
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-1">

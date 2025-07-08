@@ -402,6 +402,9 @@
     "reportTitle": "Analyse abgeschlossen",
     "copy": "Kopieren",
     "copied": "Kopiert!",
-    "disclaimer": "Haftungsausschluss: Dieser Bericht wird von einer KI erstellt und dient nur zu Informationszwecken. Es handelt sich nicht um eine Finanzberatung. Führen Sie immer Ihre eigene Recherche durch (DYOR)."
+    "disclaimer": "Haftungsausschluss: Dieser Bericht wird von einer KI erstellt und dient nur zu Informationszwecken. Es handelt sich nicht um eine Finanzberatung. Führen Sie immer Ihre eigene Recherche durch (DYOR).",
+    "lockedTitle": "KI-gestützte Reputationsberichte freischalten",
+    "lockedDescription": "Führen Sie ein Upgrade auf einen Basic-, Advanced- oder Administrator-Plan durch, um KI-gesteuerte Einblicke und Sicherheitsanalysen für jeden Token zu erhalten.",
+    "upgradeButton": "Preispläne anzeigen"
   }
 }
