@@ -11,6 +11,7 @@ import { CodeBlock } from './code-block';
 import { cn } from '@/lib/utils';
 import { useUser } from '@/hooks/use-user';
 import Link from 'next/link';
+import type { User } from '@/lib/types';
 
 interface ReputationCheckerProps {
   tokenName: string;
@@ -73,7 +74,7 @@ const FormattedReport = ({ rawText, scoreColorClass }: { rawText: string, scoreC
 };
 
 export function ReputationChecker({ tokenName, collapsible = true }: ReputationCheckerProps) {
-    const [isOpen, setIsOpen] = useState(!collapsible); // If not collapsible, start open.
+    const [isOpen, setIsOpen] = useState(!collapsible);
     const [isLoading, setIsLoading] = useState(false);
     const [report, setReport] = useState<string | null>(null);
     const [score, setScore] = useState<number | null>(null);
@@ -81,6 +82,10 @@ export function ReputationChecker({ tokenName, collapsible = true }: ReputationC
     const [isCopied, setIsCopied] = useState(false);
     const { t } = useLanguage();
     const { toast } = useToast();
+    const { user, isAuthenticated } = useUser();
+
+    const allowedPlans: User['pricePlan'][] = ['Basic', 'Advanced', 'Administrator'];
+    const hasAccess = isAuthenticated && user && allowedPlans.includes(user.pricePlan);
 
     const checkReputation = async () => {
         if (!tokenName) return;
@@ -125,11 +130,12 @@ export function ReputationChecker({ tokenName, collapsible = true }: ReputationC
     };
     
     useEffect(() => {
-        if(isOpen && !report && !isLoading && !error) {
+        // Only run check if the section is open, and we don't have data/error/loading state
+        if(isOpen && !report && !isLoading && !error && hasAccess) {
             checkReputation();
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isOpen]);
+    }, [isOpen, hasAccess]);
 
     const handleCopyToClipboard = () => {
         if (report) {
@@ -144,7 +150,6 @@ export function ReputationChecker({ tokenName, collapsible = true }: ReputationC
         }
     };
     
-    // Renders the specific UI for different error types.
     const renderErrorContent = () => {
         if (!error) return null;
 
@@ -170,7 +175,6 @@ export function ReputationChecker({ tokenName, collapsible = true }: ReputationC
             )
         }
 
-        // Default error display for other issues.
         return (
             <div className="text-center text-destructive m-auto space-y-2">
                 <ShieldAlert className="mx-auto h-8 w-8" />
@@ -179,15 +183,41 @@ export function ReputationChecker({ tokenName, collapsible = true }: ReputationC
             </div>
         );
     }
-
+    
     const scoreColor = getScoreColor(score);
     const backgroundColor = getBackgroundColorClass(score);
+    
+    // Toggle logic remains, but we only show the button if it's collapsible
+    const handleToggle = () => {
+        if (collapsible) {
+            setIsOpen(!isOpen);
+        }
+    }
+    
+     if (!hasAccess) {
+        return (
+             <Card className="bg-muted/50 border-dashed">
+                <CardHeader className="text-center items-center">
+                    <Lock className="h-8 w-8 text-muted-foreground mb-2" />
+                    <CardTitle>{t('ReputationChecker.lockedTitle')}</CardTitle>
+                    <CardDescription className="max-w-md">
+                        {t('ReputationChecker.lockedDescription')}
+                    </CardDescription>
+                </CardHeader>
+                <CardContent className="flex justify-center">
+                    <Link href="/pricing" passHref>
+                        <Button>{t('ReputationChecker.upgradeButton')}</Button>
+                    </Link>
+                </CardContent>
+            </Card>
+        );
+     }
 
     return (
         <Card className={cn("transition-colors", !isLoading && report ? backgroundColor : '')}>
             <CardHeader 
                 className={cn(collapsible && "cursor-pointer")} 
-                onClick={() => collapsible && setIsOpen(!isOpen)}
+                onClick={handleToggle}
             >
                 <div className="flex justify-between items-start gap-4">
                     <div className="flex-1">
