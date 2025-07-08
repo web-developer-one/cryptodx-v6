@@ -65,7 +65,7 @@ const FormattedReport = ({ rawText, scoreColorClass }: { rawText: string, scoreC
 };
 
 export function ReputationChecker({ tokenName }: { tokenName: string }) {
-    const [isOpen, setIsOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(false); // Collapsed by default
     const [isLoading, setIsLoading] = useState(false);
     const [report, setReport] = useState<string | null>(null);
     const [score, setScore] = useState<number | null>(null);
@@ -74,7 +74,7 @@ export function ReputationChecker({ tokenName }: { tokenName: string }) {
     const { t } = useLanguage();
     const { toast } = useToast();
 
-    // Automatically fetch the reputation when the component is expanded.
+    // Automatically fetch the reputation when the component is expanded for the first time.
     const checkReputation = async () => {
         if (!tokenName) return;
         setIsLoading(true);
@@ -110,7 +110,7 @@ export function ReputationChecker({ tokenName }: { tokenName: string }) {
             console.error("Error fetching reputation:", err);
             setError({
                 type: err.type || 'FETCH_FAILED',
-                message: err.message || t('ReputationChecker.errorFetch')
+                message: t('ReputationChecker.errorFetch')
             });
         } finally {
             setIsLoading(false);
@@ -226,7 +226,7 @@ export function ReputationChecker({ tokenName }: { tokenName: string }) {
                     )}
                 </CardContent>
                 <CardFooter>
-                    <p className="text-xs text-muted-foreground text-center w-full">
+                    <p className="text-xs text-muted-foreground text-center w-full italic">
                        {t('ReputationChecker.disclaimer')}
                     </p>
                 </CardFooter>
