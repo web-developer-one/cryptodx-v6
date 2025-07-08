@@ -72,7 +72,7 @@ export function Chatbot() {
   const [isListening, setIsListening] = useState(false);
   const [speechError, setSpeechError] = useState<string | null>(null);
 
-  const hasAdvancedChatFeatures = isAuthenticated && user && ['Advanced', 'Administrator'].includes(user.pricePlan);
+  const hasAdvancedChatFeatures = !!(isAuthenticated && user && ['Advanced', 'Administrator'].includes(user.pricePlan));
 
   useEffect(() => {
     if (isOpen && messages.length === 0) {
