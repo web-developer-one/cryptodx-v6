@@ -86,6 +86,7 @@ export function PayPalPurchaseButton({ tier }: PayPalPurchaseButtonProps) {
     const createOrderClient = (data: Record<string, unknown>, actions: CreateOrderActions) => {
         console.log("Creating order on client-side (sandbox mode).");
         return actions.order.create({
+            intent: 'CAPTURE',
             purchase_units: [{
                 description: `CryptoDx ${tier.name} Plan (Sandbox Test)`,
                 amount: {
