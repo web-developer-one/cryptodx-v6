@@ -12,6 +12,51 @@ declare global {
     }
 }
 
+const networkConfigs: Record<string, {
+    chainId: string;
+    chainName: string;
+    nativeCurrency: { name: string; symbol: string; decimals: number; };
+    rpcUrls: string[];
+    blockExplorerUrls: string[];
+}> = {
+    '0x38': { // BNB Chain
+        chainId: '0x38',
+        chainName: 'BNB Smart Chain',
+        nativeCurrency: { name: 'BNB', symbol: 'BNB', decimals: 18 },
+        rpcUrls: ['https://bsc-dataseed.binance.org/'],
+        blockExplorerUrls: ['https://bscscan.com'],
+    },
+    '0x89': { // Polygon
+        chainId: '0x89',
+        chainName: 'Polygon Mainnet',
+        nativeCurrency: { name: 'MATIC', symbol: 'MATIC', decimals: 18 },
+        rpcUrls: ['https://polygon-rpc.com/'],
+        blockExplorerUrls: ['https://polygonscan.com/'],
+    },
+    '0xa4b1': { // Arbitrum One
+        chainId: '0xa4b1',
+        chainName: 'Arbitrum One',
+        nativeCurrency: { name: 'ETH', symbol: 'ETH', decimals: 18 },
+        rpcUrls: ['https://arb1.arbitrum.io/rpc'],
+        blockExplorerUrls: ['https://arbiscan.io'],
+    },
+    '0xa': { // Optimism
+        chainId: '0xa',
+        chainName: 'OP Mainnet',
+        nativeCurrency: { name: 'ETH', symbol: 'ETH', decimals: 18 },
+        rpcUrls: ['https://mainnet.optimism.io'],
+        blockExplorerUrls: ['https://optimistic.etherscan.io'],
+    },
+    '0xa86a': { // Avalanche
+        chainId: '0xa86a',
+        chainName: 'Avalanche Network C-Chain',
+        nativeCurrency: { name: 'AVAX', symbol: 'AVAX', decimals: 18 },
+        rpcUrls: ['https://api.avax.network/ext/bc/C/rpc'],
+        blockExplorerUrls: ['https://snowtrace.io/'],
+    },
+};
+
+
 // Define the shape of the wallet context
 interface WalletContextType {
   account: string | null;
@@ -80,21 +125,42 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
             params: [{ chainId }],
         });
     } catch (switchError: any) {
+        // This error code indicates that the chain has not been added to MetaMask.
         if (switchError.code === 4902) {
-             toast({
-                variant: "destructive",
-                title: "Network Not Found in Wallet",
-                description: "This network has not been added to your wallet. Please add it manually before connecting.",
-            });
+            const networkToAdd = networkConfigs[chainId];
+            if (networkToAdd) {
+                try {
+                    await window.ethereum.request({
+                        method: 'wallet_addEthereumChain',
+                        params: [networkToAdd],
+                    });
+                    // After adding, we don't need to switch again, MetaMask usually does it automatically.
+                } catch (addError) {
+                    toast({
+                        variant: "destructive",
+                        title: "Failed to Add Network",
+                        description: "Could not add the selected network to your wallet.",
+                    });
+                    console.error("Failed to add network", addError);
+                    return; // Stop if adding fails
+                }
+            } else {
+                toast({
+                    variant: "destructive",
+                    title: "Network Not Supported",
+                    description: "This network cannot be added automatically. Please add it to your wallet manually.",
+                });
+                return; // Stop if network config is missing
+            }
         } else {
              toast({
                 variant: "destructive",
                 title: "Network Switch Failed",
                 description: "Could not switch to the selected network. Please try again.",
             });
+            console.error("Failed to switch network", switchError);
+            return; // Stop the connection process if network switch fails
         }
-        console.error("Failed to switch network", switchError);
-        return; // Stop the connection process if network switch fails
     }
 
     try {
