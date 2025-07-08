@@ -28,21 +28,17 @@ export function LiveUpdateNotifier() {
         
         if (data.update) {
             toast({
-                title: (
-                  <div className="flex items-center justify-between w-full">
-                    <span>Live Update</span>
-                    <Badge>New</Badge>
-                  </div>
-                ),
+                title: "Live Update",
                 description: (
                   <div className="w-full pt-2 flex items-start gap-3">
                     <Bell className="h-5 w-5 flex-shrink-0 text-primary" />
-                    <p className="text-sm text-muted-foreground leading-tight">
+                    <p className="flex-1 text-sm text-muted-foreground leading-tight">
                         {data.update}
                     </p>
+                    <Badge>New</Badge>
                   </div>
                 ),
-                duration: 8000, // Show for 8 seconds
+                duration: 8000,
             });
         }
       } catch (error) {
@@ -59,8 +55,7 @@ export function LiveUpdateNotifier() {
     return () => {
       clearInterval(intervalId);
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []); // isFetching should not be in dependency array to avoid re-running setInterval
+  }, [isFetching, toast]);
 
   return null; // This component does not render anything itself
 }
