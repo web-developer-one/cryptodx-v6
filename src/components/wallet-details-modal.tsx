@@ -3,12 +3,13 @@
 import {
   DialogContent,
   DialogHeader,
+  DialogFooter,
   DialogClose,
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useWallet } from '@/hooks/use-wallet';
-import { ArrowUpCircle, ArrowDownCircle, LogOut, Copy, Check } from 'lucide-react';
+import { ArrowUpCircle, ArrowDownCircle, Copy, Check } from 'lucide-react';
 import Image from 'next/image';
 import { useToast } from '@/hooks/use-toast';
 import { useState, useEffect } from 'react';
@@ -55,7 +56,7 @@ export function WalletDetailsModal() {
   };
   
   return (
-      <DialogContent className="sm:max-w-md p-0 gap-0">
+      <DialogContent className="sm:max-w-md p-0 gap-0 flex flex-col">
           <DialogHeader className="p-4 border-b">
               <div className="flex justify-between items-center">
                   <div className="flex items-center gap-2">
@@ -65,12 +66,7 @@ export function WalletDetailsModal() {
                           {isCopied ? <Check className="h-4 w-4 text-green-500" /> : <Copy className="h-4 w-4" />}
                       </Button>
                   </div>
-                  <DialogClose asChild>
-                    <Button variant="ghost" size="icon" className="h-7 w-7" onClick={handleDisconnect}>
-                        <LogOut className="h-4 w-4" />
-                        <span className="sr-only">{t('WalletDetailsModal.disconnect')}</span>
-                    </Button>
-                  </DialogClose>
+                  {/* The default 'X' from DialogContent will serve as the close button */}
               </div>
           </DialogHeader>
           <div className="p-4 space-y-4">
@@ -83,7 +79,7 @@ export function WalletDetailsModal() {
                   <Button variant="outline"><ArrowDownCircle className="mr-2 h-4 w-4" /> {t('WalletDetailsModal.receive')}</Button>
               </div>
           </div>
-          <Tabs defaultValue="tokens" className="w-full">
+          <Tabs defaultValue="tokens" className="w-full flex-1 flex flex-col">
               <TabsList className="grid w-full grid-cols-3 rounded-none border-t border-b">
                   <TabsTrigger value="tokens">{t('WalletDetailsModal.tokens')}</TabsTrigger>
                   <TabsTrigger value="pools" disabled>{t('WalletDetailsModal.pools')}</TabsTrigger>
@@ -111,6 +107,13 @@ export function WalletDetailsModal() {
                 </TabsContent>
               </ScrollArea>
           </Tabs>
+          <DialogFooter className="p-4 border-t mt-auto">
+             <DialogClose asChild>
+                <Button variant="outline" className="w-full" onClick={handleDisconnect}>
+                    {t('WalletDetailsModal.disconnect')}
+                </Button>
+             </DialogClose>
+          </DialogFooter>
       </DialogContent>
   );
 }
