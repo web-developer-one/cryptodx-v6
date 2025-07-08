@@ -1,7 +1,7 @@
-
 'use client';
 
-import { PayPalButtons, usePayPalScriptReducer, OnApproveData, CreateOrderActions, OnApproveActions } from "@paypal/react-paypal-js";
+import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js";
+import type { OnApproveData, CreateOrderActions, OnApproveActions } from "@paypal/paypal-js";
 import { useState } from "react";
 import { useUser } from "@/hooks/use-user";
 import { useRouter } from "next/navigation";
@@ -128,4 +128,3 @@ export function PayPalPurchaseButton({ tier }: PayPalPurchaseButtonProps) {
         />
     );
 }
-
