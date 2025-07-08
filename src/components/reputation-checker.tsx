@@ -4,11 +4,13 @@
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Copy, Check, ShieldAlert, Loader2, ExternalLink, ChevronDown, ChevronUp } from 'lucide-react';
+import { Copy, Check, ShieldAlert, Loader2, ExternalLink, ChevronDown, ChevronUp, Lock } from 'lucide-react';
 import { useLanguage } from '@/hooks/use-language';
 import { useToast } from '@/hooks/use-toast';
 import { CodeBlock } from './code-block';
 import { cn } from '@/lib/utils';
+import { useUser } from '@/hooks/use-user';
+import Link from 'next/link';
 
 interface ReputationCheckerProps {
   tokenName: string;
