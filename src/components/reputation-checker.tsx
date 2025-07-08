@@ -235,4 +235,3 @@ export function ReputationChecker({ tokenName }: { tokenName: string }) {
         </Card>
     );
 }
-
