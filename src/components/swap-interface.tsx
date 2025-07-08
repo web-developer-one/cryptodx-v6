@@ -285,7 +285,7 @@ export function SwapInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocu
             <label className="text-sm text-muted-foreground" htmlFor="from-input">{t('SwapInterface.sell')}</label>
             {isWalletConnected && fromToken.symbol === 'ETH' && ethBalance && (
                 <div className="text-sm text-muted-foreground flex items-center gap-1">
-                    <span>{t('SwapInterface.balance').replace('{balance}', parseFloat(ethBalance).toFixed(4))}</span>
+                    <span>{t('SwapInterface.balance').replace('{balance}', `${parseFloat(ethBalance).toFixed(4)} ${fromToken.symbol}`)}</span>
                     <Button variant="link" size="sm" className="h-auto p-0" onClick={handleSetMax}>
                         {t('SwapInterface.max')}
                     </Button>
