@@ -4,7 +4,8 @@
 import { useEffect, useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { Badge } from '@/components/ui/badge';
-import { Bell } from 'lucide-react';
+import { Bell, ArrowUpRight } from 'lucide-react';
+import { Button } from './ui/button';
 
 export function LiveUpdateNotifier() {
   const { toast } = useToast();
@@ -26,16 +27,24 @@ export function LiveUpdateNotifier() {
 
         const data = await response.json();
         
-        if (data.update) {
+        if (data.update && data.sourceUrl && data.sourceName) {
             toast({
                 title: "Live Update",
                 description: (
-                  <div className="w-full pt-2 flex items-start gap-3">
-                    <Bell className="h-5 w-5 flex-shrink-0 text-primary" />
-                    <p className="flex-1 text-sm text-muted-foreground leading-tight">
-                        {data.update}
-                    </p>
-                    <Badge>New</Badge>
+                  <div className="flex flex-col gap-3">
+                      <div className="w-full pt-2 flex items-start gap-3">
+                          <Bell className="h-5 w-5 flex-shrink-0 text-primary" />
+                          <p className="flex-1 text-sm text-muted-foreground leading-tight">
+                              {data.update}
+                          </p>
+                          <Badge>New</Badge>
+                      </div>
+                      <a href={data.sourceUrl} target="_blank" rel="noopener noreferrer" className="self-start -ml-1">
+                          <Button variant="link" size="sm" className="p-1 h-auto text-xs">
+                              Read more at {data.sourceName}
+                              <ArrowUpRight className="ml-1 h-3 w-3" />
+                          </Button>
+                      </a>
                   </div>
                 ),
                 duration: 8000,

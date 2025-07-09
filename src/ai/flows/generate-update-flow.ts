@@ -10,7 +10,16 @@ import {ai} from '@/ai/genkit';
 import {z} from 'zod';
 
 const GenerateUpdateOutputSchema = z.object({
-  update: z.string().describe("A short, single-sentence news-like update."),
+  update: z
+    .string()
+    .describe('A short, single-sentence news-like update.'),
+  sourceName: z
+    .string()
+    .describe("The name of the fictional news source (e.g., 'Crypto-Insights Daily')."),
+  sourceUrl: z
+    .string()
+    .url()
+    .describe('A plausible but fictional URL for the news source.'),
 });
 export type GenerateUpdateOutput = z.infer<typeof GenerateUpdateOutputSchema>;
 
@@ -22,17 +31,26 @@ const prompt = ai.definePrompt({
   name: 'generateUpdatePrompt',
   output: {schema: GenerateUpdateOutputSchema},
   model: 'googleai/gemini-pro',
-  prompt: `You are an AI for a crypto application. Your task is to generate a single, short, engaging, news-style sentence.
+  prompt: `You are an AI for a crypto application. Your task is to generate a single, short, engaging, news-style sentence, along with a fictional source name and URL.
   
 The sentence should be about a plausible but fictional event or trend in one of the following domains: Blockchain, DeFi, Crypto, NFTs, or AI.
 
 Keep it concise and under 15 words. Do not use quotation marks.
 
+The source name should be a plausible name for a crypto news outlet.
+The source URL should be a plausible, but completely fictional, .com URL that matches the source name.
+
 Example outputs:
-- A new cross-chain bridge protocol just launched with record-breaking transaction speeds.
-- On-chain analytics reveal a major surge in NFT marketplace volume this week.
-- A breakthrough in zero-knowledge proofs could soon make private DeFi transactions a reality.
-- The latest AI model shows promise in predicting crypto market volatility with high accuracy.
+{
+    "update": "A new cross-chain bridge protocol just launched with record-breaking transaction speeds.",
+    "sourceName": "DeFi Pulse",
+    "sourceUrl": "https://www.defipulse-news.com/articles/new-bridge-protocol"
+}
+{
+    "update": "On-chain analytics reveal a major surge in NFT marketplace volume this week.",
+    "sourceName": "NFT Analytics Today",
+    "sourceUrl": "https://www.nftanalyticstoday.com/reports/market-surge-q3"
+}
 
 Generate a new, unique update now.`,
 });
