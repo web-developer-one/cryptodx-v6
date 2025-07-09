@@ -21,7 +21,7 @@ export async function generateUpdate(): Promise<GenerateUpdateOutput> {
 const prompt = ai.definePrompt({
   name: 'generateUpdatePrompt',
   output: {schema: GenerateUpdateOutputSchema},
-  model: 'gemini-1.5-flash-latest',
+  model: 'googleai/gemini-1.5-flash-latest',
   prompt: `You are an AI for a crypto application. Your task is to generate a single, short, engaging, news-style sentence.
   
 The sentence should be about a plausible but fictional event or trend in one of the following domains: Blockchain, DeFi, Crypto, NFTs, or AI.
