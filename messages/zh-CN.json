@@ -5,7 +5,7 @@
     "trade": "交易",
     "explore": "探索",
     "positions": "头寸",
-    "slippage": "滑点",
+    "slippage": "滑点模拟",
     "connectWallet": "连接钱包",
     "settings": "设置",
     "hideSmallBalances": "隐藏小额余额",
@@ -77,7 +77,8 @@
     "title": "出售加密货币",
     "youSell": "您出售",
     "youReceive": "您收到",
-    "sellInitiated": "出售已启动（模拟）"
+    "sellInitiated": "出售已启动（模拟）",
+    "sellInitiatedDescription": "您的出售交易已提交。"
   },
   "SwapInterface": {
     "title": "兑换",
@@ -100,8 +101,11 @@
     "estimatedGas": "预估Gas费",
     "slippageTolerance": "滑点容差（%）",
     "swapInitiated": "兑换已启动（模拟）",
+    "swapInitiatedDescription": "您的交易正在处理中。",
     "estimatesDisclaimer": "估算基于实时API数据，但市场状况可能迅速变化。可能会发生滑点。",
-    "cancel": "取消"
+    "cancel": "取消",
+    "balance": "余额: {balance}",
+    "max": "最大"
   },
   "LimitOrderInterface": {
     "title": "限价",
@@ -265,6 +269,59 @@
     "p_changes": "我们可能会不时更新本Cookie政策，以反映例如我们使用的Cookie的变化或出于其他运营、法律或监管原因。因此，请定期重新访问本Cookie政策，以随时了解我们对Cookie和相关技术的使用情况。",
     "dismiss": "关闭"
   },
+  "PrivacyPolicyModal": {
+    "title": "隐私政策",
+    "lastUpdated": "最后更新日期：{date}",
+    "p1": "本隐私政策描述了我们在您使用服务时收集、使用和披露您信息的政策和程序，并告知您您的隐私权以及法律如何保护您。我们使用您的个人数据来提供和改进服务。使用服务即表示您同意根据本隐私政策收集和使用信息。",
+    "h_interpretation": "解释和定义",
+    "p_interpretation": "首字母大写的词语在以下条件下具有定义的含义。无论以单数还是复数形式出现，以下定义都应具有相同的含义。",
+    "h_definitions": "定义",
+    "p_definitions": "就本隐私政策而言：",
+    "li_account": "<strong>帐户</strong>指为您访问我们的服务或我们服务的部分内容而创建的唯一帐户。",
+    "li_company": "<strong>公司</strong>（在本协议中称为“公司”、“我们”或“我们的”）指CryptoDx。",
+    "li_cookies": "<strong>Cookie</strong>是网站在您的计算机、移动设备或任何其他设备上放置的小文件，其中包含您在该网站上的浏览历史记录的详细信息。",
+    "li_country": "<strong>国家</strong>指：您的国家",
+    "li_device": "<strong>设备</strong>指可以访问服务的任何设备，例如计算机、手机或数字平板电脑。",
+    "li_personalData": "<strong>个人数据</strong>是与已识别或可识别的个人相关的任何信息。",
+    "li_service": "<strong>服务</strong>指网站。",
+    "li_serviceProvider": "<strong>服务提供商</strong>指代表公司处理数据的任何自然人或法人。它指公司为促进服务、代表公司提供服务、执行与服务相关的服务或协助公司分析服务使用情况而雇用的第三方公司或个人。",
+    "li_usageData": "<strong>使用数据</strong>指自动收集的数据，无论是通过使用服务还是从服务基础设施本身生成的（例如，页面访问的持续时间）。",
+    "li_website": "<strong>网站</strong>指可从此域访问的CryptoDx。",
+    "li_you": "<strong>您</strong>指访问或使用服务的个人，或代表该个人访问或使用服务的公司或其他法律实体（如适用）。",
+    "h_collecting": "收集和使用您的个人数据",
+    "h_types": "收集的数据类型",
+    "h_personalData": "个人数据",
+    "p_personalData": "在使用我们的服务时，我们可能会要求您向我们提供某些可用于联系或识别您的个人身份信息。个人身份信息可能包括但不限于：使用数据。",
+    "h_usageData": "使用数据",
+    "p_usageData": "使用服务时会自动收集使用数据。使用数据可能包括诸如您设备的互联网协议地址（例如IP地址）、浏览器类型、浏览器版本、您访问的我们服务的页面、您访问的时间和日期、在这些页面上花费的时间、唯一的设备标识符和其他诊断数据。当您通过移动设备访问服务时，我们可能会自动收集某些信息，包括但不限于您使用的移动设备类型、您的移动设备唯一ID、您的移动设备的IP地址、您的移动操作系统、您使用的移动互联网浏览器类型、唯一的设备标识符和其他诊断数据。",
+    "h_contact": "联系我们",
+    "p_contact": "如果您对本隐私政策有任何疑问，可以通过电子邮件与我们联系。",
+    "dismiss": "关闭"
+  },
+  "TermsOfUseModal": {
+    "title": "使用条款",
+    "lastUpdated": "最后更新日期：{date}",
+    "p1": "欢迎来到CryptoDx。本使用条款（“条款”）管辖您对我们网站、服务和应用程序（统称为“服务”）的访问和使用。请在使用服务前仔细阅读本条款。",
+    "h_agreement": "1. 条款协议",
+    "p_agreement": "使用我们的服务，即表示您同意受本条款的约束。如果您不同意本条款，则不得使用本服务。我们可能随时自行决定修改本条款。如果我们这样做，我们会通过在网站上发布修改后的条款或通过其他通信方式通知您。",
+    "h_eligibility": "2. 资格",
+    "p_eligibility": "您必须年满18岁才能使用本服务。同意本条款，即表示您向我们陈述并保证：（a）您年满18岁；（b）您以前从未被暂停或从本服务中删除；（c）您的注册和对本服务的使用符合任何和所有适用的法律法规。",
+    "h_service": "3. 服务",
+    "p_service": "CryptoDx是一个去中心化交易所界面。我们不作为金融机构运营，也不提供任何金融服务。我们是一个软件提供商，允许用户与去中心化协议进行交互。您对自己的行为和钱包的安全负责。",
+    "h_prohibited": "4. 禁止活动",
+    "p_prohibited": "您同意不从事以下任何禁止活动：",
+    "li_illegal": "将服务用于任何非法目的或违反任何地方、州、国家或国际法律。",
+    "li_disrupt": "从事任何可能干扰、中断、负面影响或妨碍其他用户充分享受服务的活动。",
+    "li_circumvent": "试图规避我们采用的任何内容过滤技术，或试图访问您未被授权访问的任何服务或服务区域。",
+    "li_automated": "使用我们未提供的任何机器人、蜘蛛、爬虫、抓取器或其他自动化手段或界面访问服务或提取数据。",
+    "h_disclaimers": "5. 免责声明",
+    "p_disclaimers": "本服务按“原样”和“可用”的基础提供，不附带任何明示或暗示的保证。您承认并同意，您已获得您认为必要的任何机会来调查可能适用于您使用本服务的服务、法律、规则或法规，并且您不依赖于CRYPTODX就本服务作出的任何法律或事实陈述。",
+    "h_liability": "6. 责任限制",
+    "p_liability": "在适用法律允许的最大范围内，CRYPTODX或其关联公司在任何情况下均不对任何类型的任何间接、特殊、附带、后果性或惩罚性损害承担责任。",
+    "h_governing": "7. 管辖法律",
+    "p_governing": "本条款及与之相关的任何行动均受公司所在地司法管辖区的法律管辖，不考虑其法律冲突规定。",
+    "dismiss": "关闭"
+  },
   "Chatbot": {
     "initialMessage": "您好！我是“CryptoDx”聊天机器人。今天我能在区块链、DeFi、加密货币、NFT或人工智能方面为您提供什么帮助？",
     "title": "CryptoDx聊天机器人",
@@ -297,7 +354,13 @@
     "walletDisconnected": "钱包已断开连接",
     "walletDisconnectedDescription": "您已成功断开钱包连接。",
     "accountSwitched": "账户已切换",
-    "accountSwitchedDescription": "已切换到账户：{account}"
+    "accountSwitchedDescription": "已切换到账户：{account}",
+    "addNetworkFailedTitle": "添加网络失败",
+    "addNetworkFailedDesc": "无法将所选网络添加到您的钱包。",
+    "networkNotSupportedTitle": "不支持的网络",
+    "networkNotSupportedDesc": "此网络无法自动添加。请手动将其添加到您的钱包中。",
+    "switchNetworkFailedTitle": "网络切换失败",
+    "switchNetworkFailedDesc": "无法切换到所选网络。请重试。"
   },
   "WalletDetailsModal": {
     "send": "发送",
@@ -396,6 +459,8 @@
     "saving": "保存中...",
     "saveSuccessTitle": "个人资料已更新",
     "saveSuccessDescription": "您的个人资料已成功更新。",
+    "saveErrorTitle": "个人资料更新失败",
+    "saveErrorDescription": "更新您的个人资料时出错。",
     "disclaimer": "我们重视您的隐私。我们的网站绝不会存储任何区块链、加密货币或私钥信息。"
   },
   "LogoutToast": {
@@ -411,9 +476,26 @@
     "reportTitle": "分析完成",
     "copy": "复制",
     "copied": "已复制！",
+    "copyError": "无法复制报告。",
     "disclaimer": "免责声明：本报告由人工智能生成，仅供参考。它不是财务建议。请务必自己进行研究（DYOR）。",
     "lockedTitle": "解锁AI驱动的声誉报告",
     "lockedDescription": "升级到基本、高级或管理员计划，以获取任何代币的AI驱动的见解和安全分析。",
     "upgradeButton": "查看定价计划"
+  },
+  "PayPalPurchase": {
+    "createOrderErrorTitle": "创建订单时出错",
+    "createOrderErrorDesc": "无法创建PayPal订单。",
+    "connectionErrorTitle": "连接错误",
+    "connectionErrorDesc": "无法连接到服务器以创建订单。",
+    "purchaseSuccessTitle": "购买成功！",
+    "purchaseSuccessDesc": "您已成功升级到{tierName}计划。",
+    "profileUpdateError": "购买后更新用户个人资料失败。",
+    "paymentIncompleteError": "付款未成功完成。",
+    "purchaseFailedTitle": "购买失败",
+    "purchaseFailedDesc": "付款处理期间发生错误。",
+    "sandboxSuccessTitle": "沙盒购买完成！",
+    "sandboxSuccessDesc": "{tierName}计划的测试交易成功。这不会更新您的个人资料。",
+    "paypalErrorTitle": "PayPal错误",
+    "paypalErrorDesc": "PayPal交易发生错误。"
   }
 }
