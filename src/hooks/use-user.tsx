@@ -5,28 +5,16 @@ import React, { createContext, useContext, useState, useEffect, useCallback, use
 import type { User } from '@/lib/types';
 import { useToast } from './use-toast';
 import { useLanguage } from './use-language';
-import { get, set, keys } from 'idb-keyval';
+import { getStore } from '@netlify/blobs'; // This is a server-side import, but we'll manage
+
+// This file is now fully client-side and interacts with APIs
+// It no longer needs to know about idb-keyval or initial user data
 
 export const avatars = [
   '/avatars/admin-avatar.png',
   '/avatars/male-01-avatar.png',
   '/avatars/female-01-avatar.png',
   '/avatars/male-02-avatar.png'
-];
-
-const initialUsers: User[] = [
-  {
-    id: '1',
-    username: 'Admin',
-    email: 'saytee.software@gmail.com',
-    password: 'password', // Hashed in a real app
-    firstName: 'Larry',
-    lastName: 'Saytee',
-    age: 49,
-    sex: 'Male',
-    pricePlan: 'Administrator',
-    avatar: avatars[0],
-  },
 ];
 
 interface UserContextType {
@@ -36,7 +24,7 @@ interface UserContextType {
   login: (email: string, password: string) => Promise<boolean>;
   logout: () => void;
   register: (userData: Omit<User, 'id' | 'pricePlan' | 'avatar'>) => Promise<boolean>;
-  updateProfile: (profileData: Partial<User>) => Promise<boolean>;
+  updateProfile: (profileData: Partial<Omit<User, 'id'>>) => Promise<boolean>;
   setSelectedAvatar: (avatarUrl: string) => void;
 }
 
@@ -48,106 +36,127 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
   const { toast } = useToast();
   const { t } = useLanguage();
 
-  useEffect(() => {
-    const initializeDb = async () => {
-      const allKeys = await keys();
-      if (!allKeys.includes('users')) {
-        await set('users', initialUsers);
-      }
-    };
-    initializeDb();
+  const fetchUser = useCallback(async (userId: string) => {
+    try {
+        const response = await fetch(`/api/users/${userId}`);
+        if (response.ok) {
+            const userData = await response.json();
+            setUser(userData);
+        } else {
+            console.error('Failed to fetch user session, logging out.');
+            localStorage.removeItem('userId');
+            setUser(null);
+        }
+    } catch (error) {
+        console.error('Error fetching user session:', error);
+    } finally {
+        setIsLoading(false);
+    }
   }, []);
 
   useEffect(() => {
-    const checkUserSession = async () => {
-      setIsLoading(true);
-      const userId = localStorage.getItem('userId');
-      if (userId) {
-        const users = await get<User[]>('users');
-        const userData = users?.find(u => u.id === userId);
-        if (userData) {
-          setUser(userData);
-        } else {
-            localStorage.removeItem('userId');
-        }
-      }
-      setIsLoading(false);
-    };
-    checkUserSession();
-  }, []);
+    const userId = localStorage.getItem('userId');
+    if (userId) {
+        fetchUser(userId);
+    } else {
+        setIsLoading(false);
+    }
+  }, [fetchUser]);
 
   const login = useCallback(async (email: string, password: string): Promise<boolean> => {
-    const users = await get<User[]>('users') || [];
-    const userData = users.find(u => u.email === email && u.password === password);
+    setIsLoading(true);
+    try {
+      const response = await fetch('/api/users/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password }),
+      });
+      const data = await response.json();
 
-    if (userData) {
-      setUser(userData);
-      localStorage.setItem('userId', userData.id);
-      toast({
-        title: t('LoginPage.loginSuccessTitle'),
-        description: userData.pricePlan === 'Administrator' ? t('LoginPage.loginSuccessAdmin') : t('LoginPage.loginSuccessUser'),
-      });
-      return true;
-    } else {
-      toast({
-        variant: 'destructive',
-        title: t('LoginPage.loginErrorTitle'),
-        description: t('LoginPage.loginErrorInvalid'),
-      });
-      return false;
+      if (response.ok) {
+        setUser(data);
+        localStorage.setItem('userId', data.id);
+        toast({
+            title: t('LoginPage.loginSuccessTitle'),
+            description: data.pricePlan === 'Administrator' ? t('LoginPage.loginSuccessAdmin') : t('LoginPage.loginSuccessUser'),
+        });
+        return true;
+      } else {
+        toast({
+            variant: 'destructive',
+            title: t('LoginPage.loginErrorTitle'),
+            description: data.error || t('LoginPage.loginErrorInvalid'),
+        });
+        return false;
+      }
+    } catch (error) {
+        toast({ variant: 'destructive', title: t('LoginPage.loginErrorTitle'), description: 'A connection error occurred.' });
+        return false;
+    } finally {
+        setIsLoading(false);
     }
   }, [t, toast]);
 
 
   const register = useCallback(async (userData: Omit<User, 'id' | 'pricePlan' | 'avatar'>) => {
+    setIsLoading(true);
     try {
-      const users = await get<User[]>('users') || [];
-      if (users.some(u => u.email === userData.email)) {
-        toast({ variant: 'destructive', title: t('RegisterPage.registerErrorTitle'), description: t('RegisterPage.registerErrorExists') });
-        return false;
-      }
-
-      const newUser: User = {
-        id: (Date.now()).toString(),
+      const payload = {
         ...userData,
         pricePlan: 'Free',
         avatar: avatars[1], 
       };
+      
+      const response = await fetch('/api/users/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+      });
 
-      const newUsers = [...users, newUser];
-      await set('users', newUsers);
+      const data = await response.json();
 
-      setUser(newUser);
-      localStorage.setItem('userId', newUser.id);
-      toast({ title: t('RegisterPage.registerSuccessTitle'), description: t('RegisterPage.registerSuccessUser') });
-      return true;
-
-    } catch (error: any) {
-       toast({ variant: 'destructive', title: t('RegisterPage.registerErrorTitle'), description: error.message });
+      if (response.status === 201) {
+        setUser(data);
+        localStorage.setItem('userId', data.id);
+        toast({ title: t('RegisterPage.registerSuccessTitle'), description: t('RegisterPage.registerSuccessUser') });
+        return true;
+      } else {
+        toast({ variant: 'destructive', title: t('RegisterPage.registerErrorTitle'), description: data.error || 'An unknown error occurred.' });
+        return false;
+      }
+    } catch (error) {
+       toast({ variant: 'destructive', title: t('RegisterPage.registerErrorTitle'), description: 'A connection error occurred.' });
        return false;
+    } finally {
+        setIsLoading(false);
     }
   }, [t, toast]);
 
-  const updateProfile = useCallback(async (profileData: Partial<User>) => {
+  const updateProfile = useCallback(async (profileData: Partial<Omit<User, 'id'>>) => {
     if (!user) return false;
-     try {
-      let users = await get<User[]>('users') || [];
-      const userIndex = users.findIndex(u => u.id === user.id);
+    setIsLoading(true);
+    try {
+      const response = await fetch(`/api/users/${user.id}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(profileData),
+      });
 
-      if (userIndex !== -1) {
-        const { email, ...updatableData } = profileData;
-        const updatedUser = { ...users[userIndex], ...updatableData };
-        users[userIndex] = updatedUser;
-        await set('users', users);
-        setUser(updatedUser);
-
+      const data = await response.json();
+      
+      if (response.ok) {
+        setUser(data);
         toast({ title: t('ProfilePage.saveSuccessTitle'), description: t('ProfilePage.saveSuccessDescription') });
         return true;
+      } else {
+        toast({ variant: 'destructive', title: t('ProfilePage.saveErrorTitle'), description: data.error || 'Failed to update profile.' });
+        return false;
       }
+    } catch (error) {
+      toast({ variant: 'destructive', title: t('ProfilePage.saveErrorTitle'), description: 'A connection error occurred.' });
       return false;
-    } catch (error: any) {
-      toast({ variant: 'destructive', title: t('ProfilePage.saveErrorTitle'), description: t('ProfilePage.saveErrorDescription') });
-      return false;
+    } finally {
+      setIsLoading(false);
     }
   }, [user, t, toast]);
   
