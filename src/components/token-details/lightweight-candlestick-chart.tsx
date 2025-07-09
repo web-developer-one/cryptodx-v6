@@ -2,7 +2,7 @@
 'use client';
 
 import { createChart, ColorType, IChartApi } from 'lightweight-charts';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 // Define the shape of the data that the chart expects
 interface CandlestickData {
@@ -20,55 +20,82 @@ interface LightweightCandlestickChartProps {
 export const LightweightCandlestickChart: React.FC<LightweightCandlestickChartProps> = ({ data }) => {
   const chartContainerRef = useRef<HTMLDivElement>(null);
   const chartRef = useRef<IChartApi | null>(null);
+  // State to track theme changes and trigger re-render
+  const [theme, setTheme] = useState('light');
+
+  // Effect to set initial theme and listen for changes
+  useEffect(() => {
+    // Check for theme on mount
+    const isDark = document.documentElement.classList.contains('dark');
+    setTheme(isDark ? 'dark' : 'light');
+
+    // Observe changes to the class attribute of the <html> element
+    const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+            if (mutation.attributeName === 'class') {
+                const isDarkNow = document.documentElement.classList.contains('dark');
+                setTheme(isDarkNow ? 'dark' : 'light');
+            }
+        });
+    });
+
+    observer.observe(document.documentElement, { attributes: true });
+
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     if (!chartContainerRef.current || data.length === 0) return;
 
-    // Helper function to get a comma-separated HSL string from a CSS variable
-    const getHslColor = (variableName: string): string => {
-        const hslValues = getComputedStyle(document.documentElement).getPropertyValue(variableName).trim();
-        // The values are space-separated like "210 16% 87%".
-        // The library needs comma-separated format like "hsl(210, 16%, 87%)".
-        const [h, s, l] = hslValues.split(' ');
-        return `hsl(${h}, ${s}, ${l})`;
+    // Define colors based on the current theme using reliable hex codes
+    const chartColors = theme === 'dark' ? {
+        backgroundColor: '#1E293B',
+        textColor: '#F1F5F9',
+        gridColor: '#334155',
+        upColor: '#22C55E',
+        downColor: '#EF4444'
+    } : {
+        backgroundColor: '#FFFFFF',
+        textColor: '#0F172A',
+        gridColor: '#E5E7EB',
+        upColor: '#16A34A',
+        downColor: '#DC2626'
     };
 
-    // Theme colors
-    const backgroundColor = getHslColor('--card');
-    const textColor = getHslColor('--card-foreground');
-    const gridColor = getHslColor('--border');
-    const upColor = getHslColor('--success');
-    const downColor = getHslColor('--destructive');
-
+    // Clean up previous chart instance if it exists
+    if (chartRef.current) {
+        chartRef.current.remove();
+        chartRef.current = null;
+    }
 
     // Create chart instance
     const chart = createChart(chartContainerRef.current, {
       layout: {
-        background: { type: ColorType.Solid, color: backgroundColor },
-        textColor,
+        background: { type: ColorType.Solid, color: chartColors.backgroundColor },
+        textColor: chartColors.textColor,
       },
       grid: {
-        vertLines: { color: gridColor },
-        horzLines: { color: gridColor },
+        vertLines: { color: chartColors.gridColor },
+        horzLines: { color: chartColors.gridColor },
       },
       width: chartContainerRef.current.clientWidth,
-      height: chartContainerRef.current.clientHeight, // Use container height
+      height: chartContainerRef.current.clientHeight,
       timeScale: {
-        borderColor: gridColor,
+        borderColor: chartColors.gridColor,
       },
       rightPriceScale: {
-        borderColor: gridColor,
+        borderColor: chartColors.gridColor,
       },
     });
 
     chartRef.current = chart;
 
     const candlestickSeries = chart.addCandlestickSeries({
-      upColor: upColor,
-      downColor: downColor,
+      upColor: chartColors.upColor,
+      downColor: chartColors.downColor,
       borderVisible: false,
-      wickUpColor: upColor,
-      wickDownColor: downColor,
+      wickUpColor: chartColors.upColor,
+      wickDownColor: chartColors.downColor,
     });
     candlestickSeries.setData(data);
 
@@ -89,7 +116,7 @@ export const LightweightCandlestickChart: React.FC<LightweightCandlestickChartPr
         chartRef.current = null;
       }
     };
-  }, [data]);
+  }, [data, theme]); // Re-run this effect if data or theme changes
 
   return <div ref={chartContainerRef} className="w-full h-full" />;
 };
