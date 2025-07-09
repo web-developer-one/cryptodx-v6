@@ -5,7 +5,7 @@
     "trade": "거래",
     "explore": "탐색",
     "positions": "포지션",
-    "slippage": "슬리피지",
+    "slippage": "슬리피지 시뮬레이션",
     "connectWallet": "지갑 연결",
     "settings": "설정",
     "hideSmallBalances": "소액 잔액 숨기기",

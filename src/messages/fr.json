@@ -5,7 +5,7 @@
     "trade": "Échanger",
     "explore": "Explorer",
     "positions": "Positions",
-    "slippage": "Glissement",
+    "slippage": "Simulation de Glissement",
     "connectWallet": "Connecter le Portefeuille",
     "settings": "Paramètres",
     "hideSmallBalances": "Masquer les petits soldes",
@@ -293,7 +293,7 @@
     "h_personalData": "Données Personnelles",
     "p_personalData": "Lors de l'utilisation de Notre Service, Nous pouvons Vous demander de Nous fournir certaines informations personnellement identifiables qui peuvent être utilisées pour Vous contacter ou Vous identifier. Les informations personnellement identifiables peuvent inclure, sans s'y limiter : les Données d'Utilisation.",
     "h_usageData": "Données d'Utilisation",
-    "p_usageData": "Les Données d'Utilisation sont collectées automatiquement lors de l'utilisation du Service. Les Données d'Utilisation peuvent inclure des informations telles que l'adresse de protocole Internet de Votre Appareil (par exemple, l'adresse IP), le type de navigateur, la version du navigateur, les pages de notre Service que Vous visitez, l'heure et la date de Votre visite, le temps passé sur ces pages, les identifiants uniques de l'appareil et d'autres données de diagnostic. Lorsque Vous accédez au Service par ou via un appareil mobile, Nous pouvons collecter certaines informations automatiquement, y compris, mais sans s'y limiter, le type d'appareil mobile que Vous utilisez, l'ID unique de Votre appareil mobile, l'adresse IP de Votre appareil mobile, Votre système d'exploitation mobile, le type de navigateur Internet mobile que Vous utilisez, les identifiants uniques de l'appareil et d'autres données de diagnostic.",
+    "p_usageData": "Les Données d'Utilisation sont collectées automatiquement lors de l'utilisation du Service. Les Données d'Utilisation могут inclure des informations telles que l'adresse de protocole Internet de Votre Appareil (par exemple, l'adresse IP), le type de navigateur, la version du navigateur, les pages de notre Service que Vous visitez, l'heure et la date de Votre visite, le temps passé sur ces pages, les identifiants uniques de l'appareil et d'autres données de diagnostic. Lorsque Vous accédez au Service par ou via un appareil mobile, Nous pouvons collecter certaines informations automatiquement, y compris, mais sans s'y limiter, le type d'appareil mobile que Vous utilisez, l'ID unique de Votre appareil mobile, l'adresse IP de Votre appareil mobile, Votre système d'exploitation mobile, le type de navigateur Internet mobile que Vous utilisez, les identifiants uniques de l'appareil et d'autres données de diagnostic.",
     "h_contact": "Contactez-Nous",
     "p_contact": "Si vous avez des questions sur cette Politique de Confidentialité, vous pouvez nous contacter par e-mail.",
     "dismiss": "Fermer"
@@ -358,7 +358,7 @@
     "addNetworkFailedTitle": "Échec de l'Ajout du Réseau",
     "addNetworkFailedDesc": "Impossible d'ajouter le réseau sélectionné à votre portefeuille.",
     "networkNotSupportedTitle": "Réseau Non Pris en Charge",
-    "networkNotSupportedDesc": "Ce réseau ne peut pas être ajouté automatiquement. Veuillez l'ajouter manuellement à votre portefeuille.",
+    "networkNotSupportedDesc": "Ce réseau ne peut pas être ajouté automatically. Veuillez l'ajouter manuellement à votre portefeuille.",
     "switchNetworkFailedTitle": "Échec du Changement de Réseau",
     "switchNetworkFailedDesc": "Impossible de passer au réseau sélectionné. Veuillez réessayer."
   },

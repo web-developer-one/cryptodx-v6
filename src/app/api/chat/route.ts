@@ -9,7 +9,7 @@ import {
 import { languages } from '@/lib/i18n';
 
 const API_KEY = process.env.GOOGLE_API_KEY;
-
+// const API_KEY = process.env.GEMINI_API_KEY;
 // NOTE: Moved initialization into the POST handler to handle missing API key gracefully.
 
 const generationConfig = {

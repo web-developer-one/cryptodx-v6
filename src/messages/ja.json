@@ -5,7 +5,7 @@
     "trade": "取引",
     "explore": "探索",
     "positions": "ポジション",
-    "slippage": "スリッページ",
+    "slippage": "スリッページシミュレーション",
     "connectWallet": "ウォレットを接続",
     "settings": "設定",
     "hideSmallBalances": "少額残高を非表示",

@@ -5,7 +5,7 @@
     "trade": "交易",
     "explore": "探索",
     "positions": "头寸",
-    "slippage": "滑点",
+    "slippage": "滑点模拟",
     "connectWallet": "连接钱包",
     "settings": "设置",
     "hideSmallBalances": "隐藏小额余额",
