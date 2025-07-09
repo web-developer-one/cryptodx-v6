@@ -55,7 +55,7 @@ const wallets = [
         name: 'Binance Wallet',
         id: 'binancewallet',
         logo: <Image
-            src="https://seeklogo.com/images/B/binance-wallet-logo-97F4D94975-seeklogo.com.png"
+            src="https://walletguide.walletconnect.network/_next/image?url=https%3A%2F%2Fapi.web3modal.com%2Fv2%2Fwallet-image%2F200x200%2Febac7b39-688c-41e3-7912-a4fefba74600%3FprojectId%3Dad53ae497ee922ad9beb2ef78b1a7a6e%26st%3Dwallet-guide%26sv%3D1.0.0&w=256&q=75"
             alt="Binance Wallet logo"
             width={56}
             height={56}

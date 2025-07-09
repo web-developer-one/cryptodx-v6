@@ -39,6 +39,12 @@ const safetySettings = [
   },
 ];
 
+// Define a strict type for incoming history messages to avoid using `any`.
+interface HistoryMessage {
+  role: 'user' | 'model';
+  parts: { text: string }[];
+}
+
 export async function POST(req: Request) {
   if (!API_KEY) {
     console.error('GOOGLE_API_KEY is not set');
@@ -66,7 +72,7 @@ export async function POST(req: Request) {
     const fallbackLangName = languages.find(l => l.code === fallbackLangCode)?.englishName || 'English';
 
     if (enableMultilingual) {
-        const languageDetectionModel = genAI.getGenerativeModel({ model: 'gemini-1.5-flash-latest' });
+        const languageDetectionModel = genAI.getGenerativeModel({ model: 'googleai/gemini-1.5-flash' });
         const detectionPrompt = `
           Analyze the following text and identify its primary language.
           Respond with ONLY the official English name of the language (e.g., "English", "Spanish", "French").
@@ -114,15 +120,15 @@ Provide direct URLs at the end of your response under a heading. This heading mu
     // --- End of heavily reinforced system instruction ---
 
     const model = genAI.getGenerativeModel({
-      model: 'gemini-1.5-flash-latest',
+      model: 'gemini-1.5-flash',
       systemInstruction,
     });
 
     // Sanitize the history to ensure it only contains the fields the API expects.
     // This prevents errors from extra fields added by the client-side (e.g., audioSrc).
-    const sanitizedHistory = history.map((h: any) => ({
+    const sanitizedHistory: HistoryMessage[] = history.map((h: HistoryMessage) => ({
       role: h.role,
-      parts: h.parts.map((p: any) => ({ text: p.text }))
+      parts: h.parts.map((p: { text: string }) => ({ text: p.text }))
     }));
 
     // The Google API requires history to start with a user role and alternate.
