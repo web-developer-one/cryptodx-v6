@@ -24,15 +24,21 @@ export const LightweightCandlestickChart: React.FC<LightweightCandlestickChartPr
   useEffect(() => {
     if (!chartContainerRef.current || data.length === 0) return;
 
-    // Function to get CSS variable values
-    const getCssVariable = (name: string) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+    // Helper function to get a comma-separated HSL string from a CSS variable
+    const getHslColor = (variableName: string): string => {
+        const hslValues = getComputedStyle(document.documentElement).getPropertyValue(variableName).trim();
+        // The values are space-separated like "210 16% 87%".
+        // The library needs comma-separated format like "hsl(210, 16%, 87%)".
+        const [h, s, l] = hslValues.split(' ');
+        return `hsl(${h}, ${s}, ${l})`;
+    };
 
     // Theme colors
-    const backgroundColor = `hsl(${getCssVariable('--card')})`;
-    const textColor = `hsl(${getCssVariable('--card-foreground')})`;
-    const gridColor = `hsl(${getCssVariable('--border')})`;
-    const upColor = `hsl(${getCssVariable('--success')})`;
-    const downColor = `hsl(${getCssVariable('--destructive')})`;
+    const backgroundColor = getHslColor('--card');
+    const textColor = getHslColor('--card-foreground');
+    const gridColor = getHslColor('--border');
+    const upColor = getHslColor('--success');
+    const downColor = getHslColor('--destructive');
 
 
     // Create chart instance
