@@ -3,6 +3,7 @@ import { NextResponse } from 'next/server';
 import { getStore } from '@netlify/blobs';
 import type { User } from '@/lib/types';
 import { createUser } from '@/lib/user-actions';
+import { avatars } from '@/lib/constants';
 
 export async function POST(request: Request) {
     try {
@@ -27,7 +28,7 @@ export async function POST(request: Request) {
                 age: 0,
                 sex: '',
                 pricePlan: 'Administrator',
-                avatar: '/avatars/admin-avatar.png',
+                avatar: avatars[0],
             };
             // Create the admin user and use the returned object for the session
             user = await createUser(adminData);
