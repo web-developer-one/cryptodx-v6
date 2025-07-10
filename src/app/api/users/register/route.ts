@@ -3,7 +3,6 @@
 import { NextResponse } from 'next/server';
 import { getStore } from '@netlify/blobs';
 import type { User } from '@/lib/types';
-import { createUser } from '@/lib/user-actions';
 
 export async function POST(request: Request) {
     try {
@@ -21,8 +20,19 @@ export async function POST(request: Request) {
         if (existingUser) {
             return NextResponse.json({ error: 'An account with this email already exists.' }, { status: 409 });
         }
+        
+        // Generate a simple UUID and create the user directly in this route
+        const simpleUUID = () => 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
+            const r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+            return v.toString(16);
+        });
 
-        const createdUser = await createUser(newUser);
+        const createdUser: User = {
+            id: simpleUUID(),
+            ...newUser
+        };
+
+        await userStore.setJSON(userKey, createdUser);
 
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { password, ...userWithoutPassword } = createdUser;

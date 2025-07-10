@@ -2,7 +2,6 @@
 import { NextResponse } from 'next/server';
 import { getStore } from '@netlify/blobs';
 import type { User } from '@/lib/types';
-import { createUser } from '@/lib/user-actions';
 import { avatars } from '@/lib/constants';
 
 export async function POST(request: Request) {
@@ -30,8 +29,20 @@ export async function POST(request: Request) {
                 pricePlan: 'Administrator',
                 avatar: avatars[0],
             };
-            // Create the admin user and use the returned object for the session
-            user = await createUser(adminData);
+            
+            // Generate a simple UUID and create the user directly in this route
+            const simpleUUID = () => 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
+                const r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+                return v.toString(16);
+            });
+
+            const newUser: User = {
+                id: simpleUUID(),
+                ...adminData
+            };
+
+            await userStore.setJSON(userKey, newUser);
+            user = newUser; // Assign the newly created user for the session
         }
         
         if (user && user.password === password) {
