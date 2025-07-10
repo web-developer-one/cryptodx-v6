@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 import { getStore } from '@netlify/blobs';
 import type { User } from '@/lib/types';
 import { avatars } from '@/lib/constants';
-import { createUser } from '../register/route';
+import { createUser } from '@/lib/user-actions';
 
 export async function POST(request: Request) {
     try {
