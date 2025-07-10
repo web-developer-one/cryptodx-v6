@@ -22,7 +22,7 @@ export async function POST(request: Request) {
             const adminData: Omit<User, 'id'> = {
                 email: userKey,
                 username: 'Administrator',
-                password: 'admin',
+                password: 'admin', // In a real app, this should be hashed
                 firstName: 'Admin',
                 lastName: 'User',
                 age: 0,
@@ -30,6 +30,7 @@ export async function POST(request: Request) {
                 pricePlan: 'Administrator',
                 avatar: avatars[0],
             };
+            // Correctly assign the newly created user to the user variable
             user = await createUser(adminData);
         }
         
