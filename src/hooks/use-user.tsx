@@ -40,7 +40,7 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
         const response = await fetch(`/api/users/${userId}`);
         if (response.ok) {
             const userData = await response.json();
-            setUser(userData); // This was the missing line
+            setUser(userData);
         } else {
             console.error('Failed to fetch user session, logging out.');
             localStorage.removeItem('userId');
