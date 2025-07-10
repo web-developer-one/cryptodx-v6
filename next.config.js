@@ -42,7 +42,7 @@ const nextConfig = {
     ],
   },
   webpack: (config) => {
-    config.externals.push("react-native");
+    config.externals.push("react-native", "clsx");
     return config;
   },
 };
