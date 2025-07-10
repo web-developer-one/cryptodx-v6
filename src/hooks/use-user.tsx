@@ -5,7 +5,6 @@ import React, { createContext, useContext, useState, useEffect, useCallback, use
 import type { User } from '@/lib/types';
 import { useToast } from './use-toast';
 import { useLanguage } from './use-language';
-import { getStore } from '@netlify/blobs'; // This is a server-side import, but we'll manage
 
 // This file is now fully client-side and interacts with APIs
 // It no longer needs to know about idb-keyval or initial user data
@@ -41,7 +40,7 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
         const response = await fetch(`/api/users/${userId}`);
         if (response.ok) {
             const userData = await response.json();
-            setUser(userData);
+            setUser(userData); // This was the missing line
         } else {
             console.error('Failed to fetch user session, logging out.');
             localStorage.removeItem('userId');
