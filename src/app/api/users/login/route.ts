@@ -2,7 +2,7 @@
 import { NextResponse } from 'next/server';
 import { getStore } from '@netlify/blobs';
 import type { User } from '@/lib/types';
-import { avatars } from '@/hooks/use-user';
+import { avatars } from '@/lib/constants';
 
 export async function POST(request: Request) {
     try {

@@ -5,16 +5,12 @@ import React, { createContext, useContext, useState, useEffect, useCallback, use
 import type { User } from '@/lib/types';
 import { useToast } from './use-toast';
 import { useLanguage } from './use-language';
+import { avatars } from '@/lib/constants';
 
 // This file is now fully client-side and interacts with APIs
 // It no longer needs to know about idb-keyval or initial user data
 
-export const avatars = [
-  '/avatars/admin-avatar.png',
-  '/avatars/male-01-avatar.png',
-  '/avatars/female-01-avatar.png',
-  '/avatars/male-02-avatar.png'
-];
+export { avatars };
 
 interface UserContextType {
   user: User | null;
