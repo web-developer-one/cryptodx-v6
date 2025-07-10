@@ -2,6 +2,7 @@
 import { NextResponse } from 'next/server';
 import { getStore } from '@netlify/blobs';
 import type { User } from '@/lib/types';
+import { avatars } from '@/hooks/use-user';
 
 export async function POST(request: Request) {
     try {
@@ -13,7 +14,25 @@ export async function POST(request: Request) {
 
         const userStore = getStore('users');
         const userKey = email.toLowerCase();
-        const user = await userStore.get(userKey, { type: 'json' }) as User | null;
+        let user = await userStore.get(userKey, { type: 'json' }) as User | null;
+
+        // Special check to create the admin user if it doesn't exist
+        if (!user && userKey === 'saytee.software@gmail.com' && password === 'admin') {
+            const adminUser: User = {
+                id: crypto.randomUUID(),
+                email: userKey,
+                username: 'Administrator',
+                password: 'admin', // Storing plain text as per current app design
+                firstName: 'Admin',
+                lastName: 'User',
+                age: 0,
+                sex: '',
+                pricePlan: 'Administrator',
+                avatar: avatars[0],
+            };
+            await userStore.setJSON(userKey, adminUser);
+            user = adminUser;
+        }
         
         // In a real app, passwords should be hashed and compared securely.
         // For this simulation, we are comparing plain text passwords.
