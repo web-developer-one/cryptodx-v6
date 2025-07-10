@@ -24,6 +24,7 @@ export async function POST(request: Request) {
 
         const createdUser = await createUser(newUser);
 
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { password, ...userWithoutPassword } = createdUser;
         return NextResponse.json(userWithoutPassword, { status: 201 });
 

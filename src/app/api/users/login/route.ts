@@ -2,7 +2,6 @@
 import { NextResponse } from 'next/server';
 import { getStore } from '@netlify/blobs';
 import type { User } from '@/lib/types';
-import { avatars } from '@/lib/constants';
 import { createUser } from '@/lib/user-actions';
 
 export async function POST(request: Request) {
@@ -28,13 +27,14 @@ export async function POST(request: Request) {
                 age: 0,
                 sex: '',
                 pricePlan: 'Administrator',
-                avatar: avatars[0],
+                avatar: '/avatars/admin-avatar.png',
             };
-            // Correctly assign the newly created user to the user variable
+            // Create the admin user and use the returned object for the session
             user = await createUser(adminData);
         }
         
         if (user && user.password === password) {
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             const { password: _, ...userWithoutPassword } = user;
             return NextResponse.json(userWithoutPassword);
         } else {
