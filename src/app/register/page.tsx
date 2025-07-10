@@ -21,6 +21,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useLanguage } from "@/hooks/use-language";
 import { Loader2 } from "lucide-react";
+import { avatars } from "@/lib/constants";
 
 const formSchema = z.object({
   username: z.string().min(2, {
@@ -73,6 +74,8 @@ export default function RegisterPage() {
         lastName: '',
         age: 0,
         sex: '',
+        pricePlan: 'Free',
+        avatar: avatars[1]
     });
     if (success) {
       router.push('/profile');

@@ -1,7 +1,31 @@
 
+'use server';
 import { NextResponse } from 'next/server';
 import { getStore } from '@netlify/blobs';
 import type { User } from '@/lib/types';
+
+// Helper function to create a user. This can be used by both register and login routes.
+export async function createUser(userData: Omit<User, 'id'>): Promise<User> {
+    const userStore = getStore('users');
+    const userKey = userData.email.toLowerCase();
+
+    // In a real production environment, this should be a more robust UUID library
+    const simpleUUID = () => {
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+            var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+            return v.toString(16);
+        });
+    }
+
+    const userToStore: User = {
+        id: simpleUUID(), // Use the compatible UUID generator
+        ...userData
+    };
+
+    await userStore.setJSON(userKey, userToStore);
+    return userToStore;
+}
+
 
 export async function POST(request: Request) {
     try {
@@ -20,14 +44,9 @@ export async function POST(request: Request) {
             return NextResponse.json({ error: 'An account with this email already exists.' }, { status: 409 });
         }
 
-        const userToStore: User = {
-            id: crypto.randomUUID(), // Generate a unique ID
-            ...newUser
-        };
+        const createdUser = await createUser(newUser);
 
-        await userStore.setJSON(userKey, userToStore);
-
-        const { password, ...userWithoutPassword } = userToStore;
+        const { password, ...userWithoutPassword } = createdUser;
         return NextResponse.json(userWithoutPassword, { status: 201 });
 
     } catch (error: any) {

@@ -18,7 +18,7 @@ interface UserContextType {
   isLoading: boolean;
   login: (email: string, password: string) => Promise<boolean>;
   logout: () => void;
-  register: (userData: Omit<User, 'id' | 'pricePlan' | 'avatar'>) => Promise<boolean>;
+  register: (userData: Omit<User, 'id'>) => Promise<boolean>;
   updateProfile: (profileData: Partial<Omit<User, 'id'>>) => Promise<boolean>;
   setSelectedAvatar: (avatarUrl: string) => void;
 }
@@ -93,19 +93,13 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
   }, [t, toast]);
 
 
-  const register = useCallback(async (userData: Omit<User, 'id' | 'pricePlan' | 'avatar'>) => {
+  const register = useCallback(async (userData: Omit<User, 'id'>) => {
     setIsLoading(true);
     try {
-      const payload = {
-        ...userData,
-        pricePlan: 'Free',
-        avatar: avatars[1], 
-      };
-      
       const response = await fetch('/api/users/register', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload),
+          body: JSON.stringify(userData),
       });
 
       const data = await response.json();

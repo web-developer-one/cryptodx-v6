@@ -3,6 +3,7 @@ import { NextResponse } from 'next/server';
 import { getStore } from '@netlify/blobs';
 import type { User } from '@/lib/types';
 import { avatars } from '@/lib/constants';
+import { createUser } from '../register/route';
 
 export async function POST(request: Request) {
     try {
@@ -18,11 +19,10 @@ export async function POST(request: Request) {
 
         // Special check to create the admin user if it doesn't exist on first login
         if (!user && userKey === 'saytee.software@gmail.com' && password === 'admin') {
-            const adminUser: User = {
-                id: crypto.randomUUID(),
+            const adminData: Omit<User, 'id'> = {
                 email: userKey,
                 username: 'Administrator',
-                password: 'admin', // Storing plain text as per current app design
+                password: 'admin',
                 firstName: 'Admin',
                 lastName: 'User',
                 age: 0,
@@ -30,15 +30,10 @@ export async function POST(request: Request) {
                 pricePlan: 'Administrator',
                 avatar: avatars[0],
             };
-            await userStore.setJSON(userKey, adminUser);
-            // Use the newly created admin user object directly for the session
-            user = adminUser;
+            user = await createUser(adminData);
         }
         
-        // In a real app, passwords should be hashed and compared securely.
-        // For this simulation, we are comparing plain text passwords.
         if (user && user.password === password) {
-            // Never send the password back to the client
             const { password: _, ...userWithoutPassword } = user;
             return NextResponse.json(userWithoutPassword);
         } else {
