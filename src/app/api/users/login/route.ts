@@ -14,9 +14,9 @@ export async function POST(request: Request) {
 
         const userStore = getStore('users');
         const userKey = email.toLowerCase();
-        let user = await userStore.get(userKey, { type: 'json' }) as User | null;
+        let user: User | null = await userStore.get(userKey, { type: 'json' }) as User | null;
 
-        // Special check to create the admin user if it doesn't exist
+        // Special check to create the admin user if it doesn't exist on first login
         if (!user && userKey === 'saytee.software@gmail.com' && password === 'admin') {
             const adminUser: User = {
                 id: crypto.randomUUID(),
@@ -31,6 +31,7 @@ export async function POST(request: Request) {
                 avatar: avatars[0],
             };
             await userStore.setJSON(userKey, adminUser);
+            // Use the newly created admin user object directly for the session
             user = adminUser;
         }
         
