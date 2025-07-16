@@ -4,6 +4,11 @@ import { getStore } from '@netlify/blobs';
 import type { User } from '@/lib/types';
 import { avatars } from '@/lib/constants';
 
+async function getUserByEmail(email: string): Promise<User | null> {
+    const userStore = getStore('users');
+    return await userStore.get(email.toLowerCase(), { type: 'json' }) as User | null;
+}
+
 export async function POST(request: Request) {
     try {
         const { email, password } = await request.json();
@@ -14,7 +19,7 @@ export async function POST(request: Request) {
 
         const userStore = getStore('users');
         const userKey = email.toLowerCase();
-        let user: User | null = await userStore.get(userKey, { type: 'json' }) as User | null;
+        let user: User | null = await getUserByEmail(userKey);
 
         // Special check to create the admin user if it doesn't exist on first login
         if (!user && userKey === 'saytee.software@gmail.com' && password === 'admin') {
@@ -30,9 +35,9 @@ export async function POST(request: Request) {
                 avatar: avatars[0],
             };
             
-            // Generate a simple UUID and create the user directly in this route
+            // A simple, environment-agnostic UUID generator
             const simpleUUID = () => 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
-                const r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+                const r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
                 return v.toString(16);
             });
 

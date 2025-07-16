@@ -21,9 +21,9 @@ export async function POST(request: Request) {
             return NextResponse.json({ error: 'An account with this email already exists.' }, { status: 409 });
         }
         
-        // Generate a simple UUID and create the user directly in this route
+        // A simple, environment-agnostic UUID generator
         const simpleUUID = () => 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
-            const r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+            const r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
             return v.toString(16);
         });
 
