@@ -25,6 +25,10 @@ export function PrivacyPolicyModal() {
     setCurrentDate(new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }));
   }, []);
 
+  const renderHTML = (str: string) => {
+    return { __html: str };
+  };
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -49,17 +53,17 @@ export function PrivacyPolicyModal() {
             <h3 className="font-semibold text-foreground">{t('PrivacyPolicyModal.h_definitions')}</h3>
             <p>{t('PrivacyPolicyModal.p_definitions')}</p>
             <ul className="list-disc pl-5 space-y-2">
-              <li>{t('PrivacyPolicyModal.li_account')}</li>
-              <li>{t('PrivacyPolicyModal.li_company')}</li>
-              <li>{t('PrivacyPolicyModal.li_cookies')}</li>
-              <li>{t('PrivacyPolicyModal.li_country')}</li>
-              <li>{t('PrivacyPolicyModal.li_device')}</li>
-              <li>{t('PrivacyPolicyModal.li_personalData')}</li>
-              <li>{t('PrivacyPolicyModal.li_service')}</li>
-              <li>{t('PrivacyPolicyModal.li_serviceProvider')}</li>
-              <li>{t('PrivacyPolicyModal.li_usageData')}</li>
-              <li>{t('PrivacyPolicyModal.li_website')}</li>
-              <li>{t('PrivacyPolicyModal.li_you')}</li>
+              <li dangerouslySetInnerHTML={renderHTML(t('PrivacyPolicyModal.li_account'))} />
+              <li dangerouslySetInnerHTML={renderHTML(t('PrivacyPolicyModal.li_company'))} />
+              <li dangerouslySetInnerHTML={renderHTML(t('PrivacyPolicyModal.li_cookies'))} />
+              <li dangerouslySetInnerHTML={renderHTML(t('PrivacyPolicyModal.li_country'))} />
+              <li dangerouslySetInnerHTML={renderHTML(t('PrivacyPolicyModal.li_device'))} />
+              <li dangerouslySetInnerHTML={renderHTML(t('PrivacyPolicyModal.li_personalData'))} />
+              <li dangerouslySetInnerHTML={renderHTML(t('PrivacyPolicyModal.li_service'))} />
+              <li dangerouslySetInnerHTML={renderHTML(t('PrivacyPolicyModal.li_serviceProvider'))} />
+              <li dangerouslySetInnerHTML={renderHTML(t('PrivacyPolicyModal.li_usageData'))} />
+              <li dangerouslySetInnerHTML={renderHTML(t('PrivacyPolicyModal.li_website'))} />
+              <li dangerouslySetInnerHTML={renderHTML(t('PrivacyPolicyModal.li_you'))} />
             </ul>
 
             <h3 className="font-semibold text-foreground">{t('PrivacyPolicyModal.h_collecting')}</h3>
