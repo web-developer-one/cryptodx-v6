@@ -415,7 +415,8 @@
     "pricing": "Planes de Precios",
     "login": "Iniciar Sesión",
     "register": "Crear Cuenta",
-    "profile": "Mi Perfil"
+    "profile": "Mi Perfil",
+    "users": "Usuarios"
   },
   "LoginPage": {
     "subtitle": "Inicia sesión en tu cuenta para continuar.",
@@ -462,6 +463,14 @@
     "saveErrorTitle": "Error al Actualizar el Perfil",
     "saveErrorDescription": "Ocurrió un error al actualizar su perfil.",
     "disclaimer": "Valoramos tu privacidad. Ninguna información de blockchain, cripto o claves privadas se almacena en nuestro sitio."
+  },
+  "UsersPage": {
+    "title": "Gestión de Usuarios",
+    "avatar": "Avatar",
+    "username": "Nombre de Usuario",
+    "firstName": "Nombre",
+    "sex": "Sexo",
+    "pricePlan": "Plan de Precios"
   },
   "LogoutToast": {
     "description": "Has cerrado sesión exitosamente."

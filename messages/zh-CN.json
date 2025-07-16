@@ -415,7 +415,8 @@
     "pricing": "价格方案",
     "login": "登录",
     "register": "创建账户",
-    "profile": "我的个人资料"
+    "profile": "我的个人资料",
+    "users": "用户"
   },
   "LoginPage": {
     "subtitle": "登录您的账户以继续。",
@@ -462,6 +463,14 @@
     "saveErrorTitle": "个人资料更新失败",
     "saveErrorDescription": "更新您的个人资料时出错。",
     "disclaimer": "我们重视您的隐私。我们的网站绝不会存储任何区块链、加密货币或私钥信息。"
+  },
+  "UsersPage": {
+    "title": "用户管理",
+    "avatar": "头像",
+    "username": "用户名",
+    "firstName": "名字",
+    "sex": "性别",
+    "pricePlan": "价格方案"
   },
   "LogoutToast": {
     "description": "您已成功登出。"

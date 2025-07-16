@@ -415,7 +415,8 @@
     "pricing": "料金プラン",
     "login": "ログイン",
     "register": "アカウント作成",
-    "profile": "マイプロフィール"
+    "profile": "マイプロフィール",
+    "users": "ユーザー"
   },
   "LoginPage": {
     "subtitle": "アカウントにログインして続行してください。",
@@ -462,6 +463,14 @@
     "saveErrorTitle": "プロフィールの更新に失敗しました",
     "saveErrorDescription": "プロフィールの更新中にエラーが発生しました。",
     "disclaimer": "私たちはあなたのプライバシーを尊重します。ブロックチェーン、仮想通貨、または秘密鍵の情報は、当サイトには一切保存されません。"
+  },
+  "UsersPage": {
+    "title": "ユーザー管理",
+    "avatar": "アバター",
+    "username": "ユーザー名",
+    "firstName": "名",
+    "sex": "性別",
+    "pricePlan": "料金プラン"
   },
   "LogoutToast": {
     "description": "正常にログアウトしました。"

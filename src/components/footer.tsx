@@ -8,9 +8,11 @@ import { PrivacyPolicyModal } from "./privacy-policy-modal";
 import { TermsOfUseModal } from "./terms-of-use-modal";
 import { SiteLogo } from "./site-logo";
 import { useLanguage } from "@/hooks/use-language";
+import { useUser } from "@/hooks/use-user";
 
 export function Footer() {
   const { t } = useLanguage();
+  const { user } = useUser();
   const year = new Date().getFullYear();
 
   const footerSections = [
@@ -43,6 +45,7 @@ export function Footer() {
       links: [
         { name: t('Footer.blog'), href: "https://cryptomx.co/blog/" },
         { name: t('Footer.pricing'), href: "/pricing" },
+        ...(user?.pricePlan === 'Administrator' ? [{ name: t('PageTitles.users'), href: "/users" }] : []),
         { name: t('Footer.cookiePolicy'), href: "#" },
         { name: t('Footer.privacyPolicy'), href: "#" },
         { name: t('Footer.termsOfUse'), href: "#" },
