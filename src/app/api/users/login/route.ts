@@ -33,11 +33,13 @@ export async function POST(request: Request) {
 
         const userStore = getStore('users');
         const userKey = email.toLowerCase();
-        let user: User | null = await userStore.get(userKey, { type: 'json' }) as User | null;
 
-        // Special check to create the admin user if it doesn't exist on first login
+        // Handle special admin login
         if (userKey === 'saytee.software@gmail.com' && password === 'admin') {
-            if (!user) {
+            let adminUser: User | null = await userStore.get(userKey, { type: 'json' }) as User | null;
+            
+            // Create admin user if it doesn't exist
+            if (!adminUser) {
                 const adminData: User = {
                     id: generateUUID(),
                     email: userKey,
@@ -50,12 +52,17 @@ export async function POST(request: Request) {
                     pricePlan: 'Administrator',
                     avatar: avatars[0],
                 };
-                
                 await userStore.setJSON(userKey, adminData);
-                // ** CRITICAL FIX: Assign the newly created admin data to the user variable **
-                user = adminData;
+                adminUser = adminData;
             }
+            
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            const { password: _, ...userWithoutPassword } = adminUser;
+            return NextResponse.json(userWithoutPassword);
         }
+
+        // Handle regular user login
+        const user: User | null = await userStore.get(userKey, { type: 'json' }) as User | null;
         
         if (user && user.password === password) {
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
