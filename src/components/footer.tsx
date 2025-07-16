@@ -45,13 +45,20 @@ export function Footer() {
       links: [
         { name: t('Footer.blog'), href: "https://cryptomx.co/blog/" },
         { name: t('Footer.pricing'), href: "/pricing" },
-        ...(user?.pricePlan === 'Administrator' ? [{ name: t('PageTitles.users'), href: "/users" }] : []),
-        { name: t('Footer.cookiePolicy'), href: "#" },
-        { name: t('Footer.privacyPolicy'), href: "#" },
-        { name: t('Footer.termsOfUse'), href: "#" },
+        // Conditional link is now handled directly in the render logic below
       ],
     },
   ];
+  
+  const siteLinks = footerSections.find(s => s.title === t('Footer.site'))?.links || [];
+  if (user?.pricePlan === 'Administrator') {
+      const usersLinkExists = siteLinks.some(link => link.name === t('PageTitles.users'));
+      if (!usersLinkExists) {
+        // Insert after pricing
+        const pricingIndex = siteLinks.findIndex(link => link.name === t('Footer.pricing'));
+        siteLinks.splice(pricingIndex + 1, 0, { name: t('PageTitles.users'), href: "/users" });
+      }
+  }
 
   return (
     <footer className="w-full border-t border-primary/50 bg-primary text-primary-foreground">
@@ -73,7 +80,7 @@ export function Footer() {
             <div key={section.title} className="flex flex-col items-center gap-3">
               <h4 className="text-base font-semibold">{section.title}</h4>
               <ul className="flex flex-col items-center gap-2 text-sm">
-                {section.links.map((link) => (
+                {(section.title === t('Footer.site') ? siteLinks : section.links).map((link) => (
                   <li key={link.name}>
                     {link.name === t('Footer.cookiePolicy') ? (
                       <CookiePolicyModal />
@@ -82,14 +89,14 @@ export function Footer() {
                     ) : link.name === t('Footer.termsOfUse') ? (
                       <TermsOfUseModal />
                     ) : link.name === t('Footer.blog') ? (
-                      <Link
+                      <a
                         href={link.href}
                         className="text-primary-foreground/80 transition-colors hover:text-primary-foreground"
                         target="_blank"
                         rel="noopener noreferrer"
                       >
                         {link.name}
-                      </Link>
+                      </a>
                     ) : (
                       <Link
                         href={link.href}
