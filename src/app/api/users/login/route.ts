@@ -23,7 +23,6 @@ const generateUUID = () => {
     });
 };
 
-
 export async function POST(request: Request) {
     try {
         const { email, password } = await request.json();
@@ -37,22 +36,25 @@ export async function POST(request: Request) {
         let user: User | null = await userStore.get(userKey, { type: 'json' }) as User | null;
 
         // Special check to create the admin user if it doesn't exist on first login
-        if (!user && userKey === 'saytee.software@gmail.com' && password === 'admin') {
-            const adminData: User = {
-                id: generateUUID(),
-                email: userKey,
-                username: 'Administrator',
-                password: 'admin', // In a real app, this should be hashed
-                firstName: 'Admin',
-                lastName: 'User',
-                age: 0,
-                sex: '',
-                pricePlan: 'Administrator',
-                avatar: avatars[0],
-            };
-            
-            await userStore.setJSON(userKey, adminData);
-            user = adminData; // Assign the newly created user for the session
+        if (userKey === 'saytee.software@gmail.com' && password === 'admin') {
+            if (!user) {
+                const adminData: User = {
+                    id: generateUUID(),
+                    email: userKey,
+                    username: 'Administrator',
+                    password: 'admin', // In a real app, this should be hashed
+                    firstName: 'Admin',
+                    lastName: 'User',
+                    age: 0,
+                    sex: '',
+                    pricePlan: 'Administrator',
+                    avatar: avatars[0],
+                };
+                
+                await userStore.setJSON(userKey, adminData);
+                // ** CRITICAL FIX: Assign the newly created admin data to the user variable **
+                user = adminData;
+            }
         }
         
         if (user && user.password === password) {
