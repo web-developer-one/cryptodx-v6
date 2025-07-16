@@ -8,11 +8,23 @@
  */
 import {ai} from '@/ai/genkit';
 import {z} from 'zod';
+import { getLatestListings } from '@/lib/coinmarketcap';
+import type { Cryptocurrency } from '@/lib/types';
+
+
+const GenerateUpdateInputSchema = z.object({
+  coin: z.object({
+    name: z.string(),
+    symbol: z.string(),
+    change24h: z.number(),
+    price: z.number(),
+  }),
+});
 
 const GenerateUpdateOutputSchema = z.object({
   update: z
     .string()
-    .describe('A short, single-sentence news-like update.'),
+    .describe('A short, single-sentence news-like update about the provided cryptocurrency.'),
   sourceName: z
     .string()
     .describe("The name of the fictional news source (e.g., 'Crypto-Insights Daily')."),
@@ -29,30 +41,36 @@ export async function generateUpdate(): Promise<GenerateUpdateOutput> {
 
 const prompt = ai.definePrompt({
   name: 'generateUpdatePrompt',
+  input: { schema: GenerateUpdateInputSchema },
   output: {schema: GenerateUpdateOutputSchema},
   model: 'googleai/gemini-pro',
-  prompt: `You are an AI for a crypto application. Your task is to generate a single, short, engaging, news-style sentence, along with a fictional source name and URL.
+  prompt: `You are an AI for a crypto application. Your task is to generate a single, short, engaging, news-style sentence based on the real performance of a cryptocurrency provided to you.
   
-The sentence should be about a plausible but fictional event or trend in one of the following domains: Blockchain, DeFi, Crypto, NFTs, or AI.
+The sentence should be about the following cryptocurrency:
+- Name: {{{coin.name}}}
+- Symbol: {{{coin.symbol}}}
+- 24h Change: {{{coin.change24h}}}%
+- Current Price: {{{coin.price}}} USD
 
+Generate a compelling, news-style sentence based on this data.
 Keep it concise and under 15 words. Do not use quotation marks.
 
-The source name should be a plausible name for a crypto news outlet.
-The source URL should be a plausible, but completely fictional, .com URL that matches the source name.
+Also provide a plausible but fictional source name and URL.
 
-Example outputs:
+Example outputs for a coin that is up:
 {
-    "update": "A new cross-chain bridge protocol just launched with record-breaking transaction speeds.",
-    "sourceName": "DeFi Pulse",
-    "sourceUrl": "https://www.defipulse-news.com/articles/new-bridge-protocol"
+    "update": "{{{coin.name}}} is surging, up {{{coin.change24h}}}% in the last 24 hours.",
+    "sourceName": "Coin-Watch",
+    "sourceUrl": "https://www.coin-watch-news.com/articles/coin-surge"
 }
+Example outputs for a coin that is down:
 {
-    "update": "On-chain analytics reveal a major surge in NFT marketplace volume this week.",
-    "sourceName": "NFT Analytics Today",
-    "sourceUrl": "https://www.nftanalyticstoday.com/reports/market-surge-q3"
+    "update": "{{{coin.name}}} sees a slight dip, down {{{coin.change24h}}}% over the past day.",
+    "sourceName": "DeFi Today",
+    "sourceUrl": "https://www.defitoday.com/reports/market-dip-q3"
 }
 
-Generate a new, unique update now.`,
+Generate a new, unique update now based on the data for {{{coin.name}}}.`,
 });
 
 const generateUpdateFlow = ai.defineFlow(
@@ -61,7 +79,29 @@ const generateUpdateFlow = ai.defineFlow(
     outputSchema: GenerateUpdateOutputSchema,
   },
   async () => {
-    const {output} = await prompt({});
+    const { data, error } = await getLatestListings();
+
+    if (error || !data || data.length === 0) {
+        // Fallback to a generic message if API fails
+        return {
+            update: 'Crypto markets are active, check the latest prices for top movers.',
+            sourceName: 'CryptoDx',
+            sourceUrl: 'https://cryptodx-v7.netlify.app/'
+        };
+    }
+    
+    // Select a notable coin - e.g., a top gainer/loser or a high-volume coin
+    const sortedByChange = [...data].sort((a,b) => Math.abs(b.change24h) - Math.abs(a.change24h));
+    const notableCoin: Cryptocurrency = sortedByChange[Math.floor(Math.random() * 5)]; // Pick one of the top 5 movers
+
+    const {output} = await prompt({
+        coin: {
+            name: notableCoin.name,
+            symbol: notableCoin.symbol,
+            change24h: notableCoin.change24h,
+            price: notableCoin.price,
+        }
+    });
     return output!;
   }
 );
