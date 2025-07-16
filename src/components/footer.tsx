@@ -45,7 +45,9 @@ export function Footer() {
       links: [
         { name: t('Footer.blog'), href: "https://cryptomx.co/blog/" },
         { name: t('Footer.pricing'), href: "/pricing" },
-        // Conditional link is now handled directly in the render logic below
+        { name: t('Footer.cookiePolicy'), href: "#" },
+        { name: t('Footer.privacyPolicy'), href: "#" },
+        { name: t('Footer.termsOfUse'), href: "#" },
       ],
     },
   ];
