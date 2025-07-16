@@ -43,8 +43,8 @@ export async function POST(request: Request) {
                 username: 'Administrator',
                 firstName: 'Admin',
                 lastName: 'User',
-                age: 0,
-                sex: '',
+                age: 49,
+                sex: 'Male',
                 pricePlan: 'Administrator',
                 avatar: avatars[0],
             };

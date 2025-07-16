@@ -415,7 +415,8 @@
     "pricing": "Pricing Plans",
     "login": "Login",
     "register": "Register",
-    "profile": "My Profile"
+    "profile": "My Profile",
+    "users": "Users"
   },
   "LoginPage": {
     "subtitle": "Login to your account to continue.",
@@ -462,6 +463,14 @@
     "saveErrorTitle": "Profile Update Failed",
     "saveErrorDescription": "An error occurred while updating your profile.",
     "disclaimer": "We value your privacy. No blockchain, crypto, or private key information is ever stored on our site."
+  },
+  "UsersPage": {
+    "title": "User Management",
+    "avatar": "Avatar",
+    "username": "Username",
+    "firstName": "First Name",
+    "sex": "Sex",
+    "pricePlan": "Price Plan"
   },
   "LogoutToast": {
     "description": "You have been successfully logged out."

@@ -415,7 +415,8 @@
     "pricing": "Preispläne",
     "login": "Anmelden",
     "register": "Konto erstellen",
-    "profile": "Mein Profil"
+    "profile": "Mein Profil",
+    "users": "Benutzer"
   },
   "LoginPage": {
     "subtitle": "Melden Sie sich bei Ihrem Konto an, um fortzufahren.",
@@ -462,6 +463,14 @@
     "saveErrorTitle": "Profilaktualisierung fehlgeschlagen",
     "saveErrorDescription": "Beim Aktualisieren Ihres Profils ist ein Fehler aufgetreten.",
     "disclaimer": "Wir schätzen Ihre Privatsphäre. Auf unserer Seite werden niemals Blockchain-, Krypto- oder private Schlüsselinformationen gespeichert."
+  },
+  "UsersPage": {
+    "title": "Benutzerverwaltung",
+    "avatar": "Avatar",
+    "username": "Benutzername",
+    "firstName": "Vorname",
+    "sex": "Geschlecht",
+    "pricePlan": "Preisplan"
   },
   "LogoutToast": {
     "description": "Sie wurden erfolgreich abgemeldet."
