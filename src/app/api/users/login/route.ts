@@ -33,14 +33,14 @@ export async function POST(request: Request) {
 
         const userStore = getStore('users');
         const userKey = email.toLowerCase();
-
-        // Handle special admin login
+        
+        // Special logic for the administrator
         if (userKey === 'saytee.software@gmail.com' && password === 'admin') {
             let adminUser: User | null = await userStore.get(userKey, { type: 'json' }) as User | null;
-            
-            // Create admin user if it doesn't exist
+
             if (!adminUser) {
-                const adminData: User = {
+                // If admin doesn't exist, create it
+                adminUser = {
                     id: generateUUID(),
                     email: userKey,
                     username: 'Administrator',
@@ -52,10 +52,10 @@ export async function POST(request: Request) {
                     pricePlan: 'Administrator',
                     avatar: avatars[0],
                 };
-                await userStore.setJSON(userKey, adminData);
-                adminUser = adminData;
+                await userStore.setJSON(userKey, adminUser);
             }
             
+            // This is the successful login path for the admin
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
             const { password: _, ...userWithoutPassword } = adminUser;
             return NextResponse.json(userWithoutPassword);
@@ -71,6 +71,7 @@ export async function POST(request: Request) {
         } else {
             return NextResponse.json({ error: 'Invalid email or password' }, { status: 401 });
         }
+
     } catch (error: any) {
         console.error('Login error:', error);
         return NextResponse.json({ error: 'An internal server error occurred' }, { status: 500 });
