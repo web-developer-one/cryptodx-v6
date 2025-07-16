@@ -328,7 +328,7 @@
     "placeholder": "Type your message...",
     "send": "Send",
     "askAbout": "Ask about...",
-    "topics": "Blockchain, DeFi, Crypto, NFT, or AI!",
+    "topics": "Blockchain, DeFi, Crypto, NFT, etc.",
     "errorResponse": "I'm having trouble generating a response right now. Please try a different question.",
     "connectionError": "Sorry, I'm having trouble connecting right now. Please try again later.",
     "listening": "Listening...",
