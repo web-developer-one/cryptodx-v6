@@ -7,9 +7,6 @@ import { useToast } from './use-toast';
 import { useLanguage } from './use-language';
 import { avatars } from '@/lib/constants';
 
-// This file is now fully client-side and interacts with APIs
-// It no longer needs to know about idb-keyval or initial user data
-
 export { avatars };
 
 interface UserContextType {

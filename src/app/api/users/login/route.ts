@@ -5,10 +5,11 @@ import type { User } from '@/lib/types';
 import { avatars } from '@/lib/constants';
 
 // This is a simplified UUID generator that is compatible with various JS environments.
+// It is more reliable in serverless functions than crypto.randomUUID().
 const generateUUID = () => {
     let
         d = new Date().getTime(),
-        d2 = (performance && performance.now && (performance.now() * 1000)) || 0;
+        d2 = (typeof performance !== 'undefined' && performance.now && (performance.now() * 1000)) || 0;
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
         let r = Math.random() * 16;
         if (d > 0) {
@@ -37,7 +38,8 @@ export async function POST(request: Request) {
 
         // Special check to create the admin user if it doesn't exist on first login
         if (!user && userKey === 'saytee.software@gmail.com' && password === 'admin') {
-            const adminData: Omit<User, 'id'> = {
+            const adminData: User = {
+                id: generateUUID(),
                 email: userKey,
                 username: 'Administrator',
                 password: 'admin', // In a real app, this should be hashed
@@ -49,13 +51,8 @@ export async function POST(request: Request) {
                 avatar: avatars[0],
             };
             
-            const newUser: User = {
-                id: generateUUID(),
-                ...adminData
-            };
-
-            await userStore.setJSON(userKey, newUser);
-            user = newUser; // Assign the newly created user for the session
+            await userStore.setJSON(userKey, adminData);
+            user = adminData; // Assign the newly created user for the session
         }
         
         if (user && user.password === password) {
