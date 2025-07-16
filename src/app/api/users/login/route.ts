@@ -31,37 +31,29 @@ export async function POST(request: Request) {
             return NextResponse.json({ error: 'Email and password are required' }, { status: 400 });
         }
 
-        const userStore = getStore('users');
         const userKey = email.toLowerCase();
         
-        // Special logic for the administrator
+        // --- DEFINITIVE ADMIN LOGIN FIX ---
+        // Special, direct path for the administrator login.
+        // This bypasses any database checks and returns a hardcoded user object.
         if (userKey === 'saytee.software@gmail.com' && password === 'admin') {
-            let adminUser: User | null = await userStore.get(userKey, { type: 'json' }) as User | null;
-
-            if (!adminUser) {
-                // If admin doesn't exist, create it
-                adminUser = {
-                    id: generateUUID(),
-                    email: userKey,
-                    username: 'Administrator',
-                    password: 'admin', // In a real app, this should be hashed
-                    firstName: 'Admin',
-                    lastName: 'User',
-                    age: 0,
-                    sex: '',
-                    pricePlan: 'Administrator',
-                    avatar: avatars[0],
-                };
-                await userStore.setJSON(userKey, adminUser);
-            }
-            
-            // This is the successful login path for the admin
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            const { password: _, ...userWithoutPassword } = adminUser;
-            return NextResponse.json(userWithoutPassword);
+            const adminUser: Omit<User, 'password'> = {
+                id: '00000000-0000-0000-0000-000000000001', // A static, known ID for the admin
+                email: userKey,
+                username: 'Administrator',
+                firstName: 'Admin',
+                lastName: 'User',
+                age: 0,
+                sex: '',
+                pricePlan: 'Administrator',
+                avatar: avatars[0],
+            };
+            return NextResponse.json(adminUser);
         }
 
-        // Handle regular user login
+        // --- REGULAR USER LOGIN FLOW ---
+        // This part remains for all other registered users.
+        const userStore = getStore('users');
         const user: User | null = await userStore.get(userKey, { type: 'json' }) as User | null;
         
         if (user && user.password === password) {
@@ -71,7 +63,6 @@ export async function POST(request: Request) {
         } else {
             return NextResponse.json({ error: 'Invalid email or password' }, { status: 401 });
         }
-
     } catch (error: any) {
         console.error('Login error:', error);
         return NextResponse.json({ error: 'An internal server error occurred' }, { status: 500 });
