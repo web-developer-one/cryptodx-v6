@@ -1,7 +1,7 @@
-
 import { NextResponse } from 'next/server';
 import { getStore } from '@netlify/blobs';
 import type { User } from '@/lib/types';
+import { Resend } from 'resend';
 
 // This is a simplified UUID generator that is compatible with various JS environments.
 const generateUUID = () => {
@@ -44,6 +44,25 @@ export async function POST(request: Request) {
         };
 
         await userStore.setJSON(userKey, createdUser);
+
+        // Send welcome email using Resend
+        if (process.env.RESEND_API_KEY) {
+            try {
+                const resend = new Resend(process.env.RESEND_API_KEY);
+                await resend.emails.send({
+                    from: 'onboarding@resend.dev',
+                    to: createdUser.email,
+                    subject: 'Welcome to CryptoDx!',
+                    html: `<h1>Welcome, ${createdUser.username}!</h1><p>Your account for CryptoDx has been successfully created. You can now log in and start exploring.</p><p>Thanks for joining!</p>`,
+                });
+            } catch (emailError) {
+                // Log the error but don't fail the registration if email fails
+                console.error("Failed to send welcome email:", emailError);
+            }
+        } else {
+            console.warn("RESEND_API_KEY is not set. Skipping welcome email.");
+        }
+
 
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { password, ...userWithoutPassword } = createdUser;
