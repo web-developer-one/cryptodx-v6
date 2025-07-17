@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { useUser, avatars } from "@/hooks/use-user";
+import { useUser } from "@/hooks/use-user";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useLanguage } from "@/hooks/use-language";
@@ -25,6 +25,7 @@ import { cn } from "@/lib/utils";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
+import { avatars } from "@/lib/constants";
 
 
 const profileFormSchema = z.object({
