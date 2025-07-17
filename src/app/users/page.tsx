@@ -1,59 +1,104 @@
 
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useUser } from '@/hooks/use-user';
 import { useRouter } from 'next/navigation';
 import type { User } from '@/lib/types';
 import { useLanguage } from '@/hooks/use-language';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Eye, Pencil, Trash2, MoreVertical } from 'lucide-react';
+import Link from 'next/link';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { useToast } from '@/hooks/use-toast';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+
+const ADMIN_EMAIL = 'saytee.software@gmail.com';
 
 export default function UsersPage() {
-    const { user, isAuthenticated, isLoading: isUserLoading } = useUser();
+    const { user: adminUser, isAuthenticated, isLoading: isUserLoading } = useUser();
     const router = useRouter();
     const { t } = useLanguage();
+    const { toast } = useToast();
     const [users, setUsers] = useState<Omit<User, 'password'>[]>([]);
     const [isLoadingPage, setIsLoadingPage] = useState(true);
+
+    const fetchUsers = useCallback(async () => {
+        setIsLoadingPage(true);
+        try {
+            const response = await fetch('/api/users');
+            if (response.ok) {
+                const data = await response.json();
+                setUsers(data);
+            } else {
+                toast({ variant: "destructive", title: "Error", description: "Failed to fetch users." });
+            }
+        } catch (error) {
+            console.error("Failed to fetch users", error);
+            toast({ variant: "destructive", title: "Error", description: "A connection error occurred while fetching users." });
+        } finally {
+            setIsLoadingPage(false);
+        }
+    }, [toast]);
 
     useEffect(() => {
         document.title = t('PageTitles.users');
     }, [t]);
 
     useEffect(() => {
-        // Redirect if user is not loaded or not an admin
-        if (!isUserLoading && (!isAuthenticated || user?.pricePlan !== 'Administrator')) {
-            router.push('/');
+        if (!isUserLoading) {
+            if (!isAuthenticated || adminUser?.pricePlan !== 'Administrator') {
+                router.push('/login');
+            } else {
+                fetchUsers();
+            }
         }
-    }, [user, isAuthenticated, isUserLoading, router]);
+    }, [adminUser, isAuthenticated, isUserLoading, router, fetchUsers]);
 
-    useEffect(() => {
-        if (user?.pricePlan === 'Administrator') {
-            const fetchUsers = async () => {
-                setIsLoadingPage(true);
-                try {
-                    const response = await fetch('/api/users');
-                    if (response.ok) {
-                        const data = await response.json();
-                        setUsers(data);
-                    }
-                } catch (error) {
-                    console.error("Failed to fetch users", error);
-                } finally {
-                    setIsLoadingPage(false);
-                }
-            };
-            fetchUsers();
+    const handleDeleteUser = async (userId: string) => {
+        try {
+            const response = await fetch(`/api/users/${userId}/delete`, {
+                method: 'DELETE',
+            });
+            const data = await response.json();
+            if (response.ok) {
+                toast({ title: "Success", description: data.message });
+                fetchUsers(); // Refresh the user list
+            } else {
+                toast({ variant: "destructive", title: "Error", description: data.error });
+            }
+        } catch (error) {
+            toast({ variant: "destructive", title: "Error", description: "Failed to delete user due to a connection error." });
         }
-    }, [user]);
-
-    if (isUserLoading || isLoadingPage || user?.pricePlan !== 'Administrator') {
+    };
+    
+    if (isUserLoading || isLoadingPage) {
         return (
              <div className="container py-12">
-                <Skeleton className="h-12 w-1/4 mb-8" />
+                <div className="flex justify-between items-center mb-4">
+                    <Skeleton className="h-10 w-1/4" />
+                    <Skeleton className="h-10 w-24" />
+                </div>
                 <Skeleton className="h-96 w-full" />
             </div>
         );
@@ -64,6 +109,7 @@ export default function UsersPage() {
             <Card>
                 <CardHeader>
                     <CardTitle>{t('UsersPage.title')}</CardTitle>
+                    <CardDescription>{t('UsersPage.description')}</CardDescription>
                 </CardHeader>
                 <CardContent>
                     <Table>
@@ -71,27 +117,68 @@ export default function UsersPage() {
                             <TableRow>
                                 <TableHead className="w-[80px]">{t('UsersPage.avatar')}</TableHead>
                                 <TableHead>{t('UsersPage.username')}</TableHead>
-                                <TableHead>{t('UsersPage.firstName')}</TableHead>
-                                <TableHead>{t('UsersPage.sex')}</TableHead>
+                                <TableHead>{t('UsersPage.email')}</TableHead>
                                 <TableHead>{t('UsersPage.pricePlan')}</TableHead>
+                                <TableHead className="text-right">{t('UsersPage.actions')}</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {users.map((u) => (
-                                <TableRow key={u.id}>
+                            {users.map((user) => (
+                                <TableRow key={user.id}>
                                     <TableCell>
                                         <Avatar>
-                                            <AvatarImage src={u.avatar} alt={u.username} />
-                                            <AvatarFallback>{u.username.charAt(0).toUpperCase()}</AvatarFallback>
+                                            <AvatarImage src={user.avatar} alt={user.username} />
+                                            <AvatarFallback>{user.username.charAt(0).toUpperCase()}</AvatarFallback>
                                         </Avatar>
                                     </TableCell>
-                                    <TableCell className="font-medium">{u.username}</TableCell>
-                                    <TableCell>{u.firstName || 'N/A'}</TableCell>
-                                    <TableCell>{u.sex || 'N/A'}</TableCell>
+                                    <TableCell className="font-medium">{user.username}</TableCell>
+                                    <TableCell>{user.email}</TableCell>
                                     <TableCell>
-                                        <Badge variant={u.pricePlan === 'Administrator' ? 'destructive' : 'secondary'}>
-                                            {u.pricePlan}
+                                        <Badge variant={user.pricePlan === 'Administrator' ? 'destructive' : 'secondary'}>
+                                            {user.pricePlan}
                                         </Badge>
+                                    </TableCell>
+                                    <TableCell className="text-right">
+                                        <DropdownMenu>
+                                            <DropdownMenuTrigger asChild>
+                                                <Button variant="ghost" size="icon">
+                                                    <MoreVertical className="h-4 w-4" />
+                                                </Button>
+                                            </DropdownMenuTrigger>
+                                            <DropdownMenuContent align="end">
+                                                <DropdownMenuItem asChild>
+                                                    <Link href={`/users/${user.id}`} className="cursor-pointer">
+                                                        <Pencil className="mr-2 h-4 w-4" />
+                                                        <span>{t('UsersPage.edit')}</span>
+                                                    </Link>
+                                                </DropdownMenuItem>
+                                                <AlertDialog>
+                                                    <AlertDialogTrigger asChild>
+                                                         <button
+                                                            className="relative flex cursor-pointer select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 w-full disabled:cursor-not-allowed"
+                                                            disabled={user.email === ADMIN_EMAIL}
+                                                        >
+                                                            <Trash2 className="mr-2 h-4 w-4 text-destructive" />
+                                                            <span className="text-destructive">{t('UsersPage.delete')}</span>
+                                                        </button>
+                                                    </AlertDialogTrigger>
+                                                    <AlertDialogContent>
+                                                        <AlertDialogHeader>
+                                                        <AlertDialogTitle>{t('UsersPage.deleteConfirmTitle')}</AlertDialogTitle>
+                                                        <AlertDialogDescription>
+                                                            {t('UsersPage.deleteConfirmDesc').replace('{username}', user.username)}
+                                                        </AlertDialogDescription>
+                                                        </AlertDialogHeader>
+                                                        <AlertDialogFooter>
+                                                        <AlertDialogCancel>{t('SwapInterface.cancel')}</AlertDialogCancel>
+                                                        <AlertDialogAction onClick={() => handleDeleteUser(user.id)} className="bg-destructive hover:bg-destructive/90">
+                                                            {t('UsersPage.delete')}
+                                                        </AlertDialogAction>
+                                                        </AlertDialogFooter>
+                                                    </AlertDialogContent>
+                                                </AlertDialog>
+                                            </DropdownMenuContent>
+                                        </DropdownMenu>
                                     </TableCell>
                                 </TableRow>
                             ))}
@@ -102,4 +189,3 @@ export default function UsersPage() {
         </div>
     );
 }
-

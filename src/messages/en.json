@@ -328,7 +328,7 @@
     "placeholder": "Type your message...",
     "send": "Send",
     "askAbout": "Ask about...",
-    "topics": "Blockchain, DeFi, Crypto, NFT, etc.",
+    "topics": "Blockchain, DeFi, Crypto, NFT, or AI!",
     "errorResponse": "I'm having trouble generating a response right now. Please try a different question.",
     "connectionError": "Sorry, I'm having trouble connecting right now. Please try again later.",
     "listening": "Listening...",
@@ -466,11 +466,16 @@
   },
   "UsersPage": {
     "title": "User Management",
-    "avatar": "Avatar",
-    "username": "Username",
-    "firstName": "First Name",
-    "sex": "Sex",
-    "pricePlan": "Price Plan"
+    "description": "View, edit, and manage user accounts.",
+    "email": "Email",
+    "actions": "Actions",
+    "edit": "Edit",
+    "delete": "Delete",
+    "deleteConfirmTitle": "Are you absolutely sure?",
+    "deleteConfirmDesc": "This action cannot be undone. This will permanently delete the account for {username}.",
+    "backToUsers": "Back to Users",
+    "editUser": "Edit User Profile",
+    "editUserSubtitle": "Modify the details for the selected user."
   },
   "LogoutToast": {
     "description": "You have been successfully logged out."

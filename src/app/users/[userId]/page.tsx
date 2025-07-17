@@ -30,7 +30,6 @@ import type { User } from '@/lib/types';
 import Link from "next/link";
 import { useToast } from "@/hooks/use-toast";
 
-
 const profileFormSchema = z.object({
   username: z.string().min(2, "Username is too short."),
   firstName: z.string(),
@@ -65,13 +64,6 @@ export default function UserDetailPage({ params }: { params: { userId: string } 
     },
   });
 
-  // Authorization: Make sure only admins can see this page.
-  useEffect(() => {
-    if (!isAdminLoading && (!isAuthenticated || adminUser?.pricePlan !== 'Administrator')) {
-      router.push('/login');
-    }
-  }, [isAdminLoading, isAuthenticated, adminUser, router]);
-
   const fetchPageUser = useCallback(async () => {
     setIsLoadingPage(true);
     try {
@@ -101,12 +93,15 @@ export default function UserDetailPage({ params }: { params: { userId: string } 
   }, [params.userId, router, toast, form]);
 
   useEffect(() => {
-    if (adminUser?.pricePlan === 'Administrator') {
-      fetchPageUser();
+    if (!isAdminLoading) {
+      if (!isAuthenticated || adminUser?.pricePlan !== 'Administrator') {
+        router.push('/login');
+      } else {
+        fetchPageUser();
+      }
     }
-  }, [adminUser, fetchPageUser]);
+  }, [isAdminLoading, isAuthenticated, adminUser, router, fetchPageUser]);
 
-  
   async function onSubmit(data: ProfileFormValues) {
     if (!pageUser) return;
     setIsSaving(true);
@@ -114,7 +109,7 @@ export default function UserDetailPage({ params }: { params: { userId: string } 
         const response = await fetch(`/api/users/${pageUser.id}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ ...data, avatar: pageUser.avatar }), // ensure avatar is preserved
+            body: JSON.stringify({ ...data, avatar: pageUser.avatar }),
         });
         const updatedData = await response.json();
         if (response.ok) {
@@ -306,6 +301,3 @@ export default function UserDetailPage({ params }: { params: { userId: string } 
     </div>
   );
 }
-    
-
-    
