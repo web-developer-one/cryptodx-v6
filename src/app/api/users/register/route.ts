@@ -50,7 +50,8 @@ export async function POST(request: Request) {
             try {
                 const resend = new Resend(process.env.RESEND_API_KEY);
                 await resend.emails.send({
-                    from: 'onboarding@resend.dev',
+                    // from: 'onboarding@resend.dev',
+                    from: 'info@web-developer.one',
                     to: createdUser.email,
                     subject: 'Welcome to CryptoDx!',
                     html: `<h1>Welcome, ${createdUser.username}!</h1><p>Your account for CryptoDx has been successfully created. You can now log in and start exploring.</p><p>Thanks for joining!</p>`,

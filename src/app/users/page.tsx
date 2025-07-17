@@ -115,10 +115,10 @@ export default function UsersPage() {
                     <Table>
                         <TableHeader>
                             <TableRow>
-                                <TableHead className="w-[80px]">{t('UsersPage.avatar')}</TableHead>
-                                <TableHead>{t('UsersPage.username')}</TableHead>
+                                <TableHead className="w-[80px]">Avatar</TableHead>
+                                <TableHead>Username</TableHead>
                                 <TableHead>{t('UsersPage.email')}</TableHead>
-                                <TableHead>{t('UsersPage.pricePlan')}</TableHead>
+                                <TableHead>Price Plan</TableHead>
                                 <TableHead className="text-right">{t('UsersPage.actions')}</TableHead>
                             </TableRow>
                         </TableHeader>
