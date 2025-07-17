@@ -1,3 +1,4 @@
+import 'dotenv/config'; // Make sure this is at the top
 import { NextResponse } from 'next/server';
 import { getStore } from '@netlify/blobs';
 import type { User } from '@/lib/types';
