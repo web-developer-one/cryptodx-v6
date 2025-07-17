@@ -65,7 +65,7 @@ export function Footer() {
   return (
     <footer className="w-full border-t border-primary/50 bg-primary text-primary-foreground">
       <div className="container max-w-screen-2xl py-12">
-        <div className="flex flex-row flex-wrap items-start justify-center gap-x-24 gap-y-8 text-center">
+        <div className="flex flex-col md:flex-row flex-wrap items-center md:items-start justify-center gap-x-24 gap-y-8 text-center">
           {/* Column 1: Site Info */}
           <div className="flex flex-col items-center gap-4">
             <Link href="/" className="flex items-center space-x-3">
