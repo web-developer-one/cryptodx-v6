@@ -311,7 +311,7 @@ export function Chatbot() {
       </div>
 
       {isOpen && (
-        <Card className="fixed bottom-24 right-6 z-50 w-full max-w-sm h-[60vh] flex flex-col shadow-2xl rounded-lg animate-in fade-in-0 zoom-in-95">
+        <Card className="fixed bottom-24 z-50 h-[60vh] flex flex-col shadow-2xl rounded-lg animate-in fade-in-0 zoom-in-95 inset-x-4 sm:inset-x-auto sm:right-6 sm:w-full sm:max-w-sm">
            <CardHeader className="p-4 border-b">
              <div className="flex items-center gap-2">
                 <SiteLogo className="h-6 w-6" />
