@@ -141,7 +141,8 @@
   },
   "PositionsNav": {
     "yourPositions": "Your Positions",
-    "addLiquidity": "Add Liquidity"
+    "addLiquidity": "Add Liquidity",
+    "moralis": "Moralis"
   },
   "ExploreNav": {
     "tokens": "Tokens",
@@ -407,6 +408,7 @@
     "pools": "Liquidity Pools",
     "addLiquidity": "Add Liquidity",
     "positions": "Your Positions",
+    "moralis": "Moralis",
     "slippage": "Slippage Analysis",
     "spot": "Spot Trading",
     "tokens": "Explore Tokens",
