@@ -41,12 +41,6 @@ export function Footer() {
       ],
     },
     {
-      title: 'Moralis',
-      links: [
-        { name: 'Moralis Swap', href: '/moralis'}
-      ]
-    },
-    {
       title: t('Footer.site'),
       links: [
         { name: t('Footer.blog'), href: "https://cryptomx.co/blog/" },
