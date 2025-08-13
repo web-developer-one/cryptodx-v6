@@ -30,11 +30,8 @@ export function ChangellyPageClient({ cryptoData, error }: ChangellyPageClientPr
       );
     }
     
-    if (cryptoData.length === 0) {
-      return <Skeleton className="h-[480px] w-full max-w-md mt-6" />;
-    }
-
-    return <ChangellySwapInterface allTokens={cryptoData} />;
+    // We pass no props now, as the component fetches its own data
+    return <ChangellySwapInterface />;
   };
 
   return (

@@ -2,7 +2,6 @@
 'use client';
 
 import { useState, useEffect, useMemo, useCallback } from 'react';
-import type { Cryptocurrency } from '@/lib/types';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -24,7 +23,7 @@ interface ChangellyCurrency {
     image: string;
 }
 
-export function ChangellySwapInterface({ allTokens }: { allTokens: Cryptocurrency[] }) {
+export function ChangellySwapInterface() {
   const { t } = useLanguage();
   const [fromToken, setFromToken] = useState<ChangellyCurrency | null>(null);
   const [toToken, setToToken] = useState<ChangellyCurrency | null>(null);
@@ -42,33 +41,22 @@ export function ChangellySwapInterface({ allTokens }: { allTokens: Cryptocurrenc
   useEffect(() => {
     async function fetchCurrencies() {
       try {
-        const response = await fetch('/api/changelly/getCurrencies', {
+        const response = await fetch('/api/changelly/getCurrenciesFull', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({id: "1", jsonrpc: "2.0", method: "getCurrencies", params: {}})
+            body: JSON.stringify({id: "1", jsonrpc: "2.0", method: "getCurrenciesFull", params: {}})
         });
         const data = await response.json();
         if (data.result) {
-            // Since getCurrencies only returns tickers, we can't get full details.
-            // We'll fall back to getCurrenciesFull to get the necessary UI data.
-            // This is a common pattern: get a list of supported items, then get details for them.
-            const fullDetailsResponse = await fetch('/api/changelly/getCurrenciesFull', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({id: "1", jsonrpc: "2.0", method: "getCurrenciesFull", params: {}})
-            });
-            const fullDetailsData = await fullDetailsResponse.json();
-            if (fullDetailsData.result) {
-                const enabledCurrencies = fullDetailsData.result.filter((c: ChangellyCurrency) => c.enabled && data.result.includes(c.ticker));
-                setChangellyCurrencies(enabledCurrencies);
-                setFromToken(enabledCurrencies.find((c: ChangellyCurrency) => c.ticker === 'btc'));
-                setToToken(enabledCurrencies.find((c: ChangellyCurrency) => c.ticker === 'eth'));
-            } else {
-                 throw new Error("Could not fetch full currency details.");
-            }
+            const enabledCurrencies = data.result.filter((c: ChangellyCurrency) => c.enabled);
+            setChangellyCurrencies(enabledCurrencies);
+            setFromToken(enabledCurrencies.find((c: ChangellyCurrency) => c.ticker === 'btc'));
+            setToToken(enabledCurrencies.find((c: ChangellyCurrency) => c.ticker === 'eth'));
+        } else {
+            throw new Error(data.error?.message || "Could not fetch currency details.");
         }
-      } catch (error) {
-        toast({ variant: 'destructive', title: "Error", description: "Could not load currencies from Changelly." });
+      } catch (error: any) {
+        toast({ variant: 'destructive', title: "Error", description: `Could not load currencies from Changelly: ${error.message}` });
       } finally {
         setIsLoading(false);
       }
@@ -140,7 +128,6 @@ export function ChangellySwapInterface({ allTokens }: { allTokens: Cryptocurrenc
         }
     }
   }
-
 
   if (isLoading) {
     return (
