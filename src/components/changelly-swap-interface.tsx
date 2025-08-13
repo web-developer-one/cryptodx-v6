@@ -49,9 +49,10 @@ export function ChangellySwapInterface({ allTokens }: { allTokens: Cryptocurrenc
         });
         const data = await response.json();
         if (data.result) {
-          setChangellyCurrencies(data.result);
-          setFromToken(data.result.find((c: ChangellyCurrency) => c.ticker === 'btc'));
-          setToToken(data.result.find((c: ChangellyCurrency) => c.ticker === 'eth'));
+          const enabledCurrencies = data.result.filter((c: ChangellyCurrency) => c.enabled);
+          setChangellyCurrencies(enabledCurrencies);
+          setFromToken(enabledCurrencies.find((c: ChangellyCurrency) => c.ticker === 'btc'));
+          setToToken(enabledCurrencies.find((c: ChangellyCurrency) => c.ticker === 'eth'));
         }
       } catch (error) {
         toast({ variant: 'destructive', title: "Error", description: "Could not load currencies from Changelly." });
@@ -73,11 +74,11 @@ export function ChangellySwapInterface({ allTokens }: { allTokens: Cryptocurrenc
                 id: "1",
                 jsonrpc: "2.0",
                 method: "getExchangeAmount",
-                params: {
+                params: [{
                     from: fromToken.ticker,
                     to: toToken.ticker,
                     amount: debouncedFromAmount
-                }
+                }]
             })
         });
         const data = await response.json();
@@ -99,14 +100,39 @@ export function ChangellySwapInterface({ allTokens }: { allTokens: Cryptocurrenc
   }, [getQuote]);
 
   const handleSwap = () => {
-    setFromToken(toToken);
-    setToToken(fromToken);
+    const currentFrom = fromToken;
+    const currentTo = toToken;
+    setFromToken(currentTo);
+    setToToken(currentFrom);
   };
+  
+  const handleFromTokenChange = (ticker: string) => {
+    const token = changellyCurrencies.find(c => c.ticker === ticker);
+    if (token) {
+        if (toToken && token.ticker === toToken.ticker) {
+            handleSwap();
+        } else {
+            setFromToken(token);
+        }
+    }
+  }
+  
+  const handleToTokenChange = (ticker: string) => {
+    const token = changellyCurrencies.find(c => c.ticker === ticker);
+    if (token) {
+        if (fromToken && token.ticker === fromToken.ticker) {
+            handleSwap();
+        } else {
+            setToToken(token);
+        }
+    }
+  }
+
 
   if (isLoading) {
     return (
       <Card className="w-full max-w-md shadow-2xl shadow-primary/10">
-        <CardHeader><Skeleton className="h-8 w-32 mx-auto" /></CardHeader>
+        <CardHeader><Skeleton className="h-8 w-32 mx-auto" /><Skeleton className="h-5 w-48 mx-auto mt-2" /></CardHeader>
         <CardContent><Skeleton className="h-[250px] w-full" /></CardContent>
         <CardFooter><Skeleton className="h-12 w-full" /></CardFooter>
       </Card>
@@ -124,21 +150,28 @@ export function ChangellySwapInterface({ allTokens }: { allTokens: Cryptocurrenc
           <label className="text-sm text-muted-foreground">{t('SwapInterface.sell')}</label>
           <div className="flex items-center gap-2">
             <Input type="text" placeholder="0" className="text-3xl h-12 bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0 p-0" value={fromAmount} onChange={e => setFromAmount(e.target.value)} />
-            {fromToken && <Select value={fromToken.ticker} onValueChange={(ticker) => setFromToken(changellyCurrencies.find(c => c.ticker === ticker) || null)}>
-              <SelectTrigger className="w-[180px] h-12 text-lg font-bold">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                {changellyCurrencies.filter(c => c.enabled).map((token) => (
-                  <SelectItem key={token.ticker} value={token.ticker}>
-                    <div className="flex items-center gap-2">
-                      <Image src={token.image} alt={token.name} width={20} height={20} className="rounded-full" />
-                      {token.ticker.toUpperCase()}
-                    </div>
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>}
+            {fromToken && 
+                <Select value={fromToken.ticker} onValueChange={handleFromTokenChange}>
+                  <SelectTrigger className="w-[180px] h-12 text-lg font-bold">
+                    <SelectValue>
+                         <div className="flex items-center gap-2">
+                          <Image src={fromToken.image} alt={fromToken.name} width={20} height={20} className="rounded-full" />
+                          {fromToken.ticker.toUpperCase()}
+                        </div>
+                    </SelectValue>
+                  </SelectTrigger>
+                  <SelectContent>
+                    {changellyCurrencies.map((token) => (
+                      <SelectItem key={token.ticker} value={token.ticker}>
+                        <div className="flex items-center gap-2">
+                          <Image src={token.image} alt={token.name} width={20} height={20} className="rounded-full" />
+                          {token.ticker.toUpperCase()}
+                        </div>
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+            }
           </div>
         </div>
 
@@ -154,21 +187,28 @@ export function ChangellySwapInterface({ allTokens }: { allTokens: Cryptocurrenc
             <div className="flex-1 text-3xl h-12 flex items-center">
               {isFetchingQuote ? <Loader2 className="h-6 w-6 animate-spin" /> : (toAmount || '0')}
             </div>
-            {toToken && <Select value={toToken.ticker} onValueChange={(ticker) => setToToken(changellyCurrencies.find(c => c.ticker === ticker) || null)}>
-              <SelectTrigger className="w-[180px] h-12 text-lg font-bold">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                {changellyCurrencies.filter(c => c.enabled).map((token) => (
-                  <SelectItem key={token.ticker} value={token.ticker}>
-                    <div className="flex items-center gap-2">
-                      <Image src={token.image} alt={token.name} width={20} height={20} className="rounded-full" />
-                      {token.ticker.toUpperCase()}
-                    </div>
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>}
+            {toToken && 
+                <Select value={toToken.ticker} onValueChange={handleToTokenChange}>
+                    <SelectTrigger className="w-[180px] h-12 text-lg font-bold">
+                        <SelectValue>
+                            <div className="flex items-center gap-2">
+                            <Image src={toToken.image} alt={toToken.name} width={20} height={20} className="rounded-full" />
+                            {toToken.ticker.toUpperCase()}
+                            </div>
+                        </SelectValue>
+                    </SelectTrigger>
+                    <SelectContent>
+                        {changellyCurrencies.map((token) => (
+                        <SelectItem key={token.ticker} value={token.ticker}>
+                            <div className="flex items-center gap-2">
+                            <Image src={token.image} alt={token.name} width={20} height={20} className="rounded-full" />
+                            {token.ticker.toUpperCase()}
+                            </div>
+                        </SelectItem>
+                        ))}
+                    </SelectContent>
+                </Select>
+            }
           </div>
         </div>
       </CardContent>
