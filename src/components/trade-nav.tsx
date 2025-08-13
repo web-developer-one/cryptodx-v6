@@ -1,3 +1,4 @@
+
 'use client';
 
 import Link from 'next/link';
@@ -10,7 +11,7 @@ export function TradeNav() {
   const { t } = useLanguage();
 
   return (
-    <div className="w-full max-w-lg">
+    <div className="w-full max-w-md">
         <Tabs value={pathname} className="w-full">
             <TabsList className="grid w-full grid-cols-4">
                 <TabsTrigger value="/" asChild>
