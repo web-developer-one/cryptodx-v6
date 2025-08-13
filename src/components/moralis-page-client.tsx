@@ -7,7 +7,7 @@ import { useLanguage } from "@/hooks/use-language";
 import type { Cryptocurrency } from "@/lib/types";
 import { useEffect } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
-import { MoralisProvider } from "moralis";
+import { MoralisProvider } from "@moralisweb3/next";
 
 interface MoralisPageClientProps {
   cryptoData: Cryptocurrency[];
