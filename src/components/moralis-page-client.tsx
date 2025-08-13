@@ -7,11 +7,15 @@ import { useLanguage } from "@/hooks/use-language";
 import type { Cryptocurrency } from "@/lib/types";
 import { useEffect } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
+import { MoralisProvider } from "moralis";
 
 interface MoralisPageClientProps {
   cryptoData: Cryptocurrency[];
   error: string | null;
 }
+
+const MORALIS_API_KEY = process.env.NEXT_PUBLIC_MORALIS_API_KEY || "";
+
 
 export function MoralisPageClient({ cryptoData, error }: MoralisPageClientProps) {
   const { t } = useLanguage();
@@ -20,32 +24,27 @@ export function MoralisPageClient({ cryptoData, error }: MoralisPageClientProps)
     document.title = t('PageTitles.moralis');
   }, [t]);
 
-  if (error && cryptoData.length === 0) {
-    return (
-      <div className="container flex-1 flex flex-col items-center justify-center py-8 gap-6">
-        <ApiErrorCard error={error} context="Cryptocurrency Data" />
-      </div>
-    );
-  }
-
-  if (!error && cryptoData.length === 0) {
+  const renderContent = () => {
+    if (error) {
       return (
-         <div className="flex-1 flex flex-col items-center gap-8 pt-8 md:pt-12">
-            <div className="container flex flex-col items-center gap-4 text-center">
-              <Skeleton className="h-12 w-3/4" />
-              <Skeleton className="h-7 w-1/2 mt-2" />
-            </div>
-            <div className="container flex flex-col items-center gap-6">
-                <Skeleton className="h-10 w-full max-w-md" />
-                <Skeleton className="h-[480px] w-full max-w-md" />
-            </div>
-         </div>
+        <div className="w-full max-w-md mt-6">
+          <ApiErrorCard error={error} context="Cryptocurrency Data" />
+        </div>
       );
+    }
+    
+    if (cryptoData.length === 0 && !error) {
+        return <Skeleton className="h-[480px] w-full max-w-md mt-6" />;
+    }
+
+    return <MoralisSwapInterface cryptocurrencies={cryptoData} />;
   }
 
   return (
-    <div className="flex-1 flex flex-col items-center py-8 gap-6">
-        <MoralisSwapInterface cryptocurrencies={cryptoData} />
-    </div>
+    <MoralisProvider apiKey={MORALIS_API_KEY}>
+        <div className="flex-1 flex flex-col items-center py-8 gap-6">
+            {renderContent()}
+        </div>
+    </MoralisProvider>
   );
 }
