@@ -47,22 +47,6 @@ const tokenAddresses: Record<string, string> = {
 export function MoralisSwapInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[] }) {
   const { t } = useLanguage();
 
-  if (cryptocurrencies.length === 0) {
-    return (
-      <Card className="w-full max-w-md shadow-2xl shadow-primary/10">
-          <CardHeader>
-            <Skeleton className="h-8 w-24 mx-auto" />
-            <Skeleton className="h-5 w-48 mx-auto mt-2" />
-          </CardHeader>
-          <CardContent><Skeleton className="h-[200px] w-full" /></CardContent>
-          <CardFooter className="flex-col gap-4">
-            <Skeleton className="h-12 w-full" />
-            <Skeleton className="h-20 w-full" />
-          </CardFooter>
-      </Card>
-    );
-  }
-
   const [fromToken, setFromToken] = useState<Cryptocurrency>(cryptocurrencies[0]);
   const [toToken, setToToken] = useState<Cryptocurrency>(cryptocurrencies.length > 1 ? cryptocurrencies[1] : cryptocurrencies[0]);
   const [fromAmount, setFromAmount] = useState<string>("1");
@@ -154,6 +138,22 @@ export function MoralisSwapInterface({ cryptocurrencies }: { cryptocurrencies: C
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fromAmount, fromToken, toToken, account, selectedNetwork.chainId]);
+  
+  if (cryptocurrencies.length === 0) {
+    return (
+      <Card className="w-full max-w-md shadow-2xl shadow-primary/10">
+          <CardHeader>
+            <Skeleton className="h-8 w-24 mx-auto" />
+            <Skeleton className="h-5 w-48 mx-auto mt-2" />
+          </CardHeader>
+          <CardContent><Skeleton className="h-[200px] w-full" /></CardContent>
+          <CardFooter className="flex-col gap-4">
+            <Skeleton className="h-12 w-full" />
+            <Skeleton className="h-20 w-full" />
+          </CardFooter>
+      </Card>
+    );
+  }
 
   return (
     <Card className="w-full max-w-md shadow-2xl shadow-primary/10">
@@ -250,4 +250,3 @@ export function MoralisSwapInterface({ cryptocurrencies }: { cryptocurrencies: C
     </Card>
   );
 }
-  
