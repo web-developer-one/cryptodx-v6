@@ -1,4 +1,3 @@
-
 'use client';
 
 import Link from "next/link";
@@ -56,7 +55,6 @@ export function Footer() {
   if (user?.pricePlan === 'Administrator') {
       const usersLinkExists = siteLinks.some(link => link.name === t('PageTitles.users'));
       if (!usersLinkExists) {
-        // Insert after pricing
         const pricingIndex = siteLinks.findIndex(link => link.name === t('Footer.pricing'));
         siteLinks.splice(pricingIndex + 1, 0, { name: t('PageTitles.users'), href: "/users" });
       }
@@ -65,21 +63,21 @@ export function Footer() {
   return (
     <footer className="w-full border-t border-primary/50 bg-primary text-primary-foreground">
       <div className="container max-w-screen-2xl py-12">
-        <div className="flex flex-col items-center justify-between gap-y-8 text-center md:flex-row md:items-start md:text-left">
+        <div className="flex flex-col md:flex-row justify-between items-center md:items-start gap-8 text-center md:text-left">
           {/* Column 1: Site Info */}
-          <div className="flex flex-col items-center gap-4 md:items-start">
+          <div className="flex flex-col items-center md:items-start gap-4">
             <Link href="/" className="flex items-center space-x-3">
               <SiteLogo className="h-8 w-8" />
               <span className="font-bold">{t('Header.siteName')}</span>
             </Link>
-            <p className="text-sm text-primary-foreground/80">
+            <p className="text-sm text-primary-foreground/80 max-w-xs">
               {t('Footer.subtitle')}
             </p>
           </div>
 
           {/* The other columns */}
-          <div className="grid grid-cols-2 gap-x-12 gap-y-8 text-center sm:grid-cols-4 md:text-left">
-            {footerSections.filter(s => s.title !== t('Footer.site')).map((section) => (
+          <div className="grid flex-1 grid-cols-2 gap-x-12 gap-y-8 sm:grid-cols-4 md:text-left">
+             {footerSections.map((section) => (
               <div key={section.title} className="flex flex-col items-center gap-3 md:items-start">
                 <h4 className="text-base font-semibold">{section.title}</h4>
                 <ul className="flex flex-col items-center gap-2 text-sm md:items-start">
@@ -120,39 +118,6 @@ export function Footer() {
                 </ul>
               </div>
             ))}
-             {/* Site links as a separate block for alignment */}
-             <div className="flex flex-col items-center gap-3 md:items-start">
-                <h4 className="text-base font-semibold">{t('Footer.site')}</h4>
-                <ul className="flex flex-col items-center gap-2 text-sm md:items-start">
-                    {siteLinks.map((link) => (
-                         <li key={link.name}>
-                         {link.name === t('Footer.cookiePolicy') ? (
-                           <CookiePolicyModal />
-                         ) : link.name === t('Footer.privacyPolicy') ? (
-                           <PrivacyPolicyModal />
-                         ) : link.name === t('Footer.termsOfUse') ? (
-                           <TermsOfUseModal />
-                         ) : link.name === t('Footer.blog') ? (
-                            <a
-                                href={link.href}
-                                className="text-primary-foreground/80 transition-colors hover:text-primary-foreground"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                            >
-                                {link.name}
-                            </a>
-                         ) : (
-                           <Link
-                             href={link.href}
-                             className="text-primary-foreground/80 transition-colors hover:text-primary-foreground"
-                           >
-                             {link.name}
-                           </Link>
-                         )}
-                       </li>
-                    ))}
-                </ul>
-             </div>
           </div>
         </div>
         <Separator className="my-8 bg-primary-foreground/20" />
