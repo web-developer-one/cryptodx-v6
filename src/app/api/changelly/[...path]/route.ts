@@ -18,7 +18,7 @@ async function handler(req: NextRequest) {
   const sign = hmac.toString(crypto.enc.Hex);
 
   try {
-    const response = await fetch(`${CHANGELLY_API_URL}`, {
+    const response = await fetch(`${CHANGELLY_API_URL}${path}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
