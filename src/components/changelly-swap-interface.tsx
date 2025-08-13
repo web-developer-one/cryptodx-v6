@@ -42,17 +42,30 @@ export function ChangellySwapInterface({ allTokens }: { allTokens: Cryptocurrenc
   useEffect(() => {
     async function fetchCurrencies() {
       try {
-        const response = await fetch('/api/changelly/getCurrenciesFull', {
+        const response = await fetch('/api/changelly/getCurrencies', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({id: "1", jsonrpc: "2.0", method: "getCurrenciesFull", params: {}})
+            body: JSON.stringify({id: "1", jsonrpc: "2.0", method: "getCurrencies", params: {}})
         });
         const data = await response.json();
         if (data.result) {
-          const enabledCurrencies = data.result.filter((c: ChangellyCurrency) => c.enabled);
-          setChangellyCurrencies(enabledCurrencies);
-          setFromToken(enabledCurrencies.find((c: ChangellyCurrency) => c.ticker === 'btc'));
-          setToToken(enabledCurrencies.find((c: ChangellyCurrency) => c.ticker === 'eth'));
+            // Since getCurrencies only returns tickers, we can't get full details.
+            // We'll fall back to getCurrenciesFull to get the necessary UI data.
+            // This is a common pattern: get a list of supported items, then get details for them.
+            const fullDetailsResponse = await fetch('/api/changelly/getCurrenciesFull', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({id: "1", jsonrpc: "2.0", method: "getCurrenciesFull", params: {}})
+            });
+            const fullDetailsData = await fullDetailsResponse.json();
+            if (fullDetailsData.result) {
+                const enabledCurrencies = fullDetailsData.result.filter((c: ChangellyCurrency) => c.enabled && data.result.includes(c.ticker));
+                setChangellyCurrencies(enabledCurrencies);
+                setFromToken(enabledCurrencies.find((c: ChangellyCurrency) => c.ticker === 'btc'));
+                setToToken(enabledCurrencies.find((c: ChangellyCurrency) => c.ticker === 'eth'));
+            } else {
+                 throw new Error("Could not fetch full currency details.");
+            }
         }
       } catch (error) {
         toast({ variant: 'destructive', title: "Error", description: "Could not load currencies from Changelly." });

@@ -4,7 +4,7 @@ import crypto from 'crypto-js';
 
 const CHANGELLY_API_KEY = process.env.CHANGELLY_API_KEY;
 const CHANGELLY_PRIVATE_KEY = process.env.CHANGELLY_PRIVATE_KEY;
-const CHANGELLY_API_URL = 'https://api.changelly.com';
+const CHANGELLY_API_URL = 'https://api.changelly.com/v2';
 
 async function handler(req: NextRequest) {
   const path = req.nextUrl.pathname.replace('/api/changelly', '');
@@ -18,16 +18,16 @@ async function handler(req: NextRequest) {
   const sign = hmac.toString(crypto.enc.Hex);
 
   try {
-    const response = await fetch(`${CHANGELLY_API_URL}${path}`, {
+    const response = await fetch(`${CHANGELLY_API_URL}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'api-key': CHANGELLY_API_KEY,
-        'sign': sign,
+        'X-Api-Key': CHANGELLY_API_KEY,
+        'X-Api-Signature': sign,
       },
       body: JSON.stringify(message),
     });
-
+    
     const data = await response.json();
 
     if (!response.ok) {
