@@ -65,9 +65,9 @@ export function Footer() {
   return (
     <footer className="w-full border-t border-primary/50 bg-primary text-primary-foreground">
       <div className="container max-w-screen-2xl py-12">
-        <div className="flex flex-col items-center justify-center gap-y-8 text-center md:flex-row md:items-start md:justify-around">
+        <div className="flex flex-col items-center justify-between gap-y-8 text-center md:flex-row md:items-start md:text-left">
           {/* Column 1: Site Info */}
-          <div className="flex flex-col items-center gap-4 md:items-start md:text-left">
+          <div className="flex flex-col items-center gap-4 md:items-start">
             <Link href="/" className="flex items-center space-x-3">
               <SiteLogo className="h-8 w-8" />
               <span className="font-bold">{t('Header.siteName')}</span>
