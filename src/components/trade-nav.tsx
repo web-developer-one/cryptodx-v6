@@ -12,7 +12,7 @@ export function TradeNav() {
   return (
     <div className="w-full max-w-lg">
         <Tabs value={pathname} className="w-full">
-            <TabsList className="grid w-full grid-cols-5">
+            <TabsList className="grid w-full grid-cols-4">
                 <TabsTrigger value="/" asChild>
                     <Link href="/">{t('TradeNav.swap')}</Link>
                 </TabsTrigger>
@@ -24,9 +24,6 @@ export function TradeNav() {
                 </TabsTrigger>
                 <TabsTrigger value="/sell" asChild>
                     <Link href="/sell">{t('TradeNav.sell')}</Link>
-                </TabsTrigger>
-                 <TabsTrigger value="/changelly" asChild>
-                    <Link href="/changelly">Changelly</Link>
                 </TabsTrigger>
             </TabsList>
         </Tabs>
