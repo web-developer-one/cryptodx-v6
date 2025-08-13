@@ -26,9 +26,7 @@ export default function ChangellyPage() {
             className="h-full"
             allow="camera"
             title="Changelly Widget"
-          >
-            Can't load widget
-          </iframe>
+          />
         </CardContent>
       </Card>
     </div>
