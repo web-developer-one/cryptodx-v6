@@ -328,7 +328,7 @@
     "placeholder": "Escribe tu mensaje...",
     "send": "Enviar",
     "askAbout": "Pregunta sobre...",
-    "topics": "Blockchain, DeFi, Cripto, NFT, etc.",
+    "topics": "Blockchain, DeFi, Cripto, NFT, o IA!",
     "errorResponse": "Tengo problemas para generar una respuesta en este momento. Por favor, intenta con una pregunta diferente.",
     "connectionError": "Lo siento, tengo problemas para conectarme en este momento. Por favor, inténtalo de nuevo más tarde.",
     "listening": "Escuchando...",
@@ -407,6 +407,8 @@
     "pools": "Pools de Liquidez",
     "addLiquidity": "Añadir Liquidez",
     "positions": "Tus Posiciones",
+    "moralis": "Moralis Swap",
+    "changelly": "Changelly Swap",
     "slippage": "Análisis de Deslizamiento",
     "spot": "Comercio al Contado",
     "tokens": "Explorar Tokens",
@@ -466,11 +468,16 @@
   },
   "UsersPage": {
     "title": "Gestión de Usuarios",
-    "avatar": "Avatar",
-    "username": "Nombre de Usuario",
-    "firstName": "Nombre",
-    "sex": "Sexo",
-    "pricePlan": "Plan de Precios"
+    "description": "Ver, editar y administrar cuentas de usuario.",
+    "email": "Correo electrónico",
+    "actions": "Acciones",
+    "edit": "Editar",
+    "delete": "Eliminar",
+    "deleteConfirmTitle": "¿Estás absolutamente seguro?",
+    "deleteConfirmDesc": "Esta acción no se puede deshacer. Esto eliminará permanentemente la cuenta de {username}.",
+    "backToUsers": "Volver a Usuarios",
+    "editUser": "Editar Perfil de Usuario",
+    "editUserSubtitle": "Modificar los detalles del usuario seleccionado."
   },
   "LogoutToast": {
     "description": "Has cerrado sesión exitosamente."
