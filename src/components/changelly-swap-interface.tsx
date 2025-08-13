@@ -184,8 +184,8 @@ export function ChangellySwapInterface({ allTokens }: { allTokens: Cryptocurrenc
         <div className="p-4 rounded-lg bg-[#f8fafc] dark:bg-secondary/50 border">
           <label className="text-sm text-muted-foreground">{t('SwapInterface.buy')}</label>
           <div className="flex items-center gap-2">
-            <div className="flex-1 text-3xl h-12 flex items-center">
-              {isFetchingQuote ? <Loader2 className="h-6 w-6 animate-spin" /> : (toAmount || '0')}
+             <div className="flex-1 text-3xl h-12 flex items-center p-0">
+                {isFetchingQuote ? <Loader2 className="h-6 w-6 animate-spin" /> : <Input type="text" placeholder="0" className="text-3xl h-12 bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0 p-0" value={toAmount} readOnly />}
             </div>
             {toToken && 
                 <Select value={toToken.ticker} onValueChange={handleToTokenChange}>
