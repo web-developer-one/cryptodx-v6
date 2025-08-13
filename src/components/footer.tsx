@@ -38,6 +38,7 @@ export function Footer() {
       links: [
         { name: t('Footer.viewPositions'), href: "/positions" },
         { name: t('Footer.createPosition'), href: "/pools/add" },
+        { name: t('PageTitles.moralis'), href: "/positions/moralis" },
       ],
     },
     {
