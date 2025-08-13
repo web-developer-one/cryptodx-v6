@@ -3,7 +3,6 @@
 
 import { ApiErrorCard } from "@/components/api-error-card";
 import { SwapInterface } from "@/components/swap-interface";
-import { PositionsNav } from "@/components/positions-nav";
 import { useLanguage } from "@/hooks/use-language";
 import type { Cryptocurrency } from "@/lib/types";
 import { useEffect } from "react";
@@ -46,9 +45,6 @@ export function MoralisPageClient({ cryptoData, error }: MoralisPageClientProps)
 
   return (
     <div className="flex-1 flex flex-col items-center py-8 gap-6">
-        <div className="w-full max-w-md">
-            <PositionsNav />
-        </div>
         <SwapInterface cryptocurrencies={cryptoData} />
     </div>
   );

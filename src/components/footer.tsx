@@ -38,8 +38,13 @@ export function Footer() {
       links: [
         { name: t('Footer.viewPositions'), href: "/positions" },
         { name: t('Footer.createPosition'), href: "/pools/add" },
-        { name: t('PageTitles.moralis'), href: "/positions/moralis" },
       ],
+    },
+    {
+      title: 'Moralis',
+      links: [
+        { name: 'Moralis Swap', href: '/moralis'}
+      ]
     },
     {
       title: t('Footer.site'),
@@ -66,9 +71,9 @@ export function Footer() {
   return (
     <footer className="w-full border-t border-primary/50 bg-primary text-primary-foreground">
       <div className="container max-w-screen-2xl py-12">
-        <div className="flex flex-col md:flex-row flex-wrap items-center md:items-start justify-center gap-x-24 gap-y-8 text-center">
+        <div className="flex flex-col items-center gap-y-8 text-center md:flex-row md:items-start md:justify-between">
           {/* Column 1: Site Info */}
-          <div className="flex flex-col items-center gap-4">
+          <div className="flex flex-col items-center gap-4 md:items-start md:text-left">
             <Link href="/" className="flex items-center space-x-3">
               <SiteLogo className="h-8 w-8" />
               <span className="font-bold">{t('Header.siteName')}</span>
@@ -79,40 +84,82 @@ export function Footer() {
           </div>
 
           {/* The other columns */}
-          {footerSections.map((section) => (
-            <div key={section.title} className="flex flex-col items-center gap-3">
-              <h4 className="text-base font-semibold">{section.title}</h4>
-              <ul className="flex flex-col items-center gap-2 text-sm">
-                {(section.title === t('Footer.site') ? siteLinks : section.links).map((link) => (
-                  <li key={link.name}>
-                    {link.name === t('Footer.cookiePolicy') ? (
-                      <CookiePolicyModal />
-                    ) : link.name === t('Footer.privacyPolicy') ? (
-                      <PrivacyPolicyModal />
-                    ) : link.name === t('Footer.termsOfUse') ? (
-                      <TermsOfUseModal />
-                    ) : link.name === t('Footer.blog') ? (
-                      <a
-                        href={link.href}
-                        className="text-primary-foreground/80 transition-colors hover:text-primary-foreground"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        {link.name}
-                      </a>
-                    ) : (
-                      <Link
-                        href={link.href}
-                        className="text-primary-foreground/80 transition-colors hover:text-primary-foreground"
-                      >
-                        {link.name}
-                      </Link>
-                    )}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+          <div className="grid grid-cols-2 gap-x-12 gap-y-8 text-center sm:grid-cols-4 md:text-left">
+            {footerSections.filter(s => s.title !== t('Footer.site')).map((section) => (
+              <div key={section.title} className="flex flex-col items-center gap-3 md:items-start">
+                <h4 className="text-base font-semibold">{section.title}</h4>
+                <ul className="flex flex-col items-center gap-2 text-sm md:items-start">
+                  {(section.title === t('Footer.site') ? siteLinks : section.links).map((link) => (
+                    <li key={link.name}>
+                      {link.name === t('Footer.cookiePolicy') ? (
+                        <CookiePolicyModal />
+                      ) : link.name === t('Footer.privacyPolicy') ? (
+                        <PrivacyPolicyModal />
+                      ) : link.name === t('Footer.termsOfUse') ? (
+                        <TermsOfUseModal />
+                      ) : link.name === 'Moralis Swap' ? (
+                         <Link
+                            href={link.href}
+                            className="text-primary-foreground/80 transition-colors hover:text-primary-foreground"
+                          >
+                            {link.name}
+                          </Link>
+                      ): link.name === t('Footer.blog') ? (
+                        <a
+                          href={link.href}
+                          className="text-primary-foreground/80 transition-colors hover:text-primary-foreground"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          {link.name}
+                        </a>
+                      ) : (
+                        <Link
+                          href={link.href}
+                          className="text-primary-foreground/80 transition-colors hover:text-primary-foreground"
+                        >
+                          {link.name}
+                        </Link>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+             {/* Site links as a separate block for alignment */}
+             <div className="flex flex-col items-center gap-3 md:items-start">
+                <h4 className="text-base font-semibold">{t('Footer.site')}</h4>
+                <ul className="flex flex-col items-center gap-2 text-sm md:items-start">
+                    {siteLinks.map((link) => (
+                         <li key={link.name}>
+                         {link.name === t('Footer.cookiePolicy') ? (
+                           <CookiePolicyModal />
+                         ) : link.name === t('Footer.privacyPolicy') ? (
+                           <PrivacyPolicyModal />
+                         ) : link.name === t('Footer.termsOfUse') ? (
+                           <TermsOfUseModal />
+                         ) : link.name === t('Footer.blog') ? (
+                            <a
+                                href={link.href}
+                                className="text-primary-foreground/80 transition-colors hover:text-primary-foreground"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                {link.name}
+                            </a>
+                         ) : (
+                           <Link
+                             href={link.href}
+                             className="text-primary-foreground/80 transition-colors hover:text-primary-foreground"
+                           >
+                             {link.name}
+                           </Link>
+                         )}
+                       </li>
+                    ))}
+                </ul>
+             </div>
+          </div>
         </div>
         <Separator className="my-8 bg-primary-foreground/20" />
         <div className="flex flex-col items-center justify-center text-sm text-primary-foreground/80">
