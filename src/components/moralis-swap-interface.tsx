@@ -53,7 +53,7 @@ export function MoralisSwapInterface({ cryptocurrencies }: { cryptocurrencies: C
           <CardHeader>
             <Skeleton className="h-8 w-24 mx-auto" />
             <Skeleton className="h-5 w-48 mx-auto mt-2" />
-          </Header>
+          </CardHeader>
           <CardContent><Skeleton className="h-[200px] w-full" /></CardContent>
           <CardFooter className="flex-col gap-4">
             <Skeleton className="h-12 w-full" />
