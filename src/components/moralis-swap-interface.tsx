@@ -144,10 +144,10 @@ export function MoralisSwapInterface({ cryptocurrencies }: { cryptocurrencies: C
     }
   };
 
-  const handleToTokenChange = (symbol: string) => {
-    const token = cryptocurrencies.find((t) => t.symbol === symbol);
+  const handleToTokenChange = (ticker: string) => {
+    const token = cryptocurrencies.find((c) => c.symbol === ticker);
     if (token) {
-        if (fromToken && token.symbol === fromToken.ticker) {
+        if (fromToken && token.symbol === fromToken.symbol) {
             handleSwap();
         } else {
             setToToken(token);
@@ -376,9 +376,7 @@ export function MoralisSwapInterface({ cryptocurrencies }: { cryptocurrencies: C
             )}
           </div>
           <div className="flex items-center gap-2">
-             <div className="flex-1 text-3xl h-12 flex items-center p-0">
-                {isFetchingQuote ? <Loader2 className="h-6 w-6 animate-spin" /> : <Input type="text" placeholder="0" className="text-3xl h-12 bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0 p-0" value={toAmount} onChange={handleToAmountChange} />}
-            </div>
+            {isFetchingQuote ? <div className="flex-1 h-12 flex items-center"><Loader2 className="h-6 w-6 animate-spin" /></div> : <Input id="to-input" type="text" placeholder="0" className="text-3xl h-12 bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0 p-0" value={toAmount} onChange={handleToAmountChange}/>}
             <Select value={toToken.symbol} onValueChange={handleToTokenChange}>
               <SelectTrigger className="w-[180px] h-12 text-lg font-bold">
                 <div className="flex items-center gap-2">
