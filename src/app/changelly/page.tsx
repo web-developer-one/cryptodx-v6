@@ -1,20 +1,26 @@
-
 'use client';
 
-import { ChangellyPageClient } from "@/components/changelly-page-client";
 import { TradeNav } from "@/components/trade-nav";
-import { getLatestListings } from "@/lib/coinmarketcap";
+import { useEffect } from "react";
+import { useLanguage } from "@/hooks/use-language";
 
-// Note: This page now renders a server component that fetches data
-// and passes it to the client component.
 export default function ChangellyPage() {
-  // Although the swap interface will fetch its own Changelly data,
-  // we can still pass some initial data if needed, or handle errors.
-  // For now, we'll keep it simple and let the client handle its own state.
+  const { t } = useLanguage();
+  
+  useEffect(() => {
+    document.title = t('PageTitles.changelly');
+  }, [t]);
+
+  const widgetUrl = "https://widget.changelly.com?from=*&to=*&amount=0.1&address=&fromDefault=btc&toDefault=eth&merchant_id=9ZJKwWl1A23lMd36&payment_id=&v=3";
+
   return (
     <div className="container flex-1 flex flex-col items-center py-8 gap-6">
-      <TradeNav />
-      <ChangellyPageClient cryptoData={[]} error={null} />
+      <div className="w-full max-w-lg">
+          <TradeNav />
+      </div>
+      <div className="w-full max-w-lg h-[390px]">
+          <iframe src={widgetUrl} width="100%" height="390px" frameBorder="none" allow="camera" />
+      </div>
     </div>
   );
 }
