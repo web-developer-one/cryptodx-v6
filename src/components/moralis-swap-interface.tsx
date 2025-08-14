@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import {
   Card,
   CardContent,
@@ -18,7 +18,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ArrowDownUp } from "lucide-react";
+import { ArrowDownUp, Loader2 } from "lucide-react";
 import type { Cryptocurrency } from "@/lib/types";
 import { WalletConnect } from "./wallet-connect";
 import Image from "next/image";
@@ -26,11 +26,100 @@ import { useWallet } from "@/hooks/use-wallet";
 import { useToast } from "@/hooks/use-toast";
 import { useLanguage } from "@/hooks/use-language";
 import { Skeleton } from "./ui/skeleton";
+import { useDebounce } from "@/hooks/use-debounce";
 
 export function MoralisSwapInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[] }) {
   const { t } = useLanguage();
 
-  if (cryptocurrencies.length === 0) {
+  const [fromToken, setFromToken] = useState<Cryptocurrency | undefined>(cryptocurrencies.find(c => c.symbol === 'WETH'));
+  const [toToken, setToToken] = useState<Cryptocurrency | undefined>(cryptocurrencies.find(c => c.symbol === 'USDC'));
+  const [fromAmount, setFromAmount] = useState<string>("1");
+  const [toAmount, setToAmount] = useState<string>("");
+  const [exchangeRate, setExchangeRate] = useState<number | null>(null);
+  const [isFetchingQuote, setIsFetchingQuote] = useState(false);
+
+  const { isActive: isWalletConnected } = useWallet();
+  const { toast } = useToast();
+  const debouncedFromAmount = useDebounce(fromAmount, 500);
+
+  const handleSwap = () => {
+    setFromToken(toToken);
+    setToToken(fromToken);
+  };
+  
+  const handleFromTokenChange = (symbol: string) => {
+    const token = cryptocurrencies.find((t) => t.symbol === symbol);
+    if (token) {
+        if (toToken && token.symbol === toToken.symbol) {
+            handleSwap();
+        } else {
+            setFromToken(token);
+        }
+    }
+  };
+
+  const handleToTokenChange = (symbol: string) => {
+    const token = cryptocurrencies.find((t) => t.symbol === symbol);
+    if (token) {
+        if (fromToken && token.symbol === fromToken.symbol) {
+            handleSwap();
+        } else {
+            setToToken(token);
+        }
+    }
+  };
+
+  const fetchReserves = useCallback(async () => {
+      if (!fromToken || !toToken) return;
+
+      setIsFetchingQuote(true);
+      setExchangeRate(null);
+
+      try {
+          // In a real app, you would need the actual contract addresses.
+          // This is a simplified example.
+          const fromAddress = fromToken.symbol; 
+          const toAddress = toToken.symbol;
+
+          const response = await fetch(`/api/moralis/reserves?token0=${fromAddress}&token1=${toAddress}`);
+          
+          if (!response.ok) {
+              const errorData = await response.json();
+              throw new Error(errorData.error || 'Failed to fetch reserves.');
+          }
+          
+          const data = await response.json();
+          const reserve0 = parseFloat(data.reserve0);
+          const reserve1 = parseFloat(data.reserve1);
+
+          if (reserve0 > 0 && reserve1 > 0) {
+              setExchangeRate(reserve1 / reserve0);
+          } else {
+              setExchangeRate(0);
+          }
+
+      } catch (e: any) {
+          toast({ variant: 'destructive', title: 'Error', description: e.message });
+          setExchangeRate(0);
+      } finally {
+          setIsFetchingQuote(false);
+      }
+  }, [fromToken, toToken, toast]);
+  
+  useEffect(() => {
+    fetchReserves();
+  }, [fetchReserves]);
+
+  useEffect(() => {
+    if (debouncedFromAmount && exchangeRate !== null) {
+      const amount = parseFloat(debouncedFromAmount) * exchangeRate;
+      setToAmount(amount.toLocaleString('en-US', { maximumFractionDigits: 5 }));
+    } else {
+      setToAmount("");
+    }
+  }, [debouncedFromAmount, exchangeRate]);
+
+  if (cryptocurrencies.length === 0 || !fromToken || !toToken) {
     return (
       <Card className="w-full max-w-md shadow-2xl shadow-primary/10">
           <CardHeader>
@@ -44,94 +133,16 @@ export function MoralisSwapInterface({ cryptocurrencies }: { cryptocurrencies: C
     );
   }
 
-  const [fromToken, setFromToken] = useState<Cryptocurrency>(cryptocurrencies[0]);
-  const [toToken, setToToken] = useState<Cryptocurrency>(cryptocurrencies.length > 1 ? cryptocurrencies[1] : cryptocurrencies[0]);
-  const [fromAmount, setFromAmount] = useState<string>("1");
-  const [toAmount, setToAmount] = useState<string>("");
-  const { isActive: isWalletConnected } = useWallet();
-
-  const { toast } = useToast();
-
-  const exchangeRate = useMemo(() => {
-    if (fromToken?.price > 0 && toToken?.price > 0) {
-      return fromToken.price / toToken.price;
-    }
-    return 0;
-  }, [fromToken, toToken]);
-
-  useEffect(() => {
-    if (fromAmount && exchangeRate > 0) {
-      const amount = parseFloat(fromAmount) * exchangeRate;
-      setToAmount(amount.toLocaleString('en-US', { maximumFractionDigits: 5 }));
-    } else {
-      setToAmount("");
-    }
-  }, [fromAmount, exchangeRate]);
-
-
-  const handleFromTokenChange = (symbol: string) => {
-    const token = cryptocurrencies.find((t) => t.symbol === symbol);
-    if (token) {
-        if (token.symbol === toToken.symbol) {
-            handleSwap();
-        } else {
-            setFromToken(token);
-        }
-    }
-  };
-
-  const handleToTokenChange = (symbol: string) => {
-    const token = cryptocurrencies.find((t) => t.symbol === symbol);
-    if (token) {
-        if (token.symbol === fromToken.symbol) {
-            handleSwap();
-        } else {
-            setToToken(token);
-        }
-    }
-  };
-
-  const handleSwap = () => {
-    setFromToken(toToken);
-    setToToken(fromToken);
-  };
-  
-  const handleFromAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    if (/^\d*\.?\d*$/.test(value)) {
-      setFromAmount(value);
-    }
-  }
-
-  const handleToAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    if (/^\d*\.?\d*$/.test(value)) {
-        setToAmount(value);
-        if (exchangeRate > 0) {
-            const amount = parseFloat(value) / exchangeRate;
-            setFromAmount(amount.toLocaleString('en-US', { maximumFractionDigits: 5 }));
-        }
-    }
-  }
-
-  const handleSwapClick = () => {
-    toast({
-        title: "Swap Submitted (Simulated)",
-        description: `Swapping ${fromAmount} ${fromToken.symbol} for ${toAmount} ${toToken.symbol}`,
-    });
-  };
-
   return (
     <Card className="w-full max-w-md shadow-2xl shadow-primary/10">
       <CardHeader className="relative text-center">
-        <CardTitle>Swap</CardTitle>
+        <CardTitle>Moralis Swap</CardTitle>
       </CardHeader>
       <CardContent className="relative flex flex-col gap-2">
-        {/* From Token */}
         <div className="p-4 rounded-lg bg-[#f8fafc] dark:bg-secondary/50 border">
           <label className="text-sm text-muted-foreground" htmlFor="from-input">Sell</label>
           <div className="flex items-center gap-2">
-            <Input id="from-input" type="text" placeholder="0" className="text-3xl h-12 bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0 p-0" value={fromAmount} onChange={handleFromAmountChange} />
+            <Input id="from-input" type="text" placeholder="0" className="text-3xl h-12 bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0 p-0" value={fromAmount} onChange={e => setFromAmount(e.target.value)} />
             <Select value={fromToken.symbol} onValueChange={handleFromTokenChange}>
               <SelectTrigger className="w-[180px] h-12 text-lg font-bold">
                  <div className="flex items-center gap-2">
@@ -165,18 +176,18 @@ export function MoralisSwapInterface({ cryptocurrencies }: { cryptocurrencies: C
           </div>
         </div>
 
-        {/* Swap Button */}
         <div className="flex justify-center my-[-18px] z-10">
           <Button variant="secondary" size="icon" className="rounded-full border-4 border-background" onClick={handleSwap}>
             <ArrowDownUp className="h-4 w-4" />
           </Button>
         </div>
 
-        {/* To Token */}
         <div className="p-4 rounded-lg bg-[#f8fafc] dark:bg-secondary/50 border">
           <label className="text-sm text-muted-foreground" htmlFor="to-input">Buy</label>
           <div className="flex items-center gap-2">
-            <Input id="to-input" type="text" placeholder="0" className="text-3xl h-12 bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0 p-0" value={toAmount} onChange={handleToAmountChange}/>
+             <div className="flex-1 text-3xl h-12 flex items-center p-0">
+                {isFetchingQuote ? <Loader2 className="h-6 w-6 animate-spin" /> : <Input type="text" placeholder="0" className="text-3xl h-12 bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0 p-0" value={toAmount} readOnly />}
+            </div>
             <Select value={toToken.symbol} onValueChange={handleToTokenChange}>
               <SelectTrigger className="w-[180px] h-12 text-lg font-bold">
                 <div className="flex items-center gap-2">
@@ -213,7 +224,7 @@ export function MoralisSwapInterface({ cryptocurrencies }: { cryptocurrencies: C
       <CardFooter className="flex-col gap-4">
         <div className="w-full">
             {isWalletConnected ? (
-              <Button className="w-full h-12 text-lg" onClick={handleSwapClick}>
+              <Button className="w-full h-12 text-lg" disabled={isFetchingQuote}>
                 Swap
               </Button>
             ) : (
