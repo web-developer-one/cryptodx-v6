@@ -1,3 +1,4 @@
+
 'use client';
 
 import { ApiErrorCard } from "@/components/api-error-card";
@@ -20,15 +21,15 @@ export function MoralisPageClient() {
   useEffect(() => {
     async function fetchTokens() {
         try {
-            const response = await fetch('/api/moralis/tokens');
-            if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.error || 'Failed to fetch tokens from Moralis');
+            const response = await fetch('/api/listings');
+            const { data, error: apiError } = await response.json();
+            if (apiError) {
+                setError(apiError);
+            } else {
+                setTokens(data);
             }
-            const data = await response.json();
-            setTokens(data);
-        } catch (e: any) {
-            setError(e.message);
+        } catch (e) {
+            setError('API_FETCH_FAILED');
         } finally {
             setIsLoading(false);
         }
