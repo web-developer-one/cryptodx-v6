@@ -1,4 +1,3 @@
-
 'use client';
 
 import { MoralisPageClient } from "@/components/moralis-page-client";

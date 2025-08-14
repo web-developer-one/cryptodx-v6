@@ -1,4 +1,3 @@
-
 'use client';
 
 import { ApiErrorCard } from "@/components/api-error-card";
@@ -8,7 +7,7 @@ import type { Cryptocurrency } from "@/lib/types";
 import { useEffect, useState } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 
-export default function MoralisPageClient() {
+export function MoralisPageClient() {
   const { t } = useLanguage();
   const [tokens, setTokens] = useState<Cryptocurrency[]>([]);
   const [error, setError] = useState<string | null>(null);
