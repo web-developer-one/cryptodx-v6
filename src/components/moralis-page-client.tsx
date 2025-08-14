@@ -16,7 +16,7 @@ interface MoralisPageClientProps {
 
 const MORALIS_API_KEY = process.env.NEXT_PUBLIC_MORALIS_API_KEY || "";
 
-export default function MoralisPageClient({ cryptoData, error }: MoralisPageClientProps) {
+export function MoralisPageClient({ cryptoData, error }: MoralisPageClientProps) {
   const { t } = useLanguage();
 
   useEffect(() => {
