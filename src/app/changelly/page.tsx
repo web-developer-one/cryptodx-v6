@@ -1,33 +1,20 @@
 
 'use client';
 
-import { useEffect } from 'react';
-import { useLanguage } from '@/hooks/use-language';
-import { Card, CardContent } from '@/components/ui/card';
+import { ChangellyPageClient } from "@/components/changelly-page-client";
+import { TradeNav } from "@/components/trade-nav";
+import { getLatestListings } from "@/lib/coinmarketcap";
 
+// Note: This page now renders a server component that fetches data
+// and passes it to the client component.
 export default function ChangellyPage() {
-  const { t } = useLanguage();
-
-  useEffect(() => {
-    document.title = t('PageTitles.changelly');
-  }, [t]);
-
-  const widgetUrl = "https://widget.changelly.com?from=*&to=*&amount=0.1&address=&fromDefault=btc&toDefault=eth&merchant_id=9ZJKwWl1A23lMd36&payment_id=&v=3";
-
+  // Although the swap interface will fetch its own Changelly data,
+  // we can still pass some initial data if needed, or handle errors.
+  // For now, we'll keep it simple and let the client handle its own state.
   return (
-    <div className="container flex-1 flex flex-col items-center py-8">
-      <Card className="w-full h-[390px] max-w-lg shadow-2xl overflow-hidden">
-        <CardContent className="p-0 h-full">
-          <iframe
-            src={widgetUrl}
-            width="100%"
-            height="390px"
-            frameBorder="none"
-            allow="camera"
-            title="Changelly Widget"
-          />
-        </CardContent>
-      </Card>
+    <div className="container flex-1 flex flex-col items-center py-8 gap-6">
+      <TradeNav />
+      <ChangellyPageClient cryptoData={[]} error={null} />
     </div>
   );
 }

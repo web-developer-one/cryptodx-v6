@@ -21,6 +21,7 @@ interface ChangellyCurrency {
     fullName: string;
     enabled: boolean;
     image: string;
+    address?: string;
 }
 
 export function ChangellySwapInterface() {
