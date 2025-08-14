@@ -7,6 +7,7 @@ import { useLanguage } from "@/hooks/use-language";
 import type { Cryptocurrency } from "@/lib/types";
 import { useEffect, useState } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
+import { TradeNav } from "./trade-nav";
 
 export function MoralisPageClient() {
   const { t } = useLanguage();
@@ -54,6 +55,7 @@ export function MoralisPageClient() {
 
   return (
     <div className="container flex-1 flex flex-col items-center py-8 gap-6">
+      <TradeNav />
       {renderContent()}
     </div>
   );
