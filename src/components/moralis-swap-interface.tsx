@@ -452,4 +452,3 @@ export function MoralisSwapInterface({ cryptocurrencies }: { cryptocurrencies: C
     </Card>
   );
 }
-
