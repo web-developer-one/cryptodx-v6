@@ -16,9 +16,7 @@ export default function ChangellyPage() {
 
   return (
     <div className="container flex-1 flex flex-col items-center py-8 gap-6">
-      <div className="w-full max-w-lg">
-          <TradeNav />
-      </div>
+      <TradeNav />
       <div className="w-full max-w-lg h-[390px]">
           <iframe
               src={widgetUrl}
