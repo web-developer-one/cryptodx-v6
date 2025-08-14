@@ -23,7 +23,7 @@ export default function ChangellyPage() {
           <iframe
               src={widgetUrl}
               width="100%"
-              height="100%"
+              height="600px"
               frameBorder="0"
               allow="camera"
           >Cant load widget</iframe>
