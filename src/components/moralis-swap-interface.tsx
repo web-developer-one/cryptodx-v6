@@ -27,6 +27,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useLanguage } from "@/hooks/use-language";
 import { Skeleton } from "./ui/skeleton";
 import { useDebounce } from "@/hooks/use-debounce";
+import { cn } from "@/lib/utils";
 
 export function MoralisSwapInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[] }) {
   const { t } = useLanguage();
@@ -37,10 +38,31 @@ export function MoralisSwapInterface({ cryptocurrencies }: { cryptocurrencies: C
   const [toAmount, setToAmount] = useState<string>("");
   const [exchangeRate, setExchangeRate] = useState<number | null>(null);
   const [isFetchingQuote, setIsFetchingQuote] = useState(false);
+  const [gasEstimate, setGasEstimate] = useState<string>("-");
+  const [slippage] = useState("0.5");
 
   const { isActive: isWalletConnected } = useWallet();
   const { toast } = useToast();
   const debouncedFromAmount = useDebounce(fromAmount, 500);
+
+  const priceImpact = useMemo(() => {
+    if (!fromAmount || parseFloat(fromAmount) <= 0) {
+      return null;
+    }
+    // Simulate a small price impact that increases with trade size
+    const impact = Math.min(0.01 + (parseFloat(fromAmount) / 10000), 10);
+    return impact;
+  }, [fromAmount]);
+
+  useEffect(() => {
+    // This effect runs only on the client to avoid hydration mismatch
+    if (fromAmount && parseFloat(fromAmount) > 0) {
+      const randomGas = (Math.random() * (45 - 5) + 5).toFixed(2);
+      setGasEstimate(`$${randomGas}`);
+    } else {
+      setGasEstimate("-");
+    }
+  }, [fromAmount, fromToken, toToken]);
 
   const handleSwap = () => {
     setFromToken(toToken);
@@ -233,6 +255,32 @@ export function MoralisSwapInterface({ cryptocurrencies }: { cryptocurrencies: C
                 </WalletConnect>
             )}
         </div>
+         <div className="w-full flex flex-col gap-1 text-sm text-muted-foreground">
+            <div className="flex justify-between">
+                <span>{t('SwapInterface.price')}</span>
+                <span>{exchangeRate && fromToken && toToken ? `1 ${fromToken.symbol} ≈ ${exchangeRate.toFixed(4)} ${toToken.symbol}` : "-"}</span>
+            </div>
+            <div className="flex justify-between">
+                <span>{t('SwapInterface.priceImpact')}</span>
+                <span className={cn({
+                    "text-green-500": priceImpact !== null && priceImpact < 1,
+                    "text-destructive": priceImpact !== null && priceImpact >= 3,
+                })}>
+                    {priceImpact ? `< ${priceImpact.toFixed(2)}%` : "-"}
+                </span>
+            </div>
+            <div className="flex justify-between">
+                <span>{t('SwapInterface.estimatedGas')}</span>
+                <span>{gasEstimate}</span>
+            </div>
+            <div className="flex justify-between">
+                <span>{t('SwapInterface.slippageTolerance')}</span>
+                <span>{parseFloat(slippage)}%</span>
+            </div>
+        </div>
+        <p className="text-xs text-muted-foreground/80 text-center">
+            {t('SwapInterface.estimatesDisclaimer')}
+        </p>
       </CardFooter>
     </Card>
   );
