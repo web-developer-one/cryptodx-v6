@@ -1,3 +1,4 @@
+
 'use client';
 
 import { TradeNav } from "@/components/trade-nav";
@@ -19,7 +20,13 @@ export default function ChangellyPage() {
           <TradeNav />
       </div>
       <div className="w-full max-w-lg h-[390px]">
-          <iframe src={widgetUrl} width="100%" height="390px" frameBorder="none" allow="camera" />
+          <iframe
+              src={widgetUrl}
+              width="100%"
+              height="390px"
+              frameBorder="none"
+              allow="camera"
+          />
       </div>
     </div>
   );
