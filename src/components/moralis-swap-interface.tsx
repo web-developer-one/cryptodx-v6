@@ -7,6 +7,7 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
+  CardDescription,
   CardFooter,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -18,16 +19,28 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ArrowDownUp, Loader2 } from "lucide-react";
+import { ArrowDownUp, Settings, Info, Loader2 } from "lucide-react";
 import type { Cryptocurrency } from "@/lib/types";
 import { WalletConnect } from "./wallet-connect";
 import Image from "next/image";
 import { useWallet } from "@/hooks/use-wallet";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Label } from "@/components/ui/label";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { useToast } from "@/hooks/use-toast";
 import { useLanguage } from "@/hooks/use-language";
 import { Skeleton } from "./ui/skeleton";
-import { useDebounce } from "@/hooks/use-debounce";
 import { cn } from "@/lib/utils";
+import { useDebounce } from "@/hooks/use-debounce";
 
 export function MoralisSwapInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[] }) {
   const { t } = useLanguage();
@@ -36,26 +49,31 @@ export function MoralisSwapInterface({ cryptocurrencies }: { cryptocurrencies: C
   const [toToken, setToToken] = useState<Cryptocurrency | undefined>(cryptocurrencies.find(c => c.symbol === 'USDC'));
   const [fromAmount, setFromAmount] = useState<string>("1");
   const [toAmount, setToAmount] = useState<string>("");
-  const [exchangeRate, setExchangeRate] = useState<number | null>(null);
   const [isFetchingQuote, setIsFetchingQuote] = useState(false);
   const [gasEstimate, setGasEstimate] = useState<string>("-");
-  const [slippage] = useState("0.5");
+  const [exchangeRate, setExchangeRate] = useState<number | null>(null);
 
-  const { isActive: isWalletConnected } = useWallet();
+  const [slippage, setSlippage] = useState("0.5");
+  const [isSlippageAuto, setIsSlippageAuto] = useState(true);
+  const [deadline, setDeadline] = useState("30");
+
+  const { isActive: isWalletConnected, balances } = useWallet();
   const { toast } = useToast();
   const debouncedFromAmount = useDebounce(fromAmount, 500);
+  
+  const fromTokenBalance = useMemo(() => balances?.[fromToken?.symbol || ''], [balances, fromToken]);
+  const toTokenBalance = useMemo(() => balances?.[toToken?.symbol || ''], [balances, toToken]);
+
 
   const priceImpact = useMemo(() => {
     if (!fromAmount || parseFloat(fromAmount) <= 0) {
       return null;
     }
-    // Simulate a small price impact that increases with trade size
     const impact = Math.min(0.01 + (parseFloat(fromAmount) / 10000), 10);
     return impact;
   }, [fromAmount]);
 
   useEffect(() => {
-    // This effect runs only on the client to avoid hydration mismatch
     if (fromAmount && parseFloat(fromAmount) > 0) {
       const randomGas = (Math.random() * (45 - 5) + 5).toFixed(2);
       setGasEstimate(`$${randomGas}`);
@@ -63,10 +81,56 @@ export function MoralisSwapInterface({ cryptocurrencies }: { cryptocurrencies: C
       setGasEstimate("-");
     }
   }, [fromAmount, fromToken, toToken]);
+  
+  const fetchReserves = useCallback(async () => {
+      if (!fromToken || !toToken) return;
+      setIsFetchingQuote(true);
+      setExchangeRate(null);
+      try {
+          const fromAddress = fromToken.symbol; 
+          const toAddress = toToken.symbol;
+          const response = await fetch(`/api/moralis/reserves?token0=${fromAddress}&token1=${toAddress}`);
+          if (!response.ok) {
+              const errorData = await response.json();
+              throw new Error(errorData.error || 'Failed to fetch reserves.');
+          }
+          const data = await response.json();
+          const reserve0 = parseFloat(data.reserve0);
+          const reserve1 = parseFloat(data.reserve1);
+          if (reserve0 > 0 && reserve1 > 0) {
+              setExchangeRate(reserve1 / reserve0);
+          } else {
+              setExchangeRate(0);
+          }
+      } catch (e: any) {
+          toast({ variant: 'destructive', title: 'Error', description: e.message });
+          setExchangeRate(0);
+      } finally {
+          setIsFetchingQuote(false);
+      }
+  }, [fromToken, toToken, toast]);
+
+  useEffect(() => {
+    fetchReserves();
+  }, [fetchReserves]);
+
+  useEffect(() => {
+    if (debouncedFromAmount && exchangeRate !== null) {
+      const amount = parseFloat(debouncedFromAmount) * exchangeRate;
+      setToAmount(amount.toLocaleString('en-US', { maximumFractionDigits: 5 }));
+    } else {
+      setToAmount("");
+    }
+  }, [debouncedFromAmount, exchangeRate]);
+
 
   const handleSwap = () => {
+    const tempFromToken = fromToken;
+    const tempFromAmount = fromAmount;
     setFromToken(toToken);
-    setToToken(fromToken);
+    setFromAmount(toAmount);
+    setToToken(tempFromToken);
+    setToAmount(tempFromAmount);
   };
   
   const handleFromTokenChange = (symbol: string) => {
@@ -83,7 +147,7 @@ export function MoralisSwapInterface({ cryptocurrencies }: { cryptocurrencies: C
   const handleToTokenChange = (symbol: string) => {
     const token = cryptocurrencies.find((t) => t.symbol === symbol);
     if (token) {
-        if (fromToken && token.symbol === fromToken.symbol) {
+        if (fromToken && token.symbol === fromToken.ticker) {
             handleSwap();
         } else {
             setToToken(token);
@@ -91,65 +155,64 @@ export function MoralisSwapInterface({ cryptocurrencies }: { cryptocurrencies: C
     }
   };
 
-  const fetchReserves = useCallback(async () => {
-      if (!fromToken || !toToken) return;
-
-      setIsFetchingQuote(true);
-      setExchangeRate(null);
-
-      try {
-          // In a real app, you would need the actual contract addresses.
-          // This is a simplified example.
-          const fromAddress = fromToken.symbol; 
-          const toAddress = toToken.symbol;
-
-          const response = await fetch(`/api/moralis/reserves?token0=${fromAddress}&token1=${toAddress}`);
-          
-          if (!response.ok) {
-              const errorData = await response.json();
-              throw new Error(errorData.error || 'Failed to fetch reserves.');
-          }
-          
-          const data = await response.json();
-          const reserve0 = parseFloat(data.reserve0);
-          const reserve1 = parseFloat(data.reserve1);
-
-          if (reserve0 > 0 && reserve1 > 0) {
-              setExchangeRate(reserve1 / reserve0);
-          } else {
-              setExchangeRate(0);
-          }
-
-      } catch (e: any) {
-          toast({ variant: 'destructive', title: 'Error', description: e.message });
-          setExchangeRate(0);
-      } finally {
-          setIsFetchingQuote(false);
-      }
-  }, [fromToken, toToken, toast]);
-  
-  useEffect(() => {
-    fetchReserves();
-  }, [fetchReserves]);
-
-  useEffect(() => {
-    if (debouncedFromAmount && exchangeRate !== null) {
-      const amount = parseFloat(debouncedFromAmount) * exchangeRate;
-      setToAmount(amount.toLocaleString('en-US', { maximumFractionDigits: 5 }));
-    } else {
-      setToAmount("");
+  const handleFromAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    if (/^\d*\.?\d*$/.test(value)) {
+      setFromAmount(value);
     }
-  }, [debouncedFromAmount, exchangeRate]);
+  }
+
+  const handleToAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    if (/^\d*\.?\d*$/.test(value)) {
+        setToAmount(value);
+        if (exchangeRate && exchangeRate > 0) {
+            const amount = parseFloat(value) / exchangeRate;
+            setFromAmount(amount.toLocaleString('en-US', { maximumFractionDigits: 5 }));
+        }
+    }
+  }
+
+   const handleSlippageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    if (/^\d*\.?\d*$/.test(value)) {
+      setIsSlippageAuto(false);
+      setSlippage(value);
+    }
+  };
+
+  const handleAutoSlippage = () => {
+    setIsSlippageAuto(true);
+    setSlippage("0.5");
+  };
+
+  const handleDeadlineChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    if (/^\d*$/.test(value)) {
+      setDeadline(value);
+    }
+  }
+
+  const handleSetMax = () => {
+    if (fromTokenBalance) {
+        setFromAmount(fromTokenBalance);
+    }
+  };
+
+  const slippageValueDisplay = parseFloat(slippage) || 0;
+
 
   if (cryptocurrencies.length === 0 || !fromToken || !toToken) {
     return (
       <Card className="w-full max-w-md shadow-2xl shadow-primary/10">
           <CardHeader>
             <Skeleton className="h-8 w-24 mx-auto" />
+             <Skeleton className="h-5 w-48 mx-auto mt-2" />
           </CardHeader>
           <CardContent><Skeleton className="h-[200px] w-full" /></CardContent>
           <CardFooter className="flex-col gap-4">
             <Skeleton className="h-12 w-full" />
+            <Skeleton className="h-20 w-full" />
           </CardFooter>
       </Card>
     );
@@ -157,17 +220,114 @@ export function MoralisSwapInterface({ cryptocurrencies }: { cryptocurrencies: C
 
   return (
     <Card className="w-full max-w-md shadow-2xl shadow-primary/10">
-      <CardHeader className="relative text-center">
-        <CardTitle>Moralis Swap</CardTitle>
+       <CardHeader className="relative text-center">
+        <CardTitle>{t('SwapInterface.title')}</CardTitle>
+        <CardDescription>{t('SwapInterface.description')}</CardDescription>
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button variant="ghost" size="icon" className="absolute top-4 right-4">
+              <Settings className="h-5 w-5" />
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-80" align="end">
+            <div className="grid gap-4">
+              <div className="space-y-2">
+                <h4 className="font-medium leading-none">{t('SwapInterface.settingsTitle')}</h4>
+                <p className="text-sm text-muted-foreground">
+                  {t('SwapInterface.settingsDescription')}
+                </p>
+              </div>
+              <div className="grid gap-2">
+                <div className="flex items-center justify-between">
+                  <Label htmlFor="slippage" className="flex items-center gap-1">
+                    {t('SwapInterface.maxSlippage')}
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <Info className="h-3 w-3 cursor-help" />
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>{t('SwapInterface.maxSlippageTooltip')}</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                  </Label>
+                  <Button variant={isSlippageAuto ? 'secondary' : 'ghost'} size="sm" onClick={handleAutoSlippage} className="h-7">{t('SwapInterface.auto')}</Button>
+                </div>
+                <div className="relative">
+                  <Input
+                    id="slippage"
+                    type="text"
+                    value={slippage}
+                    onChange={handleSlippageChange}
+                    className="h-10 pr-7 text-sm"
+                  />
+                  <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">%</span>
+                </div>
+              </div>
+              <div className="grid gap-2">
+                <div className="flex items-center justify-between">
+                  <Label htmlFor="deadline" className="flex items-center gap-1">
+                    {t('SwapInterface.swapDeadline')}
+                     <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                           <Info className="h-3 w-3 cursor-help" />
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>{t('SwapInterface.swapDeadlineTooltip')}</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                  </Label>
+                </div>
+                <div className="relative">
+                  <Input
+                    id="deadline"
+                    type="text"
+                    value={deadline}
+                    onChange={handleDeadlineChange}
+                    className="h-10 pr-20 text-sm"
+                  />
+                  <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">{t('SwapInterface.minutes')}</span>
+                </div>
+              </div>
+               <div className="grid gap-2">
+                <div className="flex items-center justify-between">
+                  <Label htmlFor="trade-options" className="flex items-center gap-1">
+                    {t('SwapInterface.tradeOptions')}
+                  </Label>
+                </div>
+                <Input
+                  id="trade-options"
+                  value="Default"
+                  disabled
+                  className="h-10 text-sm"
+                />
+              </div>
+            </div>
+          </PopoverContent>
+        </Popover>
       </CardHeader>
       <CardContent className="relative flex flex-col gap-2">
+        {/* From Token */}
         <div className="p-4 rounded-lg bg-[#f8fafc] dark:bg-secondary/50 border">
-          <label className="text-sm text-muted-foreground" htmlFor="from-input">Sell</label>
+          <div className="flex justify-between items-center mb-1">
+            <label className="text-sm text-muted-foreground" htmlFor="from-input">{t('SwapInterface.sell')}</label>
+            {isWalletConnected && fromTokenBalance !== undefined && (
+                <div className="text-sm text-muted-foreground flex items-center gap-1">
+                    <span>{t('SwapInterface.balance').replace('{balance}', `${parseFloat(fromTokenBalance).toLocaleString('en-US', {maximumFractionDigits: 5})} ${fromToken.symbol}`)}</span>
+                    <Button variant="link" size="sm" className="h-auto p-0" onClick={handleSetMax}>
+                        {t('SwapInterface.max')}
+                    </Button>
+                </div>
+            )}
+          </div>
           <div className="flex items-center gap-2">
-            <Input id="from-input" type="text" placeholder="0" className="text-3xl h-12 bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0 p-0" value={fromAmount} onChange={e => setFromAmount(e.target.value)} />
+            <Input id="from-input" type="text" placeholder="0" className="text-3xl h-12 bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0 p-0" value={fromAmount} onChange={handleFromAmountChange} />
             <Select value={fromToken.symbol} onValueChange={handleFromTokenChange}>
               <SelectTrigger className="w-[180px] h-12 text-lg font-bold">
-                 <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2">
                     <Image
                         src={fromToken.logo || `https://placehold.co/20x20.png`}
                         alt={`${fromToken.name} logo`}
@@ -198,17 +358,26 @@ export function MoralisSwapInterface({ cryptocurrencies }: { cryptocurrencies: C
           </div>
         </div>
 
+        {/* Swap Button */}
         <div className="flex justify-center my-[-18px] z-10">
           <Button variant="secondary" size="icon" className="rounded-full border-4 border-background" onClick={handleSwap}>
             <ArrowDownUp className="h-4 w-4" />
           </Button>
         </div>
 
+        {/* To Token */}
         <div className="p-4 rounded-lg bg-[#f8fafc] dark:bg-secondary/50 border">
-          <label className="text-sm text-muted-foreground" htmlFor="to-input">Buy</label>
+          <div className="flex justify-between items-center mb-1">
+            <label className="text-sm text-muted-foreground" htmlFor="to-input">{t('SwapInterface.buy')}</label>
+             {isWalletConnected && toTokenBalance !== undefined && (
+                <div className="text-sm text-muted-foreground flex items-center gap-1">
+                    <span>{t('SwapInterface.balance').replace('{balance}', `${parseFloat(toTokenBalance).toLocaleString('en-US', {maximumFractionDigits: 5})} ${toToken.symbol}`)}</span>
+                </div>
+            )}
+          </div>
           <div className="flex items-center gap-2">
              <div className="flex-1 text-3xl h-12 flex items-center p-0">
-                {isFetchingQuote ? <Loader2 className="h-6 w-6 animate-spin" /> : <Input type="text" placeholder="0" className="text-3xl h-12 bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0 p-0" value={toAmount} readOnly />}
+                {isFetchingQuote ? <Loader2 className="h-6 w-6 animate-spin" /> : <Input type="text" placeholder="0" className="text-3xl h-12 bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0 p-0" value={toAmount} onChange={handleToAmountChange} />}
             </div>
             <Select value={toToken.symbol} onValueChange={handleToTokenChange}>
               <SelectTrigger className="w-[180px] h-12 text-lg font-bold">
@@ -247,11 +416,11 @@ export function MoralisSwapInterface({ cryptocurrencies }: { cryptocurrencies: C
         <div className="w-full">
             {isWalletConnected ? (
               <Button className="w-full h-12 text-lg" disabled={isFetchingQuote}>
-                Swap
+                {t('TradeNav.swap')}
               </Button>
             ) : (
                 <WalletConnect>
-                    <Button className="w-full h-12 text-lg">Connect Wallet</Button>
+                    <Button className="w-full h-12 text-lg">{t('Header.connectWallet')}</Button>
                 </WalletConnect>
             )}
         </div>
@@ -275,7 +444,7 @@ export function MoralisSwapInterface({ cryptocurrencies }: { cryptocurrencies: C
             </div>
             <div className="flex justify-between">
                 <span>{t('SwapInterface.slippageTolerance')}</span>
-                <span>{parseFloat(slippage)}%</span>
+                <span>{slippageValueDisplay}%</span>
             </div>
         </div>
         <p className="text-xs text-muted-foreground/80 text-center">
@@ -285,3 +454,4 @@ export function MoralisSwapInterface({ cryptocurrencies }: { cryptocurrencies: C
     </Card>
   );
 }
+
