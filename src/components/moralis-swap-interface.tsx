@@ -57,7 +57,7 @@ export function MoralisSwapInterface({ cryptocurrencies }: { cryptocurrencies: C
   const [isSlippageAuto, setIsSlippageAuto] = useState(true);
   const [deadline, setDeadline] = useState("30");
 
-  const { isActive: isWalletConnected, balances } = useWallet();
+  const { isActive: isWalletConnected, balances, performSwap, isSwapping } = useWallet();
   const { toast } = useToast();
   const debouncedFromAmount = useDebounce(fromAmount, 500);
   
@@ -136,7 +136,7 @@ export function MoralisSwapInterface({ cryptocurrencies }: { cryptocurrencies: C
   const handleFromTokenChange = (symbol: string) => {
     const token = cryptocurrencies.find((t) => t.symbol === symbol);
     if (token) {
-        if (toToken && token.symbol === toToken.symbol) {
+        if (toToken && token.symbol === toToken.ticker) {
             handleSwap();
         } else {
             setFromToken(token);
@@ -147,7 +147,7 @@ export function MoralisSwapInterface({ cryptocurrencies }: { cryptocurrencies: C
   const handleToTokenChange = (ticker: string) => {
     const token = cryptocurrencies.find((c) => c.symbol === ticker);
     if (token) {
-        if (fromToken && token.symbol === fromToken.symbol) {
+        if (fromToken && token.symbol === fromToken.ticker) {
             handleSwap();
         } else {
             setToToken(token);
@@ -197,6 +197,14 @@ export function MoralisSwapInterface({ cryptocurrencies }: { cryptocurrencies: C
     if (fromTokenBalance) {
         setFromAmount(fromTokenBalance);
     }
+  };
+  
+   const handleSwapClick = async () => {
+    if (!fromToken || !toToken || !fromAmount || parseFloat(fromAmount) <= 0) {
+        toast({ variant: 'destructive', title: 'Invalid input', description: 'Please provide valid token and amount details.' });
+        return;
+    }
+    await performSwap(fromToken, toToken, fromAmount);
   };
 
   const slippageValueDisplay = parseFloat(slippage) || 0;
@@ -376,7 +384,9 @@ export function MoralisSwapInterface({ cryptocurrencies }: { cryptocurrencies: C
             )}
           </div>
           <div className="flex items-center gap-2">
-            {isFetchingQuote ? <div className="flex-1 h-12 flex items-center"><Loader2 className="h-6 w-6 animate-spin" /></div> : <Input id="to-input" type="text" placeholder="0" className="text-3xl h-12 bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0 p-0" value={toAmount} onChange={handleToAmountChange}/>}
+            <div className="flex-1 text-3xl h-12 flex items-center p-0">
+                {isFetchingQuote ? <Loader2 className="h-6 w-6 animate-spin" /> : <Input id="to-input" type="text" placeholder="0" className="text-3xl h-12 bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0 p-0" value={toAmount} onChange={handleToAmountChange}/>}
+            </div>
             <Select value={toToken.symbol} onValueChange={handleToTokenChange}>
               <SelectTrigger className="w-[180px] h-12 text-lg font-bold">
                 <div className="flex items-center gap-2">
@@ -413,8 +423,9 @@ export function MoralisSwapInterface({ cryptocurrencies }: { cryptocurrencies: C
       <CardFooter className="flex-col gap-4">
         <div className="w-full">
             {isWalletConnected ? (
-              <Button className="w-full h-12 text-lg" disabled={isFetchingQuote}>
-                {t('TradeNav.swap')}
+              <Button className="w-full h-12 text-lg" disabled={isFetchingQuote || isSwapping} onClick={handleSwapClick}>
+                {isSwapping && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                {isSwapping ? 'Swapping...' : t('TradeNav.swap')}
               </Button>
             ) : (
                 <WalletConnect>

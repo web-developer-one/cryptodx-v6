@@ -5,6 +5,9 @@ import React, { useCallback, useEffect } from 'react';
 import { ethers } from 'ethers';
 import { toast } from '@/hooks/use-toast';
 import { useLanguage } from './use-language';
+import { uniswapV2RouterABI } from '@/lib/uniswap-v2-router-abi';
+import type { Cryptocurrency } from '@/lib/types';
+
 
 declare global {
     interface Window {
@@ -19,6 +22,7 @@ export interface NetworkConfig {
     rpcUrls: string[];
     blockExplorerUrls: string[];
     logo?: string;
+    uniswapRouterAddress?: string;
 }
 
 export const networkConfigs: Record<string, NetworkConfig> = {
@@ -29,6 +33,7 @@ export const networkConfigs: Record<string, NetworkConfig> = {
         rpcUrls: ['https://mainnet.infura.io/v3/'],
         blockExplorerUrls: ['https://etherscan.io'],
         logo: 'https://s2.coinmarketcap.com/static/img/coins/64x64/1027.png',
+        uniswapRouterAddress: '0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D',
     },
     '0xa86a': {
         chainId: '0xa86a',
@@ -96,8 +101,10 @@ interface WalletContextType {
   connectWallet: () => Promise<void>;
   disconnect: () => void;
   isLoading: boolean;
+  isSwapping: boolean;
   selectedNetwork: NetworkConfig;
   setSelectedNetwork: React.Dispatch<React.SetStateAction<NetworkConfig>>;
+  performSwap: (fromToken: Cryptocurrency, toToken: Cryptocurrency, amount: string) => Promise<void>;
 }
 
 // Create the context with a default null value
@@ -108,6 +115,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
   const [account, setAccount] = React.useState<string | null>(null);
   const [balances, setBalances] = React.useState<Record<string, string> | null>(null);
   const [isLoading, setIsLoading] = React.useState(true);
+  const [isSwapping, setIsSwapping] = React.useState(false);
   const [selectedNetwork, setSelectedNetwork] = React.useState<NetworkConfig>(networkConfigs['0x1']);
   const { t } = useLanguage();
 
@@ -215,6 +223,62 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
         });
     }
   }, [t, selectedNetwork]);
+  
+  const performSwap = useCallback(async (fromToken: Cryptocurrency, toToken: Cryptocurrency, amount: string) => {
+    if (!account || !window.ethereum || !selectedNetwork.uniswapRouterAddress) {
+        toast({ variant: 'destructive', title: 'Wallet Not Connected', description: 'Please connect your wallet to perform a swap.' });
+        return;
+    }
+    
+    setIsSwapping(true);
+    try {
+        const provider = new ethers.BrowserProvider(window.ethereum);
+        const signer = await provider.getSigner();
+        const routerContract = new ethers.Contract(selectedNetwork.uniswapRouterAddress, uniswapV2RouterABI, signer);
+
+        const amountIn = ethers.parseUnits(amount, 18); // Assuming 18 decimals for fromToken
+        const path = [fromToken.address, toToken.address]; // You need contract addresses for tokens
+        const to = account;
+        const deadline = Math.floor(Date.now() / 1000) + 60 * 20; // 20 minutes from the current Unix time
+
+        // This is a simplified call; real implementation needs amountsOutMin from getAmountsOut
+        const amountsOut = await routerContract.getAmountsOut(amountIn, path);
+        const amountOutMin = amountsOut[1] * BigInt(99) / BigInt(100); // 1% slippage tolerance
+
+        toast({ title: 'Transaction Submitted', description: 'Approving token spend...'});
+        
+        // This is a simplified swap for ETH to Token. Real ERC20 -> ERC20 is more complex.
+        const tx = await routerContract.swapExactETHForTokens(
+            amountOutMin,
+            path,
+            to,
+            deadline,
+            { value: amountIn }
+        );
+        
+        toast({ title: 'Executing Swap', description: `Transaction hash: ${tx.hash}`});
+        
+        await tx.wait();
+
+        toast({
+            title: 'Swap Successful!',
+            description: `Swapped ${amount} ${fromToken.symbol} for ${toToken.symbol}.`,
+        });
+
+        await fetchBalances(account);
+        
+    } catch (error: any) {
+        console.error("Swap failed", error);
+        toast({
+            variant: 'destructive',
+            title: 'Swap Failed',
+            description: error.reason || error.message || 'An unknown error occurred during the swap.',
+        });
+    } finally {
+        setIsSwapping(false);
+    }
+  }, [account, selectedNetwork.uniswapRouterAddress]);
+
 
   useEffect(() => {
     if (typeof window.ethereum === 'undefined') {
@@ -281,8 +345,10 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
     connectWallet,
     disconnect,
     isLoading,
+    isSwapping,
     selectedNetwork,
     setSelectedNetwork,
+    performSwap,
   };
 
   return (
