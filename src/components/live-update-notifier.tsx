@@ -57,6 +57,9 @@ export function LiveUpdateNotifier() {
       }
     };
 
+    // Run once on component mount
+    showUpdateToast();
+    
     // Set up the recurring toast every 15 minutes.
     const intervalId = setInterval(showUpdateToast, 15 * 60 * 1000);
 
@@ -64,7 +67,7 @@ export function LiveUpdateNotifier() {
     return () => {
       clearInterval(intervalId);
     };
-  }, [isFetching, toast]);
+  }, [toast]); // isFetching is managed internally, so it doesn't need to be in the dependency array.
 
   return null; // This component does not render anything itself
 }
