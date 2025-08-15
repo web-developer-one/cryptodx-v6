@@ -27,11 +27,11 @@ const GenerateUpdateOutputSchema = z.object({
     .describe('A short, single-sentence news-like update about the provided cryptocurrency.'),
   sourceName: z
     .string()
-    .describe("The name of the fictional news source (e.g., 'Crypto-Insights Daily')."),
+    .describe("The name of the real news source (e.g., 'CoinDesk', 'Cointelegraph')."),
   sourceUrl: z
     .string()
     .url()
-    .describe('A plausible but fictional URL for the news source.'),
+    .describe('A real, verifiable URL for the news article from the source.'),
 });
 export type GenerateUpdateOutput = z.infer<typeof GenerateUpdateOutputSchema>;
 
@@ -44,30 +44,25 @@ const prompt = ai.definePrompt({
   input: { schema: GenerateUpdateInputSchema },
   output: {schema: GenerateUpdateOutputSchema},
   model: 'googleai/gemini-pro',
-  prompt: `You are an AI for a crypto application. Your task is to generate a single, short, engaging, news-style sentence based on the real performance of a cryptocurrency provided to you.
-  
+  prompt: `You are an AI news aggregator for a crypto application. Your task is to generate a single, short, engaging, news-style sentence based on the real performance of a cryptocurrency.
+
 The sentence should be about the following cryptocurrency:
 - Name: {{{coin.name}}}
 - Symbol: {{{coin.symbol}}}
 - 24h Change: {{{coin.change24h}}}%
 - Current Price: {{{coin.price}}} USD
 
-Generate a compelling, news-style sentence based on this data.
-Keep it concise and under 15 words. Do not use quotation marks.
+Based on this data, search for a RECENT and REAL news article about this coin or a related market trend from a reputable cryptocurrency news source (like CoinDesk, Cointelegraph, Decrypt, The Block).
 
-Also provide a plausible but fictional source name and URL.
+Generate a compelling, news-style sentence based on this data. Keep it concise and under 15 words. Do not use quotation marks.
 
-Example outputs for a coin that is up:
+Then, provide the REAL name of the news source and the REAL, verifiable URL to the article.
+
+Example for a coin that is up:
 {
     "update": "{{{coin.name}}} is surging, up {{{coin.change24h}}}% in the last 24 hours.",
-    "sourceName": "Coin-Watch",
-    "sourceUrl": "https://www.coin-watch-news.com/articles/coin-surge"
-}
-Example outputs for a coin that is down:
-{
-    "update": "{{{coin.name}}} sees a slight dip, down {{{coin.change24h}}}% over the past day.",
-    "sourceName": "DeFi Today",
-    "sourceUrl": "https://www.defitoday.com/reports/market-dip-q3"
+    "sourceName": "Cointelegraph",
+    "sourceUrl": "https://cointelegraph.com/news/bitcoin-price-hits-new-high"
 }
 
 Generate a new, unique update now based on the data for {{{coin.name}}}.`,
@@ -105,3 +100,4 @@ const generateUpdateFlow = ai.defineFlow(
     return output!;
   }
 );
+
