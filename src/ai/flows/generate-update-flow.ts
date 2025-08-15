@@ -27,11 +27,11 @@ const GenerateUpdateOutputSchema = z.object({
     .describe('A short, single-sentence news-like update about the provided cryptocurrency.'),
   sourceName: z
     .string()
-    .describe("The name of the real news source (e.g., 'CoinDesk', 'Cointelegraph')."),
+    .describe("The name of the news source, which will be 'CoinMarketCap'."),
   sourceUrl: z
     .string()
     .url()
-    .describe('A real, verifiable URL for the news article from the source.'),
+    .describe('A verifiable URL to the cryptocurrency page on CoinMarketCap.'),
 });
 export type GenerateUpdateOutput = z.infer<typeof GenerateUpdateOutputSchema>;
 
@@ -42,7 +42,7 @@ export async function generateUpdate(): Promise<GenerateUpdateOutput> {
 const prompt = ai.definePrompt({
   name: 'generateUpdatePrompt',
   input: { schema: GenerateUpdateInputSchema },
-  output: {schema: GenerateUpdateOutputSchema},
+  output: {schema: z.object({ update: z.string() })},
   model: 'googleai/gemini-pro',
   prompt: `You are an AI news aggregator for a crypto application. Your task is to generate a single, short, engaging, news-style sentence based on the real performance of a cryptocurrency.
 
@@ -52,18 +52,10 @@ The sentence should be about the following cryptocurrency:
 - 24h Change: {{{coin.change24h}}}%
 - Current Price: {{{coin.price}}} USD
 
-Based on this data, search for a RECENT and REAL news article about this coin or a related market trend from a reputable cryptocurrency news source (like CoinDesk, Cointelegraph, Decrypt, The Block).
-
 Generate a compelling, news-style sentence based on this data. Keep it concise and under 15 words. Do not use quotation marks.
 
-Then, provide the REAL name of the news source and the REAL, verifiable URL to the article.
-
 Example for a coin that is up:
-{
-    "update": "{{{coin.name}}} is surging, up {{{coin.change24h}}}% in the last 24 hours.",
-    "sourceName": "Cointelegraph",
-    "sourceUrl": "https://cointelegraph.com/news/bitcoin-price-hits-new-high"
-}
+"Bitcoin is surging, up 5.2% in the last 24 hours."
 
 Generate a new, unique update now based on the data for {{{coin.name}}}.`,
 });
@@ -100,12 +92,20 @@ const generateUpdateFlow = ai.defineFlow(
           }
       });
       
-      if (!output) {
+      if (!output || !output.update) {
          console.warn('AI prompt for live update returned no output, using fallback.');
          return fallbackResult;
       }
+      
+      // Construct the CoinMarketCap URL
+      const coinmarketcapUrl = `https://coinmarketcap.com/currencies/${notableCoin.name.toLowerCase().replace(/\s+/g, '-')}/`;
 
-      return output;
+      return {
+          update: output.update,
+          sourceName: 'CoinMarketCap',
+          sourceUrl: coinmarketcapUrl
+      };
+
     } catch (error) {
       console.error("Error in generateUpdateFlow, returning fallback.", error);
       return fallbackResult;
