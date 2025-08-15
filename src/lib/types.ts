@@ -17,7 +17,7 @@ export interface Cryptocurrency {
   id: number;
   name: string;
   symbol: string;
-  address: string; // Contract address
+  address?: string; // Optional top-level address for simplicity
   price: number; // in USD
   change24h: number; // percentage change in the last 24 hours
   logo?: string;
@@ -25,6 +25,13 @@ export interface Cryptocurrency {
   marketCap?: number;
   volume24h?: number;
   circulatingSupply?: number;
+  platform: {
+    id: number;
+    name: string;
+    symbol: string;
+    slug: string;
+    token_address: string;
+  } | null;
 }
 
 export interface TokenDetails extends Cryptocurrency {

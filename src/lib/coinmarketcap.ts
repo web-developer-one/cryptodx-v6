@@ -28,6 +28,13 @@ interface CmcListingResponse {
     symbol: string;
     cmc_rank: number;
     circulating_supply: number;
+    platform: {
+        id: number;
+        name: string;
+        symbol: string;
+        slug: string;
+        token_address: string;
+    } | null;
     quote: {
       USD: {
         price: number;
@@ -76,6 +83,13 @@ interface CmcQuoteResponse {
             id: number;
             name: string;
             symbol: string;
+            platform: {
+                id: number;
+                name: string;
+                symbol: string;
+                slug: string;
+                token_address: string;
+            } | null;
             circulating_supply: number;
             total_supply: number;
             max_supply: number | null;
@@ -149,6 +163,8 @@ export async function getLatestListings(): Promise<{ data: Cryptocurrency[]; err
         marketCap: coin.quote.USD.market_cap,
         volume24h: coin.quote.USD.volume_24h,
         circulatingSupply: coin.circulating_supply,
+        platform: coin.platform,
+        address: coin.platform?.token_address,
       };
     });
 
@@ -172,7 +188,7 @@ export async function getTokenDetails(id: string): Promise<{ token: TokenDetails
 
     try {
         const [quoteResponse, infoResponse] = await Promise.all([
-            fetchWithTimeout(`${BASE_URL}/v1/cryptocurrency/quotes/latest?id=${id}`, {
+            fetchWithTimeout(`${BASE_URL}/v2/cryptocurrency/quotes/latest?id=${id}`, {
                 headers: { 'X-CMC_PRO_API_KEY': API_KEY as string },
                 next: { revalidate: 300 } // Revalidate every 5 minutes
             }),
@@ -215,6 +231,8 @@ export async function getTokenDetails(id: string): Promise<{ token: TokenDetails
                 totalSupply: quote.total_supply,
                 maxSupply: quote.max_supply,
                 dateAdded: quote.date_added,
+                platform: quote.platform,
+                address: quote.platform?.token_address,
                 low24h: null, // Not available in basic plan
                 high24h: null, // Not available in basic plan
                 urls: info.urls,

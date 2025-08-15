@@ -230,6 +230,15 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
         return;
     }
     
+    // Get the correct contract address for the current network
+    const fromAddress = fromToken.platform?.token_address;
+    const toAddress = toToken.platform?.token_address;
+
+    if (!fromAddress || !toAddress) {
+        toast({ variant: 'destructive', title: 'Invalid Token', description: 'One of the selected tokens does not have a valid address on this network.' });
+        return;
+    }
+
     setIsSwapping(true);
     try {
         const provider = new ethers.BrowserProvider(window.ethereum);
@@ -237,11 +246,10 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
         const routerContract = new ethers.Contract(selectedNetwork.uniswapRouterAddress, uniswapV2RouterABI, signer);
 
         const amountIn = ethers.parseUnits(amount, 18); // Assuming 18 decimals for fromToken
-        const path = [fromToken.address, toToken.address]; // You need contract addresses for tokens
+        const path = [fromAddress, toAddress]; 
         const to = account;
         const deadline = Math.floor(Date.now() / 1000) + 60 * 20; // 20 minutes from the current Unix time
 
-        // This is a simplified call; real implementation needs amountsOutMin from getAmountsOut
         const amountsOut = await routerContract.getAmountsOut(amountIn, path);
         const amountOutMin = amountsOut[1] * BigInt(99) / BigInt(100); // 1% slippage tolerance
 
