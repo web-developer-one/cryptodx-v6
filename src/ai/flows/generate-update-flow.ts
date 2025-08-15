@@ -74,30 +74,41 @@ const generateUpdateFlow = ai.defineFlow(
     outputSchema: GenerateUpdateOutputSchema,
   },
   async () => {
-    const { data, error } = await getLatestListings();
+    const fallbackResult = {
+      update: 'Crypto markets are active, check the latest prices for top movers.',
+      sourceName: 'CryptoDx',
+      sourceUrl: 'https://cryptodx-v7.netlify.app/',
+    };
 
-    if (error || !data || data.length === 0) {
-        // Fallback to a generic message if API fails
-        return {
-            update: 'Crypto markets are active, check the latest prices for top movers.',
-            sourceName: 'CryptoDx',
-            sourceUrl: 'https://cryptodx-v7.netlify.app/'
-        };
+    try {
+      const { data, error } = await getLatestListings();
+
+      if (error || !data || data.length === 0) {
+        console.warn('Could not fetch crypto listings for live update, using fallback.');
+        return fallbackResult;
+      }
+      
+      const sortedByChange = [...data].sort((a,b) => Math.abs(b.change24h) - Math.abs(a.change24h));
+      const notableCoin: Cryptocurrency = sortedByChange[Math.floor(Math.random() * 5)]; // Pick one of the top 5 movers
+
+      const { output } = await prompt({
+          coin: {
+              name: notableCoin.name,
+              symbol: notableCoin.symbol,
+              change24h: notableCoin.change24h,
+              price: notableCoin.price,
+          }
+      });
+      
+      if (!output) {
+         console.warn('AI prompt for live update returned no output, using fallback.');
+         return fallbackResult;
+      }
+
+      return output;
+    } catch (error) {
+      console.error("Error in generateUpdateFlow, returning fallback.", error);
+      return fallbackResult;
     }
-    
-    // Select a notable coin - e.g., a top gainer/loser or a high-volume coin
-    const sortedByChange = [...data].sort((a,b) => Math.abs(b.change24h) - Math.abs(a.change24h));
-    const notableCoin: Cryptocurrency = sortedByChange[Math.floor(Math.random() * 5)]; // Pick one of the top 5 movers
-
-    const {output} = await prompt({
-        coin: {
-            name: notableCoin.name,
-            symbol: notableCoin.symbol,
-            change24h: notableCoin.change24h,
-            price: notableCoin.price,
-        }
-    });
-    return output!;
   }
 );
-
