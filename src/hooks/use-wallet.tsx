@@ -231,8 +231,8 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
     }
     
     // Get the correct contract address for the current network
-    const fromAddress = fromToken.platform?.token_address;
-    const toAddress = toToken.platform?.token_address;
+    const fromAddress = fromToken.symbol === selectedNetwork.nativeCurrency.symbol ? fromToken.platform?.token_address : fromToken.address;
+    const toAddress = toToken.symbol === selectedNetwork.nativeCurrency.symbol ? toToken.platform?.token_address : toToken.address;
 
     if (!fromAddress || !toAddress) {
         toast({ variant: 'destructive', title: 'Invalid Token', description: 'One of the selected tokens does not have a valid address on this network.' });
@@ -285,7 +285,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
     } finally {
         setIsSwapping(false);
     }
-  }, [account, selectedNetwork.uniswapRouterAddress]);
+  }, [account, selectedNetwork]);
 
 
   useEffect(() => {
@@ -373,3 +373,5 @@ export const useWallet = () => {
   }
   return context;
 };
+
+    
