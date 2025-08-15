@@ -136,7 +136,7 @@ export function MoralisSwapInterface({ cryptocurrencies }: { cryptocurrencies: C
   const handleFromTokenChange = (symbol: string) => {
     const token = cryptocurrencies.find((t) => t.symbol === symbol);
     if (token) {
-        if (toToken && token.symbol === toToken.ticker) {
+        if (toToken && token.symbol === toToken.symbol) {
             handleSwap();
         } else {
             setFromToken(token);
@@ -147,7 +147,7 @@ export function MoralisSwapInterface({ cryptocurrencies }: { cryptocurrencies: C
   const handleToTokenChange = (ticker: string) => {
     const token = cryptocurrencies.find((c) => c.symbol === ticker);
     if (token) {
-        if (fromToken && token.symbol === fromToken.ticker) {
+        if (fromToken && token.symbol === fromToken.symbol) {
             handleSwap();
         } else {
             setToToken(token);
@@ -384,9 +384,13 @@ export function MoralisSwapInterface({ cryptocurrencies }: { cryptocurrencies: C
             )}
           </div>
           <div className="flex items-center gap-2">
-            <div className="flex-1 text-3xl h-12 flex items-center p-0">
-                {isFetchingQuote ? <Loader2 className="h-6 w-6 animate-spin" /> : <Input id="to-input" type="text" placeholder="0" className="text-3xl h-12 bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0 p-0" value={toAmount} onChange={handleToAmountChange}/>}
-            </div>
+            {isFetchingQuote ? (
+              <div className="flex-1 flex items-center h-12">
+                <Loader2 className="h-6 w-6 animate-spin" />
+              </div>
+            ) : (
+              <Input id="to-input" type="text" placeholder="0" className="text-3xl h-12 bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0 p-0" value={toAmount} onChange={handleToAmountChange}/>
+            )}
             <Select value={toToken.symbol} onValueChange={handleToTokenChange}>
               <SelectTrigger className="w-[180px] h-12 text-lg font-bold">
                 <div className="flex items-center gap-2">
