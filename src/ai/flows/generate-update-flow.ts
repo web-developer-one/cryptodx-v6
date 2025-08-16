@@ -75,8 +75,8 @@ const generateUpdateFlow = ai.defineFlow(
   async () => {
     const fallbackResult = {
       update: 'Crypto markets are active, check the latest prices for top movers.',
-      sourceName: 'CryptoDx',
-      sourceUrl: 'https://cryptodx-v7.netlify.app/',
+      sourceName: 'CoinMarketCap',
+      sourceUrl: 'https://coinmarketcap.com/headlines/news/',
     };
 
     try {
