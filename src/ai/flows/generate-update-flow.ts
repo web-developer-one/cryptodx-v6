@@ -16,22 +16,20 @@ const GenerateUpdateInputSchema = z.object({
   coin: z.object({
     name: z.string(),
     symbol: z.string(),
-    change24h: z.number(),
-    price: z.number(),
   }),
 });
 
 const GenerateUpdateOutputSchema = z.object({
   update: z
     .string()
-    .describe('A short, single-sentence news-like update about the provided cryptocurrency.'),
+    .describe('A short, single-sentence news headline about the provided cryptocurrency from one of the specified sources.'),
   sourceName: z
     .string()
-    .describe("The name of the news source, which will be 'CoinMarketCap'."),
+    .describe("The name of the news source (e.g., 'Cointelegraph', 'CoinDesk')."),
   sourceUrl: z
     .string()
     .url()
-    .describe('A verifiable URL to the cryptocurrency page on CoinMarketCap.'),
+    .describe('The verifiable URL to the news article.'),
 });
 export type GenerateUpdateOutput = z.infer<typeof GenerateUpdateOutputSchema>;
 
@@ -42,22 +40,31 @@ export async function generateUpdate(): Promise<GenerateUpdateOutput> {
 const prompt = ai.definePrompt({
   name: 'generateUpdatePrompt',
   input: { schema: GenerateUpdateInputSchema },
-  output: {schema: z.object({ update: z.string() })},
+  output: {schema: GenerateUpdateOutputSchema},
   model: 'googleai/gemini-pro',
-  prompt: `You are an AI news aggregator for a crypto application. Your task is to generate a single, short, engaging, news-style sentence based on the real performance of a cryptocurrency.
+  prompt: `You are an expert crypto news aggregator. Your task is to find a recent, relevant, and real news headline for the cryptocurrency "{{coin.name}}" from ONE of the following reputable sources:
 
-The sentence should be about the following cryptocurrency:
-- Name: {{{coin.name}}}
-- Symbol: {{{coin.symbol}}}
-- 24h Change: {{{coin.change24h}}}%
-- Current Price: {{{coin.price}}} USD
+- CoinMarketCap
+- Cointelegraph
+- CoinDesk
+- Bitcoin Magazine (bitcoinmagazine.com)
+- CryptoMx (cryptomx.co)
 
-Generate a compelling, news-style sentence based on this data. Keep it concise and under 15 words. Do not use quotation marks.
+Based on your knowledge and ability to find recent information, provide the following in JSON format:
+1. "update": A short, compelling, single-sentence headline from the article.
+2. "sourceName": The name of the website where the news is from (e.g., "Cointelegraph").
+3. "sourceUrl": The full, real, and verifiable URL to the article.
 
-Example for a coin that is up:
-"Bitcoin is surging, up 5.2% in the last 24 hours."
+If you cannot find a recent news article for "{{coin.name}}" from any of these specific sources, you MUST respond with a JSON object where the "update" field is "No recent news found for {{coin.name}}.", and the other fields are empty strings. Do not invent a source or URL.
 
-Generate a new, unique update now based on the data for {{{coin.name}}}.`,
+Example of a good response:
+{
+  "update": "Bitcoin price holds steady above $68,000 as market awaits inflation data.",
+  "sourceName": "Cointelegraph",
+  "sourceUrl": "https://cointelegraph.com/news/bitcoin-price-holds-steady-above-68000"
+}
+
+Find a real headline for "{{coin.name}}" now.`,
 });
 
 const generateUpdateFlow = ai.defineFlow(
@@ -87,23 +94,18 @@ const generateUpdateFlow = ai.defineFlow(
           coin: {
               name: notableCoin.name,
               symbol: notableCoin.symbol,
-              change24h: notableCoin.change24h,
-              price: notableCoin.price,
           }
       });
       
-      if (!output || !output.update) {
-         console.warn('AI prompt for live update returned no output, using fallback.');
+      if (!output || !output.update || output.update.includes('No recent news found')) {
+         console.warn(`AI prompt for live update returned no specific news for ${notableCoin.name}, using fallback.`);
          return fallbackResult;
       }
       
-      // Construct the CoinMarketCap URL
-      const coinmarketcapUrl = `https://coinmarketcap.com/currencies/${notableCoin.name.toLowerCase().replace(/\s+/g, '-')}/`;
-
       return {
           update: output.update,
-          sourceName: 'CoinMarketCap',
-          sourceUrl: coinmarketcapUrl
+          sourceName: output.sourceName,
+          sourceUrl: output.sourceUrl
       };
 
     } catch (error) {
