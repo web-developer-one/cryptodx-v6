@@ -6,12 +6,22 @@ import { useToast } from '@/hooks/use-toast';
 import { Badge } from '@/components/ui/badge';
 import { Bell, ArrowUpRight } from 'lucide-react';
 import { Button } from './ui/button';
+import { useUser } from '@/hooks/use-user';
 
 export function LiveUpdateNotifier() {
   const { toast } = useToast();
   const [isFetching, setIsFetching] = useState(false);
+  const { user, isAuthenticated } = useUser();
+
+  // Check if the user has access to this feature.
+  const hasAccess = isAuthenticated && user && ['Advanced', 'Administrator'].includes(user.pricePlan);
 
   useEffect(() => {
+    // If the user does not have access, do nothing.
+    if (!hasAccess) {
+      return;
+    }
+
     const showUpdateToast = async () => {
       // Prevent multiple fetches at the same time
       if (isFetching) return;
@@ -67,7 +77,7 @@ export function LiveUpdateNotifier() {
     return () => {
       clearInterval(intervalId);
     };
-  }, [toast]); // isFetching is managed internally, so it doesn't need to be in the dependency array.
+  }, [isFetching, toast, hasAccess]); // Re-run effect if access changes.
 
   return null; // This component does not render anything itself
 }
