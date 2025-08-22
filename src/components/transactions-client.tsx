@@ -125,9 +125,9 @@ export function TransactionsClient() {
 
     return (
         <>
-            <div className="flex justify-between items-center my-6">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 my-6">
                 <h1 className="text-3xl font-bold">{t('TransactionsClient.title')}</h1>
-                <div className="w-full max-w-[220px]">
+                 <div className="w-full md:w-auto md:max-w-[220px]">
                     <Select onValueChange={handleCurrencyChange} defaultValue={selectedCurrency.symbol}>
                         <SelectTrigger>
                             <SelectValue placeholder={t('PoolsClient.selectCurrency')} />

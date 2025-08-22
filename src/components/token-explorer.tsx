@@ -257,18 +257,18 @@ export function TokenExplorer() {
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="flex justify-between items-center">
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <h1 className="text-3xl font-bold flex items-center gap-2">
           {t('TokenExplorer.title')}
           {isUpdating && (
             <span className="h-2 w-2 animate-pulse rounded-full bg-primary" />
           )}
         </h1>
-        <div className="flex flex-1 items-center justify-end gap-4">
+        <div className="flex flex-col md:flex-row flex-1 items-stretch md:items-center md:justify-end gap-2 md:gap-4">
           <Link href="/tokens/panels" passHref>
-            <Button variant="outline">{t('TokenExplorer.panelView')}</Button>
+            <Button variant="outline" className="w-full md:w-auto">{t('TokenExplorer.panelView')}</Button>
           </Link>
-          <div className="w-full max-w-[300px]">
+          <div className="w-full md:max-w-[220px]">
             <Input
               placeholder={t('TokenExplorer.search')}
               value={searchQuery}
@@ -279,7 +279,7 @@ export function TokenExplorer() {
               className="h-9 text-sm"
             />
           </div>
-          <div className="w-full max-w-[220px]">
+          <div className="w-full md:max-w-[220px]">
             <Select
               onValueChange={handleCurrencyChange}
               defaultValue={selectedCurrency.symbol}
