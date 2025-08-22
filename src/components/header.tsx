@@ -38,6 +38,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
+  DropdownMenuPortal,
   DropdownMenuSeparator,
   DropdownMenuSub,
   DropdownMenuSubContent,
@@ -243,23 +244,25 @@ export function Header() {
                 <ChevronDown className="h-4 w-4 opacity-50" />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              {Object.values(networkConfigs).map((network) => (
-                <DropdownMenuItem
-                  key={network.chainId}
-                  onClick={() => setSelectedNetwork(network)}
-                >
-                  {network.logo && (<Image
-                    src={network.logo}
-                    alt={`${network.chainName} logo`}
-                    width={20}
-                    height={20}
-                    className="mr-2 rounded-full"
-                  />)}
-                  {network.chainName}
-                </DropdownMenuItem>
-              ))}
-            </DropdownMenuContent>
+            <DropdownMenuPortal>
+                <DropdownMenuContent align="end">
+                {Object.values(networkConfigs).map((network) => (
+                    <DropdownMenuItem
+                    key={network.chainId}
+                    onClick={() => setSelectedNetwork(network)}
+                    >
+                    {network.logo && (<Image
+                        src={network.logo}
+                        alt={`${network.chainName} logo`}
+                        width={20}
+                        height={20}
+                        className="mr-2 rounded-full"
+                    />)}
+                    {network.chainName}
+                    </DropdownMenuItem>
+                ))}
+                </DropdownMenuContent>
+            </DropdownMenuPortal>
           </DropdownMenu>
 
           <WalletConnect>
@@ -272,71 +275,73 @@ export function Header() {
                 {isTranslating ? <Loader2 className="h-5 w-5 animate-spin" /> : <Cog className="h-5 w-5" />}
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-64">
-              <DropdownMenuLabel>{t('Header.settings')}</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem onSelect={(e) => e.preventDefault()} className="flex items-center justify-between">
-                <Label htmlFor="theme-toggle" className="font-normal cursor-pointer flex items-center gap-2">
-                    {theme === 'light' ? (
-                        <Sun className="h-4 w-4" />
-                    ) : (
-                        <Moon className="h-4 w-4" />
-                    )}
-                    <span>{theme === 'light' ? t('Header.LightMode') : t('Header.DarkMode')}</span>
-                </Label>
-                <Switch
-                  id="theme-toggle"
-                  checked={theme === 'dark'}
-                  onCheckedChange={toggleTheme}
-                  disabled={!mounted}
-                />
-              </DropdownMenuItem>
-              <DropdownMenuItem onSelect={(e) => e.preventDefault()} className="flex items-center justify-between">
-                <Label htmlFor="hide-small-balances" className="font-normal cursor-pointer flex items-center gap-2">
-                  <EyeOff className="h-4 w-4" />
-                  <span>{t('Header.hideSmallBalances')}</span>
-                </Label>
-                <Switch
-                  id="hide-small-balances"
-                  checked={hideSmallBalances}
-                  onCheckedChange={setHideSmallBalances}
-                />
-              </DropdownMenuItem>
-              <DropdownMenuItem onSelect={(e) => e.preventDefault()} className="flex items-center justify-between">
-                <Label htmlFor="hide-unknown-tokens" className="font-normal cursor-pointer flex items-center gap-2">
-                  <ShieldX className="h-4 w-4" />
-                  <span>{t('Header.hideUnknownTokens')}</span>
-                </Label>
-                <Switch
-                  id="hide-unknown-tokens"
-                  checked={hideUnknownTokens}
-                  onCheckedChange={setHideUnknownTokens}
-                />
-              </DropdownMenuItem>
-              <DropdownMenuItem asChild>
-                <Link href="/slippage" className="cursor-pointer flex items-center">
-                  <SlidersHorizontal className="mr-2 h-4 w-4" />
-                  <span>{t('Header.slippage')}</span>
-                </Link>
-              </DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuSub>
-                <DropdownMenuSubTrigger>
-                  <Languages className="mr-2 h-4 w-4" />
-                  <span>{t('Header.language')}</span>
-                </DropdownMenuSubTrigger>
-                <DropdownMenuSubContent>
-                  <ScrollArea className="h-72">
-                    {languages.map((lang) => (
-                      <DropdownMenuItem key={lang.code} onSelect={() => setLanguage(lang.code)}>
-                        <Check className={`mr-2 h-4 w-4 ${language === lang.code ? "opacity-100" : "opacity-0"}`} />
-                        {lang.displayName}
-                      </DropdownMenuItem>
-                    ))}
-                  </ScrollArea>
-                </DropdownMenuSubContent>
-              </DropdownMenuSub>
-            </DropdownMenuContent>
+            <DropdownMenuPortal>
+                <DropdownMenuContent align="end" className="w-64">
+                <DropdownMenuLabel>{t('Header.settings')}</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onSelect={(e) => e.preventDefault()} className="flex items-center justify-between">
+                    <Label htmlFor="theme-toggle" className="font-normal cursor-pointer flex items-center gap-2">
+                        {theme === 'light' ? (
+                            <Sun className="h-4 w-4" />
+                        ) : (
+                            <Moon className="h-4 w-4" />
+                        )}
+                        <span>{theme === 'light' ? t('Header.LightMode') : t('Header.DarkMode')}</span>
+                    </Label>
+                    <Switch
+                    id="theme-toggle"
+                    checked={theme === 'dark'}
+                    onCheckedChange={toggleTheme}
+                    disabled={!mounted}
+                    />
+                </DropdownMenuItem>
+                <DropdownMenuItem onSelect={(e) => e.preventDefault()} className="flex items-center justify-between">
+                    <Label htmlFor="hide-small-balances" className="font-normal cursor-pointer flex items-center gap-2">
+                    <EyeOff className="h-4 w-4" />
+                    <span>{t('Header.hideSmallBalances')}</span>
+                    </Label>
+                    <Switch
+                    id="hide-small-balances"
+                    checked={hideSmallBalances}
+                    onCheckedChange={setHideSmallBalances}
+                    />
+                </DropdownMenuItem>
+                <DropdownMenuItem onSelect={(e) => e.preventDefault()} className="flex items-center justify-between">
+                    <Label htmlFor="hide-unknown-tokens" className="font-normal cursor-pointer flex items-center gap-2">
+                    <ShieldX className="h-4 w-4" />
+                    <span>{t('Header.hideUnknownTokens')}</span>
+                    </Label>
+                    <Switch
+                    id="hide-unknown-tokens"
+                    checked={hideUnknownTokens}
+                    onCheckedChange={setHideUnknownTokens}
+                    />
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                    <Link href="/slippage" className="cursor-pointer flex items-center">
+                    <SlidersHorizontal className="mr-2 h-4 w-4" />
+                    <span>{t('Header.slippage')}</span>
+                    </Link>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuSub>
+                    <DropdownMenuSubTrigger>
+                    <Languages className="mr-2 h-4 w-4" />
+                    <span>{t('Header.language')}</span>
+                    </DropdownMenuSubTrigger>
+                    <DropdownMenuSubContent>
+                    <ScrollArea className="h-72">
+                        {languages.map((lang) => (
+                        <DropdownMenuItem key={lang.code} onSelect={() => setLanguage(lang.code)}>
+                            <Check className={`mr-2 h-4 w-4 ${language === lang.code ? "opacity-100" : "opacity-0"}`} />
+                            {lang.displayName}
+                        </DropdownMenuItem>
+                        ))}
+                    </ScrollArea>
+                    </DropdownMenuSubContent>
+                </DropdownMenuSub>
+                </DropdownMenuContent>
+            </DropdownMenuPortal>
           </DropdownMenu>
             
           {isUserLoading ? (
@@ -351,20 +356,22 @@ export function Header() {
                     </Avatar>
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                  <DropdownMenuLabel>{t('Header.myAccount')}</DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem asChild>
-                    <Link href="/profile" className="cursor-pointer">
-                        <User className="mr-2 h-4 w-4" />
-                        <span>{t('Header.profile')}</span>
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={handleLogout} className="cursor-pointer">
-                    <LogOut className="mr-2 h-4 w-4" />
-                    <span>{t('Header.logout')}</span>
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
+                <DropdownMenuPortal>
+                    <DropdownMenuContent align="end">
+                    <DropdownMenuLabel>{t('Header.myAccount')}</DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem asChild>
+                        <Link href="/profile" className="cursor-pointer">
+                            <User className="mr-2 h-4 w-4" />
+                            <span>{t('Header.profile')}</span>
+                        </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={handleLogout} className="cursor-pointer">
+                        <LogOut className="mr-2 h-4 w-4" />
+                        <span>{t('Header.logout')}</span>
+                    </DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenuPortal>
               </DropdownMenu>
           ) : (
                <Link href="/login" passHref>
