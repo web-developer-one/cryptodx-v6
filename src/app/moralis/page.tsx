@@ -14,7 +14,7 @@ export default function MoralisPage() {
 
   return (
     <div className="container flex-1 flex flex-col items-center justify-center py-8">
-      <h1 className="text-3xl font-bold mb-6">Moralis Swap</h1>
+      <h1 className="text-3xl font-bold mb-2">Moralis Swap</h1>
       <MoralisPageClient />
     </div>
   );
