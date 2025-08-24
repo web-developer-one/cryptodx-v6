@@ -152,7 +152,8 @@
     "swap": "Tauschen",
     "limit": "Limit",
     "buy": "Kaufen",
-    "sell": "Verkaufen"
+    "sell": "Verkaufen",
+    "changelly": "Changelly"
   },
   "PoolsClient": {
     "title": "Verfügbare Liquiditätspools",
@@ -328,7 +329,7 @@
     "placeholder": "Geben Sie Ihre Nachricht ein...",
     "send": "Senden",
     "askAbout": "Fragen Sie nach...",
-    "topics": "Blockchain, DeFi, Krypto, NFT, etc.",
+    "topics": "Blockchain, DeFi, Krypto, NFT oder KI!",
     "errorResponse": "Ich habe im Moment Probleme, eine Antwort zu generieren. Bitte versuchen Sie eine andere Frage.",
     "connectionError": "Entschuldigung, ich habe im Moment Verbindungsprobleme. Bitte versuchen Sie es später erneut.",
     "listening": "Höre zu...",
@@ -407,6 +408,7 @@
     "pools": "Liquiditätspools",
     "addLiquidity": "Liquidität hinzufügen",
     "positions": "Ihre Positionen",
+    "moralisSwap": "Moralis Swap",
     "slippage": "Slippage-Analyse",
     "spot": "Spot-Handel",
     "tokens": "Token erkunden",
@@ -416,7 +418,8 @@
     "login": "Anmelden",
     "register": "Konto erstellen",
     "profile": "Mein Profil",
-    "users": "Benutzer"
+    "users": "Benutzer",
+    "changelly": "Changelly"
   },
   "LoginPage": {
     "subtitle": "Melden Sie sich bei Ihrem Konto an, um fortzufahren.",
@@ -466,11 +469,16 @@
   },
   "UsersPage": {
     "title": "Benutzerverwaltung",
-    "avatar": "Avatar",
-    "username": "Benutzername",
-    "firstName": "Vorname",
-    "sex": "Geschlecht",
-    "pricePlan": "Preisplan"
+    "description": "Benutzerkonten anzeigen, bearbeiten und verwalten.",
+    "email": "Email",
+    "actions": "Aktionen",
+    "edit": "Bearbeiten",
+    "delete": "Löschen",
+    "deleteConfirmTitle": "Sind Sie absolut sicher?",
+    "deleteConfirmDesc": "Diese Aktion kann nicht rückgängig gemacht werden. Dies wird das Konto für {username} dauerhaft löschen.",
+    "backToUsers": "Zurück zu den Benutzern",
+    "editUser": "Benutzerprofil bearbeiten",
+    "editUserSubtitle": "Ändern Sie die Details für den ausgewählten Benutzer."
   },
   "LogoutToast": {
     "description": "Sie wurden erfolgreich abgemeldet."

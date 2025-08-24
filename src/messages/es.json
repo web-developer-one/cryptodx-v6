@@ -152,7 +152,8 @@
     "swap": "Intercambiar",
     "limit": "Límite",
     "buy": "Comprar",
-    "sell": "Vender"
+    "sell": "Vender",
+    "changelly": "Changelly"
   },
   "PoolsClient": {
     "title": "Pools de Liquidez Disponibles",
@@ -358,7 +359,7 @@
     "addNetworkFailedTitle": "Error al Añadir Red",
     "addNetworkFailedDesc": "No se pudo añadir la red seleccionada a su billetera.",
     "networkNotSupportedTitle": "Red No Soportada",
-    "networkNotSupportedDesc": "Esta red no se puede añadir automáticamente. Por favor, añádala a su billetera manualmente.",
+    "networkNotSupportedDesc": "Esta red no se puede añadir automáticamente. Por favor, añádala a su billetera manually.",
     "switchNetworkFailedTitle": "Error al Cambiar de Red",
     "switchNetworkFailedDesc": "No se pudo cambiar a la red seleccionada. Por favor, inténtelo de nuevo."
   },
@@ -417,7 +418,8 @@
     "login": "Iniciar Sesión",
     "register": "Crear Cuenta",
     "profile": "Mi Perfil",
-    "users": "Usuarios"
+    "users": "Usuarios",
+    "changelly": "Changelly"
   },
   "LoginPage": {
     "subtitle": "Inicia sesión en tu cuenta para continuar.",

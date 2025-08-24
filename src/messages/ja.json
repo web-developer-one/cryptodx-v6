@@ -152,7 +152,8 @@
     "swap": "スワップ",
     "limit": "指値",
     "buy": "購入",
-    "sell": "売却"
+    "sell": "売却",
+    "changelly": "Changelly"
   },
   "PoolsClient": {
     "title": "利用可能な流動性プール",
@@ -407,6 +408,7 @@
     "pools": "流動性プール",
     "addLiquidity": "流動性を追加",
     "positions": "あなたのポジション",
+    "moralisSwap": "Moralisスワップ",
     "slippage": "スリッページ分析",
     "spot": "スポット取引",
     "tokens": "トークンを探索",
@@ -416,7 +418,8 @@
     "login": "ログイン",
     "register": "アカウント作成",
     "profile": "マイプロフィール",
-    "users": "ユーザー"
+    "users": "ユーザー",
+    "changelly": "Changelly"
   },
   "LoginPage": {
     "subtitle": "アカウントにログインして続行してください。",
@@ -466,11 +469,16 @@
   },
   "UsersPage": {
     "title": "ユーザー管理",
-    "avatar": "アバター",
-    "username": "ユーザー名",
-    "firstName": "名",
-    "sex": "性別",
-    "pricePlan": "料金プラン"
+    "description": "ユーザーアカウントの表示、編集、管理。",
+    "email": "Eメール",
+    "actions": "アクション",
+    "edit": "編集",
+    "delete": "削除",
+    "deleteConfirmTitle": "本当に実行しますか？",
+    "deleteConfirmDesc": "この操作は元に戻せません。これにより、{username}のアカウントが完全に削除されます。",
+    "backToUsers": "ユーザー一覧に戻る",
+    "editUser": "ユーザープロファイルの編集",
+    "editUserSubtitle": "選択したユーザーの詳細を変更します。"
   },
   "LogoutToast": {
     "description": "正常にログアウトしました。"

@@ -152,7 +152,8 @@
     "swap": "스왑",
     "limit": "지정가",
     "buy": "구매",
-    "sell": "판매"
+    "sell": "판매",
+    "changelly": "Changelly"
   },
   "PoolsClient": {
     "title": "사용 가능한 유동성 풀",
@@ -407,6 +408,7 @@
     "pools": "유동성 풀",
     "addLiquidity": "유동성 추가",
     "positions": "내 포지션",
+    "moralisSwap": "모랄리스 스왑",
     "slippage": "슬리피지 분석",
     "spot": "현물 거래",
     "tokens": "토큰 탐색",
@@ -416,7 +418,8 @@
     "login": "로그인",
     "register": "계정 생성",
     "profile": "내 프로필",
-    "users": "사용자"
+    "users": "사용자",
+    "changelly": "Changelly"
   },
   "LoginPage": {
     "subtitle": "계속하려면 계정에 로그인하세요.",
@@ -466,11 +469,16 @@
   },
   "UsersPage": {
     "title": "사용자 관리",
-    "avatar": "아바타",
-    "username": "사용자 이름",
-    "firstName": "이름",
-    "sex": "성별",
-    "pricePlan": "요금제"
+    "description": "사용자 계정을 보고, 편집하고, 관리합니다.",
+    "email": "이메일",
+    "actions": "작업",
+    "edit": "편집",
+    "delete": "삭제",
+    "deleteConfirmTitle": "정말로 확실합니까?",
+    "deleteConfirmDesc": "이 작업은 되돌릴 수 없습니다. 이렇게 하면 {username}에 대한 계정이 영구적으로 삭제됩니다.",
+    "backToUsers": "사용자 목록으로 돌아가기",
+    "editUser": "사용자 프로필 편집",
+    "editUserSubtitle": "선택한 사용자의 세부 정보를 수정합니다."
   },
   "LogoutToast": {
     "description": "성공적으로 로그아웃되었습니다."
