@@ -6,6 +6,18 @@ const CHANGELLY_API_KEY = process.env.CHANGELLY_API_KEY;
 const CHANGELLY_PRIVATE_KEY = process.env.CHANGELLY_PRIVATE_KEY;
 const CHANGELLY_API_URL = 'https://api.changelly.com/v2';
 
+// Helper to format the PEM key from the environment variable
+const formatPrivateKey = (key: string): string => {
+    // Replace the placeholder for newlines with actual newline characters
+    const formattedKey = key.replace(/\\n/g, '\n');
+    // Ensure the key starts and ends with the correct headers
+    if (!formattedKey.startsWith('-----BEGIN PRIVATE KEY-----')) {
+        return `-----BEGIN PRIVATE KEY-----\n${formattedKey}\n-----END PRIVATE KEY-----`;
+    }
+    return formattedKey;
+};
+
+
 async function handler(req: NextRequest) {
   const path = req.nextUrl.pathname.replace('/api/changelly', '');
 
@@ -14,8 +26,13 @@ async function handler(req: NextRequest) {
   }
 
   const message = await req.json();
-  const hmac = crypto.HmacSHA512(JSON.stringify(message), CHANGELLY_PRIVATE_KEY);
-  const sign = hmac.toString(crypto.enc.Hex);
+
+  // The private key from env vars needs to have its newlines restored.
+  const privateKey = CHANGELLY_PRIVATE_KEY.replace(/\\n/g, '\n');
+
+  const sign = crypto.createHmac('sha512', privateKey)
+    .update(JSON.stringify(message))
+    .digest('hex');
 
   try {
     const response = await fetch(`${CHANGELLY_API_URL}${path}`, {
