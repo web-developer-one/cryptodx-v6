@@ -28,11 +28,10 @@ async function handler(req: NextRequest) {
   const message = await req.json();
 
   // The private key from env vars needs to have its newlines restored.
-  const privateKey = CHANGELLY_PRIVATE_KEY.replace(/\\n/g, '\n');
-
-  const sign = crypto.createHmac('sha512', privateKey)
-    .update(JSON.stringify(message))
-    .digest('hex');
+  const privateKey = formatPrivateKey(CHANGELLY_PRIVATE_KEY);
+  
+  // Use crypto-js for HMAC-SHA512 which is compatible with the serverless environment
+  const sign = crypto.HmacSHA512(JSON.stringify(message), privateKey).toString(crypto.enc.Hex);
 
   try {
     const response = await fetch(`${CHANGELLY_API_URL}${path}`, {
@@ -45,7 +44,13 @@ async function handler(req: NextRequest) {
       body: JSON.stringify(message),
     });
     
-    const data = await response.json();
+    // Check if the response body is empty before trying to parse JSON
+    const responseText = await response.text();
+    if (!responseText) {
+        return NextResponse.json({ error: 'Empty response from Changelly API.' }, { status: response.status });
+    }
+    
+    const data = JSON.parse(responseText);
 
     if (!response.ok) {
         return NextResponse.json({ error: data.error?.message || 'An error occurred with the Changelly API.' }, { status: response.status });
