@@ -13,8 +13,8 @@ export default function MoralisPage() {
     }, [t]);
 
   return (
-    <div className="container flex-1 flex flex-col items-center justify-center py-8">
-      <h1 className="text-3xl font-bold mb-2">Moralis Swap</h1>
+    <div className="container flex-1 flex flex-col items-center py-8 gap-6">
+      <h1 className="text-3xl font-bold">Moralis Swap</h1>
       <MoralisPageClient />
     </div>
   );
