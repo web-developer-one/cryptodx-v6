@@ -3,7 +3,7 @@
 
 import { ApiErrorCard } from "@/components/api-error-card";
 import { TradeNav } from "@/components/trade-nav";
-import { MoralisSwapInterface } from "@/components/moralis-swap-interface";
+import { LimitOrderInterface } from "@/components/limit-order-interface";
 import type { Cryptocurrency } from "@/lib/types";
 import { useEffect } from "react";
 import { useLanguage } from "@/hooks/use-language";
@@ -34,7 +34,7 @@ export function LimitPageClient({ cryptoData, error }: LimitPageClientProps) {
       return <Skeleton className="h-[600px] w-full max-w-md mt-6" />;
     }
 
-    return <MoralisSwapInterface cryptocurrencies={cryptoData} />;
+    return <LimitOrderInterface cryptocurrencies={cryptoData} />;
   };
 
   return (
