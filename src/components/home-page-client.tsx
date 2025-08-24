@@ -2,7 +2,6 @@
 'use client';
 
 import { ApiErrorCard } from "@/components/api-error-card";
-import { SwapInterface } from "@/components/swap-interface";
 import { HowToExchange } from "@/components/how-to-exchange";
 import { Faq } from "@/components/faq";
 import { TradeNav } from "@/components/trade-nav";
@@ -11,6 +10,7 @@ import type { Cryptocurrency } from "@/lib/types";
 import { useEffect } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { UkDisclaimer } from "@/components/uk-disclaimer";
+import { MoralisSwapInterface } from "./moralis-swap-interface";
 
 interface HomePageClientProps {
   cryptoData: Cryptocurrency[];
@@ -60,7 +60,7 @@ export function HomePageClient({ cryptoData, error }: HomePageClientProps) {
         </div>
         <div className="container flex flex-col items-center gap-6">
             <TradeNav />
-            <SwapInterface cryptocurrencies={cryptoData} />
+            <MoralisSwapInterface cryptocurrencies={cryptoData} />
         </div>
       </div>
       <HowToExchange />
