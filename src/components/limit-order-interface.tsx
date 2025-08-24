@@ -18,7 +18,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ArrowDown, Info } from "lucide-react";
+import { ArrowDown, Info, Loader2 } from "lucide-react";
 import type { Cryptocurrency } from "@/lib/types";
 import { WalletConnect } from "./wallet-connect";
 import Image from "next/image";
@@ -49,7 +49,7 @@ export function LimitOrderInterface({ cryptocurrencies }: { cryptocurrencies: Cr
   const [toAmount, setToAmount] = useState<string>("");
   const [limitPrice, setLimitPrice] = useState<string>("");
   const [expiry, setExpiry] = useState<string>("7d");
-  const { isActive: isWalletConnected, balances } = useWallet();
+  const { isActive: isWalletConnected, balances, performSwap, isSwapping } = useWallet();
   const [lastEdited, setLastEdited] = useState<"from" | "to">("from");
 
   const fromTokenBalance = useMemo(() => balances?.[fromToken.symbol], [balances, fromToken.symbol]);
@@ -152,6 +152,10 @@ export function LimitOrderInterface({ cryptocurrencies }: { cryptocurrencies: Cr
     }
     return 0;
   }, [limitPrice, marketPrice]);
+
+  const handlePlaceOrder = async () => {
+    await performSwap(fromToken, toToken, fromAmount);
+  }
 
   return (
     <Card className="w-full max-w-md shadow-2xl shadow-primary/10">
@@ -317,7 +321,10 @@ export function LimitOrderInterface({ cryptocurrencies }: { cryptocurrencies: Cr
       <CardFooter className="flex-col gap-4">
         <div className="w-full">
             {isWalletConnected ? (
-               <Button className="w-full h-12 text-lg">{t('LimitOrderInterface.placeOrder')}</Button>
+               <Button className="w-full h-12 text-lg" onClick={handlePlaceOrder} disabled={isSwapping}>
+                   {isSwapping && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                   {isSwapping ? 'Placing Order...' : t('LimitOrderInterface.placeOrder')}
+                </Button>
             ) : (
                 <WalletConnect>
                     <Button className="w-full h-12 text-lg">{t('Header.connectWallet')}</Button>
