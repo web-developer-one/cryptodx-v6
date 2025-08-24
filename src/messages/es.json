@@ -328,7 +328,7 @@
     "placeholder": "Escribe tu mensaje...",
     "send": "Enviar",
     "askAbout": "Pregunta sobre...",
-    "topics": "¡Blockchain, DeFi, Cripto, NFT o IA!",
+    "topics": "¡Blockchain, DeFi, Cripto, NFT, etc.!",
     "errorResponse": "Tengo problemas para generar una respuesta en este momento. Por favor, intenta con una pregunta diferente.",
     "connectionError": "Lo siento, tengo problemas para conectarme en este momento. Por favor, inténtalo de nuevo más tarde.",
     "listening": "Escuchando...",
@@ -358,7 +358,7 @@
     "addNetworkFailedTitle": "Error al Añadir Red",
     "addNetworkFailedDesc": "No se pudo añadir la red seleccionada a su billetera.",
     "networkNotSupportedTitle": "Red No Soportada",
-    "networkNotSupportedDesc": "Esta red no se puede añadir automáticamente. Por favor, añádala a su billetera manualmente.",
+    "networkNotSupportedDesc": "Esta red no se puede añadir automáticamente. Por favor, añádala a su billetera manually.",
     "switchNetworkFailedTitle": "Error al Cambiar de Red",
     "switchNetworkFailedDesc": "No se pudo cambiar a la red seleccionada. Por favor, inténtelo de nuevo."
   },

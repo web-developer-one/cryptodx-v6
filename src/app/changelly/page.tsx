@@ -1,12 +1,8 @@
+
 'use client';
 
-import { redirect } from 'next/navigation';
-import { useEffect } from 'react';
+import { ChangellyPageClient } from "@/components/changelly-page-client";
 
-export default function OldChangellyPage() {
-  useEffect(() => {
-    redirect('/changellyswap');
-  }, []);
-
-  return null;
+export default function ChangellyPage() {
+  return <ChangellyPageClient />;
 }

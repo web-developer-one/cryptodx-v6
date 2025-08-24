@@ -346,6 +346,7 @@
     "pools": "مجمعات السيولة",
     "addLiquidity": "إضافة سيولة",
     "positions": "مراكزك",
+    "moralisSwap": "تبادل Moralis",
     "slippage": "تحليل الانزلاق",
     "spot": "التداول الفوري",
     "tokens": "استكشاف الرموز",
@@ -355,7 +356,8 @@
     "login": "تسجيل الدخول",
     "register": "إنشاء حساب",
     "profile": "ملفي الشخصي",
-    "users": "المستخدمون"
+    "users": "المستخدمون",
+    "changelly": "Changelly"
   },
   "LoginPage": {
     "subtitle": "سجل الدخول إلى حسابك للمتابعة.",
@@ -403,11 +405,16 @@
   },
   "UsersPage": {
     "title": "إدارة المستخدمين",
-    "avatar": "الصورة الرمزية",
-    "username": "اسم المستخدم",
-    "firstName": "الاسم الأول",
-    "sex": "الجنس",
-    "pricePlan": "خطة الأسعار"
+    "description": "عرض وتحرير وإدارة حسابات المستخدمين.",
+    "email": "بريد إلكتروني",
+    "actions": "الإجراءات",
+    "edit": "تحرير",
+    "delete": "حذف",
+    "deleteConfirmTitle": "هل أنت متأكد تماما؟",
+    "deleteConfirmDesc": "لا يمكن التراجع عن هذا الإجراء. سيؤدي هذا إلى حذف حساب {username} بشكل دائم.",
+    "backToUsers": "العودة إلى المستخدمين",
+    "editUser": "تحرير ملف تعريف المستخدم",
+    "editUserSubtitle": "تعديل تفاصيل المستخدم المحدد."
   },
   "LogoutToast": {
     "description": "لقد قمت بتسجيل الخروج بنجاح."
