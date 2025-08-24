@@ -152,8 +152,7 @@
     "swap": "Swap",
     "limit": "Limit",
     "buy": "Buy",
-    "sell": "Sell",
-    "changelly": "Changelly"
+    "sell": "Sell"
   },
   "PoolsClient": {
     "title": "Available Liquidity Pools",

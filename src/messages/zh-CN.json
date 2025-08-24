@@ -152,8 +152,7 @@
     "swap": "兑换",
     "limit": "限价",
     "buy": "购买",
-    "sell": "出售",
-    "changelly": "Changelly"
+    "sell": "出售"
   },
   "PoolsClient": {
     "title": "可用的流动性池",
@@ -329,7 +328,7 @@
     "placeholder": "输入您的消息...",
     "send": "发送",
     "askAbout": "询问关于...",
-    "topics": "区块链、DeFi、加密货币、NFT等。",
+    "topics": "区块链、DeFi、加密货币、NFT等！",
     "errorResponse": "我现在无法生成回复。请尝试其他问题。",
     "connectionError": "抱歉，我现在连接时遇到问题。请稍后重试。",
     "listening": "正在聆听...",

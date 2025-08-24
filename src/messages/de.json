@@ -152,8 +152,7 @@
     "swap": "Tauschen",
     "limit": "Limit",
     "buy": "Kaufen",
-    "sell": "Verkaufen",
-    "changelly": "Changelly"
+    "sell": "Verkaufen"
   },
   "PoolsClient": {
     "title": "Verfügbare Liquiditätspools",
@@ -329,7 +328,7 @@
     "placeholder": "Geben Sie Ihre Nachricht ein...",
     "send": "Senden",
     "askAbout": "Fragen Sie nach...",
-    "topics": "Blockchain, DeFi, Krypto, NFT oder KI!",
+    "topics": "Blockchain, DeFi, Krypto, NFT, etc.!",
     "errorResponse": "Ich habe im Moment Probleme, eine Antwort zu generieren. Bitte versuchen Sie eine andere Frage.",
     "connectionError": "Entschuldigung, ich habe im Moment Verbindungsprobleme. Bitte versuchen Sie es später erneut.",
     "listening": "Höre zu...",

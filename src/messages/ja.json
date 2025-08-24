@@ -152,8 +152,7 @@
     "swap": "スワップ",
     "limit": "指値",
     "buy": "購入",
-    "sell": "売却",
-    "changelly": "Changelly"
+    "sell": "売却"
   },
   "PoolsClient": {
     "title": "利用可能な流動性プール",

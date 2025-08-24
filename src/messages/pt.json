@@ -253,7 +253,7 @@
   "CookiePolicyModal": {
     "title": "Política de Cookies",
     "lastUpdated": "Última atualização: {date}",
-    "p1": "Esta Política de Cookies explica como a CryptoDx (\"nós\", \"nos\" e \"nosso\") usa cookies e tecnologias semelhantes для reconhecê-lo quando você visita nosso site. Ela explica o que são essas tecnologias e por que as usamos, bem como seus direitos para controlar nosso uso delas.",
+    "p1": "Esta Política de Cookies explica como a CryptoDx (\"nós\", \"nos\" e \"nosso\") usa cookies e tecnologias semelhantes para reconhecê-lo quando você visita nosso site. Ela explica o que são essas tecnologias e por que as usamos, bem como seus direitos para controlar nosso uso delas.",
     "h_whatAre": "O que são cookies?",
     "p_whatAre1": "Um cookie é um pequeno arquivo de dados que é colocado no seu dispositivo quando você visita um site. Os cookies são amplamente utilizados pelos proprietários de sites para fazer seus sites funcionarem, ou para funcionarem de forma mais eficiente, bem como para fornecer informações de relatórios.",
     "p_whatAre2": "Cookies definidos pelo proprietário do site (neste caso, CryptoDx) são chamados de \"cookies primários\". Cookies definidos por partes que não o proprietário do site são chamados de \"cookies de terceiros\". Cookies de terceiros permitem que recursos ou funcionalidades de terceiros sejam fornecidos no ou através do site (por exemplo, publicidade, conteúdo interativo e análises). As partes que definem esses cookies de terceiros podem reconhecer seu computador tanto quando ele visita o site em questão quanto quando visita outros sites.",
@@ -328,7 +328,7 @@
     "placeholder": "Digite sua mensagem...",
     "send": "Enviar",
     "askAbout": "Pergunte sobre...",
-    "topics": "Blockchain, DeFi, Cripto, NFT, etc.",
+    "topics": "Blockchain, DeFi, Cripto, NFT, etc.!",
     "errorResponse": "Estou com problemas para gerar uma resposta agora. Por favor, tente uma pergunta diferente.",
     "connectionError": "Desculpe, estou com problemas para conectar agora. Por favor, tente novamente mais tarde.",
     "listening": "Ouvindo...",
@@ -407,6 +407,7 @@
     "pools": "Pools de Liquidez",
     "addLiquidity": "Adicionar Liquidez",
     "positions": "Suas Posições",
+    "moralisSwap": "Troca Moralis",
     "slippage": "Análise de Slippage",
     "spot": "Negociação à Vista",
     "tokens": "Explorar Tokens",
@@ -415,7 +416,9 @@
     "pricing": "Planos de Preços",
     "login": "Entrar",
     "register": "Criar Conta",
-    "profile": "Meu Perfil"
+    "profile": "Meu Perfil",
+    "users": "Usuários",
+    "changelly": "Changelly"
   },
   "LoginPage": {
     "subtitle": "Faça login na sua conta para continuar.",
@@ -462,6 +465,19 @@
     "saveErrorTitle": "Falha ao Atualizar o Perfil",
     "saveErrorDescription": "Ocorreu um erro ao atualizar seu perfil.",
     "disclaimer": "Valorizamos sua privacidade. Nenhuma informação de blockchain, cripto ou chaves privadas é armazenada em nosso site."
+  },
+  "UsersPage": {
+    "title": "Gerenciamento de Usuários",
+    "description": "Visualizar, editar e gerenciar contas de usuário.",
+    "email": "E-mail",
+    "actions": "Ações",
+    "edit": "Editar",
+    "delete": "Excluir",
+    "deleteConfirmTitle": "Você tem certeza absoluta?",
+    "deleteConfirmDesc": "Esta ação não pode ser desfeita. Isso excluirá permanentemente a conta de {username}.",
+    "backToUsers": "Voltar para Usuários",
+    "editUser": "Editar Perfil do Usuário",
+    "editUserSubtitle": "Modifique os detalhes do usuário selecionado."
   },
   "LogoutToast": {
     "description": "Você saiu com sucesso."

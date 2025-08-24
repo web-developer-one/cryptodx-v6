@@ -152,8 +152,7 @@
     "swap": "스왑",
     "limit": "지정가",
     "buy": "구매",
-    "sell": "판매",
-    "changelly": "Changelly"
+    "sell": "판매"
   },
   "PoolsClient": {
     "title": "사용 가능한 유동성 풀",
@@ -329,7 +328,7 @@
     "placeholder": "메시지를 입력하세요...",
     "send": "보내기",
     "askAbout": "에 대해 물어보세요...",
-    "topics": "블록체인, DeFi, 암호화폐, NFT 등",
+    "topics": "블록체인, DeFi, 암호화폐, NFT 등!",
     "errorResponse": "지금 응답을 생성하는 데 문제가 있습니다. 다른 질문을 시도해 주세요.",
     "connectionError": "죄송합니다. 지금 연결하는 데 문제가 있습니다. 나중에 다시 시도해 주세요.",
     "listening": "듣는 중...",
