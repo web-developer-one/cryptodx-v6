@@ -1,13 +1,13 @@
 
 'use client';
 
-import { TradeNav } from "@/components/trade-nav";
+import { ApiErrorCard } from "@/components/api-error-card";
 import { MoralisSwapInterface } from "@/components/moralis-swap-interface";
-import { useEffect } from "react";
 import { useLanguage } from "@/hooks/use-language";
 import type { Cryptocurrency } from "@/lib/types";
-import { ApiErrorCard } from "./api-error-card";
-import { Skeleton } from "./ui/skeleton";
+import { useEffect } from "react";
+import { Skeleton } from "@/components/ui/skeleton";
+import { TradeNav } from "./trade-nav";
 
 interface ChangellyPageClientProps {
   cryptoData: Cryptocurrency[];
@@ -40,6 +40,7 @@ export function ChangellyPageClient({ cryptoData, error }: ChangellyPageClientPr
   return (
     <div className="container flex-1 flex flex-col items-center py-8 gap-6">
       <TradeNav />
+      <h1 className="text-3xl font-bold">Changelly Swap</h1>
       {renderContent()}
     </div>
   );
