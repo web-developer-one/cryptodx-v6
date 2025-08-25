@@ -177,15 +177,22 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
 
     try {
         const provider = new ethers.BrowserProvider(window.ethereum);
-        const accounts = await provider.send('eth_requestAccounts', []);
         
+        // Check for existing accounts without prompting
+        let accounts = await provider.listAccounts();
+        if (accounts.length === 0) {
+            // If no accounts, then request connection
+            accounts = await provider.send('eth_requestAccounts', []);
+        }
+
         if (accounts.length > 0) {
-            setAccount(accounts[0]);
-            await fetchBalances(accounts[0]);
+            const currentAccount = accounts[0].address || accounts[0]; // Depending on provider, accounts may be strings or objects
+            setAccount(currentAccount);
+            await fetchBalances(currentAccount);
             localStorage.removeItem('explicitly_disconnected');
             toast({
                 title: t('WalletConnect.walletConnected'),
-                description: t('WalletConnect.walletConnectedDescription').replace('{account}', `${accounts[0].substring(0, 6)}...${accounts[0].substring(accounts[0].length - 4)}`),
+                description: t('WalletConnect.walletConnectedDescription').replace('{account}', `${currentAccount.substring(0, 6)}...${currentAccount.substring(currentAccount.length - 4)}`),
             });
             
             // After successful connection, attempt to switch network
