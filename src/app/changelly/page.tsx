@@ -6,7 +6,7 @@ import { FloatingTokensBackground } from "@/components/floating-tokens-backgroun
 export default async function ChangellyPage() {
   const { data: cryptoData, error } = await getLatestListings();
   return (
-    <div className="flex-1 flex flex-col relative overflow-hidden">
+    <div className="flex-1 flex flex-col relative">
       <FloatingTokensBackground />
       <div className="container flex-1 flex flex-col items-center py-8 gap-6 relative z-10">
         <h1 className="text-3xl font-bold">Changelly Swap</h1>
