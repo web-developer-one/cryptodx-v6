@@ -447,7 +447,7 @@ export function MoralisSwapInterface({ cryptocurrencies }: { cryptocurrencies: C
           </div>
           <div className="flex items-center gap-2">
             <Input id="from-input" type="text" placeholder="0" className="text-3xl h-12 bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0 p-0" value={fromAmount} onChange={handleFromAmountChange} />
-            <Button variant="outline" className="h-12 text-lg font-bold bg-background hover:bg-accent min-w-[130px]" onClick={() => setIsFromDialogOpen(true)}>
+            <Button variant="outline" className="h-12 text-lg font-bold bg-card hover:bg-accent min-w-[130px]" onClick={() => setIsFromDialogOpen(true)}>
                   <div className="flex items-center gap-2">
                       <Image
                           src={fromToken.logo || `https://placehold.co/24x24.png`}
@@ -488,7 +488,7 @@ export function MoralisSwapInterface({ cryptocurrencies }: { cryptocurrencies: C
             ) : (
               <Input id="to-input" type="text" placeholder="0" className="text-3xl h-12 bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0 p-0" value={toAmount} onChange={handleToAmountChange}/>
             )}
-            <Button variant="outline" className="h-12 text-lg font-bold bg-background hover:bg-accent min-w-[130px]" onClick={() => setIsToDialogOpen(true)}>
+            <Button variant="outline" className="h-12 text-lg font-bold bg-card hover:bg-accent min-w-[130px]" onClick={() => setIsToDialogOpen(true)}>
                   <div className="flex items-center gap-2">
                       <Image
                           src={toToken.logo || `https://placehold.co/24x24.png`}
