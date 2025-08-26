@@ -287,7 +287,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
     } finally {
         setIsSwapping(false);
     }
-  }, [account, selectedNetwork]);
+  }, [account, selectedNetwork, t]);
 
 
   useEffect(() => {
