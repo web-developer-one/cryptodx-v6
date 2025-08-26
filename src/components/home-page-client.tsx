@@ -11,6 +11,7 @@ import { useEffect } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { UkDisclaimer } from "@/components/uk-disclaimer";
 import { MoralisSwapInterface } from "./moralis-swap-interface";
+import { FloatingTokensBackground } from "./floating-tokens-background";
 
 interface HomePageClientProps {
   cryptoData: Cryptocurrency[];
@@ -49,18 +50,21 @@ export function HomePageClient({ cryptoData, error }: HomePageClientProps) {
 
   return (
     <div className="flex-1 flex flex-col">
-      <div className="flex flex-col items-center gap-8 pt-8 md:pt-12">
-        <div className="container flex flex-col items-center gap-4 text-center">
-          <h1 className="text-3xl md:text-5xl font-headline font-bold tracking-tighter">
-              {t('HomePage.title')}
-          </h1>
-          <p className="max-w-2xl text-muted-foreground md:text-xl">
-              {t('HomePage.subtitle')}
-          </p>
-        </div>
-        <div className="container flex flex-col items-center gap-6">
-            <TradeNav />
-            <MoralisSwapInterface cryptocurrencies={cryptoData} />
+       <div className="flex-1 flex flex-col relative overflow-hidden">
+        <FloatingTokensBackground />
+        <div className="z-10 flex flex-col items-center gap-8 pt-8 md:pt-12">
+          <div className="container flex flex-col items-center gap-4 text-center">
+            <h1 className="text-3xl md:text-5xl font-headline font-bold tracking-tighter">
+                {t('HomePage.title')}
+            </h1>
+            <p className="max-w-2xl text-muted-foreground md:text-xl">
+                {t('HomePage.subtitle')}
+            </p>
+          </div>
+          <div className="container flex flex-col items-center gap-6">
+              <TradeNav />
+              <MoralisSwapInterface cryptocurrencies={cryptoData} />
+          </div>
         </div>
       </div>
       <HowToExchange />

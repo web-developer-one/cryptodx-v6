@@ -8,6 +8,7 @@ import type { Cryptocurrency } from "@/lib/types";
 import { useEffect } from "react";
 import { useLanguage } from "@/hooks/use-language";
 import { Skeleton } from "@/components/ui/skeleton";
+import { FloatingTokensBackground } from "./floating-tokens-background";
 
 interface SellPageClientProps {
   cryptoData: Cryptocurrency[];
@@ -38,9 +39,12 @@ export function SellPageClient({ cryptoData, error }: SellPageClientProps) {
   };
 
   return (
-    <div className="container flex-1 flex flex-col items-center py-8 gap-6">
-      <TradeNav />
-      {renderContent()}
+    <div className="flex-1 flex flex-col relative overflow-hidden">
+      <FloatingTokensBackground />
+      <div className="container flex-1 flex flex-col items-center py-8 gap-6 z-10">
+        <TradeNav />
+        {renderContent()}
+      </div>
     </div>
   );
 }
