@@ -179,7 +179,7 @@ export function LimitOrderInterface({ cryptocurrencies }: { cryptocurrencies: Cr
           <div className="flex items-center gap-2">
             <Input id="from-input" type="text" placeholder="0" className="text-3xl h-12 bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0 p-0" value={fromAmount} onChange={handleAmountChange(setFromAmount, "from")} />
             <Select value={fromToken.symbol} onValueChange={handleFromTokenChange}>
-              <SelectTrigger className="w-[180px] h-12 text-lg font-bold">
+              <SelectTrigger className="w-[180px] h-12 text-lg font-bold bg-card">
                  <div className="flex items-center gap-2">
                     <Image
                         src={fromToken.logo || `https://placehold.co/20x20.png`}
@@ -231,7 +231,7 @@ export function LimitOrderInterface({ cryptocurrencies }: { cryptocurrencies: Cr
           <div className="flex items-center gap-2">
             <Input id="to-input" type="text" placeholder="0" className="text-3xl h-12 bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0 p-0" value={toAmount} onChange={handleAmountChange(setToAmount, "to")}/>
             <Select value={toToken.symbol} onValueChange={handleToTokenChange}>
-              <SelectTrigger className="w-[180px] h-12 text-lg font-bold">
+              <SelectTrigger className="w-[180px] h-12 text-lg font-bold bg-card">
                 <div className="flex items-center gap-2">
                     <Image
                         src={toToken.logo || `https://placehold.co/20x20.png`}
