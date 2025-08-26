@@ -1,8 +1,0 @@
-
-import { getLatestListings } from "@/lib/coinmarketcap";
-import { TradingBotPageClient } from "@/components/trading-bot-page-client";
-
-export default async function TradingBotPage() {
-    const { data: cryptoData, error } = await getLatestListings();
-    return <TradingBotPageClient cryptoData={error ? [] : cryptoData} error={error} />;
-}
