@@ -17,7 +17,7 @@ export default function MoralisPage() {
   return (
     <div className="flex-1 flex flex-col relative">
         <Image
-            src="/network-background.jpg"
+            src="/Gemini_Generated_Image_jupf6ojupf6ojupf.png"
             alt="Network background"
             layout="fill"
             objectFit="cover"
