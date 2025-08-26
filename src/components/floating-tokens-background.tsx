@@ -40,7 +40,7 @@ export function FloatingTokensBackground() {
   const random = mulberry32(12345); // Use a fixed seed
 
   return (
-    <div className="absolute inset-0 w-full h-full overflow-hidden -z-10">
+    <div className="absolute inset-0 w-full h-full overflow-hidden">
       <div className="relative w-full h-full">
         {tokens.map((token) => {
           const size = Math.floor(random() * (80 - 40 + 1) + 40); // Random size between 40 and 80px
