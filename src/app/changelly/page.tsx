@@ -8,7 +8,7 @@ export default async function ChangellyPage() {
   return (
     <div className="flex-1 flex flex-col relative overflow-hidden">
       <FloatingTokensBackground />
-      <div className="container flex-1 flex flex-col items-center py-8 gap-6 z-10">
+      <div className="container flex-1 flex flex-col items-center py-8 gap-6 relative z-10">
         <h1 className="text-3xl font-bold">Changelly Swap</h1>
         <TradeNav />
         <ChangellyPageClient cryptoData={error ? [] : cryptoData} error={error} />
