@@ -50,7 +50,7 @@ export function HomePageClient({ cryptoData, error }: HomePageClientProps) {
 
   return (
     <div className="flex-1 flex flex-col">
-       <div className="flex-1 flex flex-col relative overflow-hidden">
+       <div className="flex-1 flex flex-col relative">
         <FloatingTokensBackground />
         <div className="z-10 flex flex-col items-center gap-8 pt-8 md:pt-12">
           <div className="container flex flex-col items-center gap-4 text-center">
@@ -73,4 +73,3 @@ export function HomePageClient({ cryptoData, error }: HomePageClientProps) {
     </div>
   );
 }
-

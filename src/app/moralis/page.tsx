@@ -15,7 +15,7 @@ export default function MoralisPage() {
     }, [t]);
 
   return (
-    <div className="flex-1 flex flex-col relative overflow-hidden">
+    <div className="flex-1 flex flex-col relative">
         <FloatingTokensBackground />
         <div className="container flex-1 flex flex-col items-center py-8 gap-6 z-10">
             <div className="flex flex-col items-center text-center">
