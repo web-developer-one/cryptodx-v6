@@ -158,7 +158,7 @@ function TokenSelectDialog({ open, onOpenChange, cryptocurrencies, onSelect, sel
     );
 }
 
-export function MoralisSwapInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[] }) {
+export function MoralisSwapInterface({ cryptocurrencies, title }: { cryptocurrencies: Cryptocurrency[], title?: string }) {
   const { t } = useLanguage();
 
   const [fromToken, setFromToken] = useState<Cryptocurrency | undefined>(cryptocurrencies.find(c => c.symbol === 'ETH'));
@@ -343,7 +343,7 @@ export function MoralisSwapInterface({ cryptocurrencies }: { cryptocurrencies: C
     <>
       <Card className="w-full max-w-md shadow-2xl shadow-primary/10">
         <CardHeader className="relative text-center">
-          <CardTitle>{t('SwapInterface.title')}</CardTitle>
+          <CardTitle>{title || t('SwapInterface.title')}</CardTitle>
           <CardDescription>{t('SwapInterface.description')}</CardDescription>
           <Popover>
             <PopoverTrigger asChild>

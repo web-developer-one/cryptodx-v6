@@ -35,7 +35,7 @@ export function SellPageClient({ cryptoData, error }: SellPageClientProps) {
       return <Skeleton className="h-[480px] w-full max-w-md mt-6" />;
     }
 
-    return <MoralisSwapInterface cryptocurrencies={cryptoData} />;
+    return <MoralisSwapInterface cryptocurrencies={cryptoData} title={t('TradeNav.sell')} />;
   };
 
   return (
