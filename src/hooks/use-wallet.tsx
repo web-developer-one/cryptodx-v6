@@ -188,44 +188,47 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
                 title: t('WalletConnect.walletConnected'),
                 description: t('WalletConnect.walletConnectedDescription').replace('{account}', `${currentAccount.substring(0, 6)}...${currentAccount.substring(currentAccount.length - 4)}`),
             });
-            
-            // After successful connection, attempt to switch network
-            try {
-                await window.ethereum.request({
-                    method: 'wallet_switchEthereumChain',
-                    params: [{ chainId: selectedNetwork.chainId }],
-                });
-            } catch (switchError: any) {
-                if (switchError.code === 4902) { // Chain not added
-                    const networkToAdd = networkConfigs[selectedNetwork.chainId];
-                    if (networkToAdd) {
-                        await window.ethereum.request({
-                            method: 'wallet_addEthereumChain',
-                            params: [networkToAdd],
-                        });
-                    }
-                } else {
-                    throw switchError; // Rethrow other switch errors
-                }
-            }
         }
     } catch (error: any) {
-        console.error("Connection or network switch failed", error);
-        let title = t('WalletConnect.connectionFailed');
-        let description = t('WalletConnect.connectionFailedDescription');
-        if(error.code === 4001) { // User rejected the request
-          // Keep generic message as per original logic
-        } else if (error.code === 4902) {
-          title = t('WalletConnect.addNetworkFailedTitle');
-          description = t('WalletConnect.addNetworkFailedDesc');
-        } else if (error.code !== -32002) { // Ignore "request already pending"
-            title = t('WalletConnect.switchNetworkFailedTitle');
-            description = t('WalletConnect.switchNetworkFailedDesc');
+        console.error("Connection failed", error);
+        if(error.code !== 4001) { // Ignore user rejection
+            toast({ 
+                variant: "destructive", 
+                title: t('WalletConnect.connectionFailed'), 
+                description: t('WalletConnect.connectionFailedDescription') 
+            });
         }
-        
-        toast({ variant: "destructive", title, description });
     }
-  }, [t, selectedNetwork]);
+  }, [t]);
+
+  const switchNetwork = useCallback(async (network: NetworkConfig) => {
+    if (!account || typeof window.ethereum === 'undefined') return;
+    try {
+      await window.ethereum.request({
+        method: 'wallet_switchEthereumChain',
+        params: [{ chainId: network.chainId }],
+      });
+    } catch (switchError: any) {
+      if (switchError.code === 4902) { // Chain not added
+        try {
+          await window.ethereum.request({
+            method: 'wallet_addEthereumChain',
+            params: [network],
+          });
+        } catch (addError: any) {
+           toast({ variant: "destructive", title: t('WalletConnect.addNetworkFailedTitle'), description: t('WalletConnect.addNetworkFailedDesc')});
+        }
+      } else {
+         toast({ variant: "destructive", title: t('WalletConnect.switchNetworkFailedTitle'), description: t('WalletConnect.switchNetworkFailedDesc')});
+      }
+    }
+  }, [account, t]);
+
+  useEffect(() => {
+    if (account) { // Only try to switch network if user is connected
+        switchNetwork(selectedNetwork);
+    }
+  }, [selectedNetwork, account, switchNetwork]);
   
   const performSwap = useCallback(async (fromToken: Cryptocurrency, toToken: Cryptocurrency, amount: string) => {
     if (!account || !window.ethereum || !selectedNetwork.uniswapRouterAddress) {
