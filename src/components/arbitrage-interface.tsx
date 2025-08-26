@@ -84,7 +84,7 @@ export function ArbitrageInterface({ cryptocurrencies }: { cryptocurrencies: Cry
                             <TableHead className="text-right">{t('ArbitrageInterface.tableHeaderExA')}</TableHead>
                             <TableHead className="text-right">{t('ArbitrageInterface.tableHeaderExB')}</TableHead>
                             <TableHead className="text-right">{t('ArbitrageInterface.tableHeaderProfit')}</TableHead>
-                            <TableHead className="text-center">{t('ArbitrageInterface.tableHeaderAction')}</TableHead>
+                            <TableHead className="text-right">{t('ArbitrageInterface.tableHeaderAction')}</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
