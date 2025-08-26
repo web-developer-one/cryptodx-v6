@@ -177,12 +177,20 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
 
     try {
         const provider = new ethers.BrowserProvider(window.ethereum);
+        
+        // Request accounts
         const accounts = await provider.send('eth_requestAccounts', []);
 
         if (accounts.length > 0) {
             const currentAccount = accounts[0];
             setAccount(currentAccount);
+            
+            // Switch network if necessary
+            await switchNetwork(selectedNetwork);
+            
+            // Fetch balances for the new account
             await fetchBalances(currentAccount);
+            
             localStorage.removeItem('explicitly_disconnected');
             toast({
                 title: t('WalletConnect.walletConnected'),
@@ -199,10 +207,11 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
             });
         }
     }
-  }, [t]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedNetwork, t]);
 
   const switchNetwork = useCallback(async (network: NetworkConfig) => {
-    if (!account || typeof window.ethereum === 'undefined') return;
+    if (typeof window.ethereum === 'undefined') return;
     try {
       await window.ethereum.request({
         method: 'wallet_switchEthereumChain',
@@ -218,11 +227,11 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
         } catch (addError: any) {
            toast({ variant: "destructive", title: t('WalletConnect.addNetworkFailedTitle'), description: t('WalletConnect.addNetworkFailedDesc')});
         }
-      } else {
+      } else if (switchError.code !== 4001) { // Ignore user rejection
          toast({ variant: "destructive", title: t('WalletConnect.switchNetworkFailedTitle'), description: t('WalletConnect.switchNetworkFailedDesc')});
       }
     }
-  }, [account, t]);
+  }, [t]);
 
   useEffect(() => {
     if (account) { // Only try to switch network if user is connected
