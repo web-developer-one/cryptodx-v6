@@ -253,12 +253,12 @@
   "CookiePolicyModal": {
     "title": "Política de Cookies",
     "lastUpdated": "Última actualización: {date}",
-    "p1": "Esta Política de Cookies explica cómo CryptoDx (\"nosotros\", \"nos\" y \"nuestro\") usa cookies y tecnologías similares para reconocerte cuando visitas nuestro sitio web. Explica qué son estas tecnologías y por qué las usamos, así como tus derechos para controlar nuestro uso de ellas.",
+    "p1": "Esta Política de Cookies explica cómo CryptoDx (\\'nosotros\\', \\'nos\\' y \\'nuestro\\') usa cookies y tecnologías similares para reconocerte cuando visitas nuestro sitio web. Explica qué son estas tecnologías y por qué las usamos, así como tus derechos para controlar nuestro uso de ellas.",
     "h_whatAre": "¿Qué son las cookies?",
     "p_whatAre1": "Una cookie es un pequeño archivo de datos que se coloca en tu dispositivo cuando visitas un sitio web. Las cookies son ampliamente utilizadas por los propietarios de sitios web para hacer que sus sitios funcionen, o para que funcionen más eficientemente, así como para proporcionar información de informes.",
-    "p_whatAre2": "Las cookies establecidas por el propietario del sitio web (en este caso, CryptoDx) se llaman \"cookies de origen\". Las cookies establecidas by partes distintas al propietario del sitio web se llaman \"cookies de terceros\". Las cookies de terceros habilitan características o funcionalidades de terceros que se proporcionan en o a través del sitio web (por ejemplo, publicidad, contenido interactivo y análisis). Las partes que establecen estas cookies de terceros pueden reconocer tu computadora tanto cuando visita el sitio web en cuestión como cuando visita otros sitios web.",
+    "p_whatAre2": "Las cookies establecidas por el propietario del sitio web (en este caso, CryptoDx) se llaman \\\"cookies de origen\\\". Las cookies establecidas by partes distintas al propietario del sitio web se llaman \\\"cookies de terceros\\\". Las cookies de terceros habilitan características o funcionalidades de terceros que se proporcionan en o a través del sitio web (por ejemplo, publicidad, contenido interactivo y análisis). Las partes que establecen estas cookies de terceros pueden reconocer tu computadora tanto cuando visita el sitio web en cuestión como cuando visita otros sitios web.",
     "h_whyUse": "¿Por qué usamos cookies?",
-    "p_whyUse": "Usamos cookies de origen y de terceros por varias razones. Algunas cookies son requeridas por razones técnicas para que nuestro Sitio Web funcione, y nos referimos a estas como cookies \"esenciales\" o \"estrictamente necesarias\". Otras cookies también nos permiten rastrear y dirigir los intereses de nuestros usuarios para mejorar la experiencia en nuestras Propiedades en Línea. Terceros sirven cookies a través de nuestro Sitio Web para publicidad, análisis y otros propósitos. Esto se describe con más detalle a continuación.",
+    "p_whyUse": "Usamos cookies de origen y de terceros por varias razones. Algunas cookies son requeridas por razones técnicas para que nuestro Sitio Web funcione, y nos referimos a estas como cookies \\\"esenciales\\\" o \\\"estrictamente necesarias\\\". Otras cookies también nos permiten rastrear y dirigir los intereses de nuestros usuarios para mejorar la experiencia en nuestras Propiedades en Línea. Terceros sirven cookies a través de nuestro Sitio Web para publicidad, análisis y otros propósitos. Esto se describe con más detalle a continuación.",
     "h_types": "Tipos de Cookies que Usamos",
     "li_necessary": "<strong>Cookies Estrictamente Necesarias:</strong> Estas cookies son esenciales para proporcionarte los servicios disponibles a través de nuestro Sitio Web y para permitirte usar algunas de sus características. Debido a que estas cookies son estrictamente necesarias para entregarte el Sitio Web, no puedes rechazarlas sin afectar el funcionamiento de nuestro Sitio Web.",
     "li_performance": "<strong>Cookies de Rendimiento y Funcionalidad:</strong> Estas cookies se utilizan para mejorar el rendimiento y la funcionalidad de nuestro Sitio Web, pero no son esenciales para su uso. Sin embargo, sin estas cookies, cierta funcionalidad (como recordar tu preferencia de tema) podría no estar disponible.",
@@ -278,7 +278,7 @@
     "h_definitions": "Definiciones",
     "p_definitions": "A los efectos de esta Política de Privacidad:",
     "li_account": "<strong>Cuenta</strong> significa una cuenta única creada para que Usted acceda a nuestro Servicio o partes de nuestro Servicio.",
-    "li_company": "<strong>Compañía</strong> (referida como \\"la Compañía\\", \\"Nosotros\\", \\"Nos\\" o \\"Nuestro\\" en este Acuerdo) se refiere a CryptoDx.",
+    "li_company": "<strong>Compañía</strong> (referida como \\\"la Compañía\\\", \\\"Nosotros\\\", \\\"Nos\\\" o \\\"Nuestro\\\" en este Acuerdo) se refiere a CryptoDx.",
     "li_cookies": "<strong>Cookies</strong> son pequeños archivos que un sitio web coloca en Su computadora, dispositivo móvil o cualquier otro dispositivo, que contienen los detalles de Su historial de navegación en ese sitio web entre sus muchos usos.",
     "li_country": "<strong>País</strong> se refiere a: Su País",
     "li_device": "<strong>Dispositivo</strong> significa cualquier dispositivo que pueda acceder al Servicio, como una computadora, un teléfono celular o una tableta digital.",
@@ -301,7 +301,7 @@
   "TermsOfUseModal": {
     "title": "Términos de Uso",
     "lastUpdated": "Última actualización: {date}",
-    "p1": "Bienvenido a CryptoDx. Estos Términos de Uso (\\"Términos\\") rigen su acceso y uso de nuestro sitio web, servicios y aplicaciones (colectivamente, el \\"Servicio\\"). Lea atentamente estos Términos antes de utilizar el Servicio.",
+    "p1": "Bienvenido a CryptoDx. Estos Términos de Uso (\\'Términos\\') rigen su acceso y uso de nuestro sitio web, servicios y aplicaciones (colectivamente, el \\'Servicio\\'). Lea atentamente estos Términos antes de utilizar el Servicio.",
     "h_agreement": "1. Acuerdo de los Términos",
     "p_agreement": "Al utilizar nuestro Servicio, usted acepta estar sujeto a estos Términos. Si no está de acuerdo con estos Términos, no puede utilizar el Servicio. Podemos modificar los Términos en cualquier momento, a nuestro exclusivo criterio. Si lo hacemos, se lo haremos saber publicando los Términos modificados en el sitio o mediante otras comunicaciones.",
     "h_eligibility": "2. Elegibilidad",
@@ -315,7 +315,7 @@
     "li_circumvent": "Intentar eludir cualquier técnica de filtrado de contenido que empleemos, o intentar acceder a cualquier servicio o área del Servicio a la que no esté autorizado a acceder.",
     "li_automated": "Utilizar cualquier robot, araña, rastreador, raspador u otros medios o interfaz automatizados no proporcionados por nosotros para acceder al Servicio o para extraer datos.",
     "h_disclaimers": "5. Descargos de Responsabilidad",
-    "p_disclaimers": "EL SERVICIO SE PROPORCIONA \\"TAL CUAL\\" Y \\"SEGÚN DISPONIBILIDAD\\" SIN GARANTÍAS DE NINGÚN TIPO, YA SEAN EXPRESAS O IMPLÍCITAS. USTED RECONOCE Y ACEPTA QUE HA TENIDO LA OPORTUNIDAD QUE CONSIDERE NECESARIA PARA INVESTIGAR EL SERVICIO, LAS LEYES, NORMAS O REGLAMENTOS QUE PUEDAN SER APLICABLES A SU USO DEL SERVICIO Y QUE NO SE BASA EN NINGUNA DECLARACIÓN DE LEY O HECHO REALIZADA POR CRYPTODX EN RELACIÓN CON EL SERVICIO.",
+    "p_disclaimers": "EL SERVICIO SE PROPORCIONA \\'TAL CUAL\\' Y \\'SEGÚN DISPONIBILIDAD\\' SIN GARANTÍAS DE NINGÚN TIPO, YA SEAN EXPRESAS O IMPLÍCITAS. USTED RECONOCE Y ACEPTA QUE HA TENIDO LA OPORTUNIDAD QUE CONSIDERE NECESARIA PARA INVESTIGAR EL SERVICIO, LAS LEYES, NORMAS O REGLAMENTOS QUE PUEDAN SER APLICABLES A SU USO DEL SERVICIO Y QUE NO SE BASA EN NINGUNA DECLARACIÓN DE LEY O HECHO REALIZADA POR CRYPTODX EN RELACIÓN CON EL SERVICIO.",
     "h_liability": "6. Limitación de Responsabilidad",
     "p_liability": "EN LA MEDIDA MÁXIMA PERMITIDA POR LA LEY APLICABLE, EN NINGÚN CASO CRYPTODX O SUS AFILIADOS SERÁN RESPONSABLES DE NINGÚN DAÑO INDIRECTO, ESPECIAL, INCIDENTAL, CONSECUENTE O PUNITIVO DE NINGÚN TIPO.",
     "h_governing": "7. Ley Aplicable",
@@ -407,6 +407,7 @@
     "pools": "Pools de Liquidez",
     "addLiquidity": "Añadir Liquidez",
     "positions": "Tus Posiciones",
+    "moralisSwap": "Intercambio Moralis",
     "slippage": "Análisis de Deslizamiento",
     "spot": "Comercio al Contado",
     "tokens": "Explorar Tokens",
@@ -416,7 +417,8 @@
     "login": "Iniciar Sesión",
     "register": "Crear Cuenta",
     "profile": "Mi Perfil",
-    "users": "Usuarios"
+    "users": "Usuarios",
+    "changelly": "Changelly"
   },
   "LoginPage": {
     "subtitle": "Inicia sesión en tu cuenta para continuar.",
@@ -466,11 +468,16 @@
   },
   "UsersPage": {
     "title": "Gestión de Usuarios",
-    "avatar": "Avatar",
-    "username": "Nombre de Usuario",
-    "firstName": "Nombre",
-    "sex": "Sexo",
-    "pricePlan": "Plan de Precios"
+    "description": "Ver, editar y gestionar cuentas de usuario.",
+    "email": "Correo electrónico",
+    "actions": "Acciones",
+    "edit": "Editar",
+    "delete": "Eliminar",
+    "deleteConfirmTitle": "¿Estás absolutamente seguro?",
+    "deleteConfirmDesc": "Esta acción no se puede deshacer. Esto eliminará permanentemente la cuenta de {username}.",
+    "backToUsers": "Volver a Usuarios",
+    "editUser": "Editar Perfil de Usuario",
+    "editUserSubtitle": "Modificar los detalles del usuario seleccionado."
   },
   "LogoutToast": {
     "description": "Has cerrado sesión exitosamente."

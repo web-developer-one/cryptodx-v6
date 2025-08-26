@@ -407,7 +407,7 @@
     "pools": "तरलता पूल",
     "addLiquidity": "तरलता जोड़ें",
     "positions": "आपकी स्थितियाँ",
-    "moralisSwap": "Moralis Swap",
+    "moralisSwap": "मोरलिस स्वैप",
     "slippage": "स्लिपेज विश्लेषण",
     "spot": "स्पॉट ट्रेडिंग",
     "tokens": "टोकन का अन्वेषण करें",
@@ -418,7 +418,7 @@
     "register": "खाता बनाएं",
     "profile": "मेरी प्रोफ़ाइल",
     "users": "उपयोगकर्ता",
-    "changelly": "Changelly"
+    "changelly": "चेंजली"
   },
   "LoginPage": {
     "subtitle": "जारी रखने के लिए अपने खाते में लॉग इन करें।",
