@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ArrowDownUp, Settings, Info, Loader2, Check, X, Search, ArrowLeft } from "lucide-react";
+import { ArrowDownUp, Settings, Info, Loader2, Check, X, Search, ArrowLeft, ChevronDown } from "lucide-react";
 import type { Cryptocurrency } from "@/lib/types";
 import { WalletConnect } from "./wallet-connect";
 import Image from "next/image";
@@ -89,8 +89,8 @@ function TokenSelectDialog({ open, onOpenChange, cryptocurrencies, onSelect, sel
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent className="max-w-md p-0 gap-0">
-                <DialogHeader className="p-4 border-b flex-row items-center">
-                    <DialogTitle className="flex items-center gap-2">
+                <DialogHeader className="p-4 border-b">
+                     <DialogTitle className="flex items-center gap-2">
                         <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => onOpenChange(false)}>
                             <ArrowLeft className="h-4 w-4" />
                         </Button>
@@ -433,9 +433,9 @@ export function MoralisSwapInterface({ cryptocurrencies }: { cryptocurrencies: C
       </CardHeader>
       <CardContent className="relative flex flex-col gap-2">
         {/* From Token */}
-        <div className="p-4 rounded-lg bg-[#f8fafc] dark:bg-secondary/50 border">
+        <div className="p-4 rounded-lg bg-muted border">
           <div className="flex justify-between items-center mb-1">
-            <label className="text-sm text-muted-foreground" htmlFor="from-input">{t('SwapInterface.sell')}</label>
+            <label className="text-sm text-muted-foreground">{t('SwapInterface.sell')}</label>
             {isWalletConnected && fromTokenBalance !== undefined && (
                 <div className="text-sm text-muted-foreground flex items-center gap-1">
                     <span>{t('SwapInterface.balance').replace('{balance}', `${parseFloat(fromTokenBalance).toLocaleString('en-US', {maximumFractionDigits: 5})} ${fromToken.symbol}`)}</span>
@@ -447,16 +447,17 @@ export function MoralisSwapInterface({ cryptocurrencies }: { cryptocurrencies: C
           </div>
           <div className="flex items-center gap-2">
             <Input id="from-input" type="text" placeholder="0" className="text-3xl h-12 bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0 p-0" value={fromAmount} onChange={handleFromAmountChange} />
-            <Button variant="secondary" className="h-12 text-lg font-bold" onClick={() => setIsFromDialogOpen(true)}>
+             <Button variant="outline" className="h-12 text-lg font-bold bg-background hover:bg-accent min-w-[130px]" onClick={() => setIsFromDialogOpen(true)}>
                 <div className="flex items-center gap-2">
                     <Image
-                        src={fromToken.logo || `https://placehold.co/20x20.png`}
+                        src={fromToken.logo || `https://placehold.co/24x24.png`}
                         alt={`${fromToken.name} logo`}
-                        width={20}
-                        height={20}
+                        width={24}
+                        height={24}
                         className="rounded-full"
                     />
                     {fromToken.symbol}
+                     <ChevronDown className="h-4 w-4 opacity-50" />
                 </div>
             </Button>
           </div>
@@ -470,9 +471,9 @@ export function MoralisSwapInterface({ cryptocurrencies }: { cryptocurrencies: C
         </div>
 
         {/* To Token */}
-        <div className="p-4 rounded-lg bg-[#f8fafc] dark:bg-secondary/50 border">
-          <div className="flex justify-between items-center mb-1">
-            <label className="text-sm text-muted-foreground" htmlFor="to-input">{t('SwapInterface.buy')}</label>
+        <div className="p-4 rounded-lg bg-muted border">
+           <div className="flex justify-between items-center mb-1">
+            <label className="text-sm text-muted-foreground">{t('SwapInterface.buy')}</label>
              {isWalletConnected && toTokenBalance !== undefined && (
                 <div className="text-sm text-muted-foreground flex items-center gap-1">
                     <span>{t('SwapInterface.balance').replace('{balance}', `${parseFloat(toTokenBalance).toLocaleString('en-US', {maximumFractionDigits: 5})} ${toToken.symbol}`)}</span>
@@ -487,16 +488,17 @@ export function MoralisSwapInterface({ cryptocurrencies }: { cryptocurrencies: C
             ) : (
               <Input id="to-input" type="text" placeholder="0" className="text-3xl h-12 bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0 p-0" value={toAmount} onChange={handleToAmountChange}/>
             )}
-            <Button variant="secondary" className="h-12 text-lg font-bold" onClick={() => setIsToDialogOpen(true)}>
+            <Button variant="outline" className="h-12 text-lg font-bold bg-background hover:bg-accent min-w-[130px]" onClick={() => setIsToDialogOpen(true)}>
                  <div className="flex items-center gap-2">
                     <Image
-                        src={toToken.logo || `https://placehold.co/20x20.png`}
+                        src={toToken.logo || `https://placehold.co/24x24.png`}
                         alt={`${toToken.name} logo`}
-                        width={20}
-                        height={20}
+                        width={24}
+                        height={24}
                         className="rounded-full"
                     />
                     {toToken.symbol}
+                     <ChevronDown className="h-4 w-4 opacity-50" />
                 </div>
             </Button>
           </div>
@@ -563,3 +565,4 @@ export function MoralisSwapInterface({ cryptocurrencies }: { cryptocurrencies: C
     </>
   );
 }
+

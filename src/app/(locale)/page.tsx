@@ -1,3 +1,4 @@
+
 import { getLatestListings } from "@/lib/coinmarketcap";
 import { HomePageClient } from "@/components/home-page-client";
 
