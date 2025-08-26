@@ -116,6 +116,7 @@ interface WalletContextType {
   connectWallet: () => Promise<void>;
   disconnect: () => void;
   isLoading: boolean;
+  isConnecting: boolean;
   isSwapping: boolean;
   selectedNetwork: NetworkConfig;
   setSelectedNetwork: React.Dispatch<React.SetStateAction<NetworkConfig>>;
@@ -130,6 +131,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
   const [account, setAccount] = React.useState<string | null>(null);
   const [balances, setBalances] = React.useState<Record<string, string> | null>(null);
   const [isLoading, setIsLoading] = React.useState(true);
+  const [isConnecting, setIsConnecting] = React.useState(false);
   const [isSwapping, setIsSwapping] = React.useState(false);
   const [selectedNetwork, setSelectedNetwork] = React.useState<NetworkConfig>(networkConfigs['0x1']);
   const { t } = useLanguage();
@@ -165,51 +167,6 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
     });
   }, [t]);
   
-  const connectWallet = useCallback(async () => {
-    if (typeof window.ethereum === 'undefined') {
-        toast({
-            variant: "destructive",
-            title: t('WalletConnect.walletNotFound'),
-            description: t('WalletConnect.walletNotFoundDescription'),
-        });
-        return;
-    }
-
-    try {
-        const provider = new ethers.BrowserProvider(window.ethereum);
-        
-        // Request accounts
-        const accounts = await provider.send('eth_requestAccounts', []);
-
-        if (accounts.length > 0) {
-            const currentAccount = accounts[0];
-            setAccount(currentAccount);
-            
-            // Switch network if necessary
-            await switchNetwork(selectedNetwork);
-            
-            // Fetch balances for the new account
-            await fetchBalances(currentAccount);
-            
-            localStorage.removeItem('explicitly_disconnected');
-            toast({
-                title: t('WalletConnect.walletConnected'),
-                description: t('WalletConnect.walletConnectedDescription').replace('{account}', `${currentAccount.substring(0, 6)}...${currentAccount.substring(currentAccount.length - 4)}`),
-            });
-        }
-    } catch (error: any) {
-        console.error("Connection failed", error);
-        if(error.code !== 4001) { // Ignore user rejection
-            toast({ 
-                variant: "destructive", 
-                title: t('WalletConnect.connectionFailed'), 
-                description: t('WalletConnect.connectionFailedDescription') 
-            });
-        }
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedNetwork, t]);
-
   const switchNetwork = useCallback(async (network: NetworkConfig) => {
     if (typeof window.ethereum === 'undefined') return;
     try {
@@ -233,8 +190,53 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
     }
   }, [t]);
 
+  const connectWallet = useCallback(async () => {
+    if (isConnecting || account) return;
+
+    if (typeof window.ethereum === 'undefined') {
+        toast({
+            variant: "destructive",
+            title: t('WalletConnect.walletNotFound'),
+            description: t('WalletConnect.walletNotFoundDescription'),
+        });
+        return;
+    }
+
+    setIsConnecting(true);
+    try {
+        const provider = new ethers.BrowserProvider(window.ethereum);
+        
+        const accounts = await provider.send('eth_requestAccounts', []);
+
+        if (accounts.length > 0) {
+            const currentAccount = accounts[0];
+            setAccount(currentAccount);
+            
+            await switchNetwork(selectedNetwork);
+            await fetchBalances(currentAccount);
+            
+            localStorage.removeItem('explicitly_disconnected');
+            toast({
+                title: t('WalletConnect.walletConnected'),
+                description: t('WalletConnect.walletConnectedDescription').replace('{account}', `${currentAccount.substring(0, 6)}...${currentAccount.substring(currentAccount.length - 4)}`),
+            });
+        }
+    } catch (error: any) {
+        console.error("Connection failed", error);
+        if(error.code !== 4001) {
+            toast({ 
+                variant: "destructive", 
+                title: t('WalletConnect.connectionFailed'), 
+                description: t('WalletConnect.connectionFailedDescription') 
+            });
+        }
+    } finally {
+        setIsConnecting(false);
+    }
+  }, [isConnecting, account, selectedNetwork, t, switchNetwork]);
+
   useEffect(() => {
-    if (account) { // Only try to switch network if user is connected
+    if (account) {
         switchNetwork(selectedNetwork);
     }
   }, [selectedNetwork, account, switchNetwork]);
@@ -367,6 +369,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
     connectWallet,
     disconnect,
     isLoading,
+    isConnecting,
     isSwapping,
     selectedNetwork,
     setSelectedNetwork,
