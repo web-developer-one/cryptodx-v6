@@ -12,14 +12,7 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { ArrowDownUp, Settings, Info, Loader2 } from "lucide-react";
+import { ArrowDownUp, Settings, Info, Loader2, Check, X, Search, ArrowLeft } from "lucide-react";
 import type { Cryptocurrency } from "@/lib/types";
 import { WalletConnect } from "./wallet-connect";
 import Image from "next/image";
@@ -36,11 +29,137 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { useToast } from "@/hooks/use-toast";
 import { useLanguage } from "@/hooks/use-language";
 import { Skeleton } from "./ui/skeleton";
 import { cn } from "@/lib/utils";
 import { useDebounce } from "@/hooks/use-debounce";
+
+
+interface TokenSelectDialogProps {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  cryptocurrencies: Cryptocurrency[];
+  onSelect: (token: Cryptocurrency) => void;
+  selectedTokenSymbol?: string;
+  title: string;
+}
+
+function TokenSelectDialog({ open, onOpenChange, cryptocurrencies, onSelect, selectedTokenSymbol, title }: TokenSelectDialogProps) {
+    const [searchQuery, setSearchQuery] = useState("");
+    const [activeFilter, setActiveFilter] = useState<'All' | 'Stables' | 'Gainers' | 'Losers'>('All');
+
+    const stablecoins = ['USDC', 'USDT', 'DAI', 'BUSD', 'TUSD', 'USDP'];
+
+    const filteredTokens = useMemo(() => {
+        let tokens = cryptocurrencies;
+
+        if (activeFilter === 'Stables') {
+            tokens = tokens.filter(t => stablecoins.includes(t.symbol));
+        } else if (activeFilter === 'Gainers') {
+            tokens = tokens.filter(t => t.change24h >= 0);
+        } else if (activeFilter === 'Losers') {
+            tokens = tokens.filter(t => t.change24h < 0);
+        }
+
+        if (searchQuery) {
+            const lowercasedQuery = searchQuery.toLowerCase();
+            return tokens.filter(
+                (token) =>
+                token.name.toLowerCase().includes(lowercasedQuery) ||
+                token.symbol.toLowerCase().includes(lowercasedQuery)
+            );
+        }
+        return tokens;
+    }, [searchQuery, cryptocurrencies, activeFilter]);
+
+    const handleSelect = (token: Cryptocurrency) => {
+        onSelect(token);
+        onOpenChange(false);
+    }
+
+    return (
+        <Dialog open={open} onOpenChange={onOpenChange}>
+            <DialogContent className="max-w-md p-0 gap-0">
+                <DialogHeader className="p-4 border-b flex-row items-center justify-between">
+                    <DialogTitle className="flex items-center gap-2">
+                        <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => onOpenChange(false)}>
+                            <ArrowLeft className="h-4 w-4" />
+                        </Button>
+                       {title}
+                    </DialogTitle>
+                    <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => onOpenChange(false)}>
+                        <X className="h-4 w-4" />
+                    </Button>
+                </DialogHeader>
+                <div className="p-4 space-y-4">
+                     <div className="relative">
+                        <Input
+                            placeholder="Search currency"
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            className="pl-9"
+                        />
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                    </div>
+                    <div className="flex gap-2">
+                        {(['All', 'Stables', 'Gainers', 'Losers', 'New'] as const).map(filter => (
+                             <Button 
+                                key={filter} 
+                                variant={activeFilter === filter ? 'secondary' : 'outline'}
+                                size="sm"
+                                onClick={() => setActiveFilter(filter as any)}
+                                disabled={filter === 'New'} // Disable 'New' as per image styling
+                             >
+                                {filter}
+                            </Button>
+                        ))}
+                    </div>
+                </div>
+
+                <ScrollArea className="h-80 border-t">
+                    <div className="p-2">
+                        {filteredTokens.map(token => (
+                            <button
+                                key={token.id}
+                                onClick={() => handleSelect(token)}
+                                className="w-full flex items-center justify-between p-3 rounded-lg hover:bg-accent transition-colors"
+                            >
+                                <div className="flex items-center gap-3">
+                                    <Image
+                                        src={token.logo || `https://placehold.co/40x40.png`}
+                                        alt={token.name}
+                                        width={40}
+                                        height={40}
+                                        className="rounded-full"
+                                    />
+                                    <div>
+                                        <div className="flex items-baseline gap-2">
+                                            <p className="font-bold">{token.symbol}</p>
+                                            <p className="text-muted-foreground text-sm">{token.platform?.symbol}</p>
+                                        </div>
+                                        <p className="text-sm text-muted-foreground text-left">{token.name}</p>
+                                    </div>
+                                </div>
+                                {selectedTokenSymbol === token.symbol && (
+                                    <Check className="h-5 w-5 text-green-500" />
+                                )}
+                            </button>
+                        ))}
+                    </div>
+                </ScrollArea>
+            </DialogContent>
+        </Dialog>
+    );
+}
 
 export function MoralisSwapInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[] }) {
   const { t } = useLanguage();
@@ -56,6 +175,9 @@ export function MoralisSwapInterface({ cryptocurrencies }: { cryptocurrencies: C
   const [slippage, setSlippage] = useState("0.5");
   const [isSlippageAuto, setIsSlippageAuto] = useState(true);
   const [deadline, setDeadline] = useState("30");
+
+  const [isFromDialogOpen, setIsFromDialogOpen] = useState(false);
+  const [isToDialogOpen, setIsToDialogOpen] = useState(false);
 
   const { isActive: isWalletConnected, balances, performSwap, isSwapping } = useWallet();
   const { toast } = useToast();
@@ -133,25 +255,19 @@ export function MoralisSwapInterface({ cryptocurrencies }: { cryptocurrencies: C
     setToAmount(tempFromAmount);
   };
   
-  const handleFromTokenChange = (symbol: string) => {
-    const token = cryptocurrencies.find((t) => t.symbol === symbol);
-    if (token) {
-        if (toToken && token.symbol === toToken.symbol) {
-            handleSwap();
-        } else {
-            setFromToken(token);
-        }
+  const handleFromTokenChange = (token: Cryptocurrency) => {
+    if (toToken && token.symbol === toToken.symbol) {
+        handleSwap();
+    } else {
+        setFromToken(token);
     }
   };
 
-  const handleToTokenChange = (ticker: string) => {
-    const token = cryptocurrencies.find((c) => c.symbol === ticker);
-    if (token) {
-        if (fromToken && token.symbol === fromToken.symbol) {
-            handleSwap();
-        } else {
-            setToToken(token);
-        }
+  const handleToTokenChange = (token: Cryptocurrency) => {
+    if (fromToken && token.symbol === fromToken.symbol) {
+        handleSwap();
+    } else {
+        setToToken(token);
     }
   };
 
@@ -227,6 +343,7 @@ export function MoralisSwapInterface({ cryptocurrencies }: { cryptocurrencies: C
   }
 
   return (
+    <>
     <Card className="w-full max-w-md shadow-2xl shadow-primary/10">
        <CardHeader className="relative text-center">
         <CardTitle>{t('SwapInterface.title')}</CardTitle>
@@ -333,8 +450,7 @@ export function MoralisSwapInterface({ cryptocurrencies }: { cryptocurrencies: C
           </div>
           <div className="flex items-center gap-2">
             <Input id="from-input" type="text" placeholder="0" className="text-3xl h-12 bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0 p-0" value={fromAmount} onChange={handleFromAmountChange} />
-            <Select value={fromToken.symbol} onValueChange={handleFromTokenChange}>
-              <SelectTrigger className="w-[180px] h-12 text-lg font-bold">
+            <Button variant="secondary" className="h-12 text-lg font-bold" onClick={() => setIsFromDialogOpen(true)}>
                 <div className="flex items-center gap-2">
                     <Image
                         src={fromToken.logo || `https://placehold.co/20x20.png`}
@@ -345,24 +461,7 @@ export function MoralisSwapInterface({ cryptocurrencies }: { cryptocurrencies: C
                     />
                     {fromToken.symbol}
                 </div>
-              </SelectTrigger>
-              <SelectContent>
-                {cryptocurrencies.map((token) => (
-                  <SelectItem key={token.id} value={token.symbol}>
-                    <div className="flex items-center gap-2">
-                      <Image
-                        src={token.logo || `https://placehold.co/20x20.png`}
-                        alt={`${token.name} logo`}
-                        width={20}
-                        height={20}
-                        className="rounded-full"
-                      />
-                      {token.symbol}
-                    </div>
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            </Button>
           </div>
         </div>
 
@@ -391,9 +490,8 @@ export function MoralisSwapInterface({ cryptocurrencies }: { cryptocurrencies: C
             ) : (
               <Input id="to-input" type="text" placeholder="0" className="text-3xl h-12 bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0 p-0" value={toAmount} onChange={handleToAmountChange}/>
             )}
-            <Select value={toToken.symbol} onValueChange={handleToTokenChange}>
-              <SelectTrigger className="w-[180px] h-12 text-lg font-bold">
-                <div className="flex items-center gap-2">
+            <Button variant="secondary" className="h-12 text-lg font-bold" onClick={() => setIsToDialogOpen(true)}>
+                 <div className="flex items-center gap-2">
                     <Image
                         src={toToken.logo || `https://placehold.co/20x20.png`}
                         alt={`${toToken.name} logo`}
@@ -403,24 +501,7 @@ export function MoralisSwapInterface({ cryptocurrencies }: { cryptocurrencies: C
                     />
                     {toToken.symbol}
                 </div>
-              </SelectTrigger>
-              <SelectContent>
-                {cryptocurrencies.map((token) => (
-                  <SelectItem key={token.id} value={token.symbol}>
-                    <div className="flex items-center gap-2">
-                      <Image
-                        src={token.logo || `https://placehold.co/20x20.png`}
-                        alt={`${token.name} logo`}
-                        width={20}
-                        height={20}
-                        className="rounded-full"
-                      />
-                      {token.symbol}
-                    </div>
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            </Button>
           </div>
         </div>
       </CardContent>
@@ -465,5 +546,23 @@ export function MoralisSwapInterface({ cryptocurrencies }: { cryptocurrencies: C
         </p>
       </CardFooter>
     </Card>
+    
+    <TokenSelectDialog
+        open={isFromDialogOpen}
+        onOpenChange={setIsFromDialogOpen}
+        cryptocurrencies={cryptocurrencies}
+        onSelect={handleFromTokenChange}
+        selectedTokenSymbol={fromToken.symbol}
+        title="Select a currency"
+    />
+     <TokenSelectDialog
+        open={isToDialogOpen}
+        onOpenChange={setIsToDialogOpen}
+        cryptocurrencies={cryptocurrencies}
+        onSelect={handleToTokenChange}
+        selectedTokenSymbol={toToken.symbol}
+        title="Select a currency"
+    />
+    </>
   );
 }
