@@ -278,7 +278,7 @@
     "h_definitions": "Definiciones",
     "p_definitions": "A los efectos de esta Política de Privacidad:",
     "li_account": "<strong>Cuenta</strong> significa una cuenta única creada para que Usted acceda a nuestro Servicio o partes de nuestro Servicio.",
-    "li_company": "<strong>Compañía</strong> (referida como \"la Compañía\", \"Nosotros\", \"Nos\" o \"Nuestro\" en este Acuerdo) se refiere a CryptoDx.",
+    "li_company": "<strong>Compañía</strong> (referida como \\"la Compañía\\", \\"Nosotros\\", \\"Nos\\" o \\"Nuestro\\" en este Acuerdo) se refiere a CryptoDx.",
     "li_cookies": "<strong>Cookies</strong> son pequeños archivos que un sitio web coloca en Su computadora, dispositivo móvil o cualquier otro dispositivo, que contienen los detalles de Su historial de navegación en ese sitio web entre sus muchos usos.",
     "li_country": "<strong>País</strong> se refiere a: Su País",
     "li_device": "<strong>Dispositivo</strong> significa cualquier dispositivo que pueda acceder al Servicio, como una computadora, un teléfono celular o una tableta digital.",
@@ -301,7 +301,7 @@
   "TermsOfUseModal": {
     "title": "Términos de Uso",
     "lastUpdated": "Última actualización: {date}",
-    "p1": "Bienvenido a CryptoDx. Estos Términos de Uso (\"Términos\") rigen su acceso y uso de nuestro sitio web, servicios y aplicaciones (colectivamente, el \"Servicio\"). Lea atentamente estos Términos antes de utilizar el Servicio.",
+    "p1": "Bienvenido a CryptoDx. Estos Términos de Uso (\\"Términos\\") rigen su acceso y uso de nuestro sitio web, servicios y aplicaciones (colectivamente, el \\"Servicio\\"). Lea atentamente estos Términos antes de utilizar el Servicio.",
     "h_agreement": "1. Acuerdo de los Términos",
     "p_agreement": "Al utilizar nuestro Servicio, usted acepta estar sujeto a estos Términos. Si no está de acuerdo con estos Términos, no puede utilizar el Servicio. Podemos modificar los Términos en cualquier momento, a nuestro exclusivo criterio. Si lo hacemos, se lo haremos saber publicando los Términos modificados en el sitio o mediante otras comunicaciones.",
     "h_eligibility": "2. Elegibilidad",
@@ -315,7 +315,7 @@
     "li_circumvent": "Intentar eludir cualquier técnica de filtrado de contenido que empleemos, o intentar acceder a cualquier servicio o área del Servicio a la que no esté autorizado a acceder.",
     "li_automated": "Utilizar cualquier robot, araña, rastreador, raspador u otros medios o interfaz automatizados no proporcionados por nosotros para acceder al Servicio o para extraer datos.",
     "h_disclaimers": "5. Descargos de Responsabilidad",
-    "p_disclaimers": "EL SERVICIO SE PROPORCIONA \"TAL CUAL\" Y \"SEGÚN DISPONIBILIDAD\" SIN GARANTÍAS DE NINGÚN TIPO, YA SEAN EXPRESAS O IMPLÍCITAS. USTED RECONOCE Y ACEPTA QUE HA TENIDO LA OPORTUNIDAD QUE CONSIDERE NECESARIA PARA INVESTIGAR EL SERVICIO, LAS LEYES, NORMAS O REGLAMENTOS QUE PUEDAN SER APLICABLES A SU USO DEL SERVICIO Y QUE NO SE BASA EN NINGUNA DECLARACIÓN DE LEY O HECHO REALIZADA POR CRYPTODX EN RELACIÓN CON EL SERVICIO.",
+    "p_disclaimers": "EL SERVICIO SE PROPORCIONA \\"TAL CUAL\\" Y \\"SEGÚN DISPONIBILIDAD\\" SIN GARANTÍAS DE NINGÚN TIPO, YA SEAN EXPRESAS O IMPLÍCITAS. USTED RECONOCE Y ACEPTA QUE HA TENIDO LA OPORTUNIDAD QUE CONSIDERE NECESARIA PARA INVESTIGAR EL SERVICIO, LAS LEYES, NORMAS O REGLAMENTOS QUE PUEDAN SER APLICABLES A SU USO DEL SERVICIO Y QUE NO SE BASA EN NINGUNA DECLARACIÓN DE LEY O HECHO REALIZADA POR CRYPTODX EN RELACIÓN CON EL SERVICIO.",
     "h_liability": "6. Limitación de Responsabilidad",
     "p_liability": "EN LA MEDIDA MÁXIMA PERMITIDA POR LA LEY APLICABLE, EN NINGÚN CASO CRYPTODX O SUS AFILIADOS SERÁN RESPONSABLES DE NINGÚN DAÑO INDIRECTO, ESPECIAL, INCIDENTAL, CONSECUENTE O PUNITIVO DE NINGÚN TIPO.",
     "h_governing": "7. Ley Aplicable",
@@ -328,7 +328,7 @@
     "placeholder": "Escribe tu mensaje...",
     "send": "Enviar",
     "askAbout": "Pregunta sobre...",
-    "topics": "¡Blockchain, DeFi, Cripto, NFT, etc.!",
+    "topics": "¡Blockchain, DeFi, Cripto, NFT o IA!",
     "errorResponse": "Tengo problemas para generar una respuesta en este momento. Por favor, intenta con una pregunta diferente.",
     "connectionError": "Lo siento, tengo problemas para conectarme en este momento. Por favor, inténtalo de nuevo más tarde.",
     "listening": "Escuchando...",
@@ -358,7 +358,7 @@
     "addNetworkFailedTitle": "Error al Añadir Red",
     "addNetworkFailedDesc": "No se pudo añadir la red seleccionada a su billetera.",
     "networkNotSupportedTitle": "Red No Soportada",
-    "networkNotSupportedDesc": "Esta red no se puede añadir automáticamente. Por favor, añádala a su billetera manually.",
+    "networkNotSupportedDesc": "Esta red no se puede añadir automáticamente. Por favor, añádala a su billetera manualmente.",
     "switchNetworkFailedTitle": "Error al Cambiar de Red",
     "switchNetworkFailedDesc": "No se pudo cambiar a la red seleccionada. Por favor, inténtelo de nuevo."
   },
@@ -407,7 +407,6 @@
     "pools": "Pools de Liquidez",
     "addLiquidity": "Añadir Liquidez",
     "positions": "Tus Posiciones",
-    "moralisSwap": "Intercambio Moralis",
     "slippage": "Análisis de Deslizamiento",
     "spot": "Comercio al Contado",
     "tokens": "Explorar Tokens",
@@ -417,8 +416,7 @@
     "login": "Iniciar Sesión",
     "register": "Crear Cuenta",
     "profile": "Mi Perfil",
-    "users": "Usuarios",
-    "changelly": "Changelly"
+    "users": "Usuarios"
   },
   "LoginPage": {
     "subtitle": "Inicia sesión en tu cuenta para continuar.",
@@ -468,16 +466,11 @@
   },
   "UsersPage": {
     "title": "Gestión de Usuarios",
-    "description": "Ver, editar y administrar cuentas de usuario.",
-    "email": "Correo electrónico",
-    "actions": "Acciones",
-    "edit": "Editar",
-    "delete": "Eliminar",
-    "deleteConfirmTitle": "¿Estás absolutamente seguro?",
-    "deleteConfirmDesc": "Esta acción no se puede deshacer. Esto eliminará permanentemente la cuenta de {username}.",
-    "backToUsers": "Volver a Usuarios",
-    "editUser": "Editar Perfil de Usuario",
-    "editUserSubtitle": "Modificar los detalles del usuario seleccionado."
+    "avatar": "Avatar",
+    "username": "Nombre de Usuario",
+    "firstName": "Nombre",
+    "sex": "Sexo",
+    "pricePlan": "Plan de Precios"
   },
   "LogoutToast": {
     "description": "Has cerrado sesión exitosamente."

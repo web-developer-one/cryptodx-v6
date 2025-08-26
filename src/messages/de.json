@@ -278,7 +278,7 @@
     "h_definitions": "Definitionen",
     "p_definitions": "Für die Zwecke dieser Datenschutzrichtlinie:",
     "li_account": "<strong>Konto</strong> bezeichnet ein einzigartiges Konto, das für Sie erstellt wurde, um auf unseren Dienst oder Teile unseres Dienstes zuzugreifen.",
-    "li_company": "<strong>Unternehmen</strong> (in diesem Vertrag als \"das Unternehmen\", \"Wir\", \"Uns\" oder \"Unser\" bezeichnet) bezieht sich auf CryptoDx.",
+    "li_company": "<strong>Unternehmen</strong> (in diesem Vertrag als \\"das Unternehmen\\", \\"Wir\\", \\"Uns\\" oder \\"Unser\\" bezeichnet) bezieht sich auf CryptoDx.",
     "li_cookies": "<strong>Cookies</strong> sind kleine Dateien, die von einer Website auf Ihrem Computer, Mobilgerät oder einem anderen Gerät platziert werden und unter anderem die Details Ihres Browserverlaufs auf dieser Website enthalten.",
     "li_country": "<strong>Land</strong> bezieht sich auf: Ihr Land",
     "li_device": "<strong>Gerät</strong> bezeichnet jedes Gerät, das auf den Dienst zugreifen kann, wie z. B. ein Computer, ein Mobiltelefon oder ein digitales Tablet.",
@@ -328,7 +328,7 @@
     "placeholder": "Geben Sie Ihre Nachricht ein...",
     "send": "Senden",
     "askAbout": "Fragen Sie nach...",
-    "topics": "Blockchain, DeFi, Krypto, NFT, etc.!",
+    "topics": "Blockchain, DeFi, Krypto, NFT oder KI!",
     "errorResponse": "Ich habe im Moment Probleme, eine Antwort zu generieren. Bitte versuchen Sie eine andere Frage.",
     "connectionError": "Entschuldigung, ich habe im Moment Verbindungsprobleme. Bitte versuchen Sie es später erneut.",
     "listening": "Höre zu...",
@@ -407,7 +407,6 @@
     "pools": "Liquiditätspools",
     "addLiquidity": "Liquidität hinzufügen",
     "positions": "Ihre Positionen",
-    "moralisSwap": "Moralis Swap",
     "slippage": "Slippage-Analyse",
     "spot": "Spot-Handel",
     "tokens": "Token erkunden",
@@ -417,8 +416,7 @@
     "login": "Anmelden",
     "register": "Konto erstellen",
     "profile": "Mein Profil",
-    "users": "Benutzer",
-    "changelly": "Changelly"
+    "users": "Benutzer"
   },
   "LoginPage": {
     "subtitle": "Melden Sie sich bei Ihrem Konto an, um fortzufahren.",
@@ -468,16 +466,11 @@
   },
   "UsersPage": {
     "title": "Benutzerverwaltung",
-    "description": "Benutzerkonten anzeigen, bearbeiten und verwalten.",
-    "email": "Email",
-    "actions": "Aktionen",
-    "edit": "Bearbeiten",
-    "delete": "Löschen",
-    "deleteConfirmTitle": "Sind Sie absolut sicher?",
-    "deleteConfirmDesc": "Diese Aktion kann nicht rückgängig gemacht werden. Dies wird das Konto für {username} dauerhaft löschen.",
-    "backToUsers": "Zurück zu den Benutzern",
-    "editUser": "Benutzerprofil bearbeiten",
-    "editUserSubtitle": "Ändern Sie die Details für den ausgewählten Benutzer."
+    "avatar": "Avatar",
+    "username": "Benutzername",
+    "firstName": "Vorname",
+    "sex": "Geschlecht",
+    "pricePlan": "Preisplan"
   },
   "LogoutToast": {
     "description": "Sie wurden erfolgreich abgemeldet."
