@@ -82,7 +82,8 @@ const planDetails = [
             '"Hide unknown tokens" provides a simple toggle on/ off feature.',
             '"AI Chatbot advanced" provides features such as chatbot multilingual prompts and replies in text and speech.',
             '"Reputation alert advanced" provides information on real world scams and scandals activities from reputable sources in multilingual text and speech.',
-            '"Live New Updates" provides live news updates via toast notifications for trending cryptocurrencies.'
+            '"Live New Updates" provides live news updates via toast notifications for trending cryptocurrencies.',
+            'Live New Updates from across the web.'
         ]
     }
 ];
