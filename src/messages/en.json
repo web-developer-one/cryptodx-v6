@@ -248,7 +248,7 @@
     "title": "Our Commitment to Your Privacy (GDPR)",
     "body1": "We value your privacy and are committed to protecting your personal data in compliance with GDPR.",
     "body2": "Under GDPR, you have rights regarding your personal data, including the right to access, correct, delete, or restrict its processing. You also have the right to data portability and to object to processing under certain conditions. By continuing to use our site, you acknowledge that you have read and understood our practices. For detailed information, please review our full Privacy Policy.",
-    "dismiss": "Dismiss"
+    "dismiss": "Dismiss and Close"
   },
   "CookiePolicyModal": {
     "title": "Cookie Policy",
@@ -267,7 +267,7 @@
     "p_choices": "You have the right to decide whether to accept or reject cookies. You can exercise your cookie preferences by setting or amending your web browser controls to accept or refuse cookies. If you choose to reject cookies, you may still use our website though your access to some functionality and areas of our website may be restricted. As the means by which you can refuse cookies through your web browser controls vary from browser-to-browser, you should visit your browser's help menu for more information.",
     "h_changes": "Changes to this Cookie Policy",
     "p_changes": "We may update this Cookie Policy from time to time in order to reflect, for example, changes to the cookies we use or for other operational, legal, or regulatory reasons. Please therefore re-visit this Cookie Policy regularly to stay informed about our use of cookies and related technologies.",
-    "dismiss": "Dismiss"
+    "dismiss": "Dismiss and Close"
   },
   "PrivacyPolicyModal": {
     "title": "Privacy Policy",
@@ -296,7 +296,7 @@
     "p_usageData": "Usage Data is collected automatically when using the Service. Usage Data may include information such as Your Device's Internet Protocol address (e.g. IP address), browser type, browser version, the pages of our Service that You visit, the time and date of Your visit, the time spent on those pages, unique device identifiers and other diagnostic data. When You access the Service by or through a mobile device, We may collect certain information automatically, including, but not limited to, the type of mobile device You use, Your mobile device unique ID, the IP address of Your mobile device, Your mobile operating system, the type of mobile Internet browser You use, unique device identifiers and other diagnostic data.",
     "h_contact": "Contact Us",
     "p_contact": "If you have any questions about this Privacy Policy, you can contact us by email.",
-    "dismiss": "Dismiss"
+    "dismiss": "Dismiss and Close"
   },
   "TermsOfUseModal": {
     "title": "Terms of Use",
@@ -320,7 +320,7 @@
     "p_liability": "TO THE FULLEST EXTENT PERMITTED BY APPLICABLE LAW, IN NO EVENT WILL CRYPTODX OR ITS AFFILIATES BE LIABLE FOR ANY INDIRECT, SPECIAL, INCIDENTAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES OF ANY KIND.",
     "h_governing": "7. Governing Law",
     "p_governing": "These Terms and any action related thereto will be governed by the laws of the jurisdiction in which the company is based, without regard to its conflict of laws provisions.",
-    "dismiss": "Dismiss"
+    "dismiss": "Dismiss and Close"
   },
   "Chatbot": {
     "initialMessage": "Hello! I'm the 'CryptoDx' Chatbot. How can I help you today on all things Blockchain, DeFi, Crypto, NFTs, or AI?",
@@ -399,6 +399,23 @@
     "description": "Buy and sell crypto at the current market rate.",
     "comingSoon": "The spot trading interface is coming soon."
   },
+  "ArbitragePage": {
+    "title": "Arbitrage Opportunities",
+    "description": "Simulated arbitrage opportunities based on mock exchange data."
+  },
+  "ArbitrageInterface": {
+    "opportunitiesTitle": "Live Opportunities",
+    "opportunitiesDescription": "Showing simulated price differences between exchanges.",
+    "tableHeaderToken": "Token",
+    "tableHeaderExA": "Exchange A",
+    "tableHeaderExB": "Exchange B",
+    "tableHeaderProfit": "Profit %",
+    "tableHeaderAction": "Action",
+    "buyAt": "Buy at",
+    "sellAt": "Sell at",
+    "tradeButton": "Trade",
+    "noOpportunities": "No significant arbitrage opportunities found at the moment."
+  },
   "PageTitles": {
     "home": "Home | CryptoDx",
     "buy": "Buy Crypto",
@@ -407,7 +424,6 @@
     "pools": "Liquidity Pools",
     "addLiquidity": "Add Liquidity",
     "positions": "Your Positions",
-    "moralisSwap": "Moralis Swap",
     "slippage": "Slippage Analysis",
     "spot": "Spot Trading",
     "tokens": "Explore Tokens",
@@ -418,7 +434,7 @@
     "register": "Register",
     "profile": "My Profile",
     "users": "Users",
-    "changelly": "Changelly"
+    "arbitrage": "Arbitrage"
   },
   "LoginPage": {
     "subtitle": "Login to your account to continue.",

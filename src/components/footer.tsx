@@ -31,6 +31,7 @@ export function Footer() {
         { name: t('Footer.tokens'), href: "/tokens" },
         { name: t('Footer.pools'), href: "/pools" },
         { name: t('Footer.transactions'), href: "/transactions" },
+        { name: t('PageTitles.arbitrage'), href: "/arbitrage"},
       ],
     },
     {
