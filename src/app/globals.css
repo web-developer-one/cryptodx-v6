@@ -102,3 +102,13 @@
     animation: float infinite ease-in-out;
   }
 }
+
+/* For floating token background */
+.token-container .token-details {
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.token-container:hover .token-details {
+  opacity: 1;
+  transform: translateX(0) translateY(0);
+}
