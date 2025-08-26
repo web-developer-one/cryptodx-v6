@@ -73,3 +73,4 @@ export function HomePageClient({ cryptoData, error }: HomePageClientProps) {
     </div>
   );
 }
+

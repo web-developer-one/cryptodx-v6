@@ -5,7 +5,7 @@ import { MoralisPageClient } from "@/components/moralis-page-client";
 import { TradeNav } from "@/components/trade-nav";
 import { useLanguage } from "@/hooks/use-language";
 import { useEffect } from "react";
-import Image from "next/image";
+import { FloatingTokensBackground } from "@/components/floating-tokens-background";
 
 export default function MoralisPage() {
     const { t } = useLanguage();
@@ -15,15 +15,8 @@ export default function MoralisPage() {
     }, [t]);
 
   return (
-    <div className="flex-1 flex flex-col relative">
-        <Image
-            src="/Gemini_Generated_Image_jupf6ojupf6ojupf.png"
-            alt="Network background"
-            layout="fill"
-            objectFit="cover"
-            className="blur-sm"
-        />
-        <div className="absolute inset-0 bg-background/80" />
+    <div className="flex-1 flex flex-col relative overflow-hidden">
+        <FloatingTokensBackground />
         <div className="container flex-1 flex flex-col items-center py-8 gap-6 z-10">
             <div className="flex flex-col items-center text-center">
                 <h1 className="text-3xl font-bold">Moralis Swap</h1>
