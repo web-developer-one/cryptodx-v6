@@ -71,7 +71,7 @@ export function ArbitrageInterface({ cryptocurrencies }: { cryptocurrencies: Cry
     }, [cryptocurrencies]);
 
     return (
-        <Card className="w-full max-w-4xl shadow-lg">
+        <Card className="w-full max-w-7xl shadow-lg">
             <CardHeader>
                 <CardTitle>{t('ArbitrageInterface.opportunitiesTitle')}</CardTitle>
                 <CardDescription>{t('ArbitrageInterface.opportunitiesDescription')}</CardDescription>
@@ -80,11 +80,11 @@ export function ArbitrageInterface({ cryptocurrencies }: { cryptocurrencies: Cry
                 <Table>
                     <TableHeader>
                         <TableRow>
-                            <TableHead>{t('ArbitrageInterface.tableHeaderToken')}</TableHead>
+                            <TableHead className="w-[250px]">{t('ArbitrageInterface.tableHeaderToken')}</TableHead>
                             <TableHead className="text-right">{t('ArbitrageInterface.tableHeaderExA')}</TableHead>
                             <TableHead className="text-right">{t('ArbitrageInterface.tableHeaderExB')}</TableHead>
                             <TableHead className="text-right">{t('ArbitrageInterface.tableHeaderProfit')}</TableHead>
-                            <TableHead className="text-right">{t('ArbitrageInterface.tableHeaderAction')}</TableHead>
+                            <TableHead className="text-center">{t('ArbitrageInterface.tableHeaderAction')}</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -107,7 +107,7 @@ export function ArbitrageInterface({ cryptocurrencies }: { cryptocurrencies: Cry
                                     {op.profit.toFixed(2)}%
                                 </TableCell>
                                 <TableCell className="text-right">
-                                    <div className='flex items-center justify-end'>
+                                    <div className='flex items-center justify-center gap-2'>
                                         <Badge variant={op.buyAt === 'A' ? 'secondary' : 'destructive'} className="border-none">{t('ArbitrageInterface.buyAt')} {op.buyAt}</Badge>
                                         <ArrowRight className="h-4 w-4 mx-1" />
                                         <Badge variant={op.sellAt === 'A' ? 'secondary' : 'destructive'} className="border-none">{t('ArbitrageInterface.sellAt')} {op.sellAt}</Badge>
