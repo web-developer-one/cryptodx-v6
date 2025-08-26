@@ -39,9 +39,9 @@ export function LimitPageClient({ cryptoData, error }: LimitPageClientProps) {
   };
 
   return (
-    <div className="flex-1 flex flex-col relative">
+    <div className="flex-1 flex flex-col relative overflow-hidden">
       <FloatingTokensBackground />
-      <div className="container flex-1 flex flex-col items-center py-8 gap-6 z-10">
+      <div className="container flex-1 flex flex-col items-center py-8 gap-6 relative">
         <TradeNav />
         {renderContent()}
       </div>

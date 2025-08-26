@@ -50,10 +50,10 @@ export function HomePageClient({ cryptoData, error }: HomePageClientProps) {
 
   return (
     <div className="flex-1 flex flex-col">
-       <div className="flex-1 flex flex-col relative">
+       <div className="flex-1 flex flex-col relative overflow-hidden">
         <FloatingTokensBackground />
-        <div className="z-10 flex flex-col items-center gap-8 pt-8 md:pt-12">
-          <div className="container flex flex-col items-center gap-4 text-center">
+        <div className="container flex-1 flex flex-col items-center py-8 gap-6 relative">
+          <div className="flex flex-col items-center gap-4 text-center">
             <h1 className="text-3xl md:text-5xl font-headline font-bold tracking-tighter">
                 {t('HomePage.title')}
             </h1>
