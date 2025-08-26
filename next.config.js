@@ -41,10 +41,6 @@ const nextConfig = {
       },
     ],
   },
-  webpack: (config) => {
-    config.externals.push("react-native");
-    return config;
-  },
 };
 
 module.exports = nextConfig;
