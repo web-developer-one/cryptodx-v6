@@ -177,16 +177,10 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
 
     try {
         const provider = new ethers.BrowserProvider(window.ethereum);
-        
-        // Check for existing accounts without prompting
-        let accounts = await provider.listAccounts();
-        if (accounts.length === 0) {
-            // If no accounts, then request connection
-            accounts = await provider.send('eth_requestAccounts', []);
-        }
+        const accounts = await provider.send('eth_requestAccounts', []);
 
         if (accounts.length > 0) {
-            const currentAccount = accounts[0].address || accounts[0]; // Depending on provider, accounts may be strings or objects
+            const currentAccount = accounts[0];
             setAccount(currentAccount);
             await fetchBalances(currentAccount);
             localStorage.removeItem('explicitly_disconnected');
