@@ -390,63 +390,63 @@ export function MoralisSwapInterface({ cryptocurrencies }: { cryptocurrencies: C
                   <div className="flex items-center justify-between">
                     <Label htmlFor="deadline" className="flex items-center gap-1">
                       {t('SwapInterface.swapDeadline')}
-                      <TooltipProvider>
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <Info className="h-3 w-3 cursor-help" />
-                          </TooltipTrigger>
-                          <TooltipContent>
-                            <p>{t('SwapInterface.swapDeadlineTooltip')}</p>
-                          </TooltipContent>
-                        </Tooltip>
-                      </TooltipProvider>
-                    </Label>
-                  </div>
-                  <div className="relative">
-                    <Input
-                      id="deadline"
-                      type="text"
-                      value={deadline}
-                      onChange={handleDeadlineChange}
-                      className="h-10 pr-20 text-sm"
-                    />
-                    <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">{t('SwapInterface.minutes')}</span>
-                  </div>
+                     <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                           <Info className="h-3 w-3 cursor-help" />
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>{t('SwapInterface.swapDeadlineTooltip')}</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                  </Label>
                 </div>
-                <div className="grid gap-2">
-                  <div className="flex items-center justify-between">
-                    <Label htmlFor="trade-options" className="flex items-center gap-1">
-                      {t('SwapInterface.tradeOptions')}
-                    </Label>
-                  </div>
+                <div className="relative">
                   <Input
-                    id="trade-options"
-                    value="Default"
-                    disabled
-                    className="h-10 text-sm"
+                    id="deadline"
+                    type="text"
+                    value={deadline}
+                    onChange={handleDeadlineChange}
+                    className="h-10 pr-20 text-sm"
                   />
+                  <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">{t('SwapInterface.minutes')}</span>
                 </div>
               </div>
-            </PopoverContent>
-          </Popover>
-        </CardHeader>
-        <CardContent className="relative flex flex-col gap-2">
-          {/* From Token */}
-          <div className="p-4 rounded-lg bg-muted border">
-            <div className="flex justify-between items-baseline mb-1">
-              <span className="text-sm text-muted-foreground">{t('SwapInterface.sell')}</span>
-              {isWalletConnected && fromTokenBalance !== undefined && (
-                  <div className="text-sm text-muted-foreground flex items-center gap-1">
-                      <span>{t('SwapInterface.balance').replace('{balance}', `${parseFloat(fromTokenBalance).toLocaleString('en-US', {maximumFractionDigits: 5})}`)}</span>
-                      <Button variant="link" size="sm" className="h-auto p-0" onClick={handleSetMax}>
-                          {t('SwapInterface.max')}
-                      </Button>
-                  </div>
-              )}
+               <div className="grid gap-2">
+                <div className="flex items-center justify-between">
+                  <Label htmlFor="trade-options" className="flex items-center gap-1">
+                    {t('SwapInterface.tradeOptions')}
+                  </Label>
+                </div>
+                <Input
+                  id="trade-options"
+                  value="Default"
+                  disabled
+                  className="h-10 text-sm"
+                />
+              </div>
             </div>
-            <div className="flex items-center gap-2">
-              <Input id="from-input" type="text" placeholder="0" className="text-3xl h-12 bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0 p-0" value={fromAmount} onChange={handleFromAmountChange} />
-              <Button variant="outline" className="h-12 text-lg font-bold bg-background hover:bg-accent min-w-[130px]" onClick={() => setIsFromDialogOpen(true)}>
+          </PopoverContent>
+        </Popover>
+      </CardHeader>
+      <CardContent className="relative flex flex-col gap-2">
+        {/* From Token */}
+        <div className="p-4 rounded-lg bg-background border">
+          <div className="flex justify-between items-baseline mb-1">
+            <span className="text-sm text-muted-foreground">{t('SwapInterface.sell')}</span>
+            {isWalletConnected && fromTokenBalance !== undefined && (
+                <div className="text-sm text-muted-foreground flex items-center gap-1">
+                    <span>{t('SwapInterface.balance').replace('{balance}', `${parseFloat(fromTokenBalance).toLocaleString('en-US', {maximumFractionDigits: 5})}`)}</span>
+                    <Button variant="link" size="sm" className="h-auto p-0" onClick={handleSetMax}>
+                        {t('SwapInterface.max')}
+                    </Button>
+                </div>
+            )}
+          </div>
+          <div className="flex items-center gap-2">
+            <Input id="from-input" type="text" placeholder="0" className="text-3xl h-12 bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0 p-0" value={fromAmount} onChange={handleFromAmountChange} />
+            <Button variant="outline" className="h-12 text-lg font-bold bg-background hover:bg-accent min-w-[130px]" onClick={() => setIsFromDialogOpen(true)}>
                   <div className="flex items-center gap-2">
                       <Image
                           src={fromToken.logo || `https://placehold.co/24x24.png`}
@@ -459,35 +459,35 @@ export function MoralisSwapInterface({ cryptocurrencies }: { cryptocurrencies: C
                       <ChevronDown className="h-4 w-4 opacity-50" />
                   </div>
               </Button>
-            </div>
           </div>
+        </div>
 
-          {/* Swap Button */}
-          <div className="flex justify-center my-[-18px] z-10">
-            <Button variant="secondary" size="icon" className="rounded-full border-4 border-background" onClick={handleSwap}>
-              <ArrowDownUp className="h-4 w-4" />
-            </Button>
-          </div>
+        {/* Swap Button */}
+        <div className="flex justify-center my-[-18px] z-10">
+          <Button variant="secondary" size="icon" className="rounded-full border-4 border-background" onClick={handleSwap}>
+            <ArrowDownUp className="h-4 w-4" />
+          </Button>
+        </div>
 
-          {/* To Token */}
-          <div className="p-4 rounded-lg bg-muted border">
-            <div className="flex justify-between items-baseline mb-1">
-              <span className="text-sm text-muted-foreground">{t('SwapInterface.buy')}</span>
-              {isWalletConnected && toTokenBalance !== undefined && (
-                  <div className="text-sm text-muted-foreground flex items-center gap-1">
-                      <span>{t('SwapInterface.balance').replace('{balance}', `${parseFloat(toTokenBalance).toLocaleString('en-US', {maximumFractionDigits: 5})}`)}</span>
-                  </div>
-              )}
-            </div>
-            <div className="flex items-center gap-2">
-              {isFetchingQuote ? (
-                <div className="flex-1 flex items-center h-12">
-                  <Loader2 className="h-6 w-6 animate-spin" />
+        {/* To Token */}
+        <div className="p-4 rounded-lg bg-background border">
+          <div className="flex justify-between items-baseline mb-1">
+            <span className="text-sm text-muted-foreground">{t('SwapInterface.buy')}</span>
+            {isWalletConnected && toTokenBalance !== undefined && (
+                <div className="text-sm text-muted-foreground flex items-center gap-1">
+                    <span>{t('SwapInterface.balance').replace('{balance}', `${parseFloat(toTokenBalance).toLocaleString('en-US', {maximumFractionDigits: 5})}`)}</span>
                 </div>
-              ) : (
-                <Input id="to-input" type="text" placeholder="0" className="text-3xl h-12 bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0 p-0" value={toAmount} onChange={handleToAmountChange}/>
-              )}
-              <Button variant="outline" className="h-12 text-lg font-bold bg-background hover:bg-accent min-w-[130px]" onClick={() => setIsToDialogOpen(true)}>
+            )}
+          </div>
+          <div className="flex items-center gap-2">
+            {isFetchingQuote ? (
+              <div className="flex-1 flex items-center h-12">
+                <Loader2 className="h-6 w-6 animate-spin" />
+              </div>
+            ) : (
+              <Input id="to-input" type="text" placeholder="0" className="text-3xl h-12 bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0 p-0" value={toAmount} onChange={handleToAmountChange}/>
+            )}
+            <Button variant="outline" className="h-12 text-lg font-bold bg-background hover:bg-accent min-w-[130px]" onClick={() => setIsToDialogOpen(true)}>
                   <div className="flex items-center gap-2">
                       <Image
                           src={toToken.logo || `https://placehold.co/24x24.png`}
@@ -500,11 +500,11 @@ export function MoralisSwapInterface({ cryptocurrencies }: { cryptocurrencies: C
                       <ChevronDown className="h-4 w-4 opacity-50" />
                   </div>
               </Button>
-            </div>
           </div>
-        </CardContent>
-        <CardFooter className="flex-col gap-4">
-          <div className="w-full">
+        </div>
+      </CardContent>
+      <CardFooter className="flex-col gap-4">
+        <div className="w-full">
               {isWalletConnected ? (
                 <Button className="w-full h-12 text-lg" disabled={isFetchingQuote || isSwapping} onClick={handleSwapClick}>
                   {isSwapping && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
