@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect, useMemo, useCallback } from "react";
@@ -432,7 +433,7 @@ export function MoralisSwapInterface({ cryptocurrencies }: { cryptocurrencies: C
       </CardHeader>
       <CardContent className="relative flex flex-col gap-2">
         {/* From Token */}
-        <div className="p-4 rounded-lg bg-background border">
+        <div className="p-4 rounded-lg bg-[#f8fafc] dark:bg-secondary/50 border">
           <div className="flex justify-between items-baseline mb-1">
             <span className="text-sm text-muted-foreground">{t('SwapInterface.sell')}</span>
             {isWalletConnected && fromTokenBalance !== undefined && (
@@ -470,7 +471,7 @@ export function MoralisSwapInterface({ cryptocurrencies }: { cryptocurrencies: C
         </div>
 
         {/* To Token */}
-        <div className="p-4 rounded-lg bg-background border">
+        <div className="p-4 rounded-lg bg-[#f8fafc] dark:bg-secondary/50 border">
           <div className="flex justify-between items-baseline mb-1">
             <span className="text-sm text-muted-foreground">{t('SwapInterface.buy')}</span>
             {isWalletConnected && toTokenBalance !== undefined && (
