@@ -23,14 +23,14 @@ export function ArbitragePageClient({ cryptoData, error }: ArbitragePageClientPr
   const renderContent = () => {
     if (error) {
       return (
-        <div className="w-full max-w-4xl mt-6">
+        <div className="w-full max-w-7xl mt-6">
           <ApiErrorCard error={error} context="Cryptocurrency Data" />
         </div>
       );
     }
     
     if (cryptoData.length === 0) {
-      return <Skeleton className="h-[600px] w-full max-w-4xl mt-6" />;
+      return <Skeleton className="h-[600px] w-full max-w-7xl mt-6" />;
     }
 
     return <ArbitrageInterface cryptocurrencies={cryptoData} />;
