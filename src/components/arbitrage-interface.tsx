@@ -107,7 +107,7 @@ export function ArbitrageInterface({ cryptocurrencies }: { cryptocurrencies: Cry
                                     {op.profit.toFixed(2)}%
                                 </TableCell>
                                 <TableCell className="text-right">
-                                    <div className='flex items-center justify-center gap-2'>
+                                    <div className='flex items-center justify-end gap-2'>
                                         <Badge variant={op.buyAt === 'A' ? 'secondary' : 'destructive'} className="border-none">{t('ArbitrageInterface.buyAt')} {op.buyAt}</Badge>
                                         <ArrowRight className="h-4 w-4 mx-1" />
                                         <Badge variant={op.sellAt === 'A' ? 'secondary' : 'destructive'} className="border-none">{t('ArbitrageInterface.sellAt')} {op.sellAt}</Badge>
