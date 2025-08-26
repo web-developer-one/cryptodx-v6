@@ -89,16 +89,13 @@ function TokenSelectDialog({ open, onOpenChange, cryptocurrencies, onSelect, sel
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent className="max-w-md p-0 gap-0">
-                <DialogHeader className="p-4 border-b flex-row items-center justify-between">
+                <DialogHeader className="p-4 border-b flex-row items-center">
                     <DialogTitle className="flex items-center gap-2">
                         <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => onOpenChange(false)}>
                             <ArrowLeft className="h-4 w-4" />
                         </Button>
                        {title}
                     </DialogTitle>
-                    <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => onOpenChange(false)}>
-                        <X className="h-4 w-4" />
-                    </Button>
                 </DialogHeader>
                 <div className="p-4 space-y-4">
                      <div className="relative">
