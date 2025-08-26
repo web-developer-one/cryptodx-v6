@@ -400,7 +400,7 @@
     "comingSoon": "The spot trading interface is coming soon."
   },
   "ArbitragePage": {
-    "title": "Arbitrage Opportunities",
+    "title": "Trading Bot",
     "description": "Simulated arbitrage trading bot opportunities based on mock exchange data."
   },
   "ArbitrageInterface": {
@@ -434,7 +434,7 @@
     "register": "Register",
     "profile": "My Profile",
     "users": "Users",
-    "arbitrage": "Arbitrage"
+    "tradingBot": "Trading Bot"
   },
   "LoginPage": {
     "subtitle": "Login to your account to continue.",

@@ -17,7 +17,7 @@ export function ArbitragePageClient({ cryptoData, error }: ArbitragePageClientPr
   const { t } = useLanguage();
 
   useEffect(() => {
-    document.title = t('PageTitles.arbitrage');
+    document.title = t('PageTitles.tradingBot');
   }, [t]);
 
   const renderContent = () => {
