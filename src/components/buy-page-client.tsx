@@ -3,7 +3,7 @@
 
 import { ApiErrorCard } from "@/components/api-error-card";
 import { TradeNav } from "@/components/trade-nav";
-import { MoralisSwapInterface } from "@/components/moralis-swap-interface";
+import { BuyInterface } from "@/components/buy-interface";
 import type { Cryptocurrency } from "@/lib/types";
 import { useEffect } from "react";
 import { useLanguage } from "@/hooks/use-language";
@@ -35,7 +35,7 @@ export function BuyPageClient({ cryptoData, error }: BuyPageClientProps) {
       return <Skeleton className="h-[480px] w-full max-w-md mt-6" />;
     }
 
-    return <MoralisSwapInterface cryptocurrencies={cryptoData} title={t('TradeNav.buy')} />;
+    return <BuyInterface cryptocurrencies={cryptoData} />;
   };
 
   return (
