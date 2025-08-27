@@ -29,7 +29,8 @@ const generatePriceHistory = (token: TokenDetails) => {
 
     for (let i = 0; i < 365; i++) {
         const date = new Date();
-        date.setDate(date.getDate() - (364 - i));
+        date.setUTCHours(0, 0, 0, 0); // Set to midnight UTC
+        date.setUTCDate(date.getUTCDate() - (364 - i));
         
         const open = previousClose;
         const volatility = 0.05; // Base volatility for price swings
