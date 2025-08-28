@@ -54,10 +54,10 @@ export function HomePageClient({ cryptoData, error }: HomePageClientProps) {
         <FloatingTokensBackground />
         <div className="container flex-1 flex flex-col items-center py-8 gap-6 relative">
           <div className="flex flex-col items-center gap-4 text-center">
-            <h1 className="text-3xl md:text-5xl font-headline font-bold tracking-tighter">
+            <h1 className="text-2xl sm:text-3xl md:text-5xl font-headline font-bold tracking-tighter">
                 {t('HomePage.title')}
             </h1>
-            <p className="max-w-2xl text-muted-foreground md:text-xl">
+            <p className="max-w-2xl text-muted-foreground text-sm sm:text-base md:text-xl">
                 {t('HomePage.subtitle')}
             </p>
           </div>
