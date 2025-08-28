@@ -99,6 +99,12 @@ export function ChangellyDexInterface() {
     
     setMinAmount(pairInfo.min);
 
+    if (parseFloat(debouncedFromAmount) < parseFloat(pairInfo.min)) {
+        setToAmount("N/A");
+        setIsFetchingQuote(false);
+        return;
+    }
+
     try {
         const response = await fetch('/api/changelly/getExchangeAmount', {
             method: 'POST',
