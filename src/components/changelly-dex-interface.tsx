@@ -18,8 +18,8 @@ import { useDebounce } from '@/hooks/use-debounce';
 interface ChangellyPair {
     from: string;
     to: string;
-    rate: number;
     min: string;
+    minInFixed: boolean;
 }
 
 interface ChangellyCurrency {
@@ -109,7 +109,7 @@ export function ChangellyDexInterface() {
         if(data.result) {
             setToAmount(data.result);
         } else {
-            setToAmount("");
+            setToAmount("N/A");
             toast({variant: 'destructive', title: 'Could not get quote', description: data.error.message})
         }
     } catch (e: any) {
