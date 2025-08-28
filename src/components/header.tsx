@@ -1,4 +1,5 @@
 
+
 "use client";
 
 import Link from "next/link";
@@ -61,40 +62,121 @@ import { useUser } from "@/hooks/use-user";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Skeleton } from "./ui/skeleton";
 import { useWallet, networkConfigs } from "@/hooks/use-wallet";
+import { useIsMobile } from "@/hooks/use-mobile";
+
+function SettingsContent({ isMobile = false }) {
+    const { t, language, setLanguage, isLoading: isTranslating } = useLanguage();
+    const { user } = useUser();
+
+    const [mounted, setMounted] = React.useState(false);
+    const [theme, setTheme] = React.useState<'light' | 'dark'>('light');
+    const [hideSmallBalances, setHideSmallBalances] = React.useState(false);
+    const [hideUnknownTokens, setHideUnknownTokens] = React.useState(true);
+
+    React.useEffect(() => {
+        const storedTheme = localStorage.getItem('theme');
+        if (storedTheme === 'light' || storedTheme === 'dark') {
+            setTheme(storedTheme);
+        } else {
+            setTheme(window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        }
+        setMounted(true);
+    }, []);
+
+    React.useEffect(() => {
+        if (mounted) {
+            if (theme === 'dark') {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+            localStorage.setItem('theme', theme);
+        }
+    }, [theme, mounted]);
+
+    const toggleTheme = () => {
+        setTheme(theme === 'light' ? 'dark' : 'light');
+    };
+
+    const Wrapper = isMobile ? 'div' : DropdownMenuContent;
+    const Item = isMobile ? 'div' : DropdownMenuItem;
+    const LabelComponent = isMobile ? Label : DropdownMenuLabel;
+    const Separator = isMobile ? 'hr' : DropdownMenuSeparator;
+    const Sub = isMobile ? Accordion : DropdownMenuSub;
+    const SubTrigger = isMobile ? AccordionTrigger : DropdownMenuSubTrigger;
+    const SubContent = isMobile ? AccordionContent : DropdownMenuSubContent;
+
+    return (
+        <Wrapper {...(isMobile ? { className: "p-4" } : { align: "end", className: "w-64" })}>
+            <LabelComponent {...(isMobile ? {} : { asChild: true })}>
+                <h3 className={cn("text-lg font-semibold", !isMobile && "px-2 py-1.5 text-sm")}>
+                    {t('Header.settings')}
+                </h3>
+            </LabelComponent>
+            <Separator className={cn(!isMobile && "-mx-1 my-1 h-px bg-muted")} />
+
+            <div className="space-y-1">
+                <Item className={cn("flex items-center justify-between", isMobile ? "py-2" : "")} onSelect={isMobile ? undefined : (e) => e.preventDefault()}>
+                    <Label htmlFor="theme-toggle" className="font-normal cursor-pointer flex items-center gap-2">
+                        {theme === 'light' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+                        <span>{theme === 'light' ? t('Header.LightMode') : t('Header.DarkMode')}</span>
+                    </Label>
+                    <Switch id="theme-toggle" checked={theme === 'dark'} onCheckedChange={toggleTheme} disabled={!mounted} />
+                </Item>
+                <Item className={cn("flex items-center justify-between", isMobile ? "py-2" : "")} onSelect={isMobile ? undefined : (e) => e.preventDefault()}>
+                    <Label htmlFor="hide-small-balances" className="font-normal cursor-pointer flex items-center gap-2">
+                        <EyeOff className="h-4 w-4" />
+                        <span>{t('Header.hideSmallBalances')}</span>
+                    </Label>
+                    <Switch id="hide-small-balances" checked={hideSmallBalances} onCheckedChange={setHideSmallBalances} />
+                </Item>
+                <Item className={cn("flex items-center justify-between", isMobile ? "py-2" : "")} onSelect={isMobile ? undefined : (e) => e.preventDefault()}>
+                    <Label htmlFor="hide-unknown-tokens" className="font-normal cursor-pointer flex items-center gap-2">
+                        <ShieldX className="h-4 w-4" />
+                        <span>{t('Header.hideUnknownTokens')}</span>
+                    </Label>
+                    <Switch id="hide-unknown-tokens" checked={hideUnknownTokens} onCheckedChange={setHideUnknownTokens} />
+                </Item>
+                <Item asChild={!isMobile}>
+                    <Link href="/slippage" className="cursor-pointer flex items-center w-full">
+                        <SlidersHorizontal className="mr-2 h-4 w-4" />
+                        <span>{t('Header.slippage')}</span>
+                    </Link>
+                </Item>
+            </div>
+            <Separator className={cn(!isMobile && "-mx-1 my-1 h-px bg-muted", isMobile && "my-4")} />
+
+             <Sub {...(isMobile ? {type: "single", collapsible: true} : {})}>
+                <AccordionItem value="language" className={cn(isMobile && "border-b-0")}>
+                    <SubTrigger {...(isMobile ? {className: "py-0"} : {})}>
+                        <div className="flex items-center">
+                            <Languages className="mr-2 h-4 w-4" />
+                            <span>{t('Header.language')}</span>
+                        </div>
+                    </SubTrigger>
+                    <SubContent {...(isMobile ? {} : {className: "w-48"})}>
+                        <ScrollArea className="h-72">
+                            {languages.map((lang) => (
+                                <Item key={lang.code} onClick={() => setLanguage(lang.code)} className={cn(isMobile && "py-2 pl-8")}>
+                                    <Check className={`mr-2 h-4 w-4 ${language === lang.code ? "opacity-100" : "opacity-0"}`} />
+                                    {lang.displayName}
+                                </Item>
+                            ))}
+                        </ScrollArea>
+                    </SubContent>
+                </AccordionItem>
+            </Sub>
+        </Wrapper>
+    );
+}
 
 export function Header() {
-  const { t, language, setLanguage, isLoading: isTranslating } = useLanguage();
+  const { t } = useLanguage();
   const { user, isAuthenticated, logout, isLoading: isUserLoading } = useUser();
   const { selectedNetwork, setSelectedNetwork } = useWallet();
   const router = useRouter();
-
-  const [mounted, setMounted] = React.useState(false);
-  const [theme, setTheme] = React.useState<"light" | "dark">("light");
-
-  React.useEffect(() => {
-    const storedTheme = localStorage.getItem("theme");
-    if (storedTheme === 'light' || storedTheme === 'dark') {
-      setTheme(storedTheme);
-    } else {
-      setTheme(window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
-    }
-    setMounted(true);
-  }, []);
-
-  React.useEffect(() => {
-    if (mounted) {
-      if (theme === "dark") {
-        document.documentElement.classList.add("dark");
-      } else {
-        document.documentElement.classList.remove("dark");
-      }
-      localStorage.setItem("theme", theme);
-    }
-  }, [theme, mounted]);
-
-  const toggleTheme = () => {
-    setTheme(theme === "light" ? "dark" : "light");
-  };
+  const isMobile = useIsMobile();
+  const [open, setOpen] = React.useState(false);
 
   const handleLogout = () => {
     logout();
@@ -130,9 +212,6 @@ export function Header() {
       ],
     },
   ];
-
-  const [hideSmallBalances, setHideSmallBalances] = React.useState(false);
-  const [hideUnknownTokens, setHideUnknownTokens] = React.useState(true);
   
   return (
     <header className="sticky top-0 z-50 w-full border-b border-primary/50 bg-primary text-primary-foreground">
@@ -269,80 +348,29 @@ export function Header() {
             <Button variant="secondary">{t('Header.connectWallet')}</Button>
           </WalletConnect>
           
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon" className="text-primary-foreground/90 transition-colors hover:bg-white/10 hover:text-primary-foreground">
-                {isTranslating ? <Loader2 className="h-5 w-5 animate-spin" /> : <Cog className="h-5 w-5" />}
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuPortal>
-                <DropdownMenuContent align="end" className="w-64">
-                <DropdownMenuLabel>{t('Header.settings')}</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem onSelect={(e) => e.preventDefault()} className="flex items-center justify-between">
-                    <Label htmlFor="theme-toggle" className="font-normal cursor-pointer flex items-center gap-2">
-                        {theme === 'light' ? (
-                            <Sun className="h-4 w-4" />
-                        ) : (
-                            <Moon className="h-4 w-4" />
-                        )}
-                        <span>{theme === 'light' ? t('Header.LightMode') : t('Header.DarkMode')}</span>
-                    </Label>
-                    <Switch
-                    id="theme-toggle"
-                    checked={theme === 'dark'}
-                    onCheckedChange={toggleTheme}
-                    disabled={!mounted}
-                    />
-                </DropdownMenuItem>
-                <DropdownMenuItem onSelect={(e) => e.preventDefault()} className="flex items-center justify-between">
-                    <Label htmlFor="hide-small-balances" className="font-normal cursor-pointer flex items-center gap-2">
-                    <EyeOff className="h-4 w-4" />
-                    <span>{t('Header.hideSmallBalances')}</span>
-                    </Label>
-                    <Switch
-                    id="hide-small-balances"
-                    checked={hideSmallBalances}
-                    onCheckedChange={setHideSmallBalances}
-                    />
-                </DropdownMenuItem>
-                <DropdownMenuItem onSelect={(e) => e.preventDefault()} className="flex items-center justify-between">
-                    <Label htmlFor="hide-unknown-tokens" className="font-normal cursor-pointer flex items-center gap-2">
-                    <ShieldX className="h-4 w-4" />
-                    <span>{t('Header.hideUnknownTokens')}</span>
-                    </Label>
-                    <Switch
-                    id="hide-unknown-tokens"
-                    checked={hideUnknownTokens}
-                    onCheckedChange={setHideUnknownTokens}
-                    />
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                    <Link href="/slippage" className="cursor-pointer flex items-center">
-                    <SlidersHorizontal className="mr-2 h-4 w-4" />
-                    <span>{t('Header.slippage')}</span>
-                    </Link>
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuSub>
-                    <DropdownMenuSubTrigger>
-                    <Languages className="mr-2 h-4 w-4" />
-                    <span>{t('Header.language')}</span>
-                    </DropdownMenuSubTrigger>
-                    <DropdownMenuSubContent>
-                    <ScrollArea className="h-72">
-                        {languages.map((lang) => (
-                        <DropdownMenuItem key={lang.code} onSelect={() => setLanguage(lang.code)}>
-                            <Check className={`mr-2 h-4 w-4 ${language === lang.code ? "opacity-100" : "opacity-0"}`} />
-                            {lang.displayName}
-                        </DropdownMenuItem>
-                        ))}
-                    </ScrollArea>
-                    </DropdownMenuSubContent>
-                </DropdownMenuSub>
-                </DropdownMenuContent>
-            </DropdownMenuPortal>
-          </DropdownMenu>
+           {isMobile ? (
+              <Sheet open={open} onOpenChange={setOpen}>
+                  <SheetTrigger asChild>
+                       <Button variant="ghost" size="icon" className="text-primary-foreground/90 transition-colors hover:bg-white/10 hover:text-primary-foreground">
+                          <Cog className="h-5 w-5" />
+                      </Button>
+                  </SheetTrigger>
+                  <SheetContent side="bottom" className="p-0">
+                      <SettingsContent isMobile={true} />
+                  </SheetContent>
+              </Sheet>
+          ) : (
+             <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" size="icon" className="text-primary-foreground/90 transition-colors hover:bg-white/10 hover:text-primary-foreground">
+                        <Cog className="h-5 w-5" />
+                    </Button>
+                </DropdownMenuTrigger>
+                 <DropdownMenuPortal>
+                    <SettingsContent />
+                 </DropdownMenuPortal>
+            </DropdownMenu>
+          )}
             
           {isUserLoading ? (
             <Skeleton className="h-10 w-10 rounded-full" />
@@ -389,3 +417,4 @@ export function Header() {
     </header>
   );
 }
+
