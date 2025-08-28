@@ -54,8 +54,8 @@ export function ChangellyDexInterface() {
     setIsLoading(true);
     try {
         const [currenciesRes, pairsRes] = await Promise.all([
-            fetch('/api/changelly/getCurrenciesFull', { method: 'POST', headers: { 'Content-Type': 'application/json' } }),
-            fetch('/api/changelly/getPairs', { method: 'POST', headers: { 'Content-Type': 'application/json' } })
+            fetch('/api/changelly/getCurrenciesFull', { method: 'POST' }),
+            fetch('/api/changelly/getPairs', { method: 'POST' })
         ]);
         
         const currenciesData = await currenciesRes.json();
