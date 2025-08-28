@@ -1,7 +1,6 @@
-
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import type { Cryptocurrency, Transaction, SelectedCurrency, TransactionStatus } from '@/lib/types';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { TransactionsTable } from './transactions-table';
@@ -9,9 +8,10 @@ import { useLanguage } from '@/hooks/use-language';
 import { getLatestListings } from '@/lib/coinmarketcap';
 import { ApiErrorCard } from './api-error-card';
 import { Skeleton } from './ui/skeleton';
+import { useWallet } from '@/hooks/use-wallet';
+import type { NetworkConfig } from '@/hooks/use-wallet';
 
 // Mocked data for supported fiat currencies and their rates against USD
-// In a real app, this would come from a currency conversion API
 const supportedCurrencies: SelectedCurrency[] = [
     { symbol: 'USD', name: 'US Dollar', rate: 1 },
     { symbol: 'EUR', name: 'Euro', rate: 0.93 },
@@ -24,56 +24,62 @@ const supportedCurrencies: SelectedCurrency[] = [
     { symbol: 'INR', name: 'Indian Rupee', rate: 83.5 },
 ];
 
-// Helper function to generate mock transaction data
-const generateMockTransactions = (cryptocurrencies: Cryptocurrency[]): Transaction[] => {
-    if (cryptocurrencies.length < 10) return [];
-    const find = (symbol: string) => cryptocurrencies.find(c => c.symbol === symbol);
-
-    const txs: Omit<Transaction, 'id' | 'timestamp' | 'account'>[] = [];
+// Helper function to generate a single mock transaction
+const generateSingleMockTransaction = (cryptocurrencies: Cryptocurrency[], network: NetworkConfig): Transaction => {
     const types: Transaction['type'][] = ['Swap', 'Add', 'Remove'];
-    const statuses: TransactionStatus[] = ['Completed', 'Pending', 'Completed', 'Failed', 'Completed', 'Completed'];
+    const statuses: TransactionStatus[] = ['Completed', 'Pending', 'Failed', 'Completed'];
+    
+    const type = types[Math.floor(Math.random() * types.length)];
+    const status = statuses[Math.floor(Math.random() * statuses.length)];
 
-    for (let i = 0; i < 20; i++) {
-        const type = types[i % 3];
-        const status = statuses[i % statuses.length];
-        const tokenA = cryptocurrencies[i % cryptocurrencies.length];
-        const tokenB = cryptocurrencies[(i + 5) % cryptocurrencies.length];
+    let tokenA = cryptocurrencies[Math.floor(Math.random() * cryptocurrencies.length)];
+    let tokenB = cryptocurrencies[Math.floor(Math.random() * cryptocurrencies.length)];
+    // Ensure tokens are different
+    while (tokenA.id === tokenB.id) {
+        tokenB = cryptocurrencies[Math.floor(Math.random() * cryptocurrencies.length)];
+    }
 
-        if (tokenA.id === tokenB.id) continue;
-
-        let token0, token1, amount0, amount1, value;
-
-        if (type === 'Swap') {
-            token0 = tokenA;
-            token1 = tokenB;
-            amount0 = Math.random() * 10;
-            amount1 = (amount0 * token0.price) / token1.price;
-            value = amount0 * token0.price;
-        } else { // Add or Remove
-            token0 = find('ETH') || tokenA;
-            token1 = find('USDC') || tokenB;
-            amount0 = Math.random() * 5;
+    let token0, token1, amount0, amount1, value;
+    
+    if (type === 'Swap') {
+        token0 = tokenA;
+        token1 = tokenB;
+        amount0 = Math.random() * 10;
+        amount1 = (amount0 * token0.price) / token1.price;
+        value = amount0 * token0.price;
+    } else { // Add or Remove
+        token0 = cryptocurrencies.find(c => c.symbol === network.nativeCurrency.symbol) || tokenA;
+        token1 = cryptocurrencies.find(c => c.symbol === 'USDC') || tokenB;
+        amount0 = Math.random() * 5;
+        if(token0 && token1 && token1.price > 0) {
             amount1 = (amount0 * token0.price) / token1.price;
             value = (amount0 * token0.price) * 2;
-        }
-
-        if (token0 && token1) {
-            txs.push({ type, status, token0, token1, amount0, amount1, value });
+        } else {
+            amount1 = 0;
+            value = 0;
         }
     }
     
-    return txs.map((tx, index) => ({
-        ...tx,
+    return {
+        type,
+        status,
+        token0,
+        token1,
+        amount0,
+        amount1,
+        value,
         id: `0x${[...Array(64)].map(() => Math.floor(Math.random() * 16).toString(16)).join('')}`,
         account: `0x${[...Array(40)].map(() => Math.floor(Math.random() * 16).toString(16)).join('')}`,
-        timestamp: new Date(Date.now() - (index * 1000 * 60 * (Math.random() * 10 + 5))), // 5-15 mins apart
-    })).sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime());
+        timestamp: new Date(),
+    };
 };
 
 export function TransactionsClient() {
     const { t } = useLanguage();
+    const { selectedNetwork } = useWallet();
     const [selectedCurrency, setSelectedCurrency] = useState<SelectedCurrency>(supportedCurrencies[0]);
     const [transactions, setTransactions] = useState<Transaction[]>([]);
+    const [allTokens, setAllTokens] = useState<Cryptocurrency[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
@@ -81,19 +87,46 @@ export function TransactionsClient() {
         document.title = t('PageTitles.transactions');
     }, [t]);
 
+    const initializeTransactions = useCallback((tokens: Cryptocurrency[], network: NetworkConfig) => {
+        const initialTxs = Array.from({ length: 20 }, (_, i) => ({
+            ...generateSingleMockTransaction(tokens, network),
+            timestamp: new Date(Date.now() - (i * 1000 * (Math.random() * 10 + 5))),
+        })).sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime());
+        setTransactions(initialTxs);
+    }, []);
+
     useEffect(() => {
         const fetchData = async () => {
             setIsLoading(true);
+            setError(null);
             const { data: cryptoData, error: fetchError } = await getLatestListings();
             if (fetchError) {
                 setError(fetchError);
             } else {
-                setTransactions(generateMockTransactions(cryptoData));
+                setAllTokens(cryptoData);
+                initializeTransactions(cryptoData, selectedNetwork);
             }
             setIsLoading(false);
         };
         fetchData();
-    }, []);
+    }, [selectedNetwork, initializeTransactions]);
+
+    useEffect(() => {
+        if (isLoading || error || allTokens.length === 0) return;
+
+        const intervalId = setInterval(() => {
+            setTransactions(prevTransactions => {
+                const newTx = generateSingleMockTransaction(allTokens, selectedNetwork);
+                const updatedTransactions = [newTx, ...prevTransactions];
+                if (updatedTransactions.length > 50) {
+                    updatedTransactions.pop();
+                }
+                return updatedTransactions;
+            });
+        }, 2000); // Add a new transaction every 2 seconds
+
+        return () => clearInterval(intervalId);
+    }, [isLoading, error, allTokens, selectedNetwork]);
 
 
     const handleCurrencyChange = (symbol: string) => {
@@ -144,7 +177,7 @@ export function TransactionsClient() {
                     </Select>
                 </div>
             </div>
-            <TransactionsTable transactions={transactions} currency={selectedCurrency} />
+            <TransactionsTable transactions={transactions} currency={selectedCurrency} network={selectedNetwork} />
         </>
     );
 }

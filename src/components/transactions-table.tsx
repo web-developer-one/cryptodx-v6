@@ -10,6 +10,7 @@ import {
 } from '@/components/ui/table';
 import { Card, CardContent } from '@/components/ui/card';
 import type { Transaction, TransactionStatus, SelectedCurrency } from '@/lib/types';
+import type { NetworkConfig } from '@/hooks/use-wallet';
 import { Button } from './ui/button';
 import { Badge } from './ui/badge';
 import { ArrowUpRight, Plus, Minus, ArrowRight, Copy } from 'lucide-react';
@@ -63,6 +64,7 @@ const CopyButton = ({ textToCopy, itemLabel }: { textToCopy: string; itemLabel: 
 
     const handleCopy = (e: React.MouseEvent) => {
         e.preventDefault();
+        e.stopPropagation();
         navigator.clipboard.writeText(textToCopy).then(() => {
             toast({
                 title: t('TransactionsTable.copied'),
@@ -143,7 +145,11 @@ const TimeAgo = ({ timestamp }: { timestamp: Date }) => {
   const [timeAgo, setTimeAgo] = useState('');
 
   useEffect(() => {
-    setTimeAgo(formatDistanceToNow(new Date(timestamp), { addSuffix: true }));
+    // Ensure timestamp is a valid Date object before formatting
+    const date = new Date(timestamp);
+    if (!isNaN(date.getTime())) {
+      setTimeAgo(formatDistanceToNow(date, { addSuffix: true }));
+    }
   }, [timestamp]);
 
   if (!timeAgo) {
@@ -177,7 +183,7 @@ const StatusBadge = ({ status }: { status: TransactionStatus }) => {
     );
 };
 
-export function TransactionsTable({ transactions, currency }: { transactions: Transaction[], currency: SelectedCurrency }) {
+export function TransactionsTable({ transactions, currency, network }: { transactions: Transaction[], currency: SelectedCurrency, network: NetworkConfig }) {
     const { t } = useLanguage();
     
     return (
@@ -220,14 +226,14 @@ export function TransactionsTable({ transactions, currency }: { transactions: Tr
                                 </TableCell>
                                 <TableCell>
                                      <div className="flex items-center">
-                                        <a href={`https://etherscan.io/address/${tx.account}`} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+                                        <a href={`${network.blockExplorerUrls[0]}/address/${tx.account}`} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
                                             {truncateAddress(tx.account)}
                                         </a>
                                      </div>
                                 </TableCell>
                                 <TableCell className="text-right">
                                      <div className="flex items-center justify-end">
-                                        <a href={`https://etherscan.io/tx/${tx.id}`} target="_blank" rel="noopener noreferrer">
+                                        <a href={`${network.blockExplorerUrls[0]}/tx/${tx.id}`} target="_blank" rel="noopener noreferrer">
                                             <Button variant="ghost" size="icon" className="h-6 w-6">
                                                 <ArrowUpRight className={cn("h-4 w-4", {
                                                     'text-success': tx.status === 'Completed',
