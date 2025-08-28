@@ -355,7 +355,7 @@ export function Header() {
                           <Cog className="h-5 w-5" />
                       </Button>
                   </SheetTrigger>
-                  <SheetContent side="bottom" className="p-0">
+                  <SheetContent side="bottom" className="rounded-t-lg">
                       <SettingsContent isMobile={true} />
                   </SheetContent>
               </Sheet>
@@ -417,4 +417,3 @@ export function Header() {
     </header>
   );
 }
-
