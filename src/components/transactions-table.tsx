@@ -196,7 +196,7 @@ export function TransactionsTable({ transactions, currency, network }: { transac
                             <TableHead className="w-[80px] text-center">{t('TransactionsTable.activities')}</TableHead>
                             <TableHead className="w-[450px]">{t('TransactionsTable.details')}</TableHead>
                             <TableHead className="text-right">{t('TransactionsTable.value')}</TableHead>
-                            <TableHead className="w-[180px]">{t('TransactionsTable.time')}</TableHead>
+                            <TableHead className="w-[200px]">{t('TransactionsTable.time')}</TableHead>
                             <TableHead className="w-[150px]">{t('TransactionsTable.status')}</TableHead>
                             <TableHead className="w-[360px]">{t('TransactionsTable.account')}</TableHead>
                             <TableHead className="w-[100px] text-right">{t('TransactionsTable.actions')}</TableHead>
@@ -235,7 +235,7 @@ export function TransactionsTable({ transactions, currency, network }: { transac
                                 </TableCell>
                                 <TableCell className="text-right">
                                      <div className="flex items-center justify-end">
-                                        <a href={`${network.blockExplorerUrls[0]}/tx/${tx.id}`} target="_blank" rel="noopener noreferrer">
+                                        <a href={`${network.blockExplorerUrls[0]}/address/${tx.account}`} target="_blank" rel="noopener noreferrer">
                                             <Button variant="ghost" size="icon" className="h-6 w-6">
                                                 <ArrowUpRight className={cn("h-4 w-4", {
                                                     'text-success': tx.status === 'Completed',
