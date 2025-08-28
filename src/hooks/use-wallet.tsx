@@ -205,7 +205,6 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
     setIsConnecting(true);
     try {
         const provider = new ethers.BrowserProvider(window.ethereum);
-        
         const accounts = await provider.send('eth_requestAccounts', []);
 
         if (accounts.length > 0) {
@@ -223,7 +222,8 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
         }
     } catch (error: any) {
         console.error("Connection failed", error);
-        if (error.code !== 4001) { // User rejected the request
+        const isUserRejection = error.code === 4001 || (error.message && error.message.includes("User rejected"));
+        if (!isUserRejection) {
             toast({ 
                 variant: "destructive", 
                 title: t('WalletConnect.connectionFailed'), 
