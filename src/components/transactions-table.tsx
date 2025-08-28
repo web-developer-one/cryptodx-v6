@@ -227,9 +227,10 @@ export function TransactionsTable({ transactions, currency, network }: { transac
                                 </TableCell>
                                 <TableCell>
                                      <div className="flex items-center">
-                                        <a href={`${network.blockExplorerUrls[0]}/address/${tx.account}`} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+                                        <a href={`${network.blockExplorerUrls[0]}/address/${tx.account}`} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline font-mono">
                                             {truncateAddress(tx.account)}
                                         </a>
+                                         <CopyButton textToCopy={tx.account} itemLabel="account" />
                                      </div>
                                 </TableCell>
                                 <TableCell className="text-right">

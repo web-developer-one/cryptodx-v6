@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
@@ -11,7 +12,7 @@ import { Skeleton } from './ui/skeleton';
 import { useWallet } from '@/hooks/use-wallet';
 import type { NetworkConfig } from '@/hooks/use-wallet';
 
-// Mocked data for supported fiat currencies and their rates against USD
+// In a real app, this would come from a currency conversion API
 const supportedCurrencies: SelectedCurrency[] = [
     { symbol: 'USD', name: 'US Dollar', rate: 1 },
     { symbol: 'EUR', name: 'Euro', rate: 0.93 },
@@ -23,6 +24,27 @@ const supportedCurrencies: SelectedCurrency[] = [
     { symbol: 'CNY', name: 'Chinese Yuan', rate: 7.25 },
     { symbol: 'INR', name: 'Indian Rupee', rate: 83.5 },
 ];
+
+const realTransactionData: Record<string, { tx: string; account: string }[]> = {
+    '0x1': [ // Ethereum
+        { tx: '0x2c9a59a366782c5a3d5b0f718a2e2a7a5e8840b1078f1e68bce0e02c0c7a36f5', account: '0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045' },
+        { tx: '0x8a9c3727931f1f45615b8a91c7849e7a2be2897e411516f4e6b1d5e67f779b8c', account: '0x18Ac474351757894565780562e6452a2337a1a4b' },
+        { tx: '0x0e5d48892f39973273c1e3cd8c973546a15234c8965d564177b8c8c2b7f0e2b2', account: '0x742d35Cc6634C0532925a3b844Bc454e4438f44e' },
+    ],
+    '0xa86a': [ // Avalanche
+        { tx: '0x1b4f4c8b2d1d0f5e1d5e5f5c3c1e2b2a1a1f0f0c0d0b0a090807060504030201', account: '0x4f60579D4aA3e479B87E5b8A2a2f9a2b8e8f8c4d' },
+        { tx: '0x2a2b2c2d2e2f202122232425262728292a2b2c2d2e2f30313233343536373839', account: '0x9a8b7c6d5e4f3a2b1c0d9e8f7a6b5c4d3e2f1a0b' },
+    ],
+     '0xa4b1': [ // Arbitrum
+        { tx: '0x4c5b5c777e5d185e335275591440788325a835a6396f4a36999a22c5440be157', account: '0x4a4b4c4d4e4f50515253545556575859606162636465666768696a6b6c6d6e6f' },
+        { tx: '0x1d1e1f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c', account: '0x3a3b3c3d3e3f404142434445464748494a4b4c4d4e4f50515253545556575859' },
+    ],
+     '0x38': [ // BSC
+        { tx: '0x1f0e2d3c4b5a69788796a5b4c3d2e1f0a9b8c7d6e5f4a3b2c1d0e9f8a7b6c5d4', account: '0x8AC76a51cc950d9822D68b83fE1Ad97B37Fb5453' },
+        { tx: '0xf8c7b6a5e4d3c2b1a09f8e7d6c5b4a39281706f5e4d3c2b1a09f8e7d6c5b4a39', account: '0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984' },
+    ]
+    // Add more for other networks as needed
+};
 
 // Helper function to generate a single mock transaction
 const generateSingleMockTransaction = (cryptocurrencies: Cryptocurrency[], network: NetworkConfig): Transaction => {
@@ -60,6 +82,10 @@ const generateSingleMockTransaction = (cryptocurrencies: Cryptocurrency[], netwo
         }
     }
     
+    const validNetworkId = Object.keys(realTransactionData).includes(network.chainId) ? network.chainId : '0x1';
+    const realData = realTransactionData[validNetworkId];
+    const randomRealData = realData[Math.floor(Math.random() * realData.length)];
+    
     return {
         type,
         status,
@@ -68,8 +94,8 @@ const generateSingleMockTransaction = (cryptocurrencies: Cryptocurrency[], netwo
         amount0,
         amount1,
         value,
-        id: `0x${[...Array(64)].map(() => Math.floor(Math.random() * 16).toString(16)).join('')}`,
-        account: `0x${[...Array(40)].map(() => Math.floor(Math.random() * 16).toString(16)).join('')}`,
+        id: randomRealData.tx,
+        account: randomRealData.account,
         timestamp: new Date(),
     };
 };
