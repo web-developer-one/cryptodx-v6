@@ -2,8 +2,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import crypto from 'crypto-js';
 
-const CHANGELLY_API_KEY = process.env.CHANGELLY_API_KEY;
-const CHANGELLY_PRIVATE_KEY = process.env.CHANGELLY_PRIVATE_KEY;
+// This is the Fiat-to-Crypto API, not the C2C one.
+const CHANGELLY_API_KEY = process.env.CHANGELLY_FIAT_API_KEY;
+const CHANGELLY_PRIVATE_KEY = process.env.CHANGELLY_FIAT_PRIVATE_KEY;
 const CHANGELLY_API_URL = 'https://api.changelly.com/v2';
 
 // Helper to format the PEM key from the environment variable

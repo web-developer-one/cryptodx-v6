@@ -11,7 +11,16 @@ async function handler(req: NextRequest) {
     return NextResponse.json({ error: 'Changelly C2C API credentials are not configured.' }, { status: 500 });
   }
 
-  const message = await req.json();
+  // The client will send the params in the body.
+  const { from, to, amount } = await req.json();
+
+  const message = {
+    id: "1",
+    jsonrpc: "2.0",
+    method: "getExchangeAmount",
+    params: [{ from, to, amount }]
+  };
+
   const sign = crypto.HmacSHA512(JSON.stringify(message), CHANGELLY_PRIVATE_KEY).toString(crypto.enc.Hex);
 
   try {
@@ -33,7 +42,7 @@ async function handler(req: NextRequest) {
     const data = JSON.parse(responseText);
 
     if (!response.ok || data.error) {
-        return NextResponse.json({ error: data.error?.message || 'An error occurred with the Changelly API.' }, { status: response.status });
+        return NextResponse.json({ error: data.error?.message || 'An error occurred with the Changelly API.' }, { status: response.status || 500 });
     }
 
     return NextResponse.json(data);

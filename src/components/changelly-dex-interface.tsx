@@ -53,12 +53,8 @@ export function ChangellyDexInterface() {
     setIsLoading(true);
     try {
         const [currenciesRes, pairsRes] = await Promise.all([
-            fetch('/api/changelly/getCurrenciesFull', {
-                method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({id: "1", jsonrpc: "2.0", method: "getCurrenciesFull", params: {}})
-            }),
-            fetch('/api/changelly/getPairs', {
-                method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({id: "1", jsonrpc: "2.0", method: "getPairs", params: {}})
-            })
+            fetch('/api/changelly/getCurrenciesFull', { method: 'POST' }),
+            fetch('/api/changelly/getPairs', { method: 'POST' })
         ]);
         
         const currenciesData = await currenciesRes.json();
@@ -106,12 +102,7 @@ export function ChangellyDexInterface() {
         const response = await fetch('/api/changelly/getExchangeAmount', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({
-                id: "1",
-                jsonrpc: "2.0",
-                method: "getExchangeAmount",
-                params: [{ from: fromToken, to: toToken, amount: debouncedFromAmount }]
-            })
+            body: JSON.stringify({ from: fromToken, to: toToken, amount: debouncedFromAmount })
         });
         const data = await response.json();
         if(data.result) {
