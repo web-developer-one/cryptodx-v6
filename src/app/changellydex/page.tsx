@@ -25,7 +25,7 @@ export default function ChangellyDexPage() {
       <div className="w-full max-w-lg flex justify-center">
         <TradeNav />
       </div>
-      <div className="w-full max-w-lg flex-1">
+      <div className="w-full max-w-lg flex-1 flex justify-center">
           <ChangellyDexInterface />
       </div>
       <div className="w-full max-w-lg mt-8">
