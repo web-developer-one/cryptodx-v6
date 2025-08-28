@@ -26,6 +26,7 @@ interface ChangellyCurrency {
     name: string;
     ticker: string;
     fullName: string;
+    enabled: boolean;
     image: string;
 }
 
