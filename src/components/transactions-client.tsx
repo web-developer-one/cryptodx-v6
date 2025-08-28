@@ -149,7 +149,7 @@ export function TransactionsClient() {
                 }
                 return updatedTransactions;
             });
-        }, 10000); // Add a new transaction every 10 seconds
+        }, 5000); // Add a new transaction every 5 seconds
 
         return () => clearInterval(intervalId);
     }, [isLoading, error, allTokens, selectedNetwork]);
