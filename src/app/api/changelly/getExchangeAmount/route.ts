@@ -39,11 +39,6 @@ async function handler(req: NextRequest) {
       body: JSON.stringify(message),
     });
     
-    const responseText = await response.text();
-    if (!responseText) {
-        return NextResponse.json({ error: 'Empty response from Changelly API.' }, { status: response.status });
-    }
-    
     const data = await response.json();
 
     if (!response.ok || data.error) {
