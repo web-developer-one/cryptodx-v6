@@ -20,7 +20,7 @@ async function handler(req: NextRequest) {
     id: "1",
     jsonrpc: "2.0",
     method: "getPairsParams",
-    params: {}
+    params: {} // This empty object is required by the API
   };
   
   const privateKey = formatPrivateKey(CHANGELLY_PRIVATE_KEY);
@@ -36,11 +36,6 @@ async function handler(req: NextRequest) {
       },
       body: JSON.stringify(message),
     });
-    
-    const responseText = await response.text();
-    if (!responseText) {
-        return NextResponse.json({ error: 'Empty response from Changelly API.' }, { status: response.status });
-    }
     
     const data = await response.json();
 
