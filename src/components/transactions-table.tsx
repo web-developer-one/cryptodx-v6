@@ -235,7 +235,7 @@ export function TransactionsTable({ transactions, currency, network }: { transac
                                 </TableCell>
                                 <TableCell className="text-right">
                                      <div className="flex items-center justify-end">
-                                        <a href={`${network.blockExplorerUrls[0]}/address/${tx.account}`} target="_blank" rel="noopener noreferrer">
+                                        <a href={`${network.blockExplorerUrls[0]}/tx/${tx.id}`} target="_blank" rel="noopener noreferrer">
                                             <Button variant="ghost" size="icon" className="h-6 w-6">
                                                 <ArrowUpRight className={cn("h-4 w-4", {
                                                     'text-success': tx.status === 'Completed',
