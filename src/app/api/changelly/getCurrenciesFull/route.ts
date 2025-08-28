@@ -6,15 +6,6 @@ const CHANGELLY_API_KEY = process.env.CHANGELLY_C2C_API_KEY;
 const CHANGELLY_PRIVATE_KEY = process.env.CHANGELLY_C2C_PRIVATE_KEY;
 const CHANGELLY_API_URL = 'https://api.changelly.com';
 
-const formatPrivateKey = (key: string): string => {
-    const formattedKey = key.replace(/\\n/g, '\n');
-    if (!formattedKey.startsWith('-----BEGIN PRIVATE KEY-----')) {
-        return `-----BEGIN PRIVATE KEY-----\n${formattedKey}\n-----END PRIVATE KEY-----`;
-    }
-    return formattedKey;
-};
-
-
 async function handler(req: NextRequest) {
   if (!CHANGELLY_API_KEY || !CHANGELLY_PRIVATE_KEY) {
     return NextResponse.json({ error: 'Changelly C2C API credentials are not configured.' }, { status: 500 });
