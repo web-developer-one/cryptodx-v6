@@ -223,11 +223,14 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
         }
     } catch (error: any) {
         console.error("Connection failed", error);
-        if(error.code !== 4001) {
+        // Specifically check for user rejection code
+        if (error.code === 4001) {
+             // User rejected the connection request, do nothing.
+        } else {
             toast({ 
                 variant: "destructive", 
                 title: t('WalletConnect.connectionFailed'), 
-                description: t('WalletConnect.connectionFailedDescription') 
+                description: error.message || t('WalletConnect.connectionFailedDescription') 
             });
         }
     } finally {
