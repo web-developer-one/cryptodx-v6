@@ -196,7 +196,7 @@ export function TransactionsTable({ transactions, currency, network }: { transac
                             <TableHead className="w-[80px] text-center">{t('TransactionsTable.activities')}</TableHead>
                             <TableHead className="w-[450px]">{t('TransactionsTable.details')}</TableHead>
                             <TableHead className="text-right">{t('TransactionsTable.value')}</TableHead>
-                            <TableHead className="w-[200px]">{t('TransactionsTable.time')}</TableHead>
+                            <TableHead className="w-[250px]">{t('TransactionsTable.time')}</TableHead>
                             <TableHead className="w-[150px]">{t('TransactionsTable.status')}</TableHead>
                             <TableHead className="w-[360px]">{t('TransactionsTable.account')}</TableHead>
                             <TableHead className="w-[100px] text-right">{t('TransactionsTable.actions')}</TableHead>
