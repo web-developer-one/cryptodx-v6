@@ -14,8 +14,8 @@ export function TradeNav() {
     <div className="w-full max-w-md">
         <Tabs value={pathname} className="w-full">
             <TabsList className="grid w-full grid-cols-4">
-                <TabsTrigger value="/moralis" asChild>
-                    <Link href="/moralis">{t('TradeNav.swap')}</Link>
+                <TabsTrigger value="/" asChild>
+                    <Link href="/">{t('TradeNav.swap')}</Link>
                 </TabsTrigger>
                 <TabsTrigger value="/limit" asChild>
                     <Link href="/limit">{t('TradeNav.limit')}</Link>

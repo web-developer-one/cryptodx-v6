@@ -63,6 +63,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Skeleton } from "./ui/skeleton";
 import { useWallet, networkConfigs } from "@/hooks/use-wallet";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { cn } from "@/lib/utils";
 
 function SettingsContent({ isMobile = false }) {
     const { t, language, setLanguage, isLoading: isTranslating } = useLanguage();
@@ -188,7 +189,7 @@ export function Header() {
       name: t('Header.trade'),
       icon: ArrowRightLeft,
       children: [
-        { name: t('Footer.swap'), href: "/" },
+        { name: t('Footer.swap'), href: "/moralis" },
         { name: t('Footer.limit'), href: "/limit" },
         { name: t('Footer.buy'), href: "/buy" },
         { name: t('Footer.sell'), href: "/sell" },
