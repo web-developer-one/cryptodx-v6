@@ -26,6 +26,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { ScrollArea } from './ui/scroll-area';
+import * as changellyApi from '@/services/changellyApiService';
 
 interface ChangellyCurrency {
   name: string;
@@ -137,25 +138,6 @@ function CoinSelectionDialog({
   );
 }
 
-// Client-side function to call our backend proxy
-const apiRequest = async (method: string, params: any) => {
-    const response = await fetch('/api/changelly/proxy', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ method, params }),
-    });
-
-    const data = await response.json();
-    
-    if (!response.ok || data.error) {
-        throw new Error(data.error?.message || 'An unknown API error occurred.');
-    }
-    
-    return data.result;
-};
-
 export function ChangellyC2CInterface() {
   const { t } = useLanguage();
   const [fromToken, setFromToken] = useState<string>('btc');
@@ -185,7 +167,7 @@ export function ChangellyC2CInterface() {
     setIsLoading(true);
     setError(null);
     try {
-      const result = await apiRequest('getCurrenciesFull', {});
+      const result = await changellyApi.getCurrenciesFull();
       setAllCurrencies(result.filter((c: ChangellyCurrency) => c.enabled && c.fixRateEnabled));
     } catch (error: any) {
        setError(error.message || 'Failed to fetch currencies from Changelly.');
@@ -212,8 +194,8 @@ export function ChangellyC2CInterface() {
     setIsFetchingQuote(true);
 
     try {
-      await apiRequest('getPairsParams', { from: fromToken, to: toToken });
-      const result = await apiRequest('getExchangeAmount', [{ from: fromToken, to: toToken, amount: debouncedFromAmount }]);
+      await changellyApi.getPairsParams(fromToken, toToken);
+      const result = await changellyApi.getExchangeAmount(fromToken, toToken, debouncedFromAmount);
       setToAmount(result[0].amount);
 
     } catch (e: any) {
