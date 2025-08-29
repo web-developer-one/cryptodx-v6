@@ -20,7 +20,7 @@ async function handler(req: NextRequest) {
     id: "1",
     jsonrpc: "2.0",
     method: "getPairsParams",
-    params: {} // This empty object is required by the API
+    params: {}
   };
   
   const privateKey = formatPrivateKey(CHANGELLY_PRIVATE_KEY);
