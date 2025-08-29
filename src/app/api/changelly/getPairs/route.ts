@@ -13,13 +13,13 @@ const formatPrivateKey = (key: string): string => {
 
 async function handler(req: NextRequest) {
   if (!CHANGELLY_API_KEY || !CHANGELLY_PRIVATE_KEY) {
-    return NextResponse.json({ error: 'Changelly C2C API credentials are not configured.' }, { status: 500 });
+    return NextResponse.json({ error: { message: 'Changelly C2C API credentials are not configured.'} }, { status: 500 });
   }
 
   const message = {
     id: "1",
     jsonrpc: "2.0",
-    method: "getPairsParams",
+    method: "getPairs",
     params: {}
   };
   
@@ -40,14 +40,15 @@ async function handler(req: NextRequest) {
     const data = await response.json();
 
     if (!response.ok || data.error) {
-        return NextResponse.json({ error: data.error?.message || 'An error occurred with the Changelly API.' }, { status: response.status || 500 });
+        return NextResponse.json({ error: data.error || { message: 'An error occurred with the Changelly API.'} }, { status: response.status || 500 });
     }
 
     return NextResponse.json(data);
   } catch (error) {
     console.error('Changelly proxy error:', error);
-    return NextResponse.json({ error: 'Failed to communicate with the Changelly API.' }, { status: 500 });
+    return NextResponse.json({ error: { message: 'Failed to communicate with the Changelly API.'} }, { status: 500 });
   }
 }
 
 export { handler as POST };
+

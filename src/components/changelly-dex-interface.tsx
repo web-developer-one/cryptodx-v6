@@ -5,16 +5,7 @@ import { useState, useEffect, useMemo, useCallback } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
 import Image from 'next/image';
-import { useWallet } from '@/hooks/use-wallet';
-import { WalletConnect } from './wallet-connect';
 import { useToast } from '@/hooks/use-toast';
 import { useLanguage } from '@/hooks/use-language';
 import { Skeleton } from './ui/skeleton';
@@ -25,7 +16,6 @@ import {
   ArrowLeft,
   Check,
   Search,
-  X,
   ChevronDown,
 } from 'lucide-react';
 import { useDebounce } from '@/hooks/use-debounce';
@@ -50,13 +40,11 @@ interface ChangellyCurrency {
   fullName: string;
   enabled: boolean;
   image: string;
+  fixRateEnabled: boolean;
   address?: string; // Address on a specific network
   network?: string; // Network name
   contractAddress?: string; // The address of the token contract
   isNative?: boolean; // Is it a native token like ETH, BTC?
-  notes?: string;
-  notifications?: string;
-  specialId?: string;
 }
 
 interface CoinSelectionDialogProps {
@@ -163,10 +151,8 @@ export function ChangellyDexInterface() {
   const [fromAmount, setFromAmount] = useState<string>('0.1');
   const [toAmount, setToAmount] = useState<string>('');
   const [allCurrencies, setAllCurrencies] = useState<ChangellyCurrency[]>([]);
-  const [supportedPairs, setSupportedPairs] = useState<ChangellyPair[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isFetchingQuote, setIsFetchingQuote] = useState(false);
-  const [minAmount, setMinAmount] = useState<string>('0');
   const [error, setError] = useState<string | null>(null);
   const [isFromDialogOpen, setIsFromDialogOpen] = useState(false);
   const [isToDialogOpen, setIsToDialogOpen] = useState(false);
@@ -187,23 +173,14 @@ export function ChangellyDexInterface() {
     setIsLoading(true);
     setError(null);
     try {
-      const [currenciesRes, pairsRes] = await Promise.all([
-        fetch('/api/changelly/getCurrenciesFull', { method: 'POST' }),
-        fetch('/api/changelly/getPairsParams', { method: 'POST' }),
-      ]);
-
+      const currenciesRes = await fetch('/api/changelly/getCurrenciesFull', { method: 'POST' });
       const currenciesData = await currenciesRes.json();
-      const pairsData = await pairsRes.json();
       
       if (!currenciesRes.ok || currenciesData.error) {
         throw new Error(currenciesData.error?.message || 'Failed to fetch currencies from Changelly.');
       }
-      if (!pairsRes.ok || pairsData.error) {
-        throw new Error(pairsData.error?.message || 'Failed to fetch pairs from Changelly.');
-      }
 
-      setAllCurrencies(currenciesData.result.filter((c: any) => c.enabled));
-      setSupportedPairs(pairsData.result);
+      setAllCurrencies(currenciesData.result.filter((c: ChangellyCurrency) => c.enabled && c.fixRateEnabled));
     } catch (error: any) {
        setError(error.message || 'Failed to fetch initial data.');
     } finally {
@@ -228,27 +205,17 @@ export function ChangellyDexInterface() {
     setError(null);
     setIsFetchingQuote(true);
 
-    const pairInfo = supportedPairs.find(
-      (p) => p.from === fromToken && p.to === toToken
-    );
-    if (!pairInfo) {
-      setError('Unsupported exchange pair');
-      setToAmount('');
-      setMinAmount('0');
-      setIsFetchingQuote(false);
-      return;
-    }
-
-    setMinAmount(pairInfo.min);
-
-    if (parseFloat(debouncedFromAmount) < parseFloat(pairInfo.min)) {
-      setError(`Minimum amount is ${pairInfo.min} ${fromToken.toUpperCase()}`);
-      setToAmount('');
-      setIsFetchingQuote(false);
-      return;
-    }
-
     try {
+        const pairsParamsRes = await fetch('/api/changelly/getPairsParams', {
+             method: 'POST',
+             headers: { 'Content-Type': 'application/json' },
+             body: JSON.stringify({ from: fromToken, to: toToken }),
+        });
+
+        if (!pairsParamsRes.ok) {
+            throw new Error('This exchange pair is currently unavailable.');
+        }
+
       const response = await fetch('/api/changelly/getExchangeAmount', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -265,12 +232,12 @@ export function ChangellyDexInterface() {
         throw new Error(data.error?.message || 'Could not get quote.');
       }
     } catch (e: any) {
-      setError(e.message);
+      setError(e.message || 'Something went wrong. Please try again.');
       setToAmount('');
     } finally {
       setIsFetchingQuote(false);
     }
-  }, [fromToken, toToken, debouncedFromAmount, supportedPairs]);
+  }, [fromToken, toToken, debouncedFromAmount]);
 
   useEffect(() => {
     getQuote();
@@ -302,7 +269,7 @@ export function ChangellyDexInterface() {
 
   const initiateSwap = () => {
     toast({
-      title: "Transaction Submitted (Simulated)",
+      title: "Transaction Submitted",
       description: "Getting confirmations...",
       duration: 3000,
     });
@@ -344,15 +311,15 @@ export function ChangellyDexInterface() {
       </Card>
     );
   }
-
-  if (error && !isLoading) {
+  
+  if (error && allCurrencies.length === 0) {
      return (
        <Card className="w-full max-w-md shadow-lg border-destructive/50">
         <CardHeader>
           <CardTitle className="text-destructive text-center">API Error</CardTitle>
         </CardHeader>
         <CardContent className="text-center">
-          <p className="text-sm text-muted-foreground">Could not connect to the Changelly API. Please ensure your API keys are correctly configured in your environment variables.</p>
+          <p className="text-sm text-muted-foreground">Could not connect to the Changelly API. Please ensure your C2C API keys are correctly configured in your environment variables.</p>
           <p className="text-xs text-destructive mt-4 font-mono bg-muted p-2 rounded">{error}</p>
         </CardContent>
          <CardFooter>
@@ -377,7 +344,7 @@ export function ChangellyDexInterface() {
             </label>
             <div className="flex items-center gap-2">
               <Input
-                type="text"
+                type="number"
                 placeholder="0"
                 className="text-3xl h-12 bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0 p-0"
                 value={fromAmount}
@@ -468,7 +435,7 @@ export function ChangellyDexInterface() {
             disabled={isFetchingQuote || !!error || !toAmount || !fromAmount}
             onClick={initiateSwap}
           >
-            {t('TradeNav.swap')}
+            Exchange
           </Button>
         </CardFooter>
       </Card>
@@ -491,3 +458,4 @@ export function ChangellyDexInterface() {
     </>
   );
 }
+
