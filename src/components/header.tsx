@@ -147,7 +147,7 @@ function SettingsContent({ isMobile = false }) {
             </div>
             <Separator className={cn(!isMobile && "-mx-1 my-1 h-px bg-muted", isMobile && "my-4")} />
 
-             <Sub {...(isMobile ? {type: "single", collapsible: true} : {})}>
+             <Sub {...(isMobile ? {type: "single", collapsible: true} : {} as any)}>
                 <AccordionItem value="language" className={cn(isMobile && "border-b-0")}>
                     <SubTrigger {...(isMobile ? {className: "py-0"} : {})}>
                         <div className="flex items-center">
