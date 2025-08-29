@@ -10,6 +10,7 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { ArrowDownUp, Loader2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { Skeleton } from './ui/skeleton';
 
 interface ChangellyCurrency {
   name: string;
@@ -26,23 +27,24 @@ export const ChangellyC2CInterface = () => {
   const [toAmount, setToAmount] = useState('');
   
   const [currencies, setCurrencies] = useState<ChangellyCurrency[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isFetchingQuote, setIsFetchingQuote] = useState(false);
   const [error, setError] = useState('');
   const { toast } = useToast();
   const debouncedFromAmount = useDebounce(fromAmount, 500);
 
   useEffect(() => {
     const fetchCurrencies = async () => {
+      setIsLoading(true);
       try {
-        setLoading(true);
         const result = await getCurrenciesFull();
         setCurrencies(result.filter((c: ChangellyCurrency) => c.enabled && c.fixRateEnabled));
         setError('');
       } catch (err) {
-        setError('Something went wrong. Could not fetch currencies.');
+        setError('Failed to fetch initial data. Could not fetch currencies.');
         console.error(err);
       } finally {
-        setLoading(false);
+        setIsLoading(false);
       }
     };
     fetchCurrencies();
@@ -53,7 +55,7 @@ export const ChangellyC2CInterface = () => {
       setToAmount('');
       return;
     }
-    setLoading(true);
+    setIsFetchingQuote(true);
     setError('');
     try {
       await getPairsParams(from, to);
@@ -68,13 +70,15 @@ export const ChangellyC2CInterface = () => {
       }
       console.error(err);
     } finally {
-      setLoading(false);
+      setIsFetchingQuote(false);
     }
   }, []);
 
   useEffect(() => {
-    fetchAmount(fromCurrency, toCurrency, debouncedFromAmount);
-  }, [fromCurrency, toCurrency, debouncedFromAmount, fetchAmount]);
+    if (currencies.length > 0) {
+        fetchAmount(fromCurrency, toCurrency, debouncedFromAmount);
+    }
+  }, [fromCurrency, toCurrency, debouncedFromAmount, fetchAmount, currencies]);
   
   const handleSwap = () => {
     setFromCurrency(toCurrency);
@@ -118,6 +122,29 @@ export const ChangellyC2CInterface = () => {
     ));
   };
 
+  if (isLoading) {
+    return (
+        <Card className="w-full max-w-md shadow-2xl shadow-primary/10">
+          <CardHeader><Skeleton className="h-8 w-48 mx-auto" /></CardHeader>
+          <CardContent><Skeleton className="h-[200px] w-full" /></CardContent>
+          <CardFooter><Skeleton className="h-12 w-full" /></CardFooter>
+      </Card>
+    )
+  }
+
+  if (error) {
+    return (
+        <Card className="w-full max-w-md shadow-2xl shadow-primary/10">
+            <CardHeader className="text-center">
+                <CardTitle>Crypto Exchange</CardTitle>
+            </CardHeader>
+            <CardContent className="flex items-center justify-center h-48 text-center">
+                <p className="text-destructive font-medium">{error}</p>
+            </CardContent>
+        </Card>
+    )
+  }
+
   return (
      <Card className="w-full max-w-md shadow-2xl shadow-primary/10">
         <CardHeader className="text-center">
@@ -152,13 +179,9 @@ export const ChangellyC2CInterface = () => {
             <div className="p-4 rounded-lg bg-[#f8fafc] dark:bg-secondary/50 border">
                 <label className="text-sm text-muted-foreground">You Get (Approximately)</label>
                 <div className="flex items-center gap-2">
-                    <Input 
-                        type="text" 
-                        value={toAmount} 
-                        readOnly 
-                        placeholder={loading ? 'Calculating...' : '0'}
-                        className="text-3xl h-12 bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0 p-0"
-                    />
+                    <div className="flex-1 text-3xl h-12 flex items-center p-0">
+                        {isFetchingQuote ? <Loader2 className="h-6 w-6 animate-spin" /> : <Input type="text" placeholder="0" className="text-3xl h-12 bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0 p-0" value={toAmount} readOnly />}
+                    </div>
                      <Select value={toCurrency} onValueChange={setToCurrency}>
                         <SelectTrigger className="w-[180px]">
                             <SelectValue placeholder="Select currency" />
@@ -171,8 +194,8 @@ export const ChangellyC2CInterface = () => {
             {error && <p className="text-sm text-center text-destructive mt-2">{error}</p>}
         </CardContent>
         <CardFooter>
-            <Button className="w-full h-12 text-lg" onClick={handleExchange} disabled={loading || !!error || !toAmount}>
-                {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+            <Button className="w-full h-12 text-lg" onClick={handleExchange} disabled={isFetchingQuote || !!error || !toAmount}>
+                {(isFetchingQuote || isLoading) && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                 Exchange
             </Button>
         </CardFooter>
