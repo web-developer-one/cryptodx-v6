@@ -15,7 +15,7 @@ export function MoralisPageClient() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    document.title = t('PageTitles.moralisSwap');
+    document.title = t('PageTitles.home');
   }, [t]);
 
   useEffect(() => {
@@ -58,4 +58,3 @@ export function MoralisPageClient() {
     </>
   );
 }
-

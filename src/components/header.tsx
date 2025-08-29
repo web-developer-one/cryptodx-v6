@@ -348,29 +348,16 @@ export function Header() {
             <Button variant="secondary">{t('Header.connectWallet')}</Button>
           </WalletConnect>
           
-           {isMobile ? (
-              <Sheet open={open} onOpenChange={setOpen}>
-                  <SheetTrigger asChild>
-                       <Button variant="ghost" size="icon" className="text-primary-foreground/90 transition-colors hover:bg-white/10 hover:text-primary-foreground">
-                          <Cog className="h-5 w-5" />
-                      </Button>
-                  </SheetTrigger>
-                  <SheetContent side="bottom" className="rounded-t-lg">
-                      <SettingsContent isMobile={true} />
-                  </SheetContent>
-              </Sheet>
-          ) : (
-             <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" size="icon" className="text-primary-foreground/90 transition-colors hover:bg-white/10 hover:text-primary-foreground">
-                        <Cog className="h-5 w-5" />
-                    </Button>
-                </DropdownMenuTrigger>
-                 <DropdownMenuPortal>
-                    <SettingsContent />
-                 </DropdownMenuPortal>
-            </DropdownMenu>
-          )}
+          <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="icon" className="text-primary-foreground/90 transition-colors hover:bg-white/10 hover:text-primary-foreground">
+                      <Cog className="h-5 w-5" />
+                  </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className={cn(isMobile ? "w-[calc(100vw-32px)]" : "w-64")}>
+                  <SettingsContent isMobile={isMobile} />
+              </DropdownMenuContent>
+          </DropdownMenu>
             
           {isUserLoading ? (
             <Skeleton className="h-10 w-10 rounded-full" />
