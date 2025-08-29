@@ -26,13 +26,11 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { ScrollArea } from './ui/scroll-area';
+import crypto from 'crypto-js';
 
-interface ChangellyPair {
-  from: string;
-  to: string;
-  min: string;
-  minInFixed: boolean;
-}
+const CHANGELLY_C2C_API_KEY = process.env.NEXT_PUBLIC_CHANGELLY_C2C_API_KEY;
+const CHANGELLY_C2C_PRIVATE_KEY = process.env.NEXT_PUBLIC_CHANGELLY_C2C_PRIVATE_KEY;
+const CHANGELLY_API_URL = '/api/changelly-proxy'; // Using a proxy
 
 interface ChangellyCurrency {
   name: string;
@@ -41,10 +39,10 @@ interface ChangellyCurrency {
   enabled: boolean;
   image: string;
   fixRateEnabled: boolean;
-  address?: string; // Address on a specific network
-  network?: string; // Network name
-  contractAddress?: string; // The address of the token contract
-  isNative?: boolean; // Is it a native token like ETH, BTC?
+  address?: string; 
+  network?: string; 
+  contractAddress?: string;
+  isNative?: boolean;
 }
 
 interface CoinSelectionDialogProps {
@@ -144,7 +142,41 @@ function CoinSelectionDialog({
   );
 }
 
-export function ChangellyDexInterface() {
+const apiRequest = async (method: string, params: any) => {
+    if (!CHANGELLY_C2C_API_KEY || !CHANGELLY_C2C_PRIVATE_KEY) {
+        throw new Error('Changelly API credentials are not configured in environment variables.');
+    }
+
+    const message = {
+        jsonrpc: '2.0',
+        id: 'test',
+        method: method,
+        params: params,
+    };
+    
+    const messageString = JSON.stringify(message);
+    const sign = crypto.HmacSHA512(messageString, CHANGELLY_C2C_PRIVATE_KEY).toString(crypto.enc.Hex);
+
+    const response = await fetch('/api/changelly/proxy', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'api-key': CHANGELLY_C2C_API_KEY,
+            'sign': sign,
+        },
+        body: messageString,
+    });
+
+    const data = await response.json();
+    
+    if (!response.ok || data.error) {
+        throw new Error(data.error?.message || 'An unknown API error occurred.');
+    }
+    
+    return data.result;
+};
+
+export function ChangellyC2CInterface() {
   const { t } = useLanguage();
   const [fromToken, setFromToken] = useState<string>('btc');
   const [toToken, setToToken] = useState<string>('eth');
@@ -168,19 +200,13 @@ export function ChangellyDexInterface() {
     () => allCurrencies.find((c) => c.ticker === toToken),
     [allCurrencies, toToken]
   );
-
+  
   const fetchInitialData = useCallback(async () => {
     setIsLoading(true);
     setError(null);
     try {
-      const currenciesRes = await fetch('/api/changelly/getCurrenciesFull', { method: 'POST' });
-      const currenciesData = await currenciesRes.json();
-      
-      if (!currenciesRes.ok || currenciesData.error) {
-        throw new Error(currenciesData.error?.message || 'Failed to fetch currencies from Changelly.');
-      }
-
-      setAllCurrencies(currenciesData.result.filter((c: ChangellyCurrency) => c.enabled && c.fixRateEnabled));
+      const result = await apiRequest('getCurrenciesFull', {});
+      setAllCurrencies(result.filter((c: ChangellyCurrency) => c.enabled && c.fixRateEnabled));
     } catch (error: any) {
        setError(error.message || 'Failed to fetch initial data.');
     } finally {
@@ -206,34 +232,19 @@ export function ChangellyDexInterface() {
     setIsFetchingQuote(true);
 
     try {
-        const pairsParamsRes = await fetch('/api/changelly/getPairsParams', {
-             method: 'POST',
-             headers: { 'Content-Type': 'application/json' },
-             body: JSON.stringify({ from: fromToken, to: toToken }),
-        });
+      // Check if pair is valid first
+      await apiRequest('getPairsParams', { from: fromToken, to: toToken });
+      
+      const result = await apiRequest('getExchangeAmount', [{ from: fromToken, to: toToken, amount: debouncedFromAmount }]);
+      setToAmount(result[0].amount);
 
-        if (!pairsParamsRes.ok) {
-            throw new Error('This exchange pair is currently unavailable.');
-        }
-
-      const response = await fetch('/api/changelly/getExchangeAmount', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          from: fromToken,
-          to: toToken,
-          amount: debouncedFromAmount,
-        }),
-      });
-      const data = await response.json();
-      if (data.result) {
-        setToAmount(data.result);
-      } else {
-        throw new Error(data.error?.message || 'Could not get quote.');
-      }
     } catch (e: any) {
-      setError(e.message || 'Something went wrong. Please try again.');
-      setToAmount('');
+        if (e.message && e.message.includes('pair is disabled')) {
+            setError('This exchange pair is currently unavailable.');
+        } else {
+            setError('Something went wrong. Please try again.');
+        }
+        setToAmount('');
     } finally {
       setIsFetchingQuote(false);
     }
@@ -266,7 +277,7 @@ export function ChangellyDexInterface() {
       setToToken(ticker);
     }
   };
-
+  
   const initiateSwap = () => {
     toast({
       title: "Transaction Submitted",
@@ -458,4 +469,3 @@ export function ChangellyDexInterface() {
     </>
   );
 }
-

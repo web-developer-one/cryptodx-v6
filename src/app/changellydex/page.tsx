@@ -3,7 +3,7 @@
 import { TradeNav } from "@/components/trade-nav";
 import { useEffect } from "react";
 import { useLanguage } from "@/hooks/use-language";
-import { ChangellyDexInterface } from "@/components/changelly-dex-interface";
+import { ChangellyC2CInterface } from "@/components/changelly-c2c-interface";
 import {
   Accordion,
   AccordionContent,
@@ -25,7 +25,7 @@ export default function ChangellyDexPage() {
         <TradeNav />
       </div>
       <div className="flex-1 flex justify-center">
-          <ChangellyDexInterface />
+          <ChangellyC2CInterface />
       </div>
       <div className="w-full max-w-lg mt-8">
         <Accordion type="single" collapsible className="w-full">
