@@ -48,6 +48,7 @@
     "ethers": "^6.13.1",
     "genkit": "^1.0.0",
     "idb-keyval": "^6.2.1",
+    "jsrsasign": "^11.1.0",
     "lightweight-charts": "^4.1.6",
     "lucide-react": "^0.475.0",
     "moralis": "^2.26.2",

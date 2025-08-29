@@ -26,11 +26,6 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { ScrollArea } from './ui/scroll-area';
-import crypto from 'crypto-js';
-
-const CHANGELLY_C2C_API_KEY = process.env.NEXT_PUBLIC_CHANGELLY_C2C_API_KEY;
-const CHANGELLY_C2C_PRIVATE_KEY = process.env.NEXT_PUBLIC_CHANGELLY_C2C_PRIVATE_KEY;
-const CHANGELLY_API_URL = '/api/changelly-proxy'; // Using a proxy
 
 interface ChangellyCurrency {
   name: string;
@@ -142,29 +137,14 @@ function CoinSelectionDialog({
   );
 }
 
+// Client-side function to call our backend proxy
 const apiRequest = async (method: string, params: any) => {
-    if (!CHANGELLY_C2C_API_KEY || !CHANGELLY_C2C_PRIVATE_KEY) {
-        throw new Error('Changelly API credentials are not configured in environment variables.');
-    }
-
-    const message = {
-        jsonrpc: '2.0',
-        id: 'test',
-        method: method,
-        params: params,
-    };
-    
-    const messageString = JSON.stringify(message);
-    const sign = crypto.HmacSHA512(messageString, CHANGELLY_C2C_PRIVATE_KEY).toString(crypto.enc.Hex);
-
     const response = await fetch('/api/changelly/proxy', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'api-key': CHANGELLY_C2C_API_KEY,
-            'sign': sign,
         },
-        body: messageString,
+        body: JSON.stringify({ method, params }),
     });
 
     const data = await response.json();
@@ -208,7 +188,7 @@ export function ChangellyC2CInterface() {
       const result = await apiRequest('getCurrenciesFull', {});
       setAllCurrencies(result.filter((c: ChangellyCurrency) => c.enabled && c.fixRateEnabled));
     } catch (error: any) {
-       setError(error.message || 'Failed to fetch initial data.');
+       setError(error.message || 'Failed to fetch currencies from Changelly.');
     } finally {
       setIsLoading(false);
     }
@@ -232,14 +212,12 @@ export function ChangellyC2CInterface() {
     setIsFetchingQuote(true);
 
     try {
-      // Check if pair is valid first
       await apiRequest('getPairsParams', { from: fromToken, to: toToken });
-      
       const result = await apiRequest('getExchangeAmount', [{ from: fromToken, to: toToken, amount: debouncedFromAmount }]);
       setToAmount(result[0].amount);
 
     } catch (e: any) {
-        if (e.message && e.message.includes('pair is disabled')) {
+        if (e.message && e.message.toLowerCase().includes('pair is disabled')) {
             setError('This exchange pair is currently unavailable.');
         } else {
             setError('Something went wrong. Please try again.');
