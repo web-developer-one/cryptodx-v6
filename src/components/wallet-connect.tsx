@@ -116,10 +116,11 @@ export function WalletConnect({ children }: { children?: React.ReactNode }) {
   };
   
   if (!mounted) {
-      return (
-          <Button variant="secondary" disabled>{t('Header.connectWallet')}</Button>
-      );
+      const defaultChild = children || <Button variant="secondary">{t('Header.connectWallet')}</Button>;
+      // Clone the child to add the disabled prop
+      return React.cloneElement(defaultChild as React.ReactElement<any>, { disabled: true });
   }
+
 
   if (isActive && account) {
     return (
