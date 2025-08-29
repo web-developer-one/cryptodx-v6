@@ -185,43 +185,31 @@ export function ChangellyDexInterface() {
 
   const fetchInitialData = useCallback(async () => {
     setIsLoading(true);
+    setError(null);
     try {
       const [currenciesRes, pairsRes] = await Promise.all([
         fetch('/api/changelly/getCurrenciesFull', { method: 'POST' }),
-        fetch('/api/changelly/getPairs', { method: 'POST' }),
+        fetch('/api/changelly/getPairsParams', { method: 'POST' }),
       ]);
-
-      if (!currenciesRes.ok || !pairsRes.ok) {
-          const errorCurrencies = !currenciesRes.ok ? await currenciesRes.json() : null;
-          const errorPairs = !pairsRes.ok ? await pairsRes.json() : null;
-          const errorMessage = errorCurrencies?.error || errorPairs?.error || 'Failed to fetch initial data due to a server error.';
-          throw new Error(errorMessage);
-      }
 
       const currenciesData = await currenciesRes.json();
       const pairsData = await pairsRes.json();
-
-      if (currenciesData.error || pairsData.error) {
-        throw new Error(
-          currenciesData.error?.message ||
-            pairsData.error?.message ||
-            'Failed to process initial data.'
-        );
+      
+      if (!currenciesRes.ok || currenciesData.error) {
+        throw new Error(currenciesData.error?.message || 'Failed to fetch currencies from Changelly.');
+      }
+      if (!pairsRes.ok || pairsData.error) {
+        throw new Error(pairsData.error?.message || 'Failed to fetch pairs from Changelly.');
       }
 
       setAllCurrencies(currenciesData.result.filter((c: any) => c.enabled));
       setSupportedPairs(pairsData.result);
     } catch (error: any) {
-      toast({
-        variant: 'destructive',
-        title: 'API Error',
-        description: `Something went wrong: ${error.message}`,
-      });
-      setError(error.message);
+       setError(error.message || 'Failed to fetch initial data.');
     } finally {
       setIsLoading(false);
     }
-  }, [toast]);
+  }, []);
 
   useEffect(() => {
     fetchInitialData();
@@ -355,6 +343,25 @@ export function ChangellyDexInterface() {
         </CardFooter>
       </Card>
     );
+  }
+
+  if (error && !isLoading) {
+     return (
+       <Card className="w-full max-w-md shadow-lg border-destructive/50">
+        <CardHeader>
+          <CardTitle className="text-destructive text-center">API Error</CardTitle>
+        </CardHeader>
+        <CardContent className="text-center">
+          <p className="text-sm text-muted-foreground">Could not connect to the Changelly API. Please ensure your API keys are correctly configured in your environment variables.</p>
+          <p className="text-xs text-destructive mt-4 font-mono bg-muted p-2 rounded">{error}</p>
+        </CardContent>
+         <CardFooter>
+            <Button onClick={fetchInitialData} className="w-full" disabled={isLoading}>
+                {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Retry Connection'}
+            </Button>
+        </CardFooter>
+      </Card>
+     )
   }
 
   return (
