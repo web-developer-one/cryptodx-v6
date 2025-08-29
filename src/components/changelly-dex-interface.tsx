@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect, useMemo, useCallback } from 'react';
@@ -190,6 +191,13 @@ export function ChangellyDexInterface() {
         fetch('/api/changelly/getPairs', { method: 'POST' }),
       ]);
 
+      if (!currenciesRes.ok || !pairsRes.ok) {
+          const errorCurrencies = !currenciesRes.ok ? await currenciesRes.json() : null;
+          const errorPairs = !pairsRes.ok ? await pairsRes.json() : null;
+          const errorMessage = errorCurrencies?.error || errorPairs?.error || 'Failed to fetch initial data due to a server error.';
+          throw new Error(errorMessage);
+      }
+
       const currenciesData = await currenciesRes.json();
       const pairsData = await pairsRes.json();
 
@@ -197,7 +205,7 @@ export function ChangellyDexInterface() {
         throw new Error(
           currenciesData.error?.message ||
             pairsData.error?.message ||
-            'Failed to fetch initial data.'
+            'Failed to process initial data.'
         );
       }
 
