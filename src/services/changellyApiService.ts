@@ -76,3 +76,4 @@ export const getTransaction = (id: string) => apiRequest('getTransaction', { id 
 
 export const getTransactions = (limit = 10, offset = 0, currency = null, address = null) =>
   apiRequest('getTransactions', { limit, offset, currency, address });
+

@@ -4,7 +4,7 @@ import crypto from 'crypto-js';
 
 const CHANGELLY_C2C_API_KEY = process.env.CHANGELLY_C2C_API_KEY;
 const CHANGELLY_C2C_PRIVATE_KEY = process.env.CHANGELLY_C2C_PRIVATE_KEY;
-const CHANGELLY_API_URL = 'https://api.changelly.com';
+const CHANGELLY_API_URL = 'https://api.changelly.com/v2';
 
 // This is the definitive server-side proxy implementation for the C2C API.
 // It receives the intended method and params from the client,
@@ -60,3 +60,4 @@ async function handler(req: NextRequest) {
 }
 
 export { handler as POST };
+
