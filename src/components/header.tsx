@@ -189,7 +189,7 @@ export function Header() {
       name: t('Header.trade'),
       icon: ArrowRightLeft,
       children: [
-        { name: t('Footer.swap'), href: "/moralis" },
+        { name: t('Footer.swap'), href: "/" },
         { name: t('Footer.limit'), href: "/limit" },
         { name: t('Footer.buy'), href: "/buy" },
         { name: t('Footer.sell'), href: "/sell" },
@@ -250,7 +250,7 @@ export function Header() {
         </div>
 
         <div className="md:hidden">
-          <Sheet>
+          <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon" className="hover:bg-accent">
                 <Menu className="h-6 w-6" />
