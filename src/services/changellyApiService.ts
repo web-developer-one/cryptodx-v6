@@ -48,7 +48,8 @@ const apiRequest = async (method: string, params: any = {}) => {
     });
 
     if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+      const errorBody = await response.text();
+      throw new Error(`HTTP error! status: ${response.status}, body: ${errorBody}`);
     }
 
     const data = await response.json();
@@ -78,5 +79,5 @@ export const createTransaction = (from: string, to: string, amount: string, addr
   
 export const getTransaction = (id: string) => apiRequest('getTransaction', { id });
 
-export const getTransactions = (limit = 10, offset = 0, currency = null, address = null) =>
+export const getTransactions = (limit = 10, offset = 0, currency: string | null = null, address: string | null = null) =>
   apiRequest('getTransactions', { limit, offset, currency, address });

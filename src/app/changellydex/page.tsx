@@ -1,3 +1,4 @@
+
 'use client';
 
 import { TradeNav } from "@/components/trade-nav";
