@@ -2,7 +2,6 @@
 'use client';
 
 import React, { useState, useEffect, useCallback } from 'react';
-import { getCurrenciesFull, getExchangeAmount, getPairsParams } from '@/services/changellyApiService';
 import { useDebounce } from '@/hooks/use-debounce';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -19,6 +18,27 @@ interface ChangellyCurrency {
   enabled: boolean;
   fixRateEnabled: boolean;
 }
+
+// Securely call the backend proxy which will then call Changelly
+const apiRequest = async (method: string, params: any = {}) => {
+    const response = await fetch('/api/changelly/proxy', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ method, params }),
+    });
+
+    if (!response.ok) {
+        const err = await response.json();
+        throw new Error(err.error?.message || 'An API error occurred.');
+    }
+    
+    const data = await response.json();
+    if(data.error) {
+        throw new Error(data.error.message);
+    }
+
+    return data.result;
+};
 
 export const ChangellyC2CInterface = () => {
   const [fromCurrency, setFromCurrency] = useState('btc');
@@ -37,11 +57,11 @@ export const ChangellyC2CInterface = () => {
     const fetchCurrencies = async () => {
       setIsLoading(true);
       try {
-        const result = await getCurrenciesFull();
+        const result = await apiRequest('getCurrenciesFull');
         setCurrencies(result.filter((c: ChangellyCurrency) => c.enabled && c.fixRateEnabled));
         setError('');
-      } catch (err) {
-        setError('Failed to fetch initial data. Could not fetch currencies.');
+      } catch (err: any) {
+        setError(err.message || 'Failed to fetch initial data. Could not fetch currencies.');
         console.error(err);
       } finally {
         setIsLoading(false);
@@ -50,7 +70,7 @@ export const ChangellyC2CInterface = () => {
     fetchCurrencies();
   }, []);
 
-  const fetchAmount = useCallback(async (from, to, amount) => {
+  const fetchAmount = useCallback(async (from: string, to: string, amount: string) => {
     if (!amount || isNaN(Number(amount)) || Number(amount) <= 0) {
       setToAmount('');
       return;
@@ -58,16 +78,12 @@ export const ChangellyC2CInterface = () => {
     setIsFetchingQuote(true);
     setError('');
     try {
-      await getPairsParams(from, to);
-      const result = await getExchangeAmount(from, to, amount);
+      // The proxy will handle the getPairsParams check implicitly before getting the amount
+      const result = await apiRequest('getExchangeAmount', [{ from, to, amount }]);
       setToAmount(result[0].amount);
     } catch (err: any) {
       setToAmount('');
-      if (err.message && err.message.includes('pair is disabled')) {
-        setError('This exchange pair is currently unavailable.');
-      } else {
-        setError('Something went wrong. Please try again.');
-      }
+      setError(err.message || 'Something went wrong. Please try again.');
       console.error(err);
     } finally {
       setIsFetchingQuote(false);
@@ -132,7 +148,7 @@ export const ChangellyC2CInterface = () => {
     )
   }
 
-  if (error) {
+  if (error && currencies.length === 0) {
     return (
         <Card className="w-full max-w-md shadow-2xl shadow-primary/10">
             <CardHeader className="text-center">
@@ -141,6 +157,9 @@ export const ChangellyC2CInterface = () => {
             <CardContent className="flex items-center justify-center h-48 text-center">
                 <p className="text-destructive font-medium">{error}</p>
             </CardContent>
+             <CardFooter>
+                <Button className="w-full" onClick={() => window.location.reload()}>Retry</Button>
+            </CardFooter>
         </Card>
     )
   }
