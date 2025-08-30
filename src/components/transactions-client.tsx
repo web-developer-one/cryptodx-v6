@@ -128,6 +128,7 @@ export function TransactionsClient() {
         const fetchData = async () => {
             setIsLoading(true);
             setError(null);
+            setCurrentPage(1); // Reset page on network change
             const { data: cryptoData, error: fetchError } = await getLatestListings();
             if (fetchError) {
                 setError(fetchError);
@@ -144,15 +145,19 @@ export function TransactionsClient() {
         if (isLoading || error || allTokens.length === 0) return;
 
         const intervalId = setInterval(() => {
-            setTransactions(prevTransactions => {
-                const newTx = generateSingleMockTransaction(allTokens, selectedNetwork);
-                const updatedTransactions = [newTx, ...prevTransactions];
-                return updatedTransactions;
-            });
+            // Only add new transactions if the user is on the first page
+            // to avoid disrupting their view on other pages.
+            if (currentPage === 1) {
+                setTransactions(prevTransactions => {
+                    const newTx = generateSingleMockTransaction(allTokens, selectedNetwork);
+                    const updatedTransactions = [newTx, ...prevTransactions];
+                    return updatedTransactions;
+                });
+            }
         }, 5000); // Add a new transaction every 5 seconds
 
         return () => clearInterval(intervalId);
-    }, [isLoading, error, allTokens, selectedNetwork]);
+    }, [isLoading, error, allTokens, selectedNetwork, currentPage]);
 
 
     const handleCurrencyChange = (symbol: string) => {
@@ -234,7 +239,5 @@ export function TransactionsClient() {
         </>
     );
 }
-
-    
 
     
