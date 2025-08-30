@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -17,20 +18,21 @@ import {
 // Mock data generation
 const generateMockNfts = (): NftCollection[] => {
   const collections = [
-    { name: 'CryptoPunks', logo: 'https://i.seadn.io/gae/BdxvLseXcfl57BiuQcQYdJ64v-aI8deZM3KAK2TkvRHaAhi8BOUQ4oIYffectN2GASpDlpLFSWAfxG51CxHdN4ADTrustLZBPgv3g?w=500&auto=format' },
-    { name: 'Bored Ape Yacht Club', logo: 'https://i.seadn.io/gae/Ju9CkWtV-1Okvf45wo8UctR-M9He2PjILP0oOvxE89AyiPPGtrR3gysu1Zgy0hjd2xKIgjJJtWIc0ybj4Vd7wGAI7tALvrhcsH_L?w=500&auto=format' },
-    { name: 'Azuki', logo: 'https://i.seadn.io/gae/H8jOCJuQokNqGBpkBN5wk1oZwO7LM8bNnrHCaekV2nKjnCqw6UB5oaH8XyNeBDj6bA_n1mIVSoB2dxp4pMNocHGoa4iVoCatalog?w=500&auto=format' },
-    { name: 'Pudgy Penguins', logo: 'https://i.seadn.io/gae/yNi-3H_6l_tUNqN0I4yB_Qk_vstmbTlljd-4d4bEw_wP3yK1mO0qS7op-k-m-iXh3hU0wz0_f35ELFp8DHAEDsXoGzY42EaU6pB_?w=500&auto=format' },
-    { name: 'Doodles', logo: 'https://i.seadn.io/gae/7B0qai02OdHA8P_EOVK672qUliyjQdQDGNrACxs7WnTgZAkJa_wWURnIFKeOh5VTf8cfTqW3wQpozGedaC9mteKphEOtztLS83DM?w=500&auto=format' },
-    { name: 'Moonbirds', logo: 'https://i.seadn.io/gae/H-3da5-4d3v_55c1cd_kH9y3sQp1NZe3lK4V38_2s__vi_av_s_cp_rC-9bH2gZf_s9moMh_A9_t_s-A?w=500&auto=format' },
-    { name: 'CloneX', logo: 'https://i.seadn.io/gae/XN0XuD8Uh3jy4vBenS-bCkR4JQH_i5Abw_s5wQ5gdYpQaIlS3G_pFGp2NFh_5Hj_j_46Qv6eg_xp5DPAEgCgGzWF2w_g9bAGo5hJ?w=500&auto=format' },
-    { name: 'Meebits', logo: 'https://i.seadn.io/gae/7pcD-221keA3e8aN-4c4Y_bH44d2e-R1i-9pZp5m_s_f_z-Z_v-Z_u-y_Q-Q_r_t_s_f?w=500&auto=format'},
+    { name: 'CryptoPunks', logo: 'https://i.seadn.io/gae/BdxvLseXcfl57BiuQcQYdJ64v-aI8deZM3KAK2TkvRHaAhi8BOUQ4oIYffectN2GASpDlpLFSWAfxG51CxHdN4ADTrustLZBPgv3g?w=500&auto=format', isVerified: true },
+    { name: 'Bored Ape Yacht Club', logo: 'https://i.seadn.io/gae/Ju9CkWtV-1Okvf45wo8UctR-M9He2PjILP0oOvxE89AyiPPGtrR3gysu1Zgy0hjd2xKIgjJJtWIc0ybj4Vd7wGAI7tALvrhcsH_L?w=500&auto=format', isVerified: true },
+    { name: 'Azuki', logo: 'https://i.seadn.io/gae/H8jOCJuQokNqGBpkBN5wk1oZwO7LM8bNnrHCaekV2nKjnCqw6UB5oaH8XyNeBDj6bA_n1mIVSoB2dxp4pMNocHGoa4iVoCatalog?w=500&auto=format', isVerified: true },
+    { name: 'Pudgy Penguins', logo: 'https://i.seadn.io/gae/yNi-3H_6l_tUNqN0I4yB_Qk_vstmbTlljd-4d4bEw_wP3yK1mO0qS7op-k-m-iXh3hU0wz0_f35ELFp8DHAEDsXoGzY42EaU6pB_?w=500&auto=format', isVerified: false },
+    { name: 'Doodles', logo: 'https://i.seadn.io/gae/7B0qai02OdHA8P_EOVK672qUliyjQdQDGNrACxs7WnTgZAkJa_wWURnIFKeOh5VTf8cfTqW3wQpozGedaC9mteKphEOtztLS83DM?w=500&auto=format', isVerified: true },
+    { name: 'Moonbirds', logo: 'https://i.seadn.io/gae/H-3da5-4d3v_55c1cd_kH9y3sQp1NZe3lK4V38_2s__vi_av_s_cp_rC-9bH2gZf_s9moMh_A9_t_s-A?w=500&auto=format', isVerified: false },
+    { name: 'CloneX', logo: 'https://i.seadn.io/gae/XN0XuD8Uh3jy4vBenS-bCkR4JQH_i5Abw_s5wQ5gdYpQaIlS3G_pFGp2NFh_5Hj_j_46Qv6eg_xp5DPAEgCgGzWF2w_g9bAGo5hJ?w=500&auto=format', isVerified: true },
+    { name: 'Meebits', logo: 'https://i.seadn.io/gae/7pcD-221keA3e8aN-4c4Y_bH44d2e-R1i-9pZp5m_s_f_z-Z_v-Z_u-y_Q-Q_r_t_s_f?w=500&auto=format', isVerified: false },
   ];
 
   return collections.map((col, index) => ({
     id: (index + 1).toString(),
     name: col.name,
     logo: col.logo,
+    isVerified: col.isVerified,
     transfers24h: Math.floor(Math.random() * 500) + 50,
     transfers7d: Math.floor(Math.random() * 3000) + 500,
     uniqueHolders: Math.floor(Math.random() * 5000) + 1000,

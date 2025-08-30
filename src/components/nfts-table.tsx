@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import Image from 'next/image';
@@ -13,8 +14,7 @@ import {
 import { Card, CardContent } from '@/components/ui/card';
 import type { NftCollection } from '@/lib/types';
 import { useLanguage } from '@/hooks/use-language';
-import { Button } from './ui/button';
-import { ArrowRight } from 'lucide-react';
+import { CheckCircle } from 'lucide-react';
 
 export function NftsTable({ collections }: { collections: NftCollection[] }) {
   const { t } = useLanguage();
@@ -48,7 +48,12 @@ export function NftsTable({ collections }: { collections: NftCollection[] }) {
                       height={40}
                       className="rounded-md"
                     />
-                    <span className="font-semibold">{collection.name}</span>
+                    <div className="flex items-center gap-1.5">
+                        <span className="font-semibold">{collection.name}</span>
+                        {collection.isVerified && (
+                            <CheckCircle className="h-4 w-4 text-primary" />
+                        )}
+                    </div>
                   </div>
                 </TableCell>
                 <TableCell className="text-right font-mono">

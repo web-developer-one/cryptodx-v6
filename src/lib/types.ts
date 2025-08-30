@@ -101,4 +101,5 @@ export interface NftCollection {
     transfers7d: number;
     uniqueHolders: number;
     totalSupply: number;
+    isVerified?: boolean;
 }
