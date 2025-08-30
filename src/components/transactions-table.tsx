@@ -9,7 +9,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import type { Transaction, TransactionStatus, SelectedCurrency } from '@/lib/types';
 import type { NetworkConfig } from '@/hooks/use-wallet';
 import { Button } from './ui/button';
@@ -184,7 +184,29 @@ const StatusBadge = ({ status }: { status: TransactionStatus }) => {
     );
 };
 
-export function TransactionsTable({ transactions, currency, network }: { transactions: Transaction[], currency: SelectedCurrency, network: NetworkConfig }) {
+interface TransactionsTableProps {
+    transactions: Transaction[];
+    currency: SelectedCurrency;
+    network: NetworkConfig;
+    currentPage: number;
+    totalPages: number;
+    onNextPage: () => void;
+    onPreviousPage: () => void;
+    totalTransactions: number;
+    itemsPerPage: number;
+}
+
+export function TransactionsTable({ 
+    transactions, 
+    currency, 
+    network,
+    currentPage,
+    totalPages,
+    onNextPage,
+    onPreviousPage,
+    totalTransactions,
+    itemsPerPage,
+}: TransactionsTableProps) {
     const { t } = useLanguage();
     
     return (
@@ -252,6 +274,41 @@ export function TransactionsTable({ transactions, currency, network }: { transac
                     </TableBody>
                 </Table>
             </CardContent>
+            {totalPages > 1 && (
+              <CardFooter className="flex items-center justify-between pt-6">
+                <span className="text-sm text-muted-foreground">
+                  {t('TokenExplorer.showing')
+                    .replace('{start}', (((currentPage - 1) * itemsPerPage) + 1).toString())
+                    .replace('{end}', Math.min(currentPage * itemsPerPage, totalTransactions).toString())
+                    .replace('{total}', totalTransactions.toString())
+                  }
+                </span>
+                <div className="flex items-center justify-center gap-4">
+                  <Button
+                    variant="outline"
+                    onClick={onPreviousPage}
+                    disabled={currentPage === 1}
+                  >
+                    {t('TokenExplorer.previous')}
+                  </Button>
+                  <span className="text-sm font-medium">
+                    {t('TokenExplorer.page')
+                      .replace('{current}', currentPage.toString())
+                      .replace('{total}', totalPages.toString())
+                    }
+                  </span>
+                  <Button
+                    variant="outline"
+                    onClick={onNextPage}
+                    disabled={currentPage === totalPages}
+                  >
+                    {t('TokenExplorer.next')}
+                  </Button>
+                </div>
+              </CardFooter>
+            )}
         </Card>
     );
 }
+
+    

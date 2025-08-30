@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import type { Cryptocurrency, Transaction, SelectedCurrency, TransactionStatus } from '@/lib/types';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { TransactionsTable } from './transactions-table';
@@ -11,6 +11,8 @@ import { ApiErrorCard } from './api-error-card';
 import { Skeleton } from './ui/skeleton';
 import { useWallet } from '@/hooks/use-wallet';
 import type { NetworkConfig } from '@/hooks/use-wallet';
+
+const TRANSACTIONS_PER_PAGE = 25;
 
 // In a real app, this would come from a currency conversion API
 const supportedCurrencies: SelectedCurrency[] = [
@@ -108,13 +110,14 @@ export function TransactionsClient() {
     const [allTokens, setAllTokens] = useState<Cryptocurrency[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const [currentPage, setCurrentPage] = useState(1);
 
     useEffect(() => {
         document.title = t('PageTitles.transactions');
     }, [t]);
 
     const initializeTransactions = useCallback((tokens: Cryptocurrency[], network: NetworkConfig) => {
-        const initialTxs = Array.from({ length: 20 }, (_, i) => ({
+        const initialTxs = Array.from({ length: 150 }, (_, i) => ({ // Generate more mock data
             ...generateSingleMockTransaction(tokens, network),
             timestamp: new Date(Date.now() - (i * 1000 * (Math.random() * 10 + 5))),
         })).sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime());
@@ -144,9 +147,6 @@ export function TransactionsClient() {
             setTransactions(prevTransactions => {
                 const newTx = generateSingleMockTransaction(allTokens, selectedNetwork);
                 const updatedTransactions = [newTx, ...prevTransactions];
-                if (updatedTransactions.length > 50) {
-                    updatedTransactions.pop();
-                }
                 return updatedTransactions;
             });
         }, 5000); // Add a new transaction every 5 seconds
@@ -162,6 +162,23 @@ export function TransactionsClient() {
         }
     };
     
+    const totalPages = Math.ceil(transactions.length / TRANSACTIONS_PER_PAGE);
+
+    const currentTransactions = useMemo(() => {
+        const startIndex = (currentPage - 1) * TRANSACTIONS_PER_PAGE;
+        const endIndex = startIndex + TRANSACTIONS_PER_PAGE;
+        return transactions.slice(startIndex, endIndex);
+    }, [transactions, currentPage]);
+    
+    const handlePreviousPage = () => {
+        setCurrentPage((prev) => Math.max(prev - 1, 1));
+    };
+
+    const handleNextPage = () => {
+        setCurrentPage((prev) => Math.min(prev + 1, totalPages));
+    };
+
+
     if (isLoading) {
         return (
             <div className="my-6">
@@ -203,9 +220,21 @@ export function TransactionsClient() {
                     </Select>
                 </div>
             </div>
-            <TransactionsTable transactions={transactions} currency={selectedCurrency} network={selectedNetwork} />
+            <TransactionsTable 
+                transactions={currentTransactions} 
+                currency={selectedCurrency} 
+                network={selectedNetwork}
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onNextPage={handleNextPage}
+                onPreviousPage={handlePreviousPage}
+                totalTransactions={transactions.length}
+                itemsPerPage={TRANSACTIONS_PER_PAGE}
+             />
         </>
     );
 }
+
+    
 
     
