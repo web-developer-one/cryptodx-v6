@@ -62,12 +62,10 @@ import { useUser } from "@/hooks/use-user";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Skeleton } from "./ui/skeleton";
 import { useWallet, networkConfigs } from "@/hooks/use-wallet";
-import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 
-function SettingsContent({ isMobile = false }) {
-    const { t, language, setLanguage, isLoading: isTranslating } = useLanguage();
-    const { user } = useUser();
+function SettingsContent() {
+    const { t, language, setLanguage } = useLanguage();
 
     const [mounted, setMounted] = React.useState(false);
     const [theme, setTheme] = React.useState<'light' | 'dark'>('light');
@@ -99,75 +97,73 @@ function SettingsContent({ isMobile = false }) {
         setTheme(theme === 'light' ? 'dark' : 'light');
     };
 
-    const Wrapper = isMobile ? 'div' : DropdownMenuContent;
-    const Item = isMobile ? 'div' : DropdownMenuItem;
-    const LabelComponent = isMobile ? Label : DropdownMenuLabel;
-    const Separator = isMobile ? 'hr' : DropdownMenuSeparator;
-    const Sub = isMobile ? Accordion : DropdownMenuSub;
-    const SubTrigger = isMobile ? AccordionTrigger : DropdownMenuSubTrigger;
-    const SubContent = isMobile ? AccordionContent : DropdownMenuSubContent;
-
     return (
-        <Wrapper {...(isMobile ? { className: "p-4" } : { align: "end", className: "w-64" })}>
-            <LabelComponent {...(isMobile ? {} : { asChild: true })}>
-                <h3 className={cn("text-lg font-semibold", !isMobile && "px-2 py-1.5 text-sm")}>
+        <>
+            <DropdownMenuLabel>
+                <h3 className="text-lg font-semibold">
                     {t('Header.settings')}
                 </h3>
-            </LabelComponent>
-            <Separator className={cn(!isMobile && "-mx-1 my-1 h-px bg-muted")} />
+            </DropdownMenuLabel>
+            <DropdownMenuSeparator />
 
-            <div className="space-y-1">
-                <Item className={cn("flex items-center justify-between", isMobile ? "py-2" : "")} onSelect={isMobile ? undefined : (e) => e.preventDefault()}>
-                    <Label htmlFor="theme-toggle" className="font-normal cursor-pointer flex items-center gap-2">
-                        {theme === 'light' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-                        <span>{theme === 'light' ? t('Header.LightMode') : t('Header.DarkMode')}</span>
+            <div className="space-y-1 p-1">
+                <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                    <Label htmlFor="theme-toggle" className="font-normal cursor-pointer flex items-center justify-between w-full">
+                         <span className="flex items-center gap-2">
+                            {theme === 'light' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+                            <span>{theme === 'light' ? t('Header.LightMode') : t('Header.DarkMode')}</span>
+                         </span>
+                        <Switch id="theme-toggle" checked={theme === 'dark'} onCheckedChange={toggleTheme} disabled={!mounted} />
                     </Label>
-                    <Switch id="theme-toggle" checked={theme === 'dark'} onCheckedChange={toggleTheme} disabled={!mounted} />
-                </Item>
-                <Item className={cn("flex items-center justify-between", isMobile ? "py-2" : "")} onSelect={isMobile ? undefined : (e) => e.preventDefault()}>
-                    <Label htmlFor="hide-small-balances" className="font-normal cursor-pointer flex items-center gap-2">
-                        <EyeOff className="h-4 w-4" />
-                        <span>{t('Header.hideSmallBalances')}</span>
+                </DropdownMenuItem>
+                <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                     <Label htmlFor="hide-small-balances" className="font-normal cursor-pointer flex items-center justify-between w-full">
+                        <span className="flex items-center gap-2">
+                            <EyeOff className="h-4 w-4" />
+                            <span>{t('Header.hideSmallBalances')}</span>
+                        </span>
+                        <Switch id="hide-small-balances" checked={hideSmallBalances} onCheckedChange={setHideSmallBalances} />
                     </Label>
-                    <Switch id="hide-small-balances" checked={hideSmallBalances} onCheckedChange={setHideSmallBalances} />
-                </Item>
-                <Item className={cn("flex items-center justify-between", isMobile ? "py-2" : "")} onSelect={isMobile ? undefined : (e) => e.preventDefault()}>
-                    <Label htmlFor="hide-unknown-tokens" className="font-normal cursor-pointer flex items-center gap-2">
-                        <ShieldX className="h-4 w-4" />
-                        <span>{t('Header.hideUnknownTokens')}</span>
+                </DropdownMenuItem>
+                <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                    <Label htmlFor="hide-unknown-tokens" className="font-normal cursor-pointer flex items-center justify-between w-full">
+                        <span className="flex items-center gap-2">
+                            <ShieldX className="h-4 w-4" />
+                            <span>{t('Header.hideUnknownTokens')}</span>
+                        </span>
+                        <Switch id="hide-unknown-tokens" checked={hideUnknownTokens} onCheckedChange={setHideUnknownTokens} />
                     </Label>
-                    <Switch id="hide-unknown-tokens" checked={hideUnknownTokens} onCheckedChange={setHideUnknownTokens} />
-                </Item>
-                <Item asChild={!isMobile}>
+                </DropdownMenuItem>
+                 <DropdownMenuItem asChild>
                     <Link href="/slippage" className="cursor-pointer flex items-center w-full">
                         <SlidersHorizontal className="mr-2 h-4 w-4" />
                         <span>{t('Header.slippage')}</span>
                     </Link>
-                </Item>
+                </DropdownMenuItem>
             </div>
-            <Separator className={cn(!isMobile && "-mx-1 my-1 h-px bg-muted", isMobile && "my-4")} />
+            <DropdownMenuSeparator />
 
-             <Sub {...(isMobile ? {type: "single", collapsible: true} : {} as any)}>
-                <AccordionItem value="language" className={cn(isMobile && "border-b-0")}>
-                    <SubTrigger {...(isMobile ? {className: "py-0"} : {})}>
-                        <div className="flex items-center">
-                            <Languages className="mr-2 h-4 w-4" />
-                            <span>{t('Header.language')}</span>
-                        </div>
-                    </SubTrigger>
-                    <SubContent {...(isMobile ? {} : {className: "w-48"})}>
+             <DropdownMenuSub>
+                <DropdownMenuSubTrigger>
+                    <div className="flex items-center">
+                        <Languages className="mr-2 h-4 w-4" />
+                        <span>{t('Header.language')}</span>
+                    </div>
+                </DropdownMenuSubTrigger>
+                <DropdownMenuPortal>
+                    <DropdownMenuSubContent>
                         <ScrollArea className="h-72">
                             {languages.map((lang) => (
-                                <Item key={lang.code} onClick={() => setLanguage(lang.code)} className={cn(isMobile && "py-2 pl-8")}>
+                                <DropdownMenuItem key={lang.code} onClick={() => setLanguage(lang.code)}>
                                     <Check className={`mr-2 h-4 w-4 ${language === lang.code ? "opacity-100" : "opacity-0"}`} />
                                     {lang.displayName}
-                                </Item>
+                                </DropdownMenuItem>
                             ))}
                         </ScrollArea>
-                    </SubContent>
-                </AccordionItem>
-            </Sub>
-        </Wrapper>
+                    </DropdownMenuSubContent>
+                </DropdownMenuPortal>
+            </DropdownMenuSub>
+        </>
     );
 }
 
@@ -176,7 +172,6 @@ export function Header() {
   const { user, isAuthenticated, logout, isLoading: isUserLoading } = useUser();
   const { selectedNetwork, setSelectedNetwork } = useWallet();
   const router = useRouter();
-  const isMobile = useIsMobile();
   const [open, setOpen] = React.useState(false);
 
   const handleLogout = () => {
@@ -355,8 +350,8 @@ export function Header() {
                       <Cog className="h-5 w-5" />
                   </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className={cn(isMobile ? "w-[calc(100vw-32px)]" : "w-64")}>
-                  <SettingsContent isMobile={isMobile} />
+              <DropdownMenuContent align="end" className="w-80">
+                  <SettingsContent />
               </DropdownMenuContent>
           </DropdownMenu>
             
