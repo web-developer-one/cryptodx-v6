@@ -328,7 +328,7 @@
     "placeholder": "Geben Sie Ihre Nachricht ein...",
     "send": "Senden",
     "askAbout": "Fragen Sie nach...",
-    "topics": "Blockchain, DeFi, Krypto, NFT oder KI!",
+    "topics": "Blockchain, DeFi, Krypto, NFT, oder KI!",
     "errorResponse": "Ich habe im Moment Probleme, eine Antwort zu generieren. Bitte versuchen Sie eine andere Frage.",
     "connectionError": "Entschuldigung, ich habe im Moment Verbindungsprobleme. Bitte versuchen Sie es später erneut.",
     "listening": "Höre zu...",
@@ -399,6 +399,23 @@
     "description": "Kaufen und verkaufen Sie Krypto zum aktuellen Marktkurs.",
     "comingSoon": "Die Spot-Handelsoberfläche kommt bald."
   },
+  "ArbitragePage": {
+    "title": "Handelsbot",
+    "description": "Simulierte Arbitrage-Handelsbot-Möglichkeiten basierend auf Mock-Exchange-Daten."
+  },
+  "ArbitrageInterface": {
+    "opportunitiesTitle": "Live-Möglichkeiten",
+    "opportunitiesDescription": "Anzeige simulierter Preisunterschiede zwischen Börsen.",
+    "tableHeaderToken": "Token",
+    "tableHeaderExA": "Börse A",
+    "tableHeaderExB": "Börse B",
+    "tableHeaderProfit": "Gewinn %",
+    "tableHeaderAction": "Aktionen",
+    "buyAt": "Kaufen bei",
+    "sellAt": "Verkaufen bei",
+    "tradeButton": "Handeln",
+    "noOpportunities": "Im Moment wurden keine nennenswerten Arbitrage-Möglichkeiten gefunden."
+  },
   "PageTitles": {
     "home": "Startseite | CryptoDx",
     "buy": "Krypto kaufen",
@@ -407,7 +424,6 @@
     "pools": "Liquiditätspools",
     "addLiquidity": "Liquidität hinzufügen",
     "positions": "Ihre Positionen",
-    "moralisSwap": "Moralis Swap",
     "slippage": "Slippage-Analyse",
     "spot": "Spot-Handel",
     "tokens": "Token erkunden",
@@ -418,7 +434,16 @@
     "register": "Konto erstellen",
     "profile": "Mein Profil",
     "users": "Benutzer",
-    "changelly": "Changelly"
+    "tradingBot": "Handelsbot",
+    "nfts": "Top NFTs"
+  },
+  "NftsPage": {
+    "title": "Top NFT-Sammlungen",
+    "collection": "Sammlung",
+    "transfers24h": "Transfers (24h)",
+    "transfers7d": "Transfers (7T)",
+    "uniqueHolders": "Besitzer",
+    "totalSupply": "Gesamtangebot"
   },
   "LoginPage": {
     "subtitle": "Melden Sie sich bei Ihrem Konto an, um fortzufahren.",

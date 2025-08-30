@@ -253,7 +253,7 @@
   "CookiePolicyModal": {
     "title": "Cookie Policy",
     "lastUpdated": "Last updated: {date}",
-    "p1": "This Cookie Policy explains how CryptoDx (\\\"we\\\", \\\"us\\\", and \\\"our\\\") uses cookies and similar technologies to recognize you when you visit our website. It explains what these technologies are and why we use them, as well as your rights to control our use of them.",
+    "p1": "This Cookie Policy explains how CryptoDx (\\'we\\', \\'us\\', and \\'our\\') uses cookies and similar technologies to recognize you when you visit our website. It explains what these technologies are and why we use them, as well as your rights to control our use of them.",
     "h_whatAre": "What are cookies?",
     "p_whatAre1": "A cookie is a small data file that is placed on your device when you visit a website. Cookies are widely used by website owners in order to make their websites work, or to work more efficiently, as well as to provide reporting information.",
     "p_whatAre2": "Cookies set by the website owner (in this case, CryptoDx) are called \\\"first-party cookies\\\". Cookies set by parties other than the website owner are called \\\"third-party cookies\\\". Third-party cookies enable third-party features or functionality to be provided on or through the website (e.g., advertising, interactive content, and analytics). The parties that set these third-party cookies can recognize your computer both when it visits the website in question and also when it visits certain other websites.",
@@ -434,7 +434,16 @@
     "register": "Register",
     "profile": "My Profile",
     "users": "Users",
-    "tradingBot": "Trading Bot"
+    "tradingBot": "Trading Bot",
+    "nfts": "Top NFTs"
+  },
+  "NftsPage": {
+    "title": "Top NFT Collections",
+    "collection": "Collection",
+    "transfers24h": "Transfers (24H)",
+    "transfers7d": "Transfers (7D)",
+    "uniqueHolders": "Holders",
+    "totalSupply": "Total Supply"
   },
   "LoginPage": {
     "subtitle": "Login to your account to continue.",

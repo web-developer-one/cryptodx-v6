@@ -434,7 +434,16 @@
     "register": "アカウント作成",
     "profile": "マイプロフィール",
     "users": "ユーザー",
-    "tradingBot": "取引ボット"
+    "tradingBot": "取引ボット",
+    "nfts": "トップNFT"
+  },
+  "NftsPage": {
+    "title": "トップNFTコレクション",
+    "collection": "コレクション",
+    "transfers24h": "転送（24時間）",
+    "transfers7d": "転送（7日間）",
+    "uniqueHolders": "保有者",
+    "totalSupply": "総供給量"
   },
   "LoginPage": {
     "subtitle": "アカウントにログインして続行してください。",

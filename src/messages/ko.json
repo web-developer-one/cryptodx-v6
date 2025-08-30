@@ -434,7 +434,16 @@
     "register": "계정 생성",
     "profile": "내 프로필",
     "users": "사용자",
-    "tradingBot": "거래 봇"
+    "tradingBot": "거래 봇",
+    "nfts": "최고의 NFT"
+  },
+  "NftsPage": {
+    "title": "최고의 NFT 컬렉션",
+    "collection": "컬렉션",
+    "transfers24h": "전송 (24시간)",
+    "transfers7d": "전송 (7일)",
+    "uniqueHolders": "보유자",
+    "totalSupply": "총 공급량"
   },
   "LoginPage": {
     "subtitle": "계속하려면 계정에 로그인하세요.",

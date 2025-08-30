@@ -358,7 +358,7 @@
     "addNetworkFailedTitle": "Error al Añadir Red",
     "addNetworkFailedDesc": "No se pudo añadir la red seleccionada a su billetera.",
     "networkNotSupportedTitle": "Red No Soportada",
-    "networkNotSupportedDesc": "Esta red no se puede añadir automáticamente. Por favor, añádala a su billetera manualmente.",
+    "networkNotSupportedDesc": "Esta red no se puede añadir automáticamente. Por favor, añádala a su billetera manually.",
     "switchNetworkFailedTitle": "Error al Cambiar de Red",
     "switchNetworkFailedDesc": "No se pudo cambiar a la red seleccionada. Por favor, inténtelo de nuevo."
   },
@@ -434,7 +434,16 @@
     "register": "Crear Cuenta",
     "profile": "Mi Perfil",
     "users": "Usuarios",
-    "tradingBot": "Bot de Trading"
+    "tradingBot": "Bot de Trading",
+    "nfts": "Mejores NFTs"
+  },
+  "NftsPage": {
+    "title": "Mejores Colecciones de NFT",
+    "collection": "Colección",
+    "transfers24h": "Transferencias (24H)",
+    "transfers7d": "Transferencias (7D)",
+    "uniqueHolders": "Poseedores",
+    "totalSupply": "Suministro Total"
   },
   "LoginPage": {
     "subtitle": "Inicia sesión en tu cuenta para continuar.",

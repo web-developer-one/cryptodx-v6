@@ -293,7 +293,7 @@
     "h_personalData": "Dados Pessoais",
     "p_personalData": "Ao usar Nosso Serviço, podemos pedir que Você nos forneça certas informações de identificação pessoal que podem ser usadas para contatá-lo ou identificá-lo. As informações de identificação pessoal podem incluir, mas não estão limitadas a: Dados de Uso.",
     "h_usageData": "Dados de Uso",
-    "p_usageData": "Os Dados de Uso são coletados automaticamente ao usar o Serviço. Os Dados de Uso podem incluir informações como o endereço de Protocolo de Internet do Seu Dispositivo (por exemplo, endereço IP), tipo de navegador, versão do navegador, as páginas de nosso Serviço que Você visita, a hora e a data de Sua visita, o tempo gasto nessas páginas, identificadores únicos de dispositivo e outros dados de diagnóstico. Quando Você acessa o Serviço por ou através de um dispositivo móvel, podemos coletar certas informações automaticamente, incluindo, mas não limitadas a, o tipo de dispositivo móvel que Você usa, o ID único do seu dispositivo móvel, o endereço IP do seu dispositivo móvel, seu sistema operacional móvel, o tipo de navegador de Internet móvel que Você usa, identificadores únicos de dispositivo e outros dados de diagnóstico.",
+    "p_usageData": "Os Dados de Uso são coletados automatically ao usar o Serviço. Os Dados de Uso podem incluir informações como o endereço de Protocolo de Internet do Seu Dispositivo (por exemplo, endereço IP), tipo de navegador, versão do navegador, as páginas de nosso Serviço que Você visita, a hora e a data de Sua visita, o tempo gasto nessas páginas, identificadores únicos de dispositivo e outros dados de diagnóstico. Quando Você acessa o Serviço por ou através de um dispositivo móvel, podemos coletar certas informações automaticamente, incluindo, mas não limitadas a, o tipo de dispositivo móvel que Você usa, o ID único do seu dispositivo móvel, o endereço IP do seu dispositivo móvel, seu sistema operacional móvel, o tipo de navegador de Internet móvel que Você usa, identificadores únicos de dispositivo e outros dados de diagnóstico.",
     "h_contact": "Contate-Nos",
     "p_contact": "Se você tiver alguma dúvida sobre esta Política de Privacidade, pode nos contatar por e-mail.",
     "dismiss": "Dispensar e Fechar"
@@ -399,6 +399,23 @@
     "description": "Compre e venda cripto à taxa de mercado atual.",
     "comingSoon": "A interface de negociação à vista estará disponível em breve."
   },
+  "ArbitragePage": {
+    "title": "Robô de Negociação",
+    "description": "Oportunidades simuladas de robô de negociação de arbitragem com base em dados de câmbio fictícios."
+  },
+  "ArbitrageInterface": {
+    "opportunitiesTitle": "Oportunidades ao Vivo",
+    "opportunitiesDescription": "Mostrando diferenças de preços simuladas entre as bolsas.",
+    "tableHeaderToken": "Token",
+    "tableHeaderExA": "Bolsa A",
+    "tableHeaderExB": "Bolsa B",
+    "tableHeaderProfit": "Lucro %",
+    "tableHeaderAction": "Ações",
+    "buyAt": "Comprar em",
+    "sellAt": "Vender em",
+    "tradeButton": "Negociar",
+    "noOpportunities": "Nenhuma oportunidade de arbitragem significativa encontrada no momento."
+  },
   "PageTitles": {
     "home": "Início | CryptoDx",
     "buy": "Comprar Cripto",
@@ -407,7 +424,6 @@
     "pools": "Pools de Liquidez",
     "addLiquidity": "Adicionar Liquidez",
     "positions": "Suas Posições",
-    "moralisSwap": "Troca Moralis",
     "slippage": "Análise de Slippage",
     "spot": "Negociação à Vista",
     "tokens": "Explorar Tokens",
@@ -418,7 +434,16 @@
     "register": "Criar Conta",
     "profile": "Meu Perfil",
     "users": "Usuários",
-    "changelly": "Changelly"
+    "tradingBot": "Robô de Negociação",
+    "nfts": "Top NFTs"
+  },
+  "NftsPage": {
+    "title": "Principais Coleções de NFT",
+    "collection": "Coleção",
+    "transfers24h": "Transferências (24H)",
+    "transfers7d": "Transferências (7D)",
+    "uniqueHolders": "Detentores",
+    "totalSupply": "Fornecimento Total"
   },
   "LoginPage": {
     "subtitle": "Faça login na sua conta para continuar.",
@@ -469,7 +494,7 @@
   "UsersPage": {
     "title": "Gerenciamento de Usuários",
     "description": "Visualizar, editar e gerenciar contas de usuário.",
-    "email": "E-mail",
+    "email": "Email",
     "actions": "Ações",
     "edit": "Editar",
     "delete": "Excluir",

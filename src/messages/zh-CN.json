@@ -434,7 +434,16 @@
     "register": "创建账户",
     "profile": "我的个人资料",
     "users": "用户",
-    "tradingBot": "交易机器人"
+    "tradingBot": "交易机器人",
+    "nfts": "热门NFT"
+  },
+  "NftsPage": {
+    "title": "热门NFT合集",
+    "collection": "合集",
+    "transfers24h": "转账 (24小时)",
+    "transfers7d": "转账 (7天)",
+    "uniqueHolders": "持有者",
+    "totalSupply": "总供应量"
   },
   "LoginPage": {
     "subtitle": "登录您的账户以继续。",

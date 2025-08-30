@@ -92,3 +92,13 @@ export interface SelectedCurrency {
     name: string;
     rate: number;
 }
+
+export interface NftCollection {
+    id: string;
+    name: string;
+    logo: string;
+    transfers24h: number;
+    transfers7d: number;
+    uniqueHolders: number;
+    totalSupply: number;
+}
