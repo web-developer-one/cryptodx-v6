@@ -399,6 +399,23 @@
     "description": "以当前市场价格买卖加密货币。",
     "comingSoon": "现货交易界面即将推出。"
   },
+  "ArbitragePage": {
+    "title": "交易机器人",
+    "description": "基于模拟交易所数据的模拟套利交易机器人机会。"
+  },
+  "ArbitrageInterface": {
+    "opportunitiesTitle": "实时机会",
+    "opportunitiesDescription": "显示交易所之间的模拟价格差异。",
+    "tableHeaderToken": "代币",
+    "tableHeaderExA": "交易所A",
+    "tableHeaderExB": "交易所B",
+    "tableHeaderProfit": "利润率 %",
+    "tableHeaderAction": "操作",
+    "buyAt": "买入价",
+    "sellAt": "卖出价",
+    "tradeButton": "交易",
+    "noOpportunities": "目前未发现重大套利机会。"
+  },
   "PageTitles": {
     "home": "首页 | CryptoDx",
     "buy": "购买加密货币",
@@ -407,7 +424,6 @@
     "pools": "流动性池",
     "addLiquidity": "增加流动性",
     "positions": "您的头寸",
-    "moralisSwap": "Moralis兑换",
     "slippage": "滑点分析",
     "spot": "现货交易",
     "tokens": "探索代币",
@@ -418,7 +434,7 @@
     "register": "创建账户",
     "profile": "我的个人资料",
     "users": "用户",
-    "changelly": "Changelly"
+    "tradingBot": "交易机器人"
   },
   "LoginPage": {
     "subtitle": "登录您的账户以继续。",

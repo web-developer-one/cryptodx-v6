@@ -399,6 +399,23 @@
     "description": "वर्तमान बाजार दर पर क्रिप्टो खरीदें और बेचें।",
     "comingSoon": "स्पॉट ट्रेडिंग इंटरफ़ेस जल्द ही आ रहा है।"
   },
+  "ArbitragePage": {
+    "title": "ट्रेडिंग बॉट",
+    "description": "नकली एक्सचेंज डेटा पर आधारित नकली आर्बिट्रेज ट्रेडिंग बॉट अवसर।"
+  },
+  "ArbitrageInterface": {
+    "opportunitiesTitle": "लाइव अवसर",
+    "opportunitiesDescription": "एक्सचेंजों के बीच नकली मूल्य अंतर दिखा रहा है।",
+    "tableHeaderToken": "टोकन",
+    "tableHeaderExA": "एक्सचेंज ए",
+    "tableHeaderExB": "एक्सचेंज बी",
+    "tableHeaderProfit": "लाभ %",
+    "tableHeaderAction": "क्रियाएँ",
+    "buyAt": "पर खरीदें",
+    "sellAt": "पर बेचें",
+    "tradeButton": "व्यापार",
+    "noOpportunities": "फिलहाल कोई महत्वपूर्ण आर्बिट्रेज अवसर नहीं मिला।"
+  },
   "PageTitles": {
     "home": "होम | CryptoDx",
     "buy": "क्रिप्टो खरीदें",
@@ -407,7 +424,6 @@
     "pools": "तरलता पूल",
     "addLiquidity": "तरलता जोड़ें",
     "positions": "आपकी स्थितियाँ",
-    "moralisSwap": "मोरलिस स्वैप",
     "slippage": "स्लिपेज विश्लेषण",
     "spot": "स्पॉट ट्रेडिंग",
     "tokens": "टोकन का अन्वेषण करें",
@@ -418,7 +434,7 @@
     "register": "खाता बनाएं",
     "profile": "मेरी प्रोफ़ाइल",
     "users": "उपयोगकर्ता",
-    "changelly": "चेंजली"
+    "tradingBot": "ट्रेडिंग बॉट"
   },
   "LoginPage": {
     "subtitle": "जारी रखने के लिए अपने खाते में लॉग इन करें।",
@@ -472,8 +488,8 @@
     "email": "ईमेल",
     "actions": "कार्रवाइयाँ",
     "edit": "संपादित करें",
-    "delete": "हटाएँ",
-    "deleteConfirmTitle": "क्या आप पूरी तरह से निश्चित हैं?",
+    "delete": "हटाएं",
+    "deleteConfirmTitle": "क्या आप निश्चित हैं?",
     "deleteConfirmDesc": "यह क्रिया पूर्ववत नहीं की जा सकती। यह {username} के लिए खाते को स्थायी रूप से हटा देगा।",
     "backToUsers": "उपयोगकर्ताओं पर वापस",
     "editUser": "उपयोगकर्ता प्रोफ़ाइल संपादित करें",

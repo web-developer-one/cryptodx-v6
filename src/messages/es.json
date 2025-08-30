@@ -256,7 +256,7 @@
     "p1": "Esta Política de Cookies explica cómo CryptoDx (\\'nosotros\\', \\'nos\\' y \\'nuestro\\') usa cookies y tecnologías similares para reconocerte cuando visitas nuestro sitio web. Explica qué son estas tecnologías y por qué las usamos, así como tus derechos para controlar nuestro uso de ellas.",
     "h_whatAre": "¿Qué son las cookies?",
     "p_whatAre1": "Una cookie es un pequeño archivo de datos que se coloca en tu dispositivo cuando visitas un sitio web. Las cookies son ampliamente utilizadas por los propietarios de sitios web para hacer que sus sitios funcionen, o para que funcionen más eficientemente, así como para proporcionar información de informes.",
-    "p_whatAre2": "Las cookies establecidas por el propietario del sitio web (en este caso, CryptoDx) se llaman \\\"cookies de origen\\\". Las cookies establecidas by partes distintas al propietario del sitio web se llaman \\\"cookies de terceros\\\". Las cookies de terceros habilitan características o funcionalidades de terceros que se proporcionan en o a través del sitio web (por ejemplo, publicidad, contenido interactivo y análisis). Las partes que establecen estas cookies de terceros pueden reconocer tu computadora tanto cuando visita el sitio web en cuestión como cuando visita otros sitios web.",
+    "p_whatAre2": "Las cookies establecidas por el propietario del sitio web (en este caso, CryptoDx) se llaman \\\"cookies de origen\\\". Las cookies establecidas por partes distintas al propietario del sitio web se llaman \\\"cookies de terceros\\\". Las cookies de terceros habilitan características o funcionalidades de terceros que se proporcionan en o a través del sitio web (por ejemplo, publicidad, contenido interactivo y análisis). Las partes que establecen estas cookies de terceros pueden reconocer tu computadora tanto cuando visita el sitio web en cuestión como cuando visita otros sitios web.",
     "h_whyUse": "¿Por qué usamos cookies?",
     "p_whyUse": "Usamos cookies de origen y de terceros por varias razones. Algunas cookies son requeridas por razones técnicas para que nuestro Sitio Web funcione, y nos referimos a estas como cookies \\\"esenciales\\\" o \\\"estrictamente necesarias\\\". Otras cookies también nos permiten rastrear y dirigir los intereses de nuestros usuarios para mejorar la experiencia en nuestras Propiedades en Línea. Terceros sirven cookies a través de nuestro Sitio Web para publicidad, análisis y otros propósitos. Esto se describe con más detalle a continuación.",
     "h_types": "Tipos de Cookies que Usamos",
@@ -315,7 +315,7 @@
     "li_circumvent": "Intentar eludir cualquier técnica de filtrado de contenido que empleemos, o intentar acceder a cualquier servicio o área del Servicio a la que no esté autorizado a acceder.",
     "li_automated": "Utilizar cualquier robot, araña, rastreador, raspador u otros medios o interfaz automatizados no proporcionados por nosotros para acceder al Servicio o para extraer datos.",
     "h_disclaimers": "5. Descargos de Responsabilidad",
-    "p_disclaimers": "EL SERVICIO SE PROPORCIONA \\'TAL CUAL\\' Y \\'SEGÚN DISPONIBILIDAD\\' SIN GARANTÍAS DE NINGÚN TIPO, YA SEAN EXPRESAS O IMPLÍCITAS. USTED RECONOCE Y ACEPTA QUE HA TENIDO LA OPORTUNIDAD QUE CONSIDERE NECESARIA PARA INVESTIGAR EL SERVICIO, LAS LEYES, NORMAS O REGLAMENTOS QUE PUEDAN SER APLICABLES A SU USO DEL SERVICIO Y QUE NO SE BASA EN NINGUNA DECLARACIÓN DE LEY O HECHO REALIZADA POR CRYPTODX EN RELACIÓN CON EL SERVICIO.",
+    "p_disclaimers": "EL SERVICIO SE PROPORCIONA \\\"TAL CUAL\\\" Y \\\"SEGÚN DISPONIBILIDAD\\\" SIN GARANTÍAS DE NINGÚN TIPO, YA SEAN EXPRESAS O IMPLÍCITAS. USTED RECONOCE Y ACEPTA QUE HA TENIDO LA OPORTUNIDAD QUE CONSIDERE NECESARIA PARA INVESTIGAR EL SERVICIO, LAS LEYES, NORMAS O REGLAMENTOS QUE PUEDAN SER APLICABLES A SU USO DEL SERVICIO Y QUE NO SE BASA EN NINGUNA DECLARACIÓN DE LEY O HECHO REALIZADA POR CRYPTODX EN RELACIÓN CON EL SERVICIO.",
     "h_liability": "6. Limitación de Responsabilidad",
     "p_liability": "EN LA MEDIDA MÁXIMA PERMITIDA POR LA LEY APLICABLE, EN NINGÚN CASO CRYPTODX O SUS AFILIADOS SERÁN RESPONSABLES DE NINGÚN DAÑO INDIRECTO, ESPECIAL, INCIDENTAL, CONSECUENTE O PUNITIVO DE NINGÚN TIPO.",
     "h_governing": "7. Ley Aplicable",
@@ -399,6 +399,23 @@
     "description": "Compra y vende criptomonedas a la tasa actual del mercado.",
     "comingSoon": "La interfaz de comercio al contado estará disponible pronto."
   },
+  "ArbitragePage": {
+    "title": "Bot de Trading",
+    "description": "Oportunidades de bot de trading de arbitraje simuladas basadas en datos de intercambio simulados."
+  },
+  "ArbitrageInterface": {
+    "opportunitiesTitle": "Oportunidades en Vivo",
+    "opportunitiesDescription": "Mostrando diferencias de precios simuladas entre intercambios.",
+    "tableHeaderToken": "Token",
+    "tableHeaderExA": "Intercambio A",
+    "tableHeaderExB": "Intercambio B",
+    "tableHeaderProfit": "% de Ganancia",
+    "tableHeaderAction": "Acciones",
+    "buyAt": "Comprar en",
+    "sellAt": "Vender en",
+    "tradeButton": "Comerciar",
+    "noOpportunities": "No se encontraron oportunidades de arbitraje significativas en este momento."
+  },
   "PageTitles": {
     "home": "Inicio | CryptoDx",
     "buy": "Comprar Cripto",
@@ -407,7 +424,6 @@
     "pools": "Pools de Liquidez",
     "addLiquidity": "Añadir Liquidez",
     "positions": "Tus Posiciones",
-    "moralisSwap": "Intercambio Moralis",
     "slippage": "Análisis de Deslizamiento",
     "spot": "Comercio al Contado",
     "tokens": "Explorar Tokens",
@@ -418,7 +434,7 @@
     "register": "Crear Cuenta",
     "profile": "Mi Perfil",
     "users": "Usuarios",
-    "changelly": "Changelly"
+    "tradingBot": "Bot de Trading"
   },
   "LoginPage": {
     "subtitle": "Inicia sesión en tu cuenta para continuar.",
