@@ -1,4 +1,3 @@
-
 'use client';
 
 import {
@@ -24,16 +23,9 @@ export function Faq() {
 
   return (
     <section 
-      className="w-full py-12 bg-white dark:bg-background flex justify-center border-t relative"
-      style={{
-        backgroundImage: `url('/mockup-featuring-two-iphones-x-floating-transparent.png')`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
-      }}
+      className="w-full py-12 bg-white dark:bg-background flex justify-center border-t"
     >
-      <div className="absolute inset-0 bg-background/80 backdrop-blur-sm"></div>
-      <div className="container max-w-5xl px-4 md:px-6 relative z-10">
+      <div className="container max-w-5xl px-4 md:px-6">
         <h2 className="text-3xl font-bold text-center mb-8">
           {t('Faq.title')}
         </h2>
