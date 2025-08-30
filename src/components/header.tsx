@@ -266,7 +266,7 @@ export function Header() {
                     <span>{t('Header.siteName')}</span>
                   </Link>
                 </SheetClose>
-                <Accordion type="multiple" className="w-full px-2">
+                <Accordion type="single" collapsible className="w-full px-2">
                   {menuItems.map((item) => (
                     <AccordionItem
                       value={item.name}
@@ -350,7 +350,7 @@ export function Header() {
                       <Cog className="h-5 w-5" />
                   </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-80">
+              <DropdownMenuContent align="end" className="w-80" side="bottom">
                   <SettingsContent />
               </DropdownMenuContent>
           </DropdownMenu>
