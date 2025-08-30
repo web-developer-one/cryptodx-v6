@@ -1,9 +1,9 @@
 
 'use client';
 
+import React, { useEffect } from "react";
 import { ArbitrageInterface } from "@/components/arbitrage-interface";
 import { useLanguage } from "@/hooks/use-language";
-import { useEffect } from "react";
 import type { Cryptocurrency } from "@/lib/types";
 import { getLatestListings } from "@/lib/coinmarketcap";
 import { ApiErrorCard } from "@/components/api-error-card";
