@@ -3,36 +3,38 @@ import { NextResponse } from 'next/server';
 import { getStore } from '@netlify/blobs';
 import type { User } from '@/lib/types';
 
-// Get a single user by ID. Note: We store by email, so this requires a lookup.
-// This is inefficient and in a real DB you'd query by ID directly.
-async function getUserBy(field: 'id' | 'email', value: string): Promise<User | null> {
+// Helper function to find a user by their ID, since blobs are keyed by email.
+// This is inefficient but necessary for this data structure.
+// In a real database, you'd query by ID directly.
+async function findUserById(userId: string): Promise<{user: User; key: string} | null> {
     const userStore = getStore('users');
-    if (field === 'email') {
-        return await userStore.get(value.toLowerCase(), { type: 'json' }) as User | null;
-    }
-    
-    // Inefficient lookup for ID
     const { blobs } = await userStore.list();
+
     for (const blob of blobs) {
-        const user = await userStore.get(blob.key, { type: 'json' }) as User;
-        if (user && user.id === value) {
-            return user;
+        try {
+            const user = await userStore.get(blob.key, { type: 'json' }) as User;
+            if (user && user.id === userId) {
+                return { user, key: blob.key };
+            }
+        } catch (e) {
+            console.error(`Error parsing blob with key ${blob.key}`, e);
         }
     }
     return null;
 }
 
 
-// GET a user profile
+// GET a user profile by ID
 export async function GET(request: Request, { params }: { params: { userId: string } }) {
     try {
-        const user = await getUserBy('id', params.userId);
+        const result = await findUserById(params.userId);
         
-        if (!user) {
+        if (!result) {
             return NextResponse.json({ error: 'User not found' }, { status: 404 });
         }
         
-        const { password, ...userWithoutPassword } = user;
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { password, ...userWithoutPassword } = result.user;
         return NextResponse.json(userWithoutPassword);
     } catch (error) {
         console.error('Error fetching user:', error);
@@ -40,28 +42,34 @@ export async function GET(request: Request, { params }: { params: { userId: stri
     }
 }
 
-// UPDATE a user profile
+// UPDATE a user profile by ID
 export async function PUT(request: Request, { params }: { params: { userId: string } }) {
     try {
         const updates: Partial<User> = await request.json();
         
-        // Fetch the user to get their email (key for blob store)
-        const existingUser = await getUserBy('id', params.userId);
+        // Find the user by ID to get their existing data and blob key (email)
+        const findResult = await findUserById(params.userId);
 
-        if (!existingUser) {
+        if (!findResult) {
             return NextResponse.json({ error: 'User not found' }, { status: 404 });
         }
 
-        // Email cannot be changed as it's the key
-        if(updates.email && updates.email !== existingUser.email) {
+        const { user: existingUser, key: userKey } = findResult;
+
+        // Email cannot be changed as it's the key.
+        if (updates.email && updates.email.toLowerCase() !== userKey) {
             return NextResponse.json({ error: 'Email address cannot be changed' }, { status: 400 });
         }
 
+        // Merge the updates with the existing user data
         const updatedUser: User = { ...existingUser, ...updates };
 
+        // Save the updated user object back to the blob store using its key (email)
         const userStore = getStore('users');
-        await userStore.setJSON(existingUser.email.toLowerCase(), updatedUser);
+        await userStore.setJSON(userKey, updatedUser);
         
+        // Return the updated user data, omitting the password for security
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { password, ...userWithoutPassword } = updatedUser;
         return NextResponse.json(userWithoutPassword);
 
