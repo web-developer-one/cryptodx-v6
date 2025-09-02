@@ -12,11 +12,16 @@ export async function GET() {
         const users: Omit<User, 'password'>[] = [];
 
         for (const blob of blobs) {
-            const userData = await userStore.get(blob.key, { type: 'json' }) as User;
-            if (userData) {
-                // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                const { password, ...userWithoutPassword } = userData;
-                users.push(userWithoutPassword);
+            try {
+                const userData = await userStore.get(blob.key, { type: 'json' }) as User;
+                if (userData) {
+                    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                    const { password, ...userWithoutPassword } = userData;
+                    users.push(userWithoutPassword);
+                }
+            } catch (e) {
+                // Log if a specific blob is malformed, but don't crash
+                console.warn(`Could not parse blob with key: ${blob.key}`);
             }
         }
         
@@ -25,9 +30,13 @@ export async function GET() {
 
         return NextResponse.json(users);
 
-    } catch (error) {
+    } catch (error: any) {
+        // Specifically catch the MissingBlobsEnvironmentError during build time
+        if (error.name === 'MissingBlobsEnvironmentError') {
+            console.warn('Netlify Blobs environment not available, returning empty user list.');
+            return NextResponse.json([]); // Return empty array to prevent build failure
+        }
         console.error('Error fetching all users:', error);
         return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
     }
 }
-

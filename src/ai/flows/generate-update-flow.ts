@@ -88,7 +88,14 @@ const generateUpdateFlow = ai.defineFlow(
       }
       
       const sortedByChange = [...data].sort((a,b) => Math.abs(b.change24h) - Math.abs(a.change24h));
-      const notableCoin: Cryptocurrency = sortedByChange[Math.floor(Math.random() * 5)]; // Pick one of the top 5 movers
+      
+      // Ensure there are coins to pick from
+      if (sortedByChange.length === 0) {
+          console.warn('No crypto data available to generate an update, using fallback.');
+          return fallbackResult;
+      }
+      
+      const notableCoin: Cryptocurrency = sortedByChange[Math.floor(Math.random() * Math.min(5, sortedByChange.length))];
 
       const { output } = await prompt({
           coin: {
