@@ -6,15 +6,10 @@ import { useToast } from '@/hooks/use-toast';
 import { Badge } from '@/components/ui/badge';
 import { Bell, ArrowUpRight } from 'lucide-react';
 import { Button } from './ui/button';
-import { useUser } from '@/hooks/use-user';
 
 export function LiveUpdateNotifier() {
   const { toast } = useToast();
   const [isFetching, setIsFetching] = useState(false);
-  const { user, isAuthenticated } = useUser();
-
-  // Check if the user has access to this feature.
-  const hasAccess = isAuthenticated && user && ['Advanced', 'Administrator'].includes(user.pricePlan);
 
   const showUpdateToast = useCallback(async () => {
     if (isFetching) return;
@@ -60,21 +55,14 @@ export function LiveUpdateNotifier() {
   }, [isFetching, toast]);
 
   useEffect(() => {
-    if (!hasAccess) {
-      return;
-    }
-
-    // Run once immediately on component mount when access is granted
-    showUpdateToast();
-    
     // Set up the recurring toast every 15 minutes.
     const intervalId = setInterval(showUpdateToast, 15 * 60 * 1000);
 
-    // Cleanup function to clear the interval when the component unmounts or access changes
+    // Cleanup function to clear the interval when the component unmounts
     return () => {
       clearInterval(intervalId);
     };
-  }, [hasAccess, showUpdateToast]); // Re-run effect if access status changes
+  }, [showUpdateToast]);
 
   return null; // This component does not render anything itself
 }
