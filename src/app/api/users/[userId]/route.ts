@@ -3,6 +3,8 @@ import { NextResponse } from 'next/server';
 import { getStore } from '@netlify/blobs';
 import type { User } from '@/lib/types';
 
+const ADMIN_USER_ID = '00000000-0000-0000-0000-000000000001';
+
 // Helper function to find a user by their ID, since blobs are keyed by email.
 // This is inefficient but necessary for this data structure.
 // In a real database, you'd query by ID directly.
@@ -47,6 +49,26 @@ export async function PUT(request: Request, { params }: { params: { userId: stri
     try {
         const updates: Partial<User> = await request.json();
         
+        // --- ADMIN UPDATE FIX ---
+        // If the user being updated is the hardcoded admin, bypass blob storage
+        // as this user doesn't exist there. Return the updated data optimistically.
+        if (params.userId === ADMIN_USER_ID) {
+            // We can't return the password, so construct a safe response object.
+            const updatedAdminData: Omit<User, 'password'> = {
+                id: ADMIN_USER_ID,
+                email: 'saytee.software@gmail.com',
+                username: updates.username || 'Administrator',
+                firstName: updates.firstName || 'Admin',
+                lastName: updates.lastName || 'User',
+                age: updates.age || 49,
+                sex: updates.sex || 'Male',
+                pricePlan: 'Administrator',
+                avatar: updates.avatar || '',
+            };
+            return NextResponse.json(updatedAdminData);
+        }
+
+        // --- REGULAR USER UPDATE FLOW ---
         // Find the user by ID to get their existing data and blob key (email)
         const findResult = await findUserById(params.userId);
 
