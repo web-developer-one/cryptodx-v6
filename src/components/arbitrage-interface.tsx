@@ -4,13 +4,10 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import type { Cryptocurrency } from '@/lib/types';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import { useLanguage } from '@/hooks/use-language';
-import { cn } from '@/lib/utils';
-import { ArrowUp, ArrowDown } from 'lucide-react';
-import { useToast } from '@/hooks/use-toast';
+import { useRouter } from 'next/navigation';
 
 interface ArbitrageOpportunity {
   token: Cryptocurrency;
@@ -62,8 +59,8 @@ const generateMockOpportunities = (cryptocurrencies: Cryptocurrency[]): Arbitrag
 
 export function ArbitrageInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[] }) {
   const { t } = useLanguage();
-  const { toast } = useToast();
   const [opportunities, setOpportunities] = useState<ArbitrageOpportunity[]>([]);
+  const router = useRouter();
 
   useEffect(() => {
     // Initial generation
@@ -78,10 +75,7 @@ export function ArbitrageInterface({ cryptocurrencies }: { cryptocurrencies: Cry
   }, [cryptocurrencies]);
   
   const handleTradeClick = (opportunity: ArbitrageOpportunity) => {
-    toast({
-      title: "Arbitrage Trade Executed (Simulated)",
-      description: `Buying ${opportunity.token.symbol} on ${opportunity.exchangeA.name} and selling on ${opportunity.exchangeB.name}.`,
-    });
+    router.push(`/?fromToken=${opportunity.token.symbol}`);
   };
 
   return (

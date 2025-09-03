@@ -16,9 +16,10 @@ import { FloatingTokensBackground } from "./floating-tokens-background";
 interface HomePageClientProps {
   cryptoData: Cryptocurrency[];
   error: string | null;
+  fromTokenSymbol?: string;
 }
 
-export function HomePageClient({ cryptoData, error }: HomePageClientProps) {
+export function HomePageClient({ cryptoData, error, fromTokenSymbol }: HomePageClientProps) {
   const { t } = useLanguage();
 
   useEffect(() => {
@@ -63,7 +64,7 @@ export function HomePageClient({ cryptoData, error }: HomePageClientProps) {
           </div>
           <div className="w-full max-w-md flex flex-col items-center gap-6">
               <TradeNav />
-              <MoralisSwapInterface cryptocurrencies={cryptoData} />
+              <MoralisSwapInterface cryptocurrencies={cryptoData} fromTokenSymbol={fromTokenSymbol} />
           </div>
         </div>
       </div>

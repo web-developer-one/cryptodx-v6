@@ -158,10 +158,10 @@ function TokenSelectDialog({ open, onOpenChange, cryptocurrencies, onSelect, sel
     );
 }
 
-export function MoralisSwapInterface({ cryptocurrencies, title }: { cryptocurrencies: Cryptocurrency[], title?: string }) {
+export function MoralisSwapInterface({ cryptocurrencies, title, fromTokenSymbol }: { cryptocurrencies: Cryptocurrency[], title?: string, fromTokenSymbol?: string }) {
   const { t } = useLanguage();
 
-  const [fromToken, setFromToken] = useState<Cryptocurrency | undefined>(cryptocurrencies.find(c => c.symbol === 'ETH'));
+  const [fromToken, setFromToken] = useState<Cryptocurrency | undefined>(cryptocurrencies.find(c => c.symbol === (fromTokenSymbol || 'ETH')));
   const [toToken, setToToken] = useState<Cryptocurrency | undefined>(cryptocurrencies.find(c => c.symbol === 'USDC'));
   const [fromAmount, setFromAmount] = useState<string>("1");
   const [toAmount, setToAmount] = useState<string>("");
