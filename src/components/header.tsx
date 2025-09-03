@@ -179,35 +179,43 @@ export function Header() {
     router.push('/');
   };
 
-  const menuItems = [
-    {
-      name: t('Header.trade'),
-      icon: ArrowRightLeft,
-      children: [
-        { name: t('Footer.swap'), href: "/" },
-        { name: t('Footer.limit'), href: "/limit" },
-        { name: t('Footer.buy'), href: "/buy" },
-        { name: t('Footer.sell'), href: "/sell" },
-      ],
-    },
-    {
-      name: t('Header.explore'),
-      icon: Compass,
-      children: [
+  const menuItems = React.useMemo(() => {
+    const exploreChildren = [
         { name: t('Footer.tokens'), href: "/tokens" },
         { name: t('Footer.pools'), href: "/pools" },
         { name: t('Footer.transactions'), href: "/transactions" },
-      ],
-    },
-    {
-      name: t('Header.positions'),
-      icon: Briefcase,
-      children: [
-        { name: t('Footer.viewPositions'), href: "/positions" },
-        { name: t('Footer.createPosition'), href: "/pools/add" },
-      ],
-    },
-  ];
+    ];
+
+    if (isAuthenticated) {
+        exploreChildren.push({ name: t('PageTitles.tradingBot'), href: "/tradingbot" });
+    }
+
+    return [
+        {
+            name: t('Header.trade'),
+            icon: ArrowRightLeft,
+            children: [
+                { name: t('Footer.swap'), href: "/" },
+                { name: t('Footer.limit'), href: "/limit" },
+                { name: t('Footer.buy'), href: "/buy" },
+                { name: t('Footer.sell'), href: "/sell" },
+            ],
+        },
+        {
+            name: t('Header.explore'),
+            icon: Compass,
+            children: exploreChildren,
+        },
+        {
+            name: t('Header.positions'),
+            icon: Briefcase,
+            children: [
+                { name: t('Footer.viewPositions'), href: "/positions" },
+                { name: t('Footer.createPosition'), href: "/pools/add" },
+            ],
+        },
+    ];
+  }, [t, isAuthenticated]);
   
   return (
     <header className="sticky top-0 z-50 w-full border-b border-primary/50 bg-primary text-primary-foreground">
