@@ -399,6 +399,23 @@
     "description": "Buy and sell crypto at the current market rate.",
     "comingSoon": "The spot trading interface is coming soon."
   },
+  "ArbitragePage": {
+    "title": "Trading Bot",
+    "description": "Simulated arbitrage trading bot opportunities based on mock exchange data."
+  },
+  "ArbitrageInterface": {
+    "opportunitiesTitle": "Live Opportunities",
+    "opportunitiesDescription": "Showing simulated price differences between exchanges.",
+    "tableHeaderToken": "Token",
+    "tableHeaderExA": "Exchange A",
+    "tableHeaderExB": "Exchange B",
+    "tableHeaderProfit": "Profit %",
+    "tableHeaderAction": "Actions",
+    "buyAt": "Buy At",
+    "sellAt": "Sell At",
+    "tradeButton": "Trade",
+    "noOpportunities": "No significant arbitrage opportunities found at the moment."
+  },
   "PageTitles": {
     "home": "Home | CryptoDx",
     "buy": "Buy Crypto",
@@ -416,7 +433,17 @@
     "login": "Login",
     "register": "Register",
     "profile": "My Profile",
-    "users": "Users"
+    "users": "Users",
+    "tradingBot": "Trading Bot",
+    "nfts": "Top NFTs"
+  },
+  "NftsPage": {
+    "title": "Top NFT Collections",
+    "collection": "Collection",
+    "transfers24h": "Transfers (24H)",
+    "transfers7d": "Transfers (7D)",
+    "uniqueHolders": "Holders",
+    "totalSupply": "Total Supply"
   },
   "LoginPage": {
     "subtitle": "Login to your account to continue.",

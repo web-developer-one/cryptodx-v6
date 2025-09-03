@@ -72,11 +72,11 @@ export default function ProfilePage() {
   useEffect(() => {
     if (user) {
       form.reset({
-        username: user.username,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        age: user.age,
-        sex: user.sex,
+        username: user.username || '',
+        firstName: user.firstName || '',
+        lastName: user.lastName || '',
+        age: user.age || 0,
+        sex: user.sex || '',
         pricePlan: user.pricePlan,
         email: user.email,
       });

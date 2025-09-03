@@ -118,7 +118,7 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
     }
   }, [t, toast]);
 
-  const updateProfile = useCallback(async (profileData: Partial<Omit<User, 'id'>>) => {
+  const updateProfile = useCallback(async (profileData: Partial<Omit<User, 'id' | 'email'>>) => {
     if (!user) return false;
     setIsLoading(true);
     try {
