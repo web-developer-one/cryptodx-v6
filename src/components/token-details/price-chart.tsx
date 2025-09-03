@@ -130,7 +130,7 @@ export function PriceChart({ token }: { token: TokenDetails }) {
                         <CardTitle>{t('TokenDetail.priceChartTitle').replace('{tokenName}', token.name)}</CardTitle>
                     </div>
                     <div className="flex flex-col items-start sm:items-end gap-2 w-full sm:w-auto">
-                    <Link href="/" passHref>
+                    <Link href={`/?fromToken=${token.symbol}`} passHref>
                         <Button>{t('TokenDetail.trade').replace('{symbol}', token.symbol)}</Button>
                     </Link>
                     <div className="flex items-center justify-end gap-1 flex-wrap">
