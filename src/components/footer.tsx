@@ -12,7 +12,7 @@ import { useUser } from "@/hooks/use-user";
 
 export function Footer() {
   const { t } = useLanguage();
-  const { user } = useUser();
+  const { user, isAuthenticated } = useUser();
   const year = new Date().getFullYear();
 
   const footerSections = [
@@ -51,6 +51,13 @@ export function Footer() {
       ],
     },
   ];
+
+  if (isAuthenticated) {
+    const exploreSection = footerSections.find(s => s.title === t('Footer.explore'));
+    if (exploreSection) {
+        exploreSection.links.push({ name: t('PageTitles.tradingBot'), href: "/tradingbot" });
+    }
+  }
   
   const siteLinks = footerSections.find(s => s.title === t('Footer.site'))?.links || [];
   if (user?.pricePlan === 'Administrator') {
@@ -81,7 +88,7 @@ export function Footer() {
             <div key={section.title} className="flex flex-col items-center gap-3">
               <h4 className="text-base font-semibold">{section.title}</h4>
               <ul className="flex flex-col items-center gap-2 text-sm">
-                {(section.title === t('Footer.site') ? siteLinks : section.links).map((link) => (
+                {section.links.map((link) => (
                   <li key={link.name}>
                     {link.name === t('Footer.cookiePolicy') ? (
                       <CookiePolicyModal />
