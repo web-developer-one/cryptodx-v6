@@ -78,7 +78,6 @@ export const ChangellyC2CInterface = () => {
     setIsFetchingQuote(true);
     setError('');
     try {
-      // The proxy will handle the getPairsParams check implicitly before getting the amount
       const result = await apiRequest('getExchangeAmount', [{ from, to, amount }]);
       setToAmount(result[0].amount);
     } catch (err: any) {
