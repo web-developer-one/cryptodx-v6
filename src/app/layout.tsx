@@ -1,4 +1,6 @@
 
+'use client';
+
 import type {Metadata} from 'next';
 import { Inter, Space_Grotesk } from 'next/font/google';
 import './globals.css';
@@ -10,6 +12,7 @@ import { Providers } from '@/components/providers';
 import { MarketHighlights } from '@/components/market-highlights';
 import { LiveUpdateNotifier } from '@/components/live-update-notifier';
 import { Chatbot } from '@/components/chatbot';
+import { useEffect, useState } from 'react';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -23,17 +26,20 @@ const spaceGrotesk = Space_Grotesk({
   variable: '--font-headline',
 });
 
-export const metadata: Metadata = {
-  title: 'Home | CryptoDx',
-  description: 'The easiest and most secure way to swap tokens in seconds.',
-  icons: null,
-};
+// Metadata can't be exported from a client component, but we can manage the document title.
+// For full SEO, this would require a different architectural approach.
 
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
   return (
     <html lang="en" suppressHydrationWarning className={`${inter.variable} ${spaceGrotesk.variable}`}>
       <body className="font-body antialiased">
@@ -43,7 +49,7 @@ export default function RootLayout({
             <main className="flex-1 flex flex-col">{children}</main>
             <div className="w-full py-12 flex justify-center border-y bg-background">
               <div className="container">
-                <MarketHighlights />
+                {isClient ? <MarketHighlights /> : null}
               </div>
             </div>
             <Footer />
