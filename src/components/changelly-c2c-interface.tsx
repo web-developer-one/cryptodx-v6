@@ -19,7 +19,17 @@ interface ChangellyCurrency {
   fixRateEnabled: boolean;
 }
 
-// Securely call the backend proxy which will then call Changelly
+// Dedicated function to fetch pairs
+const getPairs = async () => {
+    const response = await fetch('/api/changelly/getPairs');
+    if (!response.ok) {
+        const err = await response.json();
+        throw new Error(err.error || 'Failed to fetch currency pairs.');
+    }
+    return response.json();
+}
+
+// Generic function for other API requests
 const apiRequest = async (method: string, params: any = {}) => {
     const response = await fetch('/api/changelly/proxy', {
         method: 'POST',
@@ -57,7 +67,8 @@ export const ChangellyC2CInterface = () => {
     const fetchCurrencies = async () => {
       setIsLoading(true);
       try {
-        const result = await apiRequest('getCurrenciesFull');
+        // Use the dedicated getPairs function
+        const result = await getPairs();
         setCurrencies(result.filter((c: ChangellyCurrency) => c.enabled && c.fixRateEnabled));
         setError('');
       } catch (err: any) {
