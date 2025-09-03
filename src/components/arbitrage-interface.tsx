@@ -8,6 +8,15 @@ import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import { useLanguage } from '@/hooks/use-language';
 import { useRouter } from 'next/navigation';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+
 
 interface ArbitrageOpportunity {
   token: Cryptocurrency;
