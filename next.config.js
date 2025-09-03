@@ -5,11 +5,6 @@ const nextConfig = {
   experimental: {
     serverComponentsExternalPackages: ['crypto-js', '@paypal/checkout-server-sdk'],
   },
-  devIndicators: {
-    allowedDevOrigins: [
-      '*.cloudworkstations.dev',
-    ],
-  },
   images: {
     dangerouslyAllowSVG: true,
     remotePatterns: [
