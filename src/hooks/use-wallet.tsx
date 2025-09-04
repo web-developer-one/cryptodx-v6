@@ -109,11 +109,21 @@ export const networkConfigs: Record<string, NetworkConfig> = {
     },
 };
 
+type Balance = {
+    name: string;
+    symbol: string;
+    logo: string;
+    balance: string;
+    usdValue: number;
+}
+type Balances = Record<string, Balance>;
+
+
 // Define the shape of the wallet context
 interface WalletContextType {
   account: string | null;
   isActive: boolean;
-  balances: Record<string, string> | null;
+  balances: Balances | null;
   connectWallet: () => Promise<void>;
   disconnect: () => void;
   isLoading: boolean;
@@ -130,7 +140,7 @@ const WalletContext = React.createContext<WalletContextType | null>(null);
 // Create the provider component
 export function WalletProvider({ children }: { children: React.ReactNode }) {
   const [account, setAccount] = React.useState<string | null>(null);
-  const [balances, setBalances] = React.useState<Record<string, string> | null>(null);
+  const [balances, setBalances] = React.useState<Balances | null>(null);
   const [isLoading, setIsLoading] = React.useState(true);
   const [isConnecting, setIsConnecting] = React.useState(false);
   const [isSwapping, setIsSwapping] = React.useState(false);
@@ -143,12 +153,28 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
       const balanceWei = await provider.getBalance(address);
       const balanceEther = ethers.formatEther(balanceWei);
       
-      const mockBalances: Record<string, string> = {
-          ETH: balanceEther,
-          USDC: (Math.random() * 5000 + 1000).toFixed(2),
-          WBTC: (Math.random() * 0.1).toFixed(5),
-          DOGE: (Math.random() * 100000).toFixed(0),
-          SHIB: (Math.random() * 500000000).toFixed(0)
+      const mockBalances: Balances = {
+          [selectedNetwork.nativeCurrency.symbol]: {
+              name: selectedNetwork.nativeCurrency.name,
+              symbol: selectedNetwork.nativeCurrency.symbol,
+              logo: selectedNetwork.logo || '',
+              balance: balanceEther,
+              usdValue: parseFloat(balanceEther) * 3600 // Mock price
+          },
+          'USDC': {
+              name: 'USD Coin',
+              symbol: 'USDC',
+              logo: 'https://s2.coinmarketcap.com/static/img/coins/64x64/3408.png',
+              balance: '5000.00',
+              usdValue: 5000.00
+          },
+          'WBTC': {
+              name: 'Wrapped Bitcoin',
+              symbol: 'WBTC',
+              logo: 'https://s2.coinmarketcap.com/static/img/coins/64x64/3717.png',
+              balance: (Math.random() * 0.1).toFixed(5),
+              usdValue: (Math.random() * 0.1) * 65000
+          },
       };
 
       setBalances(mockBalances);
