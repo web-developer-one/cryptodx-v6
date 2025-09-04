@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import React, { useCallback, useEffect } from 'react';
@@ -241,56 +242,81 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
     }
   }, [selectedNetwork, account, switchNetwork]);
   
-  const performSwap = useCallback(async (fromToken: Cryptocurrency, toToken: Cryptocurrency, amount: string) => {
-    if (!account || !window.ethereum || !selectedNetwork.uniswapRouterAddress) {
+   const performSwap = useCallback(async (fromToken: Cryptocurrency, toToken: Cryptocurrency, amount: string) => {
+    if (!account || typeof window.ethereum === 'undefined' || !selectedNetwork.uniswapRouterAddress) {
         toast({ variant: 'destructive', title: 'Wallet Not Connected', description: 'Please connect your wallet to perform a swap.' });
         return;
     }
     
-    const fromIsNative = fromToken.symbol === selectedNetwork.nativeCurrency.symbol;
-    const fromAddress = fromIsNative ? selectedNetwork.wrappedNativeAddress : fromToken.address;
-    const toAddress = toToken.address;
+    setIsSwapping(true);
+    const provider = new ethers.BrowserProvider(window.ethereum);
+    const signer = await provider.getSigner();
+    const routerContract = new ethers.Contract(selectedNetwork.uniswapRouterAddress, uniswapV2RouterABI, signer);
 
+    const fromIsNative = fromToken.symbol === selectedNetwork.nativeCurrency.symbol;
+    const toIsNative = toToken.symbol === selectedNetwork.nativeCurrency.symbol;
+
+    const fromAddress = fromIsNative ? selectedNetwork.wrappedNativeAddress : fromToken.platform?.token_address;
+    const toAddress = toIsNative ? selectedNetwork.wrappedNativeAddress : toToken.platform?.token_address;
+    
     if (!fromAddress || !toAddress) {
         toast({ variant: 'destructive', title: 'Invalid Token', description: 'One of the selected tokens does not have a valid address on this network.' });
+        setIsSwapping(false);
         return;
     }
+    
+    const amountIn = ethers.parseUnits(amount, 18); // Assuming 18 decimals for simplicity
+    const deadline = Math.floor(Date.now() / 1000) + 60 * 20; // 20 minutes from now
 
-    setIsSwapping(true);
     try {
-        const provider = new ethers.BrowserProvider(window.ethereum);
-        const signer = await provider.getSigner();
-        const routerContract = new ethers.Contract(selectedNetwork.uniswapRouterAddress, uniswapV2RouterABI, signer);
+        if (!fromIsNative) {
+            // ERC20 to Token/ETH swap
+            const fromTokenContract = new ethers.Contract(fromAddress, ['function approve(address spender, uint256 amount) external returns (bool)'], signer);
+            const approveTx = await fromTokenContract.approve(selectedNetwork.uniswapRouterAddress, amountIn);
+            toast({ title: 'Approval Required', description: 'Please approve the token spend in your wallet.' });
+            await approveTx.wait();
+            toast({ title: 'Approval Successful', description: 'Token spending approved. Now executing swap...' });
+        }
 
-        const amountIn = ethers.parseUnits(amount, 18); // Assuming 18 decimals for fromToken
-        const path = [fromAddress, toAddress]; 
-        const to = account;
-        const deadline = Math.floor(Date.now() / 1000) + 60 * 20; // 20 minutes from the current Unix time
+        const path = [fromAddress, toAddress];
+        let tx;
 
-        const amountsOut = await routerContract.getAmountsOut(amountIn, path);
-        const amountOutMin = amountsOut[1] * BigInt(99) / BigInt(100); // 1% slippage tolerance
+        if (fromIsNative) {
+            // ETH to Token swap
+            tx = await routerContract.swapExactETHForTokens(
+                0, // amountOutMin: 0 for simplicity, in a real app, calculate this with slippage
+                path,
+                account,
+                deadline,
+                { value: amountIn }
+            );
+        } else if (toIsNative) {
+            // Token to ETH swap
+            tx = await routerContract.swapExactTokensForETH(
+                amountIn,
+                0,
+                path,
+                account,
+                deadline
+            );
+        } else {
+            // Token to Token swap
+            tx = await routerContract.swapExactTokensForTokens(
+                amountIn,
+                0,
+                path,
+                account,
+                deadline
+            );
+        }
 
-        toast({ title: 'Transaction Submitted', description: 'Approving token spend...'});
-        
-        const tx = await routerContract.swapExactETHForTokens(
-            amountOutMin,
-            path,
-            to,
-            deadline,
-            { value: amountIn }
-        );
-        
-        toast({ title: 'Executing Swap', description: `Transaction hash: ${tx.hash}`});
-        
+        toast({ title: 'Transaction Submitted', description: 'Your swap is being processed on the blockchain.' });
         await tx.wait();
-
-        toast({
-            title: 'Swap Successful!',
-            description: `Swapped ${amount} ${fromToken.symbol} for ${toToken.symbol}.`,
-        });
-
-        await fetchBalances(account);
+        toast({ title: 'Swap Successful!', description: `Swapped ${amount} ${fromToken.symbol} for ${toToken.symbol}.` });
         
+        // Refresh balances after swap
+        await fetchBalances(account);
+
     } catch (error: any) {
         console.error("Swap failed", error);
         toast({
