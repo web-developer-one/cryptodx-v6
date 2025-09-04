@@ -57,7 +57,14 @@ export async function GET(request: NextRequest) {
         const combinedBalances: CombinedBalance[] = tokenBalances
             .filter((token: any) => !token.possible_spam && token.symbol !== 'MCAT' && token.symbol !== 'WBTC')
             .map((token: any) => ({
-                ...token,
+                token_address: token.token_address,
+                symbol: token.symbol,
+                name: token.name,
+                logo: token.logo,
+                thumbnail: token.thumbnail,
+                decimals: token.decimals,
+                balance: ethers.formatUnits(token.balance, token.decimals),
+                possible_spam: token.possible_spam,
                 usd_value: token.usd_price || 0,
             }));
 
