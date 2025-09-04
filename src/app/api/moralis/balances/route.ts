@@ -37,12 +37,12 @@ export async function GET(request: NextRequest) {
         const combinedBalances = [...tokenBalances];
 
         // Add native balance to the list of tokens, ensuring it's formatted consistently
-        if (nativeBalance && nativeBalance.balance && nativeBalance.symbol) {
+        if (nativeBalance && nativeBalance.balance && (nativeBalance as any).symbol) {
              const nativeValue = (nativeBalance as any).usd_price ? (Number(ethers.formatUnits(nativeBalance.balance, (nativeBalance as any).decimals || 18)) * (nativeBalance as any).usd_price) : 0;
              combinedBalances.unshift({
                 token_address: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee', // Standard placeholder for native currency
-                symbol: nativeBalance.symbol,
-                name: nativeBalance.name || nativeBalance.symbol,
+                symbol: (nativeBalance as any).symbol,
+                name: (nativeBalance as any).name || (nativeBalance as any).symbol,
                 logo: null, 
                 thumbnail: null,
                 decimals: (nativeBalance as any).decimals || 18,
