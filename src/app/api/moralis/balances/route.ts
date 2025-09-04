@@ -43,7 +43,7 @@ export async function GET(request: NextRequest) {
                 token_address: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee', // Standard placeholder for native currency
                 symbol: (nativeBalance as any).symbol,
                 name: (nativeBalance as any).name || (nativeBalance as any).symbol,
-                logo: null, 
+                logo: undefined, 
                 thumbnail: null,
                 decimals: (nativeBalance as any).decimals || 18,
                 balance: nativeBalance.balance,
