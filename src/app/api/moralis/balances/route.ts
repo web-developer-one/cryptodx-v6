@@ -6,7 +6,6 @@ import { networkConfigs } from '@/hooks/use-wallet';
 
 const MORALIS_API_KEY = process.env.MORALIS_API_KEY;
 
-// Combined type for the final response
 type CombinedBalance = {
     token_address: string;
     symbol: string;
@@ -71,21 +70,23 @@ export async function GET(request: NextRequest) {
         
         // 2. Process and add ERC-20 token balances
         if (tokenBalancesData.length > 0) {
-            tokenBalancesData
-                .filter(token => !token.possible_spam && token.symbol !== 'MCAT' && token.symbol !== 'WBTC')
-                .forEach(token => {
-                    allBalances.push({
-                        token_address: token.token_address,
-                        symbol: token.symbol,
-                        name: token.name,
-                        logo: token.logo,
-                        thumbnail: token.thumbnail,
-                        decimals: token.decimals,
-                        balance: ethers.formatUnits(token.balance, token.decimals),
-                        possible_spam: token.possible_spam,
-                        usdValue: (token.usd_price || 0) * parseFloat(ethers.formatUnits(token.balance, token.decimals)),
-                    });
+            tokenBalancesData.forEach(token => {
+                if (token.possible_spam || token.symbol === 'MCAT' || token.symbol === 'WBTC') {
+                    return;
+                }
+                const formattedBalance = ethers.formatUnits(token.balance, token.decimals);
+                allBalances.push({
+                    token_address: token.token_address,
+                    symbol: token.symbol,
+                    name: token.name,
+                    logo: token.logo,
+                    thumbnail: token.thumbnail,
+                    decimals: token.decimals,
+                    balance: formattedBalance,
+                    possible_spam: token.possible_spam,
+                    usdValue: (token.usd_price || 0) * parseFloat(formattedBalance),
                 });
+            });
         }
        
         return NextResponse.json(allBalances);
