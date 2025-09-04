@@ -43,6 +43,12 @@ const nextConfig = {
         hostname: 'i.seadn.io',
         port: '',
         pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'logo.moralis.io',
+        port: '',
+        pathname: '/**',
       }
     ],
   },
