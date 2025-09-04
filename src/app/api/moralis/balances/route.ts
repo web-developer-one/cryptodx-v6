@@ -63,7 +63,6 @@ export async function GET(request: NextRequest) {
 
         // Add native balance to the list of tokens, ensuring it's formatted consistently
         if (nativeBalance && nativeBalance.balance) {
-             const nativeValue = (nativeBalance as any).usd_price ? (Number(ethers.formatUnits(nativeBalance.balance, selectedNetwork.nativeCurrency.decimals)) * (nativeBalance as any).usd_price) : 0;
              combinedBalances.unshift({
                 token_address: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee', // Standard placeholder for native currency
                 symbol: selectedNetwork.nativeCurrency.symbol,
@@ -73,7 +72,7 @@ export async function GET(request: NextRequest) {
                 decimals: selectedNetwork.nativeCurrency.decimals,
                 balance: nativeBalance.balance,
                 possible_spam: false,
-                usd_value: nativeValue,
+                usd_value: 0, // Fallback to 0 to prevent crash, was previously incorrect.
             });
         }
        
