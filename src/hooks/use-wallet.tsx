@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import React, { useCallback, useEffect } from 'react';
@@ -105,7 +104,6 @@ export const networkConfigs: Record<string, NetworkConfig> = {
         rpcUrls: ['https://mainnet.era.zksync.io'],
         blockExplorerUrls: ['https://explorer.zksync.io'],
         logo: 'https://s2.coinmarketcap.com/static/img/coins/64x64/24093.png'
-        // Note: zkSync uses a different swapping mechanism, Uniswap V2 router might not be applicable.
     },
 };
 
@@ -115,74 +113,92 @@ type Balance = {
     logo: string;
     balance: string;
     usdValue: number;
+    address?: string;
+    decimals: number;
 }
 type Balances = Record<string, Balance>;
 
 
-// Define the shape of the wallet context
 interface WalletContextType {
   account: string | null;
   isActive: boolean;
   balances: Balances | null;
+  isBalancesLoading: boolean;
   connectWallet: () => Promise<void>;
   disconnect: () => void;
   isLoading: boolean;
   isConnecting: boolean;
   isSwapping: boolean;
+  isSending: boolean;
   selectedNetwork: NetworkConfig;
   setSelectedNetwork: React.Dispatch<React.SetStateAction<NetworkConfig>>;
   performSwap: (fromToken: Cryptocurrency, toToken: Cryptocurrency, amount: string) => Promise<void>;
+  sendTokens: (tokenAddress: string | undefined, recipient: string, amount: string, decimals: number) => Promise<void>;
 }
 
-// Create the context with a default null value
 const WalletContext = React.createContext<WalletContextType | null>(null);
 
-// Create the provider component
 export function WalletProvider({ children }: { children: React.ReactNode }) {
   const [account, setAccount] = React.useState<string | null>(null);
   const [balances, setBalances] = React.useState<Balances | null>(null);
   const [isLoading, setIsLoading] = React.useState(true);
   const [isConnecting, setIsConnecting] = React.useState(false);
   const [isSwapping, setIsSwapping] = React.useState(false);
+  const [isSending, setIsSending] = React.useState(false);
+  const [isBalancesLoading, setIsBalancesLoading] = React.useState(false);
   const [selectedNetwork, setSelectedNetwork] = React.useState<NetworkConfig>(networkConfigs['0x1']);
   const { t } = useLanguage();
 
-  const fetchBalances = async (address: string) => {
+  const fetchBalances = useCallback(async (address: string, network: NetworkConfig) => {
+    setIsBalancesLoading(true);
     try {
-      const provider = new ethers.BrowserProvider(window.ethereum);
-      const balanceWei = await provider.getBalance(address);
-      const balanceEther = ethers.formatEther(balanceWei);
+      const response = await fetch(`/api/moralis/balances?address=${address}&chain=${network.chainId}`);
+      if (!response.ok) {
+        throw new Error('Failed to fetch balances from Moralis');
+      }
+      const data = await response.json();
+
+      const nativeBalanceResponse = await new ethers.BrowserProvider(window.ethereum).getBalance(address);
+      const nativeBalance = ethers.formatEther(nativeBalanceResponse);
+      const nativeTokenPrice = 3500; // This should come from an oracle in a real app
+
+      const processedBalances: Balances = {};
       
-      const mockBalances: Balances = {
-          [selectedNetwork.nativeCurrency.symbol]: {
-              name: selectedNetwork.nativeCurrency.name,
-              symbol: selectedNetwork.nativeCurrency.symbol,
-              logo: selectedNetwork.logo || '',
-              balance: balanceEther,
-              usdValue: parseFloat(balanceEther) * 3600 // Mock price
-          },
-          'USDC': {
-              name: 'USD Coin',
-              symbol: 'USDC',
-              logo: 'https://s2.coinmarketcap.com/static/img/coins/64x64/3408.png',
-              balance: '5000.00',
-              usdValue: 5000.00
-          },
-          'WBTC': {
-              name: 'Wrapped Bitcoin',
-              symbol: 'WBTC',
-              logo: 'https://s2.coinmarketcap.com/static/img/coins/64x64/3717.png',
-              balance: (Math.random() * 0.1).toFixed(5),
-              usdValue: (Math.random() * 0.1) * 65000
-          },
+      // Add native balance first
+      processedBalances[network.nativeCurrency.symbol] = {
+          name: network.nativeCurrency.name,
+          symbol: network.nativeCurrency.symbol,
+          logo: network.logo || '',
+          balance: nativeBalance,
+          usdValue: parseFloat(nativeBalance) * nativeTokenPrice,
+          decimals: 18,
+          address: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee' // Common address for native tokens
       };
 
-      setBalances(mockBalances);
+      // Process ERC20 tokens from Moralis
+      data.forEach((token: any) => {
+          if (token.possible_spam) return; // Skip spam tokens
+          
+          processedBalances[token.symbol] = {
+              name: token.name,
+              symbol: token.symbol,
+              logo: token.logo || `https://s2.coinmarketcap.com/static/img/coins/64x64/${token.token_address}.png`,
+              balance: ethers.formatUnits(token.balance, token.decimals),
+              usdValue: token.usd_value,
+              address: token.token_address,
+              decimals: token.decimals,
+          };
+      });
+
+      setBalances(processedBalances);
     } catch (error) {
       console.error("Failed to fetch balances:", error);
+      toast({ variant: 'destructive', title: "Error", description: "Could not fetch wallet balances." });
       setBalances(null);
+    } finally {
+        setIsBalancesLoading(false);
     }
-  };
+  }, []);
 
   const disconnect = useCallback(() => {
     setAccount(null);
@@ -201,8 +217,12 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
         method: 'wallet_switchEthereumChain',
         params: [{ chainId: network.chainId }],
       });
+      // After successful switch, re-fetch balances for the new network
+      if (account) {
+        fetchBalances(account, network);
+      }
     } catch (switchError: any) {
-      if (switchError.code === 4902) { // Chain not added
+      if (switchError.code === 4902) {
         try {
           await window.ethereum.request({
             method: 'wallet_addEthereumChain',
@@ -211,11 +231,11 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
         } catch (addError: any) {
            toast({ variant: "destructive", title: t('WalletConnect.addNetworkFailedTitle'), description: t('WalletConnect.addNetworkFailedDesc')});
         }
-      } else if (switchError.code !== 4001) { // Ignore user rejection
+      } else if (switchError.code !== 4001) {
          toast({ variant: "destructive", title: t('WalletConnect.switchNetworkFailedTitle'), description: t('WalletConnect.switchNetworkFailedDesc')});
       }
     }
-  }, [t]);
+  }, [t, account, fetchBalances]);
 
   const connectWallet = useCallback(async () => {
     if (isConnecting || account) return;
@@ -239,7 +259,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
             setAccount(currentAccount);
             
             await switchNetwork(selectedNetwork);
-            await fetchBalances(currentAccount);
+            await fetchBalances(currentAccount, selectedNetwork);
             
             localStorage.removeItem('explicitly_disconnected');
             toast({
@@ -260,7 +280,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
     } finally {
         setIsConnecting(false);
     }
-  }, [isConnecting, account, selectedNetwork, t, switchNetwork]);
+  }, [isConnecting, account, selectedNetwork, t, switchNetwork, fetchBalances]);
 
   useEffect(() => {
     if (account) {
@@ -291,12 +311,11 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
         return;
     }
     
-    const amountIn = ethers.parseUnits(amount, 18); // Assuming 18 decimals for simplicity
-    const deadline = Math.floor(Date.now() / 1000) + 60 * 20; // 20 minutes from now
+    const amountIn = ethers.parseUnits(amount, 18);
+    const deadline = Math.floor(Date.now() / 1000) + 60 * 20;
 
     try {
         if (!fromIsNative) {
-            // ERC20 to Token/ETH swap
             const fromTokenContract = new ethers.Contract(fromAddress, ['function approve(address spender, uint256 amount) external returns (bool)'], signer);
             const approveTx = await fromTokenContract.approve(selectedNetwork.uniswapRouterAddress, amountIn);
             toast({ title: 'Approval Required', description: 'Please approve the token spend in your wallet.' });
@@ -308,52 +327,63 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
         let tx;
 
         if (fromIsNative) {
-            // ETH to Token swap
-            tx = await routerContract.swapExactETHForTokens(
-                0, // amountOutMin: 0 for simplicity, in a real app, calculate this with slippage
-                path,
-                account,
-                deadline,
-                { value: amountIn }
-            );
+            tx = await routerContract.swapExactETHForTokens(0, path, account, deadline, { value: amountIn });
         } else if (toIsNative) {
-            // Token to ETH swap
-            tx = await routerContract.swapExactTokensForETH(
-                amountIn,
-                0,
-                path,
-                account,
-                deadline
-            );
+            tx = await routerContract.swapExactTokensForETH(amountIn, 0, path, account, deadline);
         } else {
-            // Token to Token swap
-            tx = await routerContract.swapExactTokensForTokens(
-                amountIn,
-                0,
-                path,
-                account,
-                deadline
-            );
+            tx = await routerContract.swapExactTokensForTokens(amountIn, 0, path, account, deadline);
         }
 
         toast({ title: 'Transaction Submitted', description: 'Your swap is being processed on the blockchain.' });
         await tx.wait();
         toast({ title: 'Swap Successful!', description: `Swapped ${amount} ${fromToken.symbol} for ${toToken.symbol}.` });
         
-        // Refresh balances after swap
-        await fetchBalances(account);
+        await fetchBalances(account, selectedNetwork);
 
     } catch (error: any) {
         console.error("Swap failed", error);
-        toast({
-            variant: 'destructive',
-            title: 'Swap Failed',
-            description: error.reason || error.message || 'An unknown error occurred during the swap.',
-        });
+        toast({ variant: 'destructive', title: 'Swap Failed', description: error.reason || error.message || 'An unknown error occurred during the swap.'});
     } finally {
         setIsSwapping(false);
     }
-  }, [account, selectedNetwork, t]);
+  }, [account, selectedNetwork, fetchBalances]);
+
+  const sendTokens = useCallback(async (tokenAddress: string | undefined, recipient: string, amount: string, decimals: number) => {
+    if (!account || typeof window.ethereum === 'undefined') {
+        toast({ variant: 'destructive', title: 'Wallet Not Connected', description: 'Please connect your wallet to send tokens.' });
+        return;
+    }
+    setIsSending(true);
+    try {
+        const provider = new ethers.BrowserProvider(window.ethereum);
+        const signer = await provider.getSigner();
+        const amountToSend = ethers.parseUnits(amount, decimals);
+        
+        let tx;
+        // Handle native currency transfer
+        if (!tokenAddress || tokenAddress === '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee') {
+            tx = await signer.sendTransaction({
+                to: recipient,
+                value: amountToSend
+            });
+        } else {
+            // Handle ERC20 token transfer
+            const tokenContract = new ethers.Contract(tokenAddress, ['function transfer(address to, uint256 amount) external returns (bool)'], signer);
+            tx = await tokenContract.transfer(recipient, amountToSend);
+        }
+
+        toast({ title: 'Transaction Sent', description: 'Your transaction has been submitted.' });
+        await tx.wait();
+        toast({ title: 'Transaction Confirmed', description: 'Your tokens have been successfully sent.' });
+        await fetchBalances(account, selectedNetwork);
+
+    } catch (error: any) {
+        console.error("Send failed:", error);
+        toast({ variant: 'destructive', title: 'Send Failed', description: error.reason || error.message || 'An unknown error occurred.' });
+    } finally {
+        setIsSending(false);
+    }
+  }, [account, selectedNetwork, fetchBalances]);
 
 
   useEffect(() => {
@@ -367,7 +397,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
         disconnect();
       } else if (accounts[0] !== account) {
         setAccount(accounts[0]);
-        await fetchBalances(accounts[0]);
+        await fetchBalances(accounts[0], selectedNetwork);
         localStorage.removeItem('explicitly_disconnected');
         toast({
             title: t('WalletConnect.accountSwitched'),
@@ -376,8 +406,13 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
       }
     };
     
-    const handleChainChanged = () => {
-        window.location.reload();
+    const handleChainChanged = (chainId: string) => {
+        const newNetwork = Object.values(networkConfigs).find(n => n.chainId === chainId);
+        if (newNetwork) {
+            setSelectedNetwork(newNetwork);
+        } else {
+            console.warn(`Unsupported chain detected: ${chainId}`);
+        }
     };
 
     const checkExistingConnection = async () => {
@@ -392,7 +427,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
             const accounts = await provider.send('eth_accounts', []);
             if (accounts.length > 0) {
                 setAccount(accounts[0]);
-                await fetchBalances(accounts[0]);
+                await fetchBalances(accounts[0], selectedNetwork);
             }
         } catch (error) {
             console.log("Could not check for existing connection", error);
@@ -412,20 +447,23 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
         window.ethereum.removeListener('chainChanged', handleChainChanged);
       }
     };
-  }, [account, disconnect, t]);
+  }, [account, disconnect, t, fetchBalances, selectedNetwork]);
 
   const value = {
     account,
     isActive: !!account,
     balances,
+    isBalancesLoading,
     connectWallet,
     disconnect,
     isLoading,
     isConnecting,
     isSwapping,
+    isSending,
     selectedNetwork,
     setSelectedNetwork,
     performSwap,
+    sendTokens,
   };
 
   return (
