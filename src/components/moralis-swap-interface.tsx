@@ -34,14 +34,12 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useToast } from "@/hooks/use-toast";
 import { useLanguage } from "@/hooks/use-language";
 import { Skeleton } from "./ui/skeleton";
 import { cn } from "@/lib/utils";
-import { useDebounce } from "@/hooks/use-debounce";
 
 
 interface TokenSelectDialogProps {
@@ -165,9 +163,7 @@ export function MoralisSwapInterface({ cryptocurrencies, title, fromTokenSymbol 
   const [toToken, setToToken] = useState<Cryptocurrency | undefined>(cryptocurrencies.find(c => c.symbol === 'USDC'));
   const [fromAmount, setFromAmount] = useState<string>("1");
   const [toAmount, setToAmount] = useState<string>("");
-  const [isFetchingQuote, setIsFetchingQuote] = useState(false);
   const [gasEstimate, setGasEstimate] = useState<string>("-");
-  const [exchangeRate, setExchangeRate] = useState<number | null>(null);
 
   const [slippage, setSlippage] = useState("0.5");
   const [isSlippageAuto, setIsSlippageAuto] = useState(true);
@@ -178,11 +174,16 @@ export function MoralisSwapInterface({ cryptocurrencies, title, fromTokenSymbol 
 
   const { isActive: isWalletConnected, balances, performSwap, isSwapping } = useWallet();
   const { toast } = useToast();
-  const debouncedFromAmount = useDebounce(fromAmount, 500);
   
   const fromTokenBalance = useMemo(() => balances?.[fromToken?.symbol || ''], [balances, fromToken]);
   const toTokenBalance = useMemo(() => balances?.[toToken?.symbol || ''], [balances, toToken]);
 
+  const exchangeRate = useMemo(() => {
+    if (fromToken?.price && toToken?.price && toToken.price > 0) {
+      return fromToken.price / toToken.price;
+    }
+    return 0;
+  }, [fromToken, toToken]);
 
   const priceImpact = useMemo(() => {
     if (!fromAmount || parseFloat(fromAmount) <= 0) {
@@ -201,46 +202,14 @@ export function MoralisSwapInterface({ cryptocurrencies, title, fromTokenSymbol 
     }
   }, [fromAmount, fromToken, toToken]);
   
-  const fetchReserves = useCallback(async () => {
-      if (!fromToken || !toToken) return;
-      setIsFetchingQuote(true);
-      setExchangeRate(null);
-      try {
-          const fromAddress = fromToken.symbol; 
-          const toAddress = toToken.symbol;
-          const response = await fetch(`/api/moralis/reserves?token0=${fromAddress}&token1=${toAddress}`);
-          if (!response.ok) {
-              const errorData = await response.json();
-              throw new Error(errorData.error || 'Failed to fetch reserves.');
-          }
-          const data = await response.json();
-          const reserve0 = parseFloat(data.reserve0);
-          const reserve1 = parseFloat(data.reserve1);
-          if (reserve0 > 0 && reserve1 > 0) {
-              setExchangeRate(reserve1 / reserve0);
-          } else {
-              setExchangeRate(0);
-          }
-      } catch (e: any) {
-          toast({ variant: 'destructive', title: 'Error', description: e.message });
-          setExchangeRate(0);
-      } finally {
-          setIsFetchingQuote(false);
-      }
-  }, [fromToken, toToken, toast]);
-
   useEffect(() => {
-    fetchReserves();
-  }, [fetchReserves]);
-
-  useEffect(() => {
-    if (debouncedFromAmount && exchangeRate !== null) {
-      const amount = parseFloat(debouncedFromAmount) * exchangeRate;
+    if (fromAmount && exchangeRate) {
+      const amount = parseFloat(fromAmount) * exchangeRate;
       setToAmount(amount.toLocaleString('en-US', { maximumFractionDigits: 5 }));
     } else {
       setToAmount("");
     }
-  }, [debouncedFromAmount, exchangeRate]);
+  }, [fromAmount, exchangeRate]);
 
 
   const handleSwap = () => {
@@ -481,13 +450,7 @@ export function MoralisSwapInterface({ cryptocurrencies, title, fromTokenSymbol 
             )}
           </div>
           <div className="flex items-center gap-2">
-            {isFetchingQuote ? (
-              <div className="flex-1 flex items-center h-12">
-                <Loader2 className="h-6 w-6 animate-spin" />
-              </div>
-            ) : (
-              <Input id="to-input" type="text" placeholder="0" className="text-3xl h-12 bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0 p-0" value={toAmount} onChange={handleToAmountChange}/>
-            )}
+            <Input id="to-input" type="text" placeholder="0" className="text-3xl h-12 bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0 p-0" value={toAmount} onChange={handleToAmountChange}/>
             <Button variant="outline" className="h-12 text-lg font-bold bg-card hover:bg-accent min-w-[130px]" onClick={() => setIsToDialogOpen(true)}>
                   <div className="flex items-center gap-2">
                       <Image
@@ -507,7 +470,7 @@ export function MoralisSwapInterface({ cryptocurrencies, title, fromTokenSymbol 
       <CardFooter className="flex-col gap-4">
         <div className="w-full">
               {isWalletConnected ? (
-                <Button className="w-full h-12 text-lg" disabled={isFetchingQuote || isSwapping} onClick={handleSwapClick}>
+                <Button className="w-full h-12 text-lg" disabled={isSwapping} onClick={handleSwapClick}>
                   {isSwapping && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                   {isSwapping ? 'Swapping...' : t('TradeNav.swap')}
                 </Button>
