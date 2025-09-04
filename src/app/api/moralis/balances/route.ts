@@ -49,10 +49,10 @@ export async function GET(request: NextRequest) {
         const tokenBalances = tokenBalancesResponse.raw;
 
         const combinedBalances: CombinedBalance[] = tokenBalances
-            .filter((token: any) => !token.possible_spam)
+            .filter((token: any) => !token.possible_spam && token.symbol !== 'MCAT') // Explicitly filter out MCAT
             .map((token: any) => ({
                 ...token,
-                usd_value: token.usd_value || 0, // Ensure usd_value exists
+                usd_value: token.usd_value || 0,
             }));
 
         // Add native balance to the list of tokens, ensuring it's formatted consistently
