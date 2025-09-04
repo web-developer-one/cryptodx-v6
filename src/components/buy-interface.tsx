@@ -144,9 +144,9 @@ export function BuyInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocur
         <div className="p-4 rounded-lg bg-[#f8fafc] dark:bg-secondary/50 border">
           <div className="flex justify-between items-center mb-1">
             <label className="text-sm text-muted-foreground" htmlFor="crypto-input">{t('BuyInterface.youGet')}</label>
-             {isWalletConnected && toTokenBalance !== undefined && (
+             {isWalletConnected && toTokenBalance && (
                 <span className="text-sm text-muted-foreground">
-                    {t('SwapInterface.balance').replace('{balance}', `${parseFloat(toTokenBalance).toLocaleString('en-US', {maximumFractionDigits: 5})} ${toToken.symbol}`)}
+                    {t('SwapInterface.balance').replace('{balance}', `${parseFloat(toTokenBalance.balance).toLocaleString('en-US', {maximumFractionDigits: 5})} ${toToken.symbol}`)}
                 </span>
             )}
           </div>

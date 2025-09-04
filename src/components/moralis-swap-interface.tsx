@@ -175,8 +175,8 @@ export function MoralisSwapInterface({ cryptocurrencies, title, fromTokenSymbol 
   const { isActive: isWalletConnected, balances, performSwap, isSwapping } = useWallet();
   const { toast } = useToast();
   
-  const fromTokenBalance = useMemo(() => balances?.[fromToken?.symbol || '']?.balance, [balances, fromToken]);
-  const toTokenBalance = useMemo(() => balances?.[toToken?.symbol || '']?.balance, [balances, toToken]);
+  const fromTokenBalance = useMemo(() => balances?.[fromToken?.symbol || ''], [balances, fromToken]);
+  const toTokenBalance = useMemo(() => balances?.[toToken?.symbol || ''], [balances, toToken]);
 
   const exchangeRate = useMemo(() => {
     if (fromToken?.price && toToken?.price && toToken.price > 0) {
@@ -277,7 +277,7 @@ export function MoralisSwapInterface({ cryptocurrencies, title, fromTokenSymbol 
 
   const handleSetMax = () => {
     if (fromTokenBalance) {
-        setFromAmount(fromTokenBalance);
+        setFromAmount(fromTokenBalance.balance);
     }
   };
   
@@ -405,9 +405,9 @@ export function MoralisSwapInterface({ cryptocurrencies, title, fromTokenSymbol 
         <div className="p-4 rounded-lg bg-[#f8fafc] dark:bg-secondary/50 border">
           <div className="flex justify-between items-baseline mb-1">
             <span className="text-sm text-muted-foreground">{t('SwapInterface.sell')}</span>
-            {isWalletConnected && fromTokenBalance !== undefined && (
+            {isWalletConnected && fromTokenBalance && (
                 <div className="text-sm text-muted-foreground flex items-center gap-1">
-                    <span>{t('SwapInterface.balance').replace('{balance}', `${Number(fromTokenBalance).toLocaleString('en-US', {maximumFractionDigits: 5})}`)}</span>
+                    <span>{t('SwapInterface.balance').replace('{balance}', `${Number(fromTokenBalance.balance).toLocaleString('en-US', {maximumFractionDigits: 5})}`)}</span>
                     <Button variant="link" size="sm" className="h-auto p-0" onClick={handleSetMax}>
                         {t('SwapInterface.max')}
                     </Button>
@@ -443,9 +443,9 @@ export function MoralisSwapInterface({ cryptocurrencies, title, fromTokenSymbol 
         <div className="p-4 rounded-lg bg-[#f8fafc] dark:bg-secondary/50 border">
           <div className="flex justify-between items-baseline mb-1">
             <span className="text-sm text-muted-foreground">{t('SwapInterface.buy')}</span>
-            {isWalletConnected && toTokenBalance !== undefined && (
+            {isWalletConnected && toTokenBalance && (
                 <div className="text-sm text-muted-foreground flex items-center gap-1">
-                    <span>{t('SwapInterface.balance').replace('{balance}', `${Number(toTokenBalance).toLocaleString('en-US', {maximumFractionDigits: 5})}`)}</span>
+                    <span>{t('SwapInterface.balance').replace('{balance}', `${Number(toTokenBalance.balance).toLocaleString('en-US', {maximumFractionDigits: 5})}`)}</span>
                 </div>
             )}
           </div>

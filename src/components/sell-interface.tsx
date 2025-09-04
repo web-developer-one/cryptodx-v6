@@ -109,7 +109,7 @@ export function SellInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocu
 
   const handleSetMax = () => {
     if (fromTokenBalance) {
-        setCryptoAmount(fromTokenBalance);
+        setCryptoAmount(fromTokenBalance.balance);
     }
   };
 
@@ -123,9 +123,9 @@ export function SellInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocu
         <div className="p-4 rounded-lg bg-[#f8fafc] dark:bg-secondary/50 border">
           <div className="flex justify-between items-center mb-1">
             <label className="text-sm text-muted-foreground" htmlFor="crypto-input">{t('SellInterface.youSell')}</label>
-            {isWalletConnected && fromTokenBalance !== undefined && (
+            {isWalletConnected && fromTokenBalance && (
                 <div className="text-sm text-muted-foreground flex items-center gap-1">
-                    <span>{t('SwapInterface.balance').replace('{balance}', `${parseFloat(fromTokenBalance).toLocaleString('en-US', {maximumFractionDigits: 5})} ${fromToken.symbol}`)}</span>
+                    <span>{t('SwapInterface.balance').replace('{balance}', `${parseFloat(fromTokenBalance.balance).toLocaleString('en-US', {maximumFractionDigits: 5})} ${fromToken.symbol}`)}</span>
                     <Button variant="link" size="sm" className="h-auto p-0" onClick={handleSetMax}>
                         {t('SwapInterface.max')}
                     </Button>
