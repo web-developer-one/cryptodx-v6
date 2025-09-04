@@ -70,7 +70,7 @@ export async function GET(request: NextRequest) {
                 logo: selectedNetwork.logo, 
                 thumbnail: selectedNetwork.logo,
                 decimals: selectedNetwork.nativeCurrency.decimals,
-                balance: nativeBalance.balance,
+                balance: ethers.formatUnits(nativeBalance.balance, selectedNetwork.nativeCurrency.decimals),
                 possible_spam: false,
                 usd_value: 0, // Fallback to 0 to prevent crash, was previously incorrect.
             });
