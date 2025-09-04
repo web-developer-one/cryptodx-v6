@@ -44,7 +44,7 @@ export async function GET(request: NextRequest) {
                 symbol: (nativeBalance as any).symbol,
                 name: (nativeBalance as any).name || (nativeBalance as any).symbol,
                 logo: undefined, 
-                thumbnail: null,
+                thumbnail: undefined,
                 decimals: (nativeBalance as any).decimals || 18,
                 balance: nativeBalance.balance,
                 possible_spam: false,
