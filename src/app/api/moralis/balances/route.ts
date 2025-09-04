@@ -1,16 +1,16 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import Moralis from 'moralis';
+import { ethers } from 'ethers';
 
 const MORALIS_API_KEY = process.env.MORALIS_API_KEY;
 
 export async function GET(request: NextRequest) {
-    if (!MORALIS_API_KEY) {
-        console.error("MORALIS_API_KEY is not set. Please set it in your environment variables.");
-        return NextResponse.json({ error: 'Moralis API key is not configured.' }, { status: 500 });
-    }
-
     if (!Moralis.Core.isStarted) {
+        if (!MORALIS_API_KEY) {
+            console.error("MORALIS_API_KEY is not set. Please set it in your environment variables.");
+            return NextResponse.json({ error: 'Moralis API key is not configured.' }, { status: 500 });
+        }
         await Moralis.start({ apiKey: MORALIS_API_KEY });
     }
 
@@ -34,19 +34,22 @@ export async function GET(request: NextRequest) {
 
         const combinedBalances = [...tokenBalances];
 
-        // Add native balance to the list of tokens
-        combinedBalances.unshift({
-            token_address: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee', // Placeholder for native
-            symbol: nativeBalance.symbol,
-            name: nativeBalance.name,
-            logo: nativeBalance.logo,
-            thumbnail: nativeBalance.thumbnail,
-            decimals: nativeBalance.decimals,
-            balance: nativeBalance.balance,
-            possible_spam: false,
-            usd_value: nativeBalance.usd_price ? (Number(ethers.formatUnits(nativeBalance.balance, nativeBalance.decimals)) * nativeBalance.usd_price) : 0,
-        });
-
+        // Add native balance to the list of tokens, ensuring it's formatted consistently
+        if (nativeBalance && nativeBalance.balance) {
+             const nativeValue = nativeBalance.usd_price ? (Number(ethers.formatUnits(nativeBalance.balance, nativeBalance.decimals)) * nativeBalance.usd_price) : 0;
+             combinedBalances.unshift({
+                token_address: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee', // Standard placeholder for native currency
+                symbol: nativeBalance.symbol,
+                name: nativeBalance.name,
+                logo: null, 
+                thumbnail: null,
+                decimals: nativeBalance.decimals,
+                balance: nativeBalance.balance,
+                possible_spam: false,
+                usd_value: nativeValue,
+            });
+        }
+       
         return NextResponse.json(combinedBalances);
     } catch (error: any) {
         console.error("Failed to fetch from Moralis:", error.message);
