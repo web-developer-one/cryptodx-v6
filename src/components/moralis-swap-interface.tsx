@@ -175,8 +175,8 @@ export function MoralisSwapInterface({ cryptocurrencies, title, fromTokenSymbol 
   const { isActive: isWalletConnected, balances, performSwap, isSwapping } = useWallet();
   const { toast } = useToast();
   
-  const fromTokenBalance = useMemo(() => balances?.[fromToken?.symbol || ''], [balances, fromToken]);
-  const toTokenBalance = useMemo(() => balances?.[toToken?.symbol || ''], [balances, toToken]);
+  const fromTokenBalance = useMemo(() => balances?.[fromToken?.symbol || '']?.balance, [balances, fromToken]);
+  const toTokenBalance = useMemo(() => balances?.[toToken?.symbol || '']?.balance, [balances, toToken]);
 
   const exchangeRate = useMemo(() => {
     if (fromToken?.price && toToken?.price && toToken.price > 0) {
@@ -407,7 +407,7 @@ export function MoralisSwapInterface({ cryptocurrencies, title, fromTokenSymbol 
             <span className="text-sm text-muted-foreground">{t('SwapInterface.sell')}</span>
             {isWalletConnected && fromTokenBalance !== undefined && (
                 <div className="text-sm text-muted-foreground flex items-center gap-1">
-                    <span>{t('SwapInterface.balance').replace('{balance}', `${parseFloat(fromTokenBalance).toLocaleString('en-US', {maximumFractionDigits: 5})}`)}</span>
+                    <span>{t('SwapInterface.balance').replace('{balance}', `${Number(fromTokenBalance).toLocaleString('en-US', {maximumFractionDigits: 5})}`)}</span>
                     <Button variant="link" size="sm" className="h-auto p-0" onClick={handleSetMax}>
                         {t('SwapInterface.max')}
                     </Button>
@@ -445,7 +445,7 @@ export function MoralisSwapInterface({ cryptocurrencies, title, fromTokenSymbol 
             <span className="text-sm text-muted-foreground">{t('SwapInterface.buy')}</span>
             {isWalletConnected && toTokenBalance !== undefined && (
                 <div className="text-sm text-muted-foreground flex items-center gap-1">
-                    <span>{t('SwapInterface.balance').replace('{balance}', `${parseFloat(toTokenBalance).toLocaleString('en-US', {maximumFractionDigits: 5})}`)}</span>
+                    <span>{t('SwapInterface.balance').replace('{balance}', `${Number(toTokenBalance).toLocaleString('en-US', {maximumFractionDigits: 5})}`)}</span>
                 </div>
             )}
           </div>

@@ -6,11 +6,13 @@ import { ethers } from 'ethers';
 const MORALIS_API_KEY = process.env.MORALIS_API_KEY;
 
 export async function GET(request: NextRequest) {
+    if (!MORALIS_API_KEY) {
+        console.error("MORALIS_API_KEY is not set. Please set it in your environment variables.");
+        return NextResponse.json({ error: 'Moralis API key is not configured.' }, { status: 500 });
+    }
+    
+    // Ensure Moralis is started for each request in a serverless environment
     if (!Moralis.Core.isStarted) {
-        if (!MORALIS_API_KEY) {
-            console.error("MORALIS_API_KEY is not set. Please set it in your environment variables.");
-            return NextResponse.json({ error: 'Moralis API key is not configured.' }, { status: 500 });
-        }
         await Moralis.start({ apiKey: MORALIS_API_KEY });
     }
 
@@ -35,15 +37,15 @@ export async function GET(request: NextRequest) {
         const combinedBalances = [...tokenBalances];
 
         // Add native balance to the list of tokens, ensuring it's formatted consistently
-        if (nativeBalance && nativeBalance.balance) {
-             const nativeValue = nativeBalance.usd_price ? (Number(ethers.formatUnits(nativeBalance.balance, nativeBalance.decimals)) * nativeBalance.usd_price) : 0;
+        if (nativeBalance && nativeBalance.balance && nativeBalance.symbol) {
+             const nativeValue = (nativeBalance as any).usd_price ? (Number(ethers.formatUnits(nativeBalance.balance, nativeBalance.decimals || 18)) * (nativeBalance as any).usd_price) : 0;
              combinedBalances.unshift({
                 token_address: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee', // Standard placeholder for native currency
                 symbol: nativeBalance.symbol,
-                name: nativeBalance.name,
+                name: nativeBalance.name || nativeBalance.symbol,
                 logo: null, 
                 thumbnail: null,
-                decimals: nativeBalance.decimals,
+                decimals: nativeBalance.decimals || 18,
                 balance: nativeBalance.balance,
                 possible_spam: false,
                 usd_value: nativeValue,
