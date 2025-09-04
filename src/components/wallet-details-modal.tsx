@@ -85,7 +85,7 @@ const ReceiveTokenDialog = ({ address }: { address: string }) => {
                     light: '#FFFFFF'
                 }
             })
-            .then(url => setQrCodeUrl(url))
+            .then((url: string) => setQrCodeUrl(url))
             .catch(err => console.error("Failed to generate QR code", err));
         }
     }, [address]);
