@@ -12,7 +12,6 @@ import { Providers } from '@/components/providers';
 import { MarketHighlights } from '@/components/market-highlights';
 import { LiveUpdateNotifier } from '@/components/live-update-notifier';
 import { Chatbot } from '@/components/chatbot';
-import { useEffect, useState } from 'react';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -34,11 +33,6 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const [isClient, setIsClient] = useState(false);
-
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
 
   return (
     <html lang="en" suppressHydrationWarning className={`${inter.variable} ${spaceGrotesk.variable}`}>
@@ -49,7 +43,7 @@ export default function RootLayout({
             <main className="flex-1 flex flex-col">{children}</main>
             <div className="w-full py-12 flex justify-center border-y bg-background">
               <div className="container">
-                {isClient ? <MarketHighlights /> : null}
+                <MarketHighlights />
               </div>
             </div>
             <Footer />
@@ -63,3 +57,4 @@ export default function RootLayout({
     </html>
   );
 }
+
