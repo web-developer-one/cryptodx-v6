@@ -110,7 +110,7 @@ export const networkConfigs: Record<string, NetworkConfig> = {
 type Balance = {
     name: string;
     symbol: string;
-    logo: string;
+    logo?: string;
     balance: string;
     usdValue: number;
     address?: string;
@@ -151,36 +151,32 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
 
   const fetchBalances = useCallback(async (address: string, network: NetworkConfig) => {
     setIsBalancesLoading(true);
+    setBalances(null);
     try {
       const response = await fetch(`/api/moralis/balances?address=${address}&chain=${network.chainId}`);
       if (!response.ok) {
         const errorData = await response.json();
-        console.error('Failed to fetch balances from Moralis API:', errorData.error);
-        throw new Error(errorData.error || `Moralis API request failed with status ${response.status}`);
+        throw new Error(errorData.error || `Failed to fetch balances with status ${response.status}`);
       }
       
       const data = await response.json();
       
       if (!Array.isArray(data)) {
-        console.error('API did not return an array for balances:', data);
         throw new Error('Invalid balance data format');
       }
 
-      const processedBalances: Balances = {};
-      
-      data.forEach((token: any) => {
-          if (token.possible_spam) return;
-          
-          processedBalances[token.symbol] = {
-              name: token.name,
-              symbol: token.symbol,
-              logo: token.logo || `https://s2.coinmarketcap.com/static/img/coins/64x64/1.png`, // Fallback logo
-              balance: ethers.formatUnits(token.balance, token.decimals),
-              usdValue: token.usd_value,
-              address: token.token_address,
-              decimals: token.decimals,
-          };
-      });
+      const processedBalances: Balances = data.reduce((acc, token) => {
+        acc[token.symbol] = {
+          name: token.name,
+          symbol: token.symbol,
+          logo: token.logo,
+          balance: token.balance,
+          usdValue: token.usdValue,
+          address: token.token_address,
+          decimals: token.decimals,
+        };
+        return acc;
+      }, {} as Balances);
 
       setBalances(processedBalances);
     } catch (error) {
@@ -210,7 +206,6 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
         method: 'wallet_switchEthereumChain',
         params: [{ chainId: network.chainId }],
       });
-      // After successful switch, re-fetch balances for the new network
       if (account) {
         fetchBalances(account, network);
       }
@@ -353,14 +348,12 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
         const amountToSend = ethers.parseUnits(amount, decimals);
         
         let tx;
-        // Handle native currency transfer
         if (!tokenAddress || tokenAddress === '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee') {
             tx = await signer.sendTransaction({
                 to: recipient,
                 value: amountToSend
             });
         } else {
-            // Handle ERC20 token transfer
             const tokenContract = new ethers.Contract(tokenAddress, ['function transfer(address to, uint256 amount) external returns (bool)'], signer);
             tx = await tokenContract.transfer(recipient, amountToSend);
         }
@@ -473,5 +466,3 @@ export const useWallet = () => {
   }
   return context;
 };
-
-    
