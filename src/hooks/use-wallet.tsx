@@ -154,28 +154,21 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
     try {
       const response = await fetch(`/api/moralis/balances?address=${address}&chain=${network.chainId}`);
       if (!response.ok) {
-        throw new Error('Failed to fetch balances from Moralis');
+        const errorText = await response.text();
+        console.error('Failed to fetch balances from Moralis API:', errorText);
+        throw new Error(`Moralis API request failed with status ${response.status}`);
       }
+      
       const data = await response.json();
-
-      const nativeBalanceResponse = await new ethers.BrowserProvider(window.ethereum).getBalance(address);
-      const nativeBalance = ethers.formatEther(nativeBalanceResponse);
-      const nativeTokenPrice = 3500; // This should come from an oracle in a real app
+      
+      if (!Array.isArray(data)) {
+        console.error('API did not return an array for balances:', data);
+        throw new Error('Invalid balance data format');
+      }
 
       const processedBalances: Balances = {};
       
-      // Add native balance first
-      processedBalances[network.nativeCurrency.symbol] = {
-          name: network.nativeCurrency.name,
-          symbol: network.nativeCurrency.symbol,
-          logo: network.logo || '',
-          balance: nativeBalance,
-          usdValue: parseFloat(nativeBalance) * nativeTokenPrice,
-          decimals: 18,
-          address: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee' // Common address for native tokens
-      };
-
-      // Process ERC20 tokens from Moralis
+      // Process all tokens (including native) from Moralis
       data.forEach((token: any) => {
           if (token.possible_spam) return; // Skip spam tokens
           
@@ -199,6 +192,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
         setIsBalancesLoading(false);
     }
   }, []);
+
 
   const disconnect = useCallback(() => {
     setAccount(null);
@@ -480,3 +474,5 @@ export const useWallet = () => {
   }
   return context;
 };
+
+    
