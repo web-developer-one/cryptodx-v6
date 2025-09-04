@@ -58,11 +58,12 @@ export async function GET(request: NextRequest) {
             .filter((token: any) => !token.possible_spam && token.symbol !== 'MCAT' && token.symbol !== 'WBTC')
             .map((token: any) => ({
                 ...token,
-                usd_value: token.usd_value || 0,
+                usd_value: token.usd_price || 0,
             }));
 
         // Add native balance to the list of tokens, ensuring it's formatted consistently
         if (nativeBalance && nativeBalance.balance) {
+             const nativeBalanceFormatted = ethers.formatUnits(nativeBalance.balance, selectedNetwork.nativeCurrency.decimals);
              combinedBalances.unshift({
                 token_address: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee', // Standard placeholder for native currency
                 symbol: selectedNetwork.nativeCurrency.symbol,
@@ -70,9 +71,9 @@ export async function GET(request: NextRequest) {
                 logo: selectedNetwork.logo, 
                 thumbnail: selectedNetwork.logo,
                 decimals: selectedNetwork.nativeCurrency.decimals,
-                balance: ethers.formatUnits(nativeBalance.balance, selectedNetwork.nativeCurrency.decimals),
+                balance: nativeBalanceFormatted,
                 possible_spam: false,
-                usd_value: 0, // Fallback to 0 to prevent crash, was previously incorrect.
+                usd_value: 0, // Fallback to 0 for native balance USD value
             });
         }
        
