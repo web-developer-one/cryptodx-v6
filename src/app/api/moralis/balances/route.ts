@@ -51,8 +51,8 @@ export async function GET(request: NextRequest) {
             Moralis.EvmApi.token.getWalletTokenBalances({ address, chain: chainId })
         ]);
         
-        const nativeBalance = nativeBalanceResponse.raw;
-        const tokenBalances = tokenBalancesResponse.raw;
+        const nativeBalanceData = nativeBalanceResponse?.raw;
+        const tokenBalances = tokenBalancesResponse?.raw || [];
 
         const combinedBalances: CombinedBalance[] = tokenBalances
             .filter((token: any) => !token.possible_spam && token.symbol !== 'MCAT' && token.symbol !== 'WBTC')
@@ -69,8 +69,8 @@ export async function GET(request: NextRequest) {
             }));
 
         // Add native balance to the list of tokens, ensuring it's formatted consistently
-        if (nativeBalance && nativeBalance.balance) {
-             const nativeBalanceFormatted = ethers.formatUnits(nativeBalance.balance, selectedNetwork.nativeCurrency.decimals);
+        if (nativeBalanceData && nativeBalanceData.balance) {
+             const nativeBalanceFormatted = ethers.formatUnits(nativeBalanceData.balance, selectedNetwork.nativeCurrency.decimals);
              combinedBalances.unshift({
                 token_address: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee', // Standard placeholder for native currency
                 symbol: selectedNetwork.nativeCurrency.symbol,
