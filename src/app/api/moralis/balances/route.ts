@@ -25,7 +25,6 @@ export async function GET(request: NextRequest) {
         return NextResponse.json({ error: 'Moralis API key is not configured.' }, { status: 500 });
     }
     
-    // Ensure Moralis is started only once.
     if (!Moralis.Core.isStarted) {
         await Moralis.start({ apiKey: MORALIS_API_KEY });
     }
@@ -61,12 +60,12 @@ export async function GET(request: NextRequest) {
                 token_address: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
                 symbol: selectedNetwork.nativeCurrency.symbol,
                 name: selectedNetwork.nativeCurrency.name,
-                logo: selectedNetwork.logo, 
-                thumbnail: selectedNetwork.logo,
+                logo: selectedNetwork.logo || null,
+                thumbnail: selectedNetwork.logo || null,
                 decimals: selectedNetwork.nativeCurrency.decimals,
                 balance: nativeBalanceFormatted,
                 possible_spam: false,
-                usdValue: 0, // Set a safe default, can be updated later if price is fetched
+                usdValue: 0, // Set a safe default, as Moralis doesn't return price for native currency this way.
             });
         }
         
