@@ -6,12 +6,13 @@ import { networkConfigs } from '@/hooks/use-wallet';
 
 const MORALIS_API_KEY = process.env.MORALIS_API_KEY;
 
+// Combined type for the final response
 type CombinedBalance = {
     token_address: string;
     symbol: string;
     name: string;
-    logo?: string;
-    thumbnail?: string;
+    logo?: string | null;
+    thumbnail?: string | null;
     decimals: number;
     balance: string;
     possible_spam: boolean;
@@ -20,10 +21,11 @@ type CombinedBalance = {
 
 export async function GET(request: NextRequest) {
     if (!MORALIS_API_KEY) {
-        console.error("MORALIS_API_KEY is not set. Please set it in your environment variables.");
+        console.error("MORALIS_API_KEY is not set.");
         return NextResponse.json({ error: 'Moralis API key is not configured.' }, { status: 500 });
     }
     
+    // Ensure Moralis is started only once.
     if (!Moralis.Core.isStarted) {
         await Moralis.start({ apiKey: MORALIS_API_KEY });
     }
@@ -48,14 +50,14 @@ export async function GET(request: NextRequest) {
         ]);
         
         const nativeBalanceData = nativeBalanceResponse?.raw;
-        const tokenBalances = tokenBalancesResponse?.raw || [];
-        
-        const combinedBalances: CombinedBalance[] = [];
+        const tokenBalancesData = tokenBalancesResponse?.raw || [];
 
-        // Add native balance first
+        const allBalances: CombinedBalance[] = [];
+
+        // 1. Process and add native balance (ETH, AVAX, etc.)
         if (nativeBalanceData && nativeBalanceData.balance) {
              const nativeBalanceFormatted = ethers.formatUnits(nativeBalanceData.balance, selectedNetwork.nativeCurrency.decimals);
-             combinedBalances.push({
+             allBalances.push({
                 token_address: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
                 symbol: selectedNetwork.nativeCurrency.symbol,
                 name: selectedNetwork.nativeCurrency.name,
@@ -64,28 +66,31 @@ export async function GET(request: NextRequest) {
                 decimals: selectedNetwork.nativeCurrency.decimals,
                 balance: nativeBalanceFormatted,
                 possible_spam: false,
-                usdValue: 0, // No reliable USD value for native from this endpoint
+                usdValue: 0, // Set a safe default, can be updated later if price is fetched
             });
         }
         
-        // Add token balances
-        tokenBalances
-            .filter(token => !token.possible_spam && token.symbol !== 'MCAT' && token.symbol !== 'WBTC')
-            .forEach(token => {
-                combinedBalances.push({
-                    token_address: token.token_address,
-                    symbol: token.symbol,
-                    name: token.name,
-                    logo: token.logo,
-                    thumbnail: token.thumbnail,
-                    decimals: token.decimals,
-                    balance: ethers.formatUnits(token.balance, token.decimals),
-                    possible_spam: token.possible_spam,
-                    usdValue: token.usd_price || 0,
+        // 2. Process and add ERC-20 token balances
+        if (tokenBalancesData.length > 0) {
+            tokenBalancesData
+                .filter(token => !token.possible_spam && token.symbol !== 'MCAT' && token.symbol !== 'WBTC')
+                .forEach(token => {
+                    allBalances.push({
+                        token_address: token.token_address,
+                        symbol: token.symbol,
+                        name: token.name,
+                        logo: token.logo,
+                        thumbnail: token.thumbnail,
+                        decimals: token.decimals,
+                        balance: ethers.formatUnits(token.balance, token.decimals),
+                        possible_spam: token.possible_spam,
+                        usdValue: (token.usd_price || 0) * parseFloat(ethers.formatUnits(token.balance, token.decimals)),
+                    });
                 });
-            });
+        }
        
-        return NextResponse.json(combinedBalances);
+        return NextResponse.json(allBalances);
+
     } catch (error: any) {
         console.error("Failed to fetch from Moralis:", error.message);
         const errorMessage = error.response?.data?.message || error.message || 'Failed to fetch token balances from Moralis.';
