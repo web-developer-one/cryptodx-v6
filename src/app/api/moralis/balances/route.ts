@@ -5,6 +5,20 @@ import { ethers } from 'ethers';
 
 const MORALIS_API_KEY = process.env.MORALIS_API_KEY;
 
+// Define a unified type for our balance objects
+type CombinedBalance = {
+    token_address: string;
+    symbol: string;
+    name: string;
+    logo?: string;
+    thumbnail?: string;
+    decimals: number;
+    balance: string;
+    possible_spam: boolean;
+    usd_value: number;
+};
+
+
 export async function GET(request: NextRequest) {
     if (!MORALIS_API_KEY) {
         console.error("MORALIS_API_KEY is not set. Please set it in your environment variables.");
@@ -34,7 +48,10 @@ export async function GET(request: NextRequest) {
         const nativeBalance = nativeBalanceResponse.raw;
         const tokenBalances = tokenBalancesResponse.raw;
 
-        const combinedBalances = [...tokenBalances];
+        const combinedBalances: CombinedBalance[] = tokenBalances.map((token: any) => ({
+             ...token,
+             usd_value: token.usd_value || 0, // Ensure usd_value exists
+        }));
 
         // Add native balance to the list of tokens, ensuring it's formatted consistently
         if (nativeBalance && nativeBalance.balance && (nativeBalance as any).symbol) {
