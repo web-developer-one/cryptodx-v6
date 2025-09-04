@@ -48,10 +48,12 @@ export async function GET(request: NextRequest) {
         const nativeBalance = nativeBalanceResponse.raw;
         const tokenBalances = tokenBalancesResponse.raw;
 
-        const combinedBalances: CombinedBalance[] = tokenBalances.map((token: any) => ({
-             ...token,
-             usd_value: token.usd_value || 0, // Ensure usd_value exists
-        }));
+        const combinedBalances: CombinedBalance[] = tokenBalances
+            .filter((token: any) => !token.possible_spam)
+            .map((token: any) => ({
+                ...token,
+                usd_value: token.usd_value || 0, // Ensure usd_value exists
+            }));
 
         // Add native balance to the list of tokens, ensuring it's formatted consistently
         if (nativeBalance && nativeBalance.balance && (nativeBalance as any).symbol) {
