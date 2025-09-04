@@ -184,7 +184,7 @@ export function SwapInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocu
 
   const handleSetMax = () => {
     if (fromTokenBalance) {
-        setFromAmount(fromTokenBalance);
+        setFromAmount(fromTokenBalance.balance);
     }
   };
 
@@ -286,9 +286,9 @@ export function SwapInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocu
         <div className="p-4 rounded-lg bg-[#f8fafc] dark:bg-secondary/50 border">
           <div className="flex justify-between items-center mb-1">
             <label className="text-sm text-muted-foreground" htmlFor="from-input">{t('SwapInterface.sell')}</label>
-            {isWalletConnected && fromTokenBalance !== undefined && (
+            {isWalletConnected && fromTokenBalance && (
                 <div className="text-sm text-muted-foreground flex items-center gap-1">
-                    <span>{t('SwapInterface.balance').replace('{balance}', `${parseFloat(fromTokenBalance).toLocaleString('en-US', {maximumFractionDigits: 5})} ${fromToken.symbol}`)}</span>
+                    <span>{t('SwapInterface.balance').replace('{balance}', `${parseFloat(fromTokenBalance.balance).toLocaleString('en-US', {maximumFractionDigits: 5})} ${fromToken.symbol}`)}</span>
                     <Button variant="link" size="sm" className="h-auto p-0" onClick={handleSetMax}>
                         {t('SwapInterface.max')}
                     </Button>
@@ -341,9 +341,9 @@ export function SwapInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocu
         <div className="p-4 rounded-lg bg-[#f8fafc] dark:bg-secondary/50 border">
           <div className="flex justify-between items-center mb-1">
             <label className="text-sm text-muted-foreground" htmlFor="to-input">{t('SwapInterface.buy')}</label>
-             {isWalletConnected && toTokenBalance !== undefined && (
+             {isWalletConnected && toTokenBalance && (
                 <div className="text-sm text-muted-foreground flex items-center gap-1">
-                    <span>{t('SwapInterface.balance').replace('{balance}', `${parseFloat(toTokenBalance).toLocaleString('en-US', {maximumFractionDigits: 5})} ${toToken.symbol}`)}</span>
+                    <span>{t('SwapInterface.balance').replace('{balance}', `${parseFloat(toTokenBalance.balance).toLocaleString('en-US', {maximumFractionDigits: 5})} ${toToken.symbol}`)}</span>
                 </div>
             )}
           </div>
