@@ -2,6 +2,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Moralis from 'moralis';
 import { ethers } from 'ethers';
+import { networkConfigs } from '@/hooks/use-wallet';
 
 const MORALIS_API_KEY = process.env.MORALIS_API_KEY;
 
@@ -32,24 +33,29 @@ export async function GET(request: NextRequest) {
 
     const { searchParams } = new URL(request.url);
     const address = searchParams.get('address');
-    const chain = searchParams.get('chain');
+    const chainId = searchParams.get('chain');
     
-    if (!address || !chain) {
+    if (!address || !chainId) {
         return NextResponse.json({ error: 'Address and chain are required parameters.' }, { status: 400 });
+    }
+
+    const selectedNetwork = networkConfigs[chainId];
+    if (!selectedNetwork) {
+         return NextResponse.json({ error: 'Unsupported chain specified.' }, { status: 400 });
     }
 
     try {
         // Fetch both native balance and token balances in parallel
         const [nativeBalanceResponse, tokenBalancesResponse] = await Promise.all([
-            Moralis.EvmApi.balance.getNativeBalance({ address, chain }),
-            Moralis.EvmApi.token.getWalletTokenBalances({ address, chain })
+            Moralis.EvmApi.balance.getNativeBalance({ address, chain: chainId }),
+            Moralis.EvmApi.token.getWalletTokenBalances({ address, chain: chainId })
         ]);
         
         const nativeBalance = nativeBalanceResponse.raw;
         const tokenBalances = tokenBalancesResponse.raw;
 
         const combinedBalances: CombinedBalance[] = tokenBalances
-            .filter((token: any) => !token.possible_spam && token.symbol !== 'MCAT') // Explicitly filter out MCAT
+            .filter((token: any) => !token.possible_spam && token.symbol !== 'MCAT' && token.symbol !== 'WBTC')
             .map((token: any) => ({
                 ...token,
                 usd_value: token.usd_value || 0,
@@ -57,14 +63,14 @@ export async function GET(request: NextRequest) {
 
         // Add native balance to the list of tokens, ensuring it's formatted consistently
         if (nativeBalance && nativeBalance.balance) {
-             const nativeValue = (nativeBalance as any).usd_price ? (Number(ethers.formatUnits(nativeBalance.balance, (nativeBalance as any).decimals || 18)) * (nativeBalance as any).usd_price) : 0;
+             const nativeValue = (nativeBalance as any).usd_price ? (Number(ethers.formatUnits(nativeBalance.balance, selectedNetwork.nativeCurrency.decimals)) * (nativeBalance as any).usd_price) : 0;
              combinedBalances.unshift({
                 token_address: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee', // Standard placeholder for native currency
-                symbol: (nativeBalance as any).symbol,
-                name: (nativeBalance as any).name || (nativeBalance as any).symbol,
-                logo: undefined, 
-                thumbnail: undefined,
-                decimals: (nativeBalance as any).decimals || 18,
+                symbol: selectedNetwork.nativeCurrency.symbol,
+                name: selectedNetwork.nativeCurrency.name,
+                logo: selectedNetwork.logo, 
+                thumbnail: selectedNetwork.logo,
+                decimals: selectedNetwork.nativeCurrency.decimals,
                 balance: nativeBalance.balance,
                 possible_spam: false,
                 usd_value: nativeValue,
