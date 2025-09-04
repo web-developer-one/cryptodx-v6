@@ -154,9 +154,9 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
     try {
       const response = await fetch(`/api/moralis/balances?address=${address}&chain=${network.chainId}`);
       if (!response.ok) {
-        const errorText = await response.text();
-        console.error('Failed to fetch balances from Moralis API:', errorText);
-        throw new Error(`Moralis API request failed with status ${response.status}`);
+        const errorData = await response.json();
+        console.error('Failed to fetch balances from Moralis API:', errorData.error);
+        throw new Error(errorData.error || `Moralis API request failed with status ${response.status}`);
       }
       
       const data = await response.json();
@@ -168,14 +168,13 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
 
       const processedBalances: Balances = {};
       
-      // Process all tokens (including native) from Moralis
       data.forEach((token: any) => {
-          if (token.possible_spam) return; // Skip spam tokens
+          if (token.possible_spam) return;
           
           processedBalances[token.symbol] = {
               name: token.name,
               symbol: token.symbol,
-              logo: token.logo || `https://s2.coinmarketcap.com/static/img/coins/64x64/${token.token_address}.png`,
+              logo: token.logo || `https://s2.coinmarketcap.com/static/img/coins/64x64/1.png`, // Fallback logo
               balance: ethers.formatUnits(token.balance, token.decimals),
               usdValue: token.usd_value,
               address: token.token_address,

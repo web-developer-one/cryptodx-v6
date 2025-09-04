@@ -10,7 +10,6 @@ export async function GET(request: NextRequest) {
         return NextResponse.json({ error: 'Moralis API key is not configured.' }, { status: 500 });
     }
 
-    // Ensure Moralis is started for every request in a serverless environment
     if (!Moralis.Core.isStarted) {
         await Moralis.start({ apiKey: MORALIS_API_KEY });
     }
@@ -24,15 +23,35 @@ export async function GET(request: NextRequest) {
     }
 
     try {
-        const response = await Moralis.EvmApi.token.getWalletTokenBalances({
-            address,
-            chain,
+        // Fetch both native balance and token balances in parallel
+        const [nativeBalanceResponse, tokenBalancesResponse] = await Promise.all([
+            Moralis.EvmApi.balance.getNativeBalance({ address, chain }),
+            Moralis.EvmApi.token.getWalletTokenBalances({ address, chain })
+        ]);
+        
+        const nativeBalance = nativeBalanceResponse.raw;
+        const tokenBalances = tokenBalancesResponse.raw;
+
+        const combinedBalances = [...tokenBalances];
+
+        // Add native balance to the list of tokens
+        combinedBalances.unshift({
+            token_address: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee', // Placeholder for native
+            symbol: nativeBalance.symbol,
+            name: nativeBalance.name,
+            logo: nativeBalance.logo,
+            thumbnail: nativeBalance.thumbnail,
+            decimals: nativeBalance.decimals,
+            balance: nativeBalance.balance,
+            possible_spam: false,
+            usd_value: nativeBalance.usd_price ? (Number(ethers.formatUnits(nativeBalance.balance, nativeBalance.decimals)) * nativeBalance.usd_price) : 0,
         });
 
-        // The 'result' property on the JSON response is what we want.
-        return NextResponse.json(response.raw);
+        return NextResponse.json(combinedBalances);
     } catch (error: any) {
-        console.error("Failed to fetch from Moralis:", error);
-        return NextResponse.json({ error: 'Failed to fetch token balances from Moralis.', details: error.message }, { status: 500 });
+        console.error("Failed to fetch from Moralis:", error.message);
+        // It's better to return the actual error message from Moralis if available
+        const errorMessage = error.response?.data?.message || error.message || 'Failed to fetch token balances from Moralis.';
+        return NextResponse.json({ error: errorMessage }, { status: 500 });
     }
 }

@@ -207,7 +207,7 @@ export function WalletDetailsModal() {
                             Object.values(balances).map(token => (
                                 <div key={token.symbol} className="flex justify-between items-center">
                                     <div className="flex items-center gap-3">
-                                        <Image src={token.logo} width={40} height={40} alt={token.name} className="rounded-full" />
+                                        <Image src={token.logo || 'https://s2.coinmarketcap.com/static/img/coins/64x64/1.png'} width={40} height={40} alt={token.name} className="rounded-full" />
                                         <div>
                                             <p className="font-semibold">{token.name}</p>
                                             <p className="text-sm text-muted-foreground">{token.symbol}</p>
