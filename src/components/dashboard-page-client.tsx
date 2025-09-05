@@ -228,6 +228,7 @@ export function DashboardPageClient() {
              </Dialog>
             <Button>Stake</Button>
             <Button>Bridge</Button>
+            <Link href="/nfts"><Button>NFTs</Button></Link>
         </div>
 
         <Card>
