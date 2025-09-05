@@ -61,8 +61,9 @@ import { languages } from "@/lib/i18n";
 import { useUser } from "@/hooks/use-user";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Skeleton } from "./ui/skeleton";
-import { useWallet, networkConfigs } from "@/hooks/use-wallet";
+import { useWallet } from "@/hooks/use-wallet";
 import { cn } from "@/lib/utils";
+import { networkConfigs } from "@/lib/network-configs";
 
 function SettingsContent() {
     const { t, language, setLanguage } = useLanguage();

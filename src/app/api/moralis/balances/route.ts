@@ -2,7 +2,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Moralis from 'moralis';
 import { ethers } from 'ethers';
-import { networkConfigs } from '@/hooks/use-wallet';
+import { networkConfigs } from '@/lib/network-configs';
 
 const MORALIS_API_KEY = process.env.MORALIS_API_KEY;
 

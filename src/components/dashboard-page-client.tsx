@@ -7,7 +7,7 @@ import Image from 'next/image';
 import QRCode from 'qrcode';
 
 import { useLanguage } from '@/hooks/use-language';
-import { useWallet, networkConfigs } from '@/hooks/use-wallet';
+import { useWallet } from '@/hooks/use-wallet';
 import type { Cryptocurrency } from '@/lib/types';
 import { getLatestListings } from '@/lib/coinmarketcap';
 import { cn } from '@/lib/utils';
@@ -22,6 +22,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogFooter, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { ApiErrorCard } from './api-error-card';
 import { DashboardTable } from './dashboard-table';
+import { networkConfigs } from '@/lib/network-configs';
 
 import { ArrowDown, ArrowUp, Send, RefreshCw, Search, ChevronDown, SendIcon, Loader2, Copy, Check, ArrowUpCircle, ArrowDownCircle } from 'lucide-react';
 

@@ -10,7 +10,7 @@ import { getLatestListings } from '@/lib/coinmarketcap';
 import { ApiErrorCard } from './api-error-card';
 import { Skeleton } from './ui/skeleton';
 import { useWallet } from '@/hooks/use-wallet';
-import type { NetworkConfig } from '@/hooks/use-wallet';
+import type { NetworkConfig } from '@/lib/network-configs';
 
 const TRANSACTIONS_PER_PAGE = 25;
 
