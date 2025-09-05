@@ -21,6 +21,7 @@ import { Label } from './ui/label';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogFooter, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { ApiErrorCard } from './api-error-card';
+import { DashboardTable } from './dashboard-table';
 
 import { ArrowDown, ArrowUp, Send, RefreshCw, Search, ChevronDown, SendIcon, Loader2, Copy, Check, ArrowUpCircle, ArrowDownCircle } from 'lucide-react';
 
