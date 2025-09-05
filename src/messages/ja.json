@@ -435,7 +435,9 @@
     "profile": "マイプロフィール",
     "users": "ユーザー",
     "tradingBot": "取引ボット",
-    "nfts": "トップNFT"
+    "nfts": "トップNFT",
+    "changelly": "Changelly DEX",
+    "dashboard": "ダッシュボード"
   },
   "NftsPage": {
     "title": "トップNFTコレクション",

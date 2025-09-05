@@ -435,7 +435,9 @@
     "profile": "내 프로필",
     "users": "사용자",
     "tradingBot": "거래 봇",
-    "nfts": "최고의 NFT"
+    "nfts": "최고의 NFT",
+    "changelly": "Changelly DEX",
+    "dashboard": "대시보드"
   },
   "NftsPage": {
     "title": "최고의 NFT 컬렉션",

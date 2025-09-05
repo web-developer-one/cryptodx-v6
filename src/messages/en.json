@@ -301,7 +301,7 @@
   "TermsOfUseModal": {
     "title": "Terms of Use",
     "lastUpdated": "Last updated: {date}",
-    "p1": "Welcome to CryptoDx. These Terms of Use (\\'Terms\\') govern your access to and use of our website, services, and applications (collectively, the \\'Service\\'). Please read these Terms carefully before using the Service.",
+    "p1": "Welcome to CryptoDx. These Terms of Use ('Terms') govern your access to and use of our website, services, and applications (collectively, the 'Service'). Please read these Terms carefully before using the Service.",
     "h_agreement": "1. Agreement to Terms",
     "p_agreement": "By using our Service, you agree to be bound by these Terms. If you do not agree to these Terms, you may not use the Service. We may modify the Terms at any time, in our sole discretion. If we do so, we’ll let you know either by posting the modified Terms on the site or through other communications.",
     "h_eligibility": "2. Eligibility",
@@ -315,7 +315,7 @@
     "li_circumvent": "Attempting to circumvent any content filtering techniques we employ, or attempting to access any service or area of the Service that you are not authorized to access.",
     "li_automated": "Using any robot, spider, crawler, scraper or other automated means or interface not provided by us to access the Service or to extract data.",
     "h_disclaimers": "5. Disclaimers",
-    "p_disclaimers": "THE SERVICE IS PROVIDED \\\"AS IS\\\" AND \\\"AS AVAILABLE\\\" WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED. YOU ACKNOWLEDGE AND AGREE THAT YOU HAVE HAD WHATEVER OPPORTUNITY YOU DEEM NECESSARY TO INVESTIGATE THE SERVICE, LAWS, RULES, OR REGULATIONS THAT MAY BE APPLICABLE TO YOUR USE OF THE SERVICE AND THAT YOU ARE NOT RELYING UPON ANY STATEMENT OF LAW OR FACT MADE BY CRYPTODX RELATING TO THE SERVICE.",
+    "p_disclaimers": "THE SERVICE IS PROVIDED \"AS IS\" AND \"AS AVAILABLE\" WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED. YOU ACKNOWLEDGE AND AGREE THAT YOU HAVE HAD WHATEVER OPPORTUNITY YOU DEEM NECESSARY TO INVESTIGATE THE SERVICE, LAWS, RULES, OR REGULATIONS THAT MAY BE APPLICABLE TO YOUR USE OF THE SERVICE AND THAT YOU ARE NOT RELYING UPON ANY STATEMENT OF LAW OR FACT MADE BY CRYPTODX RELATING TO THE SERVICE.",
     "h_liability": "6. Limitation of Liability",
     "p_liability": "TO THE FULLEST EXTENT PERMITTED BY APPLICABLE LAW, IN NO EVENT WILL CRYPTODX OR ITS AFFILIATES BE LIABLE FOR ANY INDIRECT, SPECIAL, INCIDENTAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES OF ANY KIND.",
     "h_governing": "7. Governing Law",
@@ -436,7 +436,8 @@
     "users": "Users",
     "tradingBot": "Trading Bot",
     "nfts": "Top NFTs",
-    "changelly": "Changelly DEX"
+    "changelly": "Changelly DEX",
+    "dashboard": "Dashboard"
   },
   "NftsPage": {
     "title": "Top NFT Collections",

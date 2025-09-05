@@ -435,7 +435,9 @@
     "profile": "Мой профиль",
     "users": "Пользователи",
     "tradingBot": "Торговый бот",
-    "nfts": "Лучшие NFT"
+    "nfts": "Лучшие NFT",
+    "changelly": "Changelly DEX",
+    "dashboard": "Панель управления"
   },
   "NftsPage": {
     "title": "Лучшие коллекции NFT",

@@ -435,7 +435,9 @@
     "profile": "我的个人资料",
     "users": "用户",
     "tradingBot": "交易机器人",
-    "nfts": "热门NFT"
+    "nfts": "热门NFT",
+    "changelly": "Changelly DEX",
+    "dashboard": "仪表板"
   },
   "NftsPage": {
     "title": "热门NFT合集",

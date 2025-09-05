@@ -435,7 +435,9 @@
     "profile": "मेरी प्रोफ़ाइल",
     "users": "उपयोगकर्ता",
     "tradingBot": "ट्रेडिंग बॉट",
-    "nfts": "शीर्ष NFTs"
+    "nfts": "शीर्ष NFTs",
+    "changelly": "चेंजली DEX",
+    "dashboard": "डैशबोर्ड"
   },
   "NftsPage": {
     "title": "शीर्ष NFT संग्रह",
