@@ -12,9 +12,11 @@ import {
 import Image from 'next/image';
 import type { Cryptocurrency } from '@/lib/types';
 import { cn } from '@/lib/utils';
-import { ArrowDown, ArrowUp } from 'lucide-react';
+import { ArrowDown, ArrowUp, Send } from 'lucide-react';
 import { Button } from './ui/button';
 import Link from 'next/link';
+import { Dialog, DialogTrigger } from './ui/dialog';
+import { SendTokenDialog } from './dashboard-page-client';
 
 type Balance = {
     name: string;
@@ -23,6 +25,7 @@ type Balance = {
     balance: string;
     usdValue: number;
     address?: string;
+    decimals: number;
 };
 
 interface DashboardTableProps {
@@ -60,6 +63,7 @@ export function DashboardTable({ balances, totalValue, allTokens }: DashboardTab
           <TableHead>Portfolio %</TableHead>
           <TableHead className="text-right">Price (24hr)</TableHead>
           <TableHead className="text-right">Balance</TableHead>
+          <TableHead className="text-right">Actions</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -83,9 +87,6 @@ export function DashboardTable({ balances, totalValue, allTokens }: DashboardTab
                     <p className="font-bold">{token.symbol}</p>
                     <p className="text-sm text-muted-foreground">{token.name}</p>
                   </div>
-                  <Link href={`/buy?token=${token.symbol}`} passHref className="ml-auto">
-                    <Button variant="outline" size="sm">Buy</Button>
-                  </Link>
                 </div>
               </TableCell>
               <TableCell className="font-mono">
@@ -97,6 +98,22 @@ export function DashboardTable({ balances, totalValue, allTokens }: DashboardTab
               <TableCell className="text-right">
                 <p className="font-mono font-semibold">${usdValue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
                 <p className="text-sm text-muted-foreground font-mono">{parseFloat(token.balance).toLocaleString('en-US', { maximumFractionDigits: 4 })} {token.symbol}</p>
+              </TableCell>
+              <TableCell>
+                <div className="flex justify-end gap-2">
+                    <Dialog>
+                        <DialogTrigger asChild>
+                            <Button variant="outline" size="sm">
+                                <Send className="mr-2 h-4 w-4" />
+                                Send
+                            </Button>
+                        </DialogTrigger>
+                        <SendTokenDialog token={token} />
+                    </Dialog>
+                    <Link href={`/buy?token=${token.symbol}`} passHref>
+                        <Button variant="outline" size="sm">Buy</Button>
+                    </Link>
+                </div>
               </TableCell>
             </TableRow>
           );

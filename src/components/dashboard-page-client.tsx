@@ -27,7 +27,7 @@ import { networkConfigs } from '@/lib/network-configs';
 import { ArrowDown, ArrowUp, Send, RefreshCw, Search, ChevronDown, SendIcon, Loader2, Copy, Check, ArrowUpCircle, ArrowDownCircle } from 'lucide-react';
 
 
-const SendTokenDialog = ({ token }: { token: { symbol: string, address?: string, decimals: number }}) => {
+export const SendTokenDialog = ({ token }: { token: { symbol: string, address?: string, decimals: number }}) => {
     const { sendTokens, isSending } = useWallet();
     const [recipient, setRecipient] = useState('');
     const [amount, setAmount] = useState('');
@@ -224,7 +224,7 @@ export function DashboardPageClient() {
                 <DialogTrigger asChild>
                     <Button>Send</Button>
                 </DialogTrigger>
-                 <SendTokenDialog token={{...selectedNetwork.nativeCurrency, address: undefined}}/>
+                 <SendTokenDialog token={{...selectedNetwork.nativeCurrency, address: undefined, decimals: 18}}/>
              </Dialog>
              <Dialog>
                 <DialogTrigger asChild>
