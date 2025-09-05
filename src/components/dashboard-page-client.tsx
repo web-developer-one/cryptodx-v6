@@ -2,20 +2,114 @@
 'use client';
 
 import { useEffect, useState, useMemo } from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
+import QRCode from 'qrcode';
+
 import { useLanguage } from '@/hooks/use-language';
 import { useWallet, networkConfigs } from '@/hooks/use-wallet';
 import type { Cryptocurrency } from '@/lib/types';
+import { getLatestListings } from '@/lib/coinmarketcap';
+import { cn } from '@/lib/utils';
+
 import { Skeleton } from '@/components/ui/skeleton';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ArrowDown, ArrowUp, Send, RefreshCw, Search, ChevronDown } from 'lucide-react';
-import { DashboardTable } from './dashboard-table';
-import { cn } from '@/lib/utils';
 import { Input } from './ui/input';
-import { getLatestListings } from '@/lib/coinmarketcap';
-import { ApiErrorCard } from './api-error-card';
-import Image from 'next/image';
+import { Label } from './ui/label';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogFooter, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { ApiErrorCard } from './api-error-card';
+
+import { ArrowDown, ArrowUp, Send, RefreshCw, Search, ChevronDown, SendIcon, Loader2, Copy, Check, ArrowUpCircle, ArrowDownCircle } from 'lucide-react';
+
+
+const SendTokenDialog = ({ token }: { token: { symbol: string, address?: string, decimals: number }}) => {
+    const { sendTokens, isSending } = useWallet();
+    const [recipient, setRecipient] = useState('');
+    const [amount, setAmount] = useState('');
+
+    const handleSend = async () => {
+        await sendTokens(token.address, recipient, amount, token.decimals);
+    };
+
+    return (
+        <DialogContent>
+            <DialogHeader>
+                <DialogTitle>Send {token.symbol}</DialogTitle>
+                <DialogDescription>
+                    Enter the recipient address and amount to send.
+                </DialogDescription>
+            </DialogHeader>
+            <div className="grid gap-4 py-4">
+                <div className="grid grid-cols-4 items-center gap-4">
+                    <Label htmlFor="recipient" className="text-right">
+                        To
+                    </Label>
+                    <Input id="recipient" value={recipient} onChange={(e) => setRecipient(e.target.value)} className="col-span-3" placeholder="0x..." />
+                </div>
+                <div className="grid grid-cols-4 items-center gap-4">
+                    <Label htmlFor="amount" className="text-right">
+                        Amount
+                    </Label>
+                    <Input id="amount" value={amount} onChange={(e) => setAmount(e.target.value)} className="col-span-3" placeholder="0.0" />
+                </div>
+            </div>
+            <DialogFooter>
+                <Button onClick={handleSend} disabled={isSending}>
+                    {isSending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <SendIcon className="mr-2 h-4 w-4" />}
+                     Send {token.symbol}
+                </Button>
+            </DialogFooter>
+        </DialogContent>
+    )
+}
+
+const ReceiveTokenDialog = ({ address }: { address: string }) => {
+    const [qrCodeUrl, setQrCodeUrl] = useState('');
+    const { toast } = useToast();
+
+    useEffect(() => {
+        if(address) {
+            QRCode.toDataURL(address, {
+                width: 256,
+                margin: 2,
+                color: {
+                    dark: '#000000',
+                    light: '#FFFFFF'
+                }
+            })
+            .then((url: string) => setQrCodeUrl(url))
+            .catch((err: any) => console.error("Failed to generate QR code", err));
+        }
+    }, [address]);
+
+    const handleCopy = () => {
+        navigator.clipboard.writeText(address);
+        toast({ description: "Address copied to clipboard!" });
+    };
+
+    return (
+         <DialogContent className="sm:max-w-xs">
+            <DialogHeader>
+                <DialogTitle>Receive</DialogTitle>
+                <DialogDescription>
+                    Scan this QR code or copy the address below.
+                </DialogDescription>
+            </DialogHeader>
+            <div className="flex flex-col items-center justify-center gap-4 p-4">
+                {qrCodeUrl ? (
+                    <Image src={qrCodeUrl} alt="Wallet QR Code" width={200} height={200} />
+                ) : (
+                    <Skeleton className="h-[200px] w-[200px]" />
+                )}
+                <div className="text-center text-sm text-muted-foreground break-all">{address}</div>
+                <Button onClick={handleCopy} className="w-full"><Copy className="mr-2 h-4 w-4"/> Copy Address</Button>
+            </div>
+        </DialogContent>
+    )
+}
+
 
 const truncateAddress = (address: string) => {
   if (!address) return '';
@@ -114,12 +208,23 @@ export function DashboardPageClient() {
         </div>
 
         <div className="flex gap-2">
-            <Button>Buy</Button>
-            <Button variant="secondary">Swap</Button>
-            <Button variant="secondary">Bridge</Button>
-            <Button variant="secondary">Send</Button>
-            <Button variant="secondary">Sell</Button>
+            <Link href="/"><Button>Swap</Button></Link>
+            <Link href="/buy"><Button variant="secondary">Buy</Button></Link>
+            <Link href="/sell"><Button variant="secondary">Sell</Button></Link>
+             <Dialog>
+                <DialogTrigger asChild>
+                    <Button variant="secondary">Send</Button>
+                </DialogTrigger>
+                 <SendTokenDialog token={{...selectedNetwork.nativeCurrency, address: undefined}}/>
+             </Dialog>
+             <Dialog>
+                <DialogTrigger asChild>
+                    <Button variant="secondary">Receive</Button>
+                </DialogTrigger>
+                 <ReceiveTokenDialog address={account || ''} />
+             </Dialog>
             <Button variant="secondary">Stake</Button>
+            <Button variant="secondary">Bridge</Button>
         </div>
 
         <Card>
