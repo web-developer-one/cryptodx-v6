@@ -1,5 +1,4 @@
 
-
 export interface User {
   id: string;
   username: string;
@@ -95,26 +94,26 @@ export interface SelectedCurrency {
 
 export interface NftCollection {
     rank: number;
-    collection_name: string;
-    collection_logo: string;
-    collection_banner_image: string;
+    collection_name: string | null;
+    collection_logo: string | null;
+    collection_banner_image: string | null;
     statistics_24h: {
         sales: number;
         volume: number;
         floor_price: number;
         market_cap: number;
-    };
+    } | null;
      statistics_7d: {
         sales: number;
         volume: number;
         floor_price: number;
-    };
+    } | null;
      statistics_30d: {
         sales: number;
         volume: number;
         floor_price: number;
-    };
-    total_supply: number;
-    distinct_owners: number;
+    } | null;
+    total_supply: number | null;
+    distinct_owners: number | null;
     collection_address: string;
 }
