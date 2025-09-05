@@ -3,7 +3,7 @@
 const nextConfig = {
   /* config options here */
   experimental: {
-    serverComponentsExternalPackages: ['crypto-js', '@paypal/checkout-server-sdk'],
+    serverComponentsExternalPackages: ['crypto-js', '@paypal/checkout-server-sdk', 'jsrsasign'],
   },
   images: {
     dangerouslyAllowSVG: true,
