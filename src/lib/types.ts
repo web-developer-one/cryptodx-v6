@@ -97,6 +97,7 @@ export interface NftCollection {
     id: string;
     name: string;
     logo: string;
+    url: string;
     transfers24h: number;
     transfers7d: number;
     uniqueHolders: number;

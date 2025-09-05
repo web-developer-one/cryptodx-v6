@@ -15,6 +15,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import type { NftCollection } from '@/lib/types';
 import { useLanguage } from '@/hooks/use-language';
 import { CheckCircle } from 'lucide-react';
+import Link from 'next/link';
 
 export function NftsTable({ collections }: { collections: NftCollection[] }) {
   const { t } = useLanguage();
@@ -40,7 +41,7 @@ export function NftsTable({ collections }: { collections: NftCollection[] }) {
                   {index + 1}
                 </TableCell>
                 <TableCell>
-                  <div className="flex items-center gap-3">
+                   <Link href={collection.url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 group">
                     <Image
                       src={collection.logo}
                       alt={collection.name}
@@ -49,12 +50,12 @@ export function NftsTable({ collections }: { collections: NftCollection[] }) {
                       className="rounded-md"
                     />
                     <div className="flex items-center gap-1.5">
-                        <span className="font-semibold">{collection.name}</span>
+                        <span className="font-semibold group-hover:underline">{collection.name}</span>
                         {collection.isVerified && (
                             <CheckCircle className="h-4 w-4 text-primary" />
                         )}
                     </div>
-                  </div>
+                  </Link>
                 </TableCell>
                 <TableCell className="text-right font-mono">
                   {collection.transfers24h.toLocaleString()}
