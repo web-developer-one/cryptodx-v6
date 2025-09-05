@@ -175,8 +175,8 @@ export function MoralisSwapInterface({ cryptocurrencies, title, fromTokenSymbol 
   const { isActive: isWalletConnected, balances, performSwap, isSwapping } = useWallet();
   const { toast } = useToast();
   
-  const fromTokenBalance = useMemo(() => balances?.[fromToken?.symbol || ''], [balances, fromToken]);
-  const toTokenBalance = useMemo(() => balances?.[toToken?.symbol || ''], [balances, toToken]);
+  const fromTokenBalance = useMemo(() => fromToken ? balances?.[fromToken.symbol] : undefined, [balances, fromToken]);
+  const toTokenBalance = useMemo(() => toToken ? balances?.[toToken.symbol] : undefined, [balances, toToken]);
 
   const exchangeRate = useMemo(() => {
     if (fromToken?.price && toToken?.price && toToken.price > 0) {
