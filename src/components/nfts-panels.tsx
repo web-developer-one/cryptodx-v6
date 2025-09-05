@@ -35,7 +35,7 @@ export function NftsPanels({ collections, currency }: { collections: NftCollecti
                         <span className="font-semibold truncate">{collection.collection_name}</span>
                     </div>
                      <div className="text-sm text-muted-foreground">
-                        Floor: {collection.statistics_24h.floor_price.toFixed(2)} ETH
+                        Floor: {collection.statistics_24h?.floor_price.toFixed(2) ?? 'N/A'} ETH
                      </div>
                 </CardContent>
             </Card>

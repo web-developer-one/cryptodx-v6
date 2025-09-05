@@ -17,7 +17,10 @@ import { useLanguage } from '@/hooks/use-language';
 import { CheckCircle } from 'lucide-react';
 import Link from 'next/link';
 
-const FormattedCurrency = ({ value, currency, isEth = false }: { value: number; currency: SelectedCurrency; isEth?: boolean }) => {
+const FormattedCurrency = ({ value, currency, isEth = false }: { value: number | null | undefined; currency: SelectedCurrency; isEth?: boolean }) => {
+    if (value === null || value === undefined) {
+        return <>N/A</>;
+    }
     if (isEth) {
         return <>{value.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})} ETH</>
     }
@@ -63,13 +66,13 @@ export function NftsTable({ collections, currency }: { collections: NftCollectio
                   </Link>
                 </TableCell>
                 <TableCell className="text-right font-mono">
-                  {collection.statistics_24h.floor_price.toFixed(2)} ETH
+                  {collection.statistics_24h?.floor_price?.toFixed(2) ?? 'N/A'} ETH
                 </TableCell>
                 <TableCell className="text-right font-mono">
-                    <FormattedCurrency value={collection.statistics_24h.volume} currency={currency} isEth={currency.symbol === 'ETH'} />
+                    <FormattedCurrency value={collection.statistics_24h?.volume} currency={currency} isEth={currency.symbol === 'ETH'} />
                 </TableCell>
                  <TableCell className="text-right font-mono">
-                  {collection.distinct_owners.toLocaleString()}
+                  {collection.distinct_owners?.toLocaleString() ?? 'N/A'}
                 </TableCell>
                  <TableCell className="text-right font-mono">
                   {collection.total_supply.toLocaleString()}
