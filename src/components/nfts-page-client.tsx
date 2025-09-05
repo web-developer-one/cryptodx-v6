@@ -14,6 +14,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { NftsNav } from './nfts-nav';
+import { NftsPanels } from './nfts-panels';
 
 // Mock data generation
 const generateMockNfts = (): NftCollection[] => {
@@ -34,6 +36,7 @@ const generateMockNfts = (): NftCollection[] => {
     logo: col.logo,
     url: col.url,
     isVerified: col.isVerified,
+    floorPrice: Math.random() * 20 + 0.5,
     transfers24h: Math.floor(Math.random() * 500) + 50,
     transfers7d: Math.floor(Math.random() * 3000) + 500,
     uniqueHolders: Math.floor(Math.random() * 5000) + 1000,
@@ -46,7 +49,7 @@ const supportedCurrencies: SelectedCurrency[] = [
     { symbol: 'ETH', name: 'Ethereum', rate: 1/3500 },
 ];
 
-export function NftsPageClient() {
+export function NftsPageClient({ view }: { view: 'list' | 'panels' }) {
   const { t } = useLanguage();
   const [collections, setCollections] = useState<NftCollection[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -79,27 +82,34 @@ export function NftsPageClient() {
   }
 
   return (
-    <div className="container py-8">
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
-        <h1 className="text-3xl font-bold">{t('NftsPage.title')}</h1>
-        <div className="w-full md:w-auto md:max-w-[180px]">
-          <Select onValueChange={handleCurrencyChange} defaultValue={selectedCurrency.symbol}>
-            <SelectTrigger>
-              <SelectValue placeholder={t('PoolsClient.selectCurrency')} />
-            </SelectTrigger>
-            <SelectContent>
-              {supportedCurrencies.map((currency) => (
-                <SelectItem key={currency.symbol} value={currency.symbol}>
-                  <div className="flex items-center gap-2">
-                    <span>{currency.name}</span>
-                  </div>
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+    <div className="container flex flex-col items-center py-8">
+      <NftsNav />
+      <div className="w-full">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+            <h1 className="text-3xl font-bold">{t('NftsPage.title')}</h1>
+            <div className="w-full md:w-auto md:max-w-[180px]">
+            <Select onValueChange={handleCurrencyChange} defaultValue={selectedCurrency.symbol}>
+                <SelectTrigger>
+                <SelectValue placeholder={t('PoolsClient.selectCurrency')} />
+                </SelectTrigger>
+                <SelectContent>
+                {supportedCurrencies.map((currency) => (
+                    <SelectItem key={currency.symbol} value={currency.symbol}>
+                    <div className="flex items-center gap-2">
+                        <span>{currency.name}</span>
+                    </div>
+                    </SelectItem>
+                ))}
+                </SelectContent>
+            </Select>
+            </div>
         </div>
+        {view === 'list' ? (
+             <NftsTable collections={collections} />
+        ) : (
+             <NftsPanels collections={collections} />
+        )}
       </div>
-      <NftsTable collections={collections} />
     </div>
   );
 }

@@ -146,7 +146,8 @@
   "ExploreNav": {
     "tokens": "Токены",
     "pools": "Пулы",
-    "transactions": "Транзакции"
+    "transactions": "Транзакции",
+    "nfts": "NFT"
   },
   "TradeNav": {
     "swap": "Обмен",
@@ -441,6 +442,7 @@
   "NftsPage": {
     "title": "Лучшие коллекции NFT",
     "collection": "Коллекция",
+    "floorPrice": "Минимальная цена",
     "transfers24h": "Переводы (24ч)",
     "transfers7d": "Переводы (7д)",
     "uniqueHolders": "Владельцы",

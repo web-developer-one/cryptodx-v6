@@ -146,7 +146,8 @@
   "ExploreNav": {
     "tokens": "Tokens",
     "pools": "Pools",
-    "transactions": "Transactions"
+    "transactions": "Transactions",
+    "nfts": "NFTs"
   },
   "TradeNav": {
     "swap": "Swap",
@@ -441,6 +442,7 @@
   "NftsPage": {
     "title": "Top NFT Collections",
     "collection": "Collection",
+    "floorPrice": "Floor Price",
     "transfers24h": "Transfers (24h)",
     "transfers7d": "Transfers (7d)",
     "uniqueHolders": "Holders",
