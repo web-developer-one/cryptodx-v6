@@ -399,6 +399,23 @@
     "description": "現在の市場レートで仮想通貨を売買します。",
     "comingSoon": "スポット取引インターフェースはまもなく利用可能になります。"
   },
+  "ArbitragePage": {
+    "title": "トレーディングボット",
+    "description": "モック取引所データに基づくシミュレートされたアービトラージトレーディングボットの機会。"
+  },
+  "ArbitrageInterface": {
+    "opportunitiesTitle": "ライブオポチュニティ",
+    "opportunitiesDescription": "取引所間のシミュレートされた価格差を表示します。",
+    "tableHeaderToken": "トークン",
+    "tableHeaderExA": "取引所A",
+    "tableHeaderExB": "取引所B",
+    "tableHeaderProfit": "利益率%",
+    "tableHeaderAction": "アクション",
+    "buyAt": "購入価格",
+    "sellAt": "売却価格",
+    "tradeButton": "取引",
+    "noOpportunities": "現在、大きな裁定取引の機会は見つかりませんでした。"
+  },
   "PageTitles": {
     "home": "ホーム | CryptoDx",
     "buy": "仮想通貨を購入",
@@ -417,7 +434,17 @@
     "register": "アカウント作成",
     "profile": "マイプロフィール",
     "users": "ユーザー",
-    "dashboard": "ダッシュボード"
+    "dashboard": "ダッシュボード",
+    "tradingBot": "トレーディングボット",
+    "nfts": "トップNFT"
+  },
+  "NftsPage": {
+    "title": "トップNFTコレクション",
+    "collection": "コレクション",
+    "transfers24h": "転送（24時間）",
+    "transfers7d": "転送（7日間）",
+    "uniqueHolders": "保有者",
+    "totalSupply": "総供給量"
   },
   "LoginPage": {
     "subtitle": "アカウントにログインして続行してください。",
@@ -467,11 +494,19 @@
   },
   "UsersPage": {
     "title": "ユーザー管理",
+    "description": "ユーザーアカウントの表示、編集、管理を行います。",
     "avatar": "アバター",
     "username": "ユーザー名",
-    "firstName": "名",
-    "sex": "性別",
-    "pricePlan": "料金プラン"
+    "email": "メール",
+    "pricePlan": "料金プラン",
+    "actions": "アクション",
+    "edit": "編集",
+    "delete": "削除",
+    "deleteConfirmTitle": "本当にいいですか？",
+    "deleteConfirmDesc": "この操作は元に戻せません。{username}のアカウントを永久に削除します。",
+    "backToUsers": "ユーザーに戻る",
+    "editUser": "ユーザープロファイルの編集",
+    "editUserSubtitle": "選択したユーザーの詳細を変更します。"
   },
   "LogoutToast": {
     "description": "正常にログアウトしました。"

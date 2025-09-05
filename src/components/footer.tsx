@@ -9,10 +9,12 @@ import { TermsOfUseModal } from "./terms-of-use-modal";
 import { SiteLogo } from "./site-logo";
 import { useLanguage } from "@/hooks/use-language";
 import { useUser } from "@/hooks/use-user";
+import { useWallet } from "@/hooks/use-wallet";
 
 export function Footer() {
   const { t } = useLanguage();
   const { user, isAuthenticated } = useUser();
+  const { isActive: isWalletConnected } = useWallet();
   const year = new Date().getFullYear();
 
   const footerSections = [
@@ -56,6 +58,14 @@ export function Footer() {
     const exploreSection = footerSections.find(s => s.title === t('Footer.explore'));
     if (exploreSection) {
         exploreSection.links.push({ name: t('PageTitles.tradingBot'), href: "/tradingbot" });
+    }
+  }
+
+  if (isWalletConnected) {
+    const exploreSection = footerSections.find(s => s.title === t('Footer.explore'));
+    const transactionsIndex = exploreSection?.links.findIndex(l => l.name === t('Footer.transactions'));
+    if (exploreSection && transactionsIndex !== undefined && transactionsIndex !== -1) {
+        exploreSection.links.splice(transactionsIndex + 1, 0, { name: t('PageTitles.dashboard'), href: "/dashboard" });
     }
   }
   

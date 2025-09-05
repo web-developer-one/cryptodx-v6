@@ -358,7 +358,7 @@
     "addNetworkFailedTitle": "Error al Añadir Red",
     "addNetworkFailedDesc": "No se pudo añadir la red seleccionada a su billetera.",
     "networkNotSupportedTitle": "Red No Soportada",
-    "networkNotSupportedDesc": "Esta red no se puede añadir automáticamente. Por favor, añádala a su billetera manualmente.",
+    "networkNotSupportedDesc": "Esta red no se puede añadir automáticamente. Por favor, añádala a su billetera manually.",
     "switchNetworkFailedTitle": "Error al Cambiar de Red",
     "switchNetworkFailedDesc": "No se pudo cambiar a la red seleccionada. Por favor, inténtelo de nuevo."
   },
@@ -399,6 +399,23 @@
     "description": "Compra y vende criptomonedas a la tasa actual del mercado.",
     "comingSoon": "La interfaz de comercio al contado estará disponible pronto."
   },
+  "ArbitragePage": {
+    "title": "Bot de Trading",
+    "description": "Oportunidades simuladas de bot de trading de arbitraje basadas en datos de intercambio ficticios."
+  },
+  "ArbitrageInterface": {
+    "opportunitiesTitle": "Oportunidades en Vivo",
+    "opportunitiesDescription": "Mostrando diferencias de precios simuladas entre intercambios.",
+    "tableHeaderToken": "Token",
+    "tableHeaderExA": "Intercambio A",
+    "tableHeaderExB": "Intercambio B",
+    "tableHeaderProfit": "Ganancia %",
+    "tableHeaderAction": "Acción",
+    "buyAt": "Comprar en",
+    "sellAt": "Vender en",
+    "tradeButton": "Comerciar",
+    "noOpportunities": "No se encontraron oportunidades de arbitraje significativas en este momento."
+  },
   "PageTitles": {
     "home": "Inicio | CryptoDx",
     "buy": "Comprar Cripto",
@@ -417,7 +434,17 @@
     "register": "Crear Cuenta",
     "profile": "Mi Perfil",
     "users": "Usuarios",
-    "dashboard": "Tablero"
+    "dashboard": "Tablero",
+    "tradingBot": "Bot de Trading",
+    "nfts": "Mejores NFTs"
+  },
+  "NftsPage": {
+    "title": "Mejores Colecciones de NFT",
+    "collection": "Colección",
+    "transfers24h": "Transferencias (24h)",
+    "transfers7d": "Transferencias (7d)",
+    "uniqueHolders": "Poseedores",
+    "totalSupply": "Suministro Total"
   },
   "LoginPage": {
     "subtitle": "Inicia sesión en tu cuenta para continuar.",
@@ -467,11 +494,19 @@
   },
   "UsersPage": {
     "title": "Gestión de Usuarios",
+    "description": "Ver, editar y gestionar cuentas de usuario.",
     "avatar": "Avatar",
     "username": "Nombre de Usuario",
-    "firstName": "Nombre",
-    "sex": "Sexo",
-    "pricePlan": "Plan de Precios"
+    "email": "Correo electrónico",
+    "pricePlan": "Plan de Precios",
+    "actions": "Acciones",
+    "edit": "Editar",
+    "delete": "Eliminar",
+    "deleteConfirmTitle": "¿Estás absolutamente seguro?",
+    "deleteConfirmDesc": "Esta acción no se puede deshacer. Esto eliminará permanentemente la cuenta de {username}.",
+    "backToUsers": "Volver a Usuarios",
+    "editUser": "Editar Perfil de Usuario",
+    "editUserSubtitle": "Modificar los detalles del usuario seleccionado."
   },
   "LogoutToast": {
     "description": "Has cerrado sesión exitosamente."

@@ -399,6 +399,23 @@
     "description": "Compre e venda cripto à taxa de mercado atual.",
     "comingSoon": "A interface de negociação à vista estará disponível em breve."
   },
+  "ArbitragePage": {
+    "title": "Bot de Negociação",
+    "description": "Oportunidades de bot de negociação de arbitragem simuladas com base em dados de exchange fictícios."
+  },
+  "ArbitrageInterface": {
+    "opportunitiesTitle": "Oportunidades ao Vivo",
+    "opportunitiesDescription": "Mostrando diferenças de preço simuladas entre exchanges.",
+    "tableHeaderToken": "Token",
+    "tableHeaderExA": "Exchange A",
+    "tableHeaderExB": "Exchange B",
+    "tableHeaderProfit": "Lucro %",
+    "tableHeaderAction": "Ação",
+    "buyAt": "Comprar em",
+    "sellAt": "Vender em",
+    "tradeButton": "Negociar",
+    "noOpportunities": "Nenhuma oportunidade de arbitragem significativa encontrada no momento."
+  },
   "PageTitles": {
     "home": "Início | CryptoDx",
     "buy": "Comprar Cripto",
@@ -417,7 +434,17 @@
     "register": "Criar Conta",
     "profile": "Meu Perfil",
     "users": "Usuários",
-    "dashboard": "Painel"
+    "dashboard": "Painel",
+    "tradingBot": "Bot de Negociação",
+    "nfts": "Top NFTs"
+  },
+  "NftsPage": {
+    "title": "Principais Coleções de NFTs",
+    "collection": "Coleção",
+    "transfers24h": "Transferências (24h)",
+    "transfers7d": "Transferências (7d)",
+    "uniqueHolders": "Detentores",
+    "totalSupply": "Oferta Total"
   },
   "LoginPage": {
     "subtitle": "Faça login na sua conta para continuar.",
@@ -467,11 +494,19 @@
   },
   "UsersPage": {
     "title": "Gerenciamento de Usuários",
+    "description": "Visualize, edite e gerencie contas de usuário.",
     "avatar": "Avatar",
     "username": "Nome de Usuário",
-    "firstName": "Primeiro Nome",
-    "sex": "Sexo",
-    "pricePlan": "Plano de Preços"
+    "email": "E-mail",
+    "pricePlan": "Plano de Preços",
+    "actions": "Ações",
+    "edit": "Editar",
+    "delete": "Excluir",
+    "deleteConfirmTitle": "Você tem certeza absoluta?",
+    "deleteConfirmDesc": "Esta ação não pode ser desfeita. Isso excluirá permanentemente a conta de {username}.",
+    "backToUsers": "Voltar para Usuários",
+    "editUser": "Editar Perfil do Usuário",
+    "editUserSubtitle": "Modifique os detalhes do usuário selecionado."
   },
   "LogoutToast": {
     "description": "Você saiu com sucesso."
