@@ -15,14 +15,16 @@ import type { NftCollection, SelectedCurrency } from '@/lib/types';
 import { useLanguage } from '@/hooks/use-language';
 import Link from 'next/link';
 
-const FormattedCurrency = ({ value, currency, isEth = false }: { value: number | null | undefined; currency: SelectedCurrency; isEth?: boolean }) => {
-    if (value === null || value === undefined) {
+const FormattedCurrency = ({ value, currency, isEth = false }: { value: string | number | null | undefined; currency: SelectedCurrency; isEth?: boolean }) => {
+    const numericValue = typeof value === 'string' ? parseFloat(value) : value;
+
+    if (numericValue === null || numericValue === undefined || isNaN(numericValue)) {
         return <>N/A</>;
     }
     if (isEth) {
-        return <>{value.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})} ETH</>
+        return <>{numericValue.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})} ETH</>
     }
-    const convertedValue = value * currency.rate;
+    const convertedValue = numericValue * currency.rate;
     return <>{new Intl.NumberFormat('en-US', { style: 'currency', currency: currency.symbol, notation: 'compact', maximumFractionDigits: 2, }).format(convertedValue)}</>
 };
 
@@ -64,10 +66,10 @@ export function NftsTable({ collections, currency }: { collections: NftCollectio
                   </Link>
                 </TableCell>
                 <TableCell className="text-right font-mono">
-                  {collection.statistics_24h?.floor_price?.toFixed(2) ?? 'N/A'} ETH
+                  {parseFloat(collection.floor_price).toFixed(4)} ETH
                 </TableCell>
                 <TableCell className="text-right font-mono">
-                    <FormattedCurrency value={collection.statistics_24h?.volume} currency={currency} isEth={currency.symbol === 'ETH'} />
+                    <FormattedCurrency value={collection.volume_usd} currency={currency} />
                 </TableCell>
                  <TableCell className="text-right font-mono">
                   {collection.distinct_owners?.toLocaleString() ?? 'N/A'}

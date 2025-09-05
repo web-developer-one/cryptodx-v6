@@ -432,6 +432,7 @@
   "NftsPage": {
     "title": "أفضل مجموعات NFT",
     "collection": "المجموعة",
+    "floorPrice": "السعر الأدنى",
     "transfers24h": "التحويلات (24 ساعة)",
     "transfers7d": "التحويلات (7 أيام)",
     "uniqueHolders": "الحائزون",
@@ -484,7 +485,10 @@
   "UsersPage": {
     "title": "إدارة المستخدمين",
     "description": "عرض وتحرير وإدارة حسابات المستخدمين.",
+    "avatar": "الصورة الرمزية",
+    "username": "اسم المستخدم",
     "email": "بريد إلكتروني",
+    "pricePlan": "خطة الأسعار",
     "actions": "الإجراءات",
     "edit": "تحرير",
     "delete": "حذف",

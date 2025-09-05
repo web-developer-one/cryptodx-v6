@@ -94,25 +94,13 @@ export interface SelectedCurrency {
 
 export interface NftCollection {
     rank: number;
-    collection_name: string | null;
+    collection_name: string;
     collection_logo: string | null;
-    collection_banner_image: string | null;
-    statistics_24h: {
-        sales: number | null;
-        volume: number | null;
-        floor_price: number | null;
-        market_cap: number | null;
-    } | null;
-     statistics_7d: {
-        sales: number | null;
-        volume: number | null;
-        floor_price: number | null;
-    } | null;
-     statistics_30d: {
-        sales: number | null;
-        volume: number | null;
-        floor_price: number | null;
-    } | null;
+    collection_banner_image?: string | null;
+    floor_price: string;
+    floor_price_usd_24hr_percent_change: string | null;
+    market_cap_usd: string;
+    volume_usd: string;
     total_supply: number | null;
     distinct_owners: number | null;
     collection_address: string;
