@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import Image from 'next/image';
@@ -85,5 +84,3 @@ export function NftsTable({ collections, currency }: { collections: NftCollectio
     </Card>
   );
 }
-
-
