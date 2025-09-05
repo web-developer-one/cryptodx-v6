@@ -63,7 +63,11 @@ export function DashboardTable({ balances, totalValue, allTokens }: DashboardTab
       </TableHeader>
       <TableBody>
         {balances.map((token) => {
-          const portfolioPercentage = totalValue > 0 ? (token.usdValue / totalValue) * 100 : 0;
+          const tokenInfo = allTokens.find(t => t.symbol === token.symbol);
+          const currentPrice = tokenInfo?.price || 0;
+          const usdValue = parseFloat(token.balance) * currentPrice;
+          const portfolioPercentage = totalValue > 0 ? (usdValue / totalValue) * 100 : 0;
+          
           return (
             <TableRow key={token.symbol}>
               <TableCell>
@@ -89,7 +93,7 @@ export function DashboardTable({ balances, totalValue, allTokens }: DashboardTab
                 <PriceDisplay tokenSymbol={token.symbol} allTokens={allTokens} />
               </TableCell>
               <TableCell className="text-right">
-                <p className="font-mono font-semibold">${token.usdValue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
+                <p className="font-mono font-semibold">${usdValue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
                 <p className="text-sm text-muted-foreground font-mono">{parseFloat(token.balance).toLocaleString('en-US', { maximumFractionDigits: 4 })} {token.symbol}</p>
               </TableCell>
             </TableRow>
