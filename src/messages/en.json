@@ -146,8 +146,7 @@
   "ExploreNav": {
     "tokens": "Tokens",
     "pools": "Pools",
-    "transactions": "Transactions",
-    "nfts": "NFTs"
+    "transactions": "Transactions"
   },
   "TradeNav": {
     "swap": "Swap",
@@ -400,23 +399,6 @@
     "description": "Buy and sell crypto at the current market rate.",
     "comingSoon": "The spot trading interface is coming soon."
   },
-  "ArbitragePage": {
-    "title": "Trading Bot",
-    "description": "Simulated arbitrage trading bot opportunities based on mock exchange data."
-  },
-  "ArbitrageInterface": {
-    "opportunitiesTitle": "Live Opportunities",
-    "opportunitiesDescription": "Showing simulated price differences between exchanges.",
-    "tableHeaderToken": "Token",
-    "tableHeaderExA": "Exchange A",
-    "tableHeaderExB": "Exchange B",
-    "tableHeaderProfit": "Profit %",
-    "tableHeaderAction": "Action",
-    "buyAt": "Buy at",
-    "sellAt": "Sell at",
-    "tradeButton": "Trade",
-    "noOpportunities": "No significant arbitrage opportunities found at the moment."
-  },
   "PageTitles": {
     "home": "Home | CryptoDx",
     "buy": "Buy Crypto",
@@ -434,19 +416,7 @@
     "login": "Login",
     "register": "Register",
     "profile": "My Profile",
-    "users": "Users",
-    "dashboard": "Dashboard",
-    "tradingBot": "Trading Bot",
-    "nfts": "Top NFTs"
-  },
-  "NftsPage": {
-    "title": "Top NFT Collections",
-    "collection": "Collection",
-    "floorPrice": "Floor Price",
-    "transfers24h": "Transfers (24h)",
-    "transfers7d": "Transfers (7d)",
-    "uniqueHolders": "Holders",
-    "totalSupply": "Total Supply"
+    "users": "Users"
   },
   "LoginPage": {
     "subtitle": "Login to your account to continue.",
@@ -496,19 +466,11 @@
   },
   "UsersPage": {
     "title": "User Management",
-    "description": "View, edit, and manage user accounts.",
     "avatar": "Avatar",
     "username": "Username",
-    "email": "Email",
-    "pricePlan": "Price Plan",
-    "actions": "Actions",
-    "edit": "Edit",
-    "delete": "Delete",
-    "deleteConfirmTitle": "Are you absolutely sure?",
-    "deleteConfirmDesc": "This action cannot be undone. This will permanently delete the account for {username}.",
-    "backToUsers": "Back to Users",
-    "editUser": "Edit User Profile",
-    "editUserSubtitle": "Modify the details of the selected user."
+    "firstName": "First Name",
+    "sex": "Sex",
+    "pricePlan": "Price Plan"
   },
   "LogoutToast": {
     "description": "You have been successfully logged out."
@@ -544,5 +506,12 @@
     "sandboxSuccessDesc": "Test transaction for the {tierName} plan was successful. This does not update your profile.",
     "paypalErrorTitle": "PayPal Error",
     "paypalErrorDesc": "An error occurred with the PayPal transaction."
+  },
+   "NftsPage": {
+    "title": "Top NFT Collections",
+    "collection": "Collection",
+    "floorPrice": "Floor Price",
+    "uniqueHolders": "Holders",
+    "totalSupply": "Total Supply"
   }
 }
