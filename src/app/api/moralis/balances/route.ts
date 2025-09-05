@@ -43,8 +43,9 @@ export async function GET(request: NextRequest) {
     }
 
     try {
+        // Fetch latest crypto prices and wallet balances concurrently
         const [{ data: cryptoData }, nativeBalanceResponse, tokenBalancesResponse] = await Promise.all([
-            getLatestListings(), // Fetch latest prices
+            getLatestListings(),
             Moralis.EvmApi.balance.getNativeBalance({ address, chain: chainId }),
             Moralis.EvmApi.token.getWalletTokenBalances({ address, chain: chainId })
         ]);
@@ -54,7 +55,7 @@ export async function GET(request: NextRequest) {
 
         const allBalances: CombinedBalance[] = [];
 
-        // 1. Process and add native balance (ETH, AVAX, etc.)
+        // 1. Process native balance (ETH, AVAX, etc.)
         if (nativeBalanceData && nativeBalanceData.balance) {
              const nativeBalanceFormatted = ethers.formatUnits(nativeBalanceData.balance, selectedNetwork.nativeCurrency.decimals);
              const nativeTokenInfo = cryptoData.find(t => t.symbol === selectedNetwork.nativeCurrency.symbol);
@@ -73,15 +74,16 @@ export async function GET(request: NextRequest) {
             });
         }
         
-        // 2. Process and add ERC-20 token balances
+        // 2. Process ERC-20 token balances
         if (tokenBalancesData.length > 0) {
             tokenBalancesData.forEach(token => {
-                if (token.possible_spam) {
-                    return;
-                }
+                if (token.possible_spam) return;
+
                 const formattedBalance = ethers.formatUnits(token.balance, token.decimals);
                 const tokenInfo = cryptoData.find(t => t.symbol === token.symbol);
-                const usdValue = tokenInfo ? parseFloat(formattedBalance) * tokenInfo.price : (token.usd_price || 0) * parseFloat(formattedBalance);
+                // Prioritize fresh price from cryptoData, fallback to Moralis's possibly stale price.
+                const price = tokenInfo ? tokenInfo.price : token.usd_price;
+                const usdValue = price ? parseFloat(formattedBalance) * price : 0;
 
                 allBalances.push({
                     token_address: token.token_address,
@@ -97,6 +99,9 @@ export async function GET(request: NextRequest) {
             });
         }
        
+        // Sort by USD value descending
+        allBalances.sort((a, b) => b.usdValue - a.usdValue);
+
         return NextResponse.json(allBalances);
 
     } catch (error: any) {

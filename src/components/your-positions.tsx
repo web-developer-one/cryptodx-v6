@@ -44,14 +44,14 @@ export function YourPositions({ cryptocurrencies }: { cryptocurrencies: Cryptocu
         
         const eth = cryptocurrencies.find(c => c.symbol === 'ETH');
         const usdc = cryptocurrencies.find(c => c.symbol === 'USDC');
-        const btc = cryptocurrencies.find(c => c.symbol === 'BTC');
+        const wbtc = cryptocurrencies.find(c => c.symbol === 'WBTC');
         const sol = cryptocurrencies.find(c => c.symbol === 'SOL');
 
-        if (!eth || !usdc || !btc || !sol) return [];
+        if (!eth || !usdc || !wbtc || !sol) return [];
 
         return [
             { id: '1', token0: eth, token1: usdc, network: 'Ethereum', value: 1250.75, apr: 12.5 },
-            { id: '2', token0: btc, token1: eth, network: 'Ethereum', value: 5430.10, apr: 8.2 },
+            { id: '2', token0: wbtc, token1: eth, network: 'Ethereum', value: 5430.10, apr: 8.2 },
             { id: '3', token0: sol, token1: usdc, network: 'Solana', value: 880.00, apr: 22.1 },
         ];
     }, [cryptocurrencies]);
