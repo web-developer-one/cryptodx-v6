@@ -52,16 +52,16 @@ export function NftsTable({ collections, currency }: { collections: NftCollectio
                   {collection.rank}
                 </TableCell>
                 <TableCell>
-                   <Link href={`https://opensea.io/collection/${collection.collection_name.replace(/\s+/g, '-').toLowerCase()}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 group">
+                   <Link href={`https://opensea.io/collection/${(collection.collection_name || '').replace(/\s+/g, '-').toLowerCase()}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 group">
                     <Image
                       src={collection.collection_logo || 'https://placehold.co/40x40.png'}
-                      alt={collection.collection_name}
+                      alt={collection.collection_name || 'NFT Collection'}
                       width={40}
                       height={40}
                       className="rounded-md"
                     />
                     <div className="flex items-center gap-1.5">
-                        <span className="font-semibold group-hover:underline">{collection.collection_name}</span>
+                        <span className="font-semibold group-hover:underline">{collection.collection_name || 'Unnamed Collection'}</span>
                     </div>
                   </Link>
                 </TableCell>
@@ -85,3 +85,4 @@ export function NftsTable({ collections, currency }: { collections: NftCollectio
     </Card>
   );
 }
+

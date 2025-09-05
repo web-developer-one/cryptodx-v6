@@ -14,7 +14,7 @@ export function NftsPanels({ collections, currency }: { collections: NftCollecti
   const router = useRouter();
 
   const handlePanelClick = (collection: NftCollection) => {
-     window.open(`https://opensea.io/collection/${collection.collection_name.replace(/\s+/g, '-').toLowerCase()}`, '_blank');
+     window.open(`https://opensea.io/collection/${(collection.collection_name || '').replace(/\s+/g, '-').toLowerCase()}`, '_blank');
   };
 
   return (
@@ -24,7 +24,7 @@ export function NftsPanels({ collections, currency }: { collections: NftCollecti
                 <CardHeader className="p-0">
                    <Image
                         src={collection.collection_banner_image || collection.collection_logo || 'https://placehold.co/400x400.png'}
-                        alt={collection.collection_name}
+                        alt={collection.collection_name || 'NFT Collection'}
                         width={400}
                         height={400}
                         className="rounded-t-lg aspect-square object-cover"
@@ -32,10 +32,10 @@ export function NftsPanels({ collections, currency }: { collections: NftCollecti
                 </CardHeader>
                 <CardContent className="p-4 flex-1 flex flex-col justify-between">
                     <div className="flex items-center gap-1.5">
-                        <span className="font-semibold truncate">{collection.collection_name}</span>
+                        <span className="font-semibold truncate">{collection.collection_name || 'Unnamed Collection'}</span>
                     </div>
                      <div className="text-sm text-muted-foreground">
-                        Floor: {collection.statistics_24h?.floor_price.toFixed(2) ?? 'N/A'} ETH
+                        Floor: {collection.statistics_24h?.floor_price?.toFixed(2) ?? 'N/A'} ETH
                      </div>
                 </CardContent>
             </Card>
