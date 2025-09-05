@@ -114,11 +114,6 @@ const ReceiveTokenDialog = ({ address }: { address: string }) => {
 }
 
 
-const truncateAddress = (address: string) => {
-  if (!address) return '';
-  return `${address.substring(0, 6)}...${address.substring(address.length - 4)}`;
-};
-
 export function DashboardPageClient() {
   const { t } = useLanguage();
   const { account, balances, isBalancesLoading, selectedNetwork, setSelectedNetwork, isLoading: isWalletLoading } = useWallet();
@@ -126,6 +121,8 @@ export function DashboardPageClient() {
   const [isTokensLoading, setIsTokensLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
+  const [isCopied, setIsCopied] = useState(false);
+  const { toast } = useToast();
 
   useEffect(() => {
     document.title = t('PageTitles.dashboard');
@@ -184,6 +181,15 @@ export function DashboardPageClient() {
         token.symbol.toLowerCase().includes(lowercasedQuery)
     );
   }, [balances, searchQuery]);
+
+  const handleCopy = () => {
+    if (account) {
+        navigator.clipboard.writeText(account);
+        setIsCopied(true);
+        toast({ description: "Address copied to clipboard!" });
+        setTimeout(() => setIsCopied(false), 2000);
+    }
+  };
 
 
   const isLoading = isBalancesLoading || isTokensLoading || isWalletLoading;
@@ -246,9 +252,12 @@ export function DashboardPageClient() {
                     )}
                 </div>
                  <div className="flex items-center gap-4 mt-4">
-                    <Button variant="outline" size="sm" className="font-mono">
-                       {account ? truncateAddress(account) : <Skeleton className="h-5 w-24" />}
-                    </Button>
+                    <div className="flex items-center gap-1 border rounded-md p-1 pr-2 bg-secondary">
+                        <span className="font-mono text-sm pl-2">{account || '...'}</span>
+                        <Button variant="ghost" size="icon" className="h-6 w-6" onClick={handleCopy}>
+                             {isCopied ? <Check className="h-3 w-3 text-green-500" /> : <Copy className="h-3 w-3" />}
+                        </Button>
+                    </div>
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
                         <Button
