@@ -399,23 +399,6 @@
     "description": "Buy and sell crypto at the current market rate.",
     "comingSoon": "The spot trading interface is coming soon."
   },
-  "ArbitragePage": {
-    "title": "Trading Bot",
-    "description": "Simulated arbitrage trading bot opportunities based on mock exchange data."
-  },
-  "ArbitrageInterface": {
-    "opportunitiesTitle": "Live Opportunities",
-    "opportunitiesDescription": "Showing simulated price differences between exchanges.",
-    "tableHeaderToken": "Token",
-    "tableHeaderExA": "Exchange A",
-    "tableHeaderExB": "Exchange B",
-    "tableHeaderProfit": "Profit %",
-    "tableHeaderAction": "Actions",
-    "buyAt": "Buy At",
-    "sellAt": "Sell At",
-    "tradeButton": "Trade",
-    "noOpportunities": "No significant arbitrage opportunities found at the moment."
-  },
   "PageTitles": {
     "home": "Home | CryptoDx",
     "buy": "Buy Crypto",
@@ -434,18 +417,7 @@
     "register": "Register",
     "profile": "My Profile",
     "users": "Users",
-    "tradingBot": "Trading Bot",
-    "nfts": "Top NFTs",
-    "changelly": "Changelly DEX",
     "dashboard": "Dashboard"
-  },
-  "NftsPage": {
-    "title": "Top NFT Collections",
-    "collection": "Collection",
-    "transfers24h": "Transfers (24H)",
-    "transfers7d": "Transfers (7D)",
-    "uniqueHolders": "Holders",
-    "totalSupply": "Total Supply"
   },
   "LoginPage": {
     "subtitle": "Login to your account to continue.",
@@ -495,16 +467,11 @@
   },
   "UsersPage": {
     "title": "User Management",
-    "description": "View, edit, and manage user accounts.",
-    "email": "Email",
-    "actions": "Actions",
-    "edit": "Edit",
-    "delete": "Delete",
-    "deleteConfirmTitle": "Are you absolutely sure?",
-    "deleteConfirmDesc": "This action cannot be undone. This will permanently delete the account for {username}.",
-    "backToUsers": "Back to Users",
-    "editUser": "Edit User Profile",
-    "editUserSubtitle": "Modify the details for the selected user."
+    "avatar": "Avatar",
+    "username": "Username",
+    "firstName": "First Name",
+    "sex": "Sex",
+    "pricePlan": "Price Plan"
   },
   "LogoutToast": {
     "description": "You have been successfully logged out."

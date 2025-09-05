@@ -399,23 +399,6 @@
     "description": "Compre e venda cripto à taxa de mercado atual.",
     "comingSoon": "A interface de negociação à vista estará disponível em breve."
   },
-  "ArbitragePage": {
-    "title": "Robô de Negociação",
-    "description": "Oportunidades simuladas de robô de negociação de arbitragem com base em dados de câmbio fictícios."
-  },
-  "ArbitrageInterface": {
-    "opportunitiesTitle": "Oportunidades ao Vivo",
-    "opportunitiesDescription": "Mostrando diferenças de preços simuladas entre as bolsas.",
-    "tableHeaderToken": "Token",
-    "tableHeaderExA": "Bolsa A",
-    "tableHeaderExB": "Bolsa B",
-    "tableHeaderProfit": "Lucro %",
-    "tableHeaderAction": "Ações",
-    "buyAt": "Comprar em",
-    "sellAt": "Vender em",
-    "tradeButton": "Negociar",
-    "noOpportunities": "Nenhuma oportunidade de arbitragem significativa encontrada no momento."
-  },
   "PageTitles": {
     "home": "Início | CryptoDx",
     "buy": "Comprar Cripto",
@@ -434,18 +417,7 @@
     "register": "Criar Conta",
     "profile": "Meu Perfil",
     "users": "Usuários",
-    "tradingBot": "Robô de Negociação",
-    "nfts": "Top NFTs",
-    "changelly": "Changelly DEX",
     "dashboard": "Painel"
-  },
-  "NftsPage": {
-    "title": "Principais Coleções de NFT",
-    "collection": "Coleção",
-    "transfers24h": "Transferências (24H)",
-    "transfers7d": "Transferências (7D)",
-    "uniqueHolders": "Detentores",
-    "totalSupply": "Fornecimento Total"
   },
   "LoginPage": {
     "subtitle": "Faça login na sua conta para continuar.",
@@ -495,16 +467,11 @@
   },
   "UsersPage": {
     "title": "Gerenciamento de Usuários",
-    "description": "Visualizar, editar e gerenciar contas de usuário.",
-    "email": "Email",
-    "actions": "Ações",
-    "edit": "Editar",
-    "delete": "Excluir",
-    "deleteConfirmTitle": "Você tem certeza absoluta?",
-    "deleteConfirmDesc": "Esta ação não pode ser desfeita. Isso excluirá permanentemente a conta de {username}.",
-    "backToUsers": "Voltar para Usuários",
-    "editUser": "Editar Perfil do Usuário",
-    "editUserSubtitle": "Modifique os detalhes do usuário selecionado."
+    "avatar": "Avatar",
+    "username": "Nome de Usuário",
+    "firstName": "Primeiro Nome",
+    "sex": "Sexo",
+    "pricePlan": "Plano de Preços"
   },
   "LogoutToast": {
     "description": "Você saiu com sucesso."

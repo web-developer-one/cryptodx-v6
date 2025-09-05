@@ -3,19 +3,19 @@
 
 import { useEffect, useState, useMemo } from 'react';
 import { useLanguage } from '@/hooks/use-language';
-import { useWallet } from '@/hooks/use-wallet';
+import { useWallet, networkConfigs } from '@/hooks/use-wallet';
 import type { Cryptocurrency } from '@/lib/types';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ArrowDown, ArrowUp, Send, RefreshCw } from 'lucide-react';
+import { ArrowDown, ArrowUp, Send, RefreshCw, Search, ChevronDown } from 'lucide-react';
 import { DashboardTable } from './dashboard-table';
 import { cn } from '@/lib/utils';
 import { Input } from './ui/input';
-import { Search } from 'lucide-react';
 import { getLatestListings } from '@/lib/coinmarketcap';
 import { ApiErrorCard } from './api-error-card';
 import Image from 'next/image';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 
 const truncateAddress = (address: string) => {
   if (!address) return '';
@@ -24,7 +24,7 @@ const truncateAddress = (address: string) => {
 
 export function DashboardPageClient() {
   const { t } = useLanguage();
-  const { account, balances, isBalancesLoading, selectedNetwork } = useWallet();
+  const { account, balances, isBalancesLoading, selectedNetwork, setSelectedNetwork, isLoading: isWalletLoading } = useWallet();
   const [allTokens, setAllTokens] = useState<Cryptocurrency[]>([]);
   const [isTokensLoading, setIsTokensLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -49,7 +49,7 @@ export function DashboardPageClient() {
   }, []);
 
   const { totalValue, totalChange, totalChangePercentage } = useMemo(() => {
-    if (!balances) return { totalValue: 0, totalChange: 0, totalChangePercentage: 0 };
+    if (!balances || !allTokens.length) return { totalValue: 0, totalChange: 0, totalChangePercentage: 0 };
     
     let totalValue = 0;
     let yesterdayValue = 0;
@@ -63,8 +63,12 @@ export function DashboardPageClient() {
         const currentValue = balance * price;
         totalValue += currentValue;
         
-        const priceYesterday = price / (1 + change24h / 100);
-        yesterdayValue += balance * priceYesterday;
+        if (price > 0 && change24h !== -100) {
+            const priceYesterday = price / (1 + change24h / 100);
+            yesterdayValue += balance * priceYesterday;
+        } else {
+            yesterdayValue += currentValue;
+        }
     });
 
     const totalChange = totalValue - yesterdayValue;
@@ -85,7 +89,19 @@ export function DashboardPageClient() {
   }, [balances, searchQuery]);
 
 
-  const isLoading = isBalancesLoading || isTokensLoading;
+  const isLoading = isBalancesLoading || isTokensLoading || isWalletLoading;
+  
+  const nativeCurrencyBalance = useMemo(() => {
+    return balances?.[selectedNetwork.nativeCurrency.symbol];
+  }, [balances, selectedNetwork]);
+  
+  const nativeCurrencyValue = useMemo(() => {
+    if(!nativeCurrencyBalance || !allTokens.length) return 0;
+    const tokenInfo = allTokens.find(t => t.symbol === nativeCurrencyBalance.symbol);
+    const price = tokenInfo?.price || 0;
+    return parseFloat(nativeCurrencyBalance.balance) * price;
+
+  }, [nativeCurrencyBalance, allTokens]);
 
   return (
     <div className="container py-8 space-y-8">
@@ -109,28 +125,55 @@ export function DashboardPageClient() {
         <Card>
             <CardContent className="p-6">
                 <h2 className="text-sm text-muted-foreground">Decentralized accounts</h2>
-                <div className="flex items-baseline gap-2 mt-2">
+                <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1 mt-2">
                     {isLoading ? <Skeleton className="h-10 w-48" /> : (
                         <>
                             <p className="text-4xl font-bold">${totalValue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
                             <div className={cn("flex items-center text-sm font-medium", totalChange >= 0 ? "text-green-500" : "text-destructive")}>
                                 {totalChange >= 0 ? <ArrowUp className="h-4 w-4" /> : <ArrowDown className="h-4 w-4" />}
-                                ${Math.abs(totalChange).toFixed(2)} ({totalChangePercentage.toFixed(2)}%)
+                                ${Math.abs(totalChange).toFixed(2)} ({totalChangePercentage.toFixed(2)}%) Today
                             </div>
                         </>
                     )}
                 </div>
                  <div className="flex items-center gap-4 mt-4">
-                    <Button variant="outline" size="sm">
+                    <Button variant="outline" size="sm" className="font-mono">
                        {account ? truncateAddress(account) : <Skeleton className="h-5 w-24" />}
                     </Button>
-                     <Button variant="outline" size="sm" className="flex items-center gap-2">
-                        {selectedNetwork.logo && <Image src={selectedNetwork.logo} alt={selectedNetwork.chainName} width={16} height={16} className="rounded-full" />}
-                       {selectedNetwork.chainName}
-                    </Button>
-                     <Button variant="outline" size="sm">
-                       Claim (1) airdrops
-                    </Button>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="flex items-center gap-2"
+                        >
+                          {selectedNetwork.logo && <Image src={selectedNetwork.logo} alt={selectedNetwork.chainName} width={16} height={16} className="rounded-full" />}
+                          {selectedNetwork.chainName}
+                          <ChevronDown className="h-4 w-4 opacity-50" />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="start">
+                        {Object.values(networkConfigs).map((network) => (
+                            <DropdownMenuItem
+                            key={network.chainId}
+                            onClick={() => setSelectedNetwork(network)}
+                            >
+                            {network.logo && (<Image
+                                src={network.logo}
+                                alt={`${network.chainName} logo`}
+                                width={20}
+                                height={20}
+                                className="mr-2 rounded-full"
+                            />)}
+                            {network.chainName}
+                            </DropdownMenuItem>
+                        ))}
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                </div>
+                 <div className="mt-4 text-sm text-muted-foreground">
+                    <span className="font-semibold">{selectedNetwork.nativeCurrency.symbol} Balance:</span>
+                    {isLoading ? <Skeleton className="inline-block h-4 w-20 ml-2" /> : ` $${nativeCurrencyValue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}
                 </div>
             </CardContent>
         </Card>

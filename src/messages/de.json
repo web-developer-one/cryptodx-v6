@@ -399,23 +399,6 @@
     "description": "Kaufen und verkaufen Sie Krypto zum aktuellen Marktkurs.",
     "comingSoon": "Die Spot-Handelsoberfläche kommt bald."
   },
-  "ArbitragePage": {
-    "title": "Handelsbot",
-    "description": "Simulierte Arbitrage-Handelsbot-Möglichkeiten basierend auf Mock-Exchange-Daten."
-  },
-  "ArbitrageInterface": {
-    "opportunitiesTitle": "Live-Möglichkeiten",
-    "opportunitiesDescription": "Anzeige simulierter Preisunterschiede zwischen Börsen.",
-    "tableHeaderToken": "Token",
-    "tableHeaderExA": "Börse A",
-    "tableHeaderExB": "Börse B",
-    "tableHeaderProfit": "Gewinn %",
-    "tableHeaderAction": "Aktionen",
-    "buyAt": "Kaufen bei",
-    "sellAt": "Verkaufen bei",
-    "tradeButton": "Handeln",
-    "noOpportunities": "Im Moment wurden keine nennenswerten Arbitrage-Möglichkeiten gefunden."
-  },
   "PageTitles": {
     "home": "Startseite | CryptoDx",
     "buy": "Krypto kaufen",
@@ -434,18 +417,7 @@
     "register": "Konto erstellen",
     "profile": "Mein Profil",
     "users": "Benutzer",
-    "tradingBot": "Handelsbot",
-    "nfts": "Top NFTs",
-    "changelly": "Changelly DEX",
     "dashboard": "Dashboard"
-  },
-  "NftsPage": {
-    "title": "Top NFT-Sammlungen",
-    "collection": "Sammlung",
-    "transfers24h": "Transfers (24h)",
-    "transfers7d": "Transfers (7T)",
-    "uniqueHolders": "Besitzer",
-    "totalSupply": "Gesamtangebot"
   },
   "LoginPage": {
     "subtitle": "Melden Sie sich bei Ihrem Konto an, um fortzufahren.",
@@ -495,16 +467,11 @@
   },
   "UsersPage": {
     "title": "Benutzerverwaltung",
-    "description": "Benutzerkonten anzeigen, bearbeiten und verwalten.",
-    "email": "Email",
-    "actions": "Aktionen",
-    "edit": "Bearbeiten",
-    "delete": "Löschen",
-    "deleteConfirmTitle": "Sind Sie absolut sicher?",
-    "deleteConfirmDesc": "Diese Aktion kann nicht rückgängig gemacht werden. Dadurch wird das Konto für {username} dauerhaft gelöscht.",
-    "backToUsers": "Zurück zu den Benutzern",
-    "editUser": "Benutzerprofil bearbeiten",
-    "editUserSubtitle": "Details für den ausgewählten Benutzer ändern."
+    "avatar": "Avatar",
+    "username": "Benutzername",
+    "firstName": "Vorname",
+    "sex": "Geschlecht",
+    "pricePlan": "Preisplan"
   },
   "LogoutToast": {
     "description": "Sie wurden erfolgreich abgemeldet."

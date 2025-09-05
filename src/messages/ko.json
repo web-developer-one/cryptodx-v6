@@ -328,7 +328,7 @@
     "placeholder": "메시지를 입력하세요...",
     "send": "보내기",
     "askAbout": "에 대해 물어보세요...",
-    "topics": "블록체인, DeFi, 암호화폐, NFT 등!",
+    "topics": "블록체인, DeFi, 암호화폐, NFT 또는 AI!",
     "errorResponse": "지금 응답을 생성하는 데 문제가 있습니다. 다른 질문을 시도해 주세요.",
     "connectionError": "죄송합니다. 지금 연결하는 데 문제가 있습니다. 나중에 다시 시도해 주세요.",
     "listening": "듣는 중...",
@@ -399,23 +399,6 @@
     "description": "현재 시장가로 암호화폐를 사고 팝니다.",
     "comingSoon": "현물 거래 인터페이스가 곧 제공될 예정입니다."
   },
-  "ArbitragePage": {
-    "title": "거래 봇",
-    "description": "모의 거래소 데이터를 기반으로 한 시뮬레이션된 차익 거래 봇 기회."
-  },
-  "ArbitrageInterface": {
-    "opportunitiesTitle": "라이브 기회",
-    "opportunitiesDescription": "거래소 간의 시뮬레이션된 가격 차이를 보여줍니다.",
-    "tableHeaderToken": "토큰",
-    "tableHeaderExA": "거래소 A",
-    "tableHeaderExB": "거래소 B",
-    "tableHeaderProfit": "수익률 %",
-    "tableHeaderAction": "작업",
-    "buyAt": "구매처",
-    "sellAt": "판매처",
-    "tradeButton": "거래",
-    "noOpportunities": "현재 중요한 차익 거래 기회를 찾을 수 없습니다."
-  },
   "PageTitles": {
     "home": "홈 | CryptoDx",
     "buy": "암호화폐 구매",
@@ -434,18 +417,7 @@
     "register": "계정 생성",
     "profile": "내 프로필",
     "users": "사용자",
-    "tradingBot": "거래 봇",
-    "nfts": "최고의 NFT",
-    "changelly": "Changelly DEX",
     "dashboard": "대시보드"
-  },
-  "NftsPage": {
-    "title": "최고의 NFT 컬렉션",
-    "collection": "컬렉션",
-    "transfers24h": "전송 (24시간)",
-    "transfers7d": "전송 (7일)",
-    "uniqueHolders": "보유자",
-    "totalSupply": "총 공급량"
   },
   "LoginPage": {
     "subtitle": "계속하려면 계정에 로그인하세요.",
@@ -495,16 +467,11 @@
   },
   "UsersPage": {
     "title": "사용자 관리",
-    "description": "사용자 계정을 보고, 편집하고, 관리합니다.",
-    "email": "이메일",
-    "actions": "작업",
-    "edit": "편집",
-    "delete": "삭제",
-    "deleteConfirmTitle": "정말로 확실합니까?",
-    "deleteConfirmDesc": "이 작업은 되돌릴 수 없습니다. 이렇게 하면 {username}에 대한 계정이 영구적으로 삭제됩니다.",
-    "backToUsers": "사용자 목록으로 돌아가기",
-    "editUser": "사용자 프로필 편집",
-    "editUserSubtitle": "선택한 사용자의 세부 정보를 수정합니다."
+    "avatar": "아바타",
+    "username": "사용자 이름",
+    "firstName": "이름",
+    "sex": "성별",
+    "pricePlan": "요금제"
   },
   "LogoutToast": {
     "description": "성공적으로 로그아웃되었습니다."

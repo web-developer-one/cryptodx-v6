@@ -261,7 +261,7 @@
     "p_whyUse": "Nous utilisons des cookies propriétaires et tiers pour plusieurs raisons. Certains cookies sont requis pour des raisons techniques afin que notre Site Web fonctionne, et nous les appelons cookies \"essentiels\" ou \"strictement nécessaires\". D'autres cookies nous permettent également de suivre et de cibler les intérêts de nos utilisateurs pour améliorer l'expérience sur nos Propriétés en Ligne. Des tiers diffusent des cookies via notre Site Web à des fins de publicité, d'analyse et autres. Ceci est décrit plus en détail ci-dessous.",
     "h_types": "Types de Cookies que nous Utilisons",
     "li_necessary": "<strong>Cookies Strictement Nécessaires :</strong> Ces cookies sont essentiels pour vous fournir les services disponibles sur notre Site Web et pour vous permettre d'utiliser certaines de ses fonctionnalités. Comme ces cookies sont strictement nécessaires pour vous livrer le Site Web, vous ne pouvez pas les refuser sans impacter le fonctionnement de notre Site Web.",
-    "li_performance": "<strong>Cookies de Performance et de Fonctionnalité :</strong> Ces cookies sont utilisés pour améliorer les performances et les fonctionnalités de notre Site Web mais ne sont pas essentiels à leur utilisation. Cependant, sans ces cookies, certaines fonctionnalités (comme la mémorisation de votre préférence de thème) peuvent devenir indisponibles.",
+    "li_performance": "<strong>Cookies de Performance et de Fonctionnalité :</strong> Ces cookies sont utilisés pour améliorer les performances et les fonctionnalités de notre Site Web mais ne sont pas essentiels à leur utilisation. Cependant, sans ces cookies, certaines fonctionnalités (comme la mémorisation de votre préférence de thème) могут devenir indisponibles.",
     "li_analytics": "<strong>Cookies d'Analyse et de Personnalisation :</strong> Ces cookies collectent des informations qui sont utilisées soit sous forme agrégée pour nous aider à comprendre comment notre Site Web est utilisé ou l'efficacité de nos campagnes marketing, soit pour nous aider à personnaliser notre Site Web pour vous.",
     "h_choices": "Vos choix concernant les cookies",
     "p_choices": "Vous avez le droit de décider d'accepter ou de refuser les cookies. Vous pouvez exercer vos préférences en matière de cookies en configurant ou en modifiant les commandes de votre navigateur web pour accepter ou refuser les cookies. Si vous choisissez de refuser les cookies, vous pouvez toujours utiliser notre site web bien que votre accès à certaines fonctionnalités et zones de notre site web puisse être restreint. Comme les moyens par lesquels vous pouvez refuser les cookies via les commandes de votre navigateur web varient d'un navigateur à l'autre, vous devriez consulter le menu d'aide de votre navigateur pour plus d'informations.",
@@ -291,9 +291,9 @@
     "h_collecting": "Collecte et Utilisation de Vos Données Personnelles",
     "h_types": "Types de Données Collectées",
     "h_personalData": "Données Personnelles",
-    "p_personalData": "Lors de l'utilisation de Notre Service, Nous pouvons Vous demander de Nous fournir certaines informations personnellement identifiables qui peuvent être utilisées pour Vous contacter ou Vous identifier. Les informations personnellement identifiables могут inclure, sans s'y limiter : les Données d'Utilisation.",
+    "p_personalData": "Lors de l'utilisation de Notre Service, Nous pouvons Vous demander de Nous fournir certaines informations personnellement identifiables qui peuvent être utilisées pour Vous contacter ou Vous identifier. Les informations personnellement identifiables peuvent inclure, sans s'y limiter : les Données d'Utilisation.",
     "h_usageData": "Données d'Utilisation",
-    "p_usageData": "Les Données d'Utilisation sont collectées automatiquement lors de l'utilisation du Service. Les Données d'Utilisation peuvent inclure des informations telles que l'adresse de protocole Internet de Votre Appareil (par exemple, l'adresse IP), le type de navigateur, la version du navigateur, les pages de notre Service que Vous visitez, l'heure et la date de Votre visite, le temps passé sur ces pages, les identifiants uniques de l'appareil et d'autres données de diagnostic. Lorsque Vous accédez au Service par ou via un appareil mobile, Nous pouvons collecter certaines informations automatiquement, y compris, mais sans s'y limiter, le type d'appareil mobile que Vous utilisez, l'ID unique de Votre appareil mobile, l'adresse IP de Votre appareil mobile, Votre système d'exploitation mobile, le type de navigateur Internet mobile que Vous utilisez, les identifiants uniques de l'appareil et d'autres données de diagnostic.",
+    "p_usageData": "Les Données d'Utilisation sont collectées automatiquement lors de l'utilisation du Service. Les Données d'Utilisation могут inclure des informations telles que l'adresse de protocole Internet de Votre Appareil (par exemple, l'adresse IP), le type de navigateur, la version du navigateur, les pages de notre Service que Vous visitez, l'heure et la date de Votre visite, le temps passé sur ces pages, les identifiants uniques de l'appareil et d'autres données de diagnostic. Lorsque Vous accédez au Service par ou via un appareil mobile, Nous pouvons collecter certaines informations automatiquement, y compris, mais sans s'y limiter, le type d'appareil mobile que Vous utilisez, l'ID unique de Votre appareil mobile, l'adresse IP de Votre appareil mobile, Votre système d'exploitation mobile, le type de navigateur Internet mobile que Vous utilisez, les identifiants uniques de l'appareil et d'autres données de diagnostic.",
     "h_contact": "Contactez-Nous",
     "p_contact": "Si vous avez des questions sur cette Politique de Confidentialité, vous pouvez nous contacter par e-mail.",
     "dismiss": "Fermer"
@@ -328,7 +328,7 @@
     "placeholder": "Tapez votre message...",
     "send": "Envoyer",
     "askAbout": "Posez des questions sur...",
-    "topics": "Blockchain, DeFi, Crypto, NFT, ou IA !",
+    "topics": "Blockchain, DeFi, Crypto, NFT ou IA !",
     "errorResponse": "J'ai des difficultés à générer une réponse pour le moment. Veuillez essayer une autre question.",
     "connectionError": "Désolé, j'ai des problèmes de connexion en ce moment. Veuillez réessayer plus tard.",
     "listening": "Écoute en cours...",
@@ -399,23 +399,6 @@
     "description": "Achetez et vendez des cryptos au taux actuel du marché.",
     "comingSoon": "L'interface de trading au comptant sera bientôt disponible."
   },
-  "ArbitragePage": {
-    "title": "Bot de Trading",
-    "description": "Opportunités de bot de trading d'arbitrage simulées basées sur des données d'échange fictives."
-  },
-  "ArbitrageInterface": {
-    "opportunitiesTitle": "Opportunités en Direct",
-    "opportunitiesDescription": "Affichage des différences de prix simulées entre les bourses.",
-    "tableHeaderToken": "Jeton",
-    "tableHeaderExA": "Bourse A",
-    "tableHeaderExB": "Bourse B",
-    "tableHeaderProfit": "% de Profit",
-    "tableHeaderAction": "Actions",
-    "buyAt": "Acheter à",
-    "sellAt": "Vendre à",
-    "tradeButton": "Échanger",
-    "noOpportunities": "Aucune opportunité d'arbitrage significative trouvée pour le moment."
-  },
   "PageTitles": {
     "home": "Accueil | CryptoDx",
     "buy": "Acheter des Cryptos",
@@ -434,18 +417,7 @@
     "register": "Créer un Compte",
     "profile": "Mon Profil",
     "users": "Utilisateurs",
-    "tradingBot": "Bot de Trading",
-    "nfts": "Top NFTs",
-    "changelly": "DEX de Changelly",
     "dashboard": "Tableau de Bord"
-  },
-  "NftsPage": {
-    "title": "Top Collections de NFT",
-    "collection": "Collection",
-    "transfers24h": "Transferts (24H)",
-    "transfers7d": "Transferts (7J)",
-    "uniqueHolders": "Détenteurs",
-    "totalSupply": "Offre Totale"
   },
   "LoginPage": {
     "subtitle": "Connectez-vous à votre compte pour continuer.",
@@ -495,16 +467,11 @@
   },
   "UsersPage": {
     "title": "Gestion des Utilisateurs",
-    "description": "Afficher, modifier et gérer les comptes d'utilisateurs.",
-    "email": "E-mail",
-    "actions": "Actions",
-    "edit": "Modifier",
-    "delete": "Supprimer",
-    "deleteConfirmTitle": "Êtes-vous absolument sûr ?",
-    "deleteConfirmDesc": "Cette action ne peut pas être annulée. Cela supprimera définitivement le compte de {username}.",
-    "backToUsers": "Retour aux utilisateurs",
-    "editUser": "Modifier le profil de l'utilisateur",
-    "editUserSubtitle": "Modifier les détails de l'utilisateur sélectionné."
+    "avatar": "Avatar",
+    "username": "Nom d'utilisateur",
+    "firstName": "Prénom",
+    "sex": "Sexe",
+    "pricePlan": "Plan Tarifaire"
   },
   "LogoutToast": {
     "description": "Vous avez été déconnecté avec succès."
