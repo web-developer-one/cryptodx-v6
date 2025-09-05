@@ -441,6 +441,7 @@
   "NftsPage": {
     "title": "顶级NFT收藏品",
     "collection": "收藏品",
+    "floorPrice": "底价",
     "transfers24h": "转移（24小时）",
     "transfers7d": "转移（7天）",
     "uniqueHolders": "持有者",

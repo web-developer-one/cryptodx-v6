@@ -13,7 +13,6 @@ import {
 import { Card, CardContent } from '@/components/ui/card';
 import type { NftCollection, SelectedCurrency } from '@/lib/types';
 import { useLanguage } from '@/hooks/use-language';
-import { CheckCircle } from 'lucide-react';
 import Link from 'next/link';
 
 const FormattedCurrency = ({ value, currency, isEth = false }: { value: number | null | undefined; currency: SelectedCurrency; isEth?: boolean }) => {
@@ -24,7 +23,7 @@ const FormattedCurrency = ({ value, currency, isEth = false }: { value: number |
         return <>{value.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})} ETH</>
     }
     const convertedValue = value * currency.rate;
-    return <>{new Intl.NumberFormat('en-US', { style: 'currency', currency: currency.symbol }).format(convertedValue)}</>
+    return <>{new Intl.NumberFormat('en-US', { style: 'currency', currency: currency.symbol, notation: 'compact', maximumFractionDigits: 2, }).format(convertedValue)}</>
 };
 
 export function NftsTable({ collections, currency }: { collections: NftCollection[], currency: SelectedCurrency }) {

@@ -253,7 +253,7 @@
   "CookiePolicyModal": {
     "title": "Cookie Policy",
     "lastUpdated": "Last updated: {date}",
-    "p1": "This Cookie Policy explains how CryptoDx ('we', 'us', and 'our') uses cookies and similar technologies to recognize you when you visit our website. It explains what these technologies are and why we use them, as well as your rights to control our use of them.",
+    "p1": "This Cookie Policy explains how CryptoDx (\\'we\\', \\'us\\', and \\'our\\') uses cookies and similar technologies to recognize you when you visit our website. It explains what these technologies are and why we use them, as well as your rights to control our use of them.",
     "h_whatAre": "What are cookies?",
     "p_whatAre1": "A cookie is a small data file that is placed on your device when you visit a website. Cookies are widely used by website owners in order to make their websites work, or to work more efficiently, as well as to provide reporting information.",
     "p_whatAre2": "Cookies set by the website owner (in this case, CryptoDx) are called \"first-party cookies\". Cookies set by parties other than the website owner are called \"third-party cookies\". Third-party cookies enable third-party features or functionality to be provided on or through the website (e.g., advertising, interactive content, and analytics). The parties that set these third-party cookies can recognize your computer both when it visits the website in question and also when it visits certain other websites.",
@@ -264,7 +264,7 @@
     "li_performance": "<strong>Performance and Functionality Cookies:</strong> These cookies are used to enhance the performance and functionality of our Website but are non-essential to their use. However, without these cookies, certain functionality (like remembering your theme preference) may become unavailable.",
     "li_analytics": "<strong>Analytics and Customization Cookies:</strong> These cookies collect information that is used either in aggregate form to help us understand how our Website is being used or how effective our marketing campaigns are, or to help us customize our Website for you.",
     "h_choices": "Your choices regarding cookies",
-    "p_choices": "You have the right to decide whether to accept or reject cookies. You can exercise your cookie preferences by setting or amending your web browser controls to accept or refuse cookies. If you choose to reject cookies, you may still use our website though your access to some functionality and areas of our website may be restricted. As the means by which you can refuse cookies through your web browser controls vary from browser-to-browser, you should visit your browser's help menu for more information.",
+    "p_choices": "You have the right to decide whether to accept or reject cookies. You can exercise your cookie preferences by setting or amending your web browser controls to accept or refuse cookies. If you choose to reject cookies, you may still use our website though your access to some functionality and areas of our website may be restricted. As the means by which you can refuse cookies through your web browser controls vary from browser-to-browser, you should visit your browser\\'s help menu for more information.",
     "h_changes": "Changes to this Cookie Policy",
     "p_changes": "We may update this Cookie Policy from time to time in order to reflect, for example, changes to the cookies we use or for other operational, legal, or regulatory reasons. Please therefore re-visit this Cookie Policy regularly to stay informed about our use of cookies and related technologies.",
     "dismiss": "Dismiss and Close"
@@ -293,7 +293,7 @@
     "h_personalData": "Personal Data",
     "p_personalData": "While using Our Service, We may ask You to provide Us with certain personally identifiable information that can be used to contact or identify You. Personally identifiable information may include, but is not limited to: Usage Data.",
     "h_usageData": "Usage Data",
-    "p_usageData": "Usage Data is collected automatically when using the Service. Usage Data may include information such as Your Device's Internet Protocol address (e.g. IP address), browser type, browser version, the pages of our Service that You visit, the time and date of Your visit, the time spent on those pages, unique device identifiers and other diagnostic data. When You access the Service by or through a mobile device, We may collect certain information automatically, including, but not limited to, the type of mobile device You use, Your mobile device unique ID, the IP address of Your mobile device, Your mobile operating system, the type of mobile Internet browser You use, unique device identifiers and other diagnostic data.",
+    "p_usageData": "Usage Data is collected automatically when using the Service. Usage Data may include information such as Your Device\\'s Internet Protocol address (e.g. IP address), browser type, browser version, the pages of our Service that You visit, the time and date of Your visit, the time spent on those pages, unique device identifiers and other diagnostic data. When You access the Service by or through a mobile device, We may collect certain information automatically, including, but not limited to, the type of mobile device You use, Your mobile device unique ID, the IP address of Your mobile device, Your mobile operating system, the type of mobile Internet browser You use, unique device identifiers and other diagnostic data.",
     "h_contact": "Contact Us",
     "p_contact": "If you have any questions about this Privacy Policy, you can contact us by email.",
     "dismiss": "Dismiss and Close"
@@ -301,7 +301,7 @@
   "TermsOfUseModal": {
     "title": "Terms of Use",
     "lastUpdated": "Last updated: {date}",
-    "p1": "Welcome to CryptoDx. These Terms of Use ('Terms') govern your access to and use of our website, services, and applications (collectively, the 'Service'). Please read these Terms carefully before using the Service.",
+    "p1": "Welcome to CryptoDx. These Terms of Use (\\'Terms\\') govern your access to and use of our website, services, and applications (collectively, the \\'Service\\'). Please read these Terms carefully before using the Service.",
     "h_agreement": "1. Agreement to Terms",
     "p_agreement": "By using our Service, you agree to be bound by these Terms. If you do not agree to these Terms, you may not use the Service. We may modify the Terms at any time, in our sole discretion. If we do so, we’ll let you know either by posting the modified Terms on the site or through other communications.",
     "h_eligibility": "2. Eligibility",
@@ -323,14 +323,14 @@
     "dismiss": "Dismiss and Close"
   },
   "Chatbot": {
-    "initialMessage": "Hello! I'm the 'CryptoDx' Chatbot. How can I help you today on all things Blockchain, DeFi, Crypto, NFTs, or AI?",
+    "initialMessage": "Hello! I\\'m the 'CryptoDx' Chatbot. How can I help you today on all things Blockchain, DeFi, Crypto, NFTs, or AI?",
     "title": "CryptoDx Chatbot",
     "placeholder": "Type your message...",
     "send": "Send",
     "askAbout": "Ask about...",
     "topics": "Blockchain, DeFi, Crypto, NFT, or AI!",
-    "errorResponse": "I'm having trouble generating a response right now. Please try a different question.",
-    "connectionError": "Sorry, I'm having trouble connecting right now. Please try again later.",
+    "errorResponse": "I\\'m having trouble generating a response right now. Please try a different question.",
+    "connectionError": "Sorry, I\\'m having trouble connecting right now. Please try again later.",
     "listening": "Listening...",
     "speakTooltip": "Ask with your voice",
     "speakUpgradeTooltip": "Upgrade to Advanced for voice input",
@@ -399,6 +399,23 @@
     "description": "Buy and sell crypto at the current market rate.",
     "comingSoon": "The spot trading interface is coming soon."
   },
+  "ArbitragePage": {
+    "title": "Trading Bot",
+    "description": "Simulated arbitrage trading bot opportunities based on mock exchange data."
+  },
+  "ArbitrageInterface": {
+    "opportunitiesTitle": "Live Opportunities",
+    "opportunitiesDescription": "Showing simulated price differences across exchanges.",
+    "tableHeaderToken": "Token",
+    "tableHeaderExA": "Exchange A",
+    "tableHeaderExB": "Exchange B",
+    "tableHeaderProfit": "Profit %",
+    "tableHeaderAction": "Action",
+    "buyAt": "Buy at",
+    "sellAt": "Sell at",
+    "tradeButton": "Trade",
+    "noOpportunities": "No significant arbitrage opportunities found at the moment."
+  },
   "PageTitles": {
     "home": "Home | CryptoDx",
     "buy": "Buy Crypto",
@@ -416,14 +433,26 @@
     "login": "Login",
     "register": "Register",
     "profile": "My Profile",
-    "users": "Users"
+    "users": "Users",
+    "dashboard": "Dashboard",
+    "tradingBot": "Trading Bot",
+    "nfts": "Top NFTs"
+  },
+  "NftsPage": {
+    "title": "Top NFT Collections",
+    "collection": "Collection",
+    "floorPrice": "Floor Price",
+    "transfers24h": "Transfers (24h)",
+    "transfers7d": "Transfers (7d)",
+    "uniqueHolders": "Holders",
+    "totalSupply": "Total Supply"
   },
   "LoginPage": {
     "subtitle": "Login to your account to continue.",
     "email": "Email Address",
     "password": "Password",
     "loginButton": "Login",
-    "noAccount": "Don't have an account?",
+    "noAccount": "Don\\'t have an account?",
     "registerNow": "Register now",
     "loginSuccessTitle": "Login Successful",
     "loginSuccessAdmin": "Welcome back, Administrator!",
@@ -466,18 +495,26 @@
   },
   "UsersPage": {
     "title": "User Management",
+    "description": "View, edit, and manage user accounts.",
     "avatar": "Avatar",
     "username": "Username",
-    "firstName": "First Name",
-    "sex": "Sex",
-    "pricePlan": "Price Plan"
+    "email": "Email",
+    "pricePlan": "Price Plan",
+    "actions": "Actions",
+    "edit": "Edit",
+    "delete": "Delete",
+    "deleteConfirmTitle": "Are you absolutely sure?",
+    "deleteConfirmDesc": "This action cannot be undone. This will permanently delete the account for {username}.",
+    "backToUsers": "Back to Users",
+    "editUser": "Edit User Profile",
+    "editUserSubtitle": "Modify the details of the selected user."
   },
   "LogoutToast": {
     "description": "You have been successfully logged out."
   },
   "ReputationChecker": {
     "title": "Reputation Report for {tokenName}",
-    "description": "An AI-powered analysis of the token's online presence and sentiment.",
+    "description": "An AI-powered analysis of the token\\'s online presence and sentiment.",
     "loadingTitle": "Scanning the web for {tokenName}...",
     "loadingDescription": "This may take a moment.",
     "errorTitle": "An Error Occurred",
@@ -506,12 +543,5 @@
     "sandboxSuccessDesc": "Test transaction for the {tierName} plan was successful. This does not update your profile.",
     "paypalErrorTitle": "PayPal Error",
     "paypalErrorDesc": "An error occurred with the PayPal transaction."
-  },
-   "NftsPage": {
-    "title": "Top NFT Collections",
-    "collection": "Collection",
-    "floorPrice": "Floor Price",
-    "uniqueHolders": "Holders",
-    "totalSupply": "Total Supply"
   }
 }

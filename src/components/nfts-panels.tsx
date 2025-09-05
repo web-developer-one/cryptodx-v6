@@ -5,11 +5,8 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import type { NftCollection, SelectedCurrency } from '@/lib/types';
-import { useLanguage } from '@/hooks/use-language';
-import { CheckCircle } from 'lucide-react';
-import Link from 'next/link';
 
-export function NftsPanels({ collections, currency }: { collections: NftCollection[], currency: SelectedCurrency }) {
+export function NftsPanels({ collections }: { collections: NftCollection[], currency: SelectedCurrency }) {
   const router = useRouter();
 
   const handlePanelClick = (collection: NftCollection) => {

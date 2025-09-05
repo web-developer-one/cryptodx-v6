@@ -98,20 +98,20 @@ export interface NftCollection {
     collection_logo: string | null;
     collection_banner_image: string | null;
     statistics_24h: {
-        sales: number;
-        volume: number;
-        floor_price: number;
-        market_cap: number;
+        sales: number | null;
+        volume: number | null;
+        floor_price: number | null;
+        market_cap: number | null;
     } | null;
      statistics_7d: {
-        sales: number;
-        volume: number;
-        floor_price: number;
+        sales: number | null;
+        volume: number | null;
+        floor_price: number | null;
     } | null;
      statistics_30d: {
-        sales: number;
-        volume: number;
-        floor_price: number;
+        sales: number | null;
+        volume: number | null;
+        floor_price: number | null;
     } | null;
     total_supply: number | null;
     distinct_owners: number | null;

@@ -146,8 +146,7 @@
   "ExploreNav": {
     "tokens": "Токены",
     "pools": "Пулы",
-    "transactions": "Транзакции",
-    "nfts": "NFT"
+    "transactions": "Транзакции"
   },
   "TradeNav": {
     "swap": "Обмен",

@@ -39,7 +39,7 @@
     "q3": "Mes fonds sont-ils en sécurité ?",
     "a3": "Oui, vos fonds sont en sécurité. En tant que plateforme décentralisée, vous avez toujours le contrôle de vos clés privées et de vos actifs. Nous ne prenons jamais la garde de vos fonds. Toutes les transactions sont exécutées via des contrats intelligents sur la blockchain.",
     "q4": "Comment les taux de change sont-ils déterminés ?",
-    "a4": "Les taux de change sont déterminés par des teneurs de marché automatisés (AMM) en fonction des pools de liquidité pour la paire de jetons que vous échangez. Les prix могут fluctuer en fonction de la dynamique de l'offre et de la demande au sein des pools.",
+    "a4": "Les taux de change sont déterminés par des teneurs de marché automatisés (AMM) en fonction des pools de liquidité pour la paire de jetons que vous échangez. Les prix peuvent fluctuer en fonction de la dynamique de l'offre et de la demande au sein des pools.",
     "q5": "Y a-t-il des frais ?",
     "a5": "Il existe deux types de frais : des frais de plateforme minimes pour chaque échange, et des frais de réseau (frais de gaz) requis par la blockchain pour traiter la transaction. Tous les frais sont clairement affichés avant que vous ne confirmiez une transaction."
   },
@@ -253,10 +253,10 @@
   "CookiePolicyModal": {
     "title": "Politique de Cookies",
     "lastUpdated": "Dernière mise à jour : {date}",
-    "p1": "Cette Politique de Cookies explique comment CryptoDx ('nous', 'nos') utilise des cookies et des technologies similaires pour vous reconnaître lorsque vous visitez notre site web. Elle explique ce que sont ces technologies et pourquoi nous les utilisons, ainsi que vos droits de contrôler notre utilisation de celles-ci.",
+    "p1": "Cette Politique de Cookies explique comment CryptoDx (\\'nous\\', \\'nos\\') utilise des cookies et des technologies similaires pour vous reconnaître lorsque vous visitez notre site web. Elle explique ce que sont ces technologies et pourquoi nous les utilisons, ainsi que vos droits de contrôler notre utilisation de celles-ci.",
     "h_whatAre": "Que sont les cookies ?",
     "p_whatAre1": "Un cookie est un petit fichier de données placé sur votre appareil lorsque vous visitez un site web. Les cookies sont largement utilisés par les propriétaires de sites web pour faire fonctionner leurs sites, ou pour les faire fonctionner plus efficacement, ainsi que pour fournir des informations de reporting.",
-    "p_whatAre2": "Les cookies définis par le propriétaire du site web (dans ce cas, CryptoDx) sont appelés \"cookies propriétaires\". Les cookies definis par des parties autres que le propriétaire du site web sont appelés \"cookies tiers\". Les cookies tiers permettent de fournir des fonctionnalités ou des fonctionnalités tierces sur ou via le site web (par exemple, publicité, contenu interactif et analyses). Les parties qui définissent ces cookies tiers peuvent reconnaître votre ordinateur à la fois lorsqu'il visite le site web en question et lorsqu'il visite certains autres sites web.",
+    "p_whatAre2": "Les cookies définis par le propriétaire du site web (dans ce cas, CryptoDx) sont appelés \"cookies propriétaires\". Les cookies definis par des parties autres que le propriétaire du site web sont appelés \"cookies tiers\". Les cookies tiers permettent de fournir des fonctionnalités ou des fonctionnalités tierces sur ou via le site web (par exemple, publicité, contenu interactif et analyses). Les parties qui définissent ces cookies tiers peuvent reconnaître votre ordinateur à la fois lorsqu\\'il visite le site web en question et lorsqu\\'il visite certains autres sites web.",
     "h_whyUse": "Pourquoi utilisons-nous des cookies ?",
     "p_whyUse": "Nous utilisons des cookies propriétaires et tiers pour plusieurs raisons. Certains cookies sont requis pour des raisons techniques afin que notre Site Web fonctionne, et nous les appelons cookies \"essentiels\" ou \"strictement nécessaires\". D'autres cookies nous permettent également de suivre et de cibler les intérêts de nos utilisateurs pour améliorer l'expérience sur nos Propriétés en Ligne. Des tiers diffusent des cookies via notre Site Web à des fins de publicité, d'analyse et autres. Ceci est décrit plus en détail ci-dessous.",
     "h_types": "Types de Cookies que nous Utilisons",
@@ -301,7 +301,7 @@
   "TermsOfUseModal": {
     "title": "Conditions d'Utilisation",
     "lastUpdated": "Dernière mise à jour : {date}",
-    "p1": "Bienvenue sur CryptoDx. Ces Conditions d'Utilisation ('Conditions') régissent votre accès et votre utilisation de notre site web, de nos services et de nos applications (collectivement, le 'Service'). Veuillez lire attentivement ces Conditions avant d'utiliser le Service.",
+    "p1": "Bienvenue sur CryptoDx. Ces Conditions d'Utilisation (\\'Conditions\\') régissent votre accès et votre utilisation de notre site web, de nos services et de nos applications (collectivement, le \\'Service\\'). Veuillez lire attentivement ces Conditions avant d'utiliser le Service.",
     "h_agreement": "1. Acceptation des Conditions",
     "p_agreement": "En utilisant notre Service, vous acceptez d'être lié par ces Conditions. Si vous n'acceptez pas ces Conditions, vous ne pouvez pas utiliser le Service. Nous pouvons modifier les Conditions à tout moment, à notre seule discrétion. Si nous le faisons, nous vous en informerons soit en publiant les Conditions modifiées sur le site, soit par d'autres communications.",
     "h_eligibility": "2. Éligibilité",
@@ -399,6 +399,23 @@
     "description": "Achetez et vendez des cryptos au taux actuel du marché.",
     "comingSoon": "L'interface de trading au comptant sera bientôt disponible."
   },
+  "ArbitragePage": {
+    "title": "Bot de Trading",
+    "description": "Opportunités de bot de trading d'arbitrage simulées basées sur des données d'échange fictives."
+  },
+  "ArbitrageInterface": {
+    "opportunitiesTitle": "Opportunités en direct",
+    "opportunitiesDescription": "Affichage des différences de prix simulées entre les bourses.",
+    "tableHeaderToken": "Jeton",
+    "tableHeaderExA": "Bourse A",
+    "tableHeaderExB": "Bourse B",
+    "tableHeaderProfit": "Bénéfice %",
+    "tableHeaderAction": "Action",
+    "buyAt": "Acheter à",
+    "sellAt": "Vendre à",
+    "tradeButton": "Échanger",
+    "noOpportunities": "Aucune opportunité d'arbitrage significative trouvée pour le moment."
+  },
   "PageTitles": {
     "home": "Accueil | CryptoDx",
     "buy": "Acheter des Cryptos",
@@ -417,7 +434,18 @@
     "register": "Créer un Compte",
     "profile": "Mon Profil",
     "users": "Utilisateurs",
-    "dashboard": "Tableau de Bord"
+    "dashboard": "Tableau de Bord",
+    "tradingBot": "Bot de Trading",
+    "nfts": "Top NFT"
+  },
+  "NftsPage": {
+    "title": "Top Collections NFT",
+    "collection": "Collection",
+    "floorPrice": "Prix Plancher",
+    "transfers24h": "Transferts (24h)",
+    "transfers7d": "Transferts (7j)",
+    "uniqueHolders": "Détenteurs",
+    "totalSupply": "Offre Totale"
   },
   "LoginPage": {
     "subtitle": "Connectez-vous à votre compte pour continuer.",
@@ -467,11 +495,19 @@
   },
   "UsersPage": {
     "title": "Gestion des Utilisateurs",
+    "description": "Visualisez, modifiez et gérez les comptes utilisateurs.",
     "avatar": "Avatar",
     "username": "Nom d'utilisateur",
-    "firstName": "Prénom",
-    "sex": "Sexe",
-    "pricePlan": "Plan Tarifaire"
+    "email": "E-mail",
+    "pricePlan": "Plan Tarifaire",
+    "actions": "Actions",
+    "edit": "Modifier",
+    "delete": "Supprimer",
+    "deleteConfirmTitle": "Êtes-vous absolument sûr ?",
+    "deleteConfirmDesc": "Cette action ne peut pas être annulée. Cela supprimera définitivement le compte de {username}.",
+    "backToUsers": "Retour aux utilisateurs",
+    "editUser": "Modifier le profil de l'utilisateur",
+    "editUserSubtitle": "Modifiez les détails de l'utilisateur sélectionné."
   },
   "LogoutToast": {
     "description": "Vous avez été déconnecté avec succès."
@@ -507,12 +543,5 @@
     "sandboxSuccessDesc": "La transaction de test pour le plan {tierName} a réussi. Cela ne met pas à jour votre profil.",
     "paypalErrorTitle": "Erreur PayPal",
     "paypalErrorDesc": "Une erreur est survenue avec la transaction PayPal."
-  },
-   "NftsPage": {
-    "title": "Top Collections NFT",
-    "collection": "Collection",
-    "floorPrice": "Prix Plancher",
-    "uniqueHolders": "Détenteurs",
-    "totalSupply": "Offre Totale"
   }
 }

@@ -441,6 +441,7 @@
   "NftsPage": {
     "title": "トップNFTコレクション",
     "collection": "コレクション",
+    "floorPrice": "フロアプライス",
     "transfers24h": "転送（24時間）",
     "transfers7d": "転送（7日間）",
     "uniqueHolders": "保有者",
