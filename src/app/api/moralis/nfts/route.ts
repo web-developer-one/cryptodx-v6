@@ -16,7 +16,7 @@ export async function GET(request: NextRequest) {
 
     try {
         const response = await Moralis.EvmApi.marketData.getTopNFTCollectionsByMarketCap({});
-        return NextResponse.json(response.raw.result);
+        return NextResponse.json(response.result);
     } catch (error: any) {
         console.error("Failed to fetch from Moralis NFT API:", error.message);
         const errorMessage = error.response?.data?.message || error.message || 'Failed to fetch NFT collections from Moralis.';
