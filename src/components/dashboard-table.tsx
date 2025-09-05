@@ -14,6 +14,7 @@ import type { Cryptocurrency } from '@/lib/types';
 import { cn } from '@/lib/utils';
 import { ArrowDown, ArrowUp } from 'lucide-react';
 import { Button } from './ui/button';
+import Link from 'next/link';
 
 type Balance = {
     name: string;
@@ -83,7 +84,9 @@ export function DashboardTable({ balances, totalValue, allTokens }: DashboardTab
                     <p className="font-bold">{token.symbol}</p>
                     <p className="text-sm text-muted-foreground">{token.name}</p>
                   </div>
-                  <Button variant="outline" size="sm" className="ml-auto">Buy</Button>
+                  <Link href="/buy" passHref className="ml-auto">
+                    <Button variant="outline" size="sm">Buy</Button>
+                  </Link>
                 </div>
               </TableCell>
               <TableCell className="font-mono">
