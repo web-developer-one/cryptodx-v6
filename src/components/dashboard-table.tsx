@@ -59,7 +59,7 @@ export function DashboardTable({ balances, totalValue, allTokens }: DashboardTab
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead className="w-[300px]">Token</TableHead>
+          <TableHead className="w-[350px]">Token</TableHead>
           <TableHead>Portfolio %</TableHead>
           <TableHead className="text-right">Price (24hr)</TableHead>
           <TableHead className="text-right">Balance</TableHead>
