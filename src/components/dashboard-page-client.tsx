@@ -11,6 +11,7 @@ import { useWallet, networkConfigs } from '@/hooks/use-wallet';
 import type { Cryptocurrency } from '@/lib/types';
 import { getLatestListings } from '@/lib/coinmarketcap';
 import { cn } from '@/lib/utils';
+import { useToast } from '@/hooks/use-toast';
 
 import { Skeleton } from '@/components/ui/skeleton';
 import { Card, CardContent } from '@/components/ui/card';
@@ -209,22 +210,22 @@ export function DashboardPageClient() {
 
         <div className="flex gap-2">
             <Link href="/"><Button>Swap</Button></Link>
-            <Link href="/buy"><Button variant="secondary">Buy</Button></Link>
-            <Link href="/sell"><Button variant="secondary">Sell</Button></Link>
+            <Link href="/buy"><Button>Buy</Button></Link>
+            <Link href="/sell"><Button>Sell</Button></Link>
              <Dialog>
                 <DialogTrigger asChild>
-                    <Button variant="secondary">Send</Button>
+                    <Button>Send</Button>
                 </DialogTrigger>
                  <SendTokenDialog token={{...selectedNetwork.nativeCurrency, address: undefined}}/>
              </Dialog>
              <Dialog>
                 <DialogTrigger asChild>
-                    <Button variant="secondary">Receive</Button>
+                    <Button>Receive</Button>
                 </DialogTrigger>
                  <ReceiveTokenDialog address={account || ''} />
              </Dialog>
-            <Button variant="secondary">Stake</Button>
-            <Button variant="secondary">Bridge</Button>
+            <Button>Stake</Button>
+            <Button>Bridge</Button>
         </div>
 
         <Card>
