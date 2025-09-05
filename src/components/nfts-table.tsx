@@ -75,7 +75,7 @@ export function NftsTable({ collections, currency }: { collections: NftCollectio
                   {collection.distinct_owners?.toLocaleString() ?? 'N/A'}
                 </TableCell>
                  <TableCell className="text-right font-mono">
-                  {collection.total_supply.toLocaleString()}
+                  {collection.total_supply?.toLocaleString() ?? 'N/A'}
                 </TableCell>
               </TableRow>
             ))}
@@ -85,4 +85,5 @@ export function NftsTable({ collections, currency }: { collections: NftCollectio
     </Card>
   );
 }
+
 
