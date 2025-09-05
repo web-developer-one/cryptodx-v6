@@ -81,8 +81,7 @@ export async function GET(request: NextRequest) {
 
                 const formattedBalance = ethers.formatUnits(token.balance, token.decimals);
                 const tokenInfo = cryptoData.find(t => t.symbol === token.symbol);
-                // Prioritize fresh price from cryptoData, fallback to Moralis's possibly stale price.
-                const price = tokenInfo ? tokenInfo.price : token.usd_price;
+                const price = tokenInfo ? tokenInfo.price : 0;
                 const usdValue = price ? parseFloat(formattedBalance) * price : 0;
 
                 allBalances.push({
