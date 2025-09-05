@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import Moralis from 'moralis';
 import { ethers } from 'ethers';
 import { networkConfigs } from '@/lib/network-configs';
+import { getLatestListings } from '@/lib/coinmarketcap';
 
 const MORALIS_API_KEY = process.env.MORALIS_API_KEY;
 
@@ -42,7 +43,8 @@ export async function GET(request: NextRequest) {
     }
 
     try {
-        const [nativeBalanceResponse, tokenBalancesResponse] = await Promise.all([
+        const [{ data: cryptoData }, nativeBalanceResponse, tokenBalancesResponse] = await Promise.all([
+            getLatestListings(), // Fetch latest prices
             Moralis.EvmApi.balance.getNativeBalance({ address, chain: chainId }),
             Moralis.EvmApi.token.getWalletTokenBalances({ address, chain: chainId })
         ]);
@@ -55,6 +57,9 @@ export async function GET(request: NextRequest) {
         // 1. Process and add native balance (ETH, AVAX, etc.)
         if (nativeBalanceData && nativeBalanceData.balance) {
              const nativeBalanceFormatted = ethers.formatUnits(nativeBalanceData.balance, selectedNetwork.nativeCurrency.decimals);
+             const nativeTokenInfo = cryptoData.find(t => t.symbol === selectedNetwork.nativeCurrency.symbol);
+             const nativeUsdValue = nativeTokenInfo ? parseFloat(nativeBalanceFormatted) * nativeTokenInfo.price : 0;
+             
              allBalances.push({
                 token_address: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
                 symbol: selectedNetwork.nativeCurrency.symbol,
@@ -64,17 +69,20 @@ export async function GET(request: NextRequest) {
                 decimals: selectedNetwork.nativeCurrency.decimals,
                 balance: nativeBalanceFormatted,
                 possible_spam: false,
-                usdValue: 0, // Set a safe default, as Moralis doesn't return price for native currency this way.
+                usdValue: nativeUsdValue,
             });
         }
         
         // 2. Process and add ERC-20 token balances
         if (tokenBalancesData.length > 0) {
             tokenBalancesData.forEach(token => {
-                if (token.possible_spam || token.symbol === 'MCAT' || token.symbol === 'WBTC') {
+                if (token.possible_spam) {
                     return;
                 }
                 const formattedBalance = ethers.formatUnits(token.balance, token.decimals);
+                const tokenInfo = cryptoData.find(t => t.symbol === token.symbol);
+                const usdValue = tokenInfo ? parseFloat(formattedBalance) * tokenInfo.price : (token.usd_price || 0) * parseFloat(formattedBalance);
+
                 allBalances.push({
                     token_address: token.token_address,
                     symbol: token.symbol,
@@ -84,7 +92,7 @@ export async function GET(request: NextRequest) {
                     decimals: token.decimals,
                     balance: formattedBalance,
                     possible_spam: token.possible_spam,
-                    usdValue: (token.usd_price || 0) * parseFloat(formattedBalance),
+                    usdValue: usdValue,
                 });
             });
         }
