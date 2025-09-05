@@ -13,9 +13,10 @@ import { FloatingTokensBackground } from "./floating-tokens-background";
 interface BuyPageClientProps {
   cryptoData: Cryptocurrency[];
   error: string | null;
+  selectedTokenSymbol?: string;
 }
 
-export function BuyPageClient({ cryptoData, error }: BuyPageClientProps) {
+export function BuyPageClient({ cryptoData, error, selectedTokenSymbol }: BuyPageClientProps) {
   const { t } = useLanguage();
 
   useEffect(() => {
@@ -35,7 +36,7 @@ export function BuyPageClient({ cryptoData, error }: BuyPageClientProps) {
       return <Skeleton className="h-[480px] w-full max-w-md mt-6" />;
     }
 
-    return <BuyInterface cryptocurrencies={cryptoData} />;
+    return <BuyInterface cryptocurrencies={cryptoData} selectedTokenSymbol={selectedTokenSymbol} />;
   };
 
   return (

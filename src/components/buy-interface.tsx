@@ -34,8 +34,16 @@ const supportedCurrencies: SupportedCurrency[] = [
 ];
 
 
-export function BuyInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[] }) {
+export function BuyInterface({ cryptocurrencies, selectedTokenSymbol }: { cryptocurrencies: Cryptocurrency[], selectedTokenSymbol?: string }) {
   const { t } = useLanguage();
+
+  const getInitialToToken = () => {
+    if (selectedTokenSymbol) {
+      const found = cryptocurrencies.find(c => c.symbol === selectedTokenSymbol);
+      if (found) return found;
+    }
+    return cryptocurrencies.find(c => c.symbol === 'ETH') || cryptocurrencies[0];
+  }
 
   // Guard against rendering with no data, which can cause crashes on init
   if (cryptocurrencies.length === 0) {
@@ -48,7 +56,7 @@ export function BuyInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocur
     )
   }
 
-  const [toToken, setToToken] = useState<Cryptocurrency>(cryptocurrencies.find(c => c.symbol === 'ETH') || cryptocurrencies[0]);
+  const [toToken, setToToken] = useState<Cryptocurrency>(getInitialToToken());
   const [fromFiat, setFromFiat] = useState<SupportedCurrency>(supportedCurrencies[0]);
   const [fiatAmount, setFiatAmount] = useState<string>('100');
   const [cryptoAmount, setCryptoAmount] = useState<string>('');

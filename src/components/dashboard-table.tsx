@@ -65,8 +65,7 @@ export function DashboardTable({ balances, totalValue, allTokens }: DashboardTab
       <TableBody>
         {balances.map((token) => {
           const tokenInfo = allTokens.find(t => t.symbol === token.symbol);
-          const currentPrice = tokenInfo?.price || 0;
-          const usdValue = parseFloat(token.balance) * currentPrice;
+          const usdValue = token.usdValue || 0;
           const portfolioPercentage = totalValue > 0 ? (usdValue / totalValue) * 100 : 0;
           
           return (
@@ -84,7 +83,7 @@ export function DashboardTable({ balances, totalValue, allTokens }: DashboardTab
                     <p className="font-bold">{token.symbol}</p>
                     <p className="text-sm text-muted-foreground">{token.name}</p>
                   </div>
-                  <Link href="/buy" passHref className="ml-auto">
+                  <Link href={`/buy?token=${token.symbol}`} passHref className="ml-auto">
                     <Button variant="outline" size="sm">Buy</Button>
                   </Link>
                 </div>
