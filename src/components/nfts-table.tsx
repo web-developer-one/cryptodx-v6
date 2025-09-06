@@ -62,7 +62,7 @@ export function NftsTable({ collections, currency }: { collections: NftCollectio
                   </Link>
                 </TableCell>
                 <TableCell className="text-right font-mono">
-                  {parseFloat(collection.floor_price).toFixed(4)} ETH
+                  {collection.floor_price ? `${parseFloat(collection.floor_price).toFixed(4)} ETH` : 'N/A'}
                 </TableCell>
                  <TableCell className="text-right font-mono">
                     <FormattedCurrency value={collection.volume_usd} currency={currency} />
