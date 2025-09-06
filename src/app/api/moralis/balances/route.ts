@@ -25,9 +25,15 @@ export async function GET(request: NextRequest) {
         return NextResponse.json({ error: 'Moralis API key is not configured.' }, { status: 500 });
     }
     
-    if (!Moralis.Core.isStarted) {
-        await Moralis.start({ apiKey: MORALIS_API_KEY });
+    try {
+        if (!Moralis.Core.isStarted) {
+            await Moralis.start({ apiKey: MORALIS_API_KEY });
+        }
+    } catch (e) {
+        console.error("Failed to start Moralis", e);
+        return NextResponse.json({ error: 'Failed to initialize Moralis SDK.' }, { status: 500 });
     }
+
 
     const { searchParams } = new URL(request.url);
     const address = searchParams.get('address');
@@ -52,11 +58,11 @@ export async function GET(request: NextRequest) {
         const nativeBalanceData = nativeBalanceResponse?.raw;
         const tokenBalancesData = tokenBalancesResponse?.raw || [];
 
-        // Step 2: Fetch prices from CoinMarketCap.
+        // Step 2: Fetch prices from CoinMarketCap *after* getting balances.
         const { data: cryptoData, error: cryptoError } = await getLatestListings();
         if (cryptoError) {
-             console.error("Could not fetch crypto prices for balance calculation:", cryptoError);
-             // We can still return balances without prices if this fails.
+             console.warn("Could not fetch crypto prices for balance calculation. Values may be incomplete.", cryptoError);
+             // We can still proceed without prices, values will just be 0.
         }
 
         const allBalances: CombinedBalance[] = [];
@@ -64,7 +70,7 @@ export async function GET(request: NextRequest) {
         // Process native balance (ETH, AVAX, etc.)
         if (nativeBalanceData && nativeBalanceData.balance) {
              const nativeBalanceFormatted = ethers.formatUnits(nativeBalanceData.balance, selectedNetwork.nativeCurrency.decimals);
-             const nativeTokenInfo = cryptoData.find(t => t.symbol === selectedNetwork.nativeCurrency.symbol);
+             const nativeTokenInfo = cryptoData?.find(t => t.symbol === selectedNetwork.nativeCurrency.symbol);
              const nativeUsdValue = nativeTokenInfo ? parseFloat(nativeBalanceFormatted) * nativeTokenInfo.price : 0;
              
              allBalances.push({
@@ -86,7 +92,7 @@ export async function GET(request: NextRequest) {
                 if (token.possible_spam) return;
 
                 const formattedBalance = ethers.formatUnits(token.balance, token.decimals);
-                const tokenInfo = cryptoData.find(t => t.symbol === token.symbol);
+                const tokenInfo = cryptoData?.find(t => t.symbol === token.symbol);
                 const price = tokenInfo ? tokenInfo.price : 0;
                 const usdValue = price ? parseFloat(formattedBalance) * price : 0;
 
