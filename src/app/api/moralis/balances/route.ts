@@ -43,15 +43,21 @@ export async function GET(request: NextRequest) {
     }
 
     try {
-        // Fetch latest crypto prices and wallet balances concurrently
-        const [{ data: cryptoData }, nativeBalanceResponse, tokenBalancesResponse] = await Promise.all([
-            getLatestListings(),
+        // Step 1: Fetch balances from Moralis first.
+        const [nativeBalanceResponse, tokenBalancesResponse] = await Promise.all([
             Moralis.EvmApi.balance.getNativeBalance({ address, chain: chainId }),
             Moralis.EvmApi.token.getWalletTokenBalances({ address, chain: chainId })
         ]);
         
         const nativeBalanceData = nativeBalanceResponse?.raw;
         const tokenBalancesData = tokenBalancesResponse?.raw || [];
+
+        // Step 2: Fetch prices from CoinMarketCap.
+        const { data: cryptoData, error: cryptoError } = await getLatestListings();
+        if (cryptoError) {
+             console.error("Could not fetch crypto prices for balance calculation:", cryptoError);
+             // We can still return balances without prices if this fails.
+        }
 
         const allBalances: CombinedBalance[] = [];
 
