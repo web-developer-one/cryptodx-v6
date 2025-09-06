@@ -41,8 +41,6 @@ export function NftsTable({ collections, currency }: { collections: NftCollectio
               <TableHead>{t('NftsPage.collection')}</TableHead>
               <TableHead className="text-right">{t('NftsPage.floorPrice')}</TableHead>
               <TableHead className="text-right">{t('TokenExplorer.headerVolume24h')}</TableHead>
-              <TableHead className="text-right">{t('NftsPage.uniqueHolders')}</TableHead>
-              <TableHead className="text-right">{t('NftsPage.totalSupply')}</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -52,16 +50,16 @@ export function NftsTable({ collections, currency }: { collections: NftCollectio
                   {collection.rank}
                 </TableCell>
                 <TableCell>
-                   <Link href={`https://opensea.io/collection/${(collection.collection_name || '').replace(/\s+/g, '-').toLowerCase()}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 group">
+                   <Link href={`https://opensea.io/collection/${(collection.collection_title || '').replace(/\s+/g, '-').toLowerCase()}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 group">
                     <Image
-                      src={collection.collection_logo || 'https://placehold.co/40x40.png'}
-                      alt={collection.collection_name || 'NFT Collection'}
+                      src={collection.collection_image || 'https://placehold.co/40x40.png'}
+                      alt={collection.collection_title || 'NFT Collection'}
                       width={40}
                       height={40}
                       className="rounded-md"
                     />
                     <div className="flex items-center gap-1.5">
-                        <span className="font-semibold group-hover:underline">{collection.collection_name || 'Unnamed Collection'}</span>
+                        <span className="font-semibold group-hover:underline">{collection.collection_title || 'Unnamed Collection'}</span>
                     </div>
                   </Link>
                 </TableCell>
@@ -71,12 +69,6 @@ export function NftsTable({ collections, currency }: { collections: NftCollectio
                 <TableCell className="text-right font-mono">
                     <FormattedCurrency value={collection.volume_usd} currency={currency} />
                 </TableCell>
-                 <TableCell className="text-right font-mono">
-                  {collection.distinct_owners?.toLocaleString() ?? 'N/A'}
-                </TableCell>
-                 <TableCell className="text-right font-mono">
-                  {collection.total_supply?.toLocaleString() ?? 'N/A'}
-                </TableCell>
               </TableRow>
             ))}
           </TableBody>
@@ -85,3 +77,4 @@ export function NftsTable({ collections, currency }: { collections: NftCollectio
     </Card>
   );
 }
+
