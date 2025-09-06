@@ -61,7 +61,7 @@ export async function GET(request: NextRequest) {
 
         const allBalances: CombinedBalance[] = [];
 
-        // 1. Process native balance (ETH, AVAX, etc.)
+        // Process native balance (ETH, AVAX, etc.)
         if (nativeBalanceData && nativeBalanceData.balance) {
              const nativeBalanceFormatted = ethers.formatUnits(nativeBalanceData.balance, selectedNetwork.nativeCurrency.decimals);
              const nativeTokenInfo = cryptoData.find(t => t.symbol === selectedNetwork.nativeCurrency.symbol);
@@ -80,7 +80,7 @@ export async function GET(request: NextRequest) {
             });
         }
         
-        // 2. Process ERC-20 token balances
+        // Process ERC-20 token balances
         if (tokenBalancesData.length > 0) {
             tokenBalancesData.forEach(token => {
                 if (token.possible_spam) return;
