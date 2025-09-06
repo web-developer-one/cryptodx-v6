@@ -442,10 +442,8 @@
     "title": "トップNFTコレクション",
     "collection": "コレクション",
     "floorPrice": "フロアプライス",
-    "transfers24h": "転送（24時間）",
-    "transfers7d": "転送（7日間）",
-    "uniqueHolders": "保有者",
-    "totalSupply": "総供給量"
+    "marketCap": "時価総額",
+    "volume24h": "ボリューム（24時間）"
   },
   "LoginPage": {
     "subtitle": "アカウントにログインして続行してください。",

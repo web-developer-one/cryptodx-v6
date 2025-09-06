@@ -442,10 +442,8 @@
     "title": "최고의 NFT 컬렉션",
     "collection": "컬렉션",
     "floorPrice": "최저가",
-    "transfers24h": "전송(24시간)",
-    "transfers7d": "전송(7일)",
-    "uniqueHolders": "보유자",
-    "totalSupply": "총 공급량"
+    "marketCap": "시가총액",
+    "volume24h": "거래량 (24시간)"
   },
   "LoginPage": {
     "subtitle": "계속하려면 계정에 로그인하세요.",

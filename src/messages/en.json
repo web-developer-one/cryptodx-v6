@@ -199,11 +199,7 @@
     "headerMarketCap": "Market Cap",
     "headerVolume24h": "Volume (24h)",
     "headerAvailableSupply": "Available Supply",
-    "headerPriceGraph7d": "Price Graph (7d)",
-    "showing": "Showing {start} - {end} of {total} tokens",
-    "previous": "Previous",
-    "next": "Next",
-    "page": "Page {current} of {total}"
+    "headerPriceGraph7d": "Price Graph (7d)"
   },
   "TokenPanels": {
     "title": "Token Panels"
@@ -442,10 +438,8 @@
     "title": "Top NFT Collections",
     "collection": "Collection",
     "floorPrice": "Floor Price",
-    "transfers24h": "Transfers (24h)",
-    "transfers7d": "Transfers (7d)",
-    "uniqueHolders": "Holders",
-    "totalSupply": "Total Supply"
+    "marketCap": "Market Cap",
+    "volume24h": "Volume (24h)"
   },
   "LoginPage": {
     "subtitle": "Login to your account to continue.",

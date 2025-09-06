@@ -15,14 +15,11 @@ import type { NftCollection, SelectedCurrency } from '@/lib/types';
 import { useLanguage } from '@/hooks/use-language';
 import Link from 'next/link';
 
-const FormattedCurrency = ({ value, currency, isEth = false }: { value: string | number | null | undefined; currency: SelectedCurrency; isEth?: boolean }) => {
+const FormattedCurrency = ({ value, currency }: { value: string | number | null | undefined; currency: SelectedCurrency }) => {
     const numericValue = typeof value === 'string' ? parseFloat(value) : value;
 
     if (numericValue === null || numericValue === undefined || isNaN(numericValue)) {
         return <>N/A</>;
-    }
-    if (isEth) {
-        return <>{numericValue.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})} ETH</>
     }
     const convertedValue = numericValue * currency.rate;
     return <>{new Intl.NumberFormat('en-US', { style: 'currency', currency: currency.symbol, notation: 'compact', maximumFractionDigits: 2, }).format(convertedValue)}</>
@@ -41,6 +38,7 @@ export function NftsTable({ collections, currency }: { collections: NftCollectio
               <TableHead>{t('NftsPage.collection')}</TableHead>
               <TableHead className="text-right">{t('NftsPage.floorPrice')}</TableHead>
               <TableHead className="text-right">{t('TokenExplorer.headerVolume24h')}</TableHead>
+              <TableHead className="text-right">{t('TokenExplorer.headerMarketCap')}</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -66,8 +64,11 @@ export function NftsTable({ collections, currency }: { collections: NftCollectio
                 <TableCell className="text-right font-mono">
                   {parseFloat(collection.floor_price).toFixed(4)} ETH
                 </TableCell>
-                <TableCell className="text-right font-mono">
+                 <TableCell className="text-right font-mono">
                     <FormattedCurrency value={collection.volume_usd} currency={currency} />
+                </TableCell>
+                <TableCell className="text-right font-mono">
+                    <FormattedCurrency value={collection.market_cap_usd} currency={currency} />
                 </TableCell>
               </TableRow>
             ))}

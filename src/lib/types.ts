@@ -93,14 +93,11 @@ export interface SelectedCurrency {
 }
 
 export interface NftCollection {
-    rank: number;
-    collection_title: string;
-    collection_image: string | null;
-    floor_price_usd: string | null;
-    floor_price_24hr_percent_change: string | null;
-    market_cap_usd: string;
-    volume_usd: string;
-    volume_24hr_percent_change: string | null;
-    collection_address: string;
-    floor_price: string;
+  rank: number;
+  collection_address: string;
+  collection_title: string;
+  collection_image: string | null;
+  volume_usd: string;
+  market_cap_usd: string;
+  floor_price: string;
 }

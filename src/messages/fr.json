@@ -442,10 +442,8 @@
     "title": "Top Collections NFT",
     "collection": "Collection",
     "floorPrice": "Prix Plancher",
-    "transfers24h": "Transferts (24h)",
-    "transfers7d": "Transferts (7j)",
-    "uniqueHolders": "Détenteurs",
-    "totalSupply": "Offre Totale"
+    "marketCap": "Capitalisation Boursière",
+    "volume24h": "Volume (24h)"
   },
   "LoginPage": {
     "subtitle": "Connectez-vous à votre compte pour continuer.",

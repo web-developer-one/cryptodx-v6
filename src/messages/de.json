@@ -441,10 +441,9 @@
   "NftsPage": {
     "title": "Top NFT-Sammlungen",
     "collection": "Sammlung",
-    "transfers24h": "Übertragungen (24h)",
-    "transfers7d": "Übertragungen (7d)",
-    "uniqueHolders": "Halter",
-    "totalSupply": "Gesamtangebot"
+    "floorPrice": "Mindestpreis",
+    "marketCap": "Marktkapitalisierung",
+    "volume24h": "Volumen (24h)"
   },
   "LoginPage": {
     "subtitle": "Melden Sie sich bei Ihrem Konto an, um fortzufahren.",

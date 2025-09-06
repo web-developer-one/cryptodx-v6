@@ -442,10 +442,8 @@
     "title": "Mejores Colecciones de NFT",
     "collection": "Colección",
     "floorPrice": "Precio Mínimo",
-    "transfers24h": "Transferencias (24h)",
-    "transfers7d": "Transferencias (7d)",
-    "uniqueHolders": "Poseedores",
-    "totalSupply": "Suministro Total"
+    "marketCap": "Capitalización de Mercado",
+    "volume24h": "Volumen (24h)"
   },
   "LoginPage": {
     "subtitle": "Inicia sesión en tu cuenta para continuar.",

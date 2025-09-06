@@ -261,7 +261,7 @@
     "p_whyUse": "Usamos cookies primários e de terceiros por várias razões. Alguns cookies são necessários por razões técnicas para que nosso Site funcione, e nos referimos a eles como cookies \"essenciais\" ou \"estritamente necessários\". Outros cookies também nos permitem rastrear e direcionar os interesses de nossos usuários para aprimorar a experiência em nossas Propriedades Online. Terceiros servem cookies através de nosso Site para publicidade, análises e outros fins. Isso é descrito em mais detalhes abaixo.",
     "h_types": "Tipos de Cookies que Usamos",
     "li_necessary": "<strong>Cookies Estritamente Necessários:</strong> Estes cookies são essenciais para fornecer a você os serviços disponíveis através de nosso Site e para permitir que você use alguns de seus recursos. Como esses cookies são estritamente necessários para entregar o Site a você, você não pode recusá-los sem impactar como nosso Site funciona.",
-    "li_performance": "<strong>Cookies de Desempenho e Funcionalidade:</strong> Estes cookies são usados para aprimorar o desempenho e a funcionalidade de nosso Site, mas não são essenciais para seu uso. No entanto, sem esses cookies, certas funcionalidades (como lembrar sua preferência de tema) могут se tornar indisponíveis.",
+    "li_performance": "<strong>Cookies de Desempenho e Funcionalidade:</strong> Estes cookies são usados para aprimorar o desempenho e a funcionalidade de nosso Site, mas não são essenciais para seu uso. No entanto, sem esses cookies, certas funcionalidades (como lembrar sua preferência de tema) podem se tornar indisponíveis.",
     "li_analytics": "<strong>Cookies de Análise e Personalização:</strong> Estes cookies coletam informações que são usadas de forma agregada para nos ajudar a entender como nosso Site está sendo usado ou quão eficazes são nossas campanhas de marketing, ou para nos ajudar a personalizar nosso Site para você.",
     "h_choices": "Suas escolhas em relação aos cookies",
     "p_choices": "Você tem o direito de decidir se aceita ou rejeita cookies. Você pode exercer suas preferências de cookies definindo ou alterando os controles do seu navegador para aceitar ou recusar cookies. Se você optar por rejeitar cookies, ainda poderá usar nosso site, embora seu acesso a algumas funcionalidades e áreas do nosso site possa ser restrito. Como os meios pelos quais você pode recusar cookies através dos controles do seu navegador variam de navegador para navegador, você deve visitar o menu de ajuda do seu navegador para mais informações.",
@@ -442,10 +442,8 @@
     "title": "Principais Coleções de NFTs",
     "collection": "Coleção",
     "floorPrice": "Preço Mínimo",
-    "transfers24h": "Transferências (24h)",
-    "transfers7d": "Transferências (7d)",
-    "uniqueHolders": "Detentores",
-    "totalSupply": "Oferta Total"
+    "marketCap": "Capitalização de Mercado",
+    "volume24h": "Volume (24h)"
   },
   "LoginPage": {
     "subtitle": "Faça login na sua conta para continuar.",
