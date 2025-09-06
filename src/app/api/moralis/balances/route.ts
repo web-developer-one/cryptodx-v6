@@ -4,6 +4,7 @@ import Moralis from 'moralis';
 import { ethers } from 'ethers';
 import { networkConfigs } from '@/lib/network-configs';
 import { getLatestListings } from '@/lib/coinmarketcap';
+import type { Cryptocurrency } from '@/lib/types';
 
 const MORALIS_API_KEY = process.env.MORALIS_API_KEY;
 
@@ -19,6 +20,7 @@ type CombinedBalance = {
     usdValue: number;
 };
 
+// This function is now more robust, fetching balances and prices in sequence.
 export async function GET(request: NextRequest) {
     if (!MORALIS_API_KEY) {
         console.error("MORALIS_API_KEY is not set.");
@@ -56,14 +58,16 @@ export async function GET(request: NextRequest) {
         
         const nativeBalanceData = nativeBalanceResponse?.raw;
         const tokenBalancesData = tokenBalancesResponse?.raw || [];
-
+        
         // Step 2: Fetch prices from CoinMarketCap *after* getting balances.
+        // This prevents race conditions and makes the process more reliable.
         const { data: cryptoData, error: cryptoError } = await getLatestListings();
+        
         if (cryptoError) {
              console.warn("Could not fetch crypto prices for balance calculation. Values may be incomplete.", cryptoError);
              // We can still proceed without prices, values will just be 0.
         }
-
+        
         const allBalances: CombinedBalance[] = [];
 
         // Process native balance (ETH, AVAX, etc.)
@@ -85,13 +89,14 @@ export async function GET(request: NextRequest) {
             });
         }
         
-        // Process ERC-20 token balances
+        // Process ERC-20 token balances safely.
         if (tokenBalancesData.length > 0) {
             tokenBalancesData.forEach(token => {
                 if (token.possible_spam) return;
 
                 const formattedBalance = ethers.formatUnits(token.balance, token.decimals);
                 const tokenInfo = cryptoData?.find(t => t.symbol === token.symbol);
+                // Gracefully handle cases where a price might not be found.
                 const price = tokenInfo ? tokenInfo.price : 0;
                 const usdValue = price ? parseFloat(formattedBalance) * price : 0;
 
@@ -115,8 +120,8 @@ export async function GET(request: NextRequest) {
         return NextResponse.json(allBalances);
 
     } catch (error: any) {
-        console.error("Failed to fetch from Moralis:", error.message);
-        const errorMessage = error.response?.data?.message || error.message || 'Failed to fetch token balances from Moralis.';
+        console.error("Failed to fetch from Moralis or process balances:", error.message);
+        const errorMessage = error.response?.data?.message || error.message || 'An unexpected error occurred while fetching balances.';
         return NextResponse.json({ error: errorMessage }, { status: 500 });
     }
 }

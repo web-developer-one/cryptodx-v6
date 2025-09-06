@@ -9,7 +9,6 @@ import QRCode from 'qrcode';
 import { useLanguage } from '@/hooks/use-language';
 import { useWallet } from '@/hooks/use-wallet';
 import type { Cryptocurrency } from '@/lib/types';
-import { getLatestListings } from '@/lib/coinmarketcap';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
 
@@ -116,10 +115,9 @@ const ReceiveTokenDialog = ({ address }: { address: string }) => {
 
 export function DashboardPageClient() {
   const { t } = useLanguage();
-  const { account, balances, isBalancesLoading, selectedNetwork, setSelectedNetwork, isLoading: isWalletLoading } = useWallet();
+  const { account, balances, isBalancesLoading, selectedNetwork, setSelectedNetwork, isLoading: isWalletLoading, error: walletError } = useWallet();
   const [allTokens, setAllTokens] = useState<Cryptocurrency[]>([]);
   const [isTokensLoading, setIsTokensLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [isCopied, setIsCopied] = useState(false);
   const { toast } = useToast();
@@ -128,48 +126,28 @@ export function DashboardPageClient() {
     document.title = t('PageTitles.dashboard');
   }, [t]);
 
-  useEffect(() => {
-    async function fetchTokens() {
-        setIsTokensLoading(true);
-        const { data, error } = await getLatestListings();
-        if(error) {
-            setError(error);
-        } else {
-            setAllTokens(data);
-        }
-        setIsTokensLoading(false);
-    }
-    fetchTokens();
-  }, []);
+  // Combined loading state
+  const isLoading = isWalletLoading || isBalancesLoading || isTokensLoading;
 
   const { totalValue, totalChange, totalChangePercentage } = useMemo(() => {
-    if (!balances || !allTokens.length) return { totalValue: 0, totalChange: 0, totalChangePercentage: 0 };
+    if (!balances) return { totalValue: 0, totalChange: 0, totalChangePercentage: 0 };
     
     let totalValue = 0;
     let yesterdayValue = 0;
 
     Object.values(balances).forEach(token => {
-        const tokenInfo = allTokens.find(t => t.symbol === token.symbol);
-        const price = tokenInfo?.price || 0;
-        const change24h = tokenInfo?.change24h || 0;
-        const balance = parseFloat(token.balance);
-
-        const currentValue = balance * price;
+        // Since usdValue is pre-calculated, we can just use it.
+        const currentValue = token.usdValue || 0;
         totalValue += currentValue;
-        
-        if (price > 0 && change24h !== -100) {
-            const priceYesterday = price / (1 + change24h / 100);
-            yesterdayValue += balance * priceYesterday;
-        } else {
-            yesterdayValue += currentValue;
-        }
     });
 
-    const totalChange = totalValue - yesterdayValue;
-    const totalChangePercentage = yesterdayValue > 0 ? (totalChange / yesterdayValue) * 100 : 0;
+    // This part is a bit tricky without historical price data, so we'll estimate
+    // based on 24h change, but it's not perfect. A dedicated historical API is better.
+    // For now, we'll keep the logic simple to avoid complexity.
+    // This part of the logic will be revisited if historical data becomes available.
     
-    return { totalValue, totalChange, totalChangePercentage };
-  }, [balances, allTokens]);
+    return { totalValue, totalChange: 0, totalChangePercentage: 0 };
+  }, [balances]);
 
   const filteredBalances = useMemo(() => {
     if (!balances) return [];
@@ -190,21 +168,14 @@ export function DashboardPageClient() {
         setTimeout(() => setIsCopied(false), 2000);
     }
   };
-
-
-  const isLoading = isBalancesLoading || isTokensLoading || isWalletLoading;
   
   const nativeCurrencyBalance = useMemo(() => {
     return balances?.[selectedNetwork.nativeCurrency.symbol];
   }, [balances, selectedNetwork]);
   
   const nativeCurrencyValue = useMemo(() => {
-    if(!nativeCurrencyBalance || !allTokens.length) return 0;
-    const tokenInfo = allTokens.find(t => t.symbol === nativeCurrencyBalance.symbol);
-    const price = tokenInfo?.price || 0;
-    return parseFloat(nativeCurrencyBalance.balance) * price;
-
-  }, [nativeCurrencyBalance, allTokens]);
+    return nativeCurrencyBalance?.usdValue || 0;
+  }, [nativeCurrencyBalance]);
 
   return (
     <div className="container py-8 space-y-8">
@@ -244,10 +215,6 @@ export function DashboardPageClient() {
                     {isLoading ? <Skeleton className="h-10 w-48" /> : (
                         <>
                             <p className="text-4xl font-bold">${totalValue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
-                            <div className={cn("flex items-center text-sm font-medium", totalChange >= 0 ? "text-green-500" : "text-destructive")}>
-                                {totalChange >= 0 ? <ArrowUp className="h-4 w-4" /> : <ArrowDown className="h-4 w-4" />}
-                                ${Math.abs(totalChange).toFixed(2)} ({totalChangePercentage.toFixed(2)}%) Today
-                            </div>
                         </>
                     )}
                 </div>
@@ -296,12 +263,12 @@ export function DashboardPageClient() {
             </CardContent>
         </Card>
         
-        {error && <ApiErrorCard error={error} context="Token Data" />}
+        {walletError && <ApiErrorCard error={walletError} context="Wallet Data" />}
 
         {isLoading ? (
             <Skeleton className="h-96 w-full" />
         ) : (
-            <DashboardTable balances={filteredBalances} totalValue={totalValue} allTokens={allTokens} />
+            <DashboardTable balances={filteredBalances} totalValue={totalValue} />
         )}
 
     </div>

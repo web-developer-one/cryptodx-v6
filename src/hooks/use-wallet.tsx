@@ -45,6 +45,7 @@ interface WalletContextType {
   setSelectedNetwork: React.Dispatch<React.SetStateAction<NetworkConfig>>;
   performSwap: (fromToken: Cryptocurrency, toToken: Cryptocurrency, amount: string) => Promise<void>;
   sendTokens: (tokenAddress: string | undefined, recipient: string, amount: string, decimals: number) => Promise<void>;
+  error: string | null;
 }
 
 const WalletContext = React.createContext<WalletContextType | null>(null);
@@ -58,11 +59,13 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
   const [isSending, setIsSending] = React.useState(false);
   const [isBalancesLoading, setIsBalancesLoading] = React.useState(false);
   const [selectedNetwork, setSelectedNetwork] = React.useState<NetworkConfig>(networkConfigs['0x1']);
+  const [error, setError] = React.useState<string | null>(null);
   const { t } = useLanguage();
 
   const fetchBalances = useCallback(async (address: string, network: NetworkConfig) => {
     setIsBalancesLoading(true);
     setBalances(null);
+    setError(null);
     try {
       const response = await fetch(`/api/moralis/balances?address=${address}&chain=${network.chainId}`);
       if (!response.ok) {
@@ -90,9 +93,9 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
       }, {} as Balances);
 
       setBalances(processedBalances);
-    } catch (error) {
+    } catch (error: any) {
       console.error("Failed to fetch balances:", error);
-      toast({ variant: 'destructive', title: "Error", description: "Could not fetch wallet balances." });
+      setError("Could not fetch wallet balances.");
       setBalances(null);
     } finally {
         setIsBalancesLoading(false);
@@ -245,7 +248,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
     } finally {
         setIsSwapping(false);
     }
-  }, [account, selectedNetwork, fetchBalances]);
+  }, [account, selectedNetwork, fetchBalances, t]);
 
   const sendTokens = useCallback(async (tokenAddress: string | undefined, recipient: string, amount: string, decimals: number) => {
     if (!account || typeof window.ethereum === 'undefined') {
@@ -361,6 +364,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
     setSelectedNetwork,
     performSwap,
     sendTokens,
+    error,
   };
 
   return (
