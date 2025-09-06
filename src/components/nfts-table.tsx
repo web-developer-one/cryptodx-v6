@@ -77,4 +77,3 @@ export function NftsTable({ collections, currency }: { collections: NftCollectio
     </Card>
   );
 }
-
