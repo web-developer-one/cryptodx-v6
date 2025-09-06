@@ -34,7 +34,6 @@ export async function GET(request: NextRequest) {
         return NextResponse.json({ error: 'Failed to initialize Moralis SDK.' }, { status: 500 });
     }
 
-
     const { searchParams } = new URL(request.url);
     const address = searchParams.get('address');
     const chainId = searchParams.get('chain');
