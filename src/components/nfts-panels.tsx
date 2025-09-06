@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import type { NftCollection, SelectedCurrency } from '@/lib/types';
 
-export function NftsPanels({ collections }: { collections: NftCollection[], currency: SelectedCurrency }) {
+export function NftsPanels({ collections, currency }: { collections: NftCollection[], currency: SelectedCurrency }) {
   const router = useRouter();
 
   const handlePanelClick = (collection: NftCollection) => {

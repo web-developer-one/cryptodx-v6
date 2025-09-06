@@ -104,4 +104,3 @@ export interface NftCollection {
     collection_address: string;
     floor_price: string;
 }
-
