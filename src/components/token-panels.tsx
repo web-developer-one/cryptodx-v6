@@ -231,7 +231,7 @@ export function TokenPanels() {
             <Link href="/tokens" passHref>
               <Button variant="outline" className="w-full md:w-auto">{t('TokenExplorer.listView')}</Button>
             </Link>
-            <div className="w-full md:max-w-sm">
+            <div className="w-full md:max-w-[220px]">
               <Input
                 placeholder={t('TokenExplorer.search')}
                 value={searchQuery}

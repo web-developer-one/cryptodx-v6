@@ -20,6 +20,7 @@ import nftsData from '@/lib/nfts.json';
 import { getLatestListings } from '@/lib/coinmarketcap';
 import { Button } from './ui/button';
 import { CardFooter } from './ui/card';
+import { Input } from './ui/input';
 
 const NFTS_PER_PAGE = 25;
 
@@ -45,6 +46,7 @@ export function NftsPageClient({ view }: { view: 'list' | 'panels' }) {
   const [supportedCurrencies, setSupportedCurrencies] = useState<SelectedCurrency[]>(initialSupportedCurrencies);
   const [selectedCurrency, setSelectedCurrency] = useState<SelectedCurrency>(initialSupportedCurrencies[0]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
     document.title = t('PageTitles.nfts');
@@ -66,6 +68,15 @@ export function NftsPageClient({ view }: { view: 'list' | 'panels' }) {
     }
     fetchData();
   }, [t]);
+
+  const filteredCollections = useMemo(() => {
+    if (!searchQuery) {
+      return collections;
+    }
+    return collections.filter(collection =>
+      collection.collection_title.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  }, [collections, searchQuery]);
   
   const allCurrencies = useMemo(() => {
       const cryptoCurrencies: SelectedCurrency[] = topCryptos.map(c => ({
@@ -83,12 +94,12 @@ export function NftsPageClient({ view }: { view: 'list' | 'panels' }) {
     }
   };
   
-  const totalPages = Math.ceil(collections.length / NFTS_PER_PAGE);
+  const totalPages = Math.ceil(filteredCollections.length / NFTS_PER_PAGE);
   const currentCollections = useMemo(() => {
     const startIndex = (currentPage - 1) * NFTS_PER_PAGE;
     const endIndex = startIndex + NFTS_PER_PAGE;
-    return collections.slice(startIndex, endIndex);
-  }, [collections, currentPage]);
+    return filteredCollections.slice(startIndex, endIndex);
+  }, [filteredCollections, currentPage]);
 
   const handlePreviousPage = () => {
     setCurrentPage((prev) => Math.max(prev - 1, 1));
@@ -129,6 +140,13 @@ export function NftsPageClient({ view }: { view: 'list' | 'panels' }) {
             <h1 className="text-3xl font-bold">{t('NftsPage.title')}</h1>
             <div className="flex flex-col sm:flex-row gap-2 w-full md:w-auto">
                 <NftsNav />
+                 <div className="w-full sm:w-[220px]">
+                    <Input
+                        placeholder={t('TokenExplorer.search')}
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                    />
+                </div>
                 <Select onValueChange={handleCurrencyChange} defaultValue={selectedCurrency.symbol}>
                     <SelectTrigger className="w-full sm:w-[180px]">
                     <SelectValue placeholder={t('PoolsClient.selectCurrency')} />
@@ -165,8 +183,8 @@ export function NftsPageClient({ view }: { view: 'list' | 'panels' }) {
                 <span className="text-sm text-muted-foreground">
                   {t('TokenExplorer.showing')
                     .replace('{start}', (((currentPage - 1) * NFTS_PER_PAGE) + 1).toString())
-                    .replace('{end}', Math.min(currentPage * NFTS_PER_PAGE, collections.length).toString())
-                    .replace('{total}', collections.length.toString())
+                    .replace('{end}', Math.min(currentPage * NFTS_PER_PAGE, filteredCollections.length).toString())
+                    .replace('{total}', filteredCollections.length.toString())
                   }
                 </span>
                 <div className="flex items-center justify-center gap-4">
@@ -197,4 +215,3 @@ export function NftsPageClient({ view }: { view: 'list' | 'panels' }) {
     </div>
   );
 }
-
