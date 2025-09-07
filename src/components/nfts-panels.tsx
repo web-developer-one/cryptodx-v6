@@ -19,7 +19,7 @@ export function NftsPanels({ collections, currency }: { collections: NftCollecti
             <Card key={collection.rank} onClick={() => handlePanelClick(collection)} className="cursor-pointer hover:border-primary transition-colors flex flex-col">
                 <CardHeader className="p-0">
                    <Image
-                        src={collection.collection_image || 'https://placehold.co/400x400.png'}
+                        src={collection.collection_image ? collection.collection_image : 'https://placehold.co/400x400.png'}
                         alt={collection.collection_title || 'NFT Collection'}
                         width={400}
                         height={400}

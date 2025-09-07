@@ -50,7 +50,7 @@ export function NftsTable({ collections, currency }: { collections: NftCollectio
                 <TableCell>
                    <Link href={`https://opensea.io/collection/${(collection.collection_title || '').replace(/\s+/g, '-').toLowerCase()}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 group">
                     <Image
-                      src={collection.collection_image || 'https://placehold.co/40x40.png'}
+                      src={collection.collection_image ? collection.collection_image : 'https://placehold.co/40x40.png'}
                       alt={collection.collection_title || 'NFT Collection'}
                       width={40}
                       height={40}
