@@ -27,6 +27,8 @@ type Balance = {
     usdValue: number;
     address?: string;
     decimals: number;
+    price: number;
+    change24h: number;
 }
 type Balances = Record<string, Balance>;
 
@@ -98,6 +100,8 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
             usdValue: nativeTokenInfo ? parseFloat(nativeBalanceFormatted) * nativeTokenInfo.price : 0,
             address: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
             decimals: network.nativeCurrency.decimals,
+            price: nativeTokenInfo?.price || 0,
+            change24h: nativeTokenInfo?.change24h || 0,
         };
       }
 
@@ -119,6 +123,8 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
                     usdValue: usdValue,
                     address: token.token_address,
                     decimals: token.decimals,
+                    price: price,
+                    change24h: tokenInfo?.change24h || 0,
                 };
             });
         }

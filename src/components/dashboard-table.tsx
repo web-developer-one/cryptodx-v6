@@ -1,4 +1,3 @@
-
 'use client';
 
 import {
@@ -26,6 +25,8 @@ type Balance = {
     usdValue: number;
     address?: string;
     decimals: number;
+    price: number;
+    change24h: number;
 };
 
 interface DashboardTableProps {
@@ -51,6 +52,7 @@ export function DashboardTable({ balances, totalValue }: DashboardTableProps) {
         <TableRow>
           <TableHead className="w-[350px]">Token</TableHead>
           <TableHead>Portfolio %</TableHead>
+          <TableHead className="text-right">Price (24hr)</TableHead>
           <TableHead className="text-right">Balance</TableHead>
           <TableHead className="text-right">Actions</TableHead>
         </TableRow>
@@ -81,6 +83,13 @@ export function DashboardTable({ balances, totalValue }: DashboardTableProps) {
                 {portfolioPercentage.toFixed(2)}%
               </TableCell>
               <TableCell className="text-right">
+                 <p className="font-mono font-semibold">${token.price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 4 })}</p>
+                 <div className={cn("flex items-center justify-end gap-1 text-sm", token.change24h >= 0 ? "text-success" : "text-destructive")}>
+                    {token.change24h >= 0 ? <ArrowUp className="h-3 w-3" /> : <ArrowDown className="h-3 w-3" />}
+                    {Math.abs(token.change24h).toFixed(2)}%
+                 </div>
+              </TableCell>
+              <TableCell className="text-right">
                 <p className="font-mono font-semibold">${usdValue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
                 <p className="text-sm text-muted-foreground font-mono">{parseFloat(token.balance).toLocaleString('en-US', { maximumFractionDigits: 4 })} {token.symbol}</p>
               </TableCell>
@@ -97,7 +106,7 @@ export function DashboardTable({ balances, totalValue }: DashboardTableProps) {
                     </Dialog>
                     <Dialog>
                         <DialogTrigger asChild>
-                            <Button variant="outline" size="sm">Receive</Button>
+                             <Button variant="outline" size="sm">Receive</Button>
                         </DialogTrigger>
                         <ReceiveTokenDialog address={token.address || ''} />
                     </Dialog>
