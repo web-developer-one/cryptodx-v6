@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import Image from 'next/image';
@@ -15,11 +16,13 @@ export function NftsPanels({ collections, currency }: { collections: NftCollecti
 
   return (
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-        {collections.map((collection) => (
+        {collections.map((collection) => {
+          const imageUrl = (collection.collection_image && collection.collection_image !== 'missing_small.png') ? collection.collection_image : 'https://placehold.co/400x400.png';
+          return (
             <Card key={collection.rank} onClick={() => handlePanelClick(collection)} className="cursor-pointer hover:border-primary transition-colors flex flex-col">
                 <CardHeader className="p-0">
                    <Image
-                        src={collection.collection_image || 'https://placehold.co/400x400.png'}
+                        src={imageUrl}
                         alt={collection.collection_title || 'NFT Collection'}
                         width={400}
                         height={400}
@@ -35,7 +38,7 @@ export function NftsPanels({ collections, currency }: { collections: NftCollecti
                      </div>
                 </CardContent>
             </Card>
-        ))}
+        )})}
       </div>
   );
 }

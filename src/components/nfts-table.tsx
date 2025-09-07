@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import Image from 'next/image';
@@ -42,36 +43,39 @@ export function NftsTable({ collections, currency }: { collections: NftCollectio
             </TableRow>
           </TableHeader>
           <TableBody>
-            {collections.map((collection) => (
-              <TableRow key={collection.rank}>
-                <TableCell className="text-center font-medium text-muted-foreground">
-                  {collection.rank}
-                </TableCell>
-                <TableCell>
-                   <Link href={`https://opensea.io/collection/${(collection.collection_title || '').replace(/\s+/g, '-').toLowerCase()}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 group">
-                    <Image
-                      src={collection.collection_image || 'https://placehold.co/40x40.png'}
-                      alt={collection.collection_title || 'NFT Collection'}
-                      width={40}
-                      height={40}
-                      className="rounded-md"
-                    />
-                    <div className="flex items-center gap-1.5">
-                        <span className="font-semibold group-hover:underline">{collection.collection_title || 'Unnamed Collection'}</span>
-                    </div>
-                  </Link>
-                </TableCell>
-                <TableCell className="text-right font-mono">
-                  {collection.floor_price ? `${parseFloat(collection.floor_price).toFixed(4)} ETH` : 'N/A'}
-                </TableCell>
-                 <TableCell className="text-right font-mono">
-                    <FormattedCurrency value={collection.volume_usd} currency={currency} />
-                </TableCell>
-                <TableCell className="text-right font-mono">
-                    <FormattedCurrency value={collection.market_cap_usd} currency={currency} />
-                </TableCell>
-              </TableRow>
-            ))}
+            {collections.map((collection) => {
+              const imageUrl = (collection.collection_image && collection.collection_image !== 'missing_small.png') ? collection.collection_image : 'https://placehold.co/40x40.png';
+              return (
+                <TableRow key={collection.rank}>
+                  <TableCell className="text-center font-medium text-muted-foreground">
+                    {collection.rank}
+                  </TableCell>
+                  <TableCell>
+                    <Link href={`https://opensea.io/collection/${(collection.collection_title || '').replace(/\s+/g, '-').toLowerCase()}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 group">
+                      <Image
+                        src={imageUrl}
+                        alt={collection.collection_title || 'NFT Collection'}
+                        width={40}
+                        height={40}
+                        className="rounded-md"
+                      />
+                      <div className="flex items-center gap-1.5">
+                          <span className="font-semibold group-hover:underline">{collection.collection_title || 'Unnamed Collection'}</span>
+                      </div>
+                    </Link>
+                  </TableCell>
+                  <TableCell className="text-right font-mono">
+                    {collection.floor_price ? `${parseFloat(collection.floor_price).toFixed(4)} ETH` : 'N/A'}
+                  </TableCell>
+                  <TableCell className="text-right font-mono">
+                      <FormattedCurrency value={collection.volume_usd} currency={currency} />
+                  </TableCell>
+                  <TableCell className="text-right font-mono">
+                      <FormattedCurrency value={collection.market_cap_usd} currency={currency} />
+                  </TableCell>
+                </TableRow>
+              )
+            })}
           </TableBody>
         </Table>
       </CardContent>

@@ -17,6 +17,7 @@ import {
 import { NftsNav } from './nfts-nav';
 import { NftsPanels } from './nfts-panels';
 import { ApiErrorCard } from './api-error-card';
+import nftsData from '@/lib/nfts.json';
 
 const supportedCurrencies: SelectedCurrency[] = [
     { symbol: 'USD', name: 'US Dollar', rate: 1 },
@@ -32,21 +33,20 @@ export function NftsPageClient({ view }: { view: 'list' | 'panels' }) {
 
   useEffect(() => {
     document.title = t('PageTitles.nfts');
-    const fetchNfts = async () => {
+    const fetchNfts = () => {
         setIsLoading(true);
-        try {
-            const response = await fetch('/api/moralis/nfts');
-            if (!response.ok) {
-                 const err = await response.json();
-                 throw new Error(err.error || 'Failed to fetch NFT collections.');
+        // Simulate a fetch since we're reading a local file
+        setTimeout(() => {
+            try {
+                // In a real app, you might still fetch this from a static endpoint
+                // but for this implementation, we directly use the imported JSON.
+                setCollections(nftsData as NftCollection[]);
+            } catch (err) {
+                 setError('Failed to load local NFT data.');
+            } finally {
+                setIsLoading(false);
             }
-            const data = await response.json();
-            setCollections(data);
-        } catch (err: any) {
-            setError(err.message);
-        } finally {
-            setIsLoading(false);
-        }
+        }, 500); // Simulate network delay
     }
     fetchNfts();
   }, [t]);
