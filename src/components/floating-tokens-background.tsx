@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -26,16 +27,22 @@ export function FloatingTokensBackground() {
       const { data } = await getLatestListings();
       if (data) {
         let topTokens = data.slice(0, 30);
-        // Ensure ETH is always in the list for the background effect
-        const hasETH = topTokens.some(token => token.symbol === 'ETH');
-        if (!hasETH) {
-            const ethData = data.find(token => token.symbol === 'ETH');
-            if (ethData) {
-                // Add ETH and take the next 29 tokens to maintain the count
-                topTokens.pop();
-                topTokens.unshift(ethData);
+        
+        // Define tokens to ensure are present
+        const requiredSymbols = ['ETH', 'SOL'];
+        
+        requiredSymbols.forEach(symbol => {
+          const isPresent = topTokens.some(token => token.symbol === symbol);
+          if (!isPresent) {
+            const tokenData = data.find(token => token.symbol === symbol);
+            if (tokenData) {
+              // Add the missing token and maintain the list size
+              topTokens.pop(); 
+              topTokens.unshift(tokenData);
             }
-        }
+          }
+        });
+
         setTokens(topTokens);
       }
     };
@@ -68,8 +75,6 @@ export function FloatingTokensBackground() {
                 left,
                 animationDuration,
                 animationDelay,
-                width: size,
-                height: size,
               }}
             >
               <div className="relative flex items-center h-full">
