@@ -19,7 +19,7 @@ export function ExploreNav() {
     <div className="mb-6 flex justify-center">
       <div className="w-full max-w-lg">
         <Tabs value={activeTab} className="w-full">
-            <TabsList className={cn("grid w-full", isAuthenticated ? "grid-cols-4" : "grid-cols-3")}>
+            <TabsList className="grid w-full grid-cols-3">
                 <Link href="/tokens" passHref>
                     <TabsTrigger value="/tokens">{t('ExploreNav.tokens')}</TabsTrigger>
                 </Link>
@@ -29,11 +29,6 @@ export function ExploreNav() {
                 <Link href="/transactions" passHref>
                     <TabsTrigger value="/transactions">{t('ExploreNav.transactions')}</TabsTrigger>
                 </Link>
-                {isAuthenticated && (
-                     <Link href="/tradingbot" passHref>
-                        <TabsTrigger value="/tradingbot">{t('PageTitles.tradingBot')}</TabsTrigger>
-                    </Link>
-                )}
             </TabsList>
         </Tabs>
       </div>
