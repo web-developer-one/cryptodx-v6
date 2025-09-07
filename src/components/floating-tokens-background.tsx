@@ -25,9 +25,17 @@ export function FloatingTokensBackground() {
   useEffect(() => {
     const fetchTokens = async () => {
       const { data } = await getLatestListings();
-      // Use top 30 tokens for the effect
       if (data) {
-        setTokens(data.slice(0, 30));
+        let topTokens = data.slice(0, 30);
+        // Ensure ETH is always in the list for the background effect
+        const hasETH = topTokens.some(token => token.symbol === 'ETH');
+        if (!hasETH) {
+            const ethData = data.find(token => token.symbol === 'ETH');
+            if (ethData) {
+                topTokens = [ethData, ...topTokens.slice(0, 29)];
+            }
+        }
+        setTokens(topTokens);
       }
     };
     fetchTokens();
@@ -44,7 +52,6 @@ export function FloatingTokensBackground() {
       <div className="relative w-full h-full">
         {tokens.map((token) => {
           const size = Math.floor(random() * (80 - 40 + 1) + 40); // Random size between 40 and 80px
-          // Ensure the tokens are positioned within the viewport and are clickable
           const top = `${Math.min(90, random() * 100)}%`;
           const left = `${Math.min(90, random() * 100)}%`;
           const animationDuration = `${random() * (20 - 10) + 10}s`; // 10-20s duration
@@ -60,7 +67,7 @@ export function FloatingTokensBackground() {
                 left,
                 animationDuration,
                 animationDelay,
-                width: size + 120, 
+                width: size + 140, // Increased width for text
                 height: size,
               }}
             >
@@ -83,7 +90,7 @@ export function FloatingTokensBackground() {
                  {/* Token Details */}
                 <div 
                   className="token-details absolute left-full pl-3 flex flex-col justify-center opacity-0 transform -translate-x-2"
-                  style={{ left: `${size}px` }} // Position relative to the icon size
+                  style={{ left: `${size}px` }}
                 >
                     <div className="font-bold text-sm text-foreground whitespace-nowrap">{token.symbol}</div>
                     <div className={cn(
