@@ -69,7 +69,7 @@ export function NftsPanels({ collections, currency }: { collections: NftCollecti
                         </div>
                     </div>
                 </CardHeader>
-                <CardContent className="p-3 pt-2 flex-1 flex flex-col justify-between">
+                <CardContent className="p-3 pl-4 pt-2 flex-1 flex flex-col justify-between">
                     <div>
                         <span className="font-semibold truncate text-sm block leading-tight">{collection.collection_title || 'Unnamed Collection'}</span>
                     </div>
