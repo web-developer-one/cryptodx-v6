@@ -1,11 +1,10 @@
 
-
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { useLanguage } from '@/hooks/use-language';
 import { NftsTable } from './nfts-table';
-import type { NftCollection, SelectedCurrency } from '@/lib/types';
+import type { NftCollection, SelectedCurrency, Cryptocurrency } from '@/lib/types';
 import { Skeleton } from './ui/skeleton';
 import {
   Select,
@@ -18,8 +17,9 @@ import { NftsNav } from './nfts-nav';
 import { NftsPanels } from './nfts-panels';
 import { ApiErrorCard } from './api-error-card';
 import nftsData from '@/lib/nfts.json';
+import { getLatestListings } from '@/lib/coinmarketcap';
 
-const supportedCurrencies: SelectedCurrency[] = [
+const initialSupportedCurrencies: SelectedCurrency[] = [
     { symbol: 'USD', name: 'US Dollar', rate: 1 },
     { symbol: 'EUR', name: 'Euro', rate: 0.93 },
     { symbol: 'GBP', name: 'British Pound', rate: 0.79 },
@@ -29,7 +29,6 @@ const supportedCurrencies: SelectedCurrency[] = [
     { symbol: 'CHF', name: 'Swiss Franc', rate: 0.90 },
     { symbol: 'CNY', name: 'Chinese Yuan', rate: 7.25 },
     { symbol: 'INR', name: 'Indian Rupee', rate: 83.5 },
-    { symbol: 'ETH', name: 'Ethereum', rate: 1/3500 },
 ];
 
 export function NftsPageClient({ view }: { view: 'list' | 'panels' }) {
@@ -37,30 +36,44 @@ export function NftsPageClient({ view }: { view: 'list' | 'panels' }) {
   const [collections, setCollections] = useState<NftCollection[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [selectedCurrency, setSelectedCurrency] = useState<SelectedCurrency>(supportedCurrencies[0]);
+  
+  const [topCryptos, setTopCryptos] = useState<Cryptocurrency[]>([]);
+  const [supportedCurrencies, setSupportedCurrencies] = useState<SelectedCurrency[]>(initialSupportedCurrencies);
+  const [selectedCurrency, setSelectedCurrency] = useState<SelectedCurrency>(initialSupportedCurrencies[0]);
+
 
   useEffect(() => {
     document.title = t('PageTitles.nfts');
-    const fetchNfts = () => {
+    const fetchData = async () => {
         setIsLoading(true);
-        // Simulate a fetch since we're reading a local file
-        setTimeout(() => {
-            try {
-                // In a real app, you might still fetch this from a static endpoint
-                // but for this implementation, we directly use the imported JSON.
-                setCollections(nftsData as NftCollection[]);
-            } catch (err) {
-                 setError('Failed to load local NFT data.');
-            } finally {
-                setIsLoading(false);
+        try {
+            const { data: cryptoData, error: cryptoError } = await getLatestListings();
+            if (cryptoError) {
+                setError(cryptoError);
+            } else {
+                setTopCryptos(cryptoData.slice(0, 9));
             }
-        }, 500); // Simulate network delay
+            setCollections(nftsData as NftCollection[]);
+        } catch (err) {
+            setError('Failed to load page data.');
+        } finally {
+            setIsLoading(false);
+        }
     }
-    fetchNfts();
+    fetchData();
   }, [t]);
+  
+  const allCurrencies = useMemo(() => {
+      const cryptoCurrencies: SelectedCurrency[] = topCryptos.map(c => ({
+          symbol: c.symbol,
+          name: c.name,
+          rate: 1 / c.price, // Rate is how many of this currency per USD
+      }));
+      return [...initialSupportedCurrencies, ...cryptoCurrencies];
+  }, [topCryptos]);
 
   const handleCurrencyChange = (symbol: string) => {
-    const currency = supportedCurrencies.find((c) => c.symbol === symbol);
+    const currency = allCurrencies.find((c) => c.symbol === symbol);
     if (currency) {
       setSelectedCurrency(currency);
     }
@@ -71,7 +84,10 @@ export function NftsPageClient({ view }: { view: 'list' | 'panels' }) {
       <div className="container py-8">
         <div className="flex justify-between items-center mb-6">
             <Skeleton className="h-10 w-72" />
-            <Skeleton className="h-10 w-48" />
+            <div className="flex gap-2">
+                <Skeleton className="h-10 w-48" />
+                <Skeleton className="h-10 w-48" />
+            </div>
         </div>
         <Skeleton className="h-[600px] w-full" />
       </div>
@@ -92,21 +108,31 @@ export function NftsPageClient({ view }: { view: 'list' | 'panels' }) {
       <div className="w-full">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
             <h1 className="text-3xl font-bold">{t('NftsPage.title')}</h1>
-            <div className="w-full md:w-auto md:max-w-[180px]">
-            <Select onValueChange={handleCurrencyChange} defaultValue={selectedCurrency.symbol}>
-                <SelectTrigger>
-                <SelectValue placeholder={t('PoolsClient.selectCurrency')} />
-                </SelectTrigger>
-                <SelectContent>
-                {supportedCurrencies.map((currency) => (
-                    <SelectItem key={currency.symbol} value={currency.symbol}>
-                    <div className="flex items-center gap-2">
-                        <span>{currency.name}</span>
-                    </div>
-                    </SelectItem>
-                ))}
-                </SelectContent>
-            </Select>
+             <div className="flex flex-col sm:flex-row gap-2 w-full md:w-auto">
+                <Select onValueChange={handleCurrencyChange} defaultValue={selectedCurrency.symbol}>
+                    <SelectTrigger className="w-full sm:w-[180px]">
+                    <SelectValue placeholder={t('PoolsClient.selectCurrency')} />
+                    </SelectTrigger>
+                    <SelectContent>
+                        {initialSupportedCurrencies.map((currency) => (
+                            <SelectItem key={currency.symbol} value={currency.symbol}>
+                                {currency.symbol} - {currency.name}
+                            </SelectItem>
+                        ))}
+                    </SelectContent>
+                </Select>
+                 <Select onValueChange={handleCurrencyChange} defaultValue={topCryptos.includes(selectedCurrency as any) ? selectedCurrency.symbol : undefined}>
+                    <SelectTrigger className="w-full sm:w-[180px]">
+                    <SelectValue placeholder="Crypto..." />
+                    </SelectTrigger>
+                    <SelectContent>
+                        {topCryptos.map((currency) => (
+                            <SelectItem key={currency.symbol} value={currency.symbol}>
+                                {currency.symbol} - {currency.name}
+                            </SelectItem>
+                        ))}
+                    </SelectContent>
+                </Select>
             </div>
         </div>
         {view === 'list' ? (

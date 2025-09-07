@@ -23,7 +23,15 @@ const FormattedCurrency = ({ value, currency }: { value: string | number | null 
         return <>N/A</>;
     }
     const convertedValue = numericValue * currency.rate;
-    return <>{new Intl.NumberFormat('en-US', { style: 'currency', currency: currency.symbol, notation: 'compact', maximumFractionDigits: 2, }).format(convertedValue)}</>
+    
+    // Check if the currency is a FIAT currency by checking for its presence in the initial list
+    const isFiat = ['USD','EUR','GBP','JPY','AUD','CAD','CHF','CNY','INR'].includes(currency.symbol);
+    
+    if (isFiat) {
+        return <>{new Intl.NumberFormat('en-US', { style: 'currency', currency: currency.symbol, notation: 'compact', maximumFractionDigits: 2, }).format(convertedValue)}</>
+    } else {
+        return <>{convertedValue.toLocaleString('en-US', { maximumFractionDigits: 4 })} {currency.symbol}</>
+    }
 };
 
 export function NftsTable({ collections, currency }: { collections: NftCollection[], currency: SelectedCurrency }) {
