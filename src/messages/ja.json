@@ -439,7 +439,7 @@
     "nfts": "トップNFT"
   },
   "NftsPage": {
-    "title": "トップNFTコレクション",
+    "title": "時価総額別トップNFTコレクション",
     "collection": "コレクション",
     "floorPrice": "フロアプライス",
     "marketCap": "時価総額",

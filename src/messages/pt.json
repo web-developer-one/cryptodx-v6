@@ -264,7 +264,7 @@
     "li_performance": "<strong>Cookies de Desempenho e Funcionalidade:</strong> Estes cookies são usados para aprimorar o desempenho e a funcionalidade de nosso Site, mas não são essenciais para seu uso. No entanto, sem esses cookies, certas funcionalidades (como lembrar sua preferência de tema) podem se tornar indisponíveis.",
     "li_analytics": "<strong>Cookies de Análise e Personalização:</strong> Estes cookies coletam informações que são usadas de forma agregada para nos ajudar a entender como nosso Site está sendo usado ou quão eficazes são nossas campanhas de marketing, ou para nos ajudar a personalizar nosso Site para você.",
     "h_choices": "Suas escolhas em relação aos cookies",
-    "p_choices": "Você tem o direito de decidir se aceita ou rejeita cookies. Você pode exercer suas preferências de cookies definindo ou alterando os controles do seu navegador para aceitar ou recusar cookies. Se você optar por rejeitar cookies, ainda poderá usar nosso site, embora seu acesso a algumas funcionalidades e áreas do nosso site possa ser restrito. Como os meios pelos quais você pode recusar cookies através dos controles do seu navegador variam de navegador para navegador, você deve visitar o menu de ajuda do seu navegador para mais informações.",
+    "p_choices": "Você tem o direito de decidir se aceita ou rejeita cookies. Você pode exercer suas préférences de cookies definindo ou alterando os controles do seu navegador para aceitar ou recusar cookies. Se você optar por rejeitar cookies, ainda poderá usar nosso site, embora seu acesso a algumas funcionalidades e áreas do nosso site possa ser restrito. Como os meios pelos quais você pode recusar cookies através dos controles do seu navegador variam de navegador para navegador, você deve visitar o menu de ajuda do seu navegador para mais informações.",
     "h_changes": "Mudanças nesta Política de Cookies",
     "p_changes": "Podemos atualizar esta Política de Cookies de tempos em tempos para refletir, por exemplo, mudanças nos cookies que usamos ou por outras razões operacionais, legais ou regulatórias. Portanto, por favor, reveja esta Política de Cookies regularmente para se manter informado sobre nosso uso de cookies e tecnologias relacionadas.",
     "dismiss": "Dispensar e Fechar"
@@ -439,7 +439,7 @@
     "nfts": "Top NFTs"
   },
   "NftsPage": {
-    "title": "Principais Coleções de NFTs",
+    "title": "Principais Coleções de NFTs por Capitalização de Mercado",
     "collection": "Coleção",
     "floorPrice": "Preço Mínimo",
     "marketCap": "Capitalização de Mercado",

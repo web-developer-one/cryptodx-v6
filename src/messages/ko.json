@@ -439,7 +439,7 @@
     "nfts": "최고의 NFT"
   },
   "NftsPage": {
-    "title": "최고의 NFT 컬렉션",
+    "title": "시가총액 기준 상위 NFT 컬렉션",
     "collection": "컬렉션",
     "floorPrice": "최저가",
     "marketCap": "시가총액",

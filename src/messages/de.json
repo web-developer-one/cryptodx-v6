@@ -439,7 +439,7 @@
     "nfts": "Top NFTs"
   },
   "NftsPage": {
-    "title": "Top NFT-Sammlungen",
+    "title": "Top NFT-Sammlungen nach Marktkapitalisierung",
     "collection": "Sammlung",
     "floorPrice": "Mindestpreis",
     "marketCap": "Marktkapitalisierung",

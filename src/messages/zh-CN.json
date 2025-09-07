@@ -439,7 +439,7 @@
     "nfts": "顶级NFT"
   },
   "NftsPage": {
-    "title": "顶级NFT收藏品",
+    "title": "按市值排名的顶级NFT收藏品",
     "collection": "收藏品",
     "floorPrice": "底价",
     "marketCap": "市值",

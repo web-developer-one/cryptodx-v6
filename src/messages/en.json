@@ -439,7 +439,7 @@
     "nfts": "Top NFTs"
   },
   "NftsPage": {
-    "title": "Top NFT Collections",
+    "title": "Top NFT Collections by Market Cap",
     "collection": "Collection",
     "floorPrice": "Floor Price",
     "marketCap": "Market Cap",
