@@ -4,6 +4,7 @@ const nextConfig = {
   /* config options here */
   experimental: {
     serverComponentsExternalPackages: ['crypto-js', '@paypal/checkout-server-sdk', 'jsrsasign', 'wav'],
+    allowedDevOrigins: ["*"],
   },
   images: {
     dangerouslyAllowSVG: true,
