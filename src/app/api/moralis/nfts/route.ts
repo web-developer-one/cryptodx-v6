@@ -25,7 +25,7 @@ export async function GET(request: NextRequest) {
     }
 
     try {
-        const response = await Moralis.EvmApi.marketData.getTopNFTCollectionsByMarketCap({});
+        const response = await Moralis.EvmApi.marketData.getTopNFTCollectionsByMarketCap();
         
         return NextResponse.json(response.result);
 
