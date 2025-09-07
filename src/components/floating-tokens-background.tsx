@@ -32,6 +32,7 @@ export function FloatingTokensBackground() {
         if (!hasETH) {
             const ethData = data.find(token => token.symbol === 'ETH');
             if (ethData) {
+                // Add ETH and take the next 29 tokens to maintain the count
                 topTokens = [ethData, ...topTokens.slice(0, 29)];
             }
         }
@@ -67,7 +68,7 @@ export function FloatingTokensBackground() {
                 left,
                 animationDuration,
                 animationDelay,
-                width: size + 140, // Increased width for text
+                width: size + 140,
                 height: size,
               }}
             >
@@ -89,8 +90,8 @@ export function FloatingTokensBackground() {
                 </div>
                  {/* Token Details */}
                 <div 
-                  className="token-details absolute left-full pl-3 flex flex-col justify-center opacity-0 transform -translate-x-2"
-                  style={{ left: `${size}px` }}
+                  className="token-details absolute pl-3 flex flex-col justify-center opacity-0 transform -translate-x-2"
+                   style={{ left: `${size}px` }}
                 >
                     <div className="font-bold text-sm text-foreground whitespace-nowrap">{token.symbol}</div>
                     <div className={cn(
