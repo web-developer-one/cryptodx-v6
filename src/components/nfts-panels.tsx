@@ -15,25 +15,25 @@ export function NftsPanels({ collections, currency }: { collections: NftCollecti
   };
 
   return (
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
         {collections.map((collection) => {
-          const imageUrl = (collection.collection_image && collection.collection_image !== 'missing_small.png') ? collection.collection_image : 'https://placehold.co/400x400.png';
+          const imageUrl = (collection.collection_image && collection.collection_image !== 'missing_small.png') ? collection.collection_image : 'https://placehold.co/200x200.png';
           return (
-            <Card key={collection.rank} onClick={() => handlePanelClick(collection)} className="cursor-pointer hover:border-primary transition-colors flex flex-col">
-                <CardHeader className="p-0">
+            <Card key={collection.rank} onClick={() => handlePanelClick(collection)} className="cursor-pointer hover:border-primary transition-colors flex flex-col group">
+                <CardHeader className="p-0 overflow-hidden">
                    <Image
                         src={imageUrl}
                         alt={collection.collection_title || 'NFT Collection'}
-                        width={400}
-                        height={400}
-                        className="rounded-t-lg aspect-square object-cover"
+                        width={200}
+                        height={200}
+                        className="rounded-t-lg aspect-square object-cover transition-transform duration-300 group-hover:scale-105"
                     />
                 </CardHeader>
-                <CardContent className="p-4 flex-1 flex flex-col justify-between">
-                    <div className="flex items-center gap-1.5">
-                        <span className="font-semibold truncate">{collection.collection_title || 'Unnamed Collection'}</span>
+                <CardContent className="p-3 flex-1 flex flex-col justify-between">
+                    <div>
+                        <span className="font-semibold truncate text-sm">{collection.collection_title || 'Unnamed Collection'}</span>
                     </div>
-                     <div className="text-sm text-muted-foreground">
+                     <div className="text-xs text-muted-foreground pt-1">
                         Floor: {collection.floor_price ? `${parseFloat(collection.floor_price).toFixed(2)} ETH` : 'N/A'}
                      </div>
                 </CardContent>
