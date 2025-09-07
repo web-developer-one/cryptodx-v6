@@ -11,7 +11,7 @@ export function NftsNav() {
   const { t } = useLanguage();
 
   return (
-    <div className="mb-6 flex justify-center">
+    <div className="flex justify-center">
       <div className="w-full max-w-lg">
         <Tabs value={pathname} className="w-full">
             <TabsList className="grid w-full grid-cols-2">

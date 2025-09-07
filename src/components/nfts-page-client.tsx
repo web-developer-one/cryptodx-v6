@@ -104,11 +104,11 @@ export function NftsPageClient({ view }: { view: 'list' | 'panels' }) {
 
   return (
     <div className="container flex flex-col items-center py-8">
-      <NftsNav />
       <div className="w-full">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
             <h1 className="text-3xl font-bold">{t('NftsPage.title')}</h1>
              <div className="flex flex-col sm:flex-row gap-2 w-full md:w-auto">
+                <NftsNav />
                 <Select onValueChange={handleCurrencyChange} defaultValue={selectedCurrency.symbol}>
                     <SelectTrigger className="w-full sm:w-[180px]">
                     <SelectValue placeholder={t('PoolsClient.selectCurrency')} />
