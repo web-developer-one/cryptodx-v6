@@ -67,7 +67,7 @@ export const SendTokenDialog = ({ token }: { token: { symbol: string, address?: 
     )
 }
 
-const ReceiveTokenDialog = ({ address }: { address: string }) => {
+export const ReceiveTokenDialog = ({ address }: { address: string }) => {
     const [qrCodeUrl, setQrCodeUrl] = useState('');
     const { toast } = useToast();
 
