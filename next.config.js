@@ -49,6 +49,12 @@ const nextConfig = {
         hostname: 'logo.moralis.io',
         port: '',
         pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'market-data-images.s3.us-east-1.amazonaws.com',
+        port: '',
+        pathname: '/**',
       }
     ],
   },
