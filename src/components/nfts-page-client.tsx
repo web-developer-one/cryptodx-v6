@@ -21,6 +21,14 @@ import nftsData from '@/lib/nfts.json';
 
 const supportedCurrencies: SelectedCurrency[] = [
     { symbol: 'USD', name: 'US Dollar', rate: 1 },
+    { symbol: 'EUR', name: 'Euro', rate: 0.93 },
+    { symbol: 'GBP', name: 'British Pound', rate: 0.79 },
+    { symbol: 'JPY', name: 'Japanese Yen', rate: 157.2 },
+    { symbol: 'AUD', name: 'Australian Dollar', rate: 1.51 },
+    { symbol: 'CAD', name: 'Canadian Dollar', rate: 1.37 },
+    { symbol: 'CHF', name: 'Swiss Franc', rate: 0.90 },
+    { symbol: 'CNY', name: 'Chinese Yuan', rate: 7.25 },
+    { symbol: 'INR', name: 'Indian Rupee', rate: 83.5 },
     { symbol: 'ETH', name: 'Ethereum', rate: 1/3500 },
 ];
 
