@@ -60,7 +60,7 @@ export function FloatingTokensBackground() {
                 left,
                 animationDuration,
                 animationDelay,
-                width: size + 120, // Increased width for better text visibility and clickability
+                width: size + 120, 
                 height: size,
               }}
             >
@@ -83,6 +83,7 @@ export function FloatingTokensBackground() {
                  {/* Token Details */}
                 <div 
                   className="token-details absolute left-full pl-3 flex flex-col justify-center opacity-0 transform -translate-x-2"
+                  style={{ left: `${size}px` }} // Position relative to the icon size
                 >
                     <div className="font-bold text-sm text-foreground whitespace-nowrap">{token.symbol}</div>
                     <div className={cn(
