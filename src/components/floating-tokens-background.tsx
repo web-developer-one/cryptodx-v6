@@ -44,8 +44,9 @@ export function FloatingTokensBackground() {
       <div className="relative w-full h-full">
         {tokens.map((token) => {
           const size = Math.floor(random() * (80 - 40 + 1) + 40); // Random size between 40 and 80px
-          const top = `${random() * 90}%`;
-          const left = `${random() * 90}%`;
+          // Ensure the tokens are positioned within the viewport and are clickable
+          const top = `${Math.min(90, random() * 100)}%`;
+          const left = `${Math.min(90, random() * 100)}%`;
           const animationDuration = `${random() * (20 - 10) + 10}s`; // 10-20s duration
           const animationDelay = `${random() * 5}s`; // 0-5s delay
 
@@ -59,7 +60,7 @@ export function FloatingTokensBackground() {
                 left,
                 animationDuration,
                 animationDelay,
-                width: 'auto', // Adjust width to be based on content
+                width: size + 100, // Increased width for better text visibility and clickability
                 height: size,
               }}
             >
