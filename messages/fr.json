@@ -108,7 +108,7 @@
     "max": "Max"
   },
   "LimitOrderInterface": {
-    "title": "Limite",
+    "title": "Ordre Limite",
     "youSell": "Vous vendez",
     "youBuy": "Vous achetez",
     "limitPrice": "Prix Limite",
@@ -399,6 +399,23 @@
     "description": "Achetez et vendez des cryptos au taux actuel du marché.",
     "comingSoon": "L'interface de trading au comptant sera bientôt disponible."
   },
+  "ArbitragePage": {
+    "title": "Bot de Trading",
+    "description": "Opportunités de bot de trading d'arbitrage simulées basées sur des données d'échange fictives."
+  },
+  "ArbitrageInterface": {
+    "opportunitiesTitle": "Opportunités en direct",
+    "opportunitiesDescription": "Affichage des différences de prix simulées entre les bourses.",
+    "tableHeaderToken": "Jeton",
+    "tableHeaderExA": "Bourse A",
+    "tableHeaderExB": "Bourse B",
+    "tableHeaderProfit": "Bénéfice %",
+    "tableHeaderAction": "Action",
+    "buyAt": "Acheter à",
+    "sellAt": "Vendre à",
+    "tradeButton": "Échanger",
+    "noOpportunities": "Aucune opportunité d'arbitrage significative trouvée pour le moment."
+  },
   "PageTitles": {
     "home": "Accueil | CryptoDx",
     "buy": "Acheter des Cryptos",
@@ -416,7 +433,17 @@
     "login": "Connexion",
     "register": "Créer un Compte",
     "profile": "Mon Profil",
-    "users": "Utilisateurs"
+    "users": "Utilisateurs",
+    "dashboard": "Tableau de Bord du Portefeuille",
+    "tradingBot": "Bot de Trading",
+    "nfts": "Top NFT"
+  },
+  "NftsPage": {
+    "title": "Top Collections NFT par Capitalisation Boursière",
+    "collection": "Collection",
+    "floorPrice": "Prix Plancher",
+    "marketCap": "Capitalisation Boursière",
+    "volume24h": "Volume (24h)"
   },
   "LoginPage": {
     "subtitle": "Connectez-vous à votre compte pour continuer.",
@@ -466,11 +493,19 @@
   },
   "UsersPage": {
     "title": "Gestion des Utilisateurs",
+    "description": "Visualisez, modifiez et gérez les comptes utilisateurs.",
     "avatar": "Avatar",
     "username": "Nom d'utilisateur",
-    "firstName": "Prénom",
-    "sex": "Sexe",
-    "pricePlan": "Plan Tarifaire"
+    "email": "E-mail",
+    "pricePlan": "Plan Tarifaire",
+    "actions": "Actions",
+    "edit": "Modifier",
+    "delete": "Supprimer",
+    "deleteConfirmTitle": "Êtes-vous absolument sûr ?",
+    "deleteConfirmDesc": "Cette action ne peut pas être annulée. Cela supprimera définitivement le compte de {username}.",
+    "backToUsers": "Retour aux utilisateurs",
+    "editUser": "Modifier le profil de l'utilisateur",
+    "editUserSubtitle": "Modifiez les détails de l'utilisateur sélectionné."
   },
   "LogoutToast": {
     "description": "Vous avez été déconnecté avec succès."

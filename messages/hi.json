@@ -108,7 +108,7 @@
     "max": "अधिकतम"
   },
   "LimitOrderInterface": {
-    "title": "सीमा",
+    "title": "लिमिट ऑर्डर",
     "youSell": "आप बेचते हैं",
     "youBuy": "आप खरीदते हैं",
     "limitPrice": "सीमा मूल्य",
@@ -399,6 +399,23 @@
     "description": "वर्तमान बाजार दर पर क्रिप्टो खरीदें और बेचें।",
     "comingSoon": "स्पॉट ट्रेडिंग इंटरफ़ेस जल्द ही आ रहा है।"
   },
+  "ArbitragePage": {
+    "title": "ट्रेडिंग बॉट",
+    "description": "नकली एक्सचेंज डेटा के आधार पर सिम्युलेटेड आर्बिट्रेज ट्रेडिंग बॉट के अवसर।"
+  },
+  "ArbitrageInterface": {
+    "opportunitiesTitle": "लाइव अवसर",
+    "opportunitiesDescription": "एक्सचेंजों के बीच सिम्युलेटेड मूल्य अंतर दिखाना।",
+    "tableHeaderToken": "टोकन",
+    "tableHeaderExA": "एक्सचेंज ए",
+    "tableHeaderExB": "एक्सचेंज बी",
+    "tableHeaderProfit": "लाभ %",
+    "tableHeaderAction": "कार्रवाई",
+    "buyAt": "पर खरीदें",
+    "sellAt": "पर बेचें",
+    "tradeButton": "व्यापार",
+    "noOpportunities": "इस समय कोई महत्वपूर्ण आर्बिट्रेज अवसर नहीं मिला।"
+  },
   "PageTitles": {
     "home": "होम | CryptoDx",
     "buy": "क्रिप्टो खरीदें",
@@ -416,7 +433,17 @@
     "login": "लॉग इन",
     "register": "खाता बनाएं",
     "profile": "मेरी प्रोफ़ाइल",
-    "users": "उपयोगकर्ता"
+    "users": "उपयोगकर्ता",
+    "dashboard": "वॉलेट डैशबोर्ड",
+    "tradingBot": "ट्रेडिंग बॉट",
+    "nfts": "शीर्ष NFTs"
+  },
+  "NftsPage": {
+    "title": "बाजार पूंजीकरण के अनुसार शीर्ष NFT संग्रह",
+    "collection": "संग्रह",
+    "floorPrice": "न्यूनतम मूल्य",
+    "marketCap": "बाजार पूंजीकरण",
+    "volume24h": "मात्रा (24 घंटे)"
   },
   "LoginPage": {
     "subtitle": "जारी रखने के लिए अपने खाते में लॉग इन करें।",
@@ -466,11 +493,19 @@
   },
   "UsersPage": {
     "title": "उपयोगकर्ता प्रबंधन",
+    "description": "उपयोगकर्ता खातों को देखें, संपादित करें और प्रबंधित करें।",
     "avatar": "अवतार",
     "username": "उपयोगकर्ता नाम",
-    "firstName": "पहला नाम",
-    "sex": "लिंग",
-    "pricePlan": "मूल्य निर्धारण योजना"
+    "email": "ईमेल",
+    "pricePlan": "मूल्य निर्धारण योजना",
+    "actions": "क्रियाएँ",
+    "edit": "संपादित करें",
+    "delete": "हटाएँ",
+    "deleteConfirmTitle": "क्या आप बिल्कुल निश्चित हैं?",
+    "deleteConfirmDesc": "यह क्रिया पूर्ववत नहीं की जा सकती। यह {username} के लिए खाते को स्थायी रूप से हटा देगा।",
+    "backToUsers": "उपयोगकर्ताओं पर वापस",
+    "editUser": "उपयोगकर्ता प्रोफ़ाइल संपादित करें",
+    "editUserSubtitle": "चयनित उपयोगकर्ता का विवरण संशोधित करें।"
   },
   "LogoutToast": {
     "description": "आप सफलतापूर्वक लॉग आउट हो गए हैं।"

@@ -108,7 +108,7 @@
     "max": "Max"
   },
   "LimitOrderInterface": {
-    "title": "Limit",
+    "title": "Limit Order",
     "youSell": "You sell",
     "youBuy": "You buy",
     "limitPrice": "Limit Price",
@@ -253,7 +253,7 @@
   "CookiePolicyModal": {
     "title": "Cookie Policy",
     "lastUpdated": "Last updated: {date}",
-    "p1": "This Cookie Policy explains how CryptoDx (\"we\", \"us\", and \"our\") uses cookies and similar technologies to recognize you when you visit our website. It explains what these technologies are and why we use them, as well as your rights to control our use of them.",
+    "p1": "This Cookie Policy explains how CryptoDx ('we', 'us', and 'our') uses cookies and similar technologies to recognize you when you visit our website. It explains what these technologies are and why we use them, as well as your rights to control our use of them.",
     "h_whatAre": "What are cookies?",
     "p_whatAre1": "A cookie is a small data file that is placed on your device when you visit a website. Cookies are widely used by website owners in order to make their websites work, or to work more efficiently, as well as to provide reporting information.",
     "p_whatAre2": "Cookies set by the website owner (in this case, CryptoDx) are called \"first-party cookies\". Cookies set by parties other than the website owner are called \"third-party cookies\". Third-party cookies enable third-party features or functionality to be provided on or through the website (e.g., advertising, interactive content, and analytics). The parties that set these third-party cookies can recognize your computer both when it visits the website in question and also when it visits certain other websites.",
@@ -301,7 +301,7 @@
   "TermsOfUseModal": {
     "title": "Terms of Use",
     "lastUpdated": "Last updated: {date}",
-    "p1": "Welcome to CryptoDx. These Terms of Use (\"Terms\") govern your access to and use of our website, services, and applications (collectively, the \"Service\"). Please read these Terms carefully before using the Service.",
+    "p1": "Welcome to CryptoDx. These Terms of Use ('Terms') govern your access to and use of our website, services, and applications (collectively, the 'Service'). Please read these Terms carefully before using the Service.",
     "h_agreement": "1. Agreement to Terms",
     "p_agreement": "By using our Service, you agree to be bound by these Terms. If you do not agree to these Terms, you may not use the Service. We may modify the Terms at any time, in our sole discretion. If we do so, we’ll let you know either by posting the modified Terms on the site or through other communications.",
     "h_eligibility": "2. Eligibility",
@@ -399,6 +399,23 @@
     "description": "Buy and sell crypto at the current market rate.",
     "comingSoon": "The spot trading interface is coming soon."
   },
+  "ArbitragePage": {
+    "title": "Trading Bot",
+    "description": "Simulated arbitrage trading bot opportunities based on mock exchange data."
+  },
+  "ArbitrageInterface": {
+    "opportunitiesTitle": "Live Opportunities",
+    "opportunitiesDescription": "Showing simulated price differences across exchanges.",
+    "tableHeaderToken": "Token",
+    "tableHeaderExA": "Exchange A",
+    "tableHeaderExB": "Exchange B",
+    "tableHeaderProfit": "Profit %",
+    "tableHeaderAction": "Action",
+    "buyAt": "Buy at",
+    "sellAt": "Sell at",
+    "tradeButton": "Trade",
+    "noOpportunities": "No significant arbitrage opportunities found at the moment."
+  },
   "PageTitles": {
     "home": "Home | CryptoDx",
     "buy": "Buy Crypto",
@@ -416,7 +433,17 @@
     "login": "Login",
     "register": "Register",
     "profile": "My Profile",
-    "users": "Users"
+    "users": "Users",
+    "dashboard": "Wallet Dashboard",
+    "tradingBot": "Trading Bot",
+    "nfts": "Top NFTs"
+  },
+  "NftsPage": {
+    "title": "Top NFT Collections by Market Cap",
+    "collection": "Collection",
+    "floorPrice": "Floor Price",
+    "marketCap": "Market Cap",
+    "volume24h": "Volume (24h)"
   },
   "LoginPage": {
     "subtitle": "Login to your account to continue.",
@@ -466,11 +493,19 @@
   },
   "UsersPage": {
     "title": "User Management",
+    "description": "View, edit, and manage user accounts.",
     "avatar": "Avatar",
     "username": "Username",
-    "firstName": "First Name",
-    "sex": "Sex",
-    "pricePlan": "Price Plan"
+    "email": "Email",
+    "pricePlan": "Price Plan",
+    "actions": "Actions",
+    "edit": "Edit",
+    "delete": "Delete",
+    "deleteConfirmTitle": "Are you absolutely sure?",
+    "deleteConfirmDesc": "This action cannot be undone. This will permanently delete the account for {username}.",
+    "backToUsers": "Back to Users",
+    "editUser": "Edit User Profile",
+    "editUserSubtitle": "Modify the details of the selected user."
   },
   "LogoutToast": {
     "description": "You have been successfully logged out."

@@ -108,7 +108,7 @@
     "max": "최대"
   },
   "LimitOrderInterface": {
-    "title": "지정가",
+    "title": "지정가 주문",
     "youSell": "판매 금액",
     "youBuy": "구매 금액",
     "limitPrice": "지정가",
@@ -399,6 +399,23 @@
     "description": "현재 시장가로 암호화폐를 사고 팝니다.",
     "comingSoon": "현물 거래 인터페이스가 곧 제공될 예정입니다."
   },
+  "ArbitragePage": {
+    "title": "거래 봇",
+    "description": "모의 거래소 데이터를 기반으로 한 시뮬레이션된 차익 거래 봇 기회."
+  },
+  "ArbitrageInterface": {
+    "opportunitiesTitle": "실시간 기회",
+    "opportunitiesDescription": "거래소 간의 시뮬레이션된 가격 차이 표시.",
+    "tableHeaderToken": "토큰",
+    "tableHeaderExA": "거래소 A",
+    "tableHeaderExB": "거래소 B",
+    "tableHeaderProfit": "수익률 %",
+    "tableHeaderAction": "작업",
+    "buyAt": "에서 구매",
+    "sellAt": "에서 판매",
+    "tradeButton": "거래",
+    "noOpportunities": "현재 중요한 차익 거래 기회를 찾을 수 없습니다."
+  },
   "PageTitles": {
     "home": "홈 | CryptoDx",
     "buy": "암호화폐 구매",
@@ -416,7 +433,17 @@
     "login": "로그인",
     "register": "계정 생성",
     "profile": "내 프로필",
-    "users": "사용자"
+    "users": "사용자",
+    "dashboard": "지갑 대시보드",
+    "tradingBot": "거래 봇",
+    "nfts": "최고의 NFT"
+  },
+  "NftsPage": {
+    "title": "시가총액 기준 상위 NFT 컬렉션",
+    "collection": "컬렉션",
+    "floorPrice": "최저가",
+    "marketCap": "시가총액",
+    "volume24h": "거래량 (24시간)"
   },
   "LoginPage": {
     "subtitle": "계속하려면 계정에 로그인하세요.",
@@ -466,11 +493,19 @@
   },
   "UsersPage": {
     "title": "사용자 관리",
+    "description": "사용자 계정을 보고, 편집하고, 관리합니다.",
     "avatar": "아바타",
     "username": "사용자 이름",
-    "firstName": "이름",
-    "sex": "성별",
-    "pricePlan": "요금제"
+    "email": "이메일",
+    "pricePlan": "요금제",
+    "actions": "작업",
+    "edit": "편집",
+    "delete": "삭제",
+    "deleteConfirmTitle": "정말 확실하십니까?",
+    "deleteConfirmDesc": "이 작업은 취소할 수 없습니다. {username}의 계정을 영구적으로 삭제합니다.",
+    "backToUsers": "사용자로 돌아가기",
+    "editUser": "사용자 프로필 편집",
+    "editUserSubtitle": "선택한 사용자의 세부 정보를 수정합니다."
   },
   "LogoutToast": {
     "description": "성공적으로 로그아웃되었습니다."

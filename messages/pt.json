@@ -108,7 +108,7 @@
     "max": "Máx"
   },
   "LimitOrderInterface": {
-    "title": "Limite",
+    "title": "Ordem Limite",
     "youSell": "Você vende",
     "youBuy": "Você compra",
     "limitPrice": "Preço Limite",
@@ -291,7 +291,7 @@
     "h_collecting": "Coleta e Uso de Seus Dados Pessoais",
     "h_types": "Tipos de Dados Coletados",
     "h_personalData": "Dados Pessoais",
-    "p_personalData": "Ao usar Nosso Serviço, podemos pedir que Você nos forneça certas informações de identificação pessoal que podem ser usadas para contatá-lo ou identificá-lo. As informações de identificação pessoal podem incluir, mas não estão limitadas a: Dados de Uso.",
+    "p_personalData": "Ao usar Nosso Serviço, podemos pedir que Você nos forneça certas informações de identificação pessoal que могут ser usadas para contatá-lo ou identificá-lo. As informações de identificação pessoal podem incluir, mas não estão limitadas a: Dados de Uso.",
     "h_usageData": "Dados de Uso",
     "p_usageData": "Os Dados de Uso são coletados automaticamente ao usar o Serviço. Os Dados de Uso podem incluir informações como o endereço de Protocolo de Internet do Seu Dispositivo (por exemplo, endereço IP), tipo de navegador, versão do navegador, as páginas de nosso Serviço que Você visita, a hora e a data de Sua visita, o tempo gasto nessas páginas, identificadores únicos de dispositivo e outros dados de diagnóstico. Quando Você acessa o Serviço por ou através de um dispositivo móvel, podemos coletar certas informações automaticamente, incluindo, mas não limitadas a, o tipo de dispositivo móvel que Você usa, o ID único do seu dispositivo móvel, o endereço IP do seu dispositivo móvel, seu sistema operacional móvel, o tipo de navegador de Internet móvel que Você usa, identificadores únicos de dispositivo e outros dados de diagnóstico.",
     "h_contact": "Contate-Nos",
@@ -399,6 +399,23 @@
     "description": "Compre e venda cripto à taxa de mercado atual.",
     "comingSoon": "A interface de negociação à vista estará disponível em breve."
   },
+  "ArbitragePage": {
+    "title": "Bot de Negociação",
+    "description": "Oportunidades de bot de negociação de arbitragem simuladas com base em dados de exchange fictícios."
+  },
+  "ArbitrageInterface": {
+    "opportunitiesTitle": "Oportunidades ao Vivo",
+    "opportunitiesDescription": "Mostrando diferenças de preço simuladas entre exchanges.",
+    "tableHeaderToken": "Token",
+    "tableHeaderExA": "Exchange A",
+    "tableHeaderExB": "Exchange B",
+    "tableHeaderProfit": "Lucro %",
+    "tableHeaderAction": "Ação",
+    "buyAt": "Comprar em",
+    "sellAt": "Vender em",
+    "tradeButton": "Negociar",
+    "noOpportunities": "Nenhuma oportunidade de arbitragem significativa encontrada no momento."
+  },
   "PageTitles": {
     "home": "Início | CryptoDx",
     "buy": "Comprar Cripto",
@@ -416,7 +433,17 @@
     "login": "Entrar",
     "register": "Criar Conta",
     "profile": "Meu Perfil",
-    "users": "Usuários"
+    "users": "Usuários",
+    "dashboard": "Painel da Carteira",
+    "tradingBot": "Bot de Negociação",
+    "nfts": "Top NFTs"
+  },
+  "NftsPage": {
+    "title": "Principais Coleções de NFTs por Capitalização de Mercado",
+    "collection": "Coleção",
+    "floorPrice": "Preço Mínimo",
+    "marketCap": "Capitalização de Mercado",
+    "volume24h": "Volume (24h)"
   },
   "LoginPage": {
     "subtitle": "Faça login na sua conta para continuar.",
@@ -466,11 +493,19 @@
   },
   "UsersPage": {
     "title": "Gerenciamento de Usuários",
+    "description": "Visualize, edite e gerencie contas de usuário.",
     "avatar": "Avatar",
     "username": "Nome de Usuário",
-    "firstName": "Primeiro Nome",
-    "sex": "Sexo",
-    "pricePlan": "Plano de Preços"
+    "email": "E-mail",
+    "pricePlan": "Plano de Preços",
+    "actions": "Ações",
+    "edit": "Editar",
+    "delete": "Excluir",
+    "deleteConfirmTitle": "Você tem certeza absoluta?",
+    "deleteConfirmDesc": "Esta ação não pode ser desfeita. Isso excluirá permanentemente a conta de {username}.",
+    "backToUsers": "Voltar para Usuários",
+    "editUser": "Editar Perfil do Usuário",
+    "editUserSubtitle": "Modifique os detalhes do usuário selecionado."
   },
   "LogoutToast": {
     "description": "Você saiu com sucesso."

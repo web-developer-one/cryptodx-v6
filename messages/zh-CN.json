@@ -108,7 +108,7 @@
     "max": "最大"
   },
   "LimitOrderInterface": {
-    "title": "限价",
+    "title": "限价单",
     "youSell": "您出售",
     "youBuy": "您购买",
     "limitPrice": "限价价格",
@@ -399,6 +399,23 @@
     "description": "以当前市场价格买卖加密货币。",
     "comingSoon": "现货交易界面即将推出。"
   },
+  "ArbitragePage": {
+    "title": "交易机器人",
+    "description": "基于模拟交易所数据的模拟套利交易机器人机会。"
+  },
+  "ArbitrageInterface": {
+    "opportunitiesTitle": "实时机会",
+    "opportunitiesDescription": "显示交易所之间的模拟价差。",
+    "tableHeaderToken": "代币",
+    "tableHeaderExA": "交易所A",
+    "tableHeaderExB": "交易所B",
+    "tableHeaderProfit": "利润率%",
+    "tableHeaderAction": "操作",
+    "buyAt": "买入价",
+    "sellAt": "卖出价",
+    "tradeButton": "交易",
+    "noOpportunities": "目前未发现重大套利机会。"
+  },
   "PageTitles": {
     "home": "首页 | CryptoDx",
     "buy": "购买加密货币",
@@ -416,7 +433,17 @@
     "login": "登录",
     "register": "创建账户",
     "profile": "我的个人资料",
-    "users": "用户"
+    "users": "用户",
+    "dashboard": "钱包仪表板",
+    "tradingBot": "交易机器人",
+    "nfts": "顶级NFT"
+  },
+  "NftsPage": {
+    "title": "按市值排名的顶级NFT收藏品",
+    "collection": "收藏品",
+    "floorPrice": "底价",
+    "marketCap": "市值",
+    "volume24h": "交易量（24小时）"
   },
   "LoginPage": {
     "subtitle": "登录您的账户以继续。",
@@ -466,11 +493,19 @@
   },
   "UsersPage": {
     "title": "用户管理",
+    "description": "查看、编辑和管理用户帐户。",
     "avatar": "头像",
     "username": "用户名",
-    "firstName": "名字",
-    "sex": "性别",
-    "pricePlan": "价格方案"
+    "email": "电子邮件",
+    "pricePlan": "价格方案",
+    "actions": "操作",
+    "edit": "编辑",
+    "delete": "删除",
+    "deleteConfirmTitle": "您确定吗？",
+    "deleteConfirmDesc": "此操作无法撤销。这将永久删除{username}的帐户。",
+    "backToUsers": "返回用户列表",
+    "editUser": "编辑用户资料",
+    "editUserSubtitle": "修改所选用户的详细信息。"
   },
   "LogoutToast": {
     "description": "您已成功登出。"
