@@ -126,18 +126,25 @@ export function DashboardPageClient() {
 
   const isLoading = isWalletLoading || isBalancesLoading;
 
-  const { totalValue, formattedBalances } = useMemo(() => {
-    if (!balances) return { totalValue: 0, formattedBalances: [] };
+  const { totalValue, formattedBalances, totalChange, totalChangePercentage } = useMemo(() => {
+    if (!balances) return { totalValue: 0, formattedBalances: [], totalChange: 0, totalChangePercentage: 0 };
     
     let total = 0;
+    let previousTotal = 0;
+
     const formatted = Object.values(balances).map(token => {
         total += token.usdValue || 0;
+        const changeValue = (token.usdValue || 0) * (token.change24h || 0) / 100;
+        previousTotal += (token.usdValue || 0) - changeValue;
         return token;
     });
 
     formatted.sort((a, b) => (b.usdValue || 0) - (a.usdValue || 0));
     
-    return { totalValue: total, formattedBalances: formatted };
+    const totalChangeValue = total - previousTotal;
+    const totalChangePerc = previousTotal > 0 ? (totalChangeValue / previousTotal) * 100 : 0;
+
+    return { totalValue: total, formattedBalances: formatted, totalChange: totalChangeValue, totalChangePercentage: totalChangePerc };
   }, [balances]);
 
   const filteredBalances = useMemo(() => {
@@ -206,6 +213,10 @@ export function DashboardPageClient() {
                     {isLoading ? <Skeleton className="h-10 w-48" /> : (
                         <>
                             <p className="text-4xl font-bold">${totalValue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
+                            <div className={cn("flex items-center text-sm font-medium", totalChange >= 0 ? 'text-success' : 'text-destructive' )}>
+                                {totalChange >= 0 ? <ArrowUp className="h-4 w-4"/> : <ArrowDown className="h-4 w-4" />}
+                                <span>${Math.abs(totalChange).toFixed(2)} ({totalChangePercentage.toFixed(2)}%) 24h</span>
+                            </div>
                         </>
                     )}
                 </div>
