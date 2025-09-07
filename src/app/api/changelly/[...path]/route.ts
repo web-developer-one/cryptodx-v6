@@ -1,6 +1,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
-import crypto from 'crypto-js';
+// Use require for crypto-js to prevent module resolution issues in some environments.
+const crypto = require('crypto-js');
 
 // This is the Fiat-to-Crypto API, not the C2C one.
 const CHANGELLY_API_KEY = process.env.CHANGELLY_FIAT_API_KEY;
@@ -65,8 +66,3 @@ async function handler(req: NextRequest) {
 }
 
 export { handler as POST };
-
-
-
-
-    

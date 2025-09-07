@@ -1,6 +1,6 @@
 
 import { NextRequest, NextResponse } from 'next/server';
-import crypto from 'crypto-js';
+const crypto = require('crypto-js');
 
 const CHANGELLY_C2C_API_KEY = process.env.CHANGELLY_C2C_API_KEY;
 const CHANGELLY_C2C_PRIVATE_KEY = process.env.CHANGELLY_C2C_PRIVATE_KEY;
