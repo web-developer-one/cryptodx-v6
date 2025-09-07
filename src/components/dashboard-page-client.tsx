@@ -116,8 +116,6 @@ const ReceiveTokenDialog = ({ address }: { address: string }) => {
 export function DashboardPageClient() {
   const { t } = useLanguage();
   const { account, balances, isBalancesLoading, selectedNetwork, setSelectedNetwork, isLoading: isWalletLoading, error: walletError } = useWallet();
-  const [allTokens, setAllTokens] = useState<Cryptocurrency[]>([]);
-  const [isTokensLoading, setIsTokensLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [isCopied, setIsCopied] = useState(false);
   const { toast } = useToast();
@@ -126,39 +124,32 @@ export function DashboardPageClient() {
     document.title = t('PageTitles.dashboard');
   }, [t]);
 
-  // Combined loading state
-  const isLoading = isWalletLoading || isBalancesLoading || isTokensLoading;
+  const isLoading = isWalletLoading || isBalancesLoading;
 
-  const { totalValue, totalChange, totalChangePercentage } = useMemo(() => {
-    if (!balances) return { totalValue: 0, totalChange: 0, totalChangePercentage: 0 };
+  const { totalValue, formattedBalances } = useMemo(() => {
+    if (!balances) return { totalValue: 0, formattedBalances: [] };
     
-    let totalValue = 0;
-    let yesterdayValue = 0;
-
-    Object.values(balances).forEach(token => {
-        // Since usdValue is pre-calculated, we can just use it.
-        const currentValue = token.usdValue || 0;
-        totalValue += currentValue;
+    let total = 0;
+    const formatted = Object.values(balances).map(token => {
+        total += token.usdValue || 0;
+        return token;
     });
 
-    // This part is a bit tricky without historical price data, so we'll estimate
-    // based on 24h change, but it's not perfect. A dedicated historical API is better.
-    // For now, we'll keep the logic simple to avoid complexity.
-    // This part of the logic will be revisited if historical data becomes available.
+    formatted.sort((a, b) => (b.usdValue || 0) - (a.usdValue || 0));
     
-    return { totalValue, totalChange: 0, totalChangePercentage: 0 };
+    return { totalValue: total, formattedBalances: formatted };
   }, [balances]);
 
   const filteredBalances = useMemo(() => {
-    if (!balances) return [];
+    if (!formattedBalances) return [];
     
     const lowercasedQuery = searchQuery.toLowerCase();
-    return Object.values(balances).filter(
+    return formattedBalances.filter(
       (token) =>
         token.name.toLowerCase().includes(lowercasedQuery) ||
         token.symbol.toLowerCase().includes(lowercasedQuery)
     );
-  }, [balances, searchQuery]);
+  }, [formattedBalances, searchQuery]);
 
   const handleCopy = () => {
     if (account) {

@@ -1,26 +1,11 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import Moralis from 'moralis';
-import { ethers } from 'ethers';
-import { networkConfigs } from '@/lib/network-configs';
-import { getLatestListings } from '@/lib/coinmarketcap';
-import type { Cryptocurrency } from '@/lib/types';
 
 const MORALIS_API_KEY = process.env.MORALIS_API_KEY;
 
-type CombinedBalance = {
-    token_address: string;
-    symbol: string;
-    name: string;
-    logo?: string | null;
-    thumbnail?: string | null;
-    decimals: number;
-    balance: string;
-    possible_spam: boolean;
-    usdValue: number;
-};
-
-// This function is now more robust, fetching balances and prices in sequence.
+// This function is now simplified to only fetch raw balances from Moralis.
+// Price enrichment will be handled on the client-side for better reliability.
 export async function GET(request: NextRequest) {
     if (!MORALIS_API_KEY) {
         console.error("MORALIS_API_KEY is not set.");
@@ -44,84 +29,20 @@ export async function GET(request: NextRequest) {
         return NextResponse.json({ error: 'Address and chain are required parameters.' }, { status: 400 });
     }
 
-    const selectedNetwork = networkConfigs[chainId];
-    if (!selectedNetwork) {
-         return NextResponse.json({ error: 'Unsupported chain specified.' }, { status: 400 });
-    }
-
     try {
-        // Step 1: Fetch balances from Moralis first.
         const [nativeBalanceResponse, tokenBalancesResponse] = await Promise.all([
             Moralis.EvmApi.balance.getNativeBalance({ address, chain: chainId }),
             Moralis.EvmApi.token.getWalletTokenBalances({ address, chain: chainId })
         ]);
-        
-        const nativeBalanceData = nativeBalanceResponse?.raw;
-        const tokenBalancesData = tokenBalancesResponse?.raw || [];
-        
-        // Step 2: Fetch prices from CoinMarketCap *after* getting balances.
-        // This prevents race conditions and makes the process more reliable.
-        const { data: cryptoData, error: cryptoError } = await getLatestListings();
-        
-        if (cryptoError) {
-             console.warn("Could not fetch crypto prices for balance calculation. Values may be incomplete.", cryptoError);
-             // We can still proceed without prices, values will just be 0.
-        }
-        
-        const allBalances: CombinedBalance[] = [];
 
-        // Process native balance (ETH, AVAX, etc.)
-        if (nativeBalanceData && nativeBalanceData.balance) {
-             const nativeBalanceFormatted = ethers.formatUnits(nativeBalanceData.balance, selectedNetwork.nativeCurrency.decimals);
-             const nativeTokenInfo = cryptoData?.find(t => t.symbol === selectedNetwork.nativeCurrency.symbol);
-             const nativeUsdValue = nativeTokenInfo ? parseFloat(nativeBalanceFormatted) * nativeTokenInfo.price : 0;
-             
-             allBalances.push({
-                token_address: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
-                symbol: selectedNetwork.nativeCurrency.symbol,
-                name: selectedNetwork.nativeCurrency.name,
-                logo: selectedNetwork.logo || null,
-                thumbnail: selectedNetwork.logo || null,
-                decimals: selectedNetwork.nativeCurrency.decimals,
-                balance: nativeBalanceFormatted,
-                possible_spam: false,
-                usdValue: nativeUsdValue,
-            });
-        }
-        
-        // Process ERC-20 token balances safely.
-        if (tokenBalancesData.length > 0) {
-            tokenBalancesData.forEach(token => {
-                if (token.possible_spam) return;
-
-                const formattedBalance = ethers.formatUnits(token.balance, token.decimals);
-                const tokenInfo = cryptoData?.find(t => t.symbol === token.symbol);
-                // Gracefully handle cases where a price might not be found.
-                const price = tokenInfo ? tokenInfo.price : 0;
-                const usdValue = price ? parseFloat(formattedBalance) * price : 0;
-
-                allBalances.push({
-                    token_address: token.token_address,
-                    symbol: token.symbol,
-                    name: token.name,
-                    logo: token.logo,
-                    thumbnail: token.thumbnail,
-                    decimals: token.decimals,
-                    balance: formattedBalance,
-                    possible_spam: token.possible_spam,
-                    usdValue: usdValue,
-                });
-            });
-        }
-       
-        // Sort by USD value descending
-        allBalances.sort((a, b) => b.usdValue - a.usdValue);
-
-        return NextResponse.json(allBalances);
+        return NextResponse.json({
+            nativeBalance: nativeBalanceResponse?.raw,
+            tokenBalances: tokenBalancesResponse?.raw || []
+        });
 
     } catch (error: any) {
-        console.error("Failed to fetch from Moralis or process balances:", error.message);
-        const errorMessage = error.response?.data?.message || error.message || 'An unexpected error occurred while fetching balances.';
+        console.error("Failed to fetch from Moralis:", error.message);
+        const errorMessage = error.response?.data?.message || error.message || 'An unexpected error occurred while fetching balances from Moralis.';
         return NextResponse.json({ error: errorMessage }, { status: 500 });
     }
 }

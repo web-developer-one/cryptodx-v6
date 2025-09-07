@@ -8,6 +8,7 @@ import { useLanguage } from './use-language';
 import { uniswapV2RouterABI } from '@/lib/uniswap-v2-router-abi';
 import type { Cryptocurrency } from '@/lib/types';
 import { networkConfigs, type NetworkConfig } from '@/lib/network-configs';
+import { getLatestListings } from '@/lib/coinmarketcap';
 
 export { networkConfigs, type NetworkConfig };
 
@@ -67,32 +68,63 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
     setBalances(null);
     setError(null);
     try {
-      const response = await fetch(`/api/moralis/balances?address=${address}&chain=${network.chainId}`);
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || `Failed to fetch balances with status ${response.status}`);
+      const [balanceResponse, { data: cryptoData, error: cryptoError }] = await Promise.all([
+        fetch(`/api/moralis/balances?address=${address}&chain=${network.chainId}`),
+        getLatestListings() // Fetch prices concurrently
+      ]);
+
+      if (!balanceResponse.ok) {
+        const errorData = await balanceResponse.json();
+        throw new Error(errorData.error || `Failed to fetch balances with status ${balanceResponse.status}`);
       }
       
-      const data = await response.json();
+      const { nativeBalance, tokenBalances } = await balanceResponse.json();
       
-      if (!Array.isArray(data)) {
-        throw new Error('Invalid balance data format');
+      if (cryptoError) {
+         console.warn("Could not fetch crypto prices for balance calculation. Values may be incomplete.", cryptoError);
+      }
+      
+      const processedBalances: Balances = {};
+
+      // Process native balance
+      if (nativeBalance && nativeBalance.balance) {
+        const nativeBalanceFormatted = ethers.formatUnits(nativeBalance.balance, network.nativeCurrency.decimals);
+        const nativeTokenInfo = cryptoData?.find(t => t.symbol === network.nativeCurrency.symbol);
+        processedBalances[network.nativeCurrency.symbol] = {
+            name: network.nativeCurrency.name,
+            symbol: network.nativeCurrency.symbol,
+            logo: network.logo || undefined,
+            balance: nativeBalanceFormatted,
+            usdValue: nativeTokenInfo ? parseFloat(nativeBalanceFormatted) * nativeTokenInfo.price : 0,
+            address: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
+            decimals: network.nativeCurrency.decimals,
+        };
       }
 
-      const processedBalances: Balances = data.reduce((acc, token) => {
-        acc[token.symbol] = {
-          name: token.name,
-          symbol: token.symbol,
-          logo: token.logo,
-          balance: token.balance,
-          usdValue: token.usdValue,
-          address: token.token_address,
-          decimals: token.decimals,
-        };
-        return acc;
-      }, {} as Balances);
+      // Process token balances
+       if (tokenBalances && Array.isArray(tokenBalances)) {
+            tokenBalances.forEach((token: any) => {
+                if (token.possible_spam) return;
+
+                const formattedBalance = ethers.formatUnits(token.balance, token.decimals);
+                const tokenInfo = cryptoData?.find(t => t.symbol === token.symbol);
+                const price = tokenInfo ? tokenInfo.price : 0;
+                const usdValue = price ? parseFloat(formattedBalance) * price : 0;
+                
+                processedBalances[token.symbol] = {
+                    name: token.name,
+                    symbol: token.symbol,
+                    logo: token.logo,
+                    balance: formattedBalance,
+                    usdValue: usdValue,
+                    address: token.token_address,
+                    decimals: token.decimals,
+                };
+            });
+        }
 
       setBalances(processedBalances);
+
     } catch (error: any) {
       console.error("Failed to fetch balances:", error);
       setError("Could not fetch wallet balances.");
