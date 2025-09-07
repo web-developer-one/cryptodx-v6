@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -58,7 +57,6 @@ export function FloatingTokensBackground() {
           const left = `${Math.min(90, random() * 100)}%`;
           const animationDuration = `${random() * (20 - 10) + 10}s`;
           const animationDelay = `${random() * 5}s`;
-          const isAave = token.symbol === 'AAVE';
 
           return (
             <Link
@@ -77,34 +75,22 @@ export function FloatingTokensBackground() {
               <div className="relative flex items-center h-full">
                 {/* Token Image and Ring */}
                 <div
-                  className={cn(
-                    "relative transition-transform duration-300 group-hover:scale-110",
-                    isAave && "scale-110"
-                  )}
+                  className="relative transition-transform duration-300 group-hover:scale-110"
                   style={{ width: size, height: size }}
                 >
-                  <div className={cn(
-                    "absolute inset-0 rounded-full bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300",
-                    isAave && "opacity-100"
-                    )} />
+                  <div className="absolute inset-0 rounded-full bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   <div className="absolute inset-1 rounded-full bg-background" />
                   <Image
                     src={token.logo || `https://s2.coinmarketcap.com/static/img/coins/64x64/${token.id}.png`}
                     alt={token.name}
                     width={size}
                     height={size}
-                    className={cn(
-                        "relative z-10 rounded-full opacity-20 group-hover:opacity-100 transition-opacity duration-300",
-                        isAave && "opacity-100"
-                    )}
+                    className="relative z-10 rounded-full opacity-20 group-hover:opacity-100 transition-opacity duration-300"
                   />
                 </div>
                  {/* Token Details */}
                 <div 
-                  className={cn(
-                    "token-details absolute pl-3 flex flex-col justify-center opacity-0 group-hover:opacity-100 group-hover:transform-none transform -translate-x-2 transition-all duration-300",
-                    isAave && "opacity-100 transform-none"
-                    )}
+                  className="token-details absolute pl-3 flex flex-col justify-center opacity-0 group-hover:opacity-100 group-hover:transform-none transform -translate-x-2 transition-all duration-300"
                    style={{ left: `${size}px` }}
                 >
                     <div className="font-bold text-sm text-foreground whitespace-nowrap">{token.symbol}</div>
