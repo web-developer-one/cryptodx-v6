@@ -253,7 +253,7 @@
   "CookiePolicyModal": {
     "title": "Política de Cookies",
     "lastUpdated": "Última actualización: {date}",
-    "p1": "Esta Política de Cookies explica cómo CryptoDx (\\'nosotros\\', \\'nos\\' y \\'nuestro\\') usa cookies y tecnologías similares para reconocerte cuando visitas nuestro sitio web. Explica qué son estas tecnologías y por qué las usamos, así como tus derechos para controlar nuestro uso de ellas.",
+    "p1": "Esta Política de Cookies explica cómo CryptoDx ('nosotros', 'nos' y 'nuestro') usa cookies y tecnologías similares para reconocerte cuando visitas nuestro sitio web. Explica qué son estas tecnologías y por qué las usamos, así como tus derechos para controlar nuestro uso de ellas.",
     "h_whatAre": "¿Qué son las cookies?",
     "p_whatAre1": "Una cookie es un pequeño archivo de datos que se coloca en tu dispositivo cuando visitas un sitio web. Las cookies son ampliamente utilizadas por los propietarios de sitios web para hacer que sus sitios funcionen, o para que funcionen más eficientemente, así como para proporcionar información de informes.",
     "p_whatAre2": "Las cookies establecidas por el propietario del sitio web (en este caso, CryptoDx) se llaman \"cookies de origen\". Las cookies establecidas by partes distintas al propietario del sitio web se llaman \"cookies de terceros\". Las cookies de terceros habilitan características o funcionalidades de terceros que se proporcionan en o a través del sitio web (por ejemplo, publicidad, contenido interactivo y análisis). Las partes que establecen estas cookies de terceros pueden reconocer tu computadora tanto cuando visita el sitio web en cuestión como cuando visita otros sitios web.",
@@ -358,7 +358,7 @@
     "addNetworkFailedTitle": "Error al Añadir Red",
     "addNetworkFailedDesc": "No se pudo añadir la red seleccionada a su billetera.",
     "networkNotSupportedTitle": "Red No Soportada",
-    "networkNotSupportedDesc": "Esta red no se puede añadir automáticamente. Por favor, añádala a su billetera manually.",
+    "networkNotSupportedDesc": "Esta red no se puede añadir automáticamente. Por favor, añádala a su billetera manualmente.",
     "switchNetworkFailedTitle": "Error al Cambiar de Red",
     "switchNetworkFailedDesc": "No se pudo cambiar a la red seleccionada. Por favor, inténtelo de nuevo."
   },
