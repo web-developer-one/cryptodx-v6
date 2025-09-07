@@ -426,6 +426,7 @@
     "register": "إنشاء حساب",
     "profile": "ملفي الشخصي",
     "users": "المستخدمون",
+    "dashboard": "لوحة تحكم المحفظة",
     "tradingBot": "بوت التداول",
     "nfts": "أفضل NFTs"
   },
@@ -513,5 +514,21 @@
     "lockedTitle": "فتح تقارير السمعة المدعومة بالذكاء الاصطناعي",
     "lockedDescription": "قم بالترقية إلى خطة أساسية أو متقدمة أو إدارية للحصول على رؤى مدعومة بالذكاء الاصطناعي وتحليل أمني لأي رمز.",
     "upgradeButton": "عرض خطط الأسعار"
+  },
+  "PayPalPurchase": {
+    "createOrderErrorTitle": "خطأ في إنشاء الطلب",
+    "createOrderErrorDesc": "تعذر إنشاء طلب PayPal.",
+    "connectionErrorTitle": "خطأ في الاتصال",
+    "connectionErrorDesc": "تعذر الاتصال بالخادم لإنشاء طلب.",
+    "purchaseSuccessTitle": "تم الشراء بنجاح!",
+    "purchaseSuccessDesc": "لقد قمت بالترقية بنجاح إلى خطة {tierName}.",
+    "profileUpdateError": "فشل في تحديث ملف تعريف المستخدم بعد الشراء.",
+    "paymentIncompleteError": "لم يكتمل الدفع بنجاح.",
+    "purchaseFailedTitle": "فشل الشراء",
+    "purchaseFailedDesc": "حدث خطأ أثناء معالجة الدفع.",
+    "sandboxSuccessTitle": "اكتمل شراء Sandbox!",
+    "sandboxSuccessDesc": "كانت معاملة الاختبار لخطة {tierName} ناجحة. هذا لا يحدّث ملفك الشخصي.",
+    "paypalErrorTitle": "خطأ PayPal",
+    "paypalErrorDesc": "حدث خطأ في معاملة PayPal."
   }
 }

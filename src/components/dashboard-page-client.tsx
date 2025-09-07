@@ -178,7 +178,7 @@ export function DashboardPageClient() {
   return (
     <div className="container py-8 space-y-8">
         <div className="flex justify-between items-center">
-            <h1 className="text-3xl font-bold">Dashboard</h1>
+            <h1 className="text-3xl font-bold">Wallet Dashboard</h1>
             <div className="relative">
                 <Input placeholder="Search for a token..." className="pr-10" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
                 <Search className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />

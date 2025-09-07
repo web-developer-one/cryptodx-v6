@@ -328,7 +328,7 @@
     "placeholder": "Tapez votre message...",
     "send": "Envoyer",
     "askAbout": "Posez des questions sur...",
-    "topics": "Blockchain, DeFi, Crypto, NFT ou IA !",
+    "topics": "Blockchain, DeFi, Crypto, NFT, etc.!",
     "errorResponse": "J'ai des difficultés à générer une réponse pour le moment. Veuillez essayer une autre question.",
     "connectionError": "Désolé, j'ai des problèmes de connexion en ce moment. Veuillez réessayer plus tard.",
     "listening": "Écoute en cours...",
@@ -434,7 +434,7 @@
     "register": "Créer un Compte",
     "profile": "Mon Profil",
     "users": "Utilisateurs",
-    "dashboard": "Tableau de Bord",
+    "dashboard": "Tableau de Bord du Portefeuille",
     "tradingBot": "Bot de Trading",
     "nfts": "Top NFT"
   },

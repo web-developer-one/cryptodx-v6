@@ -264,7 +264,7 @@
     "li_performance": "<strong>Cookies de Desempenho e Funcionalidade:</strong> Estes cookies são usados para aprimorar o desempenho e a funcionalidade de nosso Site, mas não são essenciais para seu uso. No entanto, sem esses cookies, certas funcionalidades (como lembrar sua preferência de tema) podem se tornar indisponíveis.",
     "li_analytics": "<strong>Cookies de Análise e Personalização:</strong> Estes cookies coletam informações que são usadas de forma agregada para nos ajudar a entender como nosso Site está sendo usado ou quão eficazes são nossas campanhas de marketing, ou para nos ajudar a personalizar nosso Site para você.",
     "h_choices": "Suas escolhas em relação aos cookies",
-    "p_choices": "Você tem o direito de decidir se aceita ou rejeita cookies. Você pode exercer suas préférences de cookies definindo ou alterando os controles do seu navegador para aceitar ou recusar cookies. Se você optar por rejeitar cookies, ainda poderá usar nosso site, embora seu acesso a algumas funcionalidades e áreas do nosso site possa ser restrito. Como os meios pelos quais você pode recusar cookies através dos controles do seu navegador variam de navegador para navegador, você deve visitar o menu de ajuda do seu navegador para mais informações.",
+    "p_choices": "Você tem o direito de decidir se aceita ou rejeita cookies. Você pode exercer suas preferências de cookies definindo ou alterando os controles do seu navegador para aceitar ou recusar cookies. Se você optar por rejeitar cookies, ainda poderá usar nosso site, embora seu acesso a algumas funcionalidades e áreas do nosso site possa ser restrito. Como os meios pelos quais você pode recusar cookies através dos controles do seu navegador variam de navegador para navegador, você deve visitar o menu de ajuda do seu navegador para mais informações.",
     "h_changes": "Mudanças nesta Política de Cookies",
     "p_changes": "Podemos atualizar esta Política de Cookies de tempos em tempos para refletir, por exemplo, mudanças nos cookies que usamos ou por outras razões operacionais, legais ou regulatórias. Portanto, por favor, reveja esta Política de Cookies regularmente para se manter informado sobre nosso uso de cookies e tecnologias relacionadas.",
     "dismiss": "Dispensar e Fechar"
@@ -291,7 +291,7 @@
     "h_collecting": "Coleta e Uso de Seus Dados Pessoais",
     "h_types": "Tipos de Dados Coletados",
     "h_personalData": "Dados Pessoais",
-    "p_personalData": "Ao usar Nosso Serviço, podemos pedir que Você nos forneça certas informações de identificação pessoal que podem ser usadas para contatá-lo ou identificá-lo. As informações de identificação pessoal podem incluir, mas não estão limitadas a: Dados de Uso.",
+    "p_personalData": "Ao usar Nosso Serviço, podemos pedir que Você nos forneça certas informações de identificação pessoal que могут ser usadas para contatá-lo ou identificá-lo. As informações de identificação pessoal podem incluir, mas não estão limitadas a: Dados de Uso.",
     "h_usageData": "Dados de Uso",
     "p_usageData": "Os Dados de Uso são coletados automaticamente ao usar o Serviço. Os Dados de Uso podem incluir informações como o endereço de Protocolo de Internet do Seu Dispositivo (por exemplo, endereço IP), tipo de navegador, versão do navegador, as páginas de nosso Serviço que Você visita, a hora e a data de Sua visita, o tempo gasto nessas páginas, identificadores únicos de dispositivo e outros dados de diagnóstico. Quando Você acessa o Serviço por ou através de um dispositivo móvel, podemos coletar certas informações automaticamente, incluindo, mas não limitadas a, o tipo de dispositivo móvel que Você usa, o ID único do seu dispositivo móvel, o endereço IP do seu dispositivo móvel, seu sistema operacional móvel, o tipo de navegador de Internet móvel que Você usa, identificadores únicos de dispositivo e outros dados de diagnóstico.",
     "h_contact": "Contate-Nos",
@@ -434,7 +434,7 @@
     "register": "Criar Conta",
     "profile": "Meu Perfil",
     "users": "Usuários",
-    "dashboard": "Painel",
+    "dashboard": "Painel da Carteira",
     "tradingBot": "Bot de Negociação",
     "nfts": "Top NFTs"
   },
