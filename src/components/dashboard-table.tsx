@@ -16,7 +16,7 @@ import { ArrowDown, ArrowUp, Send } from 'lucide-react';
 import { Button } from './ui/button';
 import Link from 'next/link';
 import { Dialog, DialogTrigger } from './ui/dialog';
-import { SendTokenDialog } from './dashboard-page-client';
+import { SendTokenDialog, ReceiveTokenDialog } from './dashboard-page-client';
 
 type Balance = {
     name: string;
@@ -42,6 +42,9 @@ export function DashboardTable({ balances, totalValue }: DashboardTableProps) {
     )
   }
 
+  // Filter out the fake MCAT token before rendering
+  const filteredBalances = balances.filter(token => token.symbol !== 'MCAT');
+
   return (
     <Table>
       <TableHeader>
@@ -53,7 +56,7 @@ export function DashboardTable({ balances, totalValue }: DashboardTableProps) {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {balances.map((token) => {
+        {filteredBalances.map((token) => {
           const usdValue = token.usdValue || 0;
           const portfolioPercentage = totalValue > 0 ? (usdValue / totalValue) * 100 : 0;
           
@@ -92,8 +95,17 @@ export function DashboardTable({ balances, totalValue }: DashboardTableProps) {
                         </DialogTrigger>
                         <SendTokenDialog token={token} />
                     </Dialog>
+                    <Dialog>
+                        <DialogTrigger asChild>
+                            <Button variant="outline" size="sm">Receive</Button>
+                        </DialogTrigger>
+                        <ReceiveTokenDialog address={token.address || ''} />
+                    </Dialog>
                     <Link href={`/buy?token=${token.symbol}`} passHref>
                         <Button variant="outline" size="sm">Buy</Button>
+                    </Link>
+                    <Link href={`/sell?token=${token.symbol}`} passHref>
+                        <Button variant="outline" size="sm">Sell</Button>
                     </Link>
                 </div>
               </TableCell>
@@ -104,4 +116,3 @@ export function DashboardTable({ balances, totalValue }: DashboardTableProps) {
     </Table>
   );
 }
-
