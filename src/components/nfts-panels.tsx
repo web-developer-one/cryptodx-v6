@@ -14,7 +14,7 @@ export function NftsPanels({ collections, currency }: { collections: NftCollecti
   };
 
   return (
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
         {collections.map((collection) => {
           const imageUrl = collection.collection_image && collection.collection_image !== 'missing_small.png' ? collection.collection_image : 'https://placehold.co/300x300.png';
           return (
