@@ -105,6 +105,7 @@ export default function ProfilePage() {
     <div className="container flex-1 flex flex-col items-center py-12">
         <Card className="w-full max-w-4xl">
             <CardHeader>
+                <CardTitle className="text-3xl">{t('ProfilePage.title')}</CardTitle>
                 <CardDescription>{t('ProfilePage.subtitle')}</CardDescription>
             </CardHeader>
             <CardContent>
