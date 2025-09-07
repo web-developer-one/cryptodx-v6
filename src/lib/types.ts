@@ -100,4 +100,5 @@ export interface NftCollection {
   volume_usd: string;
   market_cap_usd: string;
   floor_price: string;
+  floor_price_usd: string;
 }
