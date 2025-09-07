@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import Image from 'next/image';
@@ -58,7 +57,7 @@ export function NftsPanels({ collections, currency }: { collections: NftCollecti
           return (
             <Card key={collection.rank} onClick={() => handlePanelClick(collection)} className="cursor-pointer hover:border-primary transition-colors flex flex-col group overflow-hidden">
                 <CardHeader className="p-0 overflow-hidden">
-                     <div className="p-6 bg-secondary/30 rounded-t-md">
+                     <div className="p-8 bg-secondary/30 rounded-t-md">
                         <div className="aspect-square relative overflow-hidden rounded-md">
                              <Image
                                 src={imageUrl}
@@ -69,7 +68,7 @@ export function NftsPanels({ collections, currency }: { collections: NftCollecti
                         </div>
                     </div>
                 </CardHeader>
-                <CardContent className="p-3 pl-4 pt-2 flex-1 flex flex-col justify-between">
+                <CardContent className="p-3 pl-6 pt-2 flex-1 flex flex-col justify-between">
                     <div>
                         <span className="font-semibold truncate text-sm block leading-tight">{collection.collection_title || 'Unnamed Collection'}</span>
                     </div>
@@ -82,5 +81,3 @@ export function NftsPanels({ collections, currency }: { collections: NftCollecti
       </div>
   );
 }
-
-
