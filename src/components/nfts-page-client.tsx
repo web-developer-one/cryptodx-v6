@@ -140,7 +140,7 @@ export function NftsPageClient({ view }: { view: 'list' | 'panels' }) {
             <h1 className="text-3xl font-bold">{t('NftsPage.title')}</h1>
             <div className="flex flex-col sm:flex-row gap-2 w-full md:w-auto">
                 <NftsNav />
-                 <div className="w-full sm:w-[220px]">
+                 <div className="w-full sm:w-[180px]">
                     <Input
                         placeholder={t('TokenExplorer.search')}
                         value={searchQuery}
