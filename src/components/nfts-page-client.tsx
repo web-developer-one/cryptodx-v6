@@ -18,6 +18,10 @@ import { NftsPanels } from './nfts-panels';
 import { ApiErrorCard } from './api-error-card';
 import nftsData from '@/lib/nfts.json';
 import { getLatestListings } from '@/lib/coinmarketcap';
+import { Button } from './ui/button';
+import { CardFooter } from './ui/card';
+
+const NFTS_PER_PAGE = 25;
 
 const initialSupportedCurrencies: SelectedCurrency[] = [
     { symbol: 'USD', name: 'US Dollar', rate: 1 },
@@ -40,7 +44,7 @@ export function NftsPageClient({ view }: { view: 'list' | 'panels' }) {
   const [topCryptos, setTopCryptos] = useState<Cryptocurrency[]>([]);
   const [supportedCurrencies, setSupportedCurrencies] = useState<SelectedCurrency[]>(initialSupportedCurrencies);
   const [selectedCurrency, setSelectedCurrency] = useState<SelectedCurrency>(initialSupportedCurrencies[0]);
-
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     document.title = t('PageTitles.nfts');
@@ -78,6 +82,22 @@ export function NftsPageClient({ view }: { view: 'list' | 'panels' }) {
       setSelectedCurrency(currency);
     }
   };
+  
+  const totalPages = Math.ceil(collections.length / NFTS_PER_PAGE);
+  const currentCollections = useMemo(() => {
+    const startIndex = (currentPage - 1) * NFTS_PER_PAGE;
+    const endIndex = startIndex + NFTS_PER_PAGE;
+    return collections.slice(startIndex, endIndex);
+  }, [collections, currentPage]);
+
+  const handlePreviousPage = () => {
+    setCurrentPage((prev) => Math.max(prev - 1, 1));
+  };
+
+  const handleNextPage = () => {
+    setCurrentPage((prev) => Math.min(prev + 1, totalPages));
+  };
+
 
   if (isLoading) {
     return (
@@ -107,7 +127,7 @@ export function NftsPageClient({ view }: { view: 'list' | 'panels' }) {
       <div className="w-full">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
             <h1 className="text-3xl font-bold">{t('NftsPage.title')}</h1>
-             <div className="flex flex-col sm:flex-row gap-2 w-full md:w-auto">
+            <div className="flex flex-col sm:flex-row gap-2 w-full md:w-auto">
                 <NftsNav />
                 <Select onValueChange={handleCurrencyChange} defaultValue={selectedCurrency.symbol}>
                     <SelectTrigger className="w-full sm:w-[180px]">
@@ -136,11 +156,45 @@ export function NftsPageClient({ view }: { view: 'list' | 'panels' }) {
             </div>
         </div>
         {view === 'list' ? (
-             <NftsTable collections={collections} currency={selectedCurrency} />
+             <NftsTable collections={currentCollections} currency={selectedCurrency} />
         ) : (
-             <NftsPanels collections={collections} currency={selectedCurrency} />
+             <NftsPanels collections={currentCollections} currency={selectedCurrency} />
+        )}
+        {totalPages > 1 && (
+            <CardFooter className="flex items-center justify-between pt-6 border-t mt-6">
+                <span className="text-sm text-muted-foreground">
+                  {t('TokenExplorer.showing')
+                    .replace('{start}', (((currentPage - 1) * NFTS_PER_PAGE) + 1).toString())
+                    .replace('{end}', Math.min(currentPage * NFTS_PER_PAGE, collections.length).toString())
+                    .replace('{total}', collections.length.toString())
+                  }
+                </span>
+                <div className="flex items-center justify-center gap-4">
+                  <Button
+                    variant="outline"
+                    onClick={handlePreviousPage}
+                    disabled={currentPage === 1}
+                  >
+                    {t('TokenExplorer.previous')}
+                  </Button>
+                  <span className="text-sm font-medium">
+                    {t('TokenExplorer.page')
+                      .replace('{current}', currentPage.toString())
+                      .replace('{total}', totalPages.toString())
+                    }
+                  </span>
+                  <Button
+                    variant="outline"
+                    onClick={handleNextPage}
+                    disabled={currentPage === totalPages}
+                  >
+                    {t('TokenExplorer.next')}
+                  </Button>
+                </div>
+            </CardFooter>
         )}
       </div>
     </div>
   );
 }
+
