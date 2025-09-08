@@ -102,7 +102,6 @@ export function Footer() {
             <p className="text-sm text-primary-foreground/80 max-w-xs">
               {t('Footer.subtitle')}
             </p>
-             <a href="/CryptoDx_App_Features.pdf" download className="text-sm text-primary-foreground underline hover:text-primary-foreground/80">CryptoDx App Features</a>
              <a
                 href="https://cryptomx.co/blog/"
                 className="text-sm text-primary-foreground underline hover:text-primary-foreground/80"
