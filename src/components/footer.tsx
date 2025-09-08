@@ -58,42 +58,11 @@ export function Footer() {
       ],
     },
   ];
-
-  if (isAuthenticated) {
-    const exploreSection = footerSections.find(s => s.title === t('Footer.explore'));
-    if (exploreSection) {
-        const tradingBotLinkExists = exploreSection.links.some(link => link.name === t('PageTitles.tradingBot'));
-        if (!tradingBotLinkExists) {
-            exploreSection.links.push({ name: t('PageTitles.tradingBot'), href: "/tradingbot" });
-        }
-    }
-  }
-
-  if (isWalletConnected) {
-    const exploreSection = footerSections.find(s => s.title === t('Footer.explore'));
-    const transactionsIndex = exploreSection?.links.findIndex(l => l.name === t('Footer.transactions'));
-     if (exploreSection && transactionsIndex !== undefined && transactionsIndex !== -1) {
-        const dashboardLinkExists = exploreSection.links.some(link => link.name === t('PageTitles.dashboard'));
-        if (!dashboardLinkExists) {
-            exploreSection.links.splice(transactionsIndex + 1, 0, { name: t('PageTitles.dashboard'), href: "/dashboard" });
-        }
-    }
-  }
   
-  const siteLinks = footerSections.find(s => s.title === t('Footer.site'))?.links || [];
-  if (user?.pricePlan === 'Administrator') {
-      const usersLinkExists = siteLinks.some(link => link.name === t('PageTitles.users'));
-      if (!usersLinkExists) {
-        const pricingIndex = siteLinks.findIndex(link => link.name === t('Footer.pricing'));
-        siteLinks.splice(pricingIndex + 1, 0, { name: t('PageTitles.users'), href: "/users" });
-      }
-  }
-
   return (
     <footer className="w-full border-t border-primary/50 bg-primary text-primary-foreground">
       <div className="container max-w-screen-2xl py-12">
         <div className="flex flex-col md:flex-row flex-wrap items-center md:items-start justify-center gap-x-24 gap-y-8 text-center">
-          {/* Column 1: Site Info */}
           <div className="flex flex-col items-center gap-4">
             <Link href="/" className="flex items-center space-x-3">
               <SiteLogo className="h-8 w-8" />
@@ -112,7 +81,6 @@ export function Footer() {
               </a>
           </div>
 
-          {/* The other columns */}
           {footerSections.map((section) => (
             <div key={section.title} className="flex flex-col items-center gap-3">
               <h4 className="text-base font-semibold">{section.title}</h4>
@@ -135,6 +103,21 @@ export function Footer() {
                     )}
                   </li>
                 ))}
+                 {section.title === t('Footer.explore') && isAuthenticated && (
+                    <li>
+                        <Link href="/tradingbot" className="text-primary-foreground/80 transition-colors hover:text-primary-foreground">{t('PageTitles.tradingBot')}</Link>
+                    </li>
+                )}
+                 {section.title === t('Footer.explore') && isWalletConnected && (
+                    <li>
+                        <Link href="/dashboard" className="text-primary-foreground/80 transition-colors hover:text-primary-foreground">{t('PageTitles.dashboard')}</Link>
+                    </li>
+                 )}
+                 {section.title === t('Footer.site') && user?.pricePlan === 'Administrator' && (
+                     <li>
+                        <Link href="/users" className="text-primary-foreground/80 transition-colors hover:text-primary-foreground">{t('PageTitles.users')}</Link>
+                    </li>
+                 )}
               </ul>
             </div>
           ))}
