@@ -106,7 +106,7 @@
     "max": "الحد الأقصى"
   },
   "LimitOrderInterface": {
-    "title": "حد",
+    "title": "أمر محدد",
     "youSell": "أنت تبيع",
     "youBuy": "أنت تشتري",
     "limitPrice": "سعر الحد",
@@ -144,7 +144,8 @@
   "ExploreNav": {
     "tokens": "الرموز",
     "pools": "المجمعات",
-    "transactions": "المعاملات"
+    "transactions": "المعاملات",
+    "title": "استكشف"
   },
   "TradeNav": {
     "swap": "تبديل",
@@ -428,7 +429,8 @@
     "users": "المستخدمون",
     "dashboard": "لوحة تحكم المحفظة",
     "tradingBot": "بوت التداول",
-    "nfts": "أفضل NFTs"
+    "nfts": "أفضل NFTs",
+    "sitemap": "خريطة الموقع"
   },
   "NftsPage": {
     "title": "أفضل مجموعات NFT حسب القيمة السوقية",
@@ -532,3 +534,5 @@
     "paypalErrorDesc": "حدث خطأ في معاملة PayPal."
   }
 }
+
+  
