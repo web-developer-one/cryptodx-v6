@@ -57,15 +57,21 @@ export function Footer() {
   if (isAuthenticated) {
     const exploreSection = footerSections.find(s => s.title === t('Footer.explore'));
     if (exploreSection) {
-        exploreSection.links.push({ name: t('PageTitles.tradingBot'), href: "/tradingbot" });
+        const tradingBotLinkExists = exploreSection.links.some(link => link.name === t('PageTitles.tradingBot'));
+        if (!tradingBotLinkExists) {
+            exploreSection.links.push({ name: t('PageTitles.tradingBot'), href: "/tradingbot" });
+        }
     }
   }
 
   if (isWalletConnected) {
     const exploreSection = footerSections.find(s => s.title === t('Footer.explore'));
     const transactionsIndex = exploreSection?.links.findIndex(l => l.name === t('Footer.transactions'));
-    if (exploreSection && transactionsIndex !== undefined && transactionsIndex !== -1) {
-        exploreSection.links.splice(transactionsIndex + 1, 0, { name: t('PageTitles.dashboard'), href: "/dashboard" });
+     if (exploreSection && transactionsIndex !== undefined && transactionsIndex !== -1) {
+        const dashboardLinkExists = exploreSection.links.some(link => link.name === t('PageTitles.dashboard'));
+        if (!dashboardLinkExists) {
+            exploreSection.links.splice(transactionsIndex + 1, 0, { name: t('PageTitles.dashboard'), href: "/dashboard" });
+        }
     }
   }
   
@@ -91,6 +97,7 @@ export function Footer() {
             <p className="text-sm text-primary-foreground/80 max-w-xs">
               {t('Footer.subtitle')}
             </p>
+             <a href="/CryptoDx_App_Features.pdf" download className="text-sm text-primary-foreground underline hover:text-primary-foreground/80">CryptoDx App Features</a>
           </div>
 
           {/* The other columns */}
