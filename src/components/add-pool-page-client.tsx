@@ -1,3 +1,4 @@
+
 'use client';
 
 import { ApiErrorCard } from "@/components/api-error-card";
@@ -11,9 +12,11 @@ import { Skeleton } from "@/components/ui/skeleton";
 interface AddPoolPageClientProps {
   cryptoData: Cryptocurrency[];
   error: string | null;
+  token0Symbol?: string;
+  token1Symbol?: string;
 }
 
-export function AddPoolPageClient({ cryptoData, error }: AddPoolPageClientProps) {
+export function AddPoolPageClient({ cryptoData, error, token0Symbol, token1Symbol }: AddPoolPageClientProps) {
   const { t } = useLanguage();
 
   useEffect(() => {
@@ -33,7 +36,11 @@ export function AddPoolPageClient({ cryptoData, error }: AddPoolPageClientProps)
       return <Skeleton className="h-[600px] w-full max-w-md" />;
     }
     
-    return <CreatePositionInterface cryptocurrencies={cryptoData} />;
+    return <CreatePositionInterface 
+                cryptocurrencies={cryptoData} 
+                token0Symbol={token0Symbol}
+                token1Symbol={token1Symbol}
+            />;
   };
 
   return (

@@ -26,7 +26,7 @@ const FormattedCurrency = ({ value, currency }: { value: number, currency: Selec
     useEffect(() => {
         const convertedValue = value * currency.rate;
         setFormatted(
-            new Intl.NumberFormat('en-US', {
+             new Intl.NumberFormat('en-US', {
                 style: 'currency',
                 currency: currency.symbol,
                 notation: 'compact',
@@ -88,7 +88,7 @@ export function PoolsTable({ pools, currency }: { pools: LiquidityPool[], curren
                                     <FormattedCurrency value={pool.volume24h} currency={currency} />
                                 </TableCell>
                                 <TableCell className="text-right">
-                                     <Link href="/pools/add">
+                                     <Link href={`/pools/add?token0=${pool.token0.symbol}&token1=${pool.token1.symbol}`}>
                                         <Button variant="outline" size="sm">
                                             {t('PoolsTable.addLiquidity')}
                                             <ArrowRight className="ml-2 h-4 w-4" />

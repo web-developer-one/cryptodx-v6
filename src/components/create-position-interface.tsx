@@ -134,9 +134,23 @@ function TokenSelectDialog({ open, onOpenChange, cryptocurrencies, onSelect, sel
     );
 }
 
+interface CreatePositionInterfaceProps {
+    cryptocurrencies: Cryptocurrency[];
+    token0Symbol?: string;
+    token1Symbol?: string;
+}
 
-export function CreatePositionInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocurrency[] }) {
+export function CreatePositionInterface({ cryptocurrencies, token0Symbol, token1Symbol }: CreatePositionInterfaceProps) {
   const { t } = useLanguage();
+
+  const getInitialToken = (symbol: string | undefined, defaultSymbol: string, fallbackIndex: number) => {
+    if (symbol) {
+        const found = cryptocurrencies.find(c => c.symbol === symbol);
+        if (found) return found;
+    }
+    const defaultToken = cryptocurrencies.find(c => c.symbol === defaultSymbol);
+    return defaultToken || cryptocurrencies[fallbackIndex];
+  }
 
   if (cryptocurrencies.length === 0) {
     return (
@@ -148,8 +162,9 @@ export function CreatePositionInterface({ cryptocurrencies }: { cryptocurrencies
     );
   }
   
-  const [token0, setToken0] = useState<Cryptocurrency>(cryptocurrencies.find(c => c.symbol === 'ETH') || cryptocurrencies[0]);
-  const [token1, setToken1] = useState<Cryptocurrency>(cryptocurrencies.find(c => c.symbol === 'USDC') || (cryptocurrencies.length > 1 ? cryptocurrencies[1] : cryptocurrencies[0]));
+  const [token0, setToken0] = useState<Cryptocurrency>(getInitialToken(token0Symbol, 'ETH', 0));
+  const [token1, setToken1] = useState<Cryptocurrency>(getInitialToken(token1Symbol, 'USDC', 1));
+
   const [amount0, setAmount0] = useState<string>('1');
   const [amount1, setAmount1] = useState<string>('');
   const { isActive: isWalletConnected } = useWallet();
@@ -183,23 +198,6 @@ export function CreatePositionInterface({ cryptocurrencies }: { cryptocurrencies
       }
     }
   }, [amount0, amount1, priceRatio, lastEdited]);
-
-  const handleTokenChange = (setter: React.Dispatch<React.SetStateAction<Cryptocurrency>>, otherToken: Cryptocurrency) => (symbol: string) => {
-    const token = cryptocurrencies.find((t) => t.symbol === symbol);
-    if (token) {
-        if (token.symbol === otherToken.symbol) {
-            if(setter.toString() === setToken0.toString()) {
-                setToken0(token1);
-                setToken1(token0);
-            } else {
-                setToken1(token0);
-                setToken0(token1);
-            }
-        } else {
-            setter(token);
-        }
-    }
-  };
 
   const handleSelectToken0 = (token: Cryptocurrency) => {
     if(token.symbol === token1.symbol) {
