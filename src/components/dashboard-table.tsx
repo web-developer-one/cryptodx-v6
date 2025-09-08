@@ -36,16 +36,15 @@ interface DashboardTableProps {
 }
 
 export function DashboardTable({ balances, totalValue }: DashboardTableProps) {
-   if (balances.length === 0) {
+  const filteredBalances = balances.filter(token => token.symbol !== 'MCAT');
+  
+  if (filteredBalances.length === 0) {
     return (
       <div className="border rounded-lg p-8 text-center text-muted-foreground">
         <p>No tokens found in this wallet.</p>
       </div>
     )
   }
-
-  // Filter out the fake MCAT token before rendering
-  const filteredBalances = balances.filter(token => token.symbol !== 'MCAT');
 
   return (
     <Table>
