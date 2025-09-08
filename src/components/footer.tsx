@@ -10,12 +10,17 @@ import { SiteLogo } from "./site-logo";
 import { useLanguage } from "@/hooks/use-language";
 import { useUser } from "@/hooks/use-user";
 import { useWallet } from "@/hooks/use-wallet";
+import React from "react";
 
 export function Footer() {
   const { t } = useLanguage();
   const { user, isAuthenticated } = useUser();
   const { isActive: isWalletConnected } = useWallet();
-  const year = new Date().getFullYear();
+  const [year, setYear] = React.useState(new Date().getFullYear());
+
+  React.useEffect(() => {
+    setYear(new Date().getFullYear());
+  }, []);
 
   const footerSections = [
     {
