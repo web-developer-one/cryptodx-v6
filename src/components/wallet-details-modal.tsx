@@ -168,7 +168,7 @@ export function WalletDetailsModal() {
                     <DialogTrigger asChild>
                         <Button variant="outline"><ArrowUpCircle className="mr-2 h-4 w-4" /> {t('WalletDetailsModal.send')}</Button>
                     </DialogTrigger>
-                    <SendTokenDialog token={{...selectedNetwork.nativeCurrency, address: undefined}}/>
+                    <SendTokenDialog token={{...selectedNetwork.nativeCurrency, address: undefined, decimals: 18}}/>
                  </Dialog>
                  <Dialog>
                     <DialogTrigger asChild>
