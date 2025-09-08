@@ -135,7 +135,7 @@ export function SellInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocu
           <div className="flex items-center gap-2">
             <Input id="crypto-input" type="text" placeholder="0" className="text-3xl h-12 bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0 p-0" value={cryptoAmount} onChange={handleCryptoAmountChange}/>
             <Select value={fromToken.symbol} onValueChange={handleFromTokenChange}>
-              <SelectTrigger className="w-[180px] h-12 text-lg font-bold">
+              <SelectTrigger className="w-[180px] h-12 text-lg font-bold bg-card">
                  <div className="flex items-center gap-2">
                     <Image
                     src={fromToken.logo || `https://placehold.co/20x20.png`}
@@ -173,7 +173,7 @@ export function SellInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocu
           <div className="flex items-center gap-2 mt-1">
             <Input id="fiat-input" type="text" placeholder="0" className="text-3xl h-12 bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0 p-0" value={fiatAmount} onChange={handleFiatAmountChange} />
              <Select value={toFiat.symbol} onValueChange={handleToFiatChange}>
-              <SelectTrigger className="w-[180px] h-12 text-lg font-bold">
+              <SelectTrigger className="w-[180px] h-12 text-lg font-bold bg-card">
                 <div className="flex items-center gap-2">
                     <span>{toFiat.currencySymbol}</span>
                     <span>{toFiat.symbol}</span>
