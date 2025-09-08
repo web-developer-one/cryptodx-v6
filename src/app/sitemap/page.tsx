@@ -11,7 +11,7 @@ import { useWallet } from '@/hooks/use-wallet';
 
 const siteSections = [
   {
-    title: 'TradeNav.swap',
+    title: 'Footer.trade',
     icon: <ArrowRightLeft className="h-6 w-6 text-primary" />,
     links: [
       { name: 'TradeNav.swap', href: '/' },
