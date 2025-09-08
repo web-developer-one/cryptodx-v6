@@ -50,7 +50,6 @@ export function Footer() {
     {
       title: t('Footer.site'),
       links: [
-        { name: t('Footer.blog'), href: "https://cryptomx.co/blog/" },
         { name: t('PageTitles.sitemap'), href: "/sitemap" },
         { name: t('Footer.pricing'), href: "/pricing" },
         { name: t('Footer.cookiePolicy'), href: "#" },
@@ -104,6 +103,14 @@ export function Footer() {
               {t('Footer.subtitle')}
             </p>
              <a href="/CryptoDx_App_Features.pdf" download className="text-sm text-primary-foreground underline hover:text-primary-foreground/80">CryptoDx App Features</a>
+             <a
+                href="https://cryptomx.co/blog/"
+                className="text-sm text-primary-foreground underline hover:text-primary-foreground/80"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {t('Footer.blog')}
+              </a>
           </div>
 
           {/* The other columns */}
@@ -119,15 +126,6 @@ export function Footer() {
                       <PrivacyPolicyModal />
                     ) : link.name === t('Footer.termsOfUse') ? (
                       <TermsOfUseModal />
-                    ) : link.name === t('Footer.blog') ? (
-                      <a
-                        href={link.href}
-                        className="text-primary-foreground/80 transition-colors hover:text-primary-foreground"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        {link.name}
-                      </a>
                     ) : (
                       <Link
                         href={link.href}
