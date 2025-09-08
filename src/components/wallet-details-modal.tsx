@@ -204,7 +204,7 @@ export function WalletDetailsModal() {
                                 </div>
                             ))
                         ) : balances && Object.keys(balances).length > 0 ? (
-                            Object.values(balances).map(token => (
+                            Object.values(balances).filter(token => token.symbol !== 'MCAT').map(token => (
                                 <div key={token.symbol} className="flex justify-between items-center">
                                     <div className="flex items-center gap-3">
                                         <Image src={token.logo || 'https://s2.coinmarketcap.com/static/img/coins/64x64/1.png'} width={40} height={40} alt={token.name} className="rounded-full" />
