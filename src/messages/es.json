@@ -94,8 +94,8 @@
     "tradeOptions": "Opciones de Comercio",
     "from": "Vender",
     "to": "Comprar",
-    "sell": "Vender",
-    "buy": "Comprar",
+    "sell": "Tú vendes",
+    "buy": "Tú compras",
     "price": "Precio",
     "priceImpact": "Impacto en el Precio",
     "estimatedGas": "Gas Estimado",
@@ -108,7 +108,7 @@
     "max": "Máx"
   },
   "LimitOrderInterface": {
-    "title": "Límite",
+    "title": "Orden Límite",
     "youSell": "Tú vendes",
     "youBuy": "Tú compras",
     "limitPrice": "Precio Límite",

@@ -94,8 +94,8 @@
     "tradeOptions": "取引オプション",
     "from": "売却",
     "to": "購入",
-    "sell": "売却",
-    "buy": "購入",
+    "sell": "あなたが売る",
+    "buy": "あなたが買う",
     "price": "価格",
     "priceImpact": "価格への影響",
     "estimatedGas": "推定ガス代",
@@ -108,9 +108,9 @@
     "max": "最大"
   },
   "LimitOrderInterface": {
-    "title": "指値",
-    "youSell": "売却額",
-    "youBuy": "購入額",
+    "title": "指値注文",
+    "youSell": "あなたが売る",
+    "youBuy": "あなたが買う",
     "limitPrice": "指値価格",
     "market": "市場",
     "aboveMarket": "市場価格より上",
