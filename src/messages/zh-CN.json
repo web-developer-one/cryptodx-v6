@@ -108,7 +108,7 @@
     "max": "最大"
   },
   "LimitOrderInterface": {
-    "title": "限价",
+    "title": "限价单",
     "youSell": "您出售",
     "youBuy": "您购买",
     "limitPrice": "限价价格",
@@ -146,7 +146,8 @@
   "ExploreNav": {
     "tokens": "代币",
     "pools": "资金池",
-    "transactions": "交易"
+    "transactions": "交易",
+    "title": "探索"
   },
   "TradeNav": {
     "swap": "兑换",
@@ -436,7 +437,8 @@
     "users": "用户",
     "dashboard": "钱包仪表板",
     "tradingBot": "交易机器人",
-    "nfts": "顶级NFT"
+    "nfts": "顶级NFT",
+    "sitemap": "网站地图"
   },
   "NftsPage": {
     "title": "按市值排名的顶级NFT收藏品",

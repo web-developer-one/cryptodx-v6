@@ -146,7 +146,8 @@
   "ExploreNav": {
     "tokens": "Tokens",
     "pools": "Pools",
-    "transactions": "Transactions"
+    "transactions": "Transactions",
+    "title": "Explore"
   },
   "TradeNav": {
     "swap": "Swap",
@@ -436,7 +437,8 @@
     "users": "Users",
     "dashboard": "Wallet Dashboard",
     "tradingBot": "Trading Bot",
-    "nfts": "Top NFTs"
+    "nfts": "Top NFTs",
+    "sitemap": "Site Map"
   },
   "NftsPage": {
     "title": "Top NFT Collections by Market Cap",

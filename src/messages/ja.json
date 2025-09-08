@@ -146,7 +146,8 @@
   "ExploreNav": {
     "tokens": "トークン",
     "pools": "プール",
-    "transactions": "取引"
+    "transactions": "取引",
+    "title": "探索"
   },
   "TradeNav": {
     "swap": "スワップ",
@@ -436,7 +437,8 @@
     "users": "ユーザー",
     "dashboard": "ウォレットダッシュボード",
     "tradingBot": "トレーディングボット",
-    "nfts": "トップNFT"
+    "nfts": "トップNFT",
+    "sitemap": "サイトマップ"
   },
   "NftsPage": {
     "title": "時価総額別トップNFTコレクション",

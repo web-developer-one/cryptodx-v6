@@ -146,7 +146,8 @@
   "ExploreNav": {
     "tokens": "Токены",
     "pools": "Пулы",
-    "transactions": "Транзакции"
+    "transactions": "Транзакции",
+    "title": "Исследовать"
   },
   "TradeNav": {
     "swap": "Обмен",
@@ -436,7 +437,8 @@
     "users": "Пользователи",
     "dashboard": "Панель управления кошельком",
     "tradingBot": "Торговый бот",
-    "nfts": "Лучшие NFT"
+    "nfts": "Лучшие NFT",
+    "sitemap": "Карта сайта"
   },
   "NftsPage": {
     "title": "Лучшие коллекции NFT по рыночной капитализации",

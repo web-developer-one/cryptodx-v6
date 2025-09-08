@@ -108,7 +108,7 @@
     "max": "अधिकतम"
   },
   "LimitOrderInterface": {
-    "title": "सीमा",
+    "title": "लिमिट ऑर्डर",
     "youSell": "आप बेचते हैं",
     "youBuy": "आप खरीदते हैं",
     "limitPrice": "सीमा मूल्य",
@@ -146,7 +146,8 @@
   "ExploreNav": {
     "tokens": "टोकन",
     "pools": "पूल",
-    "transactions": "लेनदेन"
+    "transactions": "लेनदेन",
+    "title": "अन्वेषण करें"
   },
   "TradeNav": {
     "swap": "स्वैप",
@@ -436,7 +437,8 @@
     "users": "उपयोगकर्ता",
     "dashboard": "वॉलेट डैशबोर्ड",
     "tradingBot": "ट्रेडिंग बॉट",
-    "nfts": "शीर्ष NFTs"
+    "nfts": "शीर्ष NFTs",
+    "sitemap": "साइट मैप"
   },
   "NftsPage": {
     "title": "बाजार पूंजीकरण के अनुसार शीर्ष NFT संग्रह",

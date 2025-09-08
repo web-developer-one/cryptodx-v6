@@ -108,7 +108,7 @@
     "max": "Max"
   },
   "LimitOrderInterface": {
-    "title": "Limit Order",
+    "title": "Limit-Order",
     "youSell": "Sie verkaufen",
     "youBuy": "Sie kaufen",
     "limitPrice": "Limitpreis",
@@ -146,7 +146,8 @@
   "ExploreNav": {
     "tokens": "Token",
     "pools": "Pools",
-    "transactions": "Transaktionen"
+    "transactions": "Transaktionen",
+    "title": "Erkunden"
   },
   "TradeNav": {
     "swap": "Tauschen",
@@ -436,7 +437,8 @@
     "users": "Benutzer",
     "dashboard": "Wallet-Dashboard",
     "tradingBot": "Handelsbot",
-    "nfts": "Top NFTs"
+    "nfts": "Top NFTs",
+    "sitemap": "Sitemap"
   },
   "NftsPage": {
     "title": "Top NFT-Sammlungen nach Marktkapitalisierung",

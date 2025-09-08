@@ -146,7 +146,8 @@
   "ExploreNav": {
     "tokens": "Tokens",
     "pools": "Pools",
-    "transactions": "Transações"
+    "transactions": "Transações",
+    "title": "Explorar"
   },
   "TradeNav": {
     "swap": "Trocar",
@@ -328,7 +329,7 @@
     "placeholder": "Digite sua mensagem...",
     "send": "Enviar",
     "askAbout": "Pergunte sobre...",
-    "topics": "Blockchain, DeFi, Cripto, NFT, etc.!",
+    "topics": "Blockchain, DeFi, Cripto, NFT ou IA!",
     "errorResponse": "Estou com problemas para gerar uma resposta agora. Por favor, tente uma pergunta diferente.",
     "connectionError": "Desculpe, estou com problemas para conectar agora. Por favor, tente novamente mais tarde.",
     "listening": "Ouvindo...",
@@ -436,7 +437,8 @@
     "users": "Usuários",
     "dashboard": "Painel da Carteira",
     "tradingBot": "Bot de Negociação",
-    "nfts": "Top NFTs"
+    "nfts": "Top NFTs",
+    "sitemap": "Mapa do Site"
   },
   "NftsPage": {
     "title": "Principais Coleções de NFTs por Capitalização de Mercado",
