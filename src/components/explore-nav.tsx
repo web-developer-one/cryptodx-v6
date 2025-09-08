@@ -1,17 +1,13 @@
-
 'use client';
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useLanguage } from '@/hooks/use-language';
-import { useUser } from '@/hooks/use-user';
-import { cn } from '@/lib/utils';
 
 export function ExploreNav() {
   const pathname = usePathname();
   const { t } = useLanguage();
-  const { isAuthenticated } = useUser();
   // Ensure "Tokens" tab is active for both list and panel views.
   const activeTab = pathname.startsWith('/tokens') ? '/tokens' : pathname;
 
