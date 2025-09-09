@@ -3,7 +3,7 @@
 const nextConfig = {
   /* config options here */
   experimental: {
-    serverComponentsExternalPackages: ['crypto-js', '@paypal/checkout-server-sdk', 'jsrsasign', 'wav', '@genkit-ai/googleai', 'genkit'],
+    serverComponentsExternalPackages: ['crypto-js', '@paypal/checkout-server-sdk', 'jsrsasign', 'wav', '@genkit-ai/googleai', 'genkit', '@genkit-ai/firebase'],
   },
   allowedDevOrigins: ["*"],
   images: {
