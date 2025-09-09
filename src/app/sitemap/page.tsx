@@ -10,7 +10,15 @@ import { cn } from '@/lib/utils';
 import { useUser } from '@/hooks/use-user';
 import { useWallet } from '@/hooks/use-wallet';
 
-const siteSections = [
+interface SiteLink {
+  name: string;
+  href: string;
+  requiresAuth?: boolean;
+  requiresWallet?: boolean;
+  requiresAdmin?: boolean;
+}
+
+const siteSections: { title: string; icon: JSX.Element; links: SiteLink[] }[] = [
   {
     title: 'Footer.trade',
     icon: <ArrowRightLeft className="h-6 w-6 text-primary" />,
