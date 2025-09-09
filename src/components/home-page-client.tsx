@@ -5,13 +5,13 @@ import { ApiErrorCard } from "@/components/api-error-card";
 import { HowToExchange } from "@/components/how-to-exchange";
 import { Faq } from "@/components/faq";
 import { TradeNav } from "@/components/trade-nav";
+import { SwapInterface } from "@/components/swap-interface";
 import { useLanguage } from "@/hooks/use-language";
 import type { Cryptocurrency } from "@/lib/types";
 import { useEffect } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { UkDisclaimer } from "@/components/uk-disclaimer";
 import { FloatingTokensBackground } from "./floating-tokens-background";
-import { ChangellyC2CInterface } from "./changelly-c2c-interface";
 
 interface HomePageClientProps {
   cryptoData: Cryptocurrency[];
@@ -64,7 +64,7 @@ export function HomePageClient({ cryptoData, error, fromTokenSymbol }: HomePageC
           </div>
           <div className="w-full max-w-md flex flex-col items-center gap-6">
               <TradeNav />
-              <ChangellyC2CInterface />
+              <SwapInterface cryptocurrencies={cryptoData} fromTokenSymbol={fromTokenSymbol} />
           </div>
         </div>
       </div>
