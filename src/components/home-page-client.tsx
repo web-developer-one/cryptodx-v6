@@ -10,8 +10,8 @@ import type { Cryptocurrency } from "@/lib/types";
 import { useEffect } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { UkDisclaimer } from "@/components/uk-disclaimer";
-import { MoralisSwapInterface } from "./moralis-swap-interface";
 import { FloatingTokensBackground } from "./floating-tokens-background";
+import { ChangellyC2CInterface } from "./changelly-c2c-interface";
 
 interface HomePageClientProps {
   cryptoData: Cryptocurrency[];
@@ -64,7 +64,7 @@ export function HomePageClient({ cryptoData, error, fromTokenSymbol }: HomePageC
           </div>
           <div className="w-full max-w-md flex flex-col items-center gap-6">
               <TradeNav />
-              <MoralisSwapInterface cryptocurrencies={cryptoData} fromTokenSymbol={fromTokenSymbol} />
+              <ChangellyC2CInterface />
           </div>
         </div>
       </div>
