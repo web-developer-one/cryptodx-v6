@@ -1,4 +1,5 @@
 
+
 "use client";
 
 import { useState, useEffect, useMemo } from "react";
@@ -419,7 +420,7 @@ export function LimitOrderInterface({ cryptocurrencies }: { cryptocurrencies: Cr
             cryptocurrencies={cryptocurrencies}
             onSelect={handleFromTokenChange}
             selectedTokenSymbol={fromToken.symbol}
-            title="Select a currency"
+            title={t('LimitOrderInterface.youSell')}
         />
         <TokenSelectDialog
             open={isToDialogOpen}
@@ -427,7 +428,7 @@ export function LimitOrderInterface({ cryptocurrencies }: { cryptocurrencies: Cr
             cryptocurrencies={cryptocurrencies}
             onSelect={handleToTokenChange}
             selectedTokenSymbol={toToken.symbol}
-            title="Select a currency"
+            title={t('LimitOrderInterface.youBuy')}
         />
     </>
   );
