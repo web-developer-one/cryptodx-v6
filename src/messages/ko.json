@@ -92,8 +92,8 @@
     "swapDeadlineTooltip": "이 시간보다 오래 보류되면 거래가 되돌려집니다.",
     "minutes": "분",
     "tradeOptions": "거래 옵션",
-    "from": "판매",
-    "to": "구매",
+    "from": "에서",
+    "to": "로",
     "sell": "판매 금액",
     "buy": "구매 금액",
     "price": "가격",
@@ -545,3 +545,5 @@
     "paypalErrorDesc": "PayPal 거래 중 오류가 발생했습니다."
   }
 }
+
+    

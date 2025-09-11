@@ -92,8 +92,8 @@
     "swapDeadlineTooltip": "Tu transacción se revertirá si está pendiente por más de este tiempo.",
     "minutes": "minutos",
     "tradeOptions": "Opciones de Comercio",
-    "from": "Vender",
-    "to": "Comprar",
+    "from": "De",
+    "to": "A",
     "sell": "Tú vendes",
     "buy": "Tú compras",
     "price": "Precio",
@@ -359,7 +359,7 @@
     "addNetworkFailedTitle": "Error al Añadir Red",
     "addNetworkFailedDesc": "No se pudo añadir la red seleccionada a su billetera.",
     "networkNotSupportedTitle": "Red No Soportada",
-    "networkNotSupportedDesc": "Esta red no se puede añadir automáticamente. Por favor, añádala a su billetera manually.",
+    "networkNotSupportedDesc": "Esta red no se puede añadir automáticamente. Por favor, añádala a su billetera manualmente.",
     "switchNetworkFailedTitle": "Error al Cambiar de Red",
     "switchNetworkFailedDesc": "No se pudo cambiar a la red seleccionada. Por favor, inténtelo de nuevo."
   },
@@ -545,3 +545,5 @@
     "paypalErrorDesc": "Ocurrió un error con la transacción de PayPal."
   }
 }
+
+    

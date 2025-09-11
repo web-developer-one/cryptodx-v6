@@ -92,8 +92,8 @@
     "swapDeadlineTooltip": "Sua transação será revertida se ficar pendente por mais tempo que este.",
     "minutes": "minutos",
     "tradeOptions": "Opções de Negociação",
-    "from": "Vender",
-    "to": "Comprar",
+    "from": "De",
+    "to": "Para",
     "sell": "Você vende",
     "buy": "Você compra",
     "price": "Preço",
@@ -545,3 +545,5 @@
     "paypalErrorDesc": "Ocorreu um erro com a transação do PayPal."
   }
 }
+
+    

@@ -522,7 +522,7 @@ export function SwapInterface({ cryptocurrencies, fromTokenSymbol }: { cryptocur
         cryptocurrencies={cryptocurrencies}
         onSelect={handleFromTokenChange}
         selectedTokenSymbol={fromToken.symbol}
-        title="You Sell"
+        title={t('SwapInterface.from')}
       />
       <TokenSelectDialog
         open={isToDialogOpen}
@@ -530,11 +530,13 @@ export function SwapInterface({ cryptocurrencies, fromTokenSymbol }: { cryptocur
         cryptocurrencies={cryptocurrencies}
         onSelect={handleToTokenChange}
         selectedTokenSymbol={toToken.symbol}
-        title="You Buy"
+        title={t('SwapInterface.to')}
       />
     </>
   );
 }
+
+    
 
     
 

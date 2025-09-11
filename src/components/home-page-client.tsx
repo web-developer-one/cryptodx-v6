@@ -74,3 +74,5 @@ export function HomePageClient({ cryptoData, error, fromTokenSymbol }: HomePageC
     </div>
   );
 }
+
+    

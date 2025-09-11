@@ -92,8 +92,8 @@
     "swapDeadlineTooltip": "如果您的交易待处理时间超过此时间，它将恢复原状。",
     "minutes": "分钟",
     "tradeOptions": "交易选项",
-    "from": "出售",
-    "to": "购买",
+    "from": "从",
+    "to": "到",
     "sell": "您出售",
     "buy": "您购买",
     "price": "价格",
@@ -545,3 +545,5 @@
     "paypalErrorDesc": "PayPal交易发生错误。"
   }
 }
+
+    

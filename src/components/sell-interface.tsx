@@ -211,3 +211,5 @@ export function SellInterface({ cryptocurrencies }: { cryptocurrencies: Cryptocu
     </Card>
   );
 }
+
+    

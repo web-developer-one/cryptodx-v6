@@ -92,8 +92,8 @@
     "swapDeadlineTooltip": "Votre transaction sera annulée si elle est en attente plus longtemps que ce délai.",
     "minutes": "minutes",
     "tradeOptions": "Options d'Échange",
-    "from": "Vendre",
-    "to": "Acheter",
+    "from": "De",
+    "to": "À",
     "sell": "Vous vendez",
     "buy": "Vous achetez",
     "price": "Prix",
@@ -292,9 +292,9 @@
     "h_collecting": "Collecte et Utilisation de Vos Données Personnelles",
     "h_types": "Types de Données Collectées",
     "h_personalData": "Données Personnelles",
-    "p_personalData": "Lors de l'utilisation de Notre Service, Nous pouvons Vous demander de Nous fournir certaines informations personnellement identifiables qui peuvent être utilisées pour Vous contacter ou Vous identifier. Les informations personnellement identifiables могут inclure, sans s'y limiter : les Données d'Utilisation.",
+    "p_personalData": "Lors de l'utilisation de Notre Service, Nous pouvons Vous demander de Nous fournir certaines informations personnellement identifiables qui peuvent être utilisées pour Vous contacter ou Vous identifier. Les informations personnellement identifiables peuvent inclure, sans s'y limiter : les Données d'Utilisation.",
     "h_usageData": "Données d'Utilisation",
-    "p_usageData": "Les Données d'Utilisation sont collectées automatiquement lors de l'utilisation du Service. Les Données d'Utilisation могут inclure des informations telles que l'adresse de protocole Internet de Votre Appareil (par exemple, l'adresse IP), le type de navigateur, la version du navigateur, les pages de notre Service que Vous visitez, l'heure et la date de Votre visite, le temps passé sur ces pages, les identifiants uniques de l'appareil et d'autres données de diagnostic. Lorsque Vous accédez au Service par ou via un appareil mobile, Nous pouvons collecter certaines informations automatiquement, y compris, mais sans s'y limiter, le type d'appareil mobile que Vous utilisez, l'ID unique de Votre appareil mobile, l'adresse IP de Votre appareil mobile, Votre système d'exploitation mobile, le type de navigateur Internet mobile que Vous utilisez, les identifiants uniques de l'appareil et d'autres données de diagnostic.",
+    "p_usageData": "Les Données d'Utilisation sont collectées automatiquement lors de l'utilisation du Service. Les Données d'Utilisation peuvent inclure des informations telles que l'adresse de protocole Internet de Votre Appareil (par exemple, l'adresse IP), le type de navigateur, la version du navigateur, les pages de notre Service que Vous visitez, l'heure et la date de Votre visite, le temps passé sur ces pages, les identifiants uniques de l'appareil et d'autres données de diagnostic. Lorsque Vous accédez au Service par ou via un appareil mobile, Nous pouvons collecter certaines informations automatiquement, y compris, mais sans s'y limiter, le type d'appareil mobile que Vous utilisez, l'ID unique de Votre appareil mobile, l'adresse IP de Votre appareil mobile, Votre système d'exploitation mobile, le type de navigateur Internet mobile que Vous utilisez, les identifiants uniques de l'appareil et d'autres données de diagnostic.",
     "h_contact": "Contactez-Nous",
     "p_contact": "Si vous avez des questions sur cette Politique de Confidentialité, vous pouvez nous contacter par e-mail.",
     "dismiss": "Fermer"
@@ -302,7 +302,7 @@
   "TermsOfUseModal": {
     "title": "Conditions d'Utilisation",
     "lastUpdated": "Dernière mise à jour : {date}",
-    "p1": "Bienvenue sur CryptoDx. Ces Conditions d'Utilisation ('Conditions') régissent votre accès et votre utilisation de notre site web, de nos services et de nos applications (collectivement, le 'Service'). Veuillez lire attentivement ces Conditions avant d'utiliser le Service.",
+    "p1": "Bienvenue sur CryptoDx. Ces Conditions d'Utilisation (\"Conditions\") régissent votre accès et votre utilisation de notre site web, de nos services et de nos applications (collectivement, le \"Service\"). Veuillez lire attentivement ces Conditions avant d'utiliser le Service.",
     "h_agreement": "1. Acceptation des Conditions",
     "p_agreement": "En utilisant notre Service, vous acceptez d'être lié par ces Conditions. Si vous n'acceptez pas ces Conditions, vous ne pouvez pas utiliser le Service. Nous pouvons modifier les Conditions à tout moment, à notre seule discrétion. Si nous le faisons, nous vous en informerons soit en publiant les Conditions modifiées sur le site, soit par d'autres communications.",
     "h_eligibility": "2. Éligibilité",
@@ -545,3 +545,5 @@
     "paypalErrorDesc": "Une erreur est survenue avec la transaction PayPal."
   }
 }
+
+    

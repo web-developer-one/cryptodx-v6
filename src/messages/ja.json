@@ -92,8 +92,8 @@
     "swapDeadlineTooltip": "この時間以上保留中の場合、取引は元に戻ります。",
     "minutes": "分",
     "tradeOptions": "取引オプション",
-    "from": "売却",
-    "to": "購入",
+    "from": "元",
+    "to": "先",
     "sell": "あなたが売る",
     "buy": "あなたが買う",
     "price": "価格",
@@ -545,3 +545,5 @@
     "paypalErrorDesc": "PayPal取引でエラーが発生しました。"
   }
 }
+
+    
