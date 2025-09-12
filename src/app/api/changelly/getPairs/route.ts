@@ -1,10 +1,22 @@
 
 import { NextRequest, NextResponse } from 'next/server';
-const crypto = require('crypto-js');
+import { KJUR, hextob64 } from 'jsrsasign';
 
 const CHANGELLY_C2C_API_KEY = process.env.CHANGELLY_C2C_API_KEY;
 const CHANGELLY_C2C_PRIVATE_KEY = process.env.CHANGELLY_C2C_PRIVATE_KEY;
 const CHANGELLY_API_URL = 'https://api.changelly.com';
+
+// Helper to format the PEM key from the environment variable
+const formatPrivateKey = (key: string): string => {
+    // Replace the placeholder for newlines with actual newline characters
+    const formattedKey = key.replace(/\\n/g, '\n');
+    // Ensure the key starts and ends with the correct headers
+    if (!formattedKey.startsWith('-----BEGIN PRIVATE KEY-----')) {
+        return `-----BEGIN PRIVATE KEY-----\n${formattedKey}\n-----END PRIVATE KEY-----`;
+    }
+    return formattedKey;
+};
+
 
 // This is a dedicated proxy for the getPairsFull method to keep it simple.
 async function handler(req: NextRequest) {
@@ -22,14 +34,21 @@ async function handler(req: NextRequest) {
     };
     
     const messageString = JSON.stringify(message);
-    const sign = crypto.HmacSHA512(messageString, CHANGELLY_C2C_PRIVATE_KEY).toString(crypto.enc.Hex);
+
+    // Correctly sign the request using RSA-SHA256 with the PEM private key
+    const privateKey = formatPrivateKey(CHANGELLY_C2C_PRIVATE_KEY);
+    const sig = new KJUR.crypto.Signature({ alg: 'SHA256withRSA' });
+    sig.init(privateKey);
+    sig.updateString(messageString);
+    const signHex = sig.sign();
+    const sign = hextob64(signHex);
 
     const response = await fetch(CHANGELLY_API_URL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'api-key': CHANGELLY_C2C_API_KEY,
-        'sign': sign,
+        'X-Api-Key': CHANGELLY_C2C_API_KEY,
+        'X-Api-Signature': sign,
       },
       body: messageString,
     });
